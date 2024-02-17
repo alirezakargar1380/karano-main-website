@@ -79,12 +79,9 @@ export default function CarouselBasic1({ data }: Props) {
                   md: 'repeat(3, 1fr)',
                 }}
               >
-                {[...Array(6)].map((v, key) => {
-                  console.log(key)
-                  return(
-                  <ProductItemSlider key={key} />
-                )
-                })}
+                {[...Array(6)].map((v, key) => (
+                  <ProductItemSlider ind={key} />
+                ))}
               </Stack>
             ))}
           </Carousel>
