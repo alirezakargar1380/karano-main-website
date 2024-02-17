@@ -60,7 +60,7 @@ export default function NavList({ data }: NavListProps) {
         active={active}
       />
 
-      {!!data.children && openMenu && (
+      {/* {!!data.children && openMenu && (
         <Portal>
           <Fade in={openMenu}>
             <Paper
@@ -87,7 +87,7 @@ export default function NavList({ data }: NavListProps) {
             </Paper>
           </Fade>
         </Portal>
-      )}
+      )} */}
     </>
   );
 }

@@ -18,35 +18,40 @@ import { NavItemProps, NavItemStateProps } from '../types';
 export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   ({ title, path, open, active, hasChild, externalLink, subItem, ...other }, ref) => {
     const renderContent = (
-      <StyledNavItem
-        disableRipple
-        disableTouchRipple
-        ref={ref}
-        open={open}
-        active={active}
-        subItem={subItem}
-        {...other}
-      >
-        {title}
+      <Box sx={{
+        // height: '100%'
+        my: 'auto'
+      }}>
+        <StyledNavItem
+          disableRipple
+          disableTouchRipple
+          ref={ref}
+          open={open}
+          active={active}
+          subItem={subItem}
+          {...other}
+        >
+          {title}
 
-        {hasChild && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
-      </StyledNavItem>
+          {hasChild && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
+        </StyledNavItem>
+      </Box>
     );
 
-    if (hasChild) {
-      return renderContent;
-    }
+    // if (hasChild) {
+    //   return renderContent;
+    // }
 
-    if (externalLink) {
-      return (
-        <Link href={path} target="_blank" rel="noopener" color="inherit" underline="none">
-          {renderContent}
-        </Link>
-      );
-    }
+    // if (externalLink) {
+    //   return (
+    //     <Link href={path} target="_blank" rel="noopener" color="inherit" underline="none">
+    //       {renderContent}
+    //     </Link>
+    //   );
+    // }
 
     return (
-      <Link component={RouterLink} href={path} color="inherit" underline="none">
+      <Link component={RouterLink} href={path} color="inherit" underline="none" sx={{ height: 'fit-content', my: 'auto'}}>
         {renderContent}
       </Link>
     );
@@ -60,77 +65,52 @@ const StyledNavItem = styled(ListItemButton, {
 })<NavItemStateProps>(({ open, active, subItem, theme }) => {
   const opened = open && !active;
 
-  const dotStyles = {
-    width: 6,
-    height: 6,
-    left: -12,
-    opacity: 0.64,
-    content: '""',
-    borderRadius: '50%',
-    position: 'absolute',
-    backgroundColor: 'currentColor',
-    ...(active && {
-      color: theme.palette.primary.main,
-    }),
-  };
-
   return {
     // Root item
     ...(!subItem && {
       ...theme.typography.body2,
-      padding: 0,
-      height: '100%',
+      px: 12,
+      py: 6,
+      height: '30px',
+      borderRadius: '12px',
       fontWeight: theme.typography.fontWeightMedium,
       transition: theme.transitions.create(['all'], {
         duration: theme.transitions.duration.shorter,
       }),
       '&:hover': {
-        opacity: 0.64,
-        backgroundColor: 'transparent',
-        '&:before': {
-          ...dotStyles,
-        },
+        opacity: 1,
+        backgroundColor: '#f2f2f2',
+        color: '#000'
       },
       ...(active && {
-        color: theme.palette.primary.main,
+        // color: theme.palette.primary.main,
+        color: "#2B2B2B",
         fontWeight: theme.typography.fontWeightSemiBold,
-        '&:before': {
-          ...dotStyles,
-        },
       }),
       ...(opened && {
         opacity: 0.64,
-        '&:before': {
-          ...dotStyles,
-        },
       }),
     }),
 
-    // Sub item
-    ...(subItem && {
-      ...theme.typography.body2,
-      padding: 0,
-      fontSize: 13,
-      color: theme.palette.text.secondary,
-      fontWeight: theme.typography.fontWeightMedium,
-      transition: theme.transitions.create(['all'], {
-        duration: theme.transitions.duration.shorter,
-      }),
-      '&:hover': {
-        backgroundColor: 'transparent',
-        color: theme.palette.text.primary,
-        '&:before': {
-          ...dotStyles,
-        },
-      },
-      ...(active && {
-        color: theme.palette.text.primary,
-        fontWeight: theme.typography.fontWeightSemiBold,
-        '&:before': {
-          ...dotStyles,
-        },
-      }),
-    }),
+    // // Sub item
+    // ...(subItem && {
+    //   ...theme.typography.body2,
+    //   padding: 0,
+    //   fontSize: 13,
+    //   color: theme.palette.text.secondary,
+    //   fontWeight: theme.typography.fontWeightMedium,
+    //   transition: theme.transitions.create(['all'], {
+    //     duration: theme.transitions.duration.shorter,
+    //   }),
+    //   '&:hover': {
+    //     backgroundColor: 'transparent',
+    //     color: theme.palette.text.primary,
+    //   },
+    //   ...(active && {
+    //     color: theme.palette.text.primary,
+    //     fontWeight: theme.typography.fontWeightSemiBold,
+    //   }),
+    // }),
   };
 });
 

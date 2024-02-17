@@ -27,8 +27,11 @@ import HeaderShadow from '../common/header-shadow';
 import SettingsButton from '../common/settings-button';
 
 // ----------------------------------------------------------------------
+type Props = {
+  children: React.ReactNode;
+};
 
-export default function Header() {
+function StyledToolbar({ children }: Props) {
   const theme = useTheme();
 
   const mdUp = useResponsive('up', 'md');
@@ -36,29 +39,40 @@ export default function Header() {
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
   return (
-    <AppBar>
-      <Toolbar
-        disableGutters
-        sx={{
+    <Toolbar
+      disableGutters
+      sx={{
+        height: {
+          xs: HEADER.H_MOBILE,
+          md: HEADER.H_DESKTOP,
+        },
+        transition: theme.transitions.create(['height'], {
+          easing: theme.transitions.easing.easeInOut,
+          duration: theme.transitions.duration.shorter,
+        }),
+        ...(offsetTop && {
+          ...bgBlur({
+            color: theme.palette.background.default,
+          }),
           height: {
-            xs: HEADER.H_MOBILE,
-            md: HEADER.H_DESKTOP,
+            md: HEADER.H_DESKTOP_OFFSET,
           },
-          transition: theme.transitions.create(['height'], {
-            easing: theme.transitions.easing.easeInOut,
-            duration: theme.transitions.duration.shorter,
-          }),
-          ...(offsetTop && {
-            ...bgBlur({
-              color: theme.palette.background.default,
-            }),
-            height: {
-              md: HEADER.H_DESKTOP_OFFSET,
-            },
-          }),
-        }}
-      >
-        <Container sx={{ height: 1, display: 'flex', alignItems: 'center' }}>
+        }),
+      }}
+    >{children}</Toolbar>
+  )
+}
+
+export default function Header() {
+
+  const mdUp = useResponsive('up', 'md');
+
+  const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
+
+  return (
+    <AppBar>
+      <StyledToolbar>
+        <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1' }}>
           <Badge
             sx={{
               [`& .${badgeClasses.badge}`]: {
@@ -66,24 +80,24 @@ export default function Header() {
                 right: -16,
               },
             }}
-            badgeContent={
-              <Link
-                href={paths.changelog}
-                target="_blank"
-                rel="noopener"
-                underline="none"
-                sx={{ ml: 1 }}
-              >
-                <Label color="info" sx={{ textTransform: 'unset', height: 22, px: 0.5 }}>
-                  v5.6.0
-                </Label>
-              </Link>
-            }
+          // badgeContent={
+          //   <Link
+          //     href={paths.changelog}
+          //     target="_blank"
+          //     rel="noopener"
+          //     underline="none"
+          //     sx={{ ml: 1 }}
+          //   >
+          //     <Label color="info" sx={{ textTransform: 'unset', height: 22, px: 0.5 }}>
+          //       v5.6.0
+          //     </Label>
+          //   </Link>
+          // }
           >
             <Logo />
           </Badge>
 
-          <Box sx={{ flexGrow: 1 }} />
+          {/* <Box sx={{ flexGrow: 1 }} /> */}
 
           {mdUp && <NavDesktop data={navConfig} />}
 
@@ -104,7 +118,7 @@ export default function Header() {
             {!mdUp && <NavMobile data={navConfig} />}
           </Stack>
         </Container>
-      </Toolbar>
+      </StyledToolbar>
 
       {offsetTop && <HeaderShadow />}
     </AppBar>

@@ -57,8 +57,6 @@ const StyledPolygon = styled('div')<StyledPolygonProps>(({ anchor = 'top', theme
 
 export default function HomeView() {
 
-  console.log(HEADER)
-
   const { scrollY, scrollYProgress } = useScroll();
 
   const [percent, setPercent] = useState(0);
@@ -92,18 +90,19 @@ export default function HomeView() {
           overflow: 'hidden',
           position: 'relative',
           bgcolor: 'background.default',
+          mt: `${HEADER.H_DESKTOP + 20}px`
         }}
       >
         {/* <HomeMinimal /> */}
 
-        <Container maxWidth={'xl'} sx={{ mt: `${HEADER.H_DESKTOP}px` }}>
+        <Container maxWidth={'xl'}>
           <Stack spacing={10}>
             <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
             <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
           </Stack>
         </Container>
 
-        <HomeHugePackElements />
+        {/* <HomeHugePackElements />
 
         <Box sx={{ position: 'relative' }}>
           <StyledPolygon />
@@ -121,7 +120,7 @@ export default function HomeView() {
 
         <HomeLookingFor />
 
-        <HomeAdvertisement />
+        <HomeAdvertisement /> */}
       </Box>
     </MainLayout>
   );
