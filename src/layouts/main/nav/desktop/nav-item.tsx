@@ -38,18 +38,6 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       </Box>
     );
 
-    // if (hasChild) {
-    //   return renderContent;
-    // }
-
-    // if (externalLink) {
-    //   return (
-    //     <Link href={path} target="_blank" rel="noopener" color="inherit" underline="none">
-    //       {renderContent}
-    //     </Link>
-    //   );
-    // }
-
     return (
       <Link component={RouterLink} href={path} color="inherit" underline="none" sx={{ height: 'fit-content', my: 'auto'}}>
         {renderContent}

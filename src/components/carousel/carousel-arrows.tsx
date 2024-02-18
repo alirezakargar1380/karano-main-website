@@ -55,6 +55,7 @@ interface Props extends StackProps {
   onNext?: VoidFunction;
   onPrev?: VoidFunction;
   leftButtonProps?: IconButtonProps;
+  leftIconProps?: IconButtonProps;
   rightButtonProps?: IconButtonProps;
 }
 
@@ -66,6 +67,7 @@ export default function CarouselArrows({
   onPrev,
   children,
   leftButtonProps,
+  leftIconProps,
   rightButtonProps,
   sx,
   ...other
@@ -87,7 +89,7 @@ export default function CarouselArrows({
             onClick={onPrev}
             {...leftButtonProps}
             sx={{
-              left: 16,
+              left: 0,
               ...leftButtonProps?.sx,
             }}
           >
@@ -105,7 +107,7 @@ export default function CarouselArrows({
             onClick={onNext}
             {...rightButtonProps}
             sx={{
-              right: 16,
+              right: 0,
               ...rightButtonProps?.sx,
             }}
           >

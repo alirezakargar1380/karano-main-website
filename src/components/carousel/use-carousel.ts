@@ -34,11 +34,13 @@ export default function useCarousel(props?: Settings): ReturnType {
   const carouselSettings = {
     arrows: false,
     dots: !!props?.customPaging,
-    rtl,
+    rtl: (props?.rtl !== undefined) ? props?.rtl : rtl,
     beforeChange: (current: number, next: number) => setCurrentIndex(next),
     ...props,
     fade: !!(props?.fade && !rtl),
   };
+
+  console.log(carouselSettings.rtl)
 
   const onSetNav = useCallback(() => {
     if (carouselRef.current) {

@@ -12,7 +12,6 @@ type Props = {
 };
 
 export default function ProductItemSlider({ product, ind }: Props) {
-    console.log(ind)
     const [img, setImg] = useState('/img/product/product.png')
     const [hover, setHover] = useState(false)
 
@@ -45,13 +44,13 @@ export default function ProductItemSlider({ product, ind }: Props) {
             {hover ? <Img key={1} /> : <Img key={2} /> }
 
 
-            <Typography variant='h4' sx={{
+            <Typography variant='h5' sx={{
                 mt: 1, '&:hover': {
                     cursor: 'pointer'
                 }
             }}>درب ضد سرقت</Typography>
             <Stack direction={'row'}>
-                <Typography variant='subtitle2' sx={{ pt: 0.5, pl: 1 }}>کد 65</Typography>
+                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }}>کد 65</Typography>
                 <IconButton size='medium' sx={{ p: 0 }}>
                     <Iconify icon="icon-park-solid:like" />
                 </IconButton>

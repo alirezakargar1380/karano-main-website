@@ -36,8 +36,8 @@ export default function CarouselBasic1({ data }: Props) {
 
           <Typography variant='h3'>
             {(carousel.currentIndex % 2 === 0) ?
-              <m.span key={1}>8946</m.span>
-              : <m.span key={2} {...varFade().in}>265</m.span>}
+              <m.span key={1}>درب های کابینت</m.span>
+              : <m.span key={2} {...varFade().in}>درب های کابینت</m.span>}
           </Typography>
 
           <Stack direction={'row'}>

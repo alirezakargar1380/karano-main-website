@@ -26,6 +26,7 @@ import CarouselBasic3 from 'src/sections/_examples/extra/carousel-view/carousel-
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
 import { HEADER } from 'src/layouts/config-layout';
 import { useCallback, useEffect, useState } from 'react';
+import CarouselHomeCategory from 'src/sections/_examples/extra/carousel-view/carousel-home-category';
 
 // ----------------------------------------------------------------------
 
@@ -97,10 +98,11 @@ export default function HomeView() {
 
         <Stack spacing={10}>
           <Container maxWidth={'xl'}>
-            <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
-          </Container>
-          <Container maxWidth={'xl'} sx={{ pr: '0px!important', pl: '0px!important' }}>
-            <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
+            <Stack spacing={6}>
+              <CarouselHomeCategory />
+              <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
+              <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
+            </Stack>
           </Container>
         </Stack>
 
