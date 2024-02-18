@@ -25,6 +25,10 @@ import { navConfig } from './config-navigation';
 import LoginButton from '../common/login-button';
 import HeaderShadow from '../common/header-shadow';
 import SettingsButton from '../common/settings-button';
+import PriceListButton from '../common/price-list-button';
+import SearchButton from '../common/search-button';
+import LikeButton from '../common/like-button';
+import ShoppingCartButton from '../common/shopping-cart-button';
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -101,19 +105,24 @@ export default function Header() {
 
           {mdUp && <NavDesktop data={navConfig} />}
 
-          <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }}>
-            <Button variant="contained" target="_blank" rel="noopener" href={paths.minimalUI}>
+          <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }} sx={{ ml: 'auto' }} spacing={0.7}>
+            {/* <Button variant="contained" target="_blank" rel="noopener" href={paths.minimalUI}>
               Purchase Now
-            </Button>
+            </Button> */}
 
+
+            {mdUp && <ShoppingCartButton />}
+            {mdUp && <LikeButton />}
+            {mdUp && <SearchButton />}
             {mdUp && <LoginButton />}
+            {mdUp && <PriceListButton />}
 
-            <SettingsButton
+            {/* <SettingsButton
               sx={{
                 ml: { xs: 1, md: 0 },
                 mr: { md: 2 },
               }}
-            />
+            /> */}
 
             {!mdUp && <NavMobile data={navConfig} />}
           </Stack>
