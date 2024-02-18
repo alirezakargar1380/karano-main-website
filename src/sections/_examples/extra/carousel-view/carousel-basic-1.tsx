@@ -26,7 +26,7 @@ export default function CarouselBasic1({ data }: Props) {
     autoplay: false,
   });
 
-  console.log(carousel.currentIndex)
+  // console.log(carousel.currentIndex)
 
   return (
     <Box component={MotionContainer}>
@@ -70,7 +70,7 @@ export default function CarouselBasic1({ data }: Props) {
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
             {data.map((item, index: number) => (
               <Stack
-                key={index}
+                key={111554 + index}
                 columnGap={2}
                 rowGap={3}
                 display="grid!important"

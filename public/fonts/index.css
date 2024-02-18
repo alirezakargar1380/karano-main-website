@@ -25,3 +25,10 @@
   font-style: normal;
   src: local('peyda-medium'), url('peyda/Peyda-Medium.ttf') format('opentype');
 }
+
+@font-face {
+  font-family: 'peyda-bold';
+  font-weight: 700;
+  font-style: normal;
+  src: local('peyda-Bold'), url('peyda/Peyda-Bold.ttf') format('opentype');
+}

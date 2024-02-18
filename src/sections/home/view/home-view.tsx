@@ -20,7 +20,7 @@ import HomeColorPresets from '../home-color-presets';
 import HomeAdvertisement from '../home-advertisement';
 import HomeCleanInterfaces from '../home-clean-interfaces';
 import HomeHugePackElements from '../home-hugepack-elements';
-import { Card, CardContent, CardHeader, Container, Grid, Stack } from '@mui/material';
+import { Card, CardContent, CardHeader, Container, Grid, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic3 from 'src/sections/_examples/extra/carousel-view/carousel-basic-3';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
@@ -98,16 +98,27 @@ export default function HomeView() {
 
         <Stack spacing={10}>
           <Container maxWidth={'xl'}>
-            <Stack spacing={6}>
-              <CarouselHomeCategory />
+            <CarouselHomeCategory />
+            <Stack spacing={12}>
               <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
               <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
 
 
               <Box>
+                <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
                 <Grid container spacing={2}>
-                  <Grid>
+                  <Grid md={3} item>
+                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
+                  </Grid>
+                  <Grid md={3} item>
+                    <Stack spacing={2}>
+                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
+                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
+                    </Stack>
 
+                  </Grid>
+                  <Grid md={6} item>
+                    <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
                   </Grid>
                 </Grid>
               </Box>
