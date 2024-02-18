@@ -23,6 +23,9 @@ export default function CustomPopover({
       anchorEl={open}
       anchorOrigin={anchorOrigin as PopoverOrigin}
       transformOrigin={transformOrigin as PopoverOrigin}
+      sx={{
+        mt: -3,
+      }}
       slotProps={{
         paper: {
           sx: {

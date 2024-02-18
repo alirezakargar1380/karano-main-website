@@ -77,7 +77,7 @@ export default function PopoverView() {
               anchorEl={clickPopover.open}
               onClose={clickPopover.onClose}
               anchorOrigin={{
-                vertical: 'bottom',
+                vertical: 'top',
                 horizontal: 'center',
               }}
               transformOrigin={{
@@ -170,7 +170,7 @@ export default function PopoverView() {
           <CustomPopover
             open={customizedPopover.open}
             onClose={customizedPopover.onClose}
-            arrow={arrow}
+            arrow={'bottom-center'}
           >
             <Box sx={{ p: 2, maxWidth: 280 }}>
               <Typography variant="subtitle1" gutterBottom>
