@@ -31,9 +31,7 @@ export default function CarouselBasic1({ data }: Props) {
   return (
     <Box component={MotionContainer}>
       <Grid container spacing={2}>
-        <Grid sx={{ pb: 5 }} md={3} item>
-
-
+        <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h3'>
             {(carousel.currentIndex % 2 === 0) ?
               <m.span key={1}>درب های کابینت</m.span>
@@ -66,7 +64,7 @@ export default function CarouselBasic1({ data }: Props) {
           </Typography>
           <Divider sx={{ borderStyle: 'solid' }} />
         </Grid>
-        <Grid md={9} item>
+        <Grid md={9} xs={12} item>
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
             {data.map((item, index: number) => (
               <Stack
@@ -75,7 +73,7 @@ export default function CarouselBasic1({ data }: Props) {
                 rowGap={3}
                 display="grid!important"
                 gridTemplateColumns={{
-                  xs: 'repeat(1, 1fr)',
+                  xs: 'repeat(2, 1fr)',
                   md: 'repeat(3, 1fr)',
                 }}
               >
