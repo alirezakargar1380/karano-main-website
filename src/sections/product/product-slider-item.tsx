@@ -25,24 +25,25 @@ export default function ProductItemSlider({ product, ind }: Props) {
         setHover(false)
     }
 
-    const Img = (props: any) => (
-        <Image
-            component={MotionViewport}
-            key={props.key}
-            src={img}
-            {...varFade({ durationIn: 1, durationOut: 0.25 }).in}
-            ratio="1/1"
-            border={'1px solid #E0E0E0'}
-            borderRadius={'8px'}
-            onMouseOver={onHoverHandler}
-            onMouseOut={onHoverOutHandler}
-        />
-    )
+    const Img = ({ index }: { index: number }) => {
+        return (
+            <Image
+                component={MotionViewport}
+                key={index}
+                src={img}
+                {...varFade({ durationIn: 1, durationOut: 0.25 }).in}
+                ratio="1/1"
+                border={'1px solid #E0E0E0'}
+                borderRadius={'8px'}
+                onMouseOver={onHoverHandler}
+                onMouseOut={onHoverOutHandler}
+            />
+        )
+    }
 
     return (
         <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1} key={ind} >
-            {hover ? <Img key={1} /> : <Img key={2} /> }
-
+            {hover ? <Img index={1} /> : <Img index={2} />}
 
             <Typography variant='h5' sx={{
                 mt: 1, '&:hover': {

@@ -20,7 +20,7 @@ import HomeColorPresets from '../home-color-presets';
 import HomeAdvertisement from '../home-advertisement';
 import HomeCleanInterfaces from '../home-clean-interfaces';
 import HomeHugePackElements from '../home-hugepack-elements';
-import { Card, CardContent, CardHeader, Container, Stack } from '@mui/material';
+import { Card, CardContent, CardHeader, Container, Grid, Stack } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic3 from 'src/sections/_examples/extra/carousel-view/carousel-basic-3';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
@@ -102,6 +102,17 @@ export default function HomeView() {
               <CarouselHomeCategory />
               <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
               <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
+
+
+              <Box>
+                <Grid container spacing={2}>
+                  <Grid>
+
+                  </Grid>
+                </Grid>
+              </Box>
+
+
             </Stack>
           </Container>
         </Stack>

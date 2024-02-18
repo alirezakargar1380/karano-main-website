@@ -85,8 +85,8 @@ export default function CarouselHomeCategory() {
             <ProductItemSlider ind={key} />
           ))}
         </Stack> */}
-            {["درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره"].map((v, key) => (
-              <Button sx={{ border: '2px solid #f2f2f2', color: '#000', backgroundColor: '#F8F8F8', borderRadius: '24px', width: '90%!important' }}>{v}</Button>
+            {["درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره"].map((v, index) => (
+              <Button sx={{ border: '2px solid #f2f2f2', color: '#000', backgroundColor: '#F8F8F8', borderRadius: '24px', width: '90%!important' }} key={index}>{v}</Button>
             ))}
           </Carousel>
         </CarouselArrows>
