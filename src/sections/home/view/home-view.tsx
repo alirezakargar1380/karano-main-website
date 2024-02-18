@@ -107,6 +107,7 @@ export default function HomeView() {
               <Stack spacing={12}>
                 <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
                 <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
+
                 <Box>
                   <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
                   <Grid container spacing={2}>
@@ -152,6 +153,13 @@ export default function HomeView() {
                     </Grid>
                   </Grid>
                 </Box>
+
+                <Box>
+                  <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
+                  <Image alt={'karano'} src={'/assets/images/landing/how to order.jpg'} sx={{ width: 1, height: 1 }} />
+                </Box>
+
+
               </Stack>
             </Box>
 
