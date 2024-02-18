@@ -95,12 +95,16 @@ export default function HomeView() {
       >
         {/* <HomeMinimal /> */}
 
-        <Container maxWidth={'xl'}>
-          <Stack spacing={10}>
+        <Stack spacing={10}>
+          <Container maxWidth={'xl'}>
             <CarouselBasic1 data={_carouselsExample.slice(0, 8)} />
+          </Container>
+          <Container maxWidth={'xl'} sx={{ pr: '0px!important', pl: '0px!important' }}>
             <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
-          </Stack>
-        </Container>
+          </Container>
+        </Stack>
+
+
 
         {/* <HomeHugePackElements />
 
