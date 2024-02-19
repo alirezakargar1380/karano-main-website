@@ -28,6 +28,8 @@ import { HEADER } from 'src/layouts/config-layout';
 import { useCallback, useEffect, useState } from 'react';
 import CarouselHomeCategory from 'src/sections/_examples/extra/carousel-view/carousel-home-category';
 import CustomPopover, { usePopover, MenuPopoverArrowValue } from 'src/components/custom-popover';
+import CarouselBasic2 from 'src/sections/_examples/extra/carousel-view/carousel-basic-2';
+import CarouselProducts from 'src/sections/_examples/extra/carousel-view/carousel-products';
 
 // ----------------------------------------------------------------------
 
@@ -159,6 +161,23 @@ export default function HomeView() {
                   <Image alt={'karano'} src={'/assets/images/landing/how to order.jpg'} sx={{ width: 1, height: 1 }} />
                 </Box>
 
+                <CarouselProducts data={_carouselsExample.slice(0, 8)} />
+
+                <Box>
+                  <Grid container spacing={5}>
+                    <Grid item md={5}>
+                      <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
+                      <Typography variant='h6' fontFamily={'peyda-medium'} sx={{ pb: 2 }}>
+                        کارانو در سال ۱۳۹۶  فعالیت خود را در زمینه تولید محصولات چوبی آغاز نمود. این موسسه با اتکا بر توان اجرایی خود و بهره‌گیری از تجربه پیشگامان جهانی صنعت چوب، همواره به ارتقا سطح اجرا در صنعت ساختمان کشور یاری رسانده است.
+                        هم اکنون کارانو، با عرضه قطعات پیش ساخته دکوراسیون داخلی، سال‌ها تجربه خود را در اختیار همکاران این صنعت قرار داده است.
+                        صنایع چوبی چنوب و گروه صنعتی تهران فرم، نام‌های تجاری سابق کارانو می‌باشد.
+                      </Typography>
+                    </Grid>
+                    <Grid item md={7}>
+                      <Image alt={'karano'} src={'/assets/images/landing/Screen Shot 1401-12-04 at 17.15.png'} sx={{ width: 1 }} />
+                    </Grid>
+                  </Grid>
+                </Box>
 
               </Stack>
             </Box>

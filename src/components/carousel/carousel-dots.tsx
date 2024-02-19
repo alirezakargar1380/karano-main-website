@@ -13,15 +13,15 @@ const StyledRoot = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'rounded',
 })<StyledRootProps>(({ rounded, theme }) => ({
   zIndex: 9,
-  margin: 0,
   padding: 0,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.primary.main,
+  color: "#000",
   '& li': {
     width: 18,
-    height: 18,
+    height: 24,
+    margin: theme.spacing(0, 0.2),
     opacity: 0.32,
     display: 'flex',
     alignItems: 'center',
@@ -29,9 +29,11 @@ const StyledRoot = styled(Box, {
     cursor: 'pointer',
     '&.slick-active': {
       opacity: 1,
+      marginRight: 5,
+      marginLeft: 5,
       ...(rounded && {
         '& span': {
-          width: 16,
+          width: 24,
           borderRadius: 6,
         },
       }),
@@ -78,7 +80,7 @@ export default function CarouselDots(props?: Props) {
       >
         <StyledDot
           sx={{
-            bgcolor: '#a70000',
+            bgcolor: '#000',
           }}
         />
       </Stack>

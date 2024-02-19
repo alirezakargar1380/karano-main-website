@@ -27,6 +27,13 @@
 }
 
 @font-face {
+  font-family: 'peyda-regular';
+  font-weight: 500;
+  font-style: normal;
+  src: local('peyda-regular'), url('peyda/Peyda-Regular.ttf') format('opentype');
+}
+
+@font-face {
   font-family: 'peyda-bold';
   font-weight: 700;
   font-style: normal;

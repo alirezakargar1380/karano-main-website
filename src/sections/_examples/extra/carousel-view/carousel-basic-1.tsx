@@ -32,7 +32,7 @@ export default function CarouselBasic1({ data }: Props) {
     <Box component={MotionContainer}>
       <Grid container spacing={2}>
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
-          <Typography variant='h3'>
+          <Typography variant='h3' fontFamily={'peyda-bold'}>
             {(carousel.currentIndex % 2 === 0) ?
               <m.span key={1}>درب های کابینت</m.span>
               : <m.span key={2} {...varFade().in}>درب های کابینت</m.span>}

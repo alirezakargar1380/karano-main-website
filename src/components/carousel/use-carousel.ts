@@ -40,8 +40,6 @@ export default function useCarousel(props?: Settings): ReturnType {
     fade: !!(props?.fade && !rtl),
   };
 
-  console.log(carouselSettings.rtl)
-
   const onSetNav = useCallback(() => {
     if (carouselRef.current) {
       setNav(carouselRef.current);

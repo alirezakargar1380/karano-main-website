@@ -51,7 +51,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
                 }
             }}>درب ضد سرقت</Typography>
             <Stack direction={'row'}>
-                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }}>کد 65</Typography>
+                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
                 <IconButton size='medium' sx={{ p: 0 }}>
                     <Iconify icon="icon-park-solid:like" />
                 </IconButton>
