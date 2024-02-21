@@ -22,7 +22,7 @@ import { AuthProvider } from 'src/auth/context/jwt';
 export const metadata = {
   title: 'Karano',
   description:
-    'The starting point for your next project with Minimal UI Kit, built on the newest version of Material-UI ©, ready to be customized to your style',
+    'wood',
   keywords: 'react,material,kit,application,dashboard,admin,template',
   themeColor: '#000000',
   manifest: '/manifest.json',
