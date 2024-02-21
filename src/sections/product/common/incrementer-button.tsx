@@ -24,10 +24,11 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
       flexShrink={0}
       direction="row"
       alignItems="center"
+      textAlign={'center'}
       justifyContent="space-between"
       sx={{
         p: 0.5,
-        width: 88,
+        width: 100,
         borderRadius: 1,
         typography: 'subtitle2',
         border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
@@ -35,25 +36,31 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
       }}
       {...other}
     >
-      <IconButton
-        size="small"
-        onClick={onDecrease}
-        disabled={disabledDecrease}
-        sx={{ borderRadius: 0.75 }}
-      >
-        <Iconify icon="eva:minus-fill" width={16} />
-      </IconButton>
-
-      {quantity}
-
-      <IconButton
-        size="small"
-        onClick={onIncrease}
-        disabled={disabledIncrease}
-        sx={{ borderRadius: 0.75 }}
-      >
-        <Iconify icon="mingcute:add-line" width={16} />
-      </IconButton>
+      <Stack sx={{
+        borderRight: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
+        pr: 0.5,
+        textAlign: 'center'
+      }}>
+        <IconButton
+          size="small"
+          onClick={onDecrease}
+          disabled={disabledDecrease}
+          sx={{ borderRadius: 0.75 }}
+        >
+          <Iconify icon="eva:minus-fill" width={8} />
+        </IconButton>
+        <IconButton
+          size="small"
+          onClick={onIncrease}
+          disabled={disabledIncrease}
+          sx={{ borderRadius: 0.75 }}
+        >
+          <Iconify icon="mingcute:add-line" width={8} />
+        </IconButton>
+      </Stack>
+      <Stack sx={{ width: 1 }}>
+        {quantity}
+      </Stack>
     </Stack>
   )
 );

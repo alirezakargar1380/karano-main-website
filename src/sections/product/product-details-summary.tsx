@@ -25,6 +25,7 @@ import { IProductItem } from 'src/types/product';
 import { ICheckoutItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
+import { Avatar, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -98,11 +99,11 @@ export default function ProductDetailsSummary({
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (!existProduct) {
-        onAddCart?.({
-          ...data,
-          colors: [values.colors],
-          subTotal: data.price * data.quantity,
-        });
+        // onAddCart?.({
+        //   ...data,
+        //   colors: [values.colors],
+        //   subTotal: data.price * data.quantity,
+        // });
       }
       onGotoStep?.(0);
       router.push(paths.product.checkout);
@@ -113,11 +114,11 @@ export default function ProductDetailsSummary({
 
   const handleAddCart = useCallback(() => {
     try {
-      onAddCart?.({
-        ...values,
-        colors: [values.colors],
-        subTotal: values.price * values.quantity,
-      });
+      // onAddCart?.({
+      //   ...values,
+      //   colors: [values.colors],
+      //   subTotal: values.price * values.quantity,
+      // });
     } catch (error) {
       console.error(error);
     }
@@ -235,7 +236,7 @@ export default function ProductDetailsSummary({
     </Stack>
   );
 
-  const renderQuantity = (
+  const renderQuantityy = (
     <Stack direction="row">
       <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
         Quantity
@@ -244,11 +245,12 @@ export default function ProductDetailsSummary({
       <Stack spacing={1}>
         <IncrementerButton
           name="quantity"
-          quantity={values.quantity}
-          disabledDecrease={values.quantity <= 1}
-          disabledIncrease={values.quantity >= available}
-          onIncrease={() => setValue('quantity', values.quantity + 1)}
-          onDecrease={() => setValue('quantity', values.quantity - 1)}
+          quantity={56}
+          // quantity={values.quantity}
+          // disabledDecrease={values.quantity <= 1}
+          // disabledIncrease={values.quantity >= available}
+          onIncrease={() => setValue('quantity', 55 + 1)}
+          onDecrease={() => setValue('quantity', 55 - 1)}
         />
 
         <Typography variant="caption" component="div" sx={{ textAlign: 'right' }}>
@@ -321,17 +323,144 @@ export default function ProductDetailsSummary({
     </Box>
   );
 
+  const renderDimensions = (
+    <Box>
+      <Typography variant="subtitle1" fontFamily={'peyda-bold'}
+        sx={{
+          pb: 1, width: 1
+        }}>ابعاد</Typography>
+
+      <FormControl component="fieldset" sx={{ width: 1 }}>
+        <RadioGroup row defaultValue="top">
+          <FormControlLabel
+            value={''}
+            label={' ۲۰۰ * ۲۰۰ * ۲۰۰ میلی متر'}
+            labelPlacement={'end'}
+            control={<Radio size="medium" />}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <FormControl component="fieldset" sx={{ width: 1 }}>
+        <RadioGroup row defaultValue="top">
+          <FormControlLabel
+            value={''}
+            label={' ۲۰۰ * ۲۰۰ * ۲۰۰ میلی متر'}
+            labelPlacement={'end'}
+            control={<Radio size="medium" />}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        </RadioGroup>
+      </FormControl>
+
+      <FormControl component="fieldset" sx={{ width: 1 }}>
+        <RadioGroup row defaultValue="top">
+          <FormControlLabel
+            value={''}
+            label={' ۲۰۰ * ۲۰۰ * ۲۰۰ میلی متر'}
+            labelPlacement={'end'}
+            control={<Radio size="medium" />}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        </RadioGroup>
+      </FormControl>
+
+
+    </Box>
+  )
+
+  const renderCovertype = (
+    <Box>
+      <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+        width: 1, pb: 1
+      }}>
+        نوع پوشش
+      </Typography>
+      <Stack direction={'row'} spacing={2}>
+        <FormControl component="fieldset">
+          <RadioGroup row defaultValue="top">
+            <FormControlLabel
+              value={true}
+              label={'روکش خام'}
+              labelPlacement={'end'}
+              control={
+                <>
+                  <Radio size="medium" checked={true} />
+                  <Avatar sx={{ mr: 1 }} />
+                </>
+              }
+              sx={{ textTransform: 'capitalize' }}
+            />
+          </RadioGroup>
+        </FormControl>
+
+        <FormControl component="fieldset">
+          <RadioGroup row defaultValue="top">
+            <FormControlLabel
+              value={true}
+              label={'روکش خام'}
+              labelPlacement={'end'}
+              control={
+                <>
+                  <Radio size="medium" />
+                  <Avatar sx={{ mr: 1 }} />
+                </>
+              }
+              sx={{ textTransform: 'capitalize' }}
+            />
+          </RadioGroup>
+        </FormControl>
+      </Stack>
+    </Box>
+  )
+
+  const renderQuantity = (
+    <Box>
+      <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+        width: 1, pb: 1
+      }}>
+        تعداد
+      </Typography>
+
+      <Stack spacing={1}>
+        <IncrementerButton
+          name="quantity"
+          quantity={56}
+          // quantity={values.quantity}
+          // disabledDecrease={values.quantity <= 1}
+          // disabledIncrease={values.quantity >= available}
+          onIncrease={() => setValue('quantity', 55 + 1)}
+          onDecrease={() => setValue('quantity', 55 - 1)}
+        />
+
+        {/* <Typography variant="caption" component="div" sx={{ textAlign: 'right' }}>
+          Available: {available}
+        </Typography> */}
+      </Stack>
+    </Box>
+  )
+
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={3} sx={{ pt: 3 }} {...other}>
+      <Stack spacing={3}
+        // sx={{ pt: 3 }} 
+        {...other}>
         <Stack spacing={2} alignItems="flex-start">
-          {renderLabels}
+          {/* {renderLabels} */}
 
-          {renderInventoryType}
+          {/* {renderInventoryType} */}
 
-          <Typography variant="h5">{name}</Typography>
+          <Typography variant="h4" borderBottom={'1px solid #D1D1D1'} sx={{
+            pb: 2, width: 1
+          }}>{'قرنیز لب گرد' || name}</Typography>
 
-          {renderRating}
+          {renderDimensions}
+          {/* {renderRating} */}
+
+          {renderCovertype}
+
+          {renderQuantity}
 
           {renderPrice}
 
@@ -344,7 +473,7 @@ export default function ProductDetailsSummary({
 
         {renderSizeOptions}
 
-        {renderQuantity}
+        {renderQuantityy}
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 

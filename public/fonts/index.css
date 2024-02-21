@@ -28,8 +28,8 @@
 
 @font-face {
   font-family: 'peyda-regular';
-  font-weight: 500;
-  font-style: normal;
+  /* font-weight: 500; */
+  /* font-style: normal; */
   src: local('peyda-regular'), url('peyda/Peyda-Regular.ttf') format('opentype');
 }
 
@@ -38,4 +38,11 @@
   font-weight: 700;
   font-style: normal;
   src: local('peyda-Bold'), url('peyda/Peyda-Bold.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'peyda-black';
+  font-weight: 700;
+  font-style: normal;
+  src: local('peyda-black'), url('peyda/Peyda-Black.ttf') format('opentype');
 }
