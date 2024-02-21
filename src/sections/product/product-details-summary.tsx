@@ -126,7 +126,7 @@ export default function ProductDetailsSummary({
 
   const renderPrice = (
     <Box sx={{ typography: 'h5' }}>
-      {priceSale && (
+      {/* {priceSale && (
         <Box
           component="span"
           sx={{
@@ -137,9 +137,12 @@ export default function ProductDetailsSummary({
         >
           {fCurrency(priceSale)}
         </Box>
-      )}
+      )} */}
 
-      {fCurrency(price)}
+      قیمت:
+
+      {"        "+144444+"    "}
+      ریال
     </Box>
   );
 
@@ -282,9 +285,11 @@ export default function ProductDetailsSummary({
   );
 
   const renderSubDescription = (
-    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-      {subDescription}
-    </Typography>
+    <Box sx={{ width: 1, mt: 2 }}>
+      <Typography variant="body1" sx={{ pb: 2 }} fontFamily={'peyda-bold'} borderBottom={'1px solid #D1D1D1'}>
+        قرنیز لب گرد، ابعاد 300*100*100، روکش خام
+      </Typography>
+    </Box>
   );
 
   const renderRating = (
@@ -462,14 +467,13 @@ export default function ProductDetailsSummary({
 
           {renderQuantity}
 
+          {renderSubDescription}
+
           {renderPrice}
 
-          {renderSubDescription}
         </Stack>
 
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {renderColorOptions}
+        {/* {renderColorOptions}
 
         {renderSizeOptions}
 
@@ -479,7 +483,7 @@ export default function ProductDetailsSummary({
 
         {renderActions}
 
-        {renderShare}
+        {renderShare} */}
       </Stack>
     </FormProvider>
   );
