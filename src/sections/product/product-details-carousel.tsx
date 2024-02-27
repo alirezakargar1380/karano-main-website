@@ -23,35 +23,38 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
     lineHeight: 0,
   },
 
-  ...(length === 1 && {
-    maxWidth: THUMB_SIZE * 1 + 16,
-  }),
+  // ...(length === 1 && {
+  //   maxWidth: THUMB_SIZE * 1 + 16,
+  // }),
 
-  ...(length === 2 && {
-    maxWidth: THUMB_SIZE * 2 + 32,
-  }),
+  // ...(length === 2 && {
+  //   maxWidth: THUMB_SIZE * 2 + 32,
+  // }),
 
-  ...((length === 3 || length === 4) && {
-    maxWidth: THUMB_SIZE * 3 + 48,
-  }),
+  // ...((length === 3 || length === 4) && {
+  //   maxWidth: THUMB_SIZE * 3 + 48,
+  // }),
 
-  ...(length >= 5 && {
-    maxWidth: THUMB_SIZE * 6,
-  }),
+  // ...(length >= 5 && {
+  //   maxWidth: THUMB_SIZE * 6,
+  // }),
+
+  // width: '100%',
 
   ...(length > 3 && {
     '&:before, &:after': {
-      ...bgGradient({
-        direction: 'to left',
-        startColor: `${alpha(theme.palette.background.default, 0)} 0%`,
-        endColor: `${theme.palette.background.default} 100%`,
-      }),
+      // ...bgGradient({
+      //   direction: 'to left',
+      //   startColor: `${alpha(theme.palette.background.default, 0)} 0%`,
+      //   endColor: `${theme.palette.background.default} 100%`,
+      // }),
       top: 0,
       zIndex: 9,
       content: "''",
       height: '100%',
       position: 'absolute',
-      width: (THUMB_SIZE * 2) / 3,
+      // width: '100%',
+      // width: (THUMB_SIZE * 2) / 3,
     },
     '&:after': {
       right: 0,
@@ -76,19 +79,19 @@ export default function ProductDetailsCarousel({ product }: Props) {
   const lightbox = useLightBox(slides);
 
   const carouselLarge = useCarousel({
-    rtl: false,
+    rtl: true,
     draggable: false,
     adaptiveHeight: true,
   });
 
   const carouselThumb = useCarousel({
-    rtl: false,
-    centerMode: true,
+    rtl: true,
     swipeToSlide: true,
-    focusOnSelect: true,
-    variableWidth: true,
+    // focusOnSelect: true,
+    // variableWidth: true,D
     centerPadding: '0px',
-    slidesToShow: slides.length > 3 ? 3 : slides.length,
+    slidesToShow: 4
+    // slidesToShow: slides.length > 3 ? 3 : slides.length,
   });
 
   useEffect(() => {
@@ -128,12 +131,12 @@ export default function ProductDetailsCarousel({ product }: Props) {
         ))}
       </Carousel>
 
-      <CarouselArrowIndex
+      {/* <CarouselArrowIndex
         index={carouselLarge.currentIndex}
         total={slides.length}
         onNext={carouselThumb.onNext}
         onPrev={carouselThumb.onPrev}
-      />
+      /> */}
     </Box>
   );
 
@@ -152,8 +155,9 @@ export default function ProductDetailsCarousel({ product }: Props) {
               src={item.src}
               variant="rounded"
               sx={{
-                width: THUMB_SIZE,
-                height: THUMB_SIZE,
+                width: '100%',
+                mx: 'auto',
+                height: THUMB_SIZE * 2,
                 opacity: 0.48,
                 cursor: 'pointer',
                 ...(carouselLarge.currentIndex === index && {
