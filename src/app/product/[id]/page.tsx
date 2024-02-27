@@ -2,7 +2,7 @@ import axios, { endpoints } from 'src/utils/axios';
 
 import { ProductShopDetailsView } from 'src/sections/product/view';
 
-// /product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/
+// http://localhost:8082/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/
 // ----------------------------------------------------------------------
 
 export const metadata = {
