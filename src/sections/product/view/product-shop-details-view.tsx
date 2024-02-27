@@ -29,6 +29,8 @@ import { ProductDetailsSkeleton } from '../product-skeleton';
 import ProductDetailsSummary from '../product-details-summary';
 import ProductDetailsCarousel from '../product-details-carousel';
 import ProductDetailsDescription from '../product-details-description';
+import CarouselProducts from 'src/sections/_examples/extra/carousel-view/carousel-products';
+import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 
 // ----------------------------------------------------------------------
 
@@ -115,34 +117,28 @@ export default function ProductShopDetailsView({ id }: Props) {
 
         <Grid xs={12} md={6} lg={7}>
           <ProductDetailsCarousel product={product} />
+
+          <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
+            <Typography variant='h3'>عنوان</Typography>
+            <Typography>توضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحات</Typography>
+          </Box>
+
+          <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
+            <Typography variant='h3'>عنوان</Typography>
+            <Typography>متن با نقطهمتن با نقطهمتن با نقطهمتن با نقطهمتن با نقطه</Typography>
+          </Box>
+
         </Grid>
       </Grid>
 
-      <Box
-        gap={5}
-        display="grid"
-        gridTemplateColumns={{
-          xs: 'repeat(1, 1fr)',
-          md: 'repeat(3, 1fr)',
-        }}
-        sx={{ my: 10 }}
-      >
-        {SUMMARY.map((item) => (
-          <Box key={item.title} sx={{ textAlign: 'center', px: 5 }}>
-            <Iconify icon={item.icon} width={32} sx={{ color: 'primary.main' }} />
-
-            <Typography variant="subtitle1" sx={{ mb: 1, mt: 2 }}>
-              {item.title}
-            </Typography>
-
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              {item.description}
-            </Typography>
-          </Box>
-        ))}
+      <Box>
+        <CarouselProducts data={_carouselsExample.slice(0, 8)} />
+      </Box>
+      <Box>
+        <CarouselProducts data={_carouselsExample.slice(0, 8)} />
       </Box>
 
-      <Card>
+      {/* <Card>
         <Tabs
           value={currentTab}
           onChange={handleChangeTab}
@@ -177,7 +173,7 @@ export default function ProductShopDetailsView({ id }: Props) {
             totalReviews={product.totalReviews}
           />
         )}
-      </Card>
+      </Card> */}
     </>
   );
 
@@ -189,7 +185,7 @@ export default function ProductShopDetailsView({ id }: Props) {
         mb: 15,
       }}
     >
-      <CartIcon totalItems={checkout.totalItems} />
+      {/* <CartIcon totalItems={checkout.totalItems} /> */}
 
       {productLoading && renderSkeleton}
 
