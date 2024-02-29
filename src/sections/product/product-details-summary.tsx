@@ -27,6 +27,8 @@ import { ICheckoutItem } from 'src/types/checkout';
 import IncrementerButton from './common/incrementer-button';
 import { Avatar, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import CartDialog from 'src/components/cart/cart-dialog';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +49,7 @@ export default function ProductDetailsSummary({
   ...other
 }: Props) {
   const router = useRouter();
+  const cartDialog = useBoolean();
 
   const {
     id,
@@ -99,6 +102,7 @@ export default function ProductDetailsSummary({
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      cartDialog.onTrue()
       if (!existProduct) {
         // onAddCart?.({
         //   ...data,
@@ -106,8 +110,8 @@ export default function ProductDetailsSummary({
         //   subTotal: data.price * data.quantity,
         // });
       }
-      onGotoStep?.(0);
-      router.push(paths.product.checkout);
+      // onGotoStep?.(0);
+      // router.push(paths.product.checkout);
     } catch (error) {
       console.error(error);
     }
@@ -147,123 +151,6 @@ export default function ProductDetailsSummary({
     </Box>
   );
 
-  const renderShare = (
-    <Stack direction="row" spacing={3} justifyContent="center">
-      <Link
-        variant="subtitle2"
-        sx={{
-          color: 'text.secondary',
-          display: 'inline-flex',
-          alignItems: 'center',
-        }}
-      >
-        <Iconify icon="mingcute:add-line" width={16} sx={{ mr: 1 }} />
-        Compare
-      </Link>
-
-      <Link
-        variant="subtitle2"
-        sx={{
-          color: 'text.secondary',
-          display: 'inline-flex',
-          alignItems: 'center',
-        }}
-      >
-        <Iconify icon="solar:heart-bold" width={16} sx={{ mr: 1 }} />
-        Favorite
-      </Link>
-
-      <Link
-        variant="subtitle2"
-        sx={{
-          color: 'text.secondary',
-          display: 'inline-flex',
-          alignItems: 'center',
-        }}
-      >
-        <Iconify icon="solar:share-bold" width={16} sx={{ mr: 1 }} />
-        Share
-      </Link>
-    </Stack>
-  );
-
-  const renderColorOptions = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Color
-      </Typography>
-
-      <Controller
-        name="colors"
-        control={control}
-        render={({ field }) => (
-          <ColorPicker
-            colors={colors}
-            selected={field.value}
-            onSelectColor={(color) => field.onChange(color as string)}
-            limit={4}
-          />
-        )}
-      />
-    </Stack>
-  );
-
-  const renderSizeOptions = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Size
-      </Typography>
-
-      <RHFSelect
-        name="size"
-        size="small"
-        helperText={
-          <Link underline="always" color="textPrimary">
-            Size Chart
-          </Link>
-        }
-        sx={{
-          maxWidth: 88,
-          [`& .${formHelperTextClasses.root}`]: {
-            mx: 0,
-            mt: 1,
-            textAlign: 'right',
-          },
-        }}
-      >
-        {sizes.map((size) => (
-          <MenuItem key={size} value={size}>
-            {size}
-          </MenuItem>
-        ))}
-      </RHFSelect>
-    </Stack>
-  );
-
-  const renderQuantityy = (
-    <Stack direction="row">
-      <Typography variant="subtitle2" sx={{ flexGrow: 1 }}>
-        Quantity
-      </Typography>
-
-      <Stack spacing={1}>
-        <IncrementerButton
-          name="quantity"
-          quantity={56}
-          // quantity={values.quantity}
-          // disabledDecrease={values.quantity <= 1}
-          // disabledIncrease={values.quantity >= available}
-          onIncrease={() => setValue('quantity', 55 + 1)}
-          onDecrease={() => setValue('quantity', 55 - 1)}
-        />
-
-        <Typography variant="caption" component="div" sx={{ textAlign: 'right' }}>
-          Available: {available}
-        </Typography>
-      </Stack>
-    </Stack>
-  );
-
   const renderActions = (
     <LoadingButton
       sx={{
@@ -281,68 +168,11 @@ export default function ProductDetailsSummary({
     </LoadingButton>
   );
 
-  const renderActionss = (
-    <Stack direction="row" spacing={2}>
-      <Button
-        fullWidth
-        disabled={isMaxQuantity || disabledActions}
-        size="large"
-        color="warning"
-        variant="contained"
-        startIcon={<Iconify icon="solar:cart-plus-bold" width={24} />}
-        onClick={handleAddCart}
-        sx={{ whiteSpace: 'nowrap' }}
-      >
-        Add to Cart
-      </Button>
-
-      <Button fullWidth size="large" type="submit" variant="contained" disabled={disabledActions}>
-        Buy Now
-      </Button>
-    </Stack>
-  );
-
   const renderSubDescription = (
     <Box sx={{ width: 1, mt: 2 }}>
       <Typography variant="body1" sx={{ pb: 2 }} fontFamily={'peyda-bold'} borderBottom={'1px solid #D1D1D1'}>
         قرنیز لب گرد، ابعاد 300*100*100، روکش خام
       </Typography>
-    </Box>
-  );
-
-  const renderRating = (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        color: 'text.disabled',
-        typography: 'body2',
-      }}
-    >
-      <Rating size="small" value={totalRatings} precision={0.1} readOnly sx={{ mr: 1 }} />
-      {`(${fShortenNumber(totalReviews)} reviews)`}
-    </Stack>
-  );
-
-  const renderLabels = (newLabel.enabled || saleLabel.enabled) && (
-    <Stack direction="row" alignItems="center" spacing={1}>
-      {newLabel.enabled && <Label color="info">{newLabel.content}</Label>}
-      {saleLabel.enabled && <Label color="error">{saleLabel.content}</Label>}
-    </Stack>
-  );
-
-  const renderInventoryType = (
-    <Box
-      component="span"
-      sx={{
-        typography: 'overline',
-        color:
-          (inventoryType === 'out of stock' && 'error.main') ||
-          (inventoryType === 'low stock' && 'warning.main') ||
-          'success.main',
-      }}
-    >
-      {inventoryType}
     </Box>
   );
 
@@ -465,35 +295,37 @@ export default function ProductDetailsSummary({
   )
 
   return (
-    <FormProvider methods={methods} onSubmit={onSubmit}>
-      <Stack spacing={3}
-        // sx={{ pt: 3 }} 
-        {...other}>
-        <Stack spacing={2} alignItems="flex-start">
-          {/* {renderLabels} */}
+    <>
+      <CartDialog dialog={cartDialog} />
+      <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Stack spacing={3}
+          // sx={{ pt: 3 }} 
+          {...other}>
+          <Stack spacing={2} alignItems="flex-start">
+            {/* {renderLabels} */}
 
-          {/* {renderInventoryType} */}
+            {/* {renderInventoryType} */}
 
-          <Typography variant="h4" borderBottom={'1px solid #D1D1D1'} sx={{
-            pb: 2, width: 1
-          }}>{'قرنیز لب گرد' || name}</Typography>
+            <Typography variant="h4" borderBottom={'1px solid #D1D1D1'} sx={{
+              pb: 2, width: 1
+            }}>{'قرنیز لب گرد' || name}</Typography>
 
-          {renderDimensions}
-          {/* {renderRating} */}
+            {renderDimensions}
+            {/* {renderRating} */}
 
-          {renderCovertype}
+            {renderCovertype}
 
-          {renderQuantity}
+            {renderQuantity}
 
-          {renderSubDescription}
+            {renderSubDescription}
 
-          {renderPrice}
+            {renderPrice}
 
-          {renderActions}
+            {renderActions}
 
-        </Stack>
+          </Stack>
 
-        {/* {renderColorOptions}
+          {/* {renderColorOptions}
 
         {renderSizeOptions}
 
@@ -504,7 +336,8 @@ export default function ProductDetailsSummary({
         {renderActions}
 
         {renderShare} */}
-      </Stack>
-    </FormProvider>
+        </Stack>
+      </FormProvider>
+    </>
   );
 }
