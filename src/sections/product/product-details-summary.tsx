@@ -26,6 +26,7 @@ import { ICheckoutItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
 import { Avatar, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
@@ -141,7 +142,7 @@ export default function ProductDetailsSummary({
 
       قیمت:
 
-      {"        "+144444+"    "}
+      {"        " + 144444 + "    "}
       ریال
     </Box>
   );
@@ -264,6 +265,23 @@ export default function ProductDetailsSummary({
   );
 
   const renderActions = (
+    <LoadingButton
+      sx={{
+        borderRadius: '24px',
+        fontFamily: 'peyda-bold',
+      }}
+      fullWidth
+      color="inherit"
+      size="large"
+      // disabled={true}
+      type="submit"
+      variant="contained"
+    >
+      افزودن به سبد خرید
+    </LoadingButton>
+  );
+
+  const renderActionss = (
     <Stack direction="row" spacing={2}>
       <Button
         fullWidth
@@ -470,6 +488,8 @@ export default function ProductDetailsSummary({
           {renderSubDescription}
 
           {renderPrice}
+
+          {renderActions}
 
         </Stack>
 

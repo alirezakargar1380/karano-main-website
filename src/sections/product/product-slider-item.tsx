@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material";
+import { Link, Stack } from "@mui/material";
 import { IProductItem } from "src/types/product";
 import Image from 'src/components/image';
 import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
@@ -42,20 +42,22 @@ export default function ProductItemSlider({ product, ind }: Props) {
     }
 
     return (
-        <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1} key={ind} >
-            {hover ? <Img index={1} /> : <Img index={2} />}
+        <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none">
+            <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1} key={ind} >
+                {hover ? <Img index={1} /> : <Img index={2} />}
 
-            <Typography variant='h5' sx={{
-                mt: 1, '&:hover': {
-                    cursor: 'pointer'
-                }
-            }}>درب ضد سرقت</Typography>
-            <Stack direction={'row'}>
-                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
-                <IconButton size='medium' sx={{ p: 0 }}>
-                    <Iconify icon="icon-park-solid:like" />
-                </IconButton>
+                <Typography variant='h5' sx={{
+                    mt: 1, '&:hover': {
+                        cursor: 'pointer'
+                    }
+                }}>درب ضد سرقت</Typography>
+                <Stack direction={'row'}>
+                    <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
+                    <IconButton size='medium' sx={{ p: 0 }}>
+                        <Iconify icon="icon-park-solid:like" />
+                    </IconButton>
+                </Stack>
             </Stack>
-        </Stack>
+        </Link>
     )
 }

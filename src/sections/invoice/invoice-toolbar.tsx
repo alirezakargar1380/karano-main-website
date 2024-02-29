@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+// import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -70,7 +70,7 @@ export default function InvoiceToolbar({
             </IconButton>
           </Tooltip>
 
-          <PDFDownloadLink
+          {/* <PDFDownloadLink
             document={<InvoicePDF invoice={invoice} currentStatus={currentStatus} />}
             fileName={invoice.invoiceNumber}
             style={{ textDecoration: 'none' }}
@@ -86,7 +86,7 @@ export default function InvoiceToolbar({
                 </IconButton>
               </Tooltip>
             )}
-          </PDFDownloadLink>
+          </PDFDownloadLink> */}
 
           <Tooltip title="Print">
             <IconButton>
@@ -138,9 +138,9 @@ export default function InvoiceToolbar({
           </DialogActions>
 
           <Box sx={{ flexGrow: 1, height: 1, overflow: 'hidden' }}>
-            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+            {/* <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
               <InvoicePDF invoice={invoice} currentStatus={currentStatus} />
-            </PDFViewer>
+            </PDFViewer> */}
           </Box>
         </Box>
       </Dialog>
