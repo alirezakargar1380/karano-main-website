@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import Image from 'src/components/image';
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
 import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
+import { Stack, SxProps, Theme } from '@mui/system';
 import Iconify from 'src/components/iconify';
 import { m } from 'framer-motion';
 import { varFade, MotionContainer } from 'src/components/animate';
@@ -13,6 +13,7 @@ import ProductItemSlider from 'src/sections/product/product-slider-item';
 // ----------------------------------------------------------------------
 
 type Props = {
+  sx?: SxProps<Theme>;
   data: {
     id: string;
     title: string;
@@ -21,7 +22,7 @@ type Props = {
   }[];
 };
 
-export default function CarouselBasic1({ data }: Props) {
+export default function CarouselBasic1({ data, sx }: Props) {
   const carousel = useCarousel({
     autoplay: false,
   });
@@ -29,7 +30,7 @@ export default function CarouselBasic1({ data }: Props) {
   // console.log(carousel.currentIndex)
 
   return (
-    <Box component={MotionContainer}>
+    <Box component={MotionContainer} sx={{ ...sx }}>
       <Grid container spacing={2}>
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h3' fontFamily={'peyda-bold'}>
