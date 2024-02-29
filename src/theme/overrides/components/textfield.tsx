@@ -59,6 +59,7 @@ export function textField(theme: Theme) {
     MuiInputBase: {
       styleOverrides: {
         root: {
+          paddingRight: '0px!important',
           [`&.${inputBaseClasses.disabled}`]: {
             '& svg': {
               color: theme.palette.text.disabled,
