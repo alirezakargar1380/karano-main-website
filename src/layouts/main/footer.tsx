@@ -16,6 +16,11 @@ import { _socials } from 'src/_mock';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+import NavDesktop from './nav/desktop';
+import { navConfig } from './config-navigation';
+import ShoppingCartButton from '../common/shopping-cart-button';
+import LoginButton from '../common/login-button';
+import Image from 'src/components/image';
 
 // ----------------------------------------------------------------------
 
@@ -71,6 +76,22 @@ export default function Footer() {
   );
 
   const mainFooter = (
+    <Stack direction={"row"} sx={{ border: '1px solid #D1D1D1', borderRadius: '36px', px: 4, my: 6 }}>
+      <Logo sx={{ my: 3 }} />
+      <Stack direction={'row'} justifyItems={'center'}>
+        <NavDesktop data={navConfig} />
+      </Stack>
+      <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }} sx={{ ml: 'auto' }} spacing={0.7}>
+        <Box sx={{ borderLeft: '2px solid #000000' }} display={'flex'}>
+          <Typography fontFamily={'peyda-bold'} sx={{ pt: 0.5, pl: 2 }}>karanowood</Typography>
+          <Image src='/assets/icons/footer/instagram.png' sx={{ pl: 1 }} />
+        </Box>
+        <LoginButton />
+      </Stack>
+    </Stack>
+  );
+
+  const mainFooterr = (
     <Box
       component="footer"
       sx={{
@@ -168,5 +189,7 @@ export default function Footer() {
     </Box>
   );
 
-  return homePage ? simpleFooter : mainFooter;
+  return mainFooter;
+
+  // return homePage ? simpleFooter : mainFooter;
 }

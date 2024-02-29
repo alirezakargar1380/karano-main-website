@@ -4,6 +4,7 @@ import { usePathname } from 'src/routes/hooks';
 
 import Footer from './footer';
 import Header from './header';
+import { Container } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +33,10 @@ export default function MainLayout({ children }: Props) {
         {children}
       </Box>
 
-      <Footer />
+      <Container maxWidth={'xl'}>
+        <Footer />
+      </Container>
+
     </Box>
   );
 }
