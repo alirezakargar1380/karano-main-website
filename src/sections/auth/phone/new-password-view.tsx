@@ -90,7 +90,9 @@ export default function NewPasswordView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>رمز ورود خود را وارد کنید.</Typography>
+      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>
+        یک رمز عبور مناسب برای خود انتخاب کنید.
+      </Typography>
 
       <Box>
         <Typography variant="h6" textAlign={'left'}>رمز ورود</Typography>
@@ -99,7 +101,29 @@ export default function NewPasswordView() {
           // label="Password"
           type={'text'}
           value={'060058'}
-          helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
+
+                <IconButton onClick={password.onToggle} edge="end">
+
+                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+
+                </IconButton>
+
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
+      <Box>
+        <Typography variant="h6" textAlign={'left'}>تکرار رمز ورود</Typography>
+        <RHFTextField
+          name=""
+          // label="Password"
+          type={'text'}
+          value={'060058'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>

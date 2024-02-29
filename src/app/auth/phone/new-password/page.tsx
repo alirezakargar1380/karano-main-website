@@ -1,11 +1,11 @@
-import { PhonePasswordView } from 'src/sections/auth/phone';
+import { NewPasswordView } from 'src/sections/auth/phone';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Phone: Password',
+  title: 'Phone: New Password',
 };
 
 export default function PasswordPage() {
-  return <PhonePasswordView />;
+  return <NewPasswordView />;
 }
