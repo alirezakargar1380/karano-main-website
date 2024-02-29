@@ -8,13 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
 
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -24,12 +20,11 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
-import { Box, MenuItem, Select } from '@mui/material';
-import { countries } from 'src/assets/data';
+import { Box, IconButton, InputAdornment } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-export default function JwtLoginView() {
+export default function PhonePasswordView() {
   const { login } = useAuthContext();
 
   const router = useRouter();
@@ -38,7 +33,7 @@ export default function JwtLoginView() {
 
   const searchParams = useSearchParams();
 
-  const returnTo = searchParams.get('returnTo');
+  const phone = searchParams.get('phone');
 
   const password = useBoolean();
 
@@ -67,7 +62,7 @@ export default function JwtLoginView() {
     try {
       await login?.(data.email, data.password);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
       reset();
@@ -76,7 +71,7 @@ export default function JwtLoginView() {
   });
 
   const renderHead = (
-    <Stack spacing={2} sx={{ mb: 10 }}>
+    <Stack spacing={2} sx={{ mb: 8 }}>
       <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
         <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
       </Box>
@@ -95,44 +90,27 @@ export default function JwtLoginView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
+      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>رمز ورود خود را وارد کنید.</Typography>
+
       <Box>
-        <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
+        <Typography variant="h6" textAlign={'left'}>رمز ورود</Typography>
         <RHFTextField
-          name="password"
+          name=""
           // label="Password"
-          type={password.value ? 'text' : 'password'}
+          type={'text'}
+          value={'060058'}
+          helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'}
           InputProps={{
             endAdornment: (
-              <RHFAutocomplete
-                name="country"
-                // label="Country"
-                sx={{ width: '50%' }}
-                options={countries.map((country) => country.code)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.code === option
-                  )[0];
+              <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
 
-                  if (!label) {
-                    return null;
-                  }
+                <IconButton onClick={password.onToggle} edge="end">
 
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {/* {label} ({code}) +{phone} */}
-                      +{phone}
-                    </li>
-                  );
-                }}
-              />
+                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+
+                </IconButton>
+
+              </InputAdornment>
             ),
           }}
         />

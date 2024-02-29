@@ -29,7 +29,7 @@ import { countries } from 'src/assets/data';
 
 // ----------------------------------------------------------------------
 
-export default function JwtLoginView() {
+export default function PhoneLoginView() {
   const { login } = useAuthContext();
 
   const router = useRouter();
