@@ -42,8 +42,8 @@ export default function ProductItemSlider({ product, ind }: Props) {
     }
 
     return (
-        <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none">
-            <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1} key={ind} >
+        <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none" key={ind}>
+            <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1}>
                 {hover ? <Img index={1} /> : <Img index={2} />}
 
                 <Typography variant='h5' sx={{
