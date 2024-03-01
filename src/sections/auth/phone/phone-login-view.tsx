@@ -5,16 +5,11 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -23,13 +18,15 @@ import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
-import { Box, MenuItem, Select } from '@mui/material';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { Box, MenuItem, MenuItemProps, Select, styled } from '@mui/material';
 import { countries } from 'src/assets/data';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 export default function PhoneLoginView() {
+
   const { login } = useAuthContext();
 
   const router = useRouter();
@@ -49,7 +46,7 @@ export default function PhoneLoginView() {
 
   const defaultValues = {
     email: 'demo@minimals.cc',
-    password: 'demo1234',
+    password: '',
   };
 
   const methods = useForm({
@@ -65,9 +62,9 @@ export default function PhoneLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.email, data.password);
+      // await login?.(data.email, data.password);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      router.push(paths.auth.phone.verify + '?phone=' + data.password);
     } catch (error) {
       console.error(error);
       reset();
@@ -99,41 +96,70 @@ export default function PhoneLoginView() {
         <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
         <RHFTextField
           name="password"
+          sx={{
+            '.MuiOutlinedInput-notchedOutline': {
+              border: '1px solid #D1D1D1'
+            }
+          }}
           // label="Password"
-          type={password.value ? 'text' : 'password'}
+          type={'text'}
+          placeholder='09123456789'
           InputProps={{
+            // endAdornment: (
+            //   <RHFIconAutocomplete
+            //     name="country"
+            //     // label="Country"
+            //     value={'AE'}
+            //     sx={{ width: '60%', border: 'none!important' }}
+            //     options={countries.map((country) => country.code)}
+            //     getOptionLabel={(option) => option}
+            //     isOptionEqualToValue={(option, value) => option === value}
+            //     renderOption={(props, option) => {
+            //       const { code, label, phone } = countries.filter(
+            //         (country) => country.code === option
+            //       )[0];
+
+            //       if (!label) {
+            //         return null;
+            //       }
+
+            //       return (
+            //         <li {...props} key={label}>
+            //           <Iconify
+            //             key={label}
+            //             icon={`circle-flags:${code.toLowerCase()}`}
+            //             width={28}
+            //             sx={{ mr: 1 }}
+            //           />
+            //           {/* {label} ({code}) +{phone} */}
+            //           +{phone}
+            //         </li>
+            //       );
+            //     }}
+            //   />
+            // ),
             endAdornment: (
-              <RHFAutocomplete
-                name="country"
-                // label="Country"
-                sx={{ width: '50%' }}
-                options={countries.map((country) => country.code)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.code === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {/* {label} ({code}) +{phone} */}
-                      +{phone}
-                    </li>
-                  );
-                }}
-              />
-            ),
+              <InputAdornment position="end">
+                <Select
+                  value="IR"
+                  variant='outlined'
+                  sx={{
+                    borderTopLeftRadius: '0px',
+                    borderBottomLeftRadius: '0px',
+                    '& .MuiSelect-select': {
+                      padding: "8px 35px 8px 14px!important",
+                    }
+                  }}
+                >
+                  {countries.map((country) => (
+                    <MenuItem key={country.code} value={country.code}>
+                      {/* <Iconify icon={`${country.code.toLowerCase()}`} /> */}
+                      <Iconify icon={`flagpack:${country.code.toLowerCase()}`}  sx={{mt:1}} />
+                    </MenuItem>
+                  ))}
+                </Select>
+              </InputAdornment>
+            )
           }}
         />
       </Box>

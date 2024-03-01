@@ -8,8 +8,12 @@ export function loadingButton(theme: Theme) {
     MuiLoadingButton: {
       styleOverrides: {
         root: ({ ownerState }: { ownerState: LoadingButtonProps }) => ({
+          // backgroundColor: "#000!important",
           '&.Mui-disabled': {
             color: "#fff!important",
+          },
+          '&.MuiLoadingButton-loading': {
+            backgroundColor: "#000!important",
           },
           ...(ownerState.variant === 'soft' && {
             [`& .${loadingButtonClasses.loadingIndicatorStart}`]: {

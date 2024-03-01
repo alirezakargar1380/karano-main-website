@@ -67,9 +67,11 @@ export default function PhoneVerifyView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.email, data.password);
+      // await login?.(data.email, data.password);
 
-      // router.push(returnTo || PATH_AFTER_LOGIN);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // router.push(paths.auth.phone.verify + '?phone=');
     } catch (error) {
       console.error(error);
       reset();
@@ -99,7 +101,7 @@ export default function PhoneVerifyView() {
 
       <Typography variant="body1" textAlign={'left'}>کد تایید به شماره {phone} ارسال شد</Typography>
 
-      <Link variant="body2" fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
+      <Link variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
         تغییر شماره
       </Link>
 
@@ -111,19 +113,19 @@ export default function PhoneVerifyView() {
           type={'text'}
           value={'060058'}
           helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'}
-          // InputProps={{
-          //   endAdornment: (
-          //     <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
+        // InputProps={{
+        //   endAdornment: (
+        //     <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
 
-          //       <IconButton onClick={password.onToggle} edge="end">
+        //       <IconButton onClick={password.onToggle} edge="end">
 
-          //         <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+        //         <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
 
-          //       </IconButton>
+        //       </IconButton>
 
-          //     </InputAdornment>
-          //   ),
-          // }}
+        //     </InputAdornment>
+        //   ),
+        // }}
         />
       </Box>
 
@@ -137,12 +139,12 @@ export default function PhoneVerifyView() {
         fullWidth
         color="inherit"
         size="large"
-        // disabled={true}
         type="submit"
         variant="contained"
         loading={isSubmitting}
+      // loading={true}
       >
-        ادامه
+        {isSubmitting ? '' : 'ادامه'}
       </LoadingButton>
     </Stack>
   );
