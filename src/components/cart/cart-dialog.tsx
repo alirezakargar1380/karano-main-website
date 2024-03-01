@@ -8,11 +8,15 @@ import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogContentText from '@mui/material/DialogContentText';
 
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { Avatar, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, Typography } from '@mui/material';
+import { Avatar, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, TableBody, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import RHFTitleTextField from '../hook-form/rhf-title-text-field';
 import { useForm } from 'react-hook-form';
 import FormProvider, { RHFSelect } from 'src/components/hook-form';
+import Table from '@mui/material/Table';
+import { TableHeadCustom } from '../table';
+import CartTableRow from './cart-table-row';
+import Scrollbar from '../scrollbar';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -62,10 +66,10 @@ export default function CartDialog({ dialog }: Props) {
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
-            <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={scroll} fullWidth={true} maxWidth={'xl'}>
-                <DialogActions>
-                    <Grid container spacing={4}>
-                        <Grid item md={4}>
+            <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'paper'} fullWidth={true} maxWidth={'xl'}>
+                <Scrollbar sx={{ maxHeight: 860 }}>
+                    <Grid container spacing={4} sx={{ width: 1, padding: 3 }}>
+                        <Grid item xs={12} md={4}>
                             <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>درب کابینتی - P60</Typography>
                             <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                                 <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
@@ -315,32 +319,62 @@ export default function CartDialog({ dialog }: Props) {
                                 <RHFTitleTextField name='' custom_label='تعداد' placeholder='2' />
                             </Box>
                         </Grid>
-                        <Grid item md={8}>
+                        <Grid item xs={12} md={8}>
                             <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
                                 لیست سفارش های ثبت شده
                             </Typography>
+                            <Box>
+                                <Scrollbar sx={{ maxHeight: 680 }}>
+                                    <Table size={'medium'} sx={{ minWidth: 780 }}>
+                                        <TableHeadCustom
+                                            sx={{
+                                                backgroundColor: '#F2F2F2'
+                                            }}
+                                            headLabel={[
+                                                { id: 'name', label: 'نوع پروفیل' },
+                                                { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
+                                                { id: 'inventoryType', label: 'نوع قاب', width: 160 },
+                                                { id: 'price', label: 'روکش گیری', width: 140 },
+                                                { id: 'publish', label: 'ابعاد', width: 110 },
+                                                { id: 'publish', label: 'تعداد', width: 110 },
+                                                { id: '', width: 88 },
+                                            ]}
+                                        />
+
+                                        <TableBody>
+                                            {[...Array(30)].map((data, index: number) => (
+                                                <CartTableRow
+                                                    onDeleteRow={() => { }}
+                                                    onEditRow={() => { }}
+                                                    key={index}
+                                                    row={{
+                                                        quality: 11,
+                                                        coating: 'غیر جناقی',
+                                                        dimensions: '210*235',
+                                                        final_coating: 'روکش خام',
+                                                        frame_type: 'حجمی',
+                                                        profile_type: 'درب کابینتی',
+                                                    }}
+                                                />
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </Scrollbar>
+                            </Box>
                         </Grid>
                     </Grid>
+                </Scrollbar>
+
+
+                <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8' }}>
+
+                    <Stack direction={'row'} justifyContent={'space-between'}>
+                                                    <Box>s</Box>
+                                                    <Box>s</Box>
+                    </Stack>
                     {/* <Button onClick={dialog.onFalse}>Cancel</Button> */}
-                </DialogActions>
-                <DialogTitle sx={{ pb: 2 }}>Subscribe</DialogTitle>
-
-                <DialogContent dividers={scroll === 'paper'}>
-                    <DialogContentText ref={descriptionElementRef} tabIndex={-1}>
-                        {[...new Array(50)]
-                            .map(
-                                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`
-                            )
-                            .join('\n')}
-                    </DialogContentText>
                 </DialogContent>
-
-
             </Dialog>
         </FormProvider>
-
     );
 }

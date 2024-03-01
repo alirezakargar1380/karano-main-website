@@ -16,6 +16,7 @@ export function table(theme: Theme) {
     MuiTableRow: {
       styleOverrides: {
         root: {
+          borderBottom: '1px solid #D1D1D1',
           [`&.${tableRowClasses.selected}`]: {
             backgroundColor: alpha(theme.palette.primary.dark, 0.04),
             '&:hover': {
@@ -39,7 +40,7 @@ export function table(theme: Theme) {
           fontSize: 14,
           color: theme.palette.text.secondary,
           fontWeight: theme.typography.fontWeightSemiBold,
-          backgroundColor: theme.palette.background.neutral,
+          backgroundColor: '#F2F2F2',
         },
         stickyHeader: {
           backgroundColor: theme.palette.background.paper,
