@@ -73,6 +73,12 @@ export const paths = {
     auth0: {
       login: `${ROOTS.AUTH}/auth0/login`,
     },
+    phone: {
+      login: `${ROOTS.AUTH}/phone/login`,
+      // verify: `${ROOTS.AUTH}/firebase/verify`,
+      // register: `${ROOTS.AUTH}/firebase/register`,
+      // forgotPassword: `${ROOTS.AUTH}/firebase/forgot-password`,
+    },
   },
   authDemo: {
     classic: {
