@@ -8,6 +8,7 @@ import SvgColor from 'src/components/svg-color';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 import Label from 'src/components/label';
 import { Typography } from '@mui/material';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ type Props = {
 
 export default function ShoppingCartButton({ sx }: Props) {
     return (
-        <Button component={RouterLink} href={PATH_AFTER_LOGIN}
+        <Button component={RouterLink} href={paths.shoppingCart}
             sx={{
                 ml: 1.7,
                 p: 0,

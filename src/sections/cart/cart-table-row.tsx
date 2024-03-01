@@ -23,7 +23,7 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 import { IProductItem } from 'src/types/product';
 import { ICartItem } from 'src/types/cart';
-import SvgColor from '../svg-color';
+import SvgColor from '../../components/svg-color';
 import { Stack } from '@mui/material';
 
 // ----------------------------------------------------------------------
