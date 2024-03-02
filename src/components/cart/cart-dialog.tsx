@@ -14,6 +14,8 @@ import { TableHeadCustom } from '../table';
 import CartTableRow from '../../sections/cart/cart-table-row';
 import Scrollbar from '../scrollbar';
 import { CartDialogView } from 'src/sections/cart/view';
+import { LoadingButton } from '@mui/lab';
+import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -67,11 +69,16 @@ export default function CartDialog({ dialog }: Props) {
                 <CartDialogView />
 
 
-                <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8' }}>
+                <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden' }}>
 
                     <Stack direction={'row'} justifyContent={'space-between'}>
-                        <Box>s</Box>
-                        <Box>s</Box>
+                        <Box>
+                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 6 }}>افزودن به لیست</StyledRoundedWhiteButton>
+                        </Box>
+                        <Stack direction={'row'} spacing={2}>
+                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={dialog.onFalse}>انصراف</StyledRoundedWhiteButton>
+                            <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }}>افزودن به لیست سبد</LoadingButton>
+                        </Stack>
                     </Stack>
                     {/* <Button onClick={dialog.onFalse}>Cancel</Button> */}
                 </DialogContent>

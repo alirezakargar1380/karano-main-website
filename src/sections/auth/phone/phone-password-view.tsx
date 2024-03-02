@@ -60,7 +60,7 @@ export default function PhonePasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.email, data.password);
+      // await login?.(data.email, data.password);
 
       // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
@@ -98,8 +98,7 @@ export default function PhonePasswordView() {
           name=""
           // label="Password"
           type={'text'}
-          value={'060058'}
-          helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'}
+          placeholder='پسورد مورد نظر خود را وارد کنید'
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
