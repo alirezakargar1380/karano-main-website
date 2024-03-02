@@ -105,7 +105,7 @@ export default function ProductShopDetailsView({ id }: Props) {
         sx={{ mb: 5 }}
       /> */}
 
-      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }}>
+      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }} sx={{ mb: 5 }}>
         <Grid xs={12} md={6} lg={5}>
           <ProductDetailsSummary
             product={product}
@@ -119,22 +119,23 @@ export default function ProductShopDetailsView({ id }: Props) {
           <ProductDetailsCarousel product={product} />
 
           <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
-            <Typography variant='h3'>عنوان</Typography>
-            <Typography>توضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحاتتوضیحات توضیحات توضیحات</Typography>
+            <Typography variant='h3' fontFamily={'peyda-bold'}>درباره محصول</Typography>
+            <Typography fontFamily={'peyda-regular'}>
+              کارانو در سال 1369 فعالیت خود را در زمینه تولید محصولات چوبی آغاز نمود. این موسسه با اتکا بر توان اجرایی خود و بهرهگیری از تجربه پیشگامان جهانی صنعت چوب، همواره به ارتقا سطح اجرا در صنعت ساختمان کشور یاری رسانده است.              </Typography>
           </Box>
 
           <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
-            <Typography variant='h3'>عنوان</Typography>
+            <Typography variant='h3' fontFamily={'peyda-bold'}>ویژگی های کلی محصول</Typography>
             <Typography>متن با نقطهمتن با نقطهمتن با نقطهمتن با نقطهمتن با نقطه</Typography>
           </Box>
 
         </Grid>
       </Grid>
 
-      <Box>
+      <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5, mb: 5 }}>
         <CarouselProducts data={_carouselsExample.slice(0, 8)} />
       </Box>
-      <Box>
+      <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5 }}>
         <CarouselProducts data={_carouselsExample.slice(0, 8)} />
       </Box>
 
