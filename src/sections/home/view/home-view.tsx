@@ -86,96 +86,89 @@ export default function HomeView() {
           overflow: 'hidden',
           position: 'relative',
           bgcolor: 'background.default',
-          mt: `${HEADER.H_DESKTOP + 20}px`
+          // mt: `${HEADER.H_DESKTOP + 20}px`
         }}
       >
         {/* <HomeMinimal /> */}
 
-        <Stack spacing={10}>
-          <Container maxWidth={'xl'}>
-            <Box sx={{ width: 0.95, ml: 'auto' }}>
-              <CarouselHomeCategory />
+        <Box sx={{ width: 1, ml: 'auto' }}>
+          <CarouselHomeCategory />
 
-              <Stack spacing={12}>
-                <CarouselBasic1 data={_carouselsExample.slice(0, 8)} sx={{ mt: 4 }} />
-                <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
+          <Stack spacing={12}>
+            <CarouselBasic1 data={_carouselsExample.slice(0, 8)} sx={{ mt: 4 }} />
+            <Image alt={'karano'} src={'/assets/icons/product/wood_karano.jpg'} sx={{ width: 1 }} />
 
-                <Box>
-                  <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
-                  <Grid container spacing={2}>
-                    <Grid md={3} item>
-                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
-                    </Grid>
-                    <Grid md={3} item>
-                      <Stack spacing={2}>
-                        <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
-                        <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
-                      </Stack>
+            <Box>
+              <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
+              <Grid container spacing={2}>
+                <Grid md={3} item>
+                  <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
+                </Grid>
+                <Grid md={3} item>
+                  <Stack spacing={2}>
+                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
+                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
+                  </Stack>
 
-                    </Grid>
-                    <Grid md={6} item>
-                      <Box sx={{
-                        width: 24,
-                        height: 24,
-                        position: 'absolute',
-                        zIndex: 1,
-                        // top: 0,
-                        ml: '100px',
-                        mt: '100px'
-                      }}>
-                        <Button variant="contained" onClick={customizedPopover.onOpen} sx={{ mr: 5 }}>
-                          Open
-                        </Button>
-                        <CustomPopover
-                          open={customizedPopover.open}
-                          onClose={customizedPopover.onClose}
-                          arrow={'bottom-center'}
-                        >
-                          <Box sx={{ p: 2, maxWidth: 280 }}>
-                            <Typography variant="subtitle1" gutterBottom>
-                              Etiam feugiat lorem non metus
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                              Fusce vulputate eleifend sapien. Curabitur at lacus ac velit ornare lobortis.
-                            </Typography>
-                          </Box>
-                        </CustomPopover>
+                </Grid>
+                <Grid md={6} item>
+                  <Box sx={{
+                    width: 24,
+                    height: 24,
+                    position: 'absolute',
+                    zIndex: 1,
+                    // top: 0,
+                    ml: '100px',
+                    mt: '100px'
+                  }}>
+                    <Button variant="contained" onClick={customizedPopover.onOpen} sx={{ mr: 5 }}>
+                      Open
+                    </Button>
+                    <CustomPopover
+                      open={customizedPopover.open}
+                      onClose={customizedPopover.onClose}
+                      arrow={'bottom-center'}
+                    >
+                      <Box sx={{ p: 2, maxWidth: 280 }}>
+                        <Typography variant="subtitle1" gutterBottom>
+                          Etiam feugiat lorem non metus
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          Fusce vulputate eleifend sapien. Curabitur at lacus ac velit ornare lobortis.
+                        </Typography>
                       </Box>
-                      <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
-                    </Grid>
-                  </Grid>
-                </Box>
-
-                <Box>
-                  <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
-                  <Image alt={'karano'} src={'/assets/images/landing/how to order.jpg'} sx={{ width: 1, height: 1 }} />
-                </Box>
-
-                <CarouselProducts data={_carouselsExample.slice(0, 8)} />
-
-                <Box>
-                  <Grid container spacing={5}>
-                    <Grid item md={5}>
-                      <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
-                      <Typography variant='h6' fontFamily={'peyda-medium'} sx={{ pb: 2 }}>
-                        کارانو در سال ۱۳۹۶  فعالیت خود را در زمینه تولید محصولات چوبی آغاز نمود. این موسسه با اتکا بر توان اجرایی خود و بهره‌گیری از تجربه پیشگامان جهانی صنعت چوب، همواره به ارتقا سطح اجرا در صنعت ساختمان کشور یاری رسانده است.
-                        هم اکنون کارانو، با عرضه قطعات پیش ساخته دکوراسیون داخلی، سال‌ها تجربه خود را در اختیار همکاران این صنعت قرار داده است.
-                        صنایع چوبی چنوب و گروه صنعتی تهران فرم، نام‌های تجاری سابق کارانو می‌باشد.
-                      </Typography>
-                    </Grid>
-                    <Grid item md={7}>
-                      <Image alt={'karano'} src={'/assets/images/landing/Screen Shot 1401-12-04 at 17.15.png'} sx={{ width: 1 }} />
-                    </Grid>
-                  </Grid>
-                </Box>
-
-              </Stack>
+                    </CustomPopover>
+                  </Box>
+                  <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
+                </Grid>
+              </Grid>
             </Box>
 
+            <Box>
+              <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
+              <Image alt={'karano'} src={'/assets/images/landing/how to order.jpg'} sx={{ width: 1, height: 1 }} />
+            </Box>
 
+            <CarouselProducts data={_carouselsExample.slice(0, 8)} />
 
-          </Container>
-        </Stack>
+            <Box>
+              <Grid container spacing={5}>
+                <Grid item md={5}>
+                  <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
+                  <Typography variant='h6' fontFamily={'peyda-medium'} sx={{ pb: 2 }}>
+                    کارانو در سال ۱۳۹۶  فعالیت خود را در زمینه تولید محصولات چوبی آغاز نمود. این موسسه با اتکا بر توان اجرایی خود و بهره‌گیری از تجربه پیشگامان جهانی صنعت چوب، همواره به ارتقا سطح اجرا در صنعت ساختمان کشور یاری رسانده است.
+                    هم اکنون کارانو، با عرضه قطعات پیش ساخته دکوراسیون داخلی، سال‌ها تجربه خود را در اختیار همکاران این صنعت قرار داده است.
+                    صنایع چوبی چنوب و گروه صنعتی تهران فرم، نام‌های تجاری سابق کارانو می‌باشد.
+                  </Typography>
+                </Grid>
+                <Grid item md={7}>
+                  <Image alt={'karano'} src={'/assets/images/landing/Screen Shot 1401-12-04 at 17.15.png'} sx={{ width: 1 }} />
+                </Grid>
+              </Grid>
+            </Box>
+
+          </Stack>
+        </Box>
 
 
 

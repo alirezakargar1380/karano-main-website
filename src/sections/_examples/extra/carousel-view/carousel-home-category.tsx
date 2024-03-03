@@ -21,7 +21,7 @@ export default function CarouselHomeCategory() {
   });
 
   return (
-    <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', pb: 3 }}>
+    <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', py: 3 }}>
       <Box
         sx={{
           overflow: 'hidden',

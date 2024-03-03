@@ -4,7 +4,9 @@ import { usePathname } from 'src/routes/hooks';
 
 import Footer from './footer';
 import Header from './header';
-import { Container } from '@mui/material';
+import { AppBar, Button, Container, Grid } from '@mui/material';
+import NavDesktopModern from './nav/desktop-modern';
+import { navConfig, navDesktopConfig } from './config-navigation';
 
 // ----------------------------------------------------------------------
 
@@ -18,25 +20,36 @@ export default function MainLayout({ children }: Props) {
   const homePage = pathname === '/';
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
-      <Header />
+    <Container maxWidth={'xl'}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
+        <Grid container>
+          <Grid item sm={1}>
+            <AppBar position="sticky" sx={{ p: 3 }}>
+              <NavDesktopModern data={navDesktopConfig} />
+            </AppBar>
+          </Grid>
+          <Grid item sm={11}>
+            <Header />
 
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          ...(!homePage && {
-            pt: { xs: 8, md: 10 },
-          }),
-        }}
-      >
-        {children}
+            <Box
+              component="main"
+              sx={{
+                flexGrow: 1,
+                ...(!homePage && {
+                  pt: { xs: 8, md: 10 },
+                }),
+              }}
+            >
+
+              {children}
+            </Box>
+
+            <Container maxWidth={'xl'}>
+              <Footer />
+            </Container>
+          </Grid>
+        </Grid>
       </Box>
-
-      <Container maxWidth={'xl'}>
-        <Footer />
-      </Container>
-
-    </Box>
+    </Container>
   );
 }

@@ -52,9 +52,9 @@ function StyledToolbar({ children }: Props) {
           ...bgBlur({
             color: theme.palette.background.default,
           }),
-          height: {
-            md: HEADER.H_DESKTOP_OFFSET,
-          },
+          // height: {
+          //   md: HEADER.H_DESKTOP_OFFSET,
+          // },
         }),
       }}
     >{children}</Toolbar>
@@ -68,7 +68,7 @@ export default function Header() {
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
   return (
-    <AppBar>
+    <AppBar position="relative">
       <StyledToolbar>
         <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1' }}>
           <Badge
@@ -118,7 +118,7 @@ export default function Header() {
               }}
             /> */}
 
-            {!mdUp && <NavMobile data={navConfig} />}
+            {/* {mdUp && <NavMobile data={navConfig} />} */}
           </Stack>
         </Container>
       </StyledToolbar>

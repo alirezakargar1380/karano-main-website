@@ -41,36 +41,7 @@ function Group({ subheader, items, slotProps }: NavGroupProps) {
 
   return (
     <Stack sx={{ px: 2 }}>
-      {subheader ? (
-        <>
-          <ListSubheader
-            disableGutters
-            disableSticky
-            onClick={handleToggle}
-            sx={{
-              fontSize: 11,
-              cursor: 'pointer',
-              typography: 'overline',
-              display: 'inline-flex',
-              color: 'text.disabled',
-              mb: `${slotProps?.gap || 4}px`,
-              p: (theme) => theme.spacing(2, 1, 1, 1.5),
-              transition: (theme) =>
-                theme.transitions.create(['color'], {
-                  duration: theme.transitions.duration.shortest,
-                }),
-              '&:hover': {
-                color: 'text.primary',
-              },
-              ...slotProps?.subheader,
-            }}
-          >
-            {subheader}
-          </ListSubheader>
-
-          <Collapse in={open}>{renderContent}</Collapse>
-        </>
-      ) : (
+      {(
         renderContent
       )}
     </Stack>

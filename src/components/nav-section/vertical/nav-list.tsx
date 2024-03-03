@@ -53,10 +53,11 @@ export default function NavList({ data, depth, slotProps }: NavListProps) {
         externalLink={data.path.includes('http')}
         currentRole={slotProps?.currentRole}
         //
-        active={active}
-        className={active ? 'active' : ''}
+        active={false}
+        // className={active ? 'active' : ''}
         sx={{
           mb: `${slotProps?.gap}px`,
+          
           ...(depth === 1 ? slotProps?.rootItem : slotProps?.subItem),
         }}
       />

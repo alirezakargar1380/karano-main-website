@@ -33,3 +33,32 @@ export const navConfig = [
     path: paths.docs,
   },
 ];
+
+export const navDesktopConfig = [
+  {
+    title: 'دسته بندی محصولات',
+    icon: <Iconify icon="solar:home-2-bold-duotone" />,
+    path: '/page',
+    children: [{
+      subheader: 'sdf',
+      items: [
+        {
+          title: 'قطعات درب کابینت',
+          path: '',
+        },
+        {
+          title: 'قطعات درب کمد',
+          path: '/aa',
+        },
+        {
+          title: 'درب کابینت',
+          path: '/aa',
+        },
+        {
+          title: 'قطعات درب اتاقی',
+          path: '/aa',
+        },
+      ]
+    }]
+  },
+];
