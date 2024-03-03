@@ -40,7 +40,7 @@ export default function NavDesktopModern({ data }: NavProps) {
 
   return (
     <>
-      <IconButton onClick={handleOpenMenu} sx={{ ml: 1, '&:hover': { background: 'transparent' } }}>
+      <IconButton onClick={handleOpenMenu} sx={{ '&:hover': { background: 'transparent' } }}>
         <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" />
       </IconButton>
       <Drawer
