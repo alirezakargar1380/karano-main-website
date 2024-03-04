@@ -11,7 +11,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 import NavList from './nav-list';
 import { NavProps } from '../types';
-import { Box, Button, Stack } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 // ----------------------------------------------------------------------
@@ -41,7 +41,10 @@ export default function NavDesktopModern({ data }: NavProps) {
   return (
     <>
       <IconButton onClick={handleOpenMenu} sx={{ '&:hover': { background: 'transparent' } }}>
-        <SvgColor src="/assets/icons/navbar/ic_menu_item.svg" />
+        <Stack direction={'column'} justifyContent={'center'} textAlign={'center'}>
+          <SvgColor src="/assets/icons/navbar/dots-grid.svg" sx={{ mx: 'auto' }} />
+          <Typography fontFamily={'peyda-regular'} sx={{ pt: 0.25 }}>محصولات</Typography>
+        </Stack>
       </IconButton>
       <Drawer
         open={openMenu}
