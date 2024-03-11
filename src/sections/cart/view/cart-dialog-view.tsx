@@ -89,7 +89,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"درب کشو"}
+                                        label={"روکش خام"}
                                         labelPlacement={'end'}
                                         control={
                                             <>
@@ -105,7 +105,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"درب کشو"}
+                                        label={"روکش بلوط"}
                                         labelPlacement={'end'}
                                         control={
                                             <>
@@ -121,7 +121,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"درب کشو"}
+                                        label={"روکش راش"}
                                         labelPlacement={'end'}
                                         control={
                                             <>
@@ -137,7 +137,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"درب کشو"}
+                                        label={"روکش گردو"}
                                         labelPlacement={'end'}
                                         control={
                                             <>
@@ -182,7 +182,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"حجمی"}
+                                        label={"تخت"}
                                         labelPlacement={'end'}
                                         control={
                                             <Radio size="medium" />
@@ -194,7 +194,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"حجمی"}
+                                        label={"شیشه خور مشبک"}
                                         labelPlacement={'end'}
                                         control={
                                             <Radio size="medium" />
@@ -206,7 +206,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"حجمی"}
+                                        label={"شیشه خور ساده"}
                                         labelPlacement={'end'}
                                         control={
                                             <Radio size="medium" />
@@ -235,7 +235,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"حجمی"}
+                                        label={"جناقی"}
                                         labelPlacement={'end'}
                                         control={
                                             <Radio size="medium" />
@@ -247,7 +247,7 @@ export default function CartDialogView() {
                             <FormControl component="fieldset">
                                 <RadioGroup row defaultValue="top">
                                     <FormControlLabel
-                                        label={"حجمی"}
+                                        label={"غیر جناقی"}
                                         labelPlacement={'end'}
                                         control={
                                             <Radio size="medium" />
