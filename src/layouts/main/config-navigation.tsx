@@ -10,12 +10,13 @@ export const navConfig = [
   {
     title: 'پیگیری سفارش',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/',
+    path: '/order-tracking',
   },
   {
     title: 'نحوه سفارش',
     icon: <Iconify icon="solar:atom-bold-duotone" />,
-    path: paths.components,
+    path: '/how-order',
+    // path: paths.components,
   },
   {
     title: 'سوالات متداول',

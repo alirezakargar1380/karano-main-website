@@ -72,8 +72,10 @@ const StyledNavItem = styled(ListItemButton, {
       },
       ...(active && {
         // color: theme.palette.primary.main,
-        color: "#2B2B2B",
+        color: "#000",
         fontWeight: theme.typography.fontWeightSemiBold,
+        backgroundColor: '#F2F2F2',
+        border: '2px solid #000'
       }),
       ...(opened && {
         opacity: 0.64,

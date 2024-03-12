@@ -35,6 +35,7 @@ export const StyledRoundedWhiteButton = styled(Button, {
     // ],
 })<ButtonProps>(({ theme }) => {
     return {
+        backgroundColor: '#fff',
         borderRadius: '24px',
         borderColor: "#D1D1D1!important",
         '&:hover': {

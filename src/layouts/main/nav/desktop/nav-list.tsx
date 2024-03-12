@@ -24,7 +24,7 @@ export default function NavList({ data }: NavListProps) {
   const pathname = usePathname();
 
   const active = useActiveLink(data.path, !!data.children);
-
+  console.log(active)
   const [openMenu, setOpenMenu] = useState(false);
 
   useEffect(() => {
