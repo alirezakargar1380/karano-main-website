@@ -70,7 +70,7 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
-            <DialogWithButton title='جزئیات نحوه ارسال' dialog={dialog}>
+            <DialogWithButton title='جزئیات نحوه ارسال' dialog={dialog} fullWith={false}>
                 <HowToSendDialogOption>تحویل در تهران</HowToSendDialogOption>
                 <HowToSendDialogOption>تحویل در تهران</HowToSendDialogOption>
                 <HowToSendDialogOption>تحویل در تهران</HowToSendDialogOption>

@@ -12,3 +12,5 @@ export { default as RHFRadioGroup } from './rhf-radio-group';
 
 export { default as RHFAutocomplete } from './rhf-autocomplete';
 export { default as RHFIconAutocomplete } from './rhf-icon-autocomplete';
+
+export { default as RHFRadioGroupTitleText } from './rhf-radio-title-text';

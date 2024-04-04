@@ -30,7 +30,7 @@ export default function ShoppingCartView() {
                 </Stack>
             </Stack>
             <Box sx={{ pt: 4 }}>
-                <BlueNotification>
+                <BlueNotification title='مشاهده پیش فاکتور'>
                     بعد از بررسی محصولاتی که به صورت سفارشی ثبت شده‌اند، می‌توانید پیش‌فاکتور خود را مشاهده کنید.
                 </BlueNotification>
             </Box>
