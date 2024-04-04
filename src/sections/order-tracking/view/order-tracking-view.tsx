@@ -3,8 +3,10 @@
 import { LoadingButton } from "@mui/lab";
 import { Box, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { PRODUCT_CHECKOUT_STEPS } from "src/_mock";
 import { DialogWithButton } from "src/components/custom-dialog";
 import FormProvider, { RHFRadioGroupTitleText } from "src/components/hook-form";
+import RHFTitleTextField from "src/components/hook-form/rhf-title-text-field";
 import Iconify from "src/components/iconify";
 import Image from "src/components/image";
 import Label from "src/components/label";
@@ -15,11 +17,17 @@ import { TableHeadCustom } from "src/components/table";
 import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
+import CheckoutSteps from "src/sections/checkout/checkout-steps";
+import { useCheckoutContext } from "src/sections/checkout/context";
+import CompleteOrderView from "./complete-order-view";
 
 export default function OrderTrackingView() {
 
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
+    const finalOrderDialog = useBoolean();
+
+    
 
     const methods = useForm({
         // resolver: yupResolver(NewAddressSchema),
@@ -29,7 +37,11 @@ export default function OrderTrackingView() {
     return (
         <Box>
 
-            <DialogWithButton dialog={cartDialog} fullWith={true} title="سبد خرید">
+            <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
+                <CompleteOrderView />
+            </DialogWithButton>
+
+            <DialogWithButton dialog={cartDialog} fullWith={true}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         سبد خرید
@@ -128,7 +140,7 @@ export default function OrderTrackingView() {
             </DialogWithButton>
 
 
-            <DialogWithButton dialog={orderRejectingDialog} fullWith={true} title="جزئیات رد سفارش">
+            <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         لیست کالاهای «آماده» ناموجود
@@ -212,9 +224,6 @@ export default function OrderTrackingView() {
                     </Stack>
                 </Box>
             </DialogWithButton>
-
-
-
 
             <Stack spacing={4}>
                 <BlueNotification title='مهلت پرداخت'>
@@ -336,8 +345,10 @@ export default function OrderTrackingView() {
                     <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                         <Label color="success" fontFamily={'peyda-bold'}>وضعیت: تایید شده</Label>
                         <StyledRoundedWhiteButton
-                            variant="outlined">
-                            مشاهده پیش فاکتور
+                            variant="outlined"
+                            onClick={() => { finalOrderDialog.onTrue() }}
+                        >
+                            ادامه و تکمیل خرید
                             <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
                         </StyledRoundedWhiteButton>
                     </Stack>

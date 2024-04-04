@@ -7,13 +7,14 @@ import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import MuiStepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
 import Iconify from 'src/components/iconify';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
 const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
   top: 10,
-  left: 'calc(-50% + 20px)',
-  right: 'calc(50% + 20px)',
+  left: 'calc(-50%)',
+  right: 'calc(50%)',
   [`& .${stepConnectorClasses.line}`]: {
     borderTopWidth: 2,
     borderColor: theme.palette.divider,
@@ -33,6 +34,30 @@ interface Props extends StepperProps {
 }
 
 export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props) {
+  const [skipped, setSkipped] = useState(new Set<number>());
+  const isStepSkipped = (step: number) => skipped.has(step);
+
+  return (
+    <Stepper activeStep={activeStep} alternativeLabel>
+      {steps.map((label, index) => {
+        const stepProps: { completed?: boolean } = {};
+        const labelProps: {
+          optional?: React.ReactNode;
+        } = {};
+
+        if (isStepSkipped(index)) {
+          stepProps.completed = false;
+        }
+
+        return (
+          <Step key={label} {...stepProps} >
+            <StepLabel sx={{ color: '#000000' }} {...labelProps}>{label}</StepLabel>
+          </Step>
+        );
+      })}
+    </Stepper>
+  );
+
   return (
     <Stepper
       alternativeLabel
@@ -65,11 +90,13 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
 // ----------------------------------------------------------------------
 
 type StepIconProps = {
+  activeStep: number;
   active: boolean;
   completed: boolean;
 };
 
-function StepIcon({ active, completed }: StepIconProps) {
+function StepIcon({ active, completed, activeStep }: StepIconProps) {
+  console.log('active', activeStep);
   return (
     <Stack
       alignItems="center"

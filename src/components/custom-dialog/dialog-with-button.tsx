@@ -12,13 +12,12 @@ import { LoadingButton } from '@mui/lab';
 // ----------------------------------------------------------------------
 interface Props {
     dialog: useBooleanReturnType,
-    title: string,
     children: React.ReactNode,
     fullWith: boolean
 }
 
 
-export default function DialogWithButton({ dialog, title, children, fullWith }: Props) {
+export default function DialogWithButton({ dialog, children, fullWith }: Props) {
 
     const sx = fullWith ? {} : { minWidth: 480 }
 

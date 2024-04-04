@@ -70,7 +70,7 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
-            <DialogWithButton title='جزئیات نحوه ارسال' dialog={dialog} fullWith={false}>
+            <DialogWithButton dialog={dialog} fullWith={false}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         جزئیات نحوه ارسال
