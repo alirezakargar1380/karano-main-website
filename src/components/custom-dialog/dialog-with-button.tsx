@@ -50,16 +50,7 @@ export default function DialogWithButton({ dialog, title, children, fullWith }: 
                 ...sx
             }}>
                 <Scrollbar sx={{ maxHeight: 'fit-content' }}>
-                    <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
-                        <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                            {title}
-                        </Typography>
-                        {children}
-                        <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                            <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} >تایید</LoadingButton>
-                        </Stack>
-                    </Box>
+                    {children}
                 </Scrollbar>
                 <IconButton onClick={() => { dialog.onFalse() }} sx={{ bgcolor: 'white', height: 'fit-content', ml: 2, borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
                     <SvgColor src='/assets/icons/navbar/x-close.svg' />
