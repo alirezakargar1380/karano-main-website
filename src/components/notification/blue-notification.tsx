@@ -24,7 +24,7 @@ export default function BlueNotification({ children, title, sx }: Props) {
                 {!title && (
                     <Stack direction={'row'} spacing={2}>
                         <SvgColor src="/assets/icons/notification/alert-circle.svg" color={'#0B7BA7'} />
-                        <Typography variant="h6" sx={{ pl: 5 }}>{children}</Typography>
+                        <Typography variant="h6">{children}</Typography>
                     </Stack>
                 )}
 

@@ -33,22 +33,22 @@ export default function DialogWithButton({ dialog, children, fullWith }: Props) 
     }, [dialog.value]);
 
     return (
-        <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'paper'} maxWidth={false}
+        <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} maxWidth={false}
             PaperProps={{
                 style: {
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
-                    overflow: 'hidden',
-
+                    // overflow: 'hidden',
                 },
             }}
             fullWidth={fullWith}
         >
+
             <Box sx={{
                 display: 'flex',
                 ...sx
             }}>
-                <Scrollbar sx={{ maxHeight: 'fit-content' }}>
+                <Scrollbar>
                     {children}
                 </Scrollbar>
                 <IconButton onClick={() => { dialog.onFalse() }} sx={{ bgcolor: 'white', height: 'fit-content', ml: 2, borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
