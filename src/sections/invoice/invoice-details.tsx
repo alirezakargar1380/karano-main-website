@@ -133,6 +133,17 @@ export default function InvoiceDetails({ invoice }: Props) {
           </TableHead>
 
           <TableBody>
+            <TableRow sx={{ bgcolor: '#D1D1D1', width: 1 }}>
+              <TableCell></TableCell>
+
+              <TableCell>
+                محصولات
+              </TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </TableRow>
+
             {invoice.items.map((row, index) => (
               <TableRow key={index}>
                 <TableCell>{index + 1}</TableCell>

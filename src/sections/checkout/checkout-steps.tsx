@@ -7,21 +7,22 @@ import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import MuiStepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
 import Iconify from 'src/components/iconify';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useCheckoutContext } from './context';
 
 // ----------------------------------------------------------------------
 
 const StepConnector = styled(MuiStepConnector)(({ theme }) => ({
-  top: 10,
-  left: 'calc(-50%)',
-  right: 'calc(50%)',
+  top: 12,
+  left: 'calc(-50%, 20px)',
+  right: 'calc(50%, 20px)',
   [`& .${stepConnectorClasses.line}`]: {
     borderTopWidth: 2,
     borderColor: theme.palette.divider,
   },
   [`&.${stepConnectorClasses.active}, &.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: theme.palette.primary.main,
+      borderColor: '#000',
     },
   },
 }));
@@ -38,27 +39,6 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
   const isStepSkipped = (step: number) => skipped.has(step);
 
   return (
-    <Stepper activeStep={activeStep} alternativeLabel>
-      {steps.map((label, index) => {
-        const stepProps: { completed?: boolean } = {};
-        const labelProps: {
-          optional?: React.ReactNode;
-        } = {};
-
-        if (isStepSkipped(index)) {
-          stepProps.completed = false;
-        }
-
-        return (
-          <Step key={label} {...stepProps} >
-            <StepLabel sx={{ color: '#000000' }} {...labelProps}>{label}</StepLabel>
-          </Step>
-        );
-      })}
-    </Stepper>
-  );
-
-  return (
     <Stepper
       alternativeLabel
       activeStep={activeStep}
@@ -69,7 +49,7 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
       }}
       {...other}
     >
-      {steps.map((label) => (
+      {steps.map((label, index: number) => (
         <Step key={label}>
           <StepLabel
             StepIconComponent={StepIcon}
@@ -90,37 +70,51 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
 // ----------------------------------------------------------------------
 
 type StepIconProps = {
-  activeStep: number;
   active: boolean;
   completed: boolean;
 };
 
-function StepIcon({ active, completed, activeStep }: StepIconProps) {
-  console.log('active', activeStep);
+
+function StepIcon({ active, completed }: StepIconProps) {
+  const checkout = useCheckoutContext();
+
   return (
     <Stack
       alignItems="center"
       justifyContent="center"
       sx={{
-        width: 24,
-        height: 24,
-        color: 'text.disabled',
+        width: 28,
+        height: 28,
+        borderRadius: '50%',
+        bgcolor: '#F2F2F2',
+        // color: 'text.disabled',
         ...(active && {
-          color: 'primary.main',
+          color: '#fff',
+          bgcolor: '#000',
+          pl: 0.1,
+          pb: 0.2
+        }),
+        ...(completed && {
+          bgcolor: 'transparent',
+          border: '1px solid',
         }),
       }}
     >
       {completed ? (
-        <Iconify icon="eva:checkmark-fill" sx={{ color: 'primary.main' }} />
+        <Iconify icon="eva:checkmark-fill" sx={{ color: '#000' }} />
       ) : (
         <Box
           sx={{
-            width: 8,
-            height: 8,
+            width: 10,
+            height: 16,
             borderRadius: '50%',
-            backgroundColor: 'currentColor',
+            pb: 0.75
+            // backgroundColor: 'currentColor',
           }}
-        />
+        >
+          {active && checkout.activeStep + 1}
+          {!active && !completed && checkout.activeStep + 2}
+        </Box>
       )}
     </Stack>
   );
