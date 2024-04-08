@@ -135,6 +135,7 @@ export function palette(mode: 'light' | 'dark') {
       ...base.action,
       active: grey[600],
     },
+    divider: '#D1D1D1',
   };
 
   const dark = {
