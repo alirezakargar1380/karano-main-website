@@ -28,7 +28,12 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
       <Box
         component="img"
         src="/logo/karano-icon.png"
-        sx={{ cursor: 'pointer', ...sx }}
+        sx={{
+          cursor: 'pointer',
+          width: 62,
+          height: 39,
+         ...sx
+        }}
       />
     );
 
