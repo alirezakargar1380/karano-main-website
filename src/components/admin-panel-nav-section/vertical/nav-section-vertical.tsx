@@ -9,7 +9,7 @@ import { NavProps, NavGroupProps } from '../types';
 
 function NavSectionVertical({ data, slotProps, ...other }: NavProps) {
   return (
-    <Stack component="nav" id="nav-section-vertical" {...other}>
+    <Stack component="nav" id="nav-section-vertical" sx={{ mt: 2 }} {...other}>
       {data.map((group, index) => (
         <Group
           key={group.subheader || index}

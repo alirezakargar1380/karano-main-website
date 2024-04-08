@@ -11,12 +11,10 @@ import { useMockedUser } from 'src/hooks/use-mocked-user';
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
-import { NavSectionVertical } from 'src/components/nav-section';
+import { NavSectionVertical } from 'src/components/admin-panel-nav-section';
 
 import { NAV } from '../config-layout';
-import NavUpgrade from '../common/nav-upgrade';
 import { useNavData } from './config-navigation';
-import NavToggleButton from '../common/nav-toggle-button';
 import { Avatar, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
@@ -73,8 +71,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
           </Box>
         </Stack>
       </Box>
-
-
 
       <NavSectionVertical
         data={navData}

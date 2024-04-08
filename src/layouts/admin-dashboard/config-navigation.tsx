@@ -58,33 +58,33 @@ export function useNavData() {
         subheader: t('overview'),
         items: [
           {
-            title: t('app'),
-            path: paths.dashboard.root,
+            title: t('خانه'),
+            path: paths.admin_dashboard.root,
             icon: ICONS.dashboard,
           },
           {
             title: t('ecommerce'),
-            path: paths.dashboard.general.ecommerce,
+            path: paths.admin_dashboard.general.ecommerce,
             icon: ICONS.ecommerce,
           },
           {
             title: t('analytics'),
-            path: paths.dashboard.general.analytics,
+            path: paths.admin_dashboard.general.analytics,
             icon: ICONS.analytics,
           },
           {
             title: t('banking'),
-            path: paths.dashboard.general.banking,
+            path: paths.admin_dashboard.general.banking,
             icon: ICONS.banking,
           },
           {
             title: t('booking'),
-            path: paths.dashboard.general.booking,
+            path: paths.admin_dashboard.general.booking,
             icon: ICONS.booking,
           },
           {
             title: t('file'),
-            path: paths.dashboard.general.file,
+            path: paths.admin_dashboard.general.file,
             icon: ICONS.file,
           },
         ],
@@ -98,71 +98,71 @@ export function useNavData() {
           // USER
           {
             title: t('user'),
-            path: paths.dashboard.user.root,
+            path: paths.admin_dashboard.user.root,
             icon: ICONS.user,
             children: [
-              { title: t('profile'), path: paths.dashboard.user.root },
-              { title: t('cards'), path: paths.dashboard.user.cards },
-              { title: t('list'), path: paths.dashboard.user.list },
-              { title: t('create'), path: paths.dashboard.user.new },
-              { title: t('edit'), path: paths.dashboard.user.demo.edit },
-              { title: t('account'), path: paths.dashboard.user.account },
+              { title: t('profile'), path: paths.admin_dashboard.user.root },
+              { title: t('cards'), path: paths.admin_dashboard.user.cards },
+              { title: t('list'), path: paths.admin_dashboard.user.list },
+              { title: t('create'), path: paths.admin_dashboard.user.new },
+              { title: t('edit'), path: paths.admin_dashboard.user.demo.edit },
+              { title: t('account'), path: paths.admin_dashboard.user.account },
             ],
           },
 
           // PRODUCT
           {
             title: t('product'),
-            path: paths.dashboard.product.root,
+            path: paths.admin_dashboard.product.root,
             icon: ICONS.product,
             children: [
-              { title: t('list'), path: paths.dashboard.product.root },
+              { title: t('list'), path: paths.admin_dashboard.product.root },
               {
                 title: t('details'),
-                path: paths.dashboard.product.demo.details,
+                path: paths.admin_dashboard.product.demo.details,
               },
-              { title: t('create'), path: paths.dashboard.product.new },
-              { title: t('edit'), path: paths.dashboard.product.demo.edit },
+              { title: t('create'), path: paths.admin_dashboard.product.new },
+              { title: t('edit'), path: paths.admin_dashboard.product.demo.edit },
             ],
           },
 
           // ORDER
           {
             title: t('order'),
-            path: paths.dashboard.order.root,
+            path: paths.admin_dashboard.order.root,
             icon: ICONS.order,
             children: [
-              { title: t('list'), path: paths.dashboard.order.root },
-              { title: t('details'), path: paths.dashboard.order.demo.details },
+              { title: t('list'), path: paths.admin_dashboard.order.root },
+              { title: t('details'), path: paths.admin_dashboard.order.demo.details },
             ],
           },
 
           // INVOICE
           {
             title: t('invoice'),
-            path: paths.dashboard.invoice.root,
+            path: paths.admin_dashboard.invoice.root,
             icon: ICONS.invoice,
             children: [
-              { title: t('list'), path: paths.dashboard.invoice.root },
+              { title: t('list'), path: paths.admin_dashboard.invoice.root },
               {
                 title: t('details'),
-                path: paths.dashboard.invoice.demo.details,
+                path: paths.admin_dashboard.invoice.demo.details,
               },
-              { title: t('create'), path: paths.dashboard.invoice.new },
-              { title: t('edit'), path: paths.dashboard.invoice.demo.edit },
+              { title: t('create'), path: paths.admin_dashboard.invoice.new },
+              { title: t('edit'), path: paths.admin_dashboard.invoice.demo.edit },
             ],
           },
 
           // BLOG
           {
             title: t('blog'),
-            path: paths.dashboard.post.root,
+            path: paths.admin_dashboard.post.root,
             icon: ICONS.blog,
             children: [
-              { title: t('list'), path: paths.dashboard.post.root },
-              { title: t('details'), path: paths.dashboard.post.demo.details },
-              { title: t('create'), path: paths.dashboard.post.new },
-              { title: t('edit'), path: paths.dashboard.post.demo.edit },
+              { title: t('list'), path: paths.admin_dashboard.post.root },
+              { title: t('details'), path: paths.admin_dashboard.post.demo.details },
+              { title: t('create'), path: paths.admin_dashboard.post.new },
+              { title: t('edit'), path: paths.admin_dashboard.post.demo.edit },
             ],
           },
 
