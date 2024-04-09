@@ -58,7 +58,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box sx={{ mx: 2, py: 4, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
         <Stack direction="row" spacing={0} sx={{}}>
-          <Box sx={{ }}>
+          <Box sx={{}}>
             <Avatar sx={{ mx: 2, border: `solid 8px #F8F8F8`, width: 80, height: 80 }} src={''} />
           </Box>
           <Box>
@@ -80,6 +80,11 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       />
 
       <Box sx={{ flexGrow: 1 }} />
+
+      <Box sx={{ mx: 2, borderTop: (theme) => `solid 1px ${theme.palette.divider}` }}>
+        <Logo sx={{ mt: 3, ml: 0, mb: 3 }} />
+      </Box>
+
     </Scrollbar>
   );
 

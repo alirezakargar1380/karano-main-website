@@ -199,9 +199,9 @@ export const paths = {
     general: {
       app: `${ROOTS.ADMIN_DASHBOARD}/app`,
       ecommerce: `${ROOTS.ADMIN_DASHBOARD}/ecommerce`,
-      analytics: `${ROOTS.DASHBOARD}/analytics`,
-      banking: `${ROOTS.DASHBOARD}/banking`,
-      booking: `${ROOTS.DASHBOARD}/booking`,
+      analytics: `${ROOTS.ADMIN_DASHBOARD}/analytics`,
+      banking: `${ROOTS.ADMIN_DASHBOARD}/banking`,
+      booking: `${ROOTS.ADMIN_DASHBOARD}/booking`,
       file: `${ROOTS.DASHBOARD}/file`,
     },
     user: {
