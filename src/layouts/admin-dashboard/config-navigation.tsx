@@ -63,17 +63,17 @@ export function useNavData() {
           },
           {
             title: t('مدیریت دسترسی ها'),
-            path: paths.admin_dashboard.general.ecommerce,
+            path: paths.admin_dashboard.blank,
             icon: ICONS.ecommerce,
           },
           {
             title: t('مدیریت فروش'),
-            path: paths.admin_dashboard.general.analytics,
+            path: paths.admin_dashboard.saleManagement.root,
             icon: ICONS.analytics,
           },
           {
             title: t('مدیریت تولید'),
-            path: paths.admin_dashboard.general.banking,
+            path: paths.admin_dashboard.blank,
             icon: ICONS.banking,
           },
           // {
@@ -83,7 +83,7 @@ export function useNavData() {
           // },
           {
             title: t('مدیریت ارسال'),
-            path: paths.admin_dashboard.general.file,
+            path: paths.admin_dashboard.blank,
             icon: ICONS.file,
           },
         ],

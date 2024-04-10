@@ -29,7 +29,8 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
   const pathname = usePathname();
 
-  const lgUp = useResponsive('up', 'lg');
+  const lgUp = true;
+  // const lgUp = useResponsive('up', 'lg');
 
   const navData = useNavData();
 

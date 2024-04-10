@@ -1,6 +1,7 @@
 import axios, { endpoints } from 'src/utils/axios';
 
 import { ProductShopDetailsView } from 'src/sections/product/view';
+import { SaleManagementDetailsView } from 'src/sections/admin-panel/sale-management/view';
 
 // ----------------------------------------------------------------------
 
@@ -17,7 +18,7 @@ type Props = {
 export default function SaleManagementDetailsPage({ params }: Props) {
   const { id } = params;
 
-  return <ProductShopDetailsView id={id} />;
+  return <SaleManagementDetailsView id={id} />;
 }
 
 export async function generateStaticParams() {
