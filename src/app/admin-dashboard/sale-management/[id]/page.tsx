@@ -1,11 +1,11 @@
 import axios, { endpoints } from 'src/utils/axios';
 
-import { ProductDetailsView } from 'src/sections/product/view';
+import { ProductShopDetailsView } from 'src/sections/product/view';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Dashboard: Product Details',
+  title: 'Product: Details',
 };
 
 type Props = {
@@ -14,10 +14,10 @@ type Props = {
   };
 };
 
-export default function ProductDetailsPage({ params }: Props) {
+export default function SaleManagementDetailsPage({ params }: Props) {
   const { id } = params;
 
-  return <ProductDetailsView id={id} />;
+  return <ProductShopDetailsView id={id} />;
 }
 
 export async function generateStaticParams() {
