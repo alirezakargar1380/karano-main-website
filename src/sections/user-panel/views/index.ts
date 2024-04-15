@@ -1,0 +1,1 @@
+export { default as UserPanelView } from './user-panel-view';
