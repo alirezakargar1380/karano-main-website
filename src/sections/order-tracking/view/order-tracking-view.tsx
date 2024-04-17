@@ -1,12 +1,10 @@
 "use client";
 
 import { LoadingButton } from "@mui/lab";
-import { Box, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
+import { Box, Container, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { PRODUCT_CHECKOUT_STEPS } from "src/_mock";
 import { DialogWithButton } from "src/components/custom-dialog";
 import FormProvider, { RHFRadioGroupTitleText } from "src/components/hook-form";
-import RHFTitleTextField from "src/components/hook-form/rhf-title-text-field";
 import Iconify from "src/components/iconify";
 import Image from "src/components/image";
 import Label from "src/components/label";
@@ -17,9 +15,8 @@ import { TableHeadCustom } from "src/components/table";
 import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
-import CheckoutSteps from "src/sections/checkout/checkout-steps";
-import { useCheckoutContext } from "src/sections/checkout/context";
 import CompleteOrderView from "./complete-order-view";
+import OrderRejectionDialogView from "./order-rejection-dialog-view";
 
 export default function OrderTrackingView() {
 
@@ -27,12 +24,9 @@ export default function OrderTrackingView() {
     const cartDialog = useBoolean();
     const finalOrderDialog = useBoolean();
 
-    
 
-    const methods = useForm({
-        // resolver: yupResolver(NewAddressSchema),
-        defaultValues: {},
-    });
+
+
 
     return (
         <Box>
@@ -141,88 +135,7 @@ export default function OrderTrackingView() {
 
 
             <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
-                <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                        لیست کالاهای «آماده» ناموجود
-                    </Typography>
-                    <Box>
-                        <YellowNotification title="لیست کالاهای «آماده» ناموجود" sx={{ my: 3 }}>
-                            این کالاها در سبد خرید شما ناموجود هستند!
-                        </YellowNotification>
-
-                        {[...Array(2)].map((data, index: number) => (
-                            <Box key={index} sx={{ mb: 2 }}>
-                                <Stack direction={'row'} sx={{ pb: 1 }} spacing={2}>
-                                    <Typography variant='h6' sx={{ pt: 1 }}>
-                                        درب کابینتی - P60
-                                    </Typography>
-                                    <StyledRoundedWhiteButton variant="outlined">
-                                        مشاهده تاریچه
-                                    </StyledRoundedWhiteButton>
-                                </Stack>
-                                <Box>
-                                    <Scrollbar sx={{ maxHeight: 680 }}>
-                                        <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                            <TableHeadCustom
-                                                sx={{
-                                                    backgroundColor: '#F2F2F2'
-                                                }}
-                                                headLabel={CartTableHead}
-                                            />
-                                            <TableBody>
-                                                {[...Array(1)].map((data, index: number) => (
-                                                    <CartTableRow
-                                                        onDeleteRow={() => { }}
-                                                        onEditRow={() => { }}
-                                                        key={index}
-                                                        row={{
-                                                            quality: 11,
-                                                            coating: 'غیر جناقی',
-                                                            dimensions: '210*235',
-                                                            final_coating: 'روکش خام',
-                                                            frame_type: 'حجمی',
-                                                            profile_type: 'درب کابینتی',
-                                                        }}
-                                                    />
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </Scrollbar>
-                                </Box>
-                            </Box>
-                        ))}
-                        <BlueNotification sx={{ mb: 3 }}>
-                            برای ثبت تغییرات کالاهای ناموجود،یکی از گزینه‌های زیر را انتخاب کنید و سپس بر روی دکمه ثبت کلیک کنید.
-                        </BlueNotification>
-                        <FormProvider methods={methods}>
-                            <RHFRadioGroupTitleText
-                                row
-                                name="addressType"
-                                options={[
-                                    {
-                                        label: 'حذف کالاهای ناموجود از سبد خرید',
-                                        text: 'کالاهایی که فعلا در انبار کارانو موجود نیستند، از سبد خرید شما حذف شده و پس از پرداخت بهای کالاهای باقیمانده، آن‌هارا تحویل خواهید گرفت.',
-                                        value: '1'
-                                    },
-                                    {
-                                        label: 'تحویل همه محصولات با زمان بیشتر',
-                                        text: 'با انتخاب این گزینه شما بهای تمام کالاهای مورد نظر را باید پرداخت ‌کنید و برای تحویل آن‌ها زمان بیشتری را منتظر خواهید ‌ماند تا کالاهای ناموجود توسط کارانو، موجود شوند.',
-                                        value: '2'
-                                    },
-                                    {
-                                        label: 'انصراف از خرید',
-                                        value: '3'
-                                    },
-                                ]}
-                                sx={{ width: '100%' }}
-                            />
-                        </FormProvider>
-                    </Box>
-                    <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                        <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} >تایید</LoadingButton>
-                    </Stack>
-                </Box>
+                <OrderRejectionDialogView dialog={orderRejectingDialog} />
             </DialogWithButton>
 
             <Stack spacing={4}>

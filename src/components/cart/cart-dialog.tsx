@@ -63,6 +63,8 @@ export default function CartDialog({ dialog }: Props) {
         }
     });
 
+    
+
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
             <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'paper'} fullWidth={true} maxWidth={'xl'}>

@@ -104,7 +104,7 @@ export default function CartTableRow({
 
         <TableCell align="right">
           <Stack direction={'row'}>
-            <IconButton color={popover.open ? 'primary' : 'default'}>
+            <IconButton color={popover.open ? 'primary' : 'default'} onClick={() => onEditRow()}>
               <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
             </IconButton>
             <IconButton color={popover.open ? 'primary' : 'default'}>
