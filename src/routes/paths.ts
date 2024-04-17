@@ -193,6 +193,10 @@ export const paths = {
       root: `${ROOTS.ADMIN_DASHBOARD}/sale-management`,
       details: (id: any) => `${ROOTS.ADMIN_DASHBOARD}/sale-management/${id}`,
     },
+    access_level: {
+      root: `${ROOTS.ADMIN_DASHBOARD}/access-management`,
+      details: (id: any) => `${ROOTS.ADMIN_DASHBOARD}/sale-management/${id}`,
+    },
     mail: `${ROOTS.ADMIN_DASHBOARD}/mail`,
     chat: `${ROOTS.ADMIN_DASHBOARD}/chat`,
     blank: `${ROOTS.ADMIN_DASHBOARD}/blank`,

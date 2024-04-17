@@ -1,12 +1,11 @@
 'use client'
 
-import { Container, Grid, Stack, Typography } from "@mui/material";
+import { Container, Grid, Stack, Typography, Box } from "@mui/material";
 import { PageTitle } from "../page-title";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
-import { Box } from "@mui/system";
-import SvgColor from "src/components/svg-color";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import AccessLevel from "../access-level";
 
 export default function AdminPanelOverview() {
     return (
@@ -42,58 +41,7 @@ export default function AdminPanelOverview() {
 
                         <StyledRoundedWhiteButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</StyledRoundedWhiteButton>
                     </Stack>
-                    <Box>
-                        <Grid container spacing={2}>
-                            <Grid md={6} xl={3} item>
-                                <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
-                                    <Box>
-                                        <Typography variant="h6">مدیریت فروش</Typography>
-                                        <Typography variant="body2">06 نفر</Typography>
-                                    </Box>
-                                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
-                                    </Box>
-
-                                </Stack>
-                            </Grid>
-                            <Grid md={6} xl={3} item>
-                                <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
-                                    <Box>
-                                        <Typography variant="h6">مدیریت فروش</Typography>
-                                        <Typography variant="body2">06 نفر</Typography>
-                                    </Box>
-                                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
-                                    </Box>
-
-                                </Stack>
-                            </Grid>
-                            <Grid md={6} xl={3} item>
-                                <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
-                                    <Box>
-                                        <Typography variant="h6">مدیریت فروش</Typography>
-                                        <Typography variant="body2">06 نفر</Typography>
-                                    </Box>
-                                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
-                                    </Box>
-
-                                </Stack>
-                            </Grid>
-                            <Grid md={6} xl={3} item>
-                                <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
-                                    <Box>
-                                        <Typography variant="h6">مدیریت فروش</Typography>
-                                        <Typography variant="body2">06 نفر</Typography>
-                                    </Box>
-                                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
-                                    </Box>
-
-                                </Stack>
-                            </Grid>
-                        </Grid>
-                    </Box>
+                    <AccessLevel />
                 </Box>
             </Box>
         </Container>

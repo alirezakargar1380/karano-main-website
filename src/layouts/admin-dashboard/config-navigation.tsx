@@ -59,22 +59,22 @@ export function useNavData() {
           {
             title: t('خانه'),
             path: paths.admin_dashboard.root,
-            icon: ICONS.dashboard,
+            icon: <SvgColor src="/assets/icons/admin-panel/home-01.svg" />,
           },
           {
             title: t('مدیریت دسترسی ها'),
-            path: paths.admin_dashboard.blank,
-            icon: ICONS.ecommerce,
+            path: paths.admin_dashboard.access_level.root,
+            icon: <SvgColor src="/assets/icons/admin-panel/lock-01.svg" />,
           },
           {
             title: t('مدیریت فروش'),
             path: paths.admin_dashboard.saleManagement.root,
-            icon: ICONS.analytics,
+            icon: <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" />,
           },
           {
             title: t('مدیریت تولید'),
             path: paths.admin_dashboard.blank,
-            icon: ICONS.banking,
+            icon: <SvgColor src="/assets/icons/admin-panel/loading-01.svg" />,
           },
           // {
           //   title: t('مدیریت انبار'),
@@ -84,7 +84,7 @@ export function useNavData() {
           {
             title: t('مدیریت ارسال'),
             path: paths.admin_dashboard.blank,
-            icon: ICONS.file,
+            icon: <SvgColor src="/assets/icons/admin-panel/send-03.svg" />,
           },
         ],
       },
