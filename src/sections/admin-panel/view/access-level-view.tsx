@@ -48,7 +48,7 @@ export default function AccessLevelview() {
             <Box>
                 <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                     <Scrollbar>
-                        <Table sx={{ minWidth: 960 }}>
+                        <Table sx={{ minWidth: 960, bgcolor: 'white' }}>
                             <TableHead>
                                 <TableRow>
                                     <TableCell width={40}></TableCell>
