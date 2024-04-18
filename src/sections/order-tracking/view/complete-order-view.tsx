@@ -21,7 +21,7 @@ export default function CompleteOrderView() {
     useEffect(() => {
         // checkout.onNextStep()
         // checkout.onBackStep()
-        // checkout.onGotoStep(0)
+        checkout.onGotoStep(0)
         console.log(checkout.activeStep)
     }, [])
 
