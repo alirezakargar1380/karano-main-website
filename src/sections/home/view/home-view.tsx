@@ -109,7 +109,7 @@ export default function HomeView() {
                     <Grid item md={3} sm={12} xs={12} key={index} borderRight={mdUp ? '1px solid #fff' : ''}>
                       <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                        <CountUp duration={3} end={99 * index} redraw={true} /> +
+                        <CountUp duration={3} end={99 * (index+1)} redraw={true} delay={1} /> +
                         <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
 
                       </Box>
