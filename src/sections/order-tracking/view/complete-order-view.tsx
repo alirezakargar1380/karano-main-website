@@ -55,7 +55,8 @@ export default function CompleteOrderView() {
 
 
 
-                </Box></Scrollbar>
+                </Box>
+            </Scrollbar>
         </FormProvider >
 
     )

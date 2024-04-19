@@ -78,44 +78,46 @@ export default function HomeView() {
           <Stack spacing={12}>
             <CarouselBasic1 data={_carouselsExample.slice(0, 8)} sx={{ mt: 4 }} />
 
+            <m.div
+              initial={varFade().inDown.initial}
+              whileInView={varFade().inDown.animate}
+              exit={varFade().inUp.exit}
+              viewport={{
+                once: true,
+                amount: 1
+              }}
+              transition={{
+                duration: 1,
+              }}
+            >
+              <Box sx={{
+                backgroundImage: "url('/assets/images/landing/mmm.jpg')",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                color: '#fff', textAlign: 'center'
+              }}>
+                <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='h3'>
+                  کارانو، راه‌حل‌های کارامد در صنعت چوب
+                </Typography>
+                <Grid
+                  container
+                  sx={{ py: 6, fontFamily: 'peyda-bold', fontSize: '4rem' }}
+                  spacing={!mdUp ? 6 : 0}
+                >
+                  {[...new Array(4)].map((_, index) => (
+                    <Grid item md={3} sm={12} xs={12} key={index} borderRight={mdUp ? '1px solid #fff' : ''}>
+                      <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-            <Box sx={{
-              backgroundImage: "url('/assets/images/landing/mmm.jpg')",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              color: '#fff', textAlign: 'center'
-            }}>
-              <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='h3'>
-                کارانو، راه‌حل‌های کارامد در صنعت چوب
-              </Typography>
-              <Grid
-                container
-                sx={{ py: 6, fontFamily: 'peyda-bold', fontSize: '4rem' }}
-                spacing={!mdUp ? 6 : 0}
-              >
-                {[...new Array(4)].map((_, index) => (
-                  <Grid item md={3} sm={12} xs={12} key={index} borderRight={mdUp ? '1px solid #fff' : ''}>
-                    <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-                      <m.div
-                        initial={varFade().inDown.initial}
-                        whileInView={varFade().inDown.animate}
-                        // exit={varFade().inDown.exit}
-                        viewport={{
-                          once: true,
-                          amount: 1
-                        }}
-                        transition={{
-                          // duration: 1,
-                        }}>
-                        <CountUp duration={10} end={99} /> +
+                        <CountUp duration={3} end={99 * index} redraw={true} /> +
                         <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
-                      </m.div>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
+
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </m.div>
 
             <m.div variants={varFade().inUp}>
               <Box>
