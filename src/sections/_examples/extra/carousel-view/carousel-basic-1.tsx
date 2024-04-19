@@ -90,7 +90,8 @@ export default function CarouselBasic1({ data, sx }: Props) {
                 rowGap={3}
                 display="grid!important"
                 gridTemplateColumns={{
-                  xs: 'repeat(2, 1fr)',
+                  xs: 'repeat(1, 1fr)',
+                  sm: 'repeat(2, 1fr)',
                   md: 'repeat(3, 1fr)',
                 }}
               >

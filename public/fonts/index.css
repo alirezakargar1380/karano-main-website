@@ -53,3 +53,7 @@
   font-style: normal;
   src: local('peyda-black'), url('peyda/Peyda-Black.ttf') format('opentype');
 }
+
+#root {
+  overflow: hidden;
+}
