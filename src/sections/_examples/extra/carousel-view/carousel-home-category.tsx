@@ -19,6 +19,7 @@ export default function CarouselHomeCategory() {
     rtl: false,
     slidesToShow: 10,
     swipeToSlide: true,
+    centerMode: true,
     responsive: [
       {
         breakpoint: 1366,
@@ -34,7 +35,7 @@ export default function CarouselHomeCategory() {
       // },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1.5 },
+        settings: { slidesToShow: 1.5, centerPadding: '20' },
       },
     ],
   });
@@ -54,7 +55,8 @@ export default function CarouselHomeCategory() {
           onPrev={carousel.onNext}
           leftButtonBoxProps={{
             sx: {
-              width: '130px',
+              display: (!carousel.currentIndex) ? 'none' : '',
+              width: '80px',
               // border: '1px solid #D1D1D1',
               height: 1,
               position: 'absolute',
@@ -85,7 +87,7 @@ export default function CarouselHomeCategory() {
           }}
           rightButtonBoxProps={{
             sx: {
-              width: '130px',
+              width: '80px',
               // border: '1px solid #D1D1D1',
               height: 1,
               position: 'absolute',
