@@ -15,8 +15,8 @@ export default function HomeOrderWithKarano() {
             whileInView={varFade().inDown.animate}
             exit={varFade().inDown.exit}
             viewport={{
-                once: false, 
-                amount: 1
+                once: true, 
+                // amount: 1
             }}
             transition={{ 
                 duration: 1,
