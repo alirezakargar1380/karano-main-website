@@ -8,6 +8,7 @@ import { AppBar, Button, Container, Grid, IconButton, Stack, Typography } from '
 import NavDesktopModern from './nav/desktop-modern';
 import { navConfig, navDesktopConfig } from './config-navigation';
 import SvgColor from 'src/components/svg-color';
+import { useResponsive } from 'src/hooks/use-responsive';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,7 @@ export default function MainLayout({ children }: Props) {
   const pathname = usePathname();
 
   const homePage = pathname === '/';
+  const mdUp = useResponsive('up', 'md');
 
   return (
     <>
@@ -46,7 +48,7 @@ export default function MainLayout({ children }: Props) {
                 <NavDesktopModern data={navDesktopConfig} />
               </AppBar>
             </Grid>
-            <Grid item xs={10} sm={11} md={11}>
+            <Grid item xs={!mdUp ? 12 : 10} sm={11} md={11}>
               <Header />
 
               <Box

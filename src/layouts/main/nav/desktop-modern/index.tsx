@@ -56,7 +56,7 @@ export default function NavDesktopModern({ data }: NavProps) {
               lg: '40%',
               md: '50%',
               sm: '60%',
-              xs: '70%',
+              xs: '90%',
             },
             // width: mdUp ? '30%' : '80%',
 
@@ -92,7 +92,7 @@ export default function NavDesktopModern({ data }: NavProps) {
                 ))}
               </Box>
             </Box>
-            <Box sx={{ ml: 3, mt: 2 }}>
+            <Box sx={{ ml: 3, mt: 2, backdropFilter: 'none', background: 'transparent' }}>
               <IconButton onClick={handleCloseMenu} sx={{ bgcolor: 'white', borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
                 <SvgColor src="/assets/icons/navbar/x-close.svg" />
               </IconButton>
