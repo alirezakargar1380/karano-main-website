@@ -4,8 +4,10 @@ import { m } from 'framer-motion';
 import { varFade } from "src/components/animate";
 import { Box, Typography } from "@mui/material";
 import Image from "src/components/image";
+import { useResponsive } from 'src/hooks/use-responsive';
 
 export default function HomeOrderWithKarano() {
+    const mdUp = useResponsive('up', 'md');
 
     return (
         <m.div
@@ -17,8 +19,7 @@ export default function HomeOrderWithKarano() {
                 amount: 1
             }}
             transition={{ 
-                duration: 1, 
-                // delay: 0.5 
+                duration: 1,
             }}
         >
             <Box>
