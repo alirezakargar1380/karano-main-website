@@ -123,17 +123,17 @@ export default function HomeView() {
               <Box>
                 <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
                 <Grid container spacing={2}>
-                  <Grid md={3} item>
+                  <Grid sm={12} md={3} item>
                     <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
                   </Grid>
-                  <Grid md={3} item>
+                  <Grid sm={12} md={3} item>
                     <Stack spacing={2}>
                       <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
                       <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
                     </Stack>
 
                   </Grid>
-                  <Grid md={6} item>
+                  <Grid sm={12} md={6} item>
                     <Box sx={{
                       width: 24,
                       height: 24,
