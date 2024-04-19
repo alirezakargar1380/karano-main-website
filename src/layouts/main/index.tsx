@@ -24,19 +24,6 @@ export default function MainLayout({ children }: Props) {
 
   return (
     <>
-      <Box sx={{ bgcolor: '#454545', py: 2 }}>
-        <Stack justifyContent={'center'} direction={'row'}>
-          <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
-            متن بنر مورد نظر اینجا قرار می‌گیرد
-          </Typography>
-          <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '50%' }}>
-            <IconButton sx={{ p: 0 }}>
-              <SvgColor src="/assets/icons/navbar/x-close.svg" color={'#F8F8F8'} sx={{ width: 16, height: 16 }} />
-            </IconButton>
-          </Box>
-        </Stack>
-      </Box>
-
       <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
         <Grid container>
           {mdUp ? (
