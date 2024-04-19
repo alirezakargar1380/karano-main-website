@@ -72,68 +72,73 @@ export default function HomeView() {
         }}
       >
 
-        <Box sx={{ width: 1, ml: 'auto' }}>
-          <CarouselHomeCategory />
-
-          <Stack spacing={12}>
+        <Container maxWidth={'xl'}>
+          <Stack spacing={4}>
+            <CarouselHomeCategory />
             <CarouselBasic1 data={_carouselsExample.slice(0, 8)} sx={{ mt: 4 }} />
+          </Stack>
+        </Container>
 
-            <m.div
-              initial={varFade().inDown.initial}
-              whileInView={varFade().inDown.animate}
-              exit={varFade().inUp.exit}
-              viewport={{
-                once: true,
-                // amount: 1
-              }}
-              transition={{
-                duration: 1,
-              }}
+
+        <m.div
+          initial={varFade().inDown.initial}
+          whileInView={varFade().inDown.animate}
+          exit={varFade().inUp.exit}
+          viewport={{
+            once: true,
+            // amount: 1
+          }}
+          transition={{
+            duration: 1,
+          }}
+        >
+          <Box sx={{
+            mt: 10,
+            backgroundImage: "url('/assets/images/landing/mmm.jpg')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            color: '#fff', textAlign: 'center'
+          }}>
+            <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='h3'>
+              کارانو، راه‌حل‌های کارامد در صنعت چوب
+            </Typography>
+            <Grid
+              container
+              sx={{ py: 6, fontFamily: 'peyda-bold', fontSize: '4rem' }}
+              spacing={!mdUp ? 6 : 0}
             >
-              <Box sx={{
-                backgroundImage: "url('/assets/images/landing/mmm.jpg')",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                color: '#fff', textAlign: 'center'
-              }}>
-                <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='h3'>
-                  کارانو، راه‌حل‌های کارامد در صنعت چوب
-                </Typography>
-                <Grid
-                  container
-                  sx={{ py: 6, fontFamily: 'peyda-bold', fontSize: '4rem' }}
-                  spacing={!mdUp ? 6 : 0}
-                >
-                  {[...new Array(4)].map((_, index) => (
-                    <Grid item md={3} sm={12} xs={12} key={index} borderRight={mdUp ? '1px solid #fff' : ''}>
-                      <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
+              {[...new Array(4)].map((_, index) => (
+                <Grid item md={3} sm={12} xs={12} key={index} borderRight={mdUp ? '1px solid #fff' : ''}>
+                  <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                        <CountUp duration={3} end={99 * (index+1)} redraw={true} delay={1} /> +
-                        <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+                    <CountUp duration={3} end={99 * (index + 1)} redraw={true} delay={1} /> +
+                    <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
 
-                      </Box>
-                    </Grid>
-                  ))}
+                  </Box>
                 </Grid>
-              </Box>
-            </m.div>
+              ))}
+            </Grid>
+          </Box>
+        </m.div>
 
+        <Container maxWidth={'xl'} sx={{ mt: 10 }}>
+          <Stack spacing={10}>
             <m.div variants={varFade().inUp}>
               <Box>
                 <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
                 <Grid container spacing={2}>
-                  <Grid sm={12} md={3} item>
+                  <Grid xs={12} sm={12} md={3} item>
                     <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
                   </Grid>
-                  <Grid sm={12} md={3} item>
+                  <Grid xs={12} sm={12} md={3} item>
                     <Stack spacing={2}>
                       <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
                       <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
                     </Stack>
 
                   </Grid>
-                  <Grid sm={12} md={6} item>
+                  <Grid xs={12} sm={12} md={6} item>
                     <Box sx={{
                       width: 24,
                       height: 24,
@@ -167,9 +172,7 @@ export default function HomeView() {
               </Box>
             </m.div>
 
-
             <HomeOrderWithKarano />
-
 
             <CarouselProducts data={_carouselsExample.slice(0, 8)} />
 
@@ -190,7 +193,11 @@ export default function HomeView() {
             </Box>
 
           </Stack>
-        </Box>
+        </Container>
+
+
+
+
 
 
 
