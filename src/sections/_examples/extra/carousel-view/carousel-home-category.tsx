@@ -35,7 +35,7 @@ export default function CarouselHomeCategory() {
       // },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 1.5, centerPadding: '20' },
+        settings: { slidesToShow: 2, centerPadding: '20' },
       },
     ],
   });

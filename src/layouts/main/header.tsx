@@ -15,7 +15,7 @@ import Logo from 'src/components/logo';
 import NavMobile from './nav/mobile';
 import NavDesktop from './nav/desktop';
 import { HEADER } from '../config-layout';
-import { navConfig } from './config-navigation';
+import { navConfig, navDesktopConfig } from './config-navigation';
 import LoginButton from '../common/login-button';
 import HeaderShadow from '../common/header-shadow';
 import SettingsButton from '../common/settings-button';
@@ -23,6 +23,8 @@ import PriceListButton from '../common/price-list-button';
 import SearchButton from '../common/search-button';
 import LikeButton from '../common/like-button';
 import ShoppingCartButton from '../common/shopping-cart-button';
+import { IconButton } from '@mui/material';
+import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -70,7 +72,7 @@ export default function Header() {
   return (
     <AppBar position="relative">
       <StyledToolbar>
-        <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1' }}>
+        <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1', px: '0px!important' }}>
           <Badge
             sx={{
               [`& .${badgeClasses.badge}`]: {
@@ -117,8 +119,7 @@ export default function Header() {
                 mr: { md: 2 },
               }}
             /> */}
-
-            {/* {mdUp && <NavMobile data={navConfig} />} */}
+            {!mdUp && <NavMobile data={navDesktopConfig} />}
           </Stack>
         </Container>
       </StyledToolbar>

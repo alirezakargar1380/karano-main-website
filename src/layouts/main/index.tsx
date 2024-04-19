@@ -39,15 +39,18 @@ export default function MainLayout({ children }: Props) {
       <Container maxWidth={'xl'}>
         <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
           <Grid container>
-            <Grid item xs={2} sm={1} md={1}>
-              <AppBar position="sticky" sx={{
-                pt: 3,
-                pr: 3,
-                width: '100%'
-              }}>
-                <NavDesktopModern data={navDesktopConfig} />
-              </AppBar>
-            </Grid>
+            {mdUp ? (
+              <Grid item xs={2} sm={1} md={1}>
+                <AppBar position="sticky" sx={{
+                  pt: 3,
+                  pr: 3,
+                  width: '100%'
+                }}>
+                  <NavDesktopModern data={navDesktopConfig} />
+                </AppBar>
+              </Grid>
+            ) : null}
+
             <Grid item xs={!mdUp ? 12 : 10} sm={11} md={11}>
               <Header />
 
