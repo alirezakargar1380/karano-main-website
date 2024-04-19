@@ -67,6 +67,7 @@ export default function NavMobile({ data }: NavProps) {
             height: '100vh',
             bgcolor: 'transparent!important',
             '& .MuiDrawer-paper': {
+              WebkitBackdropFilter: 'none!important',
               bgcolor: 'transparent!important',
               backdropFilter: 'none!important',
               boxShadow: 'none!important',
