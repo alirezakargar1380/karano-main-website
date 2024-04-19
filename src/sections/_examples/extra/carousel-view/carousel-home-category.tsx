@@ -32,10 +32,10 @@ export default function CarouselHomeCategory() {
       //   breakpoint: 600,
       //   settings: { slidesToShow: 2 },
       // },
-      // {
-      //   breakpoint: 480,
-      //   settings: { slidesToShow: 1, centerPadding: '0' },
-      // },
+      {
+        breakpoint: 480,
+        settings: { slidesToShow: 1.5 },
+      },
     ],
   });
 

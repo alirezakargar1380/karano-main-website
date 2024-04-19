@@ -26,6 +26,7 @@ export default function CarouselProducts({ data }: Props) {
     slidesToShow: 4,
     draggable: true,
     initialSlide: 2,
+    centerMode: true,
     ...CarouselDots({
       rounded: true,
       sx: {
@@ -35,6 +36,24 @@ export default function CarouselProducts({ data }: Props) {
         color: '#000!important',
       },
     }),
+    responsive: [
+      // {
+      //   breakpoint: 1366,
+      //   settings: { slidesToShow: 6 },
+      // },
+      // {
+      //   breakpoint: 1024,
+      //   settings: { slidesToShow: 4 },
+      // },
+      // {
+      //   breakpoint: 600,
+      //   settings: { slidesToShow: 2 },
+      // },
+      {
+        breakpoint: 480,
+        settings: { slidesToShow: 1, centerPadding: '20' },
+      },
+    ],
   });
 
   return (

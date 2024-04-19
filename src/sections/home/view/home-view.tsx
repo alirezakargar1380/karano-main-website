@@ -84,7 +84,7 @@ export default function HomeView() {
               exit={varFade().inUp.exit}
               viewport={{
                 once: true,
-                amount: 1
+                // amount: 1
               }}
               transition={{
                 duration: 1,
