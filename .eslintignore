@@ -7,3 +7,4 @@ next.config.js
 build/*
 src/*
 package.json
+package-lock.json
