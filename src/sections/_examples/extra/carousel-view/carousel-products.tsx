@@ -7,6 +7,9 @@ import Image from 'src/components/image';
 import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows, CarouselDots } from 'src/components/carousel';
 import ProductItemSlider from 'src/sections/product/product-slider-item';
 import { Box } from '@mui/system';
+import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';
+import { bgGradient } from 'src/theme/css';
+import { alpha, useTheme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
@@ -22,7 +25,7 @@ type Props = {
 export default function CarouselProducts({ data }: Props) {
   const carousel = useCarousel({
     fade: true,
-    autoplay: true,
+    autoplay: false,
     slidesToShow: 4,
     draggable: true,
     initialSlide: 2,
@@ -32,6 +35,7 @@ export default function CarouselProducts({ data }: Props) {
       sx: {
         top: 10,
         right: 15,
+        zIndex: 101,
         position: 'absolute',
         color: '#000!important',
       },
@@ -57,13 +61,84 @@ export default function CarouselProducts({ data }: Props) {
   });
 
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ position: 'absolute', top: 0 }}>پرفروش ها!</Typography>
-      <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-        {data.map((item, index) => (
-          <Stack key={item.id} sx={{ mt: 10, px: 2 }}>
-            <ProductItemSlider ind={index} />
-            {/* <Image alt={item.title} src={item.coverUrl} ratio="4/3" />
+    <Box sx={{ 
+      position: 'relative'
+     }}>
+      <Typography variant='h3' fontFamily={'peyda-bold'}>پرفروش ها!</Typography>
+      <CarouselArrowsCustom
+        filled
+        icon="icon-park-outline:right"
+        onNext={carousel.onPrev}
+        onPrev={carousel.onNext}
+        leftButtonBoxProps={{
+          sx: {
+            display: (!carousel.currentIndex) ? 'none' : '',
+            width: '80px',
+            // border: '1px solid #D1D1D1',
+            height: 1,
+            position: 'absolute',
+            zIndex: 100,
+            ...bgGradient({
+              direction: 'to right',
+              startColor: `#fff 50%`,
+              endColor: `${alpha("#fff", 0)} 100%`,
+            }),
+          }
+        }}
+        leftButtonProps={{
+          sx: {
+            border: '1px solid #D1D1D1',
+            borderRadius: '26px',
+            width: 'fit-content',
+            '&:hover': {
+              backgroundColor: 'transparent'
+            },
+            right: 0,
+            backgroundColor: "#fff",
+            ...bgGradient({
+              direction: 'to right',
+              startColor: `#fff 25%`,
+              endColor: `${alpha("#fff", 0)} 200%`,
+            }),
+          }
+        }}
+        rightButtonBoxProps={{
+          sx: {
+            width: '80px',
+            // border: '1px solid #D1D1D1',
+            height: 1,
+            position: 'absolute',
+            right: 0,
+            zIndex: 100,
+            ...bgGradient({
+              direction: 'to left',
+              startColor: `#fff 50%`,
+              endColor: `${alpha("#fff", 0)} 100%`,
+            }),
+          }
+        }}
+        rightButtonProps={{
+          sx: {
+            border: '1px solid #D1D1D1',
+            borderRadius: '26px',
+            width: 'fit-content',
+            '&:hover': {
+              backgroundColor: 'transparent'
+            },
+            backgroundColor: "#fff",
+            ...bgGradient({
+              direction: 'to left',
+              startColor: `#fff 25%`,
+              endColor: `${alpha("#fff", 0)} 100%`,
+            }),
+          }
+        }}
+      >
+        <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
+          {data.map((item, index) => (
+            <Stack key={item.id} sx={{ mt: 10, px: 2 }}>
+              <ProductItemSlider ind={index} />
+              {/* <Image alt={item.title} src={item.coverUrl} ratio="4/3" />
 
             <CardContent sx={{ textAlign: 'left' }}>
               <Typography variant="h6" noWrap gutterBottom>
@@ -74,9 +149,11 @@ export default function CarouselProducts({ data }: Props) {
                 {item.description}
               </Typography>
             </CardContent> */}
-          </Stack>
-        ))}
-      </Carousel>
+            </Stack>
+          ))}
+        </Carousel>
+
+      </CarouselArrowsCustom>
     </Box>
   );
 }
