@@ -85,8 +85,8 @@ export default function PhoneRegisterView() {
   });
 
   const renderHead = (
-    <Stack spacing={2} sx={{ mb: 4, position: 'relative' }}>
-      <Typography variant="h4" fontFamily={'peyda-bold'}>
+    <Stack spacing={2} sx={{ mb: 2, position: 'relative' }}>
+      <Typography variant="h3" fontFamily={'peyda-bold'}>
         اطلاعات کاربری خود را وارد کنید
       </Typography>
 
@@ -136,7 +136,7 @@ export default function PhoneRegisterView() {
             sx={{
               pb: 1, width: 1
             }}>
-            انتخاب نوع کاربر
+            انتخاب نوع مشتری
           </Typography>
 
           <RHFRadioGroup
