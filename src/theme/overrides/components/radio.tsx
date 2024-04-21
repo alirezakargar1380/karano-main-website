@@ -47,12 +47,12 @@ export function radio(theme: Theme) {
           //   color: "#fff!important",
           // },
           '&:hover': {
-            borderColor: "#000!important",
+            borderColor: "#2B2B2B!important",
             background: '#fff!important',
           },
           '&.Mui-checked': {
-            borderColor: "#000!important",
-            background: '#000!important',
+            borderColor: "#2B2B2B!important",
+            background: '#2B2B2B!important',
           },
           '&.Mui-checked:hover': {
             borderColor: "#2B2B2B!important",

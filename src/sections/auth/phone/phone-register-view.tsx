@@ -18,13 +18,17 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
-import FormProvider from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroup } from 'src/components/hook-form';
 import { Box, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
+import { IUserTypes } from 'src/types/user';
+import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 
 // ----------------------------------------------------------------------
 
 export default function PhoneRegisterView() {
+  const [terms, setTerms] = useState<boolean>(false);
+
   const { register } = useAuthContext();
 
   const router = useRouter();
@@ -38,20 +42,21 @@ export default function PhoneRegisterView() {
   const password = useBoolean();
 
   const RegisterSchema = Yup.object().shape({
-    firstName: Yup.string().required('First name required'),
-    lastName: Yup.string().required('Last name required'),
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    // firstName: Yup.string().required('First name required'),
+    // lastName: Yup.string().required('Last name required'),
+    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    // password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
+    user_type: IUserTypes.genuine,
     firstName: '',
     lastName: '',
     email: '',
     password: '',
   };
 
-  const methods = useForm({
+  const methods = useForm<any>({
     resolver: yupResolver(RegisterSchema),
     defaultValues,
   });
@@ -59,12 +64,17 @@ export default function PhoneRegisterView() {
   const {
     reset,
     handleSubmit,
+    watch,
     formState: { isSubmitting },
   } = methods;
 
+  const values = watch();
+
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await register?.(data.email, data.password, data.firstName, data.lastName);
+      console.log(data)
+      return
+      // await register?.(data.email, data.password, data.firstName, data.lastName);
 
       router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
@@ -93,22 +103,25 @@ export default function PhoneRegisterView() {
   const renderTerms = (
     <Typography
       component="div"
+      fontFamily={'peyda-bold'}
+      variant='body2'
       sx={{
         color: 'text.secondary',
         mt: 1,
-        typography: 'caption',
+        // typography: 'caption',
         textAlign: 'left',
       }}
     >
-      <Checkbox />
-      {'By signing up, I agree to '}
-      <Link underline="always" color="text.primary">
-        Terms of Service
+      <Checkbox onChange={() => setTerms(!terms)} />
+      {' با '}
+      <Link color="#0B7BA7">
+        شرایط کارانو
       </Link>
-      {' and '}
-      <Link underline="always" color="text.primary">
-        Privacy Policy
+      {' و '}
+      <Link color="#0B7BA7">
+        قوانین حریم خصوصی
       </Link>
+      {' موافق هستم '}
       .
     </Typography>
   );
@@ -126,72 +139,57 @@ export default function PhoneRegisterView() {
             انتخاب نوع کاربر
           </Typography>
 
-          <FormControl component="fieldset" sx={{ width: 1 }}>
-            <RadioGroup row defaultValue="top">
-              <FormControlLabel
-                value={''}
-                label={'شخص حقیقی'}
-                labelPlacement={'end'}
-                control={<Radio size="medium" />}
-                sx={{ textTransform: 'capitalize' }}
-              />
-            </RadioGroup>
-          </FormControl>
-
-          <FormControl component="fieldset" sx={{ width: 1 }}>
-            <RadioGroup row defaultValue="top">
-              <FormControlLabel
-                value={''}
-                label={"شخص حقوقی"}
-                labelPlacement={'end'}
-                control={<Radio size="medium" />}
-                sx={{ textTransform: 'capitalize' }}
-              />
-            </RadioGroup>
-          </FormControl>
-
-          <FormControl component="fieldset" sx={{ width: 1 }}>
-            <RadioGroup row defaultValue="top">
-              <FormControlLabel
-                value={''}
-                label={'شرکت'}
-                labelPlacement={'end'}
-                control={<Radio size="medium" />}
-                sx={{ textTransform: 'capitalize' }}
-              />
-            </RadioGroup>
-          </FormControl>
-
-
+          <RHFRadioGroup
+            name="user_type"
+            options={Object.values(IUserTypes).map((value: string) => {
+              return { label: value, value: value };
+            })}
+          />
         </Box>
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
-          <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی'/>
+          <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
         </Stack>
-        
+
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTitleTextField name='code_meli' custom_label='کدملی' placeholder='3540200000' />
+          <RHFTitleTextField name='code_meli' custom_label={(values.user_type !== IUserTypes.genuine) ? 'کد ملی / کد اقتصادی' : 'کد ملی'}
+            placeholder='مثلا 3540200000'
+          />
           <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
         </Stack>
-        
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTitleTextField name='email' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021234567' />
-        </Stack>
+
+        {(values.user_type !== IUserTypes.company) && (
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <RHFTitleTextField name='phone' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
+          </Stack>
+        )}
 
         {renderTerms}
 
-        <LoadingButton
-          fullWidth
-          color="inherit"
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={isSubmitting}
-        >
-          Create account
-        </LoadingButton>
+        <Stack direction={'row'} justifyContent={'space-between'}>
+          <Box>
+            {' حساب کاربری دارید؟ '}
+            <Link color="#0B7BA7" fontFamily={'peyda-bold'}>
+              ورود
+            </Link>
+          </Box>
+          <LoadingButton
+            fullWidth
+            color="inherit"
+            size="medium"
+            type="submit"
+            variant="contained"
+            loading={isSubmitting}
+            disabled={!terms}
+            sx={{ width: 'fit-content', borderRadius: '28px', px: 5, py: 0.5 }}
+          >
+            تایید
+          </LoadingButton>
+        </Stack>
+
+
       </Stack>
     </FormProvider>
   );
@@ -202,7 +200,7 @@ export default function PhoneRegisterView() {
 
       {renderForm}
 
-      
+
     </>
   );
 }

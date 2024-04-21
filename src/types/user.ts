@@ -10,6 +10,12 @@ export type IUserTableFilters = {
   status: string;
 };
 
+export enum IUserTypes {
+  genuine = "حقیقی",
+  legal = "حقوقی",
+  company = "شرکت"
+}
+
 // ----------------------------------------------------------------------
 
 export type IUserSocialLink = {
