@@ -50,8 +50,16 @@ export default function PhoneRegisterView() {
 
   const RegisterSchema = Yup.object().shape({
     user_type: Yup.string().required('نوع کاربری مورد نیاز است'),
-    first_name: Yup.string().required('نام خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد'),
-    last_name: Yup.string().required('نام خانوادگی خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد'),
+    first_name: Yup.string().when('user_type', (type: any, schema) => {
+      if (type[0] === IUserTypes.company)
+        return schema
+      return schema.required('نام خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد')
+    }),
+    last_name: Yup.string().when('user_type', (type: any, schema) => {
+      if (type[0] === IUserTypes.company)
+        return schema
+      return schema.required('نام خانوادگی خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد')
+    }),
     id_code: Yup.string().when('user_type', (type: any, schema) => {
       if (type[0] === IUserTypes.company)
         return schema
@@ -60,6 +68,11 @@ export default function PhoneRegisterView() {
     company_name: Yup.string().when('user_type', (type: any, schema) => {
       if (type[0] === IUserTypes.company)
         return schema.required("نام شرکت را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
+      return schema
+    }),
+    national_id: Yup.string().when('user_type', (type: any, schema) => {
+      if (type[0] === IUserTypes.company)
+        return schema.required("کد را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
       return schema
     }),
     phone: Yup.string().length(13, 'شماره تلفن باید ۱۳ رقم باشد').required('شماره تلفن مورد نیاز است'),
@@ -174,10 +187,13 @@ export default function PhoneRegisterView() {
           />
         </Box>
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
-          <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
-        </Stack>
+        {(values.user_type !== IUserTypes.company) && (
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+            <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
+            <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
+          </Stack>
+        )}
+
 
         {(values.user_type === IUserTypes.company) && (
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
