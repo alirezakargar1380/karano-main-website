@@ -223,7 +223,7 @@ export default function PhoneRegisterView() {
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
-          {(values.user_type !== IUserTypes.company) && (
+          {(values.user_type === IUserTypes.company) && (
             <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
           )}
         </Stack>
