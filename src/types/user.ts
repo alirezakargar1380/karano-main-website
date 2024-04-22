@@ -12,8 +12,18 @@ export type IUserTableFilters = {
 
 export enum IUserTypes {
   genuine = "حقیقی",
-  legal = "حقوقی",
   company = "شرکت"
+}
+
+export interface IUser {
+  id: number
+  first_name: string
+  last_name: string
+  phone: string
+  email: string
+  id_code: string
+  user_type: IUserTypes
+  landline_number: string
 }
 
 // ----------------------------------------------------------------------

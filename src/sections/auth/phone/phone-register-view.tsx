@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -21,8 +21,13 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 import FormProvider, { RHFRadioGroup } from 'src/components/hook-form';
 import { Box, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
-import { IUserTypes } from 'src/types/user';
+import { IUser, IUserTypes } from 'src/types/user';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
+import axios from 'axios';
+import axiosInstance, { endpoints } from 'src/utils/axios';
+import { useSnackbar } from 'src/components/snackbar';
+import path from 'path';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +38,8 @@ export default function PhoneRegisterView() {
 
   const router = useRouter();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const [errorMsg, setErrorMsg] = useState('');
 
   const searchParams = useSearchParams();
@@ -42,22 +49,37 @@ export default function PhoneRegisterView() {
   const password = useBoolean();
 
   const RegisterSchema = Yup.object().shape({
-    // firstName: Yup.string().required('First name required'),
-    // lastName: Yup.string().required('Last name required'),
-    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    user_type: Yup.string().required('نوع کاربری مورد نیاز است'),
+    first_name: Yup.string().required('نام خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد'),
+    last_name: Yup.string().required('نام خانوادگی خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد'),
+    id_code: Yup.string().when('user_type', (type: any, schema) => {
+      if (type[0] === IUserTypes.company)
+        return schema
+      return schema.required('کد ملی خود را وارد کنید').length(10, 'معتبر نیست!')
+    }),
+    company_name: Yup.string().when('user_type', (type: any, schema) => {
+      if (type[0] === IUserTypes.company)
+        return schema.required("نام شرکت را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
+      return schema
+    }),
+    phone: Yup.string().length(13, 'شماره تلفن باید ۱۳ رقم باشد').required('شماره تلفن مورد نیاز است'),
+    email: Yup.string().email('لطفا یک آدرس ایمیل معتبر را ثبت نمایید'),
     // password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
     user_type: IUserTypes.genuine,
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    phone: '+98'
   };
 
-  const methods = useForm<any>({
-    resolver: yupResolver(RegisterSchema),
+  useEffect(() => {
+    axios.get('http://localhost:4998/api/users').then(({ data }: any) => {
+      console.log(data)
+    })
+  }, []);
+
+  const methods = useForm({
+    resolver: yupResolver<any>(RegisterSchema),
     defaultValues,
   });
 
@@ -70,9 +92,14 @@ export default function PhoneRegisterView() {
 
   const values = watch();
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: IUser) => {
     try {
       console.log(data)
+      await axiosInstance.post(endpoints.auth.register, data).then(({ data }: any) => {
+        console.log(data)
+      })
+
+      enqueueSnackbar('ثبت نام با موفقیت انجام شد', { variant: 'success' });
       return
       // await register?.(data.email, data.password, data.firstName, data.lastName);
 
@@ -152,26 +179,45 @@ export default function PhoneRegisterView() {
           <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
         </Stack>
 
-
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTitleTextField name='code_meli' custom_label={(values.user_type !== IUserTypes.genuine) ? 'کد ملی / کد اقتصادی' : 'کد ملی'}
-            placeholder='مثلا 3540200000'
-          />
-          <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
-        </Stack>
-
-        {(values.user_type !== IUserTypes.company) && (
+        {(values.user_type === IUserTypes.company) && (
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <RHFTitleTextField name='phone' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
+            <RHFTitleTextField name='company_name' custom_label='نام شرکت' placeholder='نام' />
+            <RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='نام خانوادگی' />
           </Stack>
         )}
+
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTitleTextField name='phone' custom_label={'شماره موبایل'}
+            sx={{
+              '.MuiInputBase-input': {
+                textAlign: 'right!important',
+                direction: 'rtl!important'
+              }
+            }}
+            placeholder='0921 0000 000'
+          />
+          {(values.user_type !== IUserTypes.company) && (
+            <RHFTitleTextField name='id_code' custom_label={'کد ملی'}
+              placeholder='مثلا 3540200000'
+            />
+          )}
+
+        </Stack>
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
+          {(values.user_type !== IUserTypes.company) && (
+            <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
+          )}
+        </Stack>
 
         {renderTerms}
 
         <Stack direction={'row'} justifyContent={'space-between'}>
           <Box>
             {' حساب کاربری دارید؟ '}
-            <Link color="#0B7BA7" fontFamily={'peyda-bold'}>
+            <Link color="#0B7BA7" fontFamily={'peyda-bold'} href={paths.auth.phone.login}>
               ورود
             </Link>
           </Box>

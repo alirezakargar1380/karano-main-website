@@ -22,6 +22,7 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { Box, MenuItem, MenuItemProps, Select, styled } from '@mui/material';
 import { countries } from 'src/assets/data';
 import { paths } from 'src/routes/paths';
+import axiosInstance, { endpoints } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -40,13 +41,11 @@ export default function PhoneLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    phone: Yup.string().required('شماره تماس مورد نیاز است'),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: '',
+    phone: '+98',
   };
 
   const methods = useForm({
@@ -62,9 +61,11 @@ export default function PhoneLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      console.log(data)
+      await axiosInstance.post(endpoints.auth.login, data)
       // await login?.(data.email, data.password);
 
-      router.push(paths.auth.phone.verify + '?phone=' + data.password);
+      router.push(paths.auth.phone.verify + '?phone=' + data.phone);
     } catch (error) {
       console.error(error);
       reset();
@@ -95,49 +96,20 @@ export default function PhoneLoginView() {
       <Box>
         <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
         <RHFTextField
-          name="password"
+          name="phone"
           sx={{
             '.MuiOutlinedInput-notchedOutline': {
               border: '1px solid #D1D1D1'
+            },
+            '.MuiInputBase-input': {
+              textAlign: 'right!important',
+              direction: 'rtl!important'
             }
           }}
           // label="Password"
           type={'text'}
           placeholder='09123456789'
           InputProps={{
-            // endAdornment: (
-            //   <RHFIconAutocomplete
-            //     name="country"
-            //     // label="Country"
-            //     value={'AE'}
-            //     sx={{ width: '60%', border: 'none!important' }}
-            //     options={countries.map((country) => country.code)}
-            //     getOptionLabel={(option) => option}
-            //     isOptionEqualToValue={(option, value) => option === value}
-            //     renderOption={(props, option) => {
-            //       const { code, label, phone } = countries.filter(
-            //         (country) => country.code === option
-            //       )[0];
-
-            //       if (!label) {
-            //         return null;
-            //       }
-
-            //       return (
-            //         <li {...props} key={label}>
-            //           <Iconify
-            //             key={label}
-            //             icon={`circle-flags:${code.toLowerCase()}`}
-            //             width={28}
-            //             sx={{ mr: 1 }}
-            //           />
-            //           {/* {label} ({code}) +{phone} */}
-            //           +{phone}
-            //         </li>
-            //       );
-            //     }}
-            //   />
-            // ),
             endAdornment: (
               <InputAdornment position="end">
                 <Select
@@ -154,7 +126,7 @@ export default function PhoneLoginView() {
                   {countries.map((country) => (
                     <MenuItem key={country.code} value={country.code}>
                       {/* <Iconify icon={`${country.code.toLowerCase()}`} /> */}
-                      <Iconify icon={`flagpack:${country.code.toLowerCase()}`}  sx={{mt:1}} />
+                      <Iconify icon={`flagpack:${country.code.toLowerCase()}`} sx={{ mt: 1 }} />
                     </MenuItem>
                   ))}
                 </Select>

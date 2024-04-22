@@ -40,13 +40,11 @@ export default function PhoneVerifyView() {
 
   const phone = searchParams.get('phone');
 
-  console.log(phone)
-
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
     email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().required('کد را وارد کنید').min(6, 'کد باید حداقل 6 کرکتر باشد'),
   });
 
   const defaultValues = {
@@ -67,7 +65,7 @@ export default function PhoneVerifyView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // await login?.(data.email, data.password);
+      await login?.(data.email, data.password);
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
