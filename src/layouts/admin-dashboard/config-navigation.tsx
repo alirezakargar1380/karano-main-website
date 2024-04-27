@@ -73,7 +73,7 @@ export function useNavData() {
           },
           {
             title: t('مدیریت تولید'),
-            path: paths.admin_dashboard.blank,
+            path: paths.admin_dashboard.production.root,
             icon: <SvgColor src="/assets/icons/admin-panel/loading-01.svg" />,
           },
           // {

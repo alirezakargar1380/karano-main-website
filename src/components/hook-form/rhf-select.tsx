@@ -104,7 +104,7 @@ export function RHFMultiSelect({
     if (icon) {
       return (
         <Box sx={{ display: "flex", gap: 1 }}>
-          <SvgColor src={icon} sx={{ width: 16, height: 16 }} />
+          <SvgColor src={icon} sx={{ width: 16, height: 16, mt: 0.25 }} />
           {label}
         </Box>
       )
