@@ -200,6 +200,9 @@ export const paths = {
     production: {
       root: `${ROOTS.ADMIN_DASHBOARD}/production`
     },
+    delivery: {
+      root: `${ROOTS.ADMIN_DASHBOARD}/delivery`
+    },
     mail: `${ROOTS.ADMIN_DASHBOARD}/mail`,
     chat: `${ROOTS.ADMIN_DASHBOARD}/chat`,
     blank: `${ROOTS.ADMIN_DASHBOARD}/blank`,

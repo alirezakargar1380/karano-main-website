@@ -83,7 +83,7 @@ export function useNavData() {
           // },
           {
             title: t('مدیریت ارسال'),
-            path: paths.admin_dashboard.blank,
+            path: paths.admin_dashboard.delivery.root,
             icon: <SvgColor src="/assets/icons/admin-panel/send-03.svg" />,
           },
         ],
