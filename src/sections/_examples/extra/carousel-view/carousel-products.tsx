@@ -41,18 +41,14 @@ export default function CarouselProducts({ data, label }: Props) {
       },
     }),
     responsive: [
-      // {
-      //   breakpoint: 1366,
-      //   settings: { slidesToShow: 6 },
-      // },
-      // {
-      //   breakpoint: 1024,
-      //   settings: { slidesToShow: 4 },
-      // },
-      // {
-      //   breakpoint: 600,
-      //   settings: { slidesToShow: 2 },
-      // },
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 800,
+        settings: { slidesToShow: 2 },
+      },
       {
         breakpoint: 600,
         settings: { slidesToShow: 1, centerPadding: '20' },

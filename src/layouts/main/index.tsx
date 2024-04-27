@@ -29,7 +29,7 @@ export default function MainLayout({ children }: Props) {
           {mdUp ? (
             <Grid item xs={2} sm={1} md={1}>
               <AppBar position="sticky" sx={{
-                pt: 3,
+                pt: 16,
                 pr: 3,
                 width: '100%'
               }}>
