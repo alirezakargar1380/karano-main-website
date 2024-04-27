@@ -28,23 +28,15 @@ export default function CarouselBasic1({ data, sx }: Props) {
     fade: false
   });
 
-  // console.log(carousel.currentIndex)
 
   return (
-    // <m.div
-    //   initial={varFade().inDown.initial}
-    //   whileInView={varFade().inDown.animate}
-    //   exit={varFade().inDown.exit}
-    //   viewport={{ once: false, amount: 0.5 }}
-    //   transition={{ duration: 6 }}
-    // >
     <Box sx={{ ...sx }}>
       <Grid container spacing={2}>
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h2' fontFamily={'peyda-bold'}>
             {(carousel.currentIndex % 2 === 0) ?
-              <m.span key={1}>درب های کابینت</m.span>
-              : <m.span key={2} {...varFade().in}>درب های کمد</m.span>}
+              <m.span key={1 * Math.random()}>درب های کابینت</m.span>
+              : <m.span key={2 * Math.random()} {...varFade().in}>درب های کمد</m.span>}
           </Typography>
 
           <Stack direction={'row'}>
@@ -96,7 +88,7 @@ export default function CarouselBasic1({ data, sx }: Props) {
                 }}
               >
                 {[...Array(6)].map((v, key) => (
-                  <ProductItemSlider ind={key} />
+                  <ProductItemSlider ind={key * Math.random()} key={key} />
                 ))}
               </Stack>
             ))}
@@ -104,7 +96,5 @@ export default function CarouselBasic1({ data, sx }: Props) {
         </Grid>
       </Grid>
     </Box>
-
-    // </m.div>
   );
 }

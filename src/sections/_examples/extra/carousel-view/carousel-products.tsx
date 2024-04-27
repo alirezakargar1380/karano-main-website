@@ -14,6 +14,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 // ----------------------------------------------------------------------
 
 type Props = {
+  label?: string;
   data: {
     id: string;
     title: string;
@@ -22,7 +23,7 @@ type Props = {
   }[];
 };
 
-export default function CarouselProducts({ data }: Props) {
+export default function CarouselProducts({ data, label }: Props) {
   const carousel = useCarousel({
     fade: true,
     autoplay: false,
@@ -61,10 +62,10 @@ export default function CarouselProducts({ data }: Props) {
   });
 
   return (
-    <Box sx={{ 
+    <Box sx={{
       position: 'relative'
-     }}>
-      <Typography variant='h3' fontFamily={'peyda-bold'}>پرفروش ها!</Typography>
+    }}>
+      {label && (<Typography variant='h3' fontFamily={'peyda-bold'}>{label}</Typography>)}
       <CarouselArrowsCustom
         filled
         icon="icon-park-outline:right"
@@ -152,7 +153,6 @@ export default function CarouselProducts({ data }: Props) {
             </Stack>
           ))}
         </Carousel>
-
       </CarouselArrowsCustom>
     </Box>
   );

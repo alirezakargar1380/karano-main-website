@@ -57,3 +57,7 @@
 #root {
   overflow: hidden;
 }
+
+.carousel-basic-2 div .slick-track {
+  overflow: auto;
+}

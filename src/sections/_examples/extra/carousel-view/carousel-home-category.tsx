@@ -1,14 +1,6 @@
-import Card from '@mui/material/Card';
-
-import Image from 'src/components/image';
 import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows } from 'src/components/carousel';
 import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
-import { Stack } from '@mui/system';
-import Iconify from 'src/components/iconify';
-import { m } from 'framer-motion';
 import { varFade, MotionContainer } from 'src/components/animate';
-import SvgColor from 'src/components/svg-color';
-import ProductItemSlider from 'src/sections/product/product-slider-item';
 import { bgGradient } from 'src/theme/css';
 import { alpha, useTheme } from '@mui/material/styles';
 import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';

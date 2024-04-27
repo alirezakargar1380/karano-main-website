@@ -26,6 +26,7 @@ import { m } from 'framer-motion';
 import HomeOrderWithKarano from '../home-order-with-karano';
 import CountUp from 'react-countup';
 import { useResponsive } from 'src/hooks/use-responsive';
+import { LoadingButton } from '@mui/lab';
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
@@ -68,7 +69,7 @@ export default function HomeView() {
           overflow: 'hidden',
           position: 'relative',
           bgcolor: 'background.default',
-          // mt: `${HEADER.H_DESKTOP + 20}px`
+          mt: `${HEADER.H_DESKTOP + 100}px`
         }}
       >
 
@@ -124,7 +125,7 @@ export default function HomeView() {
 
         <Container maxWidth={'xl'} sx={{ mt: 10 }}>
           <Stack spacing={10}>
-            <m.div variants={varFade().inUp}>
+            {/* <m.div variants={varFade().inUp}> */}
               <Box>
                 <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
                 <Grid container spacing={2}>
@@ -170,11 +171,29 @@ export default function HomeView() {
                   </Grid>
                 </Grid>
               </Box>
-            </m.div>
+            {/* </m.div> */}
 
             <HomeOrderWithKarano />
 
-            <CarouselProducts data={_carouselsExample.slice(0, 8)} />
+            <CarouselProducts data={_carouselsExample.slice(0, 8)} label='پرفروش ها!' />
+
+            <Grid container spacing={5}>
+              <Grid item sm={12} md={3}>
+                <Typography fontFamily={'peyda-bold'} variant='h5'>
+                  آنچه شما ساخته اید
+                </Typography>
+                <Typography fontFamily={''} sx={{ pb: 3 }} variant='h6'>
+                  مشاهده محصولات ساخته  شده به وسیله پروفیل‌های کارنو!
+                  برای دیده‌ شدن آنچه شما مشتریان عزیز کارانو ساخته‌اید، می‌توانید تصاویر خود را برای ما در این بخش بارگذاری کنید.
+                </Typography>
+                <LoadingButton variant='contained' sx={{ borderRadius: '16px' }}>باگذاری تصاویر</LoadingButton>
+              </Grid>
+              <Grid item xs={12} sm={12} md={9}>
+                <Box>
+                  <CarouselBasic2 data={_carouselsExample.slice(4, 8)} />
+                </Box>
+              </Grid>
+            </Grid>
 
             <Box>
               <Grid container spacing={5}>
@@ -191,6 +210,7 @@ export default function HomeView() {
                 </Grid>
               </Grid>
             </Box>
+
 
           </Stack>
         </Container>

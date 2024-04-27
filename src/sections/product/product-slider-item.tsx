@@ -26,10 +26,11 @@ export default function ProductItemSlider({ product, ind }: Props) {
         setHover(false)
     }
 
-    const Img = ({ index }: { index: number }) => {
+    // console.log(ind)
+
+    const Img = () => {
         return (
             <Image
-                key={index}
                 sx={{
                     opacity: 1,
                     transition: '1s ease-in-out!important',
@@ -65,7 +66,6 @@ export default function ProductItemSlider({ product, ind }: Props) {
                 >
                     <Image
                         // component={MotionViewport}
-                        key={index}
                         src={img}
                         ratio="1/1"
                         border={'1px solid #E0E0E0'}
@@ -79,14 +79,14 @@ export default function ProductItemSlider({ product, ind }: Props) {
     }
 
     return (
-        <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none" key={ind + 598}>
+        <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none" key={ind}>
             <Box sx={{
                 transform: !hover ? 'scale(0.98)' : 'scale(1)',
                 transition: '0.3s ease-in-out'
             }}
             >
                 <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1}>
-                    {hover ? <Img index={1} /> : <Img index={2} />}
+                    {hover ? <Img /> : <Img />}
 
                     <Typography variant='h5' sx={{
                         mt: 1, '&:hover': {
