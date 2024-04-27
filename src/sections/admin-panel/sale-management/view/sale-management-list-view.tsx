@@ -100,19 +100,18 @@ export default function SaleManagementListView() {
                         value="1"
                         options={[
                             {
-                                label: '1',
+                                label: 'فردا',
                                 value: '1'
                             },
                             {
-                                label: '2',
+                                label: 'دو روز آینده',
                                 value: '2'
                             },
                             {
-                                label: '3',
+                                label: 'یک هفته آینده',
                                 value: '4'
                             }
                         ]}
-                        checkbox
                         icon="/assets/icons/admin-panel/calandar.svg"
                         sx={{
                             bgcolor: 'white',
