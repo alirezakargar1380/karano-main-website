@@ -29,8 +29,7 @@ export default function CarouselProducts({ data, label }: Props) {
     autoplay: false,
     slidesToShow: 4,
     draggable: true,
-    initialSlide: 2,
-    centerMode: true,
+    // initialSlide: 2,
     ...CarouselDots({
       rounded: true,
       sx: {
@@ -55,7 +54,7 @@ export default function CarouselProducts({ data, label }: Props) {
       //   settings: { slidesToShow: 2 },
       // },
       {
-        breakpoint: 480,
+        breakpoint: 600,
         settings: { slidesToShow: 1, centerPadding: '20' },
       },
     ],
@@ -79,11 +78,11 @@ export default function CarouselProducts({ data, label }: Props) {
             height: 1,
             position: 'absolute',
             zIndex: 100,
-            ...bgGradient({
-              direction: 'to right',
-              startColor: `#fff 50%`,
-              endColor: `${alpha("#fff", 0)} 100%`,
-            }),
+            // ...bgGradient({
+            //   direction: 'to right',
+            //   startColor: `#fff 50%`,
+            //   endColor: `${alpha("#fff", 0)} 100%`,
+            // }),
           }
         }}
         leftButtonProps={{
@@ -91,16 +90,13 @@ export default function CarouselProducts({ data, label }: Props) {
             border: '1px solid #D1D1D1',
             borderRadius: '26px',
             width: 'fit-content',
-            '&:hover': {
-              backgroundColor: 'transparent'
-            },
             right: 0,
             backgroundColor: "#fff",
-            ...bgGradient({
-              direction: 'to right',
-              startColor: `#fff 25%`,
-              endColor: `${alpha("#fff", 0)} 200%`,
-            }),
+            // ...bgGradient({
+            //   direction: 'to right',
+            //   startColor: `#fff 25%`,
+            //   endColor: `${alpha("#fff", 0)} 200%`,
+            // }),
           }
         }}
         rightButtonBoxProps={{
@@ -111,11 +107,11 @@ export default function CarouselProducts({ data, label }: Props) {
             position: 'absolute',
             right: 0,
             zIndex: 100,
-            ...bgGradient({
-              direction: 'to left',
-              startColor: `#fff 50%`,
-              endColor: `${alpha("#fff", 0)} 100%`,
-            }),
+            // ...bgGradient({
+            //   direction: 'to left',
+            //   startColor: `#fff 50%`,
+            //   endColor: `${alpha("#fff", 0)} 100%`,
+            // }),
           }
         }}
         rightButtonProps={{
@@ -123,15 +119,12 @@ export default function CarouselProducts({ data, label }: Props) {
             border: '1px solid #D1D1D1',
             borderRadius: '26px',
             width: 'fit-content',
-            '&:hover': {
-              backgroundColor: 'transparent'
-            },
             backgroundColor: "#fff",
-            ...bgGradient({
-              direction: 'to left',
-              startColor: `#fff 25%`,
-              endColor: `${alpha("#fff", 0)} 100%`,
-            }),
+            // ...bgGradient({
+            //   direction: 'to left',
+            //   startColor: `#fff 25%`,
+            //   endColor: `${alpha("#fff", 0)} 100%`,
+            // }),
           }
         }}
       >
