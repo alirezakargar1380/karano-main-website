@@ -31,12 +31,12 @@ export default function CarouselBasic2({ data }: Props) {
     autoplay: false,
     slidesToShow: 3,
     draggable: true,
-    // centerMode: true,
+    centerMode: true,
     className: 'carousel-basic-2',
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2 },
+        settings: { slidesToShow: 2.5 },
       },
       {
         breakpoint: 800,
@@ -164,7 +164,8 @@ function CarouselItem2({ item }: { item: any }) {
         </Box>
       </CustomPopover>
       <Image alt={item.title} src={item.coverUrl} ratio="4/3" borderRadius={'12px'}
-        onMouseOver={customizedPopover.onOpen}
+        onClick={customizedPopover.onOpen}
+        // onMouseOut={customizedPopover.onClose}
       />
 
     </Box>

@@ -126,51 +126,62 @@ export default function HomeView() {
         <Container maxWidth={'xl'} sx={{ mt: 10 }}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
-              <Box>
-                <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
-                <Grid container spacing={2}>
-                  <Grid xs={12} sm={12} md={3} item>
-                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
-                  </Grid>
-                  <Grid xs={12} sm={12} md={3} item>
-                    <Stack spacing={2}>
-                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
-                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
-                    </Stack>
-
-                  </Grid>
-                  <Grid xs={12} sm={12} md={6} item>
-                    <Box sx={{
-                      width: 24,
-                      height: 24,
-                      position: 'absolute',
-                      zIndex: 1,
-                      // top: 0,
-                      ml: '100px',
-                      mt: '100px'
-                    }}>
-                      <Button variant="contained" onClick={customizedPopover.onOpen} sx={{ mr: 5 }}>
-                        Open
-                      </Button>
-                      <CustomPopover
-                        open={customizedPopover.open}
-                        onClose={customizedPopover.onClose}
-                        arrow={'bottom-center'}
-                      >
-                        <Box sx={{ p: 2, maxWidth: 280 }}>
-                          <Typography variant="subtitle1" gutterBottom>
-                            Etiam feugiat lorem non metus
-                          </Typography>
-                          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                            Fusce vulputate eleifend sapien. Curabitur at lacus ac velit ornare lobortis.
-                          </Typography>
-                        </Box>
-                      </CustomPopover>
-                    </Box>
-                    <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
-                  </Grid>
+            <Box>
+              <Typography variant='h2' fontFamily={'peyda-bold'} sx={{
+                pb: 2, textAlign: {
+                  xs: 'center',
+                  sm: 'center',
+                  md: 'left'
+                }
+              }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
+              <Grid container spacing={2}>
+                <Grid xs={6} sm={6} md={3} item>
+                  <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
                 </Grid>
-              </Box>
+                <Grid xs={6} sm={6} md={3} item>
+                  <Stack spacing={2}>
+                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
+                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
+                  </Stack>
+                </Grid>
+                <Grid xs={12} sm={12} md={6} item sx={{
+                  display: {
+                    xs: 'none',
+                    sm: 'none',
+                    md: 'block'
+                  }
+                }}>
+                  <Box sx={{
+                    width: 24,
+                    height: 24,
+                    position: 'absolute',
+                    zIndex: 1,
+                    // top: 0,
+                    ml: '100px',
+                    mt: '100px'
+                  }}>
+                    <Button variant="contained" onClick={customizedPopover.onOpen} sx={{ mr: 5 }}>
+                      Open
+                    </Button>
+                    <CustomPopover
+                      open={customizedPopover.open}
+                      onClose={customizedPopover.onClose}
+                      arrow={'bottom-center'}
+                    >
+                      <Box sx={{ p: 2, maxWidth: 280 }}>
+                        <Typography variant="subtitle1" gutterBottom>
+                          Etiam feugiat lorem non metus
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          Fusce vulputate eleifend sapien. Curabitur at lacus ac velit ornare lobortis.
+                        </Typography>
+                      </Box>
+                    </CustomPopover>
+                  </Box>
+                  <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
+                </Grid>
+              </Grid>
+            </Box>
             {/* </m.div> */}
 
             <HomeOrderWithKarano />
