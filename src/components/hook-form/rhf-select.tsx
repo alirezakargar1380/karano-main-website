@@ -10,6 +10,9 @@ import { Theme, SxProps } from '@mui/material/styles';
 import FormHelperText from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControl, { FormControlProps } from '@mui/material/FormControl';
+import { InputAdornment, SvgIcon } from '@mui/material';
+import Iconify from '../iconify';
+import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -75,6 +78,8 @@ type RHFMultiSelectProps = FormControlProps & {
   checkbox?: boolean;
   placeholder?: string;
   helperText?: React.ReactNode;
+  value: string;
+  icon?: string;
   options: {
     label: string;
     value: string;
@@ -89,11 +94,22 @@ export function RHFMultiSelect({
   checkbox,
   placeholder,
   helperText,
+  value,
+  icon,
   ...other
 }: RHFMultiSelectProps) {
   const { control } = useFormContext();
 
   const renderValues = (selectedIds: string[]) => {
+    if (icon) {
+      return (
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <SvgColor src={icon} sx={{ width: 16, height: 16 }} />
+          {label}
+        </Box>
+      )
+    }
+
     const selectedItems = options.filter((item) => selectedIds.includes(item.value));
 
     if (!selectedItems.length && placeholder) {
@@ -119,19 +135,22 @@ export function RHFMultiSelect({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <FormControl error={!!error} {...other}>
-          {label && <InputLabel id={name}> {label} </InputLabel>}
+
+          {/* {label && <InputLabel id={name}> {label} </InputLabel>} */}
 
           <Select
             {...field}
             multiple
+            defaultValue={[value]}
             displayEmpty={!!placeholder}
             id={`multiple-${name}`}
             labelId={name}
-            label={label}
+            // label={label}
             renderValue={renderValues}
+            variant='outlined'
           >
             {options.map((option) => {
-              const selected = field.value.includes(option.value);
+              const selected = field?.value?.includes(option.value);
 
               return (
                 <MenuItem key={option.value} value={option.value}>

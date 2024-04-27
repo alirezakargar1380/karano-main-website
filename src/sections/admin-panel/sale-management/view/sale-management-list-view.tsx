@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Container, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { useSettingsContext } from "src/components/settings";
 import { paths } from "src/routes/paths";
@@ -9,13 +9,43 @@ import Scrollbar from "src/components/scrollbar";
 import Label from "src/components/label";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from 'src/routes/hooks';
+import FormProvider, { RHFMultiSelect } from "src/components/hook-form";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from 'yup';
 
 export default function SaleManagementListView() {
     const settings = useSettingsContext();
 
     const router = useRouter();
 
+    const schema = Yup.object().shape({
+    });
+
+    const methods = useForm({
+        resolver: yupResolver<any>(schema),
+        defaultValues: {},
+    });
+
+    const {
+        reset,
+        handleSubmit,
+        watch,
+        formState: { isSubmitting },
+    } = methods;
+
+    const values = watch();
+
+    const onSubmit = handleSubmit(async () => {
+        try {
+        } catch (error) {
+            console.error(error);
+            reset();
+        }
+    });
+
     return (
+
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
             <AdminBreadcrumbs
                 links={[
@@ -29,9 +59,76 @@ export default function SaleManagementListView() {
             <Box>
                 <PageTitle title="مدیریت فروش" icon="/assets/icons/shop/shopping-cart-01.svg" />
             </Box>
-            <Box>
-                <Typography variant="h5" fontFamily={'peyda-bold'}>لیست سفارش ها</Typography>
-            </Box>
+            <FormProvider methods={methods} onSubmit={onSubmit}>
+                <Stack sx={{ width: 1 }} direction={'row'} spacing={2}>
+                    <Typography variant="h5" fontFamily={'peyda-bold'}>لیست سفارش ها</Typography>
+                    <RHFMultiSelect
+                        name="dsdf"
+                        label="وضعیت سفارش"
+                        value="1"
+                        options={[
+                            {
+                                label: '1',
+                                value: '1'
+                            },
+                            {
+                                label: '2',
+                                value: '2'
+                            },
+                            {
+                                label: '3',
+                                value: '4'
+                            }
+                        ]}
+                        checkbox
+                        icon="/assets/icons/admin-panel/flag-01.svg"
+                        sx={{
+                            bgcolor: 'white',
+                            borderRadius: '24px!important',
+                            py: '0px !important',
+                            '& .MuiOutlinedInput-input': {
+                                py: 1, 
+                            },
+                            '& .MuiInputBase-root': {
+                                borderRadius: '24px!important',
+                            },
+                        }}
+                    />
+                    <RHFMultiSelect
+                        name="dsdf"
+                        label="تاریخ"
+                        value="1"
+                        options={[
+                            {
+                                label: '1',
+                                value: '1'
+                            },
+                            {
+                                label: '2',
+                                value: '2'
+                            },
+                            {
+                                label: '3',
+                                value: '4'
+                            }
+                        ]}
+                        checkbox
+                        icon="/assets/icons/admin-panel/calandar.svg"
+                        sx={{
+                            bgcolor: 'white',
+                            borderRadius: '24px!important',
+                            py: '0px !important',
+                            '& .MuiOutlinedInput-input': {
+                                py: 1, 
+                            },
+                            '& .MuiInputBase-root': {
+                                borderRadius: '24px!important',
+                            },
+                        }}
+                    />
+                </Stack>
+            </FormProvider>
+
             <Box>
                 <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                     <Scrollbar>

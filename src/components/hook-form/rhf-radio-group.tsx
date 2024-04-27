@@ -6,6 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
+import { SxProps } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +16,7 @@ type Props = RadioGroupProps & {
   label?: string;
   spacing?: number;
   helperText?: React.ReactNode;
+  FSx?: SxProps
 };
 
 export default function RHFRadioGroup({
@@ -24,6 +26,7 @@ export default function RHFRadioGroup({
   options,
   spacing,
   helperText,
+  FSx,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -59,6 +62,7 @@ export default function RHFRadioGroup({
                       mr: spacing || 2,
                     },
                   }),
+                  ...FSx
                 }}
               />
             ))}
