@@ -4,8 +4,13 @@ import { varFade, MotionContainer } from 'src/components/animate';
 import { bgGradient } from 'src/theme/css';
 import { alpha, useTheme } from '@mui/material/styles';
 import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';
+import { useGetCategories } from 'src/api/category';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { useEffect } from 'react';
+import { paths } from 'src/routes/paths';
 
 export default function CarouselHomeCategory() {
+  const router = useRouter();
   const carousel = useCarousel({
     autoplay: false,
     rtl: false,
@@ -35,6 +40,20 @@ export default function CarouselHomeCategory() {
       },
     ],
   });
+
+  const { categories } = useGetCategories();
+
+  const searchParams = useSearchParams();
+
+  const selectedCategoryId = searchParams.get('category') || '';
+
+  useEffect(() => {
+    if (!selectedCategoryId) {
+      router.push("?category=" + categories[0]?.id);
+    } else {
+      console.log("=========>>> selecte", selectedCategoryId)
+    }
+  }, [selectedCategoryId])
 
   return (
     <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', py: 3 }}>
@@ -114,32 +133,34 @@ export default function CarouselHomeCategory() {
           }}
         >
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-            {/* <Stack
-          columnGap={2}
-          rowGap={3}
-          display="grid!important"
-          gridTemplateColumns={{
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(6, 1fr)',
-          }}
-        >
-          {[...Array(16)].map((v, key) => (
-            <ProductItemSlider ind={key} />
-          ))}
-        </Stack> */}
-            {["درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره", "درب کابینتی", "درب", "درب ضد سرقت", "چوب", "پنجره"].map((v, index) => (
+            {categories.map((v, index) => (
               <Button sx={{
-                border: '2px solid #f2f2f2', color: '#000', backgroundColor: '#F8F8F8', borderRadius: '24px', width: '90%!important', textWrap: 'nowrap',
+                border: '2px solid #f2f2f2',
+                color: '#000',
+                backgroundColor: '#F8F8F8',
+                borderRadius: '24px',
+                width: '90%!important',
+                textWrap: 'nowrap',
+
                 '&: hover': {
                   border: '2px solid #000',
                   color: '#000'
-                }
-
-              }} key={index}>{v}</Button>
+                },
+                ...(v.id == Number(selectedCategoryId) && {
+                  border: '2px solid #000',
+                  color: '#000'
+                })
+              }}
+                key={index}
+                onClick={() => {
+                  router.push("?category=" + v.id);
+                }}
+              >
+                {v.title}
+              </Button>
             ))}
           </Carousel>
         </CarouselArrowsCustom>
-
       </Box>
 
     </Box>

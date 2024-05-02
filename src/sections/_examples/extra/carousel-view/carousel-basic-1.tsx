@@ -9,7 +9,9 @@ import { m } from 'framer-motion';
 import { varFade, MotionContainer, MotionViewport } from 'src/components/animate';
 import SvgColor from 'src/components/svg-color';
 import ProductItemSlider from 'src/sections/product/product-slider-item';
-
+import { useGetCategories } from 'src/api/category';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
+import { useCallback } from 'react';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -23,31 +25,73 @@ type Props = {
 };
 
 export default function CarouselBasic1({ data, sx }: Props) {
+  const router = useRouter();
+
   const carousel = useCarousel({
     autoplay: false,
     fade: false
   });
 
+  const { categories } = useGetCategories();
+
+  const searchParams = useSearchParams();
+
+  const selectedCategoryId = searchParams.get('category') || '';
+
+  const onNext = useCallback(() => {
+    console.log('next')
+    carousel.onPrev();
+
+    const currentCategory = categories.find((category) => category.id === Number(selectedCategoryId))
+
+    if (!currentCategory) return
+
+    const currentCategoryIndex = categories.indexOf(currentCategory)
+
+    if (categories[currentCategoryIndex + 1]) {
+      router.push("?category=" + categories[currentCategoryIndex + 1]?.id);
+    } else {
+      router.push("?category=" + categories[0]?.id);
+    }
+
+  }, [carousel, selectedCategoryId, categories, router])
+
+  const onPrev = useCallback(() => {
+    carousel.onNext();
+
+    const currentCategory = categories.find((category) => category.id === Number(selectedCategoryId))
+
+    if (!currentCategory) return
+
+    const currentCategoryIndex = categories.indexOf(currentCategory)
+
+    if (categories[currentCategoryIndex - 1]) {
+      router.push("?category=" + categories[currentCategoryIndex - 1]?.id);
+    } else {
+      router.push("?category=" + categories[categories.length-1]?.id);
+    }
+
+  }, [carousel, selectedCategoryId, categories, router])
 
   return (
     <Box sx={{ ...sx }}>
       <Grid container spacing={2}>
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h2' fontFamily={'peyda-bold'}>
-            {(carousel.currentIndex % 2 === 0) ?
-              <m.span key={1 * Math.random()}>درب های کابینت</m.span>
-              : <m.span key={2 * Math.random()} {...varFade().in}>درب های کمد</m.span>}
+            <m.span key={1 * Math.random()}>
+              {categories.find((category) => category.id === Number(selectedCategoryId))?.title}
+            </m.span>
           </Typography>
 
           <Stack direction={'row'}>
-            <IconButton size='large' onClick={carousel.onNext}>
+            <IconButton size='large' onClick={onNext}>
               <SvgColor
                 src={`/assets/icons/product/arrow-narrow-right.svg`}
                 sx={{ width: 24, height: 24 }}
                 color={"#000"}
               />
             </IconButton>
-            <IconButton size='large' onClick={carousel.onPrev}>
+            <IconButton size='large' onClick={onPrev}>
               <SvgColor
                 src={`/assets/icons/product/arrow-narrow-left.svg`}
                 sx={{ width: 24, height: 24 }}
