@@ -9,13 +9,18 @@ import {
 
 type Props = {
     children: React.ReactNode;
+    rotation_range?: number;
+    halt_rotation_range?: number;
 };
 
-const ROTATION_RANGE = 22.5;
+let ROTATION_RANGE = 22.5;
 // const ROTATION_RANGE = 32.5;
-const HALF_ROTATION_RANGE = 22.5 / 2;
+let HALF_ROTATION_RANGE = 22.5 / 2;
 
-export default function TiltCard({ children }: Props) {
+export default function TiltCard({ children, rotation_range, halt_rotation_range }: Props) {
+    ROTATION_RANGE = rotation_range ? rotation_range : 22.5;
+    HALF_ROTATION_RANGE = halt_rotation_range ? halt_rotation_range / 2 : 22.5 / 2;
+
     const ref = useRef<HTMLDivElement>(null);
 
     const x = useMotionValue(0);
