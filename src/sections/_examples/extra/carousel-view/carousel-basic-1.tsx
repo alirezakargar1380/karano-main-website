@@ -84,14 +84,14 @@ export default function CarouselBasic1({ data, sx }: Props) {
           </Typography>
 
           <Stack direction={'row'}>
-            <IconButton size='large' onClick={onNext}>
+            <IconButton size='large' onClick={onPrev}>
               <SvgColor
                 src={`/assets/icons/product/arrow-narrow-right.svg`}
                 sx={{ width: 24, height: 24 }}
                 color={"#000"}
               />
             </IconButton>
-            <IconButton size='large' onClick={onPrev}>
+            <IconButton size='large' onClick={onNext}>
               <SvgColor
                 src={`/assets/icons/product/arrow-narrow-left.svg`}
                 sx={{ width: 24, height: 24 }}

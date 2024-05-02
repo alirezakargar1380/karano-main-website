@@ -7,6 +7,7 @@ import { useState } from "react";
 import { varFade, varScale, MotionContainer, MotionViewport, varZoom } from 'src/components/animate';
 import { m } from 'framer-motion';
 import TiltCard from "src/components/animation/tilt-card";
+import SvgColor from "src/components/svg-color";
 
 type Props = {
     product?: IProductItem;
@@ -48,36 +49,6 @@ export default function ProductItemSlider({ product, ind }: Props) {
                 onMouseOut={onHoverOutHandler}
             />
         )
-        return (
-            <Box sx={{ width: 1 }}>
-                <m.div
-                    // initial={{ scale: 0.9 }}
-                    // whileInView={varZoom().in.animate}
-                    // exit={{ scale: 0.9 }}
-                    initial={varFade().in.initial}
-                    whileInView={varFade().in.animate}
-                    exit={varZoom().in.animate}
-                    viewport={{
-                        once: true,
-                        // amount: 1
-                    }}
-                    transition={{
-                        duration: 6,
-                        delay: 6
-                    }}
-                >
-                    <Image
-                        // component={MotionViewport}
-                        src={img}
-                        ratio="1/1"
-                        border={'1px solid #E0E0E0'}
-                        borderRadius={'8px'}
-                        onMouseOver={onHoverHandler}
-                        onMouseOut={onHoverOutHandler}
-                    />
-                </m.div>
-            </Box>
-        )
     }
 
     return (
@@ -100,8 +71,9 @@ export default function ProductItemSlider({ product, ind }: Props) {
                         </Typography>
                         <Stack direction={'row'}>
                             <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
-                            <IconButton size='medium' sx={{ p: 0 }}>
-                                <Iconify icon="icon-park-solid:like" />
+                            <IconButton size='small' sx={{ bgcolor: "#D1D1D1" }}>
+                                {/* <Iconify icon="icon-park-solid:like" /> */}
+                                <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
                             </IconButton>
                         </Stack>
                     </Stack>
