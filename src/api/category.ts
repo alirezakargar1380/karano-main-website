@@ -47,6 +47,30 @@ export function useGetCategories() {
                 {
                     id: 8,
                     title: "درب ضد سرقت"
+                },
+                {
+                    id: 9,
+                    title: "درب کابینتی"
+                },
+                {
+                    id: 10,
+                    title: "درب ضد سرقت"
+                },
+                {
+                    id: 11,
+                    title: "پنجره" 
+                },
+                {
+                    id: 12,
+                    title: "چوب"
+                },
+                {
+                    id: 13,
+                    title: "درب کابینتی"
+                },
+                {
+                    id: 14,
+                    title: "درب ضد سرقت"
                 }
             ]
             // productsValidating: isValidating,
