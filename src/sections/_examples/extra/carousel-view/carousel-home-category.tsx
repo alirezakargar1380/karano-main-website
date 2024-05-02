@@ -8,6 +8,7 @@ import { useGetCategories } from 'src/api/category';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { useEffect } from 'react';
 import { paths } from 'src/routes/paths';
+import TiltCard from 'src/components/animation/tilt-card';
 
 export default function CarouselHomeCategory() {
   const router = useRouter();
@@ -133,31 +134,37 @@ export default function CarouselHomeCategory() {
           }}
         >
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-            {categories.map((v, index) => (
-              <Button sx={{
-                border: '2px solid #f2f2f2',
-                color: '#000',
-                backgroundColor: '#F8F8F8',
-                borderRadius: '24px',
-                width: '90%!important',
-                textWrap: 'nowrap',
+            {categories.map((v: any, index: number) => (
+              <Box key={index}>
+                <TiltCard halt_rotation_range={1.5} rotation_range={1.5}>
+                  <Button sx={{
+                    border: '2px solid #f2f2f2',
+                    color: '#000',
+                    backgroundColor: '#F8F8F8',
+                    borderRadius: '24px',
+                    width: '90%!important',
+                    textWrap: 'nowrap',
+                    my: 1,
+                    '&: hover': {
+                      border: '2px solid #000',
+                      color: '#000'
+                    },
+                    ...(v.id == Number(selectedCategoryId) && {
+                      border: '2px solid #000',
+                      color: '#000'
+                    })
+                  }}
 
-                '&: hover': {
-                  border: '2px solid #000',
-                  color: '#000'
-                },
-                ...(v.id == Number(selectedCategoryId) && {
-                  border: '2px solid #000',
-                  color: '#000'
-                })
-              }}
-                key={index}
-                onClick={() => {
-                  router.push("?category=" + v.id);
-                }}
-              >
-                {v.title}
-              </Button>
+                    onClick={() => {
+                      router.push("?category=" + v.id);
+                    }}
+                  >
+
+                    {v.title}
+
+                  </Button>
+                </TiltCard>
+              </Box>
             ))}
           </Carousel>
         </CarouselArrowsCustom>
