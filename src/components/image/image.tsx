@@ -26,7 +26,7 @@ const Image = forwardRef<HTMLSpanElement, ImageProps>(
       placeholder,
       wrapperProps,
       scrollPosition,
-      effect = 'blur',
+      effect = 'opacity',
       visibleByDefault,
       wrapperClassName,
       useIntersectionObserver,

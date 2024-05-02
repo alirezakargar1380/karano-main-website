@@ -182,7 +182,7 @@ export default function ProductShopDetailsView({ id }: Props) {
     <Container
       maxWidth={settings.themeStretch ? false : 'lg'}
       sx={{
-        mt: 5,
+        mt: 10,
         mb: 15,
       }}
     >

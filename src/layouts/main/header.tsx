@@ -90,7 +90,7 @@ export default function Header() {
         </Box>
       ) : null}
       <StyledToolbar>
-        <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1', px: '0px!important' }}>
+        <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1' }}>
           <Badge
             sx={{
               [`& .${badgeClasses.badge}`]: {

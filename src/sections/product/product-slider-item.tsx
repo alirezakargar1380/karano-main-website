@@ -6,6 +6,7 @@ import Iconify from 'src/components/iconify';
 import { useState } from "react";
 import { varFade, varScale, MotionContainer, MotionViewport, varZoom } from 'src/components/animate';
 import { m } from 'framer-motion';
+import TiltCard from "src/components/animation/tilt-card";
 
 type Props = {
     product?: IProductItem;
@@ -32,10 +33,11 @@ export default function ProductItemSlider({ product, ind }: Props) {
         return (
             <Image
                 sx={{
-                    opacity: 1,
-                    transition: '1s ease-in-out!important',
-                    '& .lazy-load-image-loaded': {
-                        transition: 'filter 0.6s ease-in-out!important'
+                    opacity: (hover) ? 0 : 1,
+                    transition: '0.6s ease-in!important',
+                    '&:hover': {
+                        opacity: 1,
+                        transition: '0.6s ease-out!important',
                     }
                 }}
                 src={img}
@@ -80,30 +82,31 @@ export default function ProductItemSlider({ product, ind }: Props) {
 
     return (
         <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none" key={ind}>
-            <Box sx={{
-                transform: !hover ? 'scale(0.98)' : 'scale(1)',
-                transition: '0.3s ease-in-out'
-            }}
-            >
-                <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1}>
-                    {hover ? <Img /> : <Img />}
+            <TiltCard>
+                <Box sx={{
+                    transform: !hover ? 'scale(0.98)' : 'scale(1)',
+                    transition: '0.3s ease-in-out'
+                }}
+                >
+                    <Stack sx={{ textAlign: 'left', alignItems: 'end' }} spacing={1}>
+                        {hover ? <Img /> : <Img />}
 
-                    <Typography variant='h5' sx={{
-                        mt: 1, '&:hover': {
-                            cursor: 'pointer'
-                        }
-                    }}>
-                        درب ضد سرقت
-                    </Typography>
-                    <Stack direction={'row'}>
-                        <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
-                        <IconButton size='medium' sx={{ p: 0 }}>
-                            <Iconify icon="icon-park-solid:like" />
-                        </IconButton>
+                        <Typography variant='h5' sx={{
+                            mt: 1, '&:hover': {
+                                cursor: 'pointer'
+                            }
+                        }}>
+                            درب ضد سرقت
+                        </Typography>
+                        <Stack direction={'row'}>
+                            <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
+                            <IconButton size='medium' sx={{ p: 0 }}>
+                                <Iconify icon="icon-park-solid:like" />
+                            </IconButton>
+                        </Stack>
                     </Stack>
-                </Stack>
-            </Box>
-
+                </Box>
+            </TiltCard>
         </Link>
     )
 }
