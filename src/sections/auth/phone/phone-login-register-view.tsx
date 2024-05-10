@@ -22,7 +22,7 @@ import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { Box, MenuItem, MenuItemProps, Select, styled } from '@mui/material';
 import { countries } from 'src/assets/data';
 import { paths } from 'src/routes/paths';
-import axiosInstance, { endpoints } from 'src/utils/axios';
+import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -61,11 +61,8 @@ export default function PhoneLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      console.log(data)
-      await axiosInstance.post(endpoints.auth.login, data)
-      // await login?.(data.email, data.password);
-
-      router.push(paths.auth.phone.verify + '?phone=' + data.phone);
+      await server_axios.post(endpoints.auth.user.login, data).then(({ data }) => data)
+      router.push(paths.auth.phone.verify + '?phone=' + data.phone.split("+")[1]);
     } catch (error) {
       console.error(error);
       reset();
@@ -74,7 +71,7 @@ export default function PhoneLoginView() {
   });
 
   const renderHead = (
-    <Stack spacing={2} sx={{ mb: 10 }}>
+    <Stack spacing={2} sx={{ mb: 4 }}>
       <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
         <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
       </Box>
@@ -90,8 +87,7 @@ export default function PhoneLoginView() {
   );
 
   const renderForm = (
-    <Stack spacing={2.5}>
-      {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+    <Stack spacing={2.5} width={1}>
 
       <Box>
         <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
@@ -109,6 +105,15 @@ export default function PhoneLoginView() {
           // label="Password"
           type={'text'}
           placeholder='09123456789'
+
+          onChange={(e) => {
+            console.log(e.target.value)
+            if (!e.target.value.startsWith('+98')) {
+              methods.setValue('phone', '+98')
+            } else {
+              methods.setValue('phone', e.target.value)
+            }
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

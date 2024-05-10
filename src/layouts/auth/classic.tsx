@@ -14,6 +14,7 @@ import { bgGradient } from 'src/theme/css';
 import { useAuthContext } from 'src/auth/hooks';
 
 import Logo from 'src/components/logo';
+import { Grid } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +60,7 @@ export default function AuthClassicLayout({ children, image, title, maxWidth = 4
   const mdUp = useResponsive('up', 'md');
 
   const renderLogo = (
-    <Box sx={{ width: 1, borderBottom: '1px solid #D1D1D1' }}>
+    <Box sx={{ width: 1, borderBottom: '1px solid #D1D1D1', position: 'absolute' }}>
       <Logo
         sx={{
           m: { xs: 2, md: 3 },
@@ -74,22 +75,26 @@ export default function AuthClassicLayout({ children, image, title, maxWidth = 4
         width: 1,
         mx: 'auto',
         maxWidth: maxWidth,
-        px: { xs: 2, md: 8 },
-        pt: { xs: 8, md: 20 },
-        pb: { xs: 15, md: 0 },
       }}
     >
-      {children}
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '100vh' }}
+      >
+        <Grid item xs={12} width={1}>
+          {children}
+        </Grid>
+      </Grid>
     </Stack>
   );
 
   return (
     <Stack
       component="main"
-      // direction="row"
-      sx={{
-        minHeight: '100vh',
-      }}
     >
       {renderLogo}
 

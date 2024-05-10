@@ -21,6 +21,9 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
 import { Box, IconButton, InputAdornment } from '@mui/material';
+import { endpoints, server_axios } from 'src/utils/axios';
+import { useSnackbar } from 'notistack';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -33,18 +36,20 @@ export default function NewPasswordView() {
 
   const searchParams = useSearchParams();
 
-  const phone = searchParams.get('phone');
+  const user_id = searchParams.get('user_id');
 
-  const password = useBoolean();
+  const password = useBoolean(true);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     password: Yup.string().required('Password is required'),
+    re_password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    password: '',
+    re_password: '',
   };
 
   const methods = useForm({
@@ -60,8 +65,19 @@ export default function NewPasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.email, data.password);
+      if (data.password !== data.re_password) {
+        setErrorMsg('Passwords do not match');
+        return;
+      }
+      // await login?.(data.email, data.password);
 
+      const response = await server_axios.post(endpoints.auth.user.add_password(user_id), data).then(({ data }) => data)
+
+      enqueueSnackbar('عملیات انجام شد!', { variant: 'success' });
+
+      if (!response.complete_information) {
+        router.push(paths.auth.phone.register + '?user_id=' + user_id);
+      }
       // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
@@ -97,10 +113,8 @@ export default function NewPasswordView() {
       <Box>
         <Typography variant="h6" textAlign={'left'}>رمز ورود</Typography>
         <RHFTextField
-          name=""
-          // label="Password"
-          type={'text'}
-          value={'060058'}
+          name="password"
+          type={password.value ? 'password' : 'text'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
@@ -120,10 +134,8 @@ export default function NewPasswordView() {
       <Box>
         <Typography variant="h6" textAlign={'left'}>تکرار رمز ورود</Typography>
         <RHFTextField
-          name=""
-          // label="Password"
-          type={'text'}
-          value={'060058'}
+          name="re_password"
+          type={password.value ? 'password' : 'text'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>

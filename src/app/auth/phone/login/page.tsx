@@ -1,11 +1,11 @@
-import { PhoneLoginView } from 'src/sections/auth/phone';
+import { PhoneLoginOrRegisterView } from 'src/sections/auth/phone';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Phone: Login',
+  title: 'ثبت نام و لاگین کاربر در کارانو',
 };
 
-export default function LoginPage() {
-  return <PhoneLoginView />;
+export default function LoginOrRegisterPage() {
+  return <PhoneLoginOrRegisterView />;
 }

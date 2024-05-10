@@ -1,17 +1,24 @@
 import axios, { AxiosRequestConfig } from 'axios';
 
-import { HOST_API } from 'src/config-global';
+import { HOST_API, BACKEND_API } from 'src/config-global';
 
 // ----------------------------------------------------------------------
-
 const axiosInstance = axios.create({ baseURL: HOST_API });
+const backend_axios = axios.create({ baseURL: BACKEND_API });
 
 axiosInstance.interceptors.response.use(
   (res) => res,
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
 );
 
+backend_axios.interceptors.response.use(
+  (res) => res,
+  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
+);
+
+export const server_axios = backend_axios;
 export default axiosInstance;
+
 
 // ----------------------------------------------------------------------
 
@@ -30,9 +37,14 @@ export const endpoints = {
   kanban: '/api/kanban',
   calendar: '/api/calendar',
   auth: {
+    user: {
+      check_phone: '/api/authentication/user/check-phone',
+      login: '/api/authentication/user/login',
+      verify: '/api/authentication/user/verify',
+      add_password: (id: any) => '/api/authentication/user/add-password/' + id,
+    },
     me: '/api/authentication/me',
-    login: '/api/authentication/login',
-    register: '/api/authentication/register',
+    register: '/api/authentication/user/register',
   },
   mail: {
     list: '/api/mail/list',

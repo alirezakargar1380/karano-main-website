@@ -19,12 +19,12 @@ import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import FormProvider, { RHFRadioGroup } from 'src/components/hook-form';
-import { Box, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Box, Checkbox, Container, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IUser, IUserTypes } from 'src/types/user';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import axios from 'axios';
-import axiosInstance, { endpoints } from 'src/utils/axios';
+import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 import { useSnackbar } from 'src/components/snackbar';
 import path from 'path';
 import { paths } from 'src/routes/paths';
@@ -40,11 +40,10 @@ export default function PhoneRegisterView() {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const [errorMsg, setErrorMsg] = useState('');
-
   const searchParams = useSearchParams();
 
   const returnTo = searchParams.get('returnTo');
+  const user_id = searchParams.get('user_id');
 
   const password = useBoolean();
 
@@ -75,14 +74,12 @@ export default function PhoneRegisterView() {
         return schema.required("کد را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
       return schema
     }),
-    phone: Yup.string().length(13, 'شماره تلفن باید ۱۳ رقم باشد').required('شماره تلفن مورد نیاز است'),
     email: Yup.string().email('لطفا یک آدرس ایمیل معتبر را ثبت نمایید'),
     // password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
     user_type: IUserTypes.genuine,
-    phone: '+98'
   };
 
   useEffect(() => {
@@ -107,20 +104,20 @@ export default function PhoneRegisterView() {
 
   const onSubmit = handleSubmit(async (data: IUser) => {
     try {
-      console.log(data)
-      await axiosInstance.post(endpoints.auth.register, data).then(({ data }: any) => {
+      await server_axios.post(endpoints.auth.register + `/${user_id}`, data).then(({ data }: any) => {
         console.log(data)
       })
 
       enqueueSnackbar('ثبت نام با موفقیت انجام شد', { variant: 'success' });
+
+      router.push(returnTo || PATH_AFTER_LOGIN);
       return
       // await register?.(data.email, data.password, data.firstName, data.lastName);
 
       router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
-      reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
+      // reset();
     }
   });
 
@@ -169,7 +166,6 @@ export default function PhoneRegisterView() {
   const renderForm = (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       <Stack spacing={2.5}>
-        {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
         <Box>
           <Typography variant="subtitle1" fontFamily={'peyda-bold'}
@@ -198,30 +194,16 @@ export default function PhoneRegisterView() {
         {(values.user_type === IUserTypes.company) && (
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <RHFTitleTextField name='company_name' custom_label='نام شرکت' placeholder='نام' />
-            <RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='نام خانوادگی' />
+            <RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='9968741' />
           </Stack>
         )}
 
-
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTitleTextField name='phone' custom_label={'شماره موبایل'}
-            sx={{
-              '.MuiInputBase-input': {
-                textAlign: 'right!important',
-                direction: 'rtl!important'
-              }
-            }}
-            placeholder='0921 0000 000'
-          />
           {(values.user_type !== IUserTypes.company) && (
             <RHFTitleTextField name='id_code' custom_label={'کد ملی'}
               placeholder='مثلا 3540200000'
             />
           )}
-
-        </Stack>
-
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
           {(values.user_type === IUserTypes.company) && (
             <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
@@ -257,12 +239,11 @@ export default function PhoneRegisterView() {
   );
 
   return (
-    <>
+    <Container>
       {renderHead}
 
       {renderForm}
 
-
-    </>
+    </Container>
   );
 }

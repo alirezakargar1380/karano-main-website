@@ -7,9 +7,10 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 type RHFCodesProps = MuiOtpInputProps & {
   name: string;
+  helperText?: string;
 };
 
-export default function RHFCode({ name, ...other }: RHFCodesProps) {
+export default function RHFCode({ name, helperText, ...other }: RHFCodesProps) {
   const { control } = useFormContext();
 
   return (
@@ -30,9 +31,9 @@ export default function RHFCode({ name, ...other }: RHFCodesProps) {
             {...other}
           />
 
-          {error && (
-            <FormHelperText sx={{ px: 2 }} error>
-              {error.message}
+          {(error || helperText)&& (
+            <FormHelperText sx={{ px: 2 }} error={!!error}>
+              {helperText || error?.message}
             </FormHelperText>
           )}
         </div>

@@ -23,9 +23,11 @@ import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFAutocomplete, RHFCode, RHFTextField } from 'src/components/hook-form';
 import { Box, MenuItem, Select } from '@mui/material';
 import { countries } from 'src/assets/data';
+import OTPInput from './otp';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -43,13 +45,13 @@ export default function PhoneVerifyView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('کد را وارد کنید').min(6, 'کد باید حداقل 6 کرکتر باشد'),
+    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
+    // password: Yup.string().required('کد را وارد کنید').min(6, 'کد باید حداقل 6 کرکتر باشد'),
+    code: Yup.string().length(6, 'کد باید حداقل 6 کرکتر باشد'),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    code: ''
   };
 
   const methods = useForm({
@@ -63,11 +65,25 @@ export default function PhoneVerifyView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: any) => {
     try {
-      await login?.(data.email, data.password);
+      // await login?.(data.email, data.password);
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await server_axios.post(endpoints.auth.user.verify, { phone: `+${phone}`, code: data.code })
+        .then((res) => {
+          return res.data
+        });
+
+      if (!response.set_password) {
+        router.push(paths.auth.phone.newPassword + '?user_id=' + response.user_id);
+        return
+      }
+
+      if (!response.complete_information) {
+        router.push(paths.auth.phone.register + '?user_id=' + response.user_id);
+      }
+
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // router.push(paths.auth.phone.verify + '?phone=');
     } catch (error) {
@@ -78,7 +94,7 @@ export default function PhoneVerifyView() {
   });
 
   const renderHead = (
-    <Stack spacing={2} sx={{ mb: 8 }}>
+    <Stack spacing={2} sx={{ mb: 4 }}>
       <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
         <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
       </Box>
@@ -95,36 +111,32 @@ export default function PhoneVerifyView() {
 
   const renderForm = (
     <Stack spacing={2.5}>
-      {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+      {/* {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>} */}
 
-      <Typography variant="body1" textAlign={'left'}>کد تایید به شماره {phone} ارسال شد</Typography>
+      <Typography variant="body1" textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد</Typography>
 
       <Link variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
         تغییر شماره
       </Link>
 
-      <Box>
+      <Box sx={{ mb: 2 }}>
         <Typography variant="h6" textAlign={'left'}>کد تایید</Typography>
-        <RHFTextField
-          name=""
+        {/* <OTPInput /> */}
+        <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'} />
+        {/* <RHFTextField
+          name="phone"
           // label="Password"
+          sx={{
+            justifyContent: 'center',
+            '& input': {
+              textAlign: 'center',
+              direction: 'rtl'
+            }
+          }}
           type={'text'}
-          value={'060058'}
           helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'}
-        // InputProps={{
-        //   endAdornment: (
-        //     <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
-
-        //       <IconButton onClick={password.onToggle} edge="end">
-
-        //         <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
-
-        //       </IconButton>
-
-        //     </InputAdornment>
-        //   ),
-        // }}
         />
+        <OTPInput /> */}
       </Box>
 
 
