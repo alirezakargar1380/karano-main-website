@@ -104,14 +104,14 @@ export default function PhoneRegisterView() {
 
   const onSubmit = handleSubmit(async (data: IUser) => {
     try {
-      await server_axios.post(endpoints.auth.register + `/${user_id}`, data).then(({ data }: any) => {
-        console.log(data)
-      })
+      await server_axios.post(endpoints.auth.register + `/${user_id}`, data)
 
       enqueueSnackbar('ثبت نام با موفقیت انجام شد', { variant: 'success' });
 
       router.push(returnTo || PATH_AFTER_LOGIN);
+
       return
+      
       // await register?.(data.email, data.password, data.firstName, data.lastName);
 
       router.push(returnTo || PATH_AFTER_LOGIN);
