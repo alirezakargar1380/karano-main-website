@@ -43,8 +43,8 @@ export default function NewPasswordView() {
   const { enqueueSnackbar } = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
-    password: Yup.string().required('Password is required'),
-    re_password: Yup.string().required('Password is required'),
+    password: Yup.string().min(8, "رمز عبور حداقل باید 8 کرکتر باشد").required('Password is required'),
+    re_password: Yup.string().min(8, "رمز عبور حداقل باید 8 کرکتر باشد").required('Password is required'),
   });
 
   const defaultValues = {
