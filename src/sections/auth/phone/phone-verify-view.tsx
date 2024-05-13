@@ -32,7 +32,7 @@ import { endpoints, server_axios } from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
 export default function PhoneVerifyView() {
-  const { login } = useAuthContext();
+  const { login, verify } = useAuthContext();
 
   const router = useRouter();
 
@@ -67,25 +67,14 @@ export default function PhoneVerifyView() {
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
-      // await login?.(data.email, data.password);
+      await verify?.(`+${phone}`, data.code);
 
-      const response = await server_axios.post(endpoints.auth.user.verify, { phone: `+${phone}`, code: data.code })
-        .then((res) => {
-          return res.data
-        });
-
-      if (!response.set_password) {
-        router.push(paths.auth.phone.newPassword + '?user_id=' + response.user_id);
-        return
-      }
-
-      if (!response.complete_information) {
-        router.push(paths.auth.phone.register + '?user_id=' + response.user_id);
-      }
+      // const response = await server_axios.post(endpoints.auth.user.verify, { phone: `+${phone}`, code: data.code })
+      //   .then((res) => {
+      //     return res.data
+      //   });
 
       // await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // router.push(paths.auth.phone.verify + '?phone=');
     } catch (error) {
       console.error(error);
       reset();

@@ -40,10 +40,10 @@ export const endpoints = {
     user: {
       check_phone: '/api/authentication/user/check-phone',
       login: '/api/authentication/user/login',
+      me: '/api/authentication/user/me',
       verify: '/api/authentication/user/verify',
       add_password: (id: any) => '/api/authentication/user/add-password/' + id,
     },
-    me: '/api/authentication/me',
     register: '/api/authentication/user/register',
   },
   mail: {

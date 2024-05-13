@@ -2,11 +2,13 @@
 
 import { useMemo, useEffect, useReducer, useCallback } from 'react';
 
-import axios, { endpoints } from 'src/utils/axios';
+import axios, { endpoints, server_axios } from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -84,14 +86,16 @@ type Props = {
 export function AuthProvider({ children }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const router = useRouter();
+
   const initialize = useCallback(async () => {
     try {
-      const accessToken = sessionStorage.getItem(STORAGE_KEY);
+      const accessToken = localStorage.getItem(STORAGE_KEY);
 
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
-        const res = await axios.get(endpoints.auth.me);
+        const res = await server_axios.get(endpoints.auth.user.me); ////////////////////////////////////////////////////////////////////
 
         const { user } = res.data;
 
@@ -134,9 +138,46 @@ export function AuthProvider({ children }: Props) {
       code,
     };
 
-    const res = await axios.post(endpoints.auth.login, data);
+    // const res = await axios.post(endpoints.auth.login, data);
 
-    const { accessToken, user } = res.data;
+    // const { accessToken, user } = res.data;
+
+    // setSession(accessToken);
+
+    // dispatch({
+    //   type: Types.LOGIN,
+    //   payload: {
+    //     user: {
+    //       ...user,
+    //       accessToken,
+    //     },
+    //   },
+    // });
+  }, []);
+
+  // Veify
+  const verify = useCallback(async (phone: string, code: string) => {
+    const data = {
+      phone,
+      code,
+    };
+
+    const res = await server_axios.post(endpoints.auth.user.verify, data).then((res) => {
+      return res.data
+    });
+
+    if (!res.set_password) {
+      router.push(paths.auth.phone.newPassword + '?user_id=' + res.user_id);
+      return
+    }
+
+    if (!res.complete_information) {
+      router.push(paths.auth.phone.register + '?user_id=' + res.user_id);
+    }
+
+    const { accessToken, user } = res;
+
+    console.log(user)
 
     setSession(accessToken);
 
@@ -165,7 +206,7 @@ export function AuthProvider({ children }: Props) {
 
       const { accessToken, user } = res.data;
 
-      sessionStorage.setItem(STORAGE_KEY, accessToken);
+      localStorage.setItem(STORAGE_KEY, accessToken);
 
       dispatch({
         type: Types.REGISTER,
@@ -203,6 +244,7 @@ export function AuthProvider({ children }: Props) {
       unauthenticated: status === 'unauthenticated',
       //
       login,
+      verify,
       register,
       logout,
     }),
