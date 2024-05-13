@@ -21,8 +21,12 @@ export default function LoginButton({ sx }: Props) {
   const { logout, authenticated, user, } = useAuthContext();
 
   const popover = usePopover();
-
-  console.log(user)
+  
+  const handleLogout = () => {
+    console.log('logout')
+    logout();
+    popover.onClose()
+  };
 
   // if user was not login
   return (
@@ -94,7 +98,7 @@ export default function LoginButton({ sx }: Props) {
                 اطلاعات حساب کاربری
               </Typography>
             </Box>
-            <Box sx={{ p: 2, pb: 1.5, borderBottom: '1px solid #D1D1D1', cursor: 'pointer', color: 'error.main' }} display={'flex'} onClick={logout}>
+            <Box sx={{ p: 2, pb: 1.5, borderBottom: '1px solid #D1D1D1', cursor: 'pointer', color: 'error.main' }} display={'flex'} onClick={handleLogout}>
               <SvgColor
                 src={`/assets/icons/auth/leading.svg`}
                 sx={{ width: 20, height: 20, mr: 1 }}
