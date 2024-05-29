@@ -10,6 +10,12 @@ export type IProductFilters = {
   priceRange: number[];
 };
 
+export type IProductImage = {
+  id: number;
+  main: boolean;
+  name: string;
+};
+
 // ----------------------------------------------------------------------
 
 export type IProductReviewNewForm = {
@@ -51,7 +57,7 @@ export type IProductItem = {
   sizes: string[];
   publish: string;
   coverUrl: string;
-  images: string[];
+  images: IProductImage[];
   colors: string[];
   quantity: number;
   category: string;

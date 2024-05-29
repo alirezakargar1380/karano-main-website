@@ -46,6 +46,9 @@ export const endpoints = {
     },
     register: '/api/authentication/user/register',
   },
+  image: {
+    url: (name: string) => `${BACKEND_API}/api/images/` + name,
+  },
   mail: {
     list: '/api/mail/list',
     details: '/api/mail/details',

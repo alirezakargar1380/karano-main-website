@@ -8,6 +8,7 @@ import { varFade, varScale, MotionContainer, MotionViewport, varZoom } from 'src
 import { m } from 'framer-motion';
 import TiltCard from "src/components/animation/tilt-card";
 import SvgColor from "src/components/svg-color";
+import { endpoints } from "src/utils/axios";
 
 type Props = {
     product?: IProductItem;
@@ -15,7 +16,9 @@ type Props = {
 };
 
 export default function ProductItemSlider({ product, ind }: Props) {
-    const [img, setImg] = useState('/img/product/product.png')
+    const mainImageUrl = endpoints.image.url(product?.images?.find((img) => img.main)?.name || '');
+
+    const [img, setImg] = useState(mainImageUrl)
     const [hover, setHover] = useState(false)
 
     const onHoverHandler = () => {
@@ -24,7 +27,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
     }
 
     const onHoverOutHandler = () => {
-        setImg('/img/product/product.png')
+        setImg(mainImageUrl)
         setHover(false)
     }
 
