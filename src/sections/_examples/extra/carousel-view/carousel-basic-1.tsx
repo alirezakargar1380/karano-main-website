@@ -9,9 +9,9 @@ import { m } from 'framer-motion';
 import { varFade, MotionContainer, MotionViewport } from 'src/components/animate';
 import SvgColor from 'src/components/svg-color';
 import ProductItemSlider from 'src/sections/product/product-slider-item';
-import { useGetCategories } from 'src/api/category';
+import { useGetCategories, useGetCategoryProducts } from 'src/api/category';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -25,6 +25,7 @@ type Props = {
 };
 
 export default function CarouselBasic1({ data, sx }: Props) {
+
   const router = useRouter();
 
   const carousel = useCarousel({
@@ -38,8 +39,10 @@ export default function CarouselBasic1({ data, sx }: Props) {
 
   const selectedCategoryId = searchParams.get('category') || '';
 
+  const { products } = useGetCategoryProducts(selectedCategoryId);
+  console.log("=========>>> products", products)
+
   const onNext = useCallback(() => {
-    console.log('next')
     carousel.onPrev();
 
     const currentCategory = categories.find((category) => category.id === Number(selectedCategoryId))
@@ -68,7 +71,7 @@ export default function CarouselBasic1({ data, sx }: Props) {
     if (categories[currentCategoryIndex - 1]) {
       router.push("?category=" + categories[currentCategoryIndex - 1]?.id);
     } else {
-      router.push("?category=" + categories[categories.length-1]?.id);
+      router.push("?category=" + categories[categories.length - 1]?.id);
     }
 
   }, [carousel, selectedCategoryId, categories, router])
@@ -79,7 +82,7 @@ export default function CarouselBasic1({ data, sx }: Props) {
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h2' fontFamily={'peyda-bold'}>
             <m.span key={1 * Math.random()}>
-              {categories.find((category) => category.id === Number(selectedCategoryId))?.title}
+              {categories.find((category) => category.id === Number(selectedCategoryId))?.name}
             </m.span>
           </Typography>
 
@@ -119,23 +122,20 @@ export default function CarouselBasic1({ data, sx }: Props) {
         </Grid>
         <Grid md={9} xs={12} item>
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-            {data.map((item, index: number) => (
-              <Stack
-                key={111554 + index}
-                columnGap={2}
-                rowGap={3}
-                display="grid!important"
-                gridTemplateColumns={{
-                  xs: 'repeat(2, 1fr)',
-                  sm: 'repeat(2, 1fr)',
-                  md: 'repeat(3, 1fr)',
-                }}
-              >
-                {[...Array(6)].map((v, key) => (
-                  <ProductItemSlider ind={key * Math.random()} key={key} />
-                ))}
-              </Stack>
-            ))}
+            <Stack
+              columnGap={2}
+              rowGap={3}
+              display="grid!important"
+              gridTemplateColumns={{
+                xs: 'repeat(2, 1fr)',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
+              }}
+            >
+              {products.map((v, key) => (
+                <ProductItemSlider product={v} ind={key * Math.random()} key={key} />
+              ))}
+            </Stack>
           </Carousel>
         </Grid>
       </Grid>

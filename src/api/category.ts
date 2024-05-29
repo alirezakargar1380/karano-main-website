@@ -4,79 +4,41 @@ import { useMemo } from 'react';
 import { fetcher, endpoints } from 'src/utils/axios';
 
 import { IProductItem } from 'src/types/product';
+import { ICategory } from 'src/types/category';
 
 export function useGetCategories() {
-    // const URL = endpoints.product.list;
+    const URL = endpoints.category.list;
 
-    // const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+    const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
     const memoizedValue = useMemo(
         () => ({
-            // products: (data?.products as IProductItem[]) || [],
-            // productsLoading: isLoading,
+            categoryLoading: isLoading,
             // productsError: error,
-            categories: [
-                {
-                    id: 1,
-                    title: "پنجره" 
-                },
-                {
-                    id: 2,
-                    title: "چوب"
-                },
-                {
-                    id: 3,
-                    title: "درب کابینتی"
-                },
-                {
-                    id: 4,
-                    title: "درب ضد سرقت"
-                },
-                {
-                    id: 5,
-                    title: "پنجره" 
-                },
-                {
-                    id: 6,
-                    title: "چوب"
-                },
-                {
-                    id: 7,
-                    title: "درب کابینتی"
-                },
-                {
-                    id: 8,
-                    title: "درب ضد سرقت"
-                },
-                {
-                    id: 9,
-                    title: "درب کابینتی"
-                },
-                {
-                    id: 10,
-                    title: "درب ضد سرقت"
-                },
-                {
-                    id: 11,
-                    title: "پنجره" 
-                },
-                {
-                    id: 12,
-                    title: "چوب"
-                },
-                {
-                    id: 13,
-                    title: "درب کابینتی"
-                },
-                {
-                    id: 14,
-                    title: "درب ضد سرقت"
-                }
-            ]
+            categories: (data as ICategory[]) || [],
             // productsValidating: isValidating,
             // productsEmpty: !isLoading && !data?.products.length,
         }),
-        []
+        [data]
+    );
+
+    return memoizedValue;
+}
+
+export function useGetCategoryProducts(id: any) {
+    const URL = endpoints.category.products(id);
+
+    const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+    const memoizedValue = useMemo(
+        () => ({
+            categoryLoading: isLoading,
+            // productsError: error,
+            products: (data as IProductItem[]) || [],
+            // productsValidating: isValidating,
+            // productsEmpty: !isLoading && !data?.products.length,
+        }),
+        [data]
     );
 
     return memoizedValue;

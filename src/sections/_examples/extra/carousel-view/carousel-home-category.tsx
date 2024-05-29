@@ -1,5 +1,5 @@
 import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows } from 'src/components/carousel';
-import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Divider, Grid, IconButton, Skeleton, Typography } from '@mui/material';
 import { varFade, MotionContainer } from 'src/components/animate';
 import { bgGradient } from 'src/theme/css';
 import { alpha, useTheme } from '@mui/material/styles';
@@ -11,13 +11,16 @@ import { paths } from 'src/routes/paths';
 import TiltCard from 'src/components/animation/tilt-card';
 
 export default function CarouselHomeCategory() {
+  const { categories, categoryLoading } = useGetCategories();
+
   const router = useRouter();
+  
   const carousel = useCarousel({
     autoplay: false,
     rtl: false,
     slidesToShow: 10,
     swipeToSlide: true,
-    centerMode: true,
+    // centerMode: true,
     responsive: [
       {
         breakpoint: 1366,
@@ -42,19 +45,17 @@ export default function CarouselHomeCategory() {
     ],
   });
 
-  const { categories } = useGetCategories();
-
   const searchParams = useSearchParams();
 
   const selectedCategoryId = searchParams.get('category') || '';
 
   useEffect(() => {
-    if (!selectedCategoryId) {
-      router.push("?category=" + categories[0]?.id);
+    if (!selectedCategoryId && !categoryLoading) {
+      router.push("?category=" + categories[0]?.id?.toString());
     } else {
       console.log("=========>>> selecte", selectedCategoryId)
     }
-  }, [selectedCategoryId])
+  }, [categoryLoading])
 
   return (
     <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', py: 3 }}>
@@ -134,38 +135,45 @@ export default function CarouselHomeCategory() {
           }}
         >
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-            {categories.map((v: any, index: number) => (
-              <Box key={index}>
-                <TiltCard halt_rotation_range={1.5} rotation_range={1.5}>
-                  <Button sx={{
-                    border: '2px solid #f2f2f2',
-                    color: '#000',
-                    backgroundColor: '#F8F8F8',
-                    borderRadius: '24px',
-                    width: '90%!important',
-                    textWrap: 'nowrap',
-                    my: 1,
-                    '&: hover': {
-                      border: '2px solid #000',
-                      color: '#000'
-                    },
-                    ...(v.id == Number(selectedCategoryId) && {
-                      border: '2px solid #000',
-                      color: '#000'
-                    })
-                  }}
-
-                    onClick={() => {
-                      router.push("?category=" + v.id);
+            {categoryLoading ?
+              [...new Array(12)].map((item, index: number) => (
+                <Box key={index}>
+                  <Skeleton sx={{ width: '90%', height: 36 }} />
+                </Box>
+              ))
+              :
+              categories.map((v: any, index: number) => (
+                <Box key={index}>
+                  <TiltCard halt_rotation_range={1.5} rotation_range={1.5}>
+                    <Button sx={{
+                      border: '2px solid #f2f2f2',
+                      color: '#000',
+                      backgroundColor: '#F8F8F8',
+                      borderRadius: '24px',
+                      width: '90%!important',
+                      textWrap: 'nowrap',
+                      my: 1,
+                      '&: hover': {
+                        border: '2px solid #000',
+                        color: '#000'
+                      },
+                      ...(v.id == Number(selectedCategoryId) && {
+                        border: '2px solid #000',
+                        color: '#000'
+                      })
                     }}
-                  >
 
-                    {v.title}
+                      onClick={() => {
+                        router.push("?category=" + v.id);
+                      }}
+                    >
 
-                  </Button>
-                </TiltCard>
-              </Box>
-            ))}
+                      {v.name}
+
+                    </Button>
+                  </TiltCard>
+                </Box>
+              ))}
           </Carousel>
         </CarouselArrowsCustom>
       </Box>

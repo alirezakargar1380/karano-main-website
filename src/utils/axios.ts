@@ -25,7 +25,7 @@ export default axiosInstance;
 export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   const [url, config] = Array.isArray(args) ? args : [args];
 
-  const res = await axiosInstance.get(url, { ...config });
+  const res = await server_axios.get(url, { ...config });
 
   return res.data;
 };
@@ -61,5 +61,9 @@ export const endpoints = {
     list: '/api/product/list',
     details: '/api/product/details',
     search: '/api/product/search',
+  },
+  category: {
+    list: '/api/category',
+    products: (id: any) => `/api/category/${id}/products`,
   },
 };
