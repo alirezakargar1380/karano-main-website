@@ -268,9 +268,7 @@ export default function ProductDetailsSummary({
     <>
       <CartDialog dialog={cartDialog} />
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <Stack spacing={3}
-          // sx={{ pt: 3 }} 
-          {...other}>
+        <Stack spacing={3} {...other}>
           <Stack spacing={2} alignItems="flex-start">
             {/* {renderLabels} */}
 

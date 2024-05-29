@@ -105,7 +105,10 @@ export default function ProductShopDetailsView({ id }: Props) {
         sx={{ mb: 5 }}
       /> */}
 
-      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }} sx={{ mb: 5 }}>
+      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }} sx={{ mb: 5 }} direction={{
+        md: 'row',
+        xs: 'column-reverse'
+      }}>
         <Grid xs={12} md={6} lg={5}>
           <ProductDetailsSummary
             product={product}
@@ -116,6 +119,11 @@ export default function ProductShopDetailsView({ id }: Props) {
         </Grid>
 
         <Grid xs={12} md={6} lg={7}>
+          hellow
+          hellow
+          hellow
+          hellow
+          hellow
           <ProductDetailsCarousel product={product} />
 
           <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
