@@ -19,6 +19,13 @@ export type IProductReviewNewForm = {
   email: string;
 };
 
+export type ProductDimension = {
+  // unit: string;
+  length: string;
+  width: string;
+  height: string;
+}
+
 export type IProductReview = {
   id: string;
   name: string;
@@ -35,6 +42,7 @@ export type IProductItem = {
   id: string;
   sku: string;
   name: string;
+  product_dimension: ProductDimension[];
   code: string;
   price: number;
   taxes: number;

@@ -52,7 +52,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
     }
 
     return (
-        <Link href="/product/e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2/" color={'inherit'} underline="none" key={ind}>
+        <Link href={`/product/${product?.id}/`} color={'inherit'} underline="none" key={ind}>
             <TiltCard>
                 <Box sx={{
                     transform: !hover ? 'scale(0.98)' : 'scale(1)',

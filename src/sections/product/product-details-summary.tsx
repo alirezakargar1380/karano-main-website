@@ -54,18 +54,10 @@ export default function ProductDetailsSummary({
   const {
     id,
     name,
-    sizes,
     price,
+    product_dimension,
     coverUrl,
-    colors,
-    newLabel,
     available,
-    priceSale,
-    saleLabel,
-    totalRatings,
-    totalReviews,
-    inventoryType,
-    subDescription,
   } = product;
 
   const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
@@ -80,8 +72,8 @@ export default function ProductDetailsSummary({
     coverUrl,
     available,
     price,
-    colors: colors[0],
-    size: sizes[4],
+    // colors: colors[0],
+    // size: sizes[4],
     quantity: available < 1 ? 0 : 1,
   };
 
@@ -146,7 +138,7 @@ export default function ProductDetailsSummary({
 
       قیمت:
 
-      {"        " + 144444 + "    "}
+      {"        " + product.price + "    "}
       ریال
     </Box>
   );
@@ -181,45 +173,23 @@ export default function ProductDetailsSummary({
       <Typography variant="subtitle1" fontFamily={'peyda-bold'}
         sx={{
           pb: 1, width: 1
-        }}>ابعاد</Typography>
+        }}>
+        ابعاد
+      </Typography>
 
-      <FormControl component="fieldset" sx={{ width: 1 }}>
-        <RadioGroup row defaultValue="top">
-          <FormControlLabel
-            value={''}
-            label={' ۲۰۰ * ۲۰۰ * ۲۰۰ میلی متر'}
-            labelPlacement={'end'}
-            control={<Radio size="medium" />}
-            sx={{ textTransform: 'capitalize' }}
-          />
-        </RadioGroup>
-      </FormControl>
-
-      <FormControl component="fieldset" sx={{ width: 1 }}>
-        <RadioGroup row defaultValue="top">
-          <FormControlLabel
-            value={''}
-            label={' ۲۰۰ * ۲۰۰ * ۲۰۰ میلی متر'}
-            labelPlacement={'end'}
-            control={<Radio size="medium" />}
-            sx={{ textTransform: 'capitalize' }}
-          />
-        </RadioGroup>
-      </FormControl>
-
-      <FormControl component="fieldset" sx={{ width: 1 }}>
-        <RadioGroup row defaultValue="top">
-          <FormControlLabel
-            value={''}
-            label={' ۲۰۰ * ۲۰۰ * ۲۰۰ میلی متر'}
-            labelPlacement={'end'}
-            control={<Radio size="medium" />}
-            sx={{ textTransform: 'capitalize' }}
-          />
-        </RadioGroup>
-      </FormControl>
-
-
+      {product_dimension.map((dimension, index: number) => (
+        <FormControl component="fieldset" sx={{ width: 1 }} key={index}>
+          <RadioGroup row defaultValue="top">
+            <FormControlLabel
+              value={''}
+              label={dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'میلی متر'}
+              labelPlacement={'end'}
+              control={<Radio size="medium" />}
+              sx={{ textTransform: 'capitalize' }}
+            />
+          </RadioGroup>
+        </FormControl>
+      ))}
     </Box>
   )
 
@@ -308,7 +278,9 @@ export default function ProductDetailsSummary({
 
             <Typography variant="h4" borderBottom={'1px solid #D1D1D1'} sx={{
               pb: 2, width: 1
-            }}>{'قرنیز لب گرد' || name}</Typography>
+            }}>
+              {name}
+            </Typography>
 
             {renderDimensions}
             {/* {renderRating} */}

@@ -59,6 +59,7 @@ export const endpoints = {
   },
   product: {
     list: '/api/product/list',
+    one: (id: any) => '/api/products/' + id,
     details: '/api/product/details',
     search: '/api/product/search',
   },
