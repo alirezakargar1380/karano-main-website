@@ -24,11 +24,11 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
       flexShrink={0}
       direction="row"
       alignItems="center"
-      textAlign={'center'}
+      textAlign={'left'}
       justifyContent="space-between"
       sx={{
-        p: 0.5,
-        width: 100,
+        // p: 0.5,
+        width: 1,
         borderRadius: 1,
         typography: 'subtitle2',
         border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
@@ -37,28 +37,28 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
       {...other}
     >
       <Stack sx={{
-        borderRight: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
-        pr: 0.5,
+        borderRight: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`, 
+        py: 0.75,
         textAlign: 'center'
       }}>
         <IconButton
           size="small"
           onClick={onDecrease}
           disabled={disabledDecrease}
-          sx={{ borderRadius: 0.75 }}
+          sx={{ borderRadius: 0.75, p: 0, px: 1 }}
         >
-          <Iconify icon="eva:minus-fill" width={8} />
+          <Iconify icon="mingcute:up-line" width={16} />
         </IconButton>
         <IconButton
           size="small"
           onClick={onIncrease}
           disabled={disabledIncrease}
-          sx={{ borderRadius: 0.75 }}
+          sx={{ borderRadius: 0.75, p: 0 }}
         >
-          <Iconify icon="mingcute:add-line" width={8} />
+          <Iconify icon="mingcute:down-line" width={16} />
         </IconButton>
       </Stack>
-      <Stack sx={{ width: 1 }}>
+      <Stack sx={{ width: 1, pl: 2 }}>
         {quantity}
       </Stack>
     </Stack>

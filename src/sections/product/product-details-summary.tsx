@@ -229,7 +229,7 @@ export default function ProductDetailsSummary({
   )
 
   const renderQuantity = (
-    <Box>
+    <Box sx={{ width: 1 }}>
       <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
         width: 1, pb: 1
       }}>
