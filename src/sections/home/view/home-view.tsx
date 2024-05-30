@@ -109,16 +109,43 @@ export default function HomeView() {
               sx={{ py: 6, fontFamily: 'peyda-bold', fontSize: '4rem' }}
               spacing={!mdUp ? 6 : 0}
             >
-              {[...new Array(4)].map((_, index) => (
-                <Grid item md={3} sm={12} xs={12} key={index} borderRight={mdUp ? '1px solid #fff' : ''}>
-                  <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                    <CountUp duration={3} end={99 * (index + 1)} redraw={true} delay={1} /> +
-                    <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+              <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
+                <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                  </Box>
-                </Grid>
-              ))}
+                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+
+                </Box>
+              </Grid>
+
+              <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
+                <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
+
+                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+
+                </Box>
+              </Grid>
+
+              <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
+                <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
+
+                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+
+                </Box>
+              </Grid>
+
+              <Grid item md={3} sm={12} xs={12}>
+                <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
+
+                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+
+                </Box>
+              </Grid>
+
             </Grid>
           </Box>
         </m.div>

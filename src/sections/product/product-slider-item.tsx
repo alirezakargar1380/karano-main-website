@@ -17,12 +17,13 @@ type Props = {
 
 export default function ProductItemSlider({ product, ind }: Props) {
     const mainImageUrl = endpoints.image.url(product?.images?.find((img) => img.main)?.name || '');
+    const hoverImageUrl = endpoints.image.url(product?.images?.find((img) => !img.main)?.name || '');
 
     const [img, setImg] = useState(mainImageUrl)
     const [hover, setHover] = useState(false)
 
     const onHoverHandler = () => {
-        setImg('/img/product/product-hover.png')
+        setImg(hoverImageUrl)
         setHover(true)
     }
 
@@ -56,7 +57,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
 
     return (
         <Link href={`/product/${product?.id}/`} color={'inherit'} underline="none" key={ind}>
-            <TiltCard>
+            {/* <TiltCard> */}
                 <Box sx={{
                     transform: !hover ? 'scale(0.98)' : 'scale(1)',
                     transition: '0.3s ease-in-out'
@@ -81,7 +82,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
                         </Stack>
                     </Stack>
                 </Box>
-            </TiltCard>
+            {/* </TiltCard> */}
         </Link>
     )
 }
