@@ -8,13 +8,15 @@ import { bgGradient } from 'src/theme/css';
 
 import Image from 'src/components/image';
 import Lightbox, { useLightBox } from 'src/components/lightbox';
-import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
+import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows } from 'src/components/carousel';
 
 import { IProductItem } from 'src/types/product';
+import { endpoints } from 'src/utils/axios';
+import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';
 
 // ----------------------------------------------------------------------
 
-const THUMB_SIZE = 64;
+const THUMB_SIZE = 64 * 3;
 
 const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, theme }) => ({
   position: 'relative',
@@ -23,23 +25,23 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
     lineHeight: 0,
   },
 
-  // ...(length === 1 && {
-  //   maxWidth: THUMB_SIZE * 1 + 16,
-  // }),
+  ...(length === 1 && {
+    maxWidth: THUMB_SIZE * 1 + 16,
+  }),
 
-  // ...(length === 2 && {
-  //   maxWidth: THUMB_SIZE * 2 + 32,
-  // }),
+  ...(length === 2 && {
+    maxWidth: THUMB_SIZE * 1 + 32,
+  }),
 
-  // ...((length === 3 || length === 4) && {
-  //   maxWidth: THUMB_SIZE * 3 + 48,
-  // }),
+  ...((length === 3 || length === 4) && {
+    maxWidth: THUMB_SIZE * 1.5 + 48,
+  }),
 
-  // ...(length >= 5 && {
-  //   maxWidth: THUMB_SIZE * 6,
-  // }),
+  ...(length >= 5 && {
+    maxWidth: THUMB_SIZE * 6,
+  }),
 
-  // width: '100%',
+  width: '100%',
 
   ...(length > 3 && {
     '&:before, &:after': {
@@ -73,7 +75,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
   const theme = useTheme();
 
   const slides = product.images.map((img) => ({
-    src: img,
+    src: endpoints.image.url(img.name),
   }));
 
   const lightbox = useLightBox(slides);
@@ -85,14 +87,17 @@ export default function ProductDetailsCarousel({ product }: Props) {
   });
 
   const carouselThumb = useCarousel({
-    rtl: true,
+    rtl: false,
     swipeToSlide: true,
     // focusOnSelect: true,
     // variableWidth: true,D
     centerPadding: '0px',
-    slidesToShow: 4
-    // slidesToShow: slides.length > 3 ? 3 : slides.length,
+    slidesToShow: slides.length,
   });
+
+  useEffect(() => {
+    carouselLarge.onTogo(product.images.findIndex((img) => img.main));
+  }, [])
 
   useEffect(() => {
     carouselLarge.onSetNav();
@@ -114,29 +119,69 @@ export default function ProductDetailsCarousel({ product }: Props) {
         position: 'relative',
       }}
     >
-      <Carousel
-        {...carouselLarge.carouselSettings}
-        asNavFor={carouselThumb.nav}
-        ref={carouselLarge.carouselRef}
-      >
-        {slides.map((slide) => (
-          <Image
-            key={slide.src}
-            alt={slide.src}
-            src={slide.src}
-            ratio="1/1"
-            onClick={() => lightbox.onOpen(slide.src)}
-            sx={{ cursor: 'zoom-in' }}
-          />
-        ))}
-      </Carousel>
-
-      {/* <CarouselArrowIndex
-        index={carouselLarge.currentIndex}
-        total={slides.length}
+      <CarouselArrowsCustom
+        filled
+        icon="icon-park-outline:right"
         onNext={carouselThumb.onNext}
         onPrev={carouselThumb.onPrev}
-      /> */}
+        leftButtonBoxProps={{
+          sx: {
+            width: '80px',
+            height: 1,
+            position: 'absolute',
+            zIndex: 100,
+          }
+        }}
+        leftButtonProps={{
+          sx: {
+            border: '1px solid #D1D1D1',
+            borderRadius: '26px',
+            width: 'fit-content',
+            '&:hover': {
+              backgroundColor: '#fff'
+            },
+            backgroundColor: "#fff",
+            right: 0,
+          }
+        }}
+        rightButtonBoxProps={{
+          sx: {
+            width: '80px',
+            height: 1,
+            position: 'absolute',
+            right: 0,
+            zIndex: 100
+          }
+        }}
+        rightButtonProps={{
+          sx: {
+            border: '1px solid #D1D1D1',
+            borderRadius: '26px',
+            width: 'fit-content',
+            backgroundColor: "#fff",
+            '&:hover': {
+              backgroundColor: '#fff'
+            },
+          }
+        }}
+      >
+        <Carousel
+          {...carouselLarge.carouselSettings}
+          asNavFor={carouselThumb.nav}
+          ref={carouselLarge.carouselRef}
+        >
+          {slides.map((slide) => (
+            <Image
+              key={slide.src}
+              alt={slide.src}
+              src={slide.src}
+              ratio="1/1"
+              onClick={() => lightbox.onOpen(slide.src)}
+              sx={{ cursor: 'zoom-in' }}
+            />
+          ))}
+        </Carousel>
+      </CarouselArrowsCustom>
     </Box>
   );
 
@@ -154,10 +199,11 @@ export default function ProductDetailsCarousel({ product }: Props) {
               alt={item.src}
               src={item.src}
               variant="rounded"
+              onClick={() => carouselLarge.onTogo(index)}
               sx={{
                 width: '100%',
+                height: '100%',
                 mx: 'auto',
-                height: THUMB_SIZE * 2,
                 opacity: 0.48,
                 cursor: 'pointer',
                 ...(carouselLarge.currentIndex === index && {
