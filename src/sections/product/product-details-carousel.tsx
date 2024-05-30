@@ -34,7 +34,7 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
   }),
 
   ...((length === 3 || length === 4) && {
-    maxWidth: THUMB_SIZE * 1.5 + 48,
+    maxWidth: THUMB_SIZE * 2 + 48,
   }),
 
   ...(length >= 5 && {
@@ -208,7 +208,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
                 cursor: 'pointer',
                 ...(carouselLarge.currentIndex === index && {
                   opacity: 1,
-                  border: `solid 2.5px ${theme.palette.primary.main}`,
+                  border: `solid 2.5px #000`,
                 }),
               }}
             />
