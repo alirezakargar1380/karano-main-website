@@ -25,10 +25,11 @@ import { IProductItem } from 'src/types/product';
 import { ICheckoutItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
-import { Avatar, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Avatar, FormControl, FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import CartDialog from 'src/components/cart/cart-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
+import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -274,11 +275,15 @@ export default function ProductDetailsSummary({
 
             {/* {renderInventoryType} */}
 
-            <Typography variant="h4" borderBottom={'1px solid #D1D1D1'} sx={{
-              pb: 2, width: 1
-            }}>
-              {name}
-            </Typography>
+            <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} sx={{ pb: 2, width: 1 }} spacing={1.5}>
+              <IconButton size='small' sx={{ bgcolor: "#D1D1D1", height: 28, width: 28, borderRadius: 10, mt: 0.5 }}>
+                <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
+              </IconButton>
+              <Typography variant="h4" fontFamily={'peyda-bold'}>
+                {name}
+              </Typography>
+            </Stack>
+
 
             {renderDimensions}
             {/* {renderRating} */}
