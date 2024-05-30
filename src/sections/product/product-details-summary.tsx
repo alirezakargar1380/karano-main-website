@@ -123,25 +123,14 @@ export default function ProductDetailsSummary({
   }, [onAddCart, values]);
 
   const renderPrice = (
-    <Box sx={{ typography: 'h5' }}>
-      {/* {priceSale && (
-        <Box
-          component="span"
-          sx={{
-            color: 'text.disabled',
-            textDecoration: 'line-through',
-            mr: 0.5,
-          }}
-        >
-          {fCurrency(priceSale)}
-        </Box>
-      )} */}
+    <Stack sx={{ typography: 'h5' }} direction={'row'} spacing={1.5}>
+      <Typography fontFamily={'peyda-bold'}>قیمت:</Typography>
 
-      قیمت:
+      
+      <Typography fontFamily={'peyda-medium'}>{product.price}</Typography>
 
-      {"        " + product.price + "    "}
-      ریال
-    </Box>
+      <Typography fontFamily={'peyda-light'}>ریال</Typography>
+    </Stack>
   );
 
   const renderActions = (
