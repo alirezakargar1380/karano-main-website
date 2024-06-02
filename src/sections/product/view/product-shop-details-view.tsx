@@ -109,7 +109,7 @@ export default function ProductShopDetailsView({ id }: Props) {
         md: 'row',
         xs: 'column-reverse'
       }}>
-        <Grid xs={12} md={6} lg={5}>
+        <Grid xs={12} md={6} lg={6}>
           <ProductDetailsSummary
             product={product}
             items={checkout.items}
@@ -118,7 +118,7 @@ export default function ProductShopDetailsView({ id }: Props) {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={7}>
+        <Grid xs={12} md={6} lg={6}>
           <ProductDetailsCarousel product={product} />
 
           <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>

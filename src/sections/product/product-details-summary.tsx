@@ -19,7 +19,7 @@ import { fCurrency, fShortenNumber } from 'src/utils/format-number';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ColorPicker } from 'src/components/color-utils';
-import FormProvider, { RHFSelect } from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroup, RHFSelect } from 'src/components/hook-form';
 
 import { IProductItem } from 'src/types/product';
 import { ICheckoutItem } from 'src/types/checkout';
@@ -30,6 +30,7 @@ import { LoadingButton } from '@mui/lab';
 import CartDialog from 'src/components/cart/cart-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 import SvgColor from 'src/components/svg-color';
+import ProductDetailsPrice from './product-details-price';
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +58,7 @@ export default function ProductDetailsSummary({
     name,
     price,
     product_dimension,
+    order_form_options,
     coverUrl,
     available,
   } = product;
@@ -73,6 +75,8 @@ export default function ProductDetailsSummary({
     coverUrl,
     available,
     price,
+    dimension_id: (product.property_prices?.length) ? product?.property_prices[0]?.dimension.id : 0,
+    cover_type_id: (product.property_prices?.length) ? product?.property_prices[0]?.cover_type.id : 0,
     // colors: colors[0],
     // size: sizes[4],
     quantity: available < 1 ? 0 : 1,
@@ -122,22 +126,12 @@ export default function ProductDetailsSummary({
     }
   }, [onAddCart, values]);
 
-  const renderPrice = (
-    <Stack sx={{ typography: 'h5' }} direction={'row'} spacing={1.5}>
-      <Typography fontFamily={'peyda-bold'}>قیمت:</Typography>
-
-      
-      <Typography fontFamily={'peyda-medium'}>{product.price}</Typography>
-
-      <Typography fontFamily={'peyda-light'}>ریال</Typography>
-    </Stack>
-  );
-
   const renderActions = (
     <LoadingButton
       sx={{
         borderRadius: '24px',
         fontFamily: 'peyda-bold',
+        mt: 4
       }}
       fullWidth
       color="inherit"
@@ -167,6 +161,16 @@ export default function ProductDetailsSummary({
         ابعاد
       </Typography>
 
+      <RHFRadioGroup
+        name="dimension_id"
+        options={product_dimension.map((dimension, index: number) => {
+          return {
+            label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'میلی متر',
+            value: dimension.id
+          };
+        })}
+      />
+      {/* <br />
       {product_dimension.map((dimension, index: number) => (
         <FormControl component="fieldset" sx={{ width: 1 }} key={index}>
           <RadioGroup row defaultValue="top">
@@ -179,11 +183,11 @@ export default function ProductDetailsSummary({
             />
           </RadioGroup>
         </FormControl>
-      ))}
+      ))} */}
     </Box>
   )
 
-  const renderCovertype = (
+  const renderCovertype = order_form_options?.cover_type.length && (
     <Box>
       <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
         width: 1, pb: 1
@@ -191,7 +195,19 @@ export default function ProductDetailsSummary({
         نوع پوشش
       </Typography>
       <Stack direction={'row'} spacing={2}>
-        <FormControl component="fieldset">
+
+        <RHFRadioGroup
+          name="cover_type_id"
+          row
+          options={order_form_options.cover_type.map((cover_type, index: number) => {
+            return {
+              label: cover_type.name,
+              value: cover_type.id
+            };
+          })}
+        />
+
+        {/* <FormControl component="fieldset">
           <RadioGroup row defaultValue="top">
             <FormControlLabel
               value={true}
@@ -223,7 +239,7 @@ export default function ProductDetailsSummary({
               sx={{ textTransform: 'capitalize' }}
             />
           </RadioGroup>
-        </FormControl>
+        </FormControl> */}
       </Stack>
     </Box>
   )
@@ -243,8 +259,10 @@ export default function ProductDetailsSummary({
           // quantity={values.quantity}
           // disabledDecrease={values.quantity <= 1}
           // disabledIncrease={values.quantity >= available}
-          onIncrease={() => setValue('quantity', 55 + 1)}
-          onDecrease={() => setValue('quantity', 55 - 1)}
+          onIncrease={() => { }}
+          onDecrease={() => { }}
+        // onIncrease={() => setValue('quantity', 55 + 1)}
+        // onDecrease={() => setValue('quantity', 55 - 1)}
         />
 
         {/* <Typography variant="caption" component="div" sx={{ textAlign: 'right' }}>
@@ -283,7 +301,12 @@ export default function ProductDetailsSummary({
 
             {renderSubDescription}
 
-            {renderPrice}
+            <ProductDetailsPrice
+              price={product.price}
+              dimention_id={values.dimension_id || 0}
+              cover_type_id={values.cover_type_id || 0}
+              property_values={product.property_prices}
+            />
 
             {renderActions}
 

@@ -26,10 +26,17 @@ export type IProductReviewNewForm = {
 };
 
 export type ProductDimension = {
+  id?: number;
   // unit: string;
   length: string;
   width: string;
   height: string;
+}
+
+export type IProductCoverType = {
+  id: number
+  name: string
+  createdAt: string
 }
 
 export type IProductReview = {
@@ -44,6 +51,35 @@ export type IProductReview = {
   postedAt: Date;
 };
 
+export type IProductPropertyValues = {
+  price: number,
+  cover_type: Partial<IProductCoverType>,
+  dimension: Partial<ProductDimension>
+}
+
+export enum ProductOrderType {
+  ready_to_use = 'ready_to_use',
+  custom_made = 'custom_made'
+}
+export type IProductProfileType = {
+  id: number
+  name: string
+  createdAt: string
+}
+export type IProductFrameType = {
+  id: number
+  name: string
+  createdAt: string
+}
+export type IProductDefaultDetails = {
+  quantity: number,
+  coating_type: string | boolean,
+  type: ProductOrderType,
+  cover_type: IProductCoverType[],
+  profile_type: IProductProfileType[]
+  frame_type: IProductFrameType[]
+}
+
 export type IProductItem = {
   id: string;
   sku: string;
@@ -56,6 +92,8 @@ export type IProductItem = {
   gender: string;
   sizes: string[];
   publish: string;
+  property_prices: IProductPropertyValues[];
+  order_form_options?: IProductDefaultDetails;
   coverUrl: string;
   images: IProductImage[];
   colors: string[];
