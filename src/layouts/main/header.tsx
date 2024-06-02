@@ -26,6 +26,7 @@ import ShoppingCartButton from '../common/shopping-cart-button';
 import { Box, Button, IconButton, Typography } from '@mui/material';
 import SvgColor from 'src/components/svg-color';
 import { useHandleBanner } from 'src/api/banner';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -65,7 +66,7 @@ function StyledToolbar({ children }: Props) {
   )
 }
 
-export default function Header() {
+export default function Header({ toggleBanner }: any) {
 
   const mdUp = useResponsive('up', 'md');
 
@@ -73,10 +74,15 @@ export default function Header() {
 
   const { showBanner, toggle } = useHandleBanner();
 
+  console.log("-->", showBanner)
+  useEffect(() => {
+    toggleBanner(showBanner)
+  }, [showBanner])
+
   return (
-    <AppBar position="fixed">
-      {/* <Button onClick={() => toggle()}>t</Button> */}
-      {showBanner ? (
+    <>
+      <Button onClick={() => toggle()} sx={{ position: 'absolute', zIndex: 10 }}>t</Button>
+      {/* {showBanner ? (
         <Box sx={{ bgcolor: '#454545', py: 2 }}>
           <Stack justifyContent={'center'} direction={'row'}>
             <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
@@ -89,7 +95,7 @@ export default function Header() {
             </Box>
           </Stack>
         </Box>
-      ) : null}
+      ) : null} */}
       <StyledToolbar>
         <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1' }}>
           <Badge
@@ -144,6 +150,6 @@ export default function Header() {
       </StyledToolbar>
 
       {offsetTop && <HeaderShadow />}
-    </AppBar>
+    </>
   );
 }

@@ -9,6 +9,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+// import Grid from '@mui/material/Grid';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 
@@ -109,7 +110,7 @@ export default function ProductShopDetailsView({ id }: Props) {
         md: 'row',
         xs: 'column-reverse'
       }}>
-        <Grid xs={12} md={6} lg={6}>
+        <Grid xs={12} md={6} lg={4}>
           <ProductDetailsSummary
             product={product}
             items={checkout.items}
@@ -118,7 +119,9 @@ export default function ProductShopDetailsView({ id }: Props) {
           />
         </Grid>
 
-        <Grid xs={12} md={6} lg={6}>
+        <Grid lg={3} />
+
+        <Grid xs={12} md={6} lg={5}>
           <ProductDetailsCarousel product={product} />
 
           <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
@@ -182,13 +185,7 @@ export default function ProductShopDetailsView({ id }: Props) {
   );
 
   return (
-    <Container
-      maxWidth={settings.themeStretch ? false : 'lg'}
-      sx={{
-        mt: 10,
-        mb: 15,
-      }}
-    >
+    <>
       {/* <CartIcon totalItems={checkout.totalItems} /> */}
 
       {productLoading && renderSkeleton}
@@ -196,6 +193,6 @@ export default function ProductShopDetailsView({ id }: Props) {
       {productError && renderError}
 
       {product && renderProduct}
-    </Container>
+    </>
   );
 }

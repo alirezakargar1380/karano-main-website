@@ -9,6 +9,9 @@ import NavDesktopModern from './nav/desktop-modern';
 import { navConfig, navDesktopConfig } from './config-navigation';
 import SvgColor from 'src/components/svg-color';
 import { useResponsive } from 'src/hooks/use-responsive';
+import { useHandleBanner } from 'src/api/banner';
+import { useEffect, useState } from 'react';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 // ----------------------------------------------------------------------
 
@@ -17,21 +20,46 @@ type Props = {
 };
 
 export default function MainLayout({ children }: Props) {
+  const [showBanner, setShowBanner] = useState(false);
   const pathname = usePathname();
-
   const homePage = pathname === '/';
   const mdUp = useResponsive('up', 'md');
 
+  console.log("---> ", showBanner, " <---")
+
   return (
-    <>
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
+      {/* <Box sx={{ bgcolor: 'red' }}>sss</Box> */}
+
+      <Box sx={{ bgcolor: '#454545', py: 2 }}>
+        <Stack justifyContent={'center'} direction={'row'}>
+          <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
+            متن بنر مورد نظر اینجا قرار می‌گیرد
+          </Typography>
+          <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '50%' }}>
+            <IconButton sx={{ p: 0 }}
+              // onClick={() => toggle()}
+            >
+              <SvgColor src="/assets/icons/navbar/x-close.svg" color={'#F8F8F8'} sx={{ width: 16, height: 16 }} />
+            </IconButton>
+          </Box>
+        </Stack>
+      </Box>
+
+      <Container maxWidth={'xl'}>
         <Grid container>
           {mdUp ? (
             <Grid item xs={2} sm={1} md={1}>
-              <AppBar position="sticky" sx={{
-                pt: 16,
-                pr: 3,
-                width: '100%'
+              <AppBar position='sticky' sx={{
+                // pt: 8,
+                pt: 1,
+                // pr: 3,
+                // right: 0,
+                mx: 'auto',
+                width: '100%',
+                // ...(showBanner && {
+                //   pt: 16,
+                // })
               }}>
                 <NavDesktopModern data={navDesktopConfig} />
               </AppBar>
@@ -39,20 +67,20 @@ export default function MainLayout({ children }: Props) {
           ) : null}
 
           <Grid item xs={!mdUp ? 12 : 10} sm={!mdUp ? 12 : 11} md={11} sx={{ px: '0px!important' }}>
-            <Container maxWidth={'xl'}>
-              <Header />
-            </Container>
-
+            <Header toggleBanner={(v: boolean) => setShowBanner(v)} />
             <Box
               component="main"
               sx={{
                 flexGrow: 1,
-                ...(!homePage && {
-                  pt: { xs: 8, md: 10 },
-                }),
+                mt: 6
+                // ...(!homePage && {
+                //   pt: { xs: 8, md: 12 },
+                // }),
+                // ...(showBanner && {
+                //   mt: { xs: 8, md: 6 },
+                // })
               }}
             >
-
               {children}
             </Box>
 
@@ -61,7 +89,7 @@ export default function MainLayout({ children }: Props) {
               </Container> */}
           </Grid>
         </Grid>
-      </Box>
-    </>
+      </Container>
+    </Box>
   );
 }

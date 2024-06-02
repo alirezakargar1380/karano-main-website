@@ -69,7 +69,7 @@ export default function HomeView() {
           overflow: 'hidden',
           position: 'relative',
           bgcolor: 'background.default',
-          mt: `${HEADER.H_DESKTOP + 100}px`
+          // mt: `${HEADER.H_DESKTOP + 100}px`
         }}
       >
 
