@@ -8,13 +8,15 @@ interface Props {
     dimention_id: number
     cover_type_id: number
     property_values: IProductPropertyValues[]
+    quantity: number
 }
 
 export default function ProductDetailsPrice({
     price,
     dimention_id,
     cover_type_id,
-    property_values
+    property_values,
+    quantity
 }: Props) {
     const [newPrice, setNewPrice] = useState<number>(0)
 
@@ -33,7 +35,7 @@ export default function ProductDetailsPrice({
 
 
             <Typography fontFamily={'peyda-medium'} variant="h4">
-                <CountUp useEasing start={price} end={newPrice} />
+                <CountUp useEasing start={price} end={newPrice * quantity} />
             </Typography>
 
             <Typography fontFamily={'peyda-light'} variant="h4">ریال</Typography>

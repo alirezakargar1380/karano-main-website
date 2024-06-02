@@ -79,7 +79,7 @@ export default function ProductDetailsSummary({
     cover_type_id: (product.property_prices?.length) ? product?.property_prices[0]?.cover_type.id : 0,
     // colors: colors[0],
     // size: sizes[4],
-    quantity: available < 1 ? 0 : 1,
+    quantity: 1,
   };
 
   const methods = useForm({
@@ -255,14 +255,17 @@ export default function ProductDetailsSummary({
       <Stack spacing={1}>
         <IncrementerButton
           name="quantity"
-          quantity={56}
+          quantity={values.quantity || 1}
           // quantity={values.quantity}
           // disabledDecrease={values.quantity <= 1}
           // disabledIncrease={values.quantity >= available}
-          onIncrease={() => { }}
-          onDecrease={() => { }}
-        // onIncrease={() => setValue('quantity', 55 + 1)}
-        // onDecrease={() => setValue('quantity', 55 - 1)}
+          // onIncrease={() => { }}
+          // onDecrease={() => { }}
+          onDecrease={() => setValue('quantity', values.quantity ? values.quantity + 1 : 1)}
+          onIncrease={() => {
+            if (values.quantity != 1)
+              setValue('quantity', values.quantity ? values.quantity - 1 : 1)
+          }}
         />
 
         {/* <Typography variant="caption" component="div" sx={{ textAlign: 'right' }}>
@@ -306,6 +309,7 @@ export default function ProductDetailsSummary({
               dimention_id={values.dimension_id || 0}
               cover_type_id={values.cover_type_id || 0}
               property_values={product.property_prices}
+              quantity={values.quantity || 1}
             />
 
             {renderActions}
