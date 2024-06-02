@@ -30,7 +30,7 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
   }),
 
   ...(length === 2 && {
-    maxWidth: THUMB_SIZE * 1 + 32,
+    maxWidth: THUMB_SIZE * 1,
   }),
 
   ...((length === 3 || length === 4) && {
@@ -142,6 +142,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
             },
             backgroundColor: "#fff",
             right: 0,
+            ml: 1,
           }
         }}
         rightButtonBoxProps={{
@@ -162,6 +163,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
             '&:hover': {
               backgroundColor: '#fff'
             },
+            mr: 1
           }
         }}
       >
