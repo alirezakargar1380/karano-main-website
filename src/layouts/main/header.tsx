@@ -23,9 +23,9 @@ import PriceListButton from '../common/price-list-button';
 import SearchButton from '../common/search-button';
 import LikeButton from '../common/like-button';
 import ShoppingCartButton from '../common/shopping-cart-button';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import SvgColor from 'src/components/svg-color';
-import { useBoolean } from 'src/hooks/use-boolean';
+import { useHandleBanner } from 'src/api/banner';
 
 // ----------------------------------------------------------------------
 type Props = {
@@ -71,18 +71,19 @@ export default function Header() {
 
   const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
-  const banner = useBoolean(true)
+  const { showBanner, toggle } = useHandleBanner();
 
   return (
     <AppBar position="fixed">
-      {banner.value ? (
+      {/* <Button onClick={() => toggle()}>t</Button> */}
+      {showBanner ? (
         <Box sx={{ bgcolor: '#454545', py: 2 }}>
           <Stack justifyContent={'center'} direction={'row'}>
             <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
               متن بنر مورد نظر اینجا قرار می‌گیرد
             </Typography>
             <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '50%' }}>
-              <IconButton sx={{ p: 0 }} onClick={() => { banner.onFalse() }}>
+              <IconButton sx={{ p: 0 }} onClick={() => toggle()}>
                 <SvgColor src="/assets/icons/navbar/x-close.svg" color={'#F8F8F8'} sx={{ width: 16, height: 16 }} />
               </IconButton>
             </Box>
