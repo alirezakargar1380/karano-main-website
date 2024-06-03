@@ -42,6 +42,7 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="fa" dir='rtl'>
+      <meta name="enamad" content="6190063" />
       <body>
         <AuthProvider>
           <LocalizationProvider>
