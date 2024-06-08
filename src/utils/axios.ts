@@ -49,6 +49,14 @@ export const endpoints = {
   image: {
     url: (name: string) => `${BACKEND_API}/api/images/` + name,
   },
+  cover_type: {
+    list: '/api/products-cover-types',
+    create: '/api/products-cover-types',
+    one: (id: string) => `/api/products-cover-types/${id}`,
+    update: (id: any) => `/api/products-cover-types/${id}`,
+    get_image: (name: string) => `${BACKEND_API}/api/products-cover-types/icons/${name}`,
+    upload_icon: (id: any) => `/api/products-cover-types/${id}/icon`
+  },
   mail: {
     list: '/api/mail/list',
     details: '/api/mail/details',

@@ -31,6 +31,7 @@ import CartDialog from 'src/components/cart/cart-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 import SvgColor from 'src/components/svg-color';
 import ProductDetailsPrice from './product-details-price';
+import { endpoints } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -199,10 +200,11 @@ export default function ProductDetailsSummary({
       <RHFRadioGroupWithImage
         name="cover_type_id"
         row
+        sx={{ width: 1 }}
         options={order_form_options.cover_type.map((cover_type, index: number) => {
           return {
             label: cover_type.name,
-            src: '',
+            src: endpoints.cover_type.get_image(cover_type.icon_image_name),
             value: cover_type.id
           };
         })}

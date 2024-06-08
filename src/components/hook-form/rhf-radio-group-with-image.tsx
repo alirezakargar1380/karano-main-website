@@ -13,7 +13,7 @@ import { Avatar, Box, Stack, Typography } from '@mui/material';
 
 type Props = RadioGroupProps & {
   name: string;
-  options: { label: string; src: string;  value: any }[];
+  options: { label: string; src: string; value: any }[];
   label?: string;
   spacing?: number;
   helperText?: React.ReactNode;
@@ -47,30 +47,40 @@ export default function RHFRadioGroup({
           )}
 
           <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
-            {options.map((option) => (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <FormControlLabel
-                  key={option.value}
-                  value={option.value}
-                  control={<Radio />}
-                  label={''}
-                  sx={{
-                    '&:not(:last-of-type)': {
-                      mb: spacing || 0,
-                    },
-                    ...(row && {
-                      mr: 0,
-                      // '&:not(:last-of-type)': {
-                      //   mr: spacing || 4,
-                      // },
-                    }),
-                    ...FSx
-                  }}
-                />
-                <Avatar src={option.src} />
-                <Typography variant="body2" sx={{ textTransform: 'capitalize', pt: 1, pl: 1 }}>{option.label}</Typography>
-              </Box>
-            ))}
+            <Stack
+              columnGap={12}
+              rowGap={2}
+              display="grid"
+              gridTemplateColumns={{
+                xs: 'repeat(1, 1fr)',
+                md: 'repeat(2, 1fr)',
+              }}>
+              {options.map((option) => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <FormControlLabel
+                    key={option.value}
+                    value={option.value}
+                    control={<Radio />}
+                    label={''}
+                    sx={{
+                      '&:not(:last-of-type)': {
+                        mb: spacing || 0,
+                      },
+                      ...(row && {
+                        mr: 0,
+                        // '&:not(:last-of-type)': {
+                        //   mr: spacing || 4,
+                        // },
+                      }),
+                      ...FSx
+                    }}
+                  />
+                  <Avatar src={option.src} />
+                  <Typography variant="body2" sx={{ textTransform: 'capitalize', pt: 1, pl: 1 }}>{option.label}</Typography>
+                </Box>
+              ))}
+            </Stack>
+
           </RadioGroup>
 
           {(!!error || helperText) && (

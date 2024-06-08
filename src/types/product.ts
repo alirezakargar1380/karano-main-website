@@ -34,6 +34,7 @@ export type ProductDimension = {
 }
 
 export type IProductCoverType = {
+  icon_image_name: string;
   id: number
   name: string
   createdAt: string
