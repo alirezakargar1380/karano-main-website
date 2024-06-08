@@ -19,7 +19,7 @@ import { fCurrency, fShortenNumber } from 'src/utils/format-number';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import { ColorPicker } from 'src/components/color-utils';
-import FormProvider, { RHFRadioGroup, RHFSelect } from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
 
 import { IProductItem } from 'src/types/product';
 import { ICheckoutItem } from 'src/types/checkout';
@@ -188,26 +188,27 @@ export default function ProductDetailsSummary({
   )
 
   const renderCovertype = order_form_options?.cover_type.length && (
-    <Box>
+    <Box sx={{ width: 1 }}>
       <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
         width: 1, pb: 1
       }}>
         نوع پوشش
       </Typography>
-      <Stack direction={'row'} spacing={2}>
+      {/* <Stack direction={'row'} spacing={2}> */}
 
-        <RHFRadioGroup
-          name="cover_type_id"
-          row
-          options={order_form_options.cover_type.map((cover_type, index: number) => {
-            return {
-              label: cover_type.name,
-              value: cover_type.id
-            };
-          })}
-        />
+      <RHFRadioGroupWithImage
+        name="cover_type_id"
+        row
+        options={order_form_options.cover_type.map((cover_type, index: number) => {
+          return {
+            label: cover_type.name,
+            src: '',
+            value: cover_type.id
+          };
+        })}
+      />
 
-        {/* <FormControl component="fieldset">
+      {/* <FormControl component="fieldset">
           <RadioGroup row defaultValue="top">
             <FormControlLabel
               value={true}
@@ -240,7 +241,7 @@ export default function ProductDetailsSummary({
             />
           </RadioGroup>
         </FormControl> */}
-      </Stack>
+      {/* </Stack> */}
     </Box>
   )
 

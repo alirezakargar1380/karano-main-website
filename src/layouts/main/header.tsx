@@ -149,7 +149,7 @@ export default function Header({ toggleBanner }: any) {
         </Container>
       </StyledToolbar>
 
-      {offsetTop && <HeaderShadow />}
+      {/* {offsetTop && <HeaderShadow />} */}
     </>
   );
 }
