@@ -12,9 +12,15 @@ import { TableHeadCustom } from "src/components/table";
 import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
+import { useCheckoutContext } from "src/sections/checkout/context";
 
 export default function ShoppingCartView() {
     const howToSendDialog = useBoolean();
+
+    const checkout = useCheckoutContext();
+
+    // console.log(checkout.items)
+
     return (
         <Container maxWidth={'xl'}>
             <HowToSendDialog dialog={howToSendDialog} />
@@ -35,90 +41,50 @@ export default function ShoppingCartView() {
                 </BlueNotification>
             </Box>
             <Box>
-                <Grid container spacing={2} sx={{ py: 4 }}>
-                    <Grid item sm={2} />
-                    <Grid item sm={10}>
-                        <Stack direction={'row'} spacing={2}>
-                            <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>درب کابینتی - P60</Typography>
-                            <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
-                        </Stack>
-                    </Grid>
-                    <Grid item sm={2} sx={{ pt: 2 }}>
-                        <Image src='/img/product/product.png' sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
-                    </Grid>
-                    <Grid item sm={10} sx={{ pt: 2 }}>
-                        <Scrollbar sx={{ maxHeight: 680 }}>
-                            <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                <TableHeadCustom
-                                    sx={{
-                                        backgroundColor: '#F2F2F2'
-                                    }}
-                                    headLabel={CartTableHead}
-                                />
+                {checkout.items.map((item, index: number) => (
+                    <Grid container spacing={2} sx={{ py: 4 }} key={index}>
+                        <Grid item sm={2} />
+                        <Grid item sm={10}>
+                            <Stack direction={'row'} spacing={2}>
+                                <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
+                                <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
+                            </Stack>
+                        </Grid>
+                        <Grid item sm={2} sx={{ pt: 2 }}>
+                            <Image src={item.coverUrl} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                        </Grid>
+                        <Grid item sm={10} sx={{ pt: 2 }}>
+                            <Scrollbar sx={{ maxHeight: 680 }}>
+                                <Table size={'medium'} sx={{ minWidth: 780 }}>
+                                    <TableHeadCustom
+                                        sx={{
+                                            backgroundColor: '#F2F2F2'
+                                        }}
+                                        headLabel={CartTableHead}
+                                    />
 
-                                <TableBody>
-                                    {[...Array(4)].map((data, index: number) => (
-                                        <CartTableRow
-                                            onDeleteRow={() => { }}
-                                            onEditRow={() => { }}
-                                            key={index}
-                                            row={{
-                                                quality: 11,
-                                                coating: 'غیر جناقی',
-                                                dimensions: '210*235',
-                                                final_coating: 'روکش خام',
-                                                frame_type: 'حجمی',
-                                                profile_type: 'درب کابینتی',
-                                            }}
-                                        />
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Scrollbar>
+                                    <TableBody>
+                                        {item.property_prices.map((property_price, ind: number) => (
+                                            <CartTableRow
+                                                onDeleteRow={() => { }}
+                                                onEditRow={() => { }}
+                                                key={ind * 2}
+                                                row={{
+                                                    quality: property_price.quantity,
+                                                    coating: '-' || 'غیر جناقی',
+                                                    dimensions: property_price.dimention.width + "*" + property_price.dimention.height + "*" + property_price.dimention.length,
+                                                    final_coating: property_price.cover_type.name,
+                                                    frame_type: '-' || 'حجمی',
+                                                    profile_type: '-' || 'درب کابینتی',
+                                                }}
+                                            />
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Scrollbar>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <Grid container spacing={2} sx={{ py: 4 }}>
-                    <Grid item sm={2} />
-                    <Grid item sm={10}>
-                        <Stack direction={'row'} spacing={2}>
-                            <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>درب کابینتی - P60</Typography>
-                            <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
-                        </Stack>
-                    </Grid>
-                    <Grid item sm={2} sx={{ pt: 2 }}>
-                        <Image src='/img/product/product.png' sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
-                    </Grid>
-                    <Grid item sm={10} sx={{ pt: 2 }}>
-                        <Scrollbar sx={{ maxHeight: 680 }}>
-                            <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                <TableHeadCustom
-                                    sx={{
-                                        backgroundColor: '#F2F2F2'
-                                    }}
-                                    headLabel={CartTableHead}
-                                />
-
-                                <TableBody>
-                                    {[...Array(4)].map((data, index: number) => (
-                                        <CartTableRow
-                                            onDeleteRow={() => { }}
-                                            onEditRow={() => { }}
-                                            key={index}
-                                            row={{
-                                                quality: 11,
-                                                coating: 'غیر جناقی',
-                                                dimensions: '210*235',
-                                                final_coating: 'روکش خام',
-                                                frame_type: 'حجمی',
-                                                profile_type: 'درب کابینتی',
-                                            }}
-                                        />
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Scrollbar>
-                    </Grid>
-                </Grid>
+                ))}
             </Box>
             <Box sx={{ py: 4 }}>
                 <CheckCartCard dialog={howToSendDialog}>

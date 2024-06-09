@@ -80,28 +80,6 @@ export default function CartTableRow({
           {quality}
         </TableCell>
 
-        {/* <TableCell sx={{ typography: 'caption', color: 'text.secondary' }}>
-          <LinearProgress
-            value={(available * 100) / quantity}
-            variant="determinate"
-            color={
-              (inventoryType === 'out of stock' && 'error') ||
-              (inventoryType === 'low stock' && 'warning') ||
-              'success'
-            }
-            sx={{ mb: 1, height: 6, maxWidth: 80 }}
-          />
-          {!!available && available} {inventoryType}
-        </TableCell>
-
-        <TableCell>{fCurrency(price)}</TableCell>
-
-        <TableCell>
-          <Label variant="soft" color={(publish === 'published' && 'info') || 'default'}>
-            {publish}
-          </Label>
-        </TableCell> */}
-
         <TableCell align="right">
           <Stack direction={'row'}>
             <IconButton color={popover.open ? 'primary' : 'default'} onClick={() => onEditRow()}>

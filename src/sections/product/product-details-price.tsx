@@ -9,6 +9,7 @@ interface Props {
     cover_type_id: number
     property_values: IProductPropertyValues[]
     quantity: number
+    updatePrice: (price: number) => void
 }
 
 export default function ProductDetailsPrice({
@@ -16,18 +17,22 @@ export default function ProductDetailsPrice({
     dimention_id,
     cover_type_id,
     property_values,
-    quantity
+    quantity,
+    updatePrice
 }: Props) {
     const [newPrice, setNewPrice] = useState<number>(0)
 
     useEffect(() => {
         const property = property_values.find((p) => (p.dimension.id == dimention_id && p.cover_type.id == cover_type_id))
-        console.log(property)
         if (property)
-            setNewPrice(property.price)
+            setNewPrice(property.price * quantity)
         else
-            setNewPrice(price)
+            setNewPrice(price * quantity)
     }, [property_values, dimention_id, cover_type_id])
+
+    useEffect(() => {
+        updatePrice(newPrice)
+    }, [newPrice])
 
     return (
         <Stack sx={{ typography: 'h4!important' }} direction={'row'} spacing={1.5}>
@@ -35,7 +40,7 @@ export default function ProductDetailsPrice({
 
 
             <Typography fontFamily={'peyda-medium'} variant="h4">
-                <CountUp useEasing start={price} end={newPrice * quantity} />
+                <CountUp useEasing start={price} end={newPrice} />
             </Typography>
 
             <Typography fontFamily={'peyda-light'} variant="h4">ریال</Typography>

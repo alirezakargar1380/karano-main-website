@@ -11,7 +11,7 @@ import { getStorage, useLocalStorage } from 'src/hooks/use-local-storage';
 import { PRODUCT_CHECKOUT_STEPS } from 'src/_mock/_product';
 
 import { IAddressItem } from 'src/types/address';
-import { ICheckoutItem } from 'src/types/checkout';
+import { ICheckoutItem, ICheckoutNewItem } from 'src/types/checkout';
 
 import { CheckoutContext } from './checkout-context';
 
@@ -40,13 +40,20 @@ export function CheckoutProvider({ children }: Props) {
   const { state, update, reset } = useLocalStorage(STORAGE_KEY, initialState);
 
   const onGetCart = useCallback(() => {
+    // const quality: number = state.items.map((item: ICheckoutItem) => item.property_prices.reduce((acc, curr) => acc + curr.quantity, 0))[0];
+    const getTotalQuantity = (item: ICheckoutItem) => {
+      return item.property_prices.reduce((total, propertyPrice) => total + propertyPrice.quantity, 0);
+    };
+
+    const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
+
     const totalItems: number = state.items.reduce(
-      (total: number, item: ICheckoutItem) => total + item.quantity,
+      (total: number, item: ICheckoutItem) => total + quality,
       0
     );
 
     const subTotal: number = state.items.reduce(
-      (total: number, item: ICheckoutItem) => total + item.quantity * item.price,
+      (total: number, item: ICheckoutItem) => total + quality * item.price,
       0
     );
 
@@ -75,21 +82,29 @@ export function CheckoutProvider({ children }: Props) {
   }, [onGetCart]);
 
   const onAddToCart = useCallback(
-    (newItem: ICheckoutItem) => {
+    (newItem: ICheckoutNewItem) => {
       const updatedItems: ICheckoutItem[] = state.items.map((item: ICheckoutItem) => {
         if (item.id === newItem.id) {
           return {
             ...item,
-            colors: uniq([...item.colors, ...newItem.colors]),
-            quantity: item.quantity + 1,
+            property_prices: [...item.property_prices, newItem.property_prices],
           };
         }
-        return item;
+        return {
+          ...item,
+          property_prices: [newItem.property_prices]
+        };
       });
 
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
-        updatedItems.push(newItem);
+        console.log('////', newItem)
+        updatedItems.push({
+          ...newItem,
+          property_prices: [newItem.property_prices],
+        });
       }
+
+      console.log(updatedItems)
 
       update('items', updatedItems);
     },
@@ -126,7 +141,7 @@ export function CheckoutProvider({ children }: Props) {
         if (item.id === itemId) {
           return {
             ...item,
-            quantity: item.quantity + 1,
+            // quantity: item.quantity + 1,
           };
         }
         return item;
@@ -143,7 +158,7 @@ export function CheckoutProvider({ children }: Props) {
         if (item.id === itemId) {
           return {
             ...item,
-            quantity: item.quantity - 1,
+            // quantity: item.quantity - 1,
           };
         }
         return item;
@@ -181,10 +196,10 @@ export function CheckoutProvider({ children }: Props) {
 
   // Reset
   const onReset = useCallback(() => {
-    if (completed) {
-      reset();
-      router.replace(paths.product.root);
-    }
+    // if (completed) {
+    reset();
+    // router.replace(paths.product.root);
+    // }
   }, [completed, reset, router]);
 
   const memoizedValue = useMemo(

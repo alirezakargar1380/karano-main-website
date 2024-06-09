@@ -1,18 +1,28 @@
 import { IAddressItem } from './address';
+import { IProductCoverType, ProductDimension } from './product';
 
 // ----------------------------------------------------------------------
 
 export type ICheckoutItem = {
-  id: string;
+  id: number | any;
   name: string;
   coverUrl: string;
-  available: number;
   price: number;
-  colors: string[];
-  size: string;
-  quantity: number;
+  property_prices: {
+    dimention: ProductDimension;
+    cover_type: IProductCoverType;
+    quantity: number;
+  }[]
   subTotal: number;
 };
+
+export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'property_prices'> {
+  property_prices: {
+    dimention: ProductDimension;
+    cover_type: IProductCoverType;
+    quantity: number;
+  }
+}
 
 export type ICheckoutDeliveryOption = {
   value: number;

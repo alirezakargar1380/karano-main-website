@@ -64,6 +64,8 @@ export default function ProductShopDetailsView({ id }: Props) {
 
   const checkout = useCheckoutContext();
 
+  // checkout.onReset();
+
   const [currentTab, setCurrentTab] = useState('description');
 
   const { product, productLoading, productError } = useGetProduct(id);

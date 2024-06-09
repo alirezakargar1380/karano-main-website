@@ -58,10 +58,6 @@ export type IProductPropertyValues = {
   dimension: Partial<ProductDimension>
 }
 
-export enum ProductOrderType {
-  ready_to_use = 'ready_to_use',
-  custom_made = 'custom_made'
-}
 export type IProductProfileType = {
   id: number
   name: string
@@ -81,8 +77,13 @@ export type IProductDefaultDetails = {
   frame_type: IProductFrameType[]
 }
 
+export enum ProductOrderType {
+  ready_to_use = 'ready_to_use',
+  custom_made = 'custom_made'
+}
+
 export type IProductItem = {
-  id: string;
+  id: number;
   sku: string;
   name: string;
   product_dimension: ProductDimension[];
@@ -92,6 +93,7 @@ export type IProductItem = {
   tags: string[];
   gender: string;
   sizes: string[];
+  order_type: ProductOrderType;
   publish: string;
   property_prices: IProductPropertyValues[];
   order_form_options?: IProductDefaultDetails;

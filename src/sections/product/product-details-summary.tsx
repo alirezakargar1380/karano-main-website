@@ -21,7 +21,7 @@ import Iconify from 'src/components/iconify';
 import { ColorPicker } from 'src/components/color-utils';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
 
-import { IProductItem } from 'src/types/product';
+import { IProductItem, ProductOrderType } from 'src/types/product';
 import { ICheckoutItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
@@ -66,9 +66,9 @@ export default function ProductDetailsSummary({
 
   const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
 
-  const isMaxQuantity =
-    !!items?.length &&
-    items.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
+  // const isMaxQuantity =
+  //   !!items?.length &&
+  //   items.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
 
   const defaultValues = {
     id,
@@ -83,7 +83,7 @@ export default function ProductDetailsSummary({
     quantity: 1,
   };
 
-  const methods = useForm({
+  const methods = useForm<any>({
     defaultValues,
   });
 
@@ -117,15 +117,29 @@ export default function ProductDetailsSummary({
 
   const handleAddCart = useCallback(() => {
     try {
-      // onAddCart?.({
-      //   ...values,
-      //   colors: [values.colors],
-      //   subTotal: values.price * values.quantity,
-      // });
+      if (product.order_type !== ProductOrderType.ready_to_use) return
+      // console.log(values)
+      const dimention = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
+      const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
+      // return
+      onAddCart?.({
+        ...values,
+        coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
+        property_prices: {
+          quantity: values.quantity,
+          dimention: dimention,
+          cover_type
+        },
+        subTotal: values.price * values.quantity,
+      });
     } catch (error) {
       console.error(error);
     }
-  }, [onAddCart, values]);
+  }, [onAddCart, values, product]);
+
+  const updatePrice = useCallback((price: number) => {
+    setValue('price', price);
+  }, [setValue]);
 
   const renderActions = (
     <LoadingButton
@@ -137,11 +151,11 @@ export default function ProductDetailsSummary({
       fullWidth
       color="inherit"
       size="large"
-      // disabled={true}
-      type="submit"
+      onClick={() => handleAddCart()}
+      type={(product.order_type === ProductOrderType.custom_made) ? "submit" : "button"}
       variant="contained"
     >
-      افزودن به سبد خرید
+      {(product.order_type !== ProductOrderType.custom_made) ? "افزودن به سبد خرید" : "ثبت سفارش"}
     </LoadingButton>
   );
 
@@ -313,6 +327,7 @@ export default function ProductDetailsSummary({
               cover_type_id={values.cover_type_id || 0}
               property_values={product.property_prices}
               quantity={values.quantity || 1}
+              updatePrice={updatePrice}
             />
 
             {renderActions}
