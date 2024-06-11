@@ -108,8 +108,17 @@ export default function ProductShopDetailsView({ id }: Props) {
         sx={{ mb: 5 }}
       /> */}
 
-      <Grid container spacing={{ xs: 3, md: 5, lg: 8 }} sx={{ mb: 5 }} direction={{
+      <Grid container spacing={{
+        xs: 3, 
+        // md: 12, 
+        // lg: 12
+      }}
+      alignContent={'space-between'}
+      justifyContent={'space-between'} 
+      sx={{ mb: 5 }}
+      direction={{
         md: 'row',
+        sm: 'column-reverse',
         xs: 'column-reverse'
       }}>
         <Grid xs={12} md={6} lg={4}>
@@ -121,7 +130,7 @@ export default function ProductShopDetailsView({ id }: Props) {
           />
         </Grid>
 
-        <Grid lg={3} />
+        {/* <Grid xs={0} sm={6} md={3} lg={3} /> */}
 
         <Grid xs={12} md={6} lg={5}>
           <ProductDetailsCarousel product={product} />
