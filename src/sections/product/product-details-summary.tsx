@@ -32,6 +32,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import SvgColor from 'src/components/svg-color';
 import ProductDetailsPrice from './product-details-price';
 import { endpoints } from 'src/utils/axios';
+import ProductDetailsDescription from './product-details-description';
 
 // ----------------------------------------------------------------------
 
@@ -312,23 +313,33 @@ export default function ProductDetailsSummary({
             </Stack>
 
 
-            {renderDimensions}
-            {/* {renderRating} */}
+            {product.order_type === ProductOrderType.ready_to_use ?
+              <>
+                {renderDimensions}
+                {/* {renderRating} */}
 
-            {renderCovertype}
+                {renderCovertype}
 
-            {renderQuantity}
+                {renderQuantity}
 
-            {renderSubDescription}
+                {renderSubDescription}
 
-            <ProductDetailsPrice
-              price={product.price}
-              dimention_id={values.dimension_id || 0}
-              cover_type_id={values.cover_type_id || 0}
-              property_values={product.property_prices}
-              quantity={values.quantity || 1}
-              updatePrice={updatePrice}
-            />
+                <ProductDetailsPrice
+                  price={product.price}
+                  dimention_id={values.dimension_id || 0}
+                  cover_type_id={values.cover_type_id || 0}
+                  property_values={product.property_prices}
+                  quantity={values.quantity || 1}
+                  updatePrice={updatePrice}
+                />
+              </>
+              :
+              <>
+                <ProductDetailsDescription />
+                <Box mt={4} />
+              </>
+
+            }
 
             {renderActions}
 

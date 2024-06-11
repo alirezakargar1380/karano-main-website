@@ -32,6 +32,7 @@ import ProductDetailsCarousel from '../product-details-carousel';
 import ProductDetailsDescription from '../product-details-description';
 import CarouselProducts from 'src/sections/_examples/extra/carousel-view/carousel-products';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
+import { ProductOrderType } from 'src/types/product';
 
 // ----------------------------------------------------------------------
 
@@ -109,18 +110,18 @@ export default function ProductShopDetailsView({ id }: Props) {
       /> */}
 
       <Grid container spacing={{
-        xs: 3, 
+        xs: 3,
         // md: 12, 
         // lg: 12
       }}
-      alignContent={'space-between'}
-      justifyContent={'space-between'} 
-      sx={{ mb: 5 }}
-      direction={{
-        md: 'row',
-        sm: 'column-reverse',
-        xs: 'column-reverse'
-      }}>
+        alignContent={'space-between'}
+        justifyContent={'space-between'}
+        sx={{ mb: 5 }}
+        direction={{
+          md: 'row',
+          sm: 'column-reverse',
+          xs: 'column-reverse'
+        }}>
         <Grid xs={12} md={6} lg={4}>
           <ProductDetailsSummary
             product={product}
@@ -135,16 +136,9 @@ export default function ProductShopDetailsView({ id }: Props) {
         <Grid xs={12} md={6} lg={5}>
           <ProductDetailsCarousel product={product} />
 
-          <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
-            <Typography variant='h5' fontFamily={'peyda-bold'} pb={2}>درباره محصول</Typography>
-            <Typography fontFamily={'peyda-regular'}>
-              کارانو در سال 1369 فعالیت خود را در زمینه تولید محصولات چوبی آغاز نمود. این موسسه با اتکا بر توان اجرایی خود و بهرهگیری از تجربه پیشگامان جهانی صنعت چوب، همواره به ارتقا سطح اجرا در صنعت ساختمان کشور یاری رسانده است.              </Typography>
-          </Box>
-
-          <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
-            <Typography variant='h5' fontFamily={'peyda-bold'} pb={2}>ویژگی های کلی محصول</Typography>
-            <Typography>متن با نقطهمتن با نقطهمتن با نقطهمتن با نقطهمتن با نقطه</Typography>
-          </Box>
+          {product.order_type === ProductOrderType.ready_to_use ?
+            <ProductDetailsDescription />
+            : null}
 
         </Grid>
       </Grid>
