@@ -53,7 +53,8 @@ export default function RHFRadioGroup({
               display="grid"
               gridTemplateColumns={{
                 xs: 'repeat(1, 1fr)',
-                md: 'repeat(2, 1fr)',
+                md: 'repeat(1, 1fr)',
+                lg: 'repeat(2, 1fr)',
               }}>
               {options.map((option) => (
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -68,9 +69,7 @@ export default function RHFRadioGroup({
                       },
                       ...(row && {
                         mr: 0,
-                        // '&:not(:last-of-type)': {
-                        //   mr: spacing || 4,
-                        // },
+                        ml: 0,
                       }),
                       ...FSx
                     }}

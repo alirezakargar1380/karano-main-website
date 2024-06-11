@@ -69,10 +69,11 @@ export type IProductFrameType = {
   createdAt: string
 }
 export type IProductDefaultDetails = {
-  quantity: number,
-  coating_type: string | boolean,
-  type: ProductOrderType,
-  cover_type: IProductCoverType[],
+  id: number;
+  quantity: number
+  coating_type: string | boolean
+  type: ProductOrderType
+  cover_type: IProductCoverType[]
   profile_type: IProductProfileType[]
   frame_type: IProductFrameType[]
 }
@@ -96,7 +97,7 @@ export type IProductItem = {
   order_type: ProductOrderType;
   publish: string;
   property_prices: IProductPropertyValues[];
-  order_form_options?: IProductDefaultDetails;
+  order_form_options: IProductDefaultDetails;
   coverUrl: string;
   images: IProductImage[];
   colors: string[];

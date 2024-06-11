@@ -16,16 +16,23 @@ import Scrollbar from '../scrollbar';
 import { CartDialogView } from 'src/sections/cart/view';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
+import { useGetOrderForm } from 'src/api/order-form';
 
 // ----------------------------------------------------------------------
 interface Props {
     dialog: useBooleanReturnType
+    order_form_id: number
+    product_name: string
 }
 
 
-export default function CartDialog({ dialog }: Props) {
+export default function CartDialog({ dialog, order_form_id, product_name }: Props) {
     const defaultValues = {
     };
+
+    const { form } = useGetOrderForm(order_form_id)
+
+    console.log(order_form_id)
 
     const methods = useForm({
         defaultValues,
@@ -63,12 +70,12 @@ export default function CartDialog({ dialog }: Props) {
         }
     });
 
-    
+
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
             <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'paper'} fullWidth={true} maxWidth={'xl'}>
-                <CartDialogView />
+                <CartDialogView title={product_name} formOptions={form} />
 
 
                 <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden' }}>

@@ -17,6 +17,7 @@ type Props = RadioGroupProps & {
   spacing?: number;
   helperText?: React.ReactNode;
   FSx?: SxProps
+  FormControlSx?: SxProps
 };
 
 export default function RHFRadioGroup({
@@ -27,6 +28,7 @@ export default function RHFRadioGroup({
   spacing,
   helperText,
   FSx,
+  FormControlSx,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -38,7 +40,7 @@ export default function RHFRadioGroup({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <FormControl component="fieldset">
+        <FormControl component="fieldset" sx={{ ...FormControlSx }}>
           {label && (
             <FormLabel component="legend" id={labelledby} sx={{ typography: 'body2' }}>
               {label}

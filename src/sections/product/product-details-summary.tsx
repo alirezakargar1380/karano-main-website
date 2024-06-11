@@ -295,7 +295,7 @@ export default function ProductDetailsSummary({
 
   return (
     <>
-      <CartDialog dialog={cartDialog} />
+      <CartDialog dialog={cartDialog} order_form_id={product.order_form_options.id} product_name={product.name} />
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={3} {...other}>
           <Stack spacing={2} alignItems="flex-start">
@@ -332,6 +332,7 @@ export default function ProductDetailsSummary({
                   quantity={values.quantity || 1}
                   updatePrice={updatePrice}
                 />
+
               </>
               :
               <>

@@ -9,12 +9,14 @@ import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
 import { Avatar, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, TableBody, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
-import FormProvider, { RHFSelect } from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
 import Table from '@mui/material/Table';
 import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
 import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
+import { IProductDefaultDetails } from 'src/types/product';
+import { endpoints } from 'src/utils/axios';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل' },
@@ -26,24 +28,60 @@ export const CartTableHead = [
     { id: '', width: 88 },
 ]
 
-export default function CartDialogView() {
+interface Props {
+    title: string
+    formOptions: IProductDefaultDetails
+}
+
+export default function CartDialogView({ title, formOptions }: Props) {
     return (
         <Scrollbar sx={{ maxHeight: 860 }}>
             <Grid container spacing={4} sx={{ width: 1, padding: 3 }}>
                 <Grid item xs={12} md={4}>
-                    <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>درب کابینتی - P60</Typography>
+                    <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
+                        {title}
+                    </Typography>
                     <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                         <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
                             ویژگی های مورد نظر را انتخاب کنید
                         </Typography>
-                        <Box>
+                        <Box width={1}>
                             <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: 1
                             }}>
                                 نوع پروفیل
                             </Typography>
-                            <Stack direction={'row'} spacing={2}>
-                                <FormControl component="fieldset">
+
+                            {/* <Stack direction={'row'}
+                                spacing={2}
+                                columnGap={2}
+                                rowGap={3}
+                                display="grid"
+                                gridTemplateColumns={{
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                }}
+                            > */}
+                            <RHFRadioGroup name='' row
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={formOptions.profile_type.map((profile_type) => {
+                                    return {
+                                        label: profile_type.name,
+                                        value: profile_type.name,
+                                    }
+                                })}
+                            />
+                            {/* <FormControl component="fieldset">
                                     <RadioGroup row defaultValue="top">
                                         <FormControlLabel
                                             label={"درب کشو"}
@@ -67,8 +105,8 @@ export default function CartDialogView() {
                                             sx={{ textTransform: 'capitalize' }}
                                         />
                                     </RadioGroup>
-                                </FormControl>
-                            </Stack>
+                                </FormControl> */}
+                            {/* </Stack> */}
                         </Box>
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
@@ -77,80 +115,43 @@ export default function CartDialogView() {
                         }}>
                             پوشش نهایی
                         </Typography>
-                        <Stack direction={'row'}
-                            spacing={2}
-                            columnGap={2}
-                            rowGap={3}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"روکش خام"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <>
-                                                <Radio size="medium" />
-                                                <Avatar sx={{ mr: 1 }} />
-                                            </>
-
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"روکش بلوط"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <>
-                                                <Radio size="medium" />
-                                                <Avatar sx={{ mr: 1 }} />
-                                            </>
-
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"روکش راش"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <>
-                                                <Radio size="medium" />
-                                                <Avatar sx={{ mr: 1 }} />
-                                            </>
-
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"روکش گردو"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <>
-                                                <Radio size="medium" />
-                                                <Avatar sx={{ mr: 1 }} />
-                                            </>
-
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </Stack>
+                        <RHFRadioGroupWithImage name=''
+                            FSx={{
+                                '&.MuiFormControlLabel-root': {
+                                    ml: 0,
+                                    mr: 0
+                                }
+                            }}
+                            options={formOptions.cover_type.map((cover_type) => {
+                                return {
+                                    label: cover_type.name,
+                                    value: cover_type.name,
+                                    src: endpoints.cover_type.get_image(cover_type.icon_image_name)
+                                }
+                            })}
+                        // options={[
+                        //     {
+                        //         label: 'nhka',
+                        //         value: '',
+                        //         src: ''
+                        //     },
+                        //     {
+                        //         label: 'nhka',
+                        //         value: '',
+                        //         src: ''
+                        //     },
+                        //     {
+                        //         label: 'nhka',
+                        //         value: '',
+                        //         src: ''
+                        //     },
+                        //     {
+                        //         label: 'nhka',
+                        //         value: '',
+                        //         src: ''
+                        //     },
+                        // ]}
+                        />
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
@@ -158,64 +159,27 @@ export default function CartDialogView() {
                         }}>
                             نوع قاب
                         </Typography>
-                        <Stack direction={'row'}
-                            spacing={2}
-                            columnGap={2}
-                            rowGap={3}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"حجمی"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <Radio size="medium" />
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"تخت"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <Radio size="medium" />
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"شیشه خور مشبک"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <Radio size="medium" />
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"شیشه خور ساده"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <Radio size="medium" />
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </Stack>
+                        <RHFRadioGroup name='' row
+                            sx={{
+                                mt: 2,
+                                width: 1,
+                                display: 'grid',
+                                rowGap: 1,
+                                gridTemplateColumns: {
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                },
+                            }}
+                            FormControlSx={{
+                                width: 1
+                            }}
+                            options={formOptions.frame_type.map((frame_type) => {
+                                return {
+                                    label: frame_type.name,
+                                    value: frame_type.name,
+                                }
+                            })}
+                        />
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
