@@ -28,7 +28,7 @@ export default function ProductDetailsPrice({
             setNewPrice(property.price * quantity)
         else
             setNewPrice(price * quantity)
-    }, [property_values, dimention_id, cover_type_id])
+    }, [property_values, dimention_id, cover_type_id, quantity])
 
     useEffect(() => {
         updatePrice(newPrice)
