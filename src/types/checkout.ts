@@ -8,20 +8,24 @@ export type ICheckoutItem = {
   name: string;
   coverUrl: string;
   price: number;
-  property_prices: {
-    dimention: ProductDimension;
-    cover_type: IProductCoverType;
-    quantity: number;
-  }[]
+  property_prices: ICheckoutItemPropertyPrice[]
   subTotal: number;
 };
 
+export type ICheckoutAddCustomMadeProductData = {
+  quantity: number;
+  dimention: string;
+  cover_type: string;
+};
+
 export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'property_prices'> {
-  property_prices: {
-    dimention: ProductDimension;
-    cover_type: IProductCoverType;
-    quantity: number;
-  }
+  property_prices: ICheckoutItemPropertyPrice
+}
+
+export interface ICheckoutItemPropertyPrice {
+  quantity: number;
+  dimention: string;
+  cover_type: IProductCoverType;
 }
 
 export type ICheckoutDeliveryOption = {

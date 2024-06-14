@@ -22,7 +22,7 @@ import { ColorPicker } from 'src/components/color-utils';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
 
 import { IProductItem, ProductOrderType } from 'src/types/product';
-import { ICheckoutItem } from 'src/types/checkout';
+import { ICheckoutAddCustomMadeProductData, ICheckoutItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
 import { Avatar, FormControl, FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
@@ -116,7 +116,7 @@ export default function ProductDetailsSummary({
     }
   });
 
-  const handleAddCart = useCallback(() => {
+  const handleAddCartReadyProduct = useCallback(() => {
     try {
       if (product.order_type !== ProductOrderType.ready_to_use) return
       // console.log(values)
@@ -128,11 +128,38 @@ export default function ProductDetailsSummary({
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
         property_prices: {
           quantity: values.quantity,
-          dimention: dimention,
+          dimention: (dimention) ? dimention.width + "*" + dimention.height + "*" + dimention.length : '',
           cover_type
         },
         subTotal: values.price * values.quantity,
       });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [onAddCart, values, product]);
+
+  const handleAddCartCustomMadeProduct = useCallback((data: ICheckoutAddCustomMadeProductData) => {
+    try {
+      if (product.order_type === ProductOrderType.ready_to_use) return
+
+      console.log(data)
+
+      const dimention = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
+      const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
+
+      onAddCart?.({
+        ...values,
+        coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
+        property_prices: {
+          quantity: data.quantity,
+          dimention: data.dimention,
+          cover_type: {
+            name: data.cover_type
+          }
+        },
+        subTotal: values.price * data.quantity,
+      });
+
     } catch (error) {
       console.error(error);
     }
@@ -152,7 +179,7 @@ export default function ProductDetailsSummary({
       fullWidth
       color="inherit"
       size="large"
-      onClick={() => handleAddCart()}
+      onClick={() => handleAddCartReadyProduct()}
       type={(product.order_type === ProductOrderType.custom_made) ? "submit" : "button"}
       variant="contained"
     >
@@ -186,20 +213,6 @@ export default function ProductDetailsSummary({
           };
         })}
       />
-      {/* <br />
-      {product_dimension.map((dimension, index: number) => (
-        <FormControl component="fieldset" sx={{ width: 1 }} key={index}>
-          <RadioGroup row defaultValue="top">
-            <FormControlLabel
-              value={''}
-              label={dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'میلی متر'}
-              labelPlacement={'end'}
-              control={<Radio size="medium" />}
-              sx={{ textTransform: 'capitalize' }}
-            />
-          </RadioGroup>
-        </FormControl>
-      ))} */}
     </Box>
   )
 
@@ -295,7 +308,12 @@ export default function ProductDetailsSummary({
 
   return (
     <>
-      <CartDialog dialog={cartDialog} order_form_id={product.order_form_options.id} product_name={product.name} />
+      <CartDialog
+        dialog={cartDialog}
+        order_form_id={product.order_form_options.id}
+        product_name={product.name}
+        onAddCart={() => handleAddCartCustomMadeProduct}
+      />
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={3} {...other}>
           <Stack spacing={2} alignItems="flex-start">

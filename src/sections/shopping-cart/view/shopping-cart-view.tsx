@@ -72,7 +72,7 @@ export default function ShoppingCartView() {
                                                 row={{
                                                     quality: property_price.quantity,
                                                     coating: '-' || 'غیر جناقی',
-                                                    dimensions: property_price.dimention.width + "*" + property_price.dimention.height + "*" + property_price.dimention.length,
+                                                    dimensions: property_price.dimention,
                                                     final_coating: property_price.cover_type.name,
                                                     frame_type: '-' || 'حجمی',
                                                     profile_type: '-' || 'درب کابینتی',

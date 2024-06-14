@@ -49,17 +49,16 @@ export default function RHFRadioGroup({
           <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
             <Stack
               columnGap={12}
-              rowGap={2}
+              rowGap={0}
               display="grid"
               gridTemplateColumns={{
                 xs: 'repeat(1, 1fr)',
                 md: 'repeat(1, 1fr)',
                 lg: 'repeat(2, 1fr)',
               }}>
-              {options.map((option) => (
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {options.map((option, index) => (
+                <Box sx={{ display: 'flex', alignItems: 'center' }} key={option.value}>
                   <FormControlLabel
-                    key={option.value}
                     value={option.value}
                     control={<Radio />}
                     label={''}

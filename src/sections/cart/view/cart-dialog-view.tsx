@@ -1,15 +1,8 @@
-import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogContentText from '@mui/material/DialogContentText';
-
-import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { Avatar, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Stack, TableBody, Typography } from '@mui/material';
+import { 
+    Grid, Stack, TableBody, Typography 
+} from '@mui/material';
 import { Box } from '@mui/system';
-import { useForm } from 'react-hook-form';
-import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
+import { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 import Table from '@mui/material/Table';
 import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
@@ -17,6 +10,7 @@ import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IProductDefaultDetails } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
+import { ICheckoutAddCustomMadeProductData } from 'src/types/checkout';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل' },
@@ -24,20 +18,27 @@ export const CartTableHead = [
     { id: 'inventoryType', label: 'نوع قاب', width: 160 },
     { id: 'price', label: 'روکش گیری', width: 140 },
     { id: 'publish', label: 'ابعاد', width: 110 },
-    { id: 'publish', label: 'تعداد', width: 110 },
-    { id: '', width: 88 },
+    { id: 'quntity', label: 'تعداد', width: 110 },
+    { id: 'zzz', width: 88 },
 ]
 
 interface Props {
     title: string
     formOptions: IProductDefaultDetails
+    data: ICheckoutAddCustomMadeProductData[]
 }
 
-export default function CartDialogView({ title, formOptions }: Props) {
+export default function CartDialogView({ 
+    title, 
+    formOptions,
+    data
+ }: Props) {
+
     return (
-        <Scrollbar sx={{ maxHeight: 860 }}>
-            <Grid container spacing={4} sx={{ width: 1, padding: 3 }}>
-                <Grid item xs={12} md={4}>
+        // <Scrollbar sx={{ minHeight: 200 }}>
+        <Grid container spacing={4} sx={{ width: 1, padding: 3 }}>
+            <Grid item xs={12} md={4}>
+                <Box sx={{ px: 0 }}>
                     <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
                         {title}
                     </Typography>
@@ -52,17 +53,9 @@ export default function CartDialogView({ title, formOptions }: Props) {
                                 نوع پروفیل
                             </Typography>
 
-                            {/* <Stack direction={'row'}
-                                spacing={2}
-                                columnGap={2}
-                                rowGap={3}
-                                display="grid"
-                                gridTemplateColumns={{
-                                    xs: 'repeat(1, 1fr)',
-                                    md: 'repeat(2, 1fr)',
-                                }}
-                            > */}
-                            <RHFRadioGroup name='' row
+                            <RHFRadioGroup
+                                name='profile_type'
+                                row
                                 sx={{
                                     width: 1,
                                     display: 'grid',
@@ -81,32 +74,6 @@ export default function CartDialogView({ title, formOptions }: Props) {
                                     }
                                 })}
                             />
-                            {/* <FormControl component="fieldset">
-                                    <RadioGroup row defaultValue="top">
-                                        <FormControlLabel
-                                            label={"درب کشو"}
-                                            labelPlacement={'end'}
-                                            control={
-                                                <Radio size="medium" />
-                                            }
-                                            sx={{ textTransform: 'capitalize' }}
-                                        />
-                                    </RadioGroup>
-                                </FormControl>
-
-                                <FormControl component="fieldset">
-                                    <RadioGroup row defaultValue="top">
-                                        <FormControlLabel
-                                            label={'درب کابینتی'}
-                                            labelPlacement={'end'}
-                                            control={
-                                                <Radio size="medium" />
-                                            }
-                                            sx={{ textTransform: 'capitalize' }}
-                                        />
-                                    </RadioGroup>
-                                </FormControl> */}
-                            {/* </Stack> */}
                         </Box>
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
@@ -115,7 +82,8 @@ export default function CartDialogView({ title, formOptions }: Props) {
                         }}>
                             پوشش نهایی
                         </Typography>
-                        <RHFRadioGroupWithImage name=''
+                        <RHFRadioGroupWithImage
+                            name='cover_type'
                             FSx={{
                                 '&.MuiFormControlLabel-root': {
                                     ml: 0,
@@ -129,28 +97,6 @@ export default function CartDialogView({ title, formOptions }: Props) {
                                     src: endpoints.cover_type.get_image(cover_type.icon_image_name)
                                 }
                             })}
-                        // options={[
-                        //     {
-                        //         label: 'nhka',
-                        //         value: '',
-                        //         src: ''
-                        //     },
-                        //     {
-                        //         label: 'nhka',
-                        //         value: '',
-                        //         src: ''
-                        //     },
-                        //     {
-                        //         label: 'nhka',
-                        //         value: '',
-                        //         src: ''
-                        //     },
-                        //     {
-                        //         label: 'nhka',
-                        //         value: '',
-                        //         src: ''
-                        //     },
-                        // ]}
                         />
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
@@ -159,7 +105,9 @@ export default function CartDialogView({ title, formOptions }: Props) {
                         }}>
                             نوع قاب
                         </Typography>
-                        <RHFRadioGroup name='' row
+                        <RHFRadioGroup
+                            name='frame_type'
+                            row
                             sx={{
                                 mt: 2,
                                 width: 1,
@@ -173,7 +121,7 @@ export default function CartDialogView({ title, formOptions }: Props) {
                             FormControlSx={{
                                 width: 1
                             }}
-                            options={formOptions.frame_type.map((frame_type) => {
+                            options={formOptions.frame_type?.map((frame_type) => {
                                 return {
                                     label: frame_type.name,
                                     value: frame_type.name,
@@ -183,48 +131,39 @@ export default function CartDialogView({ title, formOptions }: Props) {
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                            width: 1, pb: 1
+                            width: 1, pb: 3, pt:1
                         }}>
                             نوع روکش گیری
                         </Typography>
-                        <Stack direction={'row'}
-                            spacing={2}
-                            columnGap={2}
-                            rowGap={3}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"جناقی"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <Radio size="medium" />
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl component="fieldset">
-                                <RadioGroup row defaultValue="top">
-                                    <FormControlLabel
-                                        label={"غیر جناقی"}
-                                        labelPlacement={'end'}
-                                        control={
-                                            <Radio size="medium" />
-                                        }
-                                        sx={{ textTransform: 'capitalize' }}
-                                    />
-                                </RadioGroup>
-                            </FormControl>
-                        </Stack>
+                        <RHFRadioGroup
+                            name='coating_type'
+                            row
+                            sx={{
+                                width: 1,
+                                display: 'grid',
+                                gridTemplateColumns: {
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                },
+                            }}
+                            FormControlSx={{
+                                width: 1
+                            }}
+                            options={[
+                                {
+                                    label: 'جناقی',
+                                    value: 'جناقی'
+                                },
+                                {
+                                    label: 'غیر جناقی',
+                                    value: 'غیر جناقی'
+                                }
+                            ]}
+                        />
                     </Box>
                     <Box sx={{ py: 2 }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                            width: 1, pb: 1
+                            width: 1, pb: 3, pt: 1
                         }}>
                             ابعاد
                         </Typography>
@@ -238,48 +177,49 @@ export default function CartDialogView({ title, formOptions }: Props) {
                                 xs: 'repeat(1, 1fr)',
                                 md: 'repeat(2, 1fr)',
                             }}>
-                            <RHFTitleTextField name='' custom_label='عرض(سانتی‌متر)' placeholder='26' />
-                            <RHFTitleTextField name='' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                            <RHFTitleTextField name='height' custom_label='عرض(سانتی‌متر)' placeholder='26' />
+                            <RHFTitleTextField name='width' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                         </Stack>
-                        <RHFTitleTextField name='' custom_label='تعداد' placeholder='2' />
+                        <RHFTitleTextField name='quantity' custom_label='تعداد' placeholder='2' />
                     </Box>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                    <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
-                        لیست سفارش های ثبت شده
-                    </Typography>
-                    <Box>
-                        <Scrollbar sx={{ maxHeight: 680 }}>
-                            <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                <TableHeadCustom
-                                    sx={{
-                                        backgroundColor: '#F2F2F2'
-                                    }}
-                                    headLabel={CartTableHead}
-                                />
-
-                                <TableBody>
-                                    {[...Array(30)].map((data, index: number) => (
-                                        <CartTableRow
-                                            onDeleteRow={() => { }}
-                                            onEditRow={() => { }}
-                                            key={index}
-                                            row={{
-                                                quality: 11,
-                                                coating: 'غیر جناقی',
-                                                dimensions: '210*235',
-                                                final_coating: 'روکش خام',
-                                                frame_type: 'حجمی',
-                                                profile_type: 'درب کابینتی',
-                                            }}
-                                        />
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Scrollbar>
-                    </Box>
-                </Grid>
+                </Box>
             </Grid>
-        </Scrollbar>
+            <Grid item xs={12} md={8}>
+                <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
+                    لیست سفارش های ثبت شده
+                </Typography>
+                <Box>
+                    <Scrollbar sx={{ maxHeight: 680 }}>
+                        <Table size={'medium'} sx={{ minWidth: 780 }}>
+                            <TableHeadCustom
+                                sx={{
+                                    backgroundColor: '#F2F2F2'
+                                }}
+                                headLabel={CartTableHead}
+                            />
+
+                            <TableBody>
+                                {data.map((item, index: number) => (
+                                    <CartTableRow
+                                        onDeleteRow={() => { }}
+                                        onEditRow={() => { }}
+                                        key={index}
+                                        row={{
+                                            quality: item.quantity,
+                                            coating: 'غیر جناقی',
+                                            dimensions: item.dimention,
+                                            final_coating: 'روکش خام',
+                                            frame_type: 'حجمی',
+                                            profile_type: 'درب کابینتی',
+                                        }}
+                                    />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Scrollbar>
+                </Box>
+            </Grid>
+        </Grid>
+        // </Scrollbar>
     );
 }

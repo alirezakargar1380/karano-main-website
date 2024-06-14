@@ -17,22 +17,35 @@ import { CartDialogView } from 'src/sections/cart/view';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 import { useGetOrderForm } from 'src/api/order-form';
+import { ICheckoutAddCustomMadeProductData } from 'src/types/checkout';
 
 // ----------------------------------------------------------------------
 interface Props {
     dialog: useBooleanReturnType
     order_form_id: number
     product_name: string
+    onAddCart: (data: ICheckoutAddCustomMadeProductData) => void;
 }
 
 
-export default function CartDialog({ dialog, order_form_id, product_name }: Props) {
+export default function CartDialog({
+    dialog,
+    order_form_id,
+    product_name,
+    onAddCart
+}: Props) {
+    const [list, setList] = useState<ICheckoutAddCustomMadeProductData[]>([]);
+    const { form } = useGetOrderForm(order_form_id);
+
     const defaultValues = {
+        height: 0,
+        width: 0,
+        quantity: 1,
+        profile_type: '',
+        cover_type: '',
+        frame_type: '',
+        coating_type: 'جناقی'
     };
-
-    const { form } = useGetOrderForm(order_form_id)
-
-    console.log(order_form_id)
 
     const methods = useForm({
         defaultValues,
@@ -42,17 +55,27 @@ export default function CartDialog({ dialog, order_form_id, product_name }: Prop
 
     const values = watch();
 
-    const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
-
-    const handleClickOpen = useCallback(
-        (scrollType: DialogProps['scroll']) => () => {
-            dialog.onTrue();
-            //   setScroll(scrollType);
-        },
-        [dialog]
-    );
-
     const descriptionElementRef = useRef<HTMLElement>(null);
+
+    const onSubmit = handleSubmit(async (data) => {
+        try {
+            console.log(data);
+            list.push({
+                dimention: data.width + "*" + data.height,
+                quantity: data.quantity,
+                cover_type: data.cover_type,
+            })
+            setList(list);
+
+            // onAddCart({
+            //     dimention: data.width + "*" + data.height,
+            //     quantity: data.quantity,
+            //     cover_type: data.cover_type,
+            // })
+        } catch (error) {
+            console.error(error);
+        }
+    });
 
     useEffect(() => {
         if (dialog.value) {
@@ -63,26 +86,34 @@ export default function CartDialog({ dialog, order_form_id, product_name }: Prop
         }
     }, [dialog.value]);
 
-    const onSubmit = handleSubmit(async (data) => {
-        try {
-        } catch (error) {
-            console.error(error);
-        }
-    });
-
-
+    useEffect(() => {
+        console.log("--")
+        reset({
+            ...defaultValues,
+            profile_type: (form.profile_type?.length) ? form.profile_type[0].name : '',
+            cover_type: (form.cover_type?.length) ? form.cover_type[0].name : '',
+            frame_type: (form.frame_type?.length) ? form.frame_type[0].name : '',
+        })
+    }, [form])
 
     return (
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-            <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'paper'} fullWidth={true} maxWidth={'xl'}>
-                <CartDialogView title={product_name} formOptions={form} />
+
+        <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} fullWidth={true} maxWidth={'xl'}>
+            <FormProvider methods={methods} onSubmit={onSubmit}>
+                <CartDialogView
+                    title={product_name}
+                    formOptions={form}
+                    data={list}
+                />
 
 
-                <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden' }}>
-
+                <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden', width: 1 }}>
                     <Stack direction={'row'} justifyContent={'space-between'}>
                         <Box>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 6 }}>افزودن به لیست</StyledRoundedWhiteButton>
+                            {/* <LoadingButton type='submit'>ss</LoadingButton> */}
+                            <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6 }}>
+                                افزودن به لیست
+                            </StyledRoundedWhiteButton>
                         </Box>
                         <Stack direction={'row'} spacing={2}>
                             <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={dialog.onFalse}>انصراف</StyledRoundedWhiteButton>
@@ -91,7 +122,8 @@ export default function CartDialog({ dialog, order_form_id, product_name }: Prop
                     </Stack>
                     {/* <Button onClick={dialog.onFalse}>Cancel</Button> */}
                 </DialogContent>
-            </Dialog>
-        </FormProvider>
+            </FormProvider>
+        </Dialog>
+
     );
 }
