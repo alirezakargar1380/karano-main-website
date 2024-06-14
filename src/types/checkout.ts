@@ -14,8 +14,14 @@ export type ICheckoutItem = {
 
 export type ICheckoutAddCustomMadeProductData = {
   quantity: number;
-  dimention: string;
+  dimention: {
+    width: number;
+    height: number;
+  };
   cover_type: string;
+  coating_type: string;
+  profile_type: string,
+  frame_type: string,
 };
 
 export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'property_prices'> {

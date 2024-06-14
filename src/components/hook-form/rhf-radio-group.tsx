@@ -7,6 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { SxProps } from '@mui/system';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -49,24 +50,25 @@ export default function RHFRadioGroup({
 
           <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
             {options.map((option, index) => (
-              <FormControlLabel
-                key={option.value}
-                value={option.value + index}
-                control={<Radio />}
-                label={option.label}
-                sx={{
-                  '&:not(:last-of-type)': {
-                    mb: spacing || 0,
-                  },
-                  ...(row && {
-                    mr: 0,
+              <Box key={option.value}>
+                <FormControlLabel
+                  value={option.value}
+                  control={<Radio />}
+                  label={option.label}
+                  sx={{
                     '&:not(:last-of-type)': {
-                      mr: spacing || 2,
+                      mb: spacing || 0,
                     },
-                  }),
-                  ...FSx
-                }}
-              />
+                    ...(row && {
+                      mr: 0,
+                      '&:not(:last-of-type)': {
+                        mr: spacing || 2,
+                      },
+                    }),
+                    ...FSx
+                  }}
+                />
+              </Box>
             ))}
           </RadioGroup>
 

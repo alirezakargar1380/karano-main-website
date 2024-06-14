@@ -1,5 +1,5 @@
-import { 
-    Grid, Stack, TableBody, Typography 
+import {
+    Grid, Stack, TableBody, Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
@@ -26,13 +26,15 @@ interface Props {
     title: string
     formOptions: IProductDefaultDetails
     data: ICheckoutAddCustomMadeProductData[]
+    onUpdate: (id: number) => void
 }
 
-export default function CartDialogView({ 
-    title, 
+export default function CartDialogView({
+    title,
     formOptions,
-    data
- }: Props) {
+    data,
+    onUpdate
+}: Props) {
 
     return (
         // <Scrollbar sx={{ minHeight: 200 }}>
@@ -121,7 +123,7 @@ export default function CartDialogView({
                             FormControlSx={{
                                 width: 1
                             }}
-                            options={formOptions.frame_type?.map((frame_type) => {
+                            options={formOptions.frame_type.map((frame_type) => {
                                 return {
                                     label: frame_type.name,
                                     value: frame_type.name,
@@ -131,7 +133,7 @@ export default function CartDialogView({
                     </Box>
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                            width: 1, pb: 3, pt:1
+                            width: 1, pb: 3, pt: 1
                         }}>
                             نوع روکش گیری
                         </Typography>
@@ -177,8 +179,8 @@ export default function CartDialogView({
                                 xs: 'repeat(1, 1fr)',
                                 md: 'repeat(2, 1fr)',
                             }}>
-                            <RHFTitleTextField name='height' custom_label='عرض(سانتی‌متر)' placeholder='26' />
-                            <RHFTitleTextField name='width' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                            <RHFTitleTextField name='dimention.height' custom_label='عرض (سانتی‌متر)' placeholder='26' />
+                            <RHFTitleTextField name='dimention.width' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                         </Stack>
                         <RHFTitleTextField name='quantity' custom_label='تعداد' placeholder='2' />
                     </Box>
@@ -202,15 +204,15 @@ export default function CartDialogView({
                                 {data.map((item, index: number) => (
                                     <CartTableRow
                                         onDeleteRow={() => { }}
-                                        onEditRow={() => { }}
+                                        onEditRow={() => onUpdate(index)}
                                         key={index}
                                         row={{
                                             quality: item.quantity,
-                                            coating: 'غیر جناقی',
-                                            dimensions: item.dimention,
-                                            final_coating: 'روکش خام',
-                                            frame_type: 'حجمی',
-                                            profile_type: 'درب کابینتی',
+                                            coating: item.coating_type,
+                                            dimensions: item.dimention.width + 'x' + item.dimention.height,
+                                            final_coating: item.cover_type,
+                                            frame_type: item.frame_type,
+                                            profile_type: item.profile_type,
                                         }}
                                     />
                                 ))}
