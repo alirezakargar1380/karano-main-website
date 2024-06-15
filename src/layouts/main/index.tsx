@@ -25,11 +25,8 @@ export default function MainLayout({ children }: Props) {
   const homePage = pathname === '/';
   const mdUp = useResponsive('up', 'md');
 
-  console.log("---> ", showBanner, " <---")
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
-      {/* <Box sx={{ bgcolor: 'red' }}>sss</Box> */}
 
       <Box sx={{ bgcolor: '#454545', py: 2 }}>
         <Stack justifyContent={'center'} direction={'row'}>

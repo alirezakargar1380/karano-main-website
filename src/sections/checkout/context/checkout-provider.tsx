@@ -61,8 +61,6 @@ export function CheckoutProvider({ children }: Props) {
       0
     );
 
-    console.log('->L>', quality, totalItems);
-
     update('subTotal', subTotal);
     update('totalItems', totalItems);
     update('billing', state.activeStep === 1 ? null : state.billing);
@@ -101,14 +99,11 @@ export function CheckoutProvider({ children }: Props) {
 
       // if item was emty, push new item
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
-        console.log('////', newItem)
         updatedItems.push({
           ...newItem,
           property_prices: [newItem.property_prices],
         });
       }
-
-      console.log(updatedItems)
 
       update('items', updatedItems);
     },

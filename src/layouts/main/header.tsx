@@ -74,7 +74,6 @@ export default function Header({ toggleBanner }: any) {
 
   const { showBanner, toggle } = useHandleBanner();
 
-  console.log("-->", showBanner)
   useEffect(() => {
     toggleBanner(showBanner)
   }, [showBanner])
