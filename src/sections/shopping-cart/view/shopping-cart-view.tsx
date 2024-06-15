@@ -71,11 +71,11 @@ export default function ShoppingCartView() {
                                                 key={ind * 2}
                                                 row={{
                                                     quality: property_price.quantity,
-                                                    coating: '-' || 'غیر جناقی',
+                                                    coating: property_price.coating_type || '-',
                                                     dimensions: property_price.dimention,
-                                                    final_coating: property_price.cover_type.name,
-                                                    frame_type: '-' || 'حجمی',
-                                                    profile_type: '-' || 'درب کابینتی',
+                                                    final_coating: property_price.cover_type?.name,
+                                                    frame_type: property_price.frame_type?.name || '-',
+                                                    profile_type: property_price.profile_type?.name || '-',
                                                 }}
                                             />
                                         ))}

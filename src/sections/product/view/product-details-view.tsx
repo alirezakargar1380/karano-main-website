@@ -167,7 +167,7 @@ export default function ProductDetailsView({ id }: Props) {
         </Tabs>
 
         {currentTab === 'description' && (
-          <ProductDetailsDescription description={product?.description} />
+          <ProductDetailsDescription description={product?.description || ''} />
         )}
 
         {currentTab === 'reviews' && (

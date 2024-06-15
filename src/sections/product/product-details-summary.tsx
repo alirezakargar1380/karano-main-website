@@ -138,27 +138,29 @@ export default function ProductDetailsSummary({
     }
   }, [onAddCart, values, product]);
 
-  const handleAddCartCustomMadeProduct = useCallback((data: ICheckoutAddCustomMadeProductData) => {
+  const handleAddCartCustomMadeProduct = useCallback((data: ICheckoutAddCustomMadeProductData[]) => {
     try {
       if (product.order_type === ProductOrderType.ready_to_use) return
 
-      console.log(data)
+      data.forEach((item) => {
+        const cover_type = product.order_form_options.cover_type.find((cover_type) => cover_type.name == item.cover_type)
+        const frame_type = product.order_form_options.frame_type.find((frame_type) => frame_type.name == item.frame_type)
+        const profile_type = product.order_form_options.profile_type.find((profile_type) => profile_type.name == item.profile_type)
 
-      const dimention = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
-      const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
-
-      onAddCart?.({
-        ...values,
-        coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
-        property_prices: {
-          quantity: data.quantity,
-          dimention: data.dimention,
-          cover_type: {
-            name: data.cover_type
-          }
-        },
-        subTotal: values.price * data.quantity,
-      });
+        onAddCart?.({
+          ...values,
+          coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
+          property_prices: {
+            quantity: item.quantity,
+            dimention: item.dimention.width + "x" + item.dimention.height,
+            coating_type: item.coating_type,
+            cover_type: cover_type,
+            frame_type: frame_type,
+            profile_type: profile_type
+          },
+          subTotal: 0,
+        });
+      })
 
     } catch (error) {
       console.error(error);
@@ -308,12 +310,15 @@ export default function ProductDetailsSummary({
 
   return (
     <>
-      <CartDialog
-        dialog={cartDialog}
-        order_form_id={product.order_form_options.id}
-        product_name={product.name}
-        onAddCart={() => handleAddCartCustomMadeProduct}
-      />
+      {product.order_type === ProductOrderType.custom_made ?
+        <CartDialog
+          dialog={cartDialog}
+          order_form_id={product.order_form_options.id}
+          product_name={product.name}
+          onAddCart={handleAddCartCustomMadeProduct}
+        />
+        : null}
+
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={3} {...other}>
           <Stack spacing={2} alignItems="flex-start">

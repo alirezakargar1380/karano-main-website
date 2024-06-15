@@ -14,6 +14,7 @@ import { IAddressItem } from 'src/types/address';
 import { ICheckoutItem, ICheckoutNewItem } from 'src/types/checkout';
 
 import { CheckoutContext } from './checkout-context';
+import _ from 'lodash';
 
 // ----------------------------------------------------------------------
 
@@ -41,21 +42,26 @@ export function CheckoutProvider({ children }: Props) {
 
   const onGetCart = useCallback(() => {
     // const quality: number = state.items.map((item: ICheckoutItem) => item.property_prices.reduce((acc, curr) => acc + curr.quantity, 0))[0];
-    const getTotalQuantity = (item: ICheckoutItem) => {
-      return item.property_prices.reduce((total, propertyPrice) => total + propertyPrice.quantity, 0);
-    };
+    // const getTotalQuantity = (item: ICheckoutItem) => {
+    //   return item.property_prices.reduce((total, propertyPrice) => propertyPrice.quantity, 0);
+    // };
+    // const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
+    // const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
 
-    const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
+    let quality: number = 0
 
-    const totalItems: number = state.items.reduce(
-      (total: number, item: ICheckoutItem) => total + quality,
-      0
-    );
+    state.items.map((product: ICheckoutItem) => {
+      quality += _.sumBy(product.property_prices, 'quantity');
+    })
+
+    const totalItems: number = quality;
 
     const subTotal: number = state.items.reduce(
-      (total: number, item: ICheckoutItem) => total + quality * item.price,
+      (total: number, item: ICheckoutItem) => (total + quality) * item.price,
       0
     );
+
+    console.log('->L>', quality, totalItems);
 
     update('subTotal', subTotal);
     update('totalItems', totalItems);
@@ -90,12 +96,10 @@ export function CheckoutProvider({ children }: Props) {
             property_prices: [...item.property_prices, newItem.property_prices],
           };
         }
-        return {
-          ...item,
-          property_prices: [newItem.property_prices]
-        };
+        return item;
       });
 
+      // if item was emty, push new item
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
         console.log('////', newItem)
         updatedItems.push({

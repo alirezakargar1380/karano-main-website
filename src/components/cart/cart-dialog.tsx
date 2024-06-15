@@ -26,7 +26,7 @@ interface Props {
     dialog: useBooleanReturnType
     order_form_id: number
     product_name: string
-    onAddCart: (data: ICheckoutAddCustomMadeProductData) => void;
+    onAddCart: (data: ICheckoutAddCustomMadeProductData[]) => void;
 }
 
 
@@ -159,7 +159,13 @@ export default function CartDialog({
                             }}>
                                 انصراف
                             </StyledRoundedWhiteButton>
-                            <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }}>افزودن به لیست سبد</LoadingButton>
+                            <LoadingButton
+                                variant='contained'
+                                sx={{ borderRadius: '24px', px: 4 }}
+                                onClick={() => onAddCart(list)}
+                            >
+                                افزودن به لیست سبد
+                            </LoadingButton>
                         </Stack>
                     </Stack>
                 </DialogContent>

@@ -1,5 +1,5 @@
 import { IAddressItem } from './address';
-import { IProductCoverType, ProductDimension } from './product';
+import { IProductCoverType, IProductFrameType, IProductProfileType, ProductDimension } from './product';
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +32,9 @@ export interface ICheckoutItemPropertyPrice {
   quantity: number;
   dimention: string;
   cover_type: IProductCoverType;
+  coating_type: string;
+  profile_type: IProductProfileType,
+  frame_type: IProductFrameType,
 }
 
 export type ICheckoutDeliveryOption = {
