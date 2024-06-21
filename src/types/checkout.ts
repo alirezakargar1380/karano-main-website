@@ -20,8 +20,11 @@ export type ICheckoutAddCustomMadeProductData = {
     width: number;
     height: number;
   };
-  cover_type: string;
   coating_type: string;
+  // cover_type: IProductCoverType;
+  // profile_type: IProductProfileType,
+  // frame_type: IProductFrameType,
+  cover_type: string;
   profile_type: string,
   frame_type: string,
 };
@@ -36,8 +39,8 @@ export interface ICheckoutItemPropertyPrice {
     width: number;
     height: number;
   };
-  cover_type: IProductCoverType;
   coating_type: string;
+  cover_type: IProductCoverType;
   profile_type: IProductProfileType,
   frame_type: IProductFrameType,
 }
@@ -73,7 +76,7 @@ export type ICheckoutValue = {
 export type CheckoutContextProps = ICheckoutValue & {
   completed: boolean;
   //
-  onAddToCart: (newItem: Omit<ICheckoutItem, 'subTotal'>) => void;
+  onAddToCart: (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean) => void;
   onDeleteCart: (itemId: string) => void;
   //
   onIncreaseQuantity: (itemId: string) => void;

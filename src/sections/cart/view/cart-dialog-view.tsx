@@ -10,7 +10,7 @@ import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IProductDefaultDetails } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
-import { ICheckoutAddCustomMadeProductData } from 'src/types/checkout';
+import { ICheckoutAddCustomMadeProductData, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل' },
@@ -25,7 +25,7 @@ export const CartTableHead = [
 interface Props {
     title: string
     formOptions: IProductDefaultDetails
-    data: ICheckoutAddCustomMadeProductData[]
+    data: ICheckoutItemPropertyPrice[]
     onUpdate: (id: number) => void
 }
 
@@ -72,7 +72,7 @@ export default function CartDialogView({
                                 options={formOptions.profile_type.map((profile_type) => {
                                     return {
                                         label: profile_type.name,
-                                        value: profile_type.name,
+                                        value: profile_type.id,
                                     }
                                 })}
                             />
@@ -95,7 +95,7 @@ export default function CartDialogView({
                             options={formOptions.cover_type.map((cover_type) => {
                                 return {
                                     label: cover_type.name,
-                                    value: cover_type.name,
+                                    value: cover_type.id,
                                     src: endpoints.cover_type.get_image(cover_type.icon_image_name)
                                 }
                             })}
@@ -126,7 +126,7 @@ export default function CartDialogView({
                             options={formOptions.frame_type.map((frame_type) => {
                                 return {
                                     label: frame_type.name,
-                                    value: frame_type.name,
+                                    value: frame_type.id,
                                 }
                             })}
                         />
@@ -210,9 +210,9 @@ export default function CartDialogView({
                                             quality: item.quantity,
                                             coating: item.coating_type,
                                             dimensions: item.dimention.width + 'x' + item.dimention.height,
-                                            final_coating: item.cover_type,
-                                            frame_type: item.frame_type,
-                                            profile_type: item.profile_type,
+                                            final_coating: item.cover_type.name,
+                                            frame_type: item.frame_type.name,
+                                            profile_type: item.profile_type.name,
                                         }}
                                     />
                                 ))}

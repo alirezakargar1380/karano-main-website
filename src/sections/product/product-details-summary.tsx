@@ -128,11 +128,13 @@ export default function ProductDetailsSummary({
         ...values,
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
         order_form_id: product.order_form_options.id,
-        property_prices: {
-          quantity: values.quantity,
-          dimention: dimention,
-          cover_type
-        },
+        property_prices: [
+          {
+            quantity: values.quantity,
+            dimention: dimention,
+            cover_type
+          }
+        ],
         subTotal: values.price * values.quantity,
       });
     } catch (error) {
@@ -140,34 +142,33 @@ export default function ProductDetailsSummary({
     }
   }, [onAddCart, values, product]);
 
-  const handleAddCartCustomMadeProduct = useCallback((data: ICheckoutAddCustomMadeProductData[]) => {
+  const handleAddCartCustomMadeProduct = useCallback((data: ICheckoutItemPropertyPrice[]) => {
     try {
       if (product.order_type === ProductOrderType.ready_to_use) return
 
-      console.log(data.length)
+      // let ppp: any[] = data.map((item) => {
+      //   const cover_type = product.order_form_options.cover_type.find((cover_type) => cover_type.name == item.cover_type)
+      //   const frame_type = product.order_form_options.frame_type.find((frame_type) => frame_type.name == item.frame_type)
+      //   const profile_type = product.order_form_options.profile_type.find((profile_type) => profile_type.name == item.profile_type)
 
-      let ppp: any[] = data.map((item) => {
-        const cover_type = product.order_form_options.cover_type.find((cover_type) => cover_type.name == item.cover_type)
-        const frame_type = product.order_form_options.frame_type.find((frame_type) => frame_type.name == item.frame_type)
-        const profile_type = product.order_form_options.profile_type.find((profile_type) => profile_type.name == item.profile_type)
+      //   return {
+      //     quantity: item.quantity,
+      //     dimention: item.dimention,
+      //     coating_type: item.coating_type,
+      //     cover_type: cover_type,
+      //     frame_type: frame_type,
+      //     profile_type: profile_type
+      //   }
+      // });
 
-        return {
-          quantity: item.quantity,
-          dimention: item.dimention,
-          coating_type: item.coating_type,
-          cover_type: cover_type,
-          frame_type: frame_type,
-          profile_type: profile_type
-        }
-      });
-
-      console.log(ppp)
+      // console.log(ppp)
 
       onAddCart?.({
         ...values,
+        // order_form_options: product.order_form_options,
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
         order_form_id: product.order_form_options.id,
-        property_prices: ppp,
+        property_prices: data,
         subTotal: 0,
       });
 

@@ -86,20 +86,29 @@ export function CheckoutProvider({ children }: Props) {
   }, [onGetCart]);
 
   const onAddToCart = useCallback(
-    (newItem: Partial<ICheckoutNewItem>) => {
+    (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean = true) => {
       // const product = state.items.find((item: ICheckoutItem) => item.id === newItem.id)
 
       console.log(newItem)
       const updatedItems: ICheckoutItem[] | any = state.items.map((item: ICheckoutItem) => {
         if (item.id === newItem.id) {
-          return {
-            ...item,
-            ...newItem,
-            // property_prices: (newItem?.property_prices?.length) ? 
-            // [...item.property_prices, newItem.property_prices] : item.property_prices,
-            property_prices: (newItem?.property_prices?.length) ? 
-            item.property_prices.concat(newItem.property_prices) : item.property_prices,
-          };
+          if (concatWithProperty) {
+            return {
+              ...item,
+              ...newItem,
+              property_prices: (newItem?.property_prices?.length) ?
+                item.property_prices.concat(newItem.property_prices) : item.property_prices,
+            };
+          } else {
+            return {
+              ...item,
+              ...newItem,
+              // property_prices: (newItem?.property_prices?.length) ? 
+              // item.property_prices.concat(newItem.property_prices) : item.property_prices,
+              property_prices: newItem.property_prices,
+            };
+          }
+
         }
         return item;
       });
