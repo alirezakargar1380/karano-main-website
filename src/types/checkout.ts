@@ -10,6 +10,7 @@ export type ICheckoutItem = {
   price: number;
   property_prices: ICheckoutItemPropertyPrice[]
   subTotal: number;
+  need_to_assemble: boolean
 };
 
 export type ICheckoutAddCustomMadeProductData = {

@@ -1,23 +1,14 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 
-import DialogContent from '@mui/material/DialogContent';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import { DialogProps } from '@mui/material/Dialog';
 
-import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { Fade, IconButton, Radio, Stack, TableBody, Typography } from '@mui/material';
+import { useBooleanReturnType } from 'src/hooks/use-boolean';
+import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import RHFTitleTextField from '../hook-form/rhf-title-text-field';
 import { useForm } from 'react-hook-form';
-import FormProvider, { RHFSelect } from 'src/components/hook-form';
-import Table from '@mui/material/Table';
-import { TableHeadCustom } from '../table';
-import CartTableRow from '../../sections/cart/cart-table-row';
-import Scrollbar from '../scrollbar';
-import { CartDialogView } from 'src/sections/cart/view';
+import FormProvider from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
-import SvgColor from '../svg-color';
-import { tr } from 'date-fns/locale';
 import DialogWithButton from '../custom-dialog/dialog-with-button';
 import HowToSendDialogOption from './options/how-to-send-dialog-option';
 

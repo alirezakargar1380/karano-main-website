@@ -33,6 +33,7 @@ import SvgColor from 'src/components/svg-color';
 import ProductDetailsPrice from './product-details-price';
 import { endpoints } from 'src/utils/axios';
 import ProductDetailsDescription from './product-details-description';
+import { AssembleDialog } from '../assemble/assemble-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -52,8 +53,9 @@ export default function ProductDetailsSummary({
   disabledActions,
   ...other
 }: Props) {
-  const router = useRouter();
+
   const cartDialog = useBoolean();
+  const assmbleDialog = useBoolean();
 
   const {
     id,
@@ -79,12 +81,11 @@ export default function ProductDetailsSummary({
     price,
     dimension_id: (product.property_prices?.length) ? product?.property_prices[0]?.dimension.id : 0,
     cover_type_id: (product.property_prices?.length) ? product?.property_prices[0]?.cover_type.id : 0,
-    // colors: colors[0],
-    // size: sizes[4],
     quantity: 1,
+    need_to_assemble: false
   };
 
-  const methods = useForm<any>({
+  const methods = useForm<ICheckoutItem | any>({
     defaultValues,
   });
 
@@ -119,10 +120,10 @@ export default function ProductDetailsSummary({
   const handleAddCartReadyProduct = useCallback(() => {
     try {
       if (product.order_type !== ProductOrderType.ready_to_use) return
-      // console.log(values)
+
       const dimention = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
       const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
-      // return
+
       onAddCart?.({
         ...values,
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
@@ -162,10 +163,23 @@ export default function ProductDetailsSummary({
         });
       })
 
+      assmbleDialog.onTrue();
     } catch (error) {
       console.error(error);
     }
   }, [onAddCart, values, product]);
+
+
+  const updateAssemble = useCallback((is_need: boolean) => {
+    console.log(is_need)
+    setValue('need_to_assemble', is_need);
+    onAddCart?.({
+      ...values,
+      need_to_assemble: is_need,
+      coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
+    });
+    cartDialog.onFalse();
+  }, [setValue, values, onAddCart, product]);
 
   const updatePrice = useCallback((price: number) => {
     setValue('price', price);
@@ -310,7 +324,12 @@ export default function ProductDetailsSummary({
 
   return (
     <>
+      <AssembleDialog
+        dialog={assmbleDialog}
+        onUpdateAssemble={updateAssemble}
+      />
       {product.order_type === ProductOrderType.custom_made ?
+        // need to assemble ?
         <CartDialog
           dialog={cartDialog}
           order_form_id={product.order_form_options.id}

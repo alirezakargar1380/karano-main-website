@@ -19,7 +19,7 @@ export default function ShoppingCartView() {
 
     const checkout = useCheckoutContext();
 
-    // console.log(checkout.items)
+    console.log(checkout.items)
 
     return (
         <Container maxWidth={'xl'}>
@@ -64,18 +64,18 @@ export default function ShoppingCartView() {
                                     />
 
                                     <TableBody>
-                                        {item.property_prices.map((property_price, ind: number) => (
+                                        {item.property_prices?.map((property_price, ind: number) => (
                                             <CartTableRow
                                                 onDeleteRow={() => { }}
                                                 onEditRow={() => { }}
                                                 key={ind * 2}
                                                 row={{
-                                                    quality: property_price.quantity,
-                                                    coating: property_price.coating_type || '-',
-                                                    dimensions: property_price.dimention,
-                                                    final_coating: property_price.cover_type?.name,
-                                                    frame_type: property_price.frame_type?.name || '-',
-                                                    profile_type: property_price.profile_type?.name || '-',
+                                                    quality: property_price?.quantity,
+                                                    coating: property_price?.coating_type || '-',
+                                                    dimensions: property_price?.dimention,
+                                                    final_coating: property_price?.cover_type?.name,
+                                                    frame_type: property_price?.frame_type?.name || '-',
+                                                    profile_type: property_price?.profile_type?.name || '-',
                                                 }}
                                             />
                                         ))}

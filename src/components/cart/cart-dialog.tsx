@@ -9,17 +9,14 @@ import { Stack, TableBody, Typography } from '@mui/material';
 import { Box, height } from '@mui/system';
 import RHFTitleTextField from '../hook-form/rhf-title-text-field';
 import { useForm } from 'react-hook-form';
-import FormProvider, { RHFSelect } from 'src/components/hook-form';
-import Table from '@mui/material/Table';
-import { TableHeadCustom } from '../table';
-import CartTableRow from '../../sections/cart/cart-table-row';
-import Scrollbar from '../scrollbar';
+import FormProvider from 'src/components/hook-form';
 import { CartDialogView } from 'src/sections/cart/view';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 import { useGetOrderForm } from 'src/api/order-form';
 import { ICheckoutAddCustomMadeProductData } from 'src/types/checkout';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -28,7 +25,6 @@ interface Props {
     product_name: string
     onAddCart: (data: ICheckoutAddCustomMadeProductData[]) => void;
 }
-
 
 export default function CartDialog({
     dialog,
@@ -39,6 +35,8 @@ export default function CartDialog({
     const [list, setList] = useState<ICheckoutAddCustomMadeProductData[]>([]);
     const [id, setId] = useState<null | number>(null);
     const { form } = useGetOrderForm(order_form_id);
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const NewProductSchema = Yup.object().shape({
         profile_type: Yup.string().required('نوع پروفایل الزامی است'),
@@ -87,38 +85,10 @@ export default function CartDialog({
                 list[id] = data;
                 setId(null);
             }
-
-
-            // onAddCart({
-            //     dimention: data.width + "*" + data.height,
-            //     quantity: data.quantity,
-            //     cover_type: data.cover_type,
-            // })
         } catch (error) {
             console.error(error);
         }
     });
-
-    // useEffect(() => {
-    //     if (dialog.value) {
-    //         const { current: descriptionElement } = descriptionElementRef;
-    //         if (descriptionElement) {
-    //             descriptionElement.focus();
-    //         }
-    //     }
-    // }, [dialog.value]);
-
-    // useEffect(() => {
-    //     if (id === null) {
-    //         console.log("--> reset form");
-    //         reset({
-    //             ...defaultValues,
-    //             profile_type: (form.profile_type?.length) ? form.profile_type[0].name : '',
-    //             cover_type: (form.cover_type?.length) ? form.cover_type[0].name : '',
-    //             frame_type: (form.frame_type?.length) ? form.frame_type[0].name : '',
-    //         })
-    //     }
-    // }, [form])
 
     useEffect(() => {
         if (id === null) return;
@@ -162,7 +132,12 @@ export default function CartDialog({
                             <LoadingButton
                                 variant='contained'
                                 sx={{ borderRadius: '24px', px: 4 }}
-                                onClick={() => onAddCart(list)}
+                                onClick={() => {
+                                    if (!list.length) return enqueueSnackbar("لطفا لیست را پر کنید", {
+                                        variant: 'error'
+                                    })
+                                    onAddCart(list)
+                                }}
                             >
                                 افزودن به لیست سبد
                             </LoadingButton>
