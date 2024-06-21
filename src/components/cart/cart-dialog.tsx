@@ -14,34 +14,44 @@ import { CartDialogView } from 'src/sections/cart/view';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 import { useGetOrderForm } from 'src/api/order-form';
-import { ICheckoutAddCustomMadeProductData } from 'src/types/checkout';
+import { ICheckoutAddCustomMadeProductData, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 interface Props {
-    dialog: useBooleanReturnType
-    order_form_id: number
-    product_name: string
-    onAddCart: (data: ICheckoutAddCustomMadeProductData[]) => void;
+    dialog: useBooleanReturnType;
+    order_form_id: number;
+    product_name: string;
+    currentData?: ICheckoutItemPropertyPrice | undefined;
+    listId?: number | undefined;
+    listData?: ICheckoutItemPropertyPrice[] | undefined
+    onAddCart: (data: ICheckoutItemPropertyPrice[]) => void;
 }
 
 export default function CartDialog({
     dialog,
     order_form_id,
     product_name,
+    currentData,
+    listId,
+    listData,
     onAddCart
 }: Props) {
-    const [list, setList] = useState<ICheckoutAddCustomMadeProductData[]>([]);
+    const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
     const [id, setId] = useState<null | number>(null);
-    const { form } = useGetOrderForm(order_form_id);
+    const { form, formLoading } = useGetOrderForm(order_form_id);
 
     const { enqueueSnackbar } = useSnackbar();
 
     const NewProductSchema = Yup.object().shape({
-        profile_type: Yup.string().required('نوع پروفایل الزامی است'),
-        cover_type: Yup.string().required('نوع پوشش الزامی است'),
-        frame_type: Yup.string().required('نوع قاب الزامی است'),
+        profile_type: Yup.number().required('نوع پروفایل الزامی است'),
+        // profile_type: Yup.object().shape({
+        //     id: Yup.number(),
+        //     name: Yup.string(),
+        // }),
+        cover_type: Yup.number().required('نوع پوشش الزامی است'),
+        frame_type: Yup.number().required('نوع قاب الزامی است'),
         quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
         dimention: Yup.object().shape({
             width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
@@ -55,9 +65,10 @@ export default function CartDialog({
             width: 0,
             height: 0,
         },
-        profile_type: '',
-        cover_type: '',
-        frame_type: '',
+        // profile_type: '',
+        profile_type: 0,
+        cover_type: 0,
+        frame_type: 0,
         coating_type: 'جناقی'
     };
 
@@ -66,23 +77,32 @@ export default function CartDialog({
         defaultValues,
     });
 
-    const { reset, watch, control, setValue, handleSubmit } = methods;
+    const {
+        reset,
+        watch,
+        control,
+        setValue,
+        handleSubmit
+    } = methods;
 
     const values = watch();
 
-    const descriptionElementRef = useRef<HTMLElement>(null);
-
     const onSubmit = handleSubmit(async (data: any) => {
         try {
+            const custom = {...data}
+            custom.profile_type = form.profile_type.find((item) => item.id === data.profile_type);
+            custom.cover_type = form.cover_type.find((item) => item.id === data.cover_type);
+            custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
+            console.log(id);
             if (id == null) {
                 setList([
                     ...list,
                     {
-                        ...data
+                        ...custom
                     }
                 ]);
             } else {
-                list[id] = data;
+                list[id] = custom;
                 setId(null);
             }
         } catch (error) {
@@ -90,35 +110,68 @@ export default function CartDialog({
         }
     });
 
+    const customizeData = useCallback((item: ICheckoutItemPropertyPrice) => {
+        return {
+            ...item,
+            cover_type: item.cover_type.id,
+            profile_type: item.profile_type.id,
+            frame_type: item.frame_type.id
+        }
+    },[form])
+
+    useEffect(() => {
+        if (listId === undefined || listId === null) return;
+        console.log('--> im setting list id', listId)
+        setId(listId)
+    }, [listId])
+
     useEffect(() => {
         if (id === null) return;
-        console.log("--> update form", id);
         const item = list[id];
-        console.log(item)
-        reset(item);
-    }, [id])
+        reset(customizeData(item));
+    }, [id, list])
+
+    useEffect(() => {
+        if (!currentData) return;
+        reset(customizeData(currentData));
+    }, [currentData])
+
+    useEffect(() => {
+        if (!listData?.length) return;
+        setList(listData)
+    }, [listData])
 
     const handleUpdate = useCallback((itemId: number) => {
         setId(itemId)
     }, [setId])
 
+    const handleAddToList = useCallback(() => {
+        if (!list.length) return enqueueSnackbar("لطفا لیست را پر کنید", {
+            variant: 'error'
+        })
+        onAddCart(list)
+    }, [list])
+
     return (
         <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} fullWidth={true} maxWidth={'xl'}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
 
-                <CartDialogView
-                    title={product_name}
-                    formOptions={form}
-                    data={list}
-                    onUpdate={handleUpdate}
-                />
+                {(!formLoading) && (
+                    <CartDialogView
+                        title={product_name}
+                        formOptions={form}
+                        data={list}
+                        onUpdate={handleUpdate}
+                    />
+                )}
+
 
                 <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden', width: 1 }}>
                     <Stack direction={'row'} justifyContent={'space-between'}>
                         <Box>
                             {/* <LoadingButton type='submit'>ss</LoadingButton> */}
                             <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6 }}>
-                                {(id == null) ? 'افزودن به لیست' : 'ویرایش لیست'}
+                                {(listId === undefined || listId === null || id === null) ? 'افزودن به لیست' : 'ویرایش لیست'}
                             </StyledRoundedWhiteButton>
                         </Box>
                         <Stack direction={'row'} spacing={2}>
@@ -132,12 +185,7 @@ export default function CartDialog({
                             <LoadingButton
                                 variant='contained'
                                 sx={{ borderRadius: '24px', px: 4 }}
-                                onClick={() => {
-                                    if (!list.length) return enqueueSnackbar("لطفا لیست را پر کنید", {
-                                        variant: 'error'
-                                    })
-                                    onAddCart(list)
-                                }}
+                                onClick={handleAddToList}
                             >
                                 افزودن به لیست سبد
                             </LoadingButton>

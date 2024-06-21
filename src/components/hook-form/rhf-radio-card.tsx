@@ -37,7 +37,6 @@ export default function RHFRadioGroupCard({
         <Controller
             name={name}
             control={control}
-
             render={({ field, fieldState: { error } }) => (
                 <FormControl component="fieldset" sx={{ width: '100%' }}>
                     {label && (
