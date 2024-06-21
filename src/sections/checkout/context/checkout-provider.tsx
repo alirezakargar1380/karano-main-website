@@ -86,21 +86,19 @@ export function CheckoutProvider({ children }: Props) {
   }, [onGetCart]);
 
   const onAddToCart = useCallback(
-    (newItem: ICheckoutNewItem) => {
-      const updatedItems: ICheckoutItem[] = state.items.map((item: ICheckoutItem) => {
+    (newItem: Partial<ICheckoutNewItem>) => {
+      // const product = state.items.find((item: ICheckoutItem) => item.id === newItem.id)
+
+      console.log(newItem)
+      const updatedItems: ICheckoutItem[] | any = state.items.map((item: ICheckoutItem) => {
         if (item.id === newItem.id) {
-          if (newItem?.property_prices) {
-            return {
-              ...item,
-              ...newItem,
-              property_prices: [...item.property_prices, newItem.property_prices],
-            };
-          }
-          console.log(item.property_prices)
           return {
             ...item,
             ...newItem,
-            property_prices: (item.property_prices.length) ? item.property_prices : [],
+            // property_prices: (newItem?.property_prices?.length) ? 
+            // [...item.property_prices, newItem.property_prices] : item.property_prices,
+            property_prices: (newItem?.property_prices?.length) ? 
+            item.property_prices.concat(newItem.property_prices) : item.property_prices,
           };
         }
         return item;
@@ -110,7 +108,7 @@ export function CheckoutProvider({ children }: Props) {
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
         updatedItems.push({
           ...newItem,
-          property_prices: (newItem.property_prices) ? [newItem.property_prices] : [],
+          property_prices: newItem.property_prices,
         });
       }
 

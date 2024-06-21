@@ -10,6 +10,7 @@ export type ICheckoutItem = {
   price: number;
   property_prices: ICheckoutItemPropertyPrice[]
   subTotal: number;
+  order_form_id: number;
   need_to_assemble: boolean
 };
 
@@ -26,12 +27,15 @@ export type ICheckoutAddCustomMadeProductData = {
 };
 
 export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'property_prices'> {
-  property_prices: ICheckoutItemPropertyPrice
+  property_prices: ICheckoutItemPropertyPrice[]
 }
 
 export interface ICheckoutItemPropertyPrice {
   quantity: number;
-  dimention: string;
+  dimention: {
+    width: number;
+    height: number;
+  };
   cover_type: IProductCoverType;
   coating_type: string;
   profile_type: IProductProfileType,

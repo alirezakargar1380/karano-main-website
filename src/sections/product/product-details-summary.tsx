@@ -22,7 +22,7 @@ import { ColorPicker } from 'src/components/color-utils';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
 
 import { IProductItem, ProductOrderType } from 'src/types/product';
-import { ICheckoutAddCustomMadeProductData, ICheckoutItem } from 'src/types/checkout';
+import { ICheckoutAddCustomMadeProductData, ICheckoutItem, ICheckoutItemPropertyPrice, ICheckoutNewItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
 import { Avatar, FormControl, FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
@@ -42,7 +42,7 @@ type Props = {
   items?: ICheckoutItem[];
   disabledActions?: boolean;
   onGotoStep?: (step: number) => void;
-  onAddCart?: (cartItem: ICheckoutItem) => void;
+  onAddCart?: (cartItem: Partial<ICheckoutNewItem>) => void;
 };
 
 export default function ProductDetailsSummary({
@@ -127,9 +127,10 @@ export default function ProductDetailsSummary({
       onAddCart?.({
         ...values,
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
+        order_form_id: product.order_form_options.id,
         property_prices: {
           quantity: values.quantity,
-          dimention: (dimention) ? dimention.width + "*" + dimention.height + "*" + dimention.length : '',
+          dimention: dimention,
           cover_type
         },
         subTotal: values.price * values.quantity,
@@ -143,25 +144,32 @@ export default function ProductDetailsSummary({
     try {
       if (product.order_type === ProductOrderType.ready_to_use) return
 
-      data.forEach((item) => {
+      console.log(data.length)
+
+      let ppp: any[] = data.map((item) => {
         const cover_type = product.order_form_options.cover_type.find((cover_type) => cover_type.name == item.cover_type)
         const frame_type = product.order_form_options.frame_type.find((frame_type) => frame_type.name == item.frame_type)
         const profile_type = product.order_form_options.profile_type.find((profile_type) => profile_type.name == item.profile_type)
 
-        onAddCart?.({
-          ...values,
-          coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
-          property_prices: {
-            quantity: item.quantity,
-            dimention: item.dimention.width + "x" + item.dimention.height,
-            coating_type: item.coating_type,
-            cover_type: cover_type,
-            frame_type: frame_type,
-            profile_type: profile_type
-          },
-          subTotal: 0,
-        });
-      })
+        return {
+          quantity: item.quantity,
+          dimention: item.dimention,
+          coating_type: item.coating_type,
+          cover_type: cover_type,
+          frame_type: frame_type,
+          profile_type: profile_type
+        }
+      });
+
+      console.log(ppp)
+
+      onAddCart?.({
+        ...values,
+        coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
+        order_form_id: product.order_form_options.id,
+        property_prices: ppp,
+        subTotal: 0,
+      });
 
       assmbleDialog.onTrue();
     } catch (error) {
@@ -171,12 +179,10 @@ export default function ProductDetailsSummary({
 
 
   const updateAssemble = useCallback((is_need: boolean) => {
-    console.log(is_need)
     setValue('need_to_assemble', is_need);
     onAddCart?.({
-      ...values,
+      id: values.id,
       need_to_assemble: is_need,
-      coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
     });
     cartDialog.onFalse();
   }, [setValue, values, onAddCart, product]);
@@ -239,7 +245,6 @@ export default function ProductDetailsSummary({
       }}>
         نوع پوشش
       </Typography>
-      {/* <Stack direction={'row'} spacing={2}> */}
 
       <RHFRadioGroupWithImage
         name="cover_type_id"
@@ -253,41 +258,6 @@ export default function ProductDetailsSummary({
           };
         })}
       />
-
-      {/* <FormControl component="fieldset">
-          <RadioGroup row defaultValue="top">
-            <FormControlLabel
-              value={true}
-              label={'روکش خام'}
-              labelPlacement={'end'}
-              control={
-                <>
-                  <Radio size="medium" checked={true} />
-                  <Avatar sx={{ mr: 1 }} />
-                </>
-              }
-              sx={{ textTransform: 'capitalize' }}
-            />
-          </RadioGroup>
-        </FormControl>
-
-        <FormControl component="fieldset">
-          <RadioGroup row defaultValue="top">
-            <FormControlLabel
-              value={true}
-              label={'روکش خام'}
-              labelPlacement={'end'}
-              control={
-                <>
-                  <Radio size="medium" />
-                  <Avatar sx={{ mr: 1 }} />
-                </>
-              }
-              sx={{ textTransform: 'capitalize' }}
-            />
-          </RadioGroup>
-        </FormControl> */}
-      {/* </Stack> */}
     </Box>
   )
 
@@ -314,10 +284,6 @@ export default function ProductDetailsSummary({
               setValue('quantity', values.quantity ? values.quantity - 1 : 1)
           }}
         />
-
-        {/* <Typography variant="caption" component="div" sx={{ textAlign: 'right' }}>
-          Available: {available}
-        </Typography> */}
       </Stack>
     </Box>
   )
