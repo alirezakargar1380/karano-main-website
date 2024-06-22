@@ -77,6 +77,9 @@ export const endpoints = {
   orderForm: {
     one: (id: any) => '/api/order-form/' + id,
   },
+  orders: {
+    create: '/api/orders',
+  },
   category: {
     list: '/api/category',
     products: (id: any) => `/api/category/${id}/products`,

@@ -89,6 +89,21 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                                     value: '1'
                                 }
                             ]}
+                            RadioSx={{
+                                p: '4px',
+                                '&::after': {
+                                    content: '""',
+                                    position: 'absolute',
+                                    left: '4px',
+                                    // right: '1px',
+                                    top: '4px',
+                                    // bottom: '6px',
+                                    background: 'white',
+                                    borderRadius: '50%',
+                                    width: '6px',
+                                    height: '6px'
+                                },
+                            }}
                         />
                     </Stack>
 

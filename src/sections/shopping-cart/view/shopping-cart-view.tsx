@@ -17,7 +17,9 @@ import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import { useCheckoutContext } from "src/sections/checkout/context";
-import { ICheckoutAddCustomMadeProductData, ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
+import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
+
+import FormProvider from 'src/components/hook-form';
 
 export default function ShoppingCartView() {
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();

@@ -7,16 +7,18 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { Box, Stack, SxProps, Typography } from '@mui/material';
+import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
 
 type Props = RadioGroupProps & {
     name: string;
-    options: { label: string; value: any, text?: string }[];
+    options: { label: string; value: any, text?: string, icon?: string }[];
     label?: string;
     spacing?: number;
     helperText?: React.ReactNode;
     BSx?: SxProps
+    RadioSx?: SxProps
 };
 
 export default function RHFRadioGroupCard({
@@ -27,6 +29,7 @@ export default function RHFRadioGroupCard({
     spacing,
     helperText,
     BSx,
+    RadioSx,
     ...other
 }: Props) {
     const { control } = useFormContext();
@@ -45,14 +48,17 @@ export default function RHFRadioGroupCard({
                         </FormLabel>
                     )}
                     <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
-                        <Stack direction={'row'} spacing={1}>
+                        <Stack direction={row ? 'row' : 'column'} spacing={1}>
                             {options.map((option, index) => (
                                 <Box
                                     key={index}
                                     sx={{
                                         border: '2px solid #D1D1D1',
                                         borderRadius: '16px', mb: 2, py: 0.5, pl: 2, pr: 4,
-                                        ...BSx
+                                        ...BSx,
+                                        ...(field.value === option.value) && {
+                                            border: '2px solid #000'
+                                        }
                                     }}
                                 >
                                     <Stack direction={'row'}>
@@ -60,19 +66,7 @@ export default function RHFRadioGroupCard({
                                             key={option.value}
                                             value={option.value}
                                             control={<Radio sx={{
-                                                p: '4px',
-                                                '&::after': {
-                                                    content: '""',
-                                                    position: 'absolute',
-                                                    left: '3px',
-                                                    right: '3px',
-                                                    top: '3px',
-                                                    bottom: '6px',
-                                                    background: 'white',
-                                                    borderRadius: '50%',
-                                                    width: '6px',
-                                                    height: '6px'
-                                                },
+                                                ...RadioSx
                                             }} />}
                                             label={''}
                                             sx={{
@@ -87,7 +81,10 @@ export default function RHFRadioGroupCard({
                                                 }),
                                             }}
                                         />
-                                        <Typography sx={{ pt: 0.5 }} variant='body2'>{option.label}</Typography>
+                                        {(option.icon) && (
+                                            <SvgColor src={option.icon} sx={{ mt: 0.7, mr: 2 }} />
+                                        )}
+                                        <Typography sx={{ pt: 0.5 }} variant='h6' fontFamily={'peyda-bold'}>{option.label}</Typography>
                                     </Stack>
                                     {option.text && (
                                         <Typography sx={{ pt: 1 }} fontFamily={'peyda-regular'}>

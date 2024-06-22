@@ -6,11 +6,12 @@ import { useBooleanReturnType } from 'src/hooks/use-boolean';
 import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
-import FormProvider from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroupCard } from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 import DialogWithButton from '../custom-dialog/dialog-with-button';
-import HowToSendDialogOption from './options/how-to-send-dialog-option';
+import { useCheckoutContext } from 'src/sections/checkout/context';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -19,7 +20,10 @@ interface Props {
 
 
 export default function HowToSendDialog({ dialog }: Props) {
+    const checkout = useCheckoutContext();
+
     const defaultValues = {
+        delivery_type: 'tehran'
     };
 
     const methods = useForm({
@@ -53,6 +57,14 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
+            await server_axios.post(endpoints.orders.create, {
+                ...data,
+                items: checkout.items
+            })
+                .then(({ data }) => {
+                    console.log(data)
+                })
+
             console.log(data)
         } catch (error) {
             console.error(error);
@@ -60,21 +72,46 @@ export default function HowToSendDialog({ dialog }: Props) {
     });
 
     return (
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-            <DialogWithButton dialog={dialog} fullWith={false}>
+        <DialogWithButton dialog={dialog} fullWith={false}>
+            <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         جزئیات نحوه ارسال
                     </Typography>
-                    <HowToSendDialogOption>تحویل در تهران</HowToSendDialogOption>
-                    <HowToSendDialogOption>تحویل در تهران</HowToSendDialogOption>
-                    <HowToSendDialogOption>تحویل در تهران</HowToSendDialogOption>
+                    <Box sx={{ mt: 4 }}>
+                        <RHFRadioGroupCard
+                            name='delivery_type'
+                            options={[
+                                {
+                                    label: 'تحویل در تهران',
+                                    value: 'tehran',
+                                    icon: '/assets/icons/orders/delivery/flag-01.svg'
+                                },
+                                {
+                                    label: 'تحویل درب کارخانه',
+                                    value: 'factory'
+                                },
+                                {
+                                    label: 'تحویل در شهرستان',
+                                    value: 'city'
+                                },
+                            ]}
+                            BSx={{
+                                borderRadius: '8px',
+                                '&:hover': {
+                                    cursor: 'pointer',
+                                    border: '1px solid #000'
+                                },
+                                py: 1
+                            }}
+                        />
+                    </Box>
                     <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
                         <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                        <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} >تایید</LoadingButton>
+                        <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} type='submit'>تایید</LoadingButton>
                     </Stack>
                 </Box>
-            </DialogWithButton>
-        </FormProvider>
+            </FormProvider>
+        </DialogWithButton>
     );
 }
