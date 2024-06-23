@@ -231,7 +231,7 @@ export default function ProductDetailsSummary({
         name="dimension_id"
         options={product_dimension.map((dimension, index: number) => {
           return {
-            label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'میلی متر',
+            label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',
             value: dimension.id
           };
         })}
