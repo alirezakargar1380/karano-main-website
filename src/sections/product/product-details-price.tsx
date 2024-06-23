@@ -23,7 +23,17 @@ export default function ProductDetailsPrice({
     const [newPrice, setNewPrice] = useState<number>(0)
 
     useEffect(() => {
-        const property = property_values.find((p) => (p.dimension.id == dimention_id && p.cover_type.id == cover_type_id))
+        let property
+        if (cover_type_id !== 0 && dimention_id !== 0) {
+            property = property_values.find((p) => (p?.dimension?.id == dimention_id && p?.cover_type?.id == cover_type_id))
+        } else if (dimention_id !== 0) {
+            property = property_values.find((p) => (p?.dimension?.id == dimention_id))
+        } else {
+            property = property_values.find((p) => (p?.cover_type?.id == cover_type_id))
+        }
+
+        console.log('property', property)
+
         if (property)
             setNewPrice(property.price * quantity)
         else

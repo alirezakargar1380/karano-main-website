@@ -79,8 +79,8 @@ export default function ProductDetailsSummary({
     coverUrl,
     available,
     price,
-    dimension_id: (product.property_prices?.length) ? product?.property_prices[0]?.dimension.id : 0,
-    cover_type_id: (product.property_prices?.length) ? product?.property_prices[0]?.cover_type.id : 0,
+    dimension_id: 0,
+    cover_type_id: 0,
     quantity: 1,
     need_to_assemble: false
   };
@@ -218,7 +218,7 @@ export default function ProductDetailsSummary({
     </Box>
   );
 
-  const renderDimensions = (
+  const renderDimensions = (!!product_dimension.length) && (
     <Box>
       <Typography variant="subtitle1" fontFamily={'peyda-bold'}
         sx={{
@@ -239,7 +239,7 @@ export default function ProductDetailsSummary({
     </Box>
   )
 
-  const renderCovertype = order_form_options?.cover_type.length && (
+  const renderCovertype = (!!order_form_options?.cover_type.length) && (
     <Box sx={{ width: 1 }}>
       <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
         width: 1, pb: 1
