@@ -69,7 +69,8 @@ export default function ProductItemSlider({ product, ind }: Props) {
                         <Typography variant='h5' sx={{
                             mt: 1, '&:hover': {
                                 cursor: 'pointer'
-                            }
+                            },
+                            textAlign: 'left'
                         }}>
                             {product?.name}
                         </Typography>
