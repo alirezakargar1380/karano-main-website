@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { IUser } from "./user";
+
 export type IOrderTableFilterValue = string | Date | null;
 
 export type IOrderTableFilters = {
@@ -57,17 +59,7 @@ export type IOrderProductItem = {
 
 export type IOrderItem = {
   id: string;
-  taxes: number;
-  status: string;
-  shipping: number;
-  discount: number;
-  subTotal: number;
-  orderNumber: string;
-  totalAmount: number;
-  totalQuantity: number;
-  history: IOrderHistory;
-  customer: IOrderCustomer;
-  delivery: IOrderDelivery;
-  items: IOrderProductItem[];
+  user: IUser;
+  order_number: string;
   createdAt: Date;
 };

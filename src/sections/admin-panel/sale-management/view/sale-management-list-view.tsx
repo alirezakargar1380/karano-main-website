@@ -13,6 +13,9 @@ import FormProvider, { RHFMultiSelect } from "src/components/hook-form";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
+import { useGetOrders } from "src/api/orders";
+import { IOrderItem } from "src/types/order";
+import { fDate, fDateTime } from "src/utils/format-time";
 
 export default function SaleManagementListView() {
     const settings = useSettingsContext();
@@ -21,6 +24,10 @@ export default function SaleManagementListView() {
 
     const schema = Yup.object().shape({
     });
+
+    const {
+        orders
+    } = useGetOrders();
 
     const methods = useForm({
         resolver: yupResolver<any>(schema),
@@ -87,7 +94,7 @@ export default function SaleManagementListView() {
                             borderRadius: '24px!important',
                             py: '0px !important',
                             '& .MuiOutlinedInput-input': {
-                                py: 1, 
+                                py: 1,
                             },
                             '& .MuiInputBase-root': {
                                 borderRadius: '24px!important',
@@ -118,7 +125,7 @@ export default function SaleManagementListView() {
                             borderRadius: '24px!important',
                             py: '0px !important',
                             '& .MuiOutlinedInput-input': {
-                                py: 1, 
+                                py: 1,
                             },
                             '& .MuiInputBase-root': {
                                 borderRadius: '24px!important',
@@ -151,13 +158,13 @@ export default function SaleManagementListView() {
                             </TableHead>
 
                             <TableBody>
-                                {[...Array(5)].map((row, index) => (
+                                {orders.map((row: IOrderItem, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{index + 1}</TableCell>
 
-                                        <TableCell>عباس محمودی</TableCell>
+                                        <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
 
-                                        <TableCell>{23335}</TableCell>
+                                        <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>
                                             <Label variant="filled" color="info">
@@ -165,8 +172,8 @@ export default function SaleManagementListView() {
                                             </Label>
                                         </TableCell>
 
-                                        <TableCell>09376488895</TableCell>
-                                        <TableCell>1409/01/01</TableCell>
+                                        <TableCell dir="ltr">{row.user.phone}</TableCell>
+                                        <TableCell>{fDateTime(row.createdAt)}</TableCell>
 
                                         <TableCell>
                                             <LoadingButton

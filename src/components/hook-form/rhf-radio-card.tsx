@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
-import { Box, Stack, SxProps, Typography } from '@mui/material';
+import { Box, Stack, SxProps, Typography, TypographyOwnProps, TypographyPropsVariantOverrides, TypographyVariant } from '@mui/material';
 import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
@@ -19,6 +19,7 @@ type Props = RadioGroupProps & {
     helperText?: React.ReactNode;
     BSx?: SxProps
     RadioSx?: SxProps
+    variant?: TypographyVariant
 };
 
 export default function RHFRadioGroupCard({
@@ -30,6 +31,7 @@ export default function RHFRadioGroupCard({
     helperText,
     BSx,
     RadioSx,
+    variant = 'h6',
     ...other
 }: Props) {
     const { control } = useFormContext();
@@ -65,9 +67,14 @@ export default function RHFRadioGroupCard({
                                         <FormControlLabel
                                             key={option.value}
                                             value={option.value}
-                                            control={<Radio sx={{
-                                                ...RadioSx
-                                            }} />}
+                                            control={
+                                                <Radio
+                                                    sx={{
+                                                        ...RadioSx
+                                                    }}
+                                                    size='small'
+                                                />
+                                            }
                                             label={''}
                                             sx={{
                                                 '&:not(:last-of-type)': {
@@ -84,7 +91,7 @@ export default function RHFRadioGroupCard({
                                         {(option.icon) && (
                                             <SvgColor src={option.icon} sx={{ mt: 0.7, mr: 2 }} />
                                         )}
-                                        <Typography sx={{ pt: 0.5 }} variant='h6' fontFamily={'peyda-bold'}>{option.label}</Typography>
+                                        <Typography sx={{ pt: 0.5 }} variant={variant} fontFamily={'peyda-bold'}>{option.label}</Typography>
                                     </Stack>
                                     {option.text && (
                                         <Typography sx={{ pt: 1 }} fontFamily={'peyda-regular'}>

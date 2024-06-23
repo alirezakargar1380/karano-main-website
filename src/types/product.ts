@@ -54,8 +54,21 @@ export type IProductReview = {
 
 export type IProductPropertyValues = {
   price: number,
-  cover_type: Partial<IProductCoverType>,
-  dimension: Partial<ProductDimension>
+  cover_type: Partial<IProductCoverType> | null,
+  dimension: Partial<ProductDimension> | null
+}
+
+export type IProductProperties = {
+  id: number
+  price: number,
+  quantity: number,
+  coating_type: string,
+  dimension: string,
+  rejection_reason: string,
+  is_approved: boolean | string,
+  cover_type: IProductCoverType,
+  frame_type: IProductFrameType,
+  profile_type: IProductProfileType
 }
 
 export type IProductProfileType = {
