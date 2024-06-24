@@ -1,5 +1,5 @@
 import { IAddressItem } from './address';
-import { IProductCoverType, IProductFrameType, IProductProfileType, ProductDimension } from './product';
+import { IProductCoverType, IProductFrameType, IProductProfileType, ProductDimension, ProductOrderType } from './product';
 
 // ----------------------------------------------------------------------
 
@@ -8,6 +8,7 @@ export type ICheckoutItem = {
   name: string;
   coverUrl: string;
   price: number;
+  order_type: ProductOrderType;
   property_prices: ICheckoutItemPropertyPrice[]
   subTotal: number;
   order_form_id: number;
@@ -76,6 +77,7 @@ export type ICheckoutValue = {
 export type CheckoutContextProps = ICheckoutValue & {
   completed: boolean;
   //
+  onGetCart: () => void;
   onAddToCart: (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean) => void;
   onDeleteCart: (itemId: string) => void;
   //
