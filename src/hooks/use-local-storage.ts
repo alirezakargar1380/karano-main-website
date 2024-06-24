@@ -60,7 +60,7 @@ export const getStorage = (key: string) => {
   let value = null;
 
   try {
-    const result = window.localStorage.getItem(key);
+    const result = localStorage.getItem(key);
 
     if (result) {
       value = JSON.parse(result);
@@ -74,7 +74,7 @@ export const getStorage = (key: string) => {
 
 export const setStorage = (key: string, value: any) => {
   try {
-    window.localStorage.setItem(key, JSON.stringify(value));
+    localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
     console.error(error);
   }
@@ -82,7 +82,7 @@ export const setStorage = (key: string, value: any) => {
 
 export const removeStorage = (key: string) => {
   try {
-    window.localStorage.removeItem(key);
+    localStorage.removeItem(key);
   } catch (error) {
     console.error(error);
   }
