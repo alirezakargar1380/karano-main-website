@@ -137,7 +137,7 @@ export default function ProductShopDetailsView({ id }: Props) {
           <ProductDetailsCarousel product={product} />
 
           {product.order_type === ProductOrderType.ready_to_use ?
-            <ProductDetailsDescription />
+            <ProductDetailsDescription description={product.description} attributes={product.attributes} />
             : null}
 
         </Grid>

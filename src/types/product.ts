@@ -99,6 +99,7 @@ export enum ProductOrderType {
 export type IProductItem = {
   id: number;
   sku: string;
+  attributes: string;
   name: string;
   product_dimension: ProductDimension[];
   code: string;

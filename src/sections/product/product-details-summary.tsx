@@ -345,7 +345,7 @@ export default function ProductDetailsSummary({
               </>
               :
               <>
-                <ProductDetailsDescription />
+                <ProductDetailsDescription description={product.description} attributes={product.attributes} />
                 <Box mt={4} />
               </>
 
