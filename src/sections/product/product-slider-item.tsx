@@ -11,7 +11,7 @@ import SvgColor from "src/components/svg-color";
 import { endpoints } from "src/utils/axios";
 
 type Props = {
-    product?: IProductItem;
+    product: IProductItem;
     ind: number
 };
 
@@ -75,7 +75,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
                             {product?.name}
                         </Typography>
                         <Stack direction={'row-reverse'}>
-                            <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد 65</Typography>
+                            <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد {product?.code}</Typography>
                             <IconButton size='small' sx={{ bgcolor: "#D1D1D1" }}>
                                 {/* <Iconify icon="icon-park-solid:like" /> */}
                                 <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
