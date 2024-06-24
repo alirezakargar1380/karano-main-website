@@ -10,6 +10,7 @@ import Label from 'src/components/label';
 import { Typography } from '@mui/material';
 import { paths } from 'src/routes/paths';
 import { useCheckoutContext } from 'src/sections/checkout/context';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -19,6 +20,10 @@ type Props = {
 
 export default function ShoppingCartButton({ sx }: Props) {
     const checkout = useCheckoutContext();
+
+    useEffect(() => {
+        checkout.onGetCart();
+    }, []);
 
     return (
         <Button component={RouterLink} href={paths.shoppingCart}
@@ -38,7 +43,8 @@ export default function ShoppingCartButton({ sx }: Props) {
                 }}
                 badgeContent={
                     <Label sx={{ pt: '3px', backgroundColor: "#000", color: 'white', borderRadius: '100%' }}>
-                        {checkout.totalItems}
+                        {/* {checkout.totalItems} */}
+                        {checkout.items.length}
                     </Label>
                 }
             >

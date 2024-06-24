@@ -56,21 +56,30 @@ export default function CartTableRow({
     <>
       <TableRow hover>
 
-        <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-          {profile_type}
-        </TableCell>
+        {(!!profile_type) && (
+          <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+            {profile_type}
+          </TableCell>
+        )}
 
-        <TableCell>
-          {final_coating}
-        </TableCell>
+        {(!!final_coating) && (
+          <TableCell>
+            {final_coating}
+          </TableCell>
+        )}
 
-        <TableCell>
-          {frame_type}
-        </TableCell>
+        {(!!frame_type) && (
+          <TableCell>
+            {frame_type}
+          </TableCell>
+        )}
 
-        <TableCell>
-          {coating}
-        </TableCell>
+        {(!!coating) && (
+          <TableCell>
+            {coating}
+          </TableCell>
+
+        )}
 
         <TableCell>
           {dimensions}

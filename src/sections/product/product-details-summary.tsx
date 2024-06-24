@@ -65,6 +65,7 @@ export default function ProductDetailsSummary({
     order_form_options,
     coverUrl,
     available,
+    order_type
   } = product;
 
   const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
@@ -79,6 +80,7 @@ export default function ProductDetailsSummary({
     coverUrl,
     available,
     price,
+    order_type,
     dimension_id: 0,
     cover_type_id: 0,
     quantity: 1,

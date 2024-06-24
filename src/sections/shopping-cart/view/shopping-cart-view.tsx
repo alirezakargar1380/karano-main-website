@@ -15,11 +15,12 @@ import SvgColor from "src/components/svg-color";
 import { TableHeadCustom } from "src/components/table";
 import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
-import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
+import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import { useCheckoutContext } from "src/sections/checkout/context";
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 
 import FormProvider from 'src/components/hook-form';
+import { ProductOrderType } from "src/types/product";
 
 export default function ShoppingCartView() {
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();
@@ -66,6 +67,8 @@ export default function ShoppingCartView() {
             console.error(error);
         }
     }, [checkoutItem]);
+
+    // console.log(checkout.items)
 
     return (
         <Container maxWidth={'xl'}>
@@ -142,7 +145,7 @@ export default function ShoppingCartView() {
                                         sx={{
                                             backgroundColor: '#F2F2F2'
                                         }}
-                                        headLabel={CartTableHead}
+                                        headLabel={(item.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
                                     />
 
                                     <TableBody>
@@ -153,11 +156,11 @@ export default function ShoppingCartView() {
                                                 key={ind * 2}
                                                 row={{
                                                     quality: property_price?.quantity,
-                                                    coating: property_price?.coating_type || '-',
-                                                    dimensions: property_price?.dimention?.width + 'x' + property_price?.dimention?.height,
+                                                    coating: property_price?.coating_type || '',
+                                                    dimensions: property_price?.dimention ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '',
                                                     final_coating: property_price?.cover_type?.name,
-                                                    frame_type: property_price?.frame_type?.name || '-',
-                                                    profile_type: property_price?.profile_type?.name || '-',
+                                                    frame_type: property_price?.frame_type?.name || '',
+                                                    profile_type: property_price?.profile_type?.name || '',
                                                 }}
                                             />
                                         ))}

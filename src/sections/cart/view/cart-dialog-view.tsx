@@ -22,6 +22,13 @@ export const CartTableHead = [
     { id: 'zzz', width: 88 },
 ]
 
+export const ReadyProductCartTableHead = [
+    { id: 'name', label: 'نوع پوشش' },
+    { id: 'publish', label: 'ابعاد', width: 110 },
+    { id: 'quntity', label: 'تعداد', width: 110 },
+    { id: 'zzz', width: 88 },
+]
+
 interface Props {
     title: string
     formOptions: IProductDefaultDetails
