@@ -11,10 +11,9 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <MainLayout>{children}</MainLayout>
-  // return (
-  //   <AuthGuard>
-  //     <DashboardLayout>{children}</DashboardLayout>
-  //   </AuthGuard>
-  // );
+  return (
+    <AuthGuard>
+      <MainLayout>{children}</MainLayout>
+    </AuthGuard>
+  );
 }

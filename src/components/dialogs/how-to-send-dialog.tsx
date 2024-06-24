@@ -13,6 +13,8 @@ import DialogWithButton from '../custom-dialog/dialog-with-button';
 import { useCheckoutContext } from 'src/sections/checkout/context';
 import { endpoints, server_axios } from 'src/utils/axios';
 
+import { useSnackbar } from 'src/components/snackbar';
+
 // ----------------------------------------------------------------------
 interface Props {
     dialog: useBooleanReturnType
@@ -21,6 +23,7 @@ interface Props {
 
 export default function HowToSendDialog({ dialog }: Props) {
     const checkout = useCheckoutContext();
+    const { enqueueSnackbar } = useSnackbar();
 
     const defaultValues = {
         delivery_type: 'tehran'
@@ -62,7 +65,10 @@ export default function HowToSendDialog({ dialog }: Props) {
                 items: checkout.items
             })
                 .then(({ data }) => {
-                    console.log(data)
+                    console.log(data);
+                    enqueueSnackbar('سفارش شما ثبت شد', {
+                        variant: 'info'
+                    })
                 })
 
             console.log(data)

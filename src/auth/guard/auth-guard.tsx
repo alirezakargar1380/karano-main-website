@@ -10,7 +10,8 @@ import { useAuthContext } from '../hooks';
 // ----------------------------------------------------------------------
 
 const loginPaths: Record<string, string> = {
-  jwt: paths.auth.jwt.login,
+  // jwt: paths.auth.jwt.login,
+  jwt: paths.auth.phone.login,
   auth0: paths.auth.auth0.login,
   amplify: paths.auth.amplify.login,
   firebase: paths.auth.firebase.login,
