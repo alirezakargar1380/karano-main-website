@@ -6,7 +6,7 @@ import { useMemo, useEffect, useCallback } from 'react';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { getStorage, useLocalStorage } from 'src/hooks/use-local-storage';
+import { getStorage, setStorage, useLocalStorage } from 'src/hooks/use-local-storage';
 
 import { PRODUCT_CHECKOUT_STEPS } from 'src/_mock/_product';
 
@@ -78,6 +78,25 @@ export function CheckoutProvider({ children }: Props) {
   ]);
 
   useEffect(() => {
+    // setCheckoutState(state);
+
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === STORAGE_KEY) {
+        const newState = JSON.parse(event.newValue || '{}');
+        // console.log(newState)
+        update('items', newState.items || []);
+        // setCheckoutState(newState);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
     const restored = getStorage(STORAGE_KEY);
 
     if (restored) {
@@ -87,9 +106,7 @@ export function CheckoutProvider({ children }: Props) {
 
   const onAddToCart = useCallback(
     (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean = true) => {
-      // const product = state.items.find((item: ICheckoutItem) => item.id === newItem.id)
-
-      console.log(newItem)
+      
       const updatedItems: ICheckoutItem[] | any = state.items.map((item: ICheckoutItem) => {
         if (item.id === newItem.id) {
           if (concatWithProperty) {
@@ -222,6 +239,7 @@ export function CheckoutProvider({ children }: Props) {
       ...state,
       completed,
       //
+      onGetCart,
       onAddToCart,
       onDeleteCart,
       //
@@ -240,6 +258,7 @@ export function CheckoutProvider({ children }: Props) {
     }),
     [
       completed,
+      onGetCart,
       onAddToCart,
       onApplyDiscount,
       onApplyShipping,
