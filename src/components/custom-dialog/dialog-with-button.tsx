@@ -38,7 +38,6 @@ export default function DialogWithButton({ dialog, children, fullWith }: Props) 
                 style: {
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
-                    // overflow: 'hidden',
                 },
             }}
             fullWidth={fullWith}
@@ -49,7 +48,9 @@ export default function DialogWithButton({ dialog, children, fullWith }: Props) 
                 ...sx
             }}>
                 <Scrollbar>
-                    {children}
+                    <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
+                        {children}
+                    </Box>
                 </Scrollbar>
                 <IconButton onClick={() => { dialog.onFalse() }} sx={{ bgcolor: 'white', height: 'fit-content', ml: 2, borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
                     <SvgColor src='/assets/icons/navbar/x-close.svg' />
