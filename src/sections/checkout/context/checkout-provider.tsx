@@ -78,35 +78,40 @@ export function CheckoutProvider({ children }: Props) {
   ]);
 
   useEffect(() => {
+    console.log('...')
     // setCheckoutState(state);
 
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === STORAGE_KEY) {
         const newState = JSON.parse(event.newValue || '{}');
-        // console.log(newState)
-        update('items', newState.items || []);
+        console.log(newState)
+        if (newState.items?.length !== state.items?.length)
+          update('items', newState.items || []);
         // setCheckoutState(newState);
       }
     };
 
+    console.log('i start event listenter')
     window.addEventListener('storage', handleStorageChange);
 
     return () => {
+      console.log('i stop event listenter')
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
-  useEffect(() => {
-    const restored = getStorage(STORAGE_KEY);
+  // useEffect(() => {
+  //   console.log('...')
+  //   const restored = getStorage(STORAGE_KEY);
 
-    if (restored) {
-      onGetCart();
-    }
-  }, [onGetCart]);
+  //   if (restored) {
+  //     onGetCart();
+  //   }
+  // }, [onGetCart]);
 
   const onAddToCart = useCallback(
     (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean = true) => {
-      
+
       const updatedItems: ICheckoutItem[] | any = state.items.map((item: ICheckoutItem) => {
         if (item.id === newItem.id) {
           if (concatWithProperty) {
