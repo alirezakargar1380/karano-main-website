@@ -118,7 +118,7 @@ function SaleManagementProductItem({
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            if (values.rejection_reason !== '') onSubmit();
+            if (values.rejection_reason !== '' && values.rejection_reason !== property.rejection_reason) onSubmit();
         }, 1500)
 
         return () => clearTimeout(delayDebounceFn)
