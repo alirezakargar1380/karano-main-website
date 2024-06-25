@@ -17,16 +17,24 @@ import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import CompleteOrderView from "./complete-order-view";
 import OrderRejectionDialogView from "./order-rejection-dialog-view";
+import { useGetTrackingOrders } from "src/api/orders";
+import TrackingOrderItem from "../tracking-order-item";
+import { useState } from "react";
 
 export default function OrderTrackingView() {
+    const [orderId, setOrderId] = useState<number>();
 
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
     const finalOrderDialog = useBoolean();
 
+    const {
+        orders
+    } = useGetTrackingOrders();
 
-
-
+    const handleUpdateOrderId = (id: number) => {
+        setOrderId(id);
+    };
 
     return (
         <Box>
@@ -156,6 +164,9 @@ export default function OrderTrackingView() {
                         }
                     }}
                 />
+                {orders.map((order) => (
+                    <TrackingOrderItem key={order.id} order={order} />
+                ))}
                 <Box sx={{ bgcolor: '#F8F8F8', borderRadius: '16px', border: '1px solid #D1D1D1', padding: 4 }}>
                     <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                         <Label color="error" fontFamily={'peyda-bold'}>وضعیت: رد شده</Label>

@@ -80,7 +80,7 @@ export default function Header({ toggleBanner }: any) {
 
   return (
     <>
-      <Button onClick={() => toggle()} sx={{ position: 'absolute', zIndex: 10 }}>t</Button>
+      {/* <Button onClick={() => toggle()} sx={{ position: 'absolute', zIndex: 10 }}>t</Button> */}
       {/* {showBanner ? (
         <Box sx={{ bgcolor: '#454545', py: 2 }}>
           <Stack justifyContent={'center'} direction={'row'}>

@@ -83,6 +83,7 @@ export const endpoints = {
   orders: {
     create: '/api/orders',
     list: '/api/orders',
+    tracking: '/api/orders/tracking',
   },
   orderProductProperties: {
     update: (id: any) => `/api/order-product-properties/${id}`,

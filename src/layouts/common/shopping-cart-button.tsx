@@ -21,10 +21,6 @@ type Props = {
 export default function ShoppingCartButton({ sx }: Props) {
     const checkout = useCheckoutContext();
 
-    useEffect(() => {
-        checkout.onGetCart();
-    }, []);
-
     return (
         <Button component={RouterLink} href={paths.shoppingCart}
             sx={{

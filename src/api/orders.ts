@@ -27,3 +27,23 @@ export function useGetOrders() {
 
   return memoizedValue;
 }
+
+export function useGetTrackingOrders() {
+  const URL = endpoints.orders.tracking;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+    //   productsError: error,
+    //   productsValidating: isValidating,
+    //   productsEmpty: !isLoading && !data?.products.length,
+    }),
+    // [data, error, isLoading, isValidating]
+    [data]
+  );
+
+  return memoizedValue;
+}

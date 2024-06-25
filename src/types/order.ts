@@ -57,9 +57,16 @@ export type IOrderProductItem = {
   quantity: number;
 };
 
+export enum OrderStatus {
+  pending = 'pending',
+  failed = 'failed', 
+  accepted = 'accepted' 
+}
+
 export type IOrderItem = {
   id: string;
   user: IUser;
+  status: OrderStatus;
   order_number: string;
   createdAt: Date;
 };

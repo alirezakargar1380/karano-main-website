@@ -13,6 +13,7 @@ const ROOTS = {
   AUTH_DEMO: '/auth-demo',
   DASHBOARD: '/dashboard',
   ADMIN_DASHBOARD: '/admin-dashboard',
+  USER_DASHBOARD: '/user-dashboard',
 };
 
 // ----------------------------------------------------------------------
@@ -213,4 +214,7 @@ export const paths = {
     fileManager: `${ROOTS.ADMIN_DASHBOARD}/file-manager`,
     permission: `${ROOTS.ADMIN_DASHBOARD}/permission`,
   },
+  user_dashboard: {
+    root: ROOTS.USER_DASHBOARD,
+  }
 };

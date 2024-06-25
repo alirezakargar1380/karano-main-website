@@ -4,7 +4,7 @@ import { Theme, SxProps } from '@mui/material/styles';
 import { RouterLink } from 'src/routes/components';
 
 import { PATH_AFTER_LOGIN } from 'src/config-global';
-import { Box, IconButton, MenuItem, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Link, MenuItem, Stack, Typography } from '@mui/material';
 import SvgColor from 'src/components/svg-color';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { paths } from 'src/routes/paths';
@@ -21,7 +21,7 @@ export default function LoginButton({ sx }: Props) {
   const { logout, authenticated, user, } = useAuthContext();
 
   const popover = usePopover();
-  
+
   const handleLogout = () => {
     console.log('logout')
     logout();
@@ -89,15 +89,17 @@ export default function LoginButton({ sx }: Props) {
           </Button>
 
           <CustomPopover open={popover.open} hiddenArrow onClose={popover.onClose} sx={{ width: 200, p: 0, mt: 4 }}>
-            <Box sx={{ p: 2, pb: 1.5, borderBottom: '1px solid #D1D1D1' }} display={'flex'}>
-              <SvgColor
-                src={`/assets/icons/auth/user-check-01.svg`}
-                sx={{ width: 20, height: 20, mr: 1 }}
-              />
-              <Typography variant="subtitle2" noWrap>
-                اطلاعات حساب کاربری
-              </Typography>
-            </Box>
+            <Link href={paths.user_dashboard.root} color={'inherit'} underline={'none'}>
+              <Box sx={{ p: 2, pb: 1.5, borderBottom: '1px solid #D1D1D1' }} display={'flex'}>
+                <SvgColor
+                  src={`/assets/icons/auth/user-check-01.svg`}
+                  sx={{ width: 20, height: 20, mr: 1 }}
+                />
+                <Typography variant="subtitle2" noWrap>
+                  اطلاعات حساب کاربری
+                </Typography>
+              </Box>
+            </Link>
             <Box sx={{ p: 2, pb: 1.5, borderBottom: '1px solid #D1D1D1', cursor: 'pointer', color: 'error.main' }} display={'flex'} onClick={handleLogout}>
               <SvgColor
                 src={`/assets/icons/auth/leading.svg`}
