@@ -68,6 +68,10 @@ export const endpoints = {
     latest: '/api/post/latest',
     search: '/api/post/search',
   },
+  user: {
+    update: (id: any) => `/api/users/${id}`,
+    user_update: `/api/users`,
+  },
   product: {
     list: '/api/product/list',
     one: (id: any) => '/api/products/' + id,
