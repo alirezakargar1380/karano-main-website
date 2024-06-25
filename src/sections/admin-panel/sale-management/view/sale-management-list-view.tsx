@@ -179,7 +179,7 @@ export default function SaleManagementListView() {
                                             <LoadingButton
                                                 variant="contained"
                                                 sx={{ borderRadius: '28px', width: 1 }}
-                                                onClick={() => router.push(paths.admin_dashboard.saleManagement.details(1))}
+                                                onClick={() => router.push(paths.admin_dashboard.saleManagement.details(row.id))}
                                             >
                                                 بررسی
                                             </LoadingButton>

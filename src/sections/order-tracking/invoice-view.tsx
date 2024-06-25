@@ -6,6 +6,9 @@ import Scrollbar from "src/components/scrollbar";
 import { styled } from '@mui/material/styles';
 import { fCurrency } from "src/utils/format-number";
 import { IInvoice } from "src/types/invoice";
+import { IOrderProductItem } from "src/types/order-products";
+import React from "react";
+import { ProductOrderType } from "src/types/product";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '& td': {
@@ -18,10 +21,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type Props = {
     invoice: IInvoice;
+    orderProducts: IOrderProductItem[]
 };
 
-export default function InvoiceView({ invoice }: Props) {
-    const checkout = useCheckoutContext();
+export default function InvoiceView({ invoice, orderProducts }: Props) {
+    // const checkout = useCheckoutContext();
 
     const renderTotal = (
         <>
@@ -69,6 +73,62 @@ export default function InvoiceView({ invoice }: Props) {
         </>
     );
 
+    function calculateProfileTotal(width: number, qty: number) {
+        let panels = {
+            length: 8,
+            width: 240,
+            quantity: 1000,
+        },
+            parts = {
+                length: 111,
+                width: width,
+                quantity: qty,
+            }
+        let count = 0
+        const allPanels = []
+        const itemShouldBuild = []
+
+        for (let i = 1; i <= panels.quantity; i++) {
+            allPanels.push({
+                length: panels.length,
+                width: panels.width
+            })
+        }
+
+        for (let i = 1; i <= parts.quantity * 2; i++) {
+            itemShouldBuild.push({
+                width: parts.width,
+                build: false
+            })
+            itemShouldBuild.push({
+                width: parts.length,
+                build: false
+            })
+        }
+
+        for (let i = 0; i < allPanels.length; i++) {
+            let panel = allPanels[i];
+            // let panel = {
+            //     width: 240
+            // }
+            for (let j = 0; j < itemShouldBuild.length; j++) {
+                let part = itemShouldBuild[j]
+                // if (part.width > panel.width && part.build) count++
+                if (part.width < panel.width && !part.build) {
+                    part.build = true
+                    panel.width -= part.width
+                } else {
+                    // count++
+                    // panel.width = 240
+                    continue;
+                }
+            }
+        }
+
+        allPanels.forEach((p) => p.width !== panels.width && count++)
+
+        return count
+    }
 
     const renderList = (
         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
@@ -78,13 +138,19 @@ export default function InvoiceView({ invoice }: Props) {
                         <TableRow>
                             <TableCell width={40}>#</TableCell>
 
-                            <TableCell sx={{ typography: 'subtitle2' }}>Description</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>Description</TableCell>
 
-                            <TableCell>Qty</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>کد کالا</TableCell>
 
-                            <TableCell align="right">Unit price</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>تعداد / مقدار</TableCell>
 
-                            <TableCell align="right">Total</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>ابعاد</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>تعداد پروفیل</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }} align="right">Unit price</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }} align="right">Total</TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -98,28 +164,64 @@ export default function InvoiceView({ invoice }: Props) {
                             <TableCell></TableCell>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
 
-                        {invoice.items.map((row, index) => (
-                            <TableRow key={index}>
-                                <TableCell>{index + 1}</TableCell>
+                        {orderProducts.map((orderProduct, ind) => (
+                            <React.Fragment key={ind}>
+                                {orderProduct.properties.map((property, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{index + 1}</TableCell>
 
-                                <TableCell>
-                                    <Box sx={{ maxWidth: 560 }}>
-                                        <Typography variant="subtitle2">{row.title}</Typography>
+                                        <TableCell>
+                                            <Box sx={{ maxWidth: 560 }}>
+                                                <Typography variant="subtitle2">{orderProduct.product.name}</Typography>
 
-                                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                                            {row.description}
-                                        </Typography>
-                                    </Box>
-                                </TableCell>
+                                                <Typography variant="body2" sx={{ color: 'text.secondary', direction: 'rtl' }} noWrap>
+                                                    {(property.profile_type?.name || ' * ')}
+                                                    {"-" + (property.coating_type || ' * ')}
+                                                    {"-" + (property.cover_type?.name || ' * ')}
+                                                    {"-" + (property.frame_type?.name || ' * ')}
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
 
-                                <TableCell>{row.quantity}</TableCell>
+                                        <TableCell>
+                                            {orderProduct.product.code}
+                                        </TableCell>
 
-                                <TableCell align="right">{fCurrency(row.price)}</TableCell>
+                                        <TableCell>
+                                            {property.quantity}
+                                        </TableCell>
 
-                                <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
-                            </TableRow>
+                                        <TableCell>
+                                            {property.dimension}
+                                        </TableCell>
+
+                                        <TableCell>
+                                            {calculateProfileTotal(Number(property.dimension.split('*')[0]), property.quantity)}
+                                        </TableCell>
+
+                                        <TableCell align="right">
+                                            {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
+                                                fCurrency(orderProduct.product.price) :
+                                                fCurrency((calculateProfileTotal(Number(property.dimension.split('*')[0]), property.quantity) * property.profile_type.unit_price) / property.quantity)
+                                            }
+                                        </TableCell>
+
+                                        {/* <TableCell align="right">{fCurrency(589 * 99)}</TableCell> */}
+                                        <TableCell align="right">
+                                            {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
+                                                fCurrency(property.quantity * orderProduct.product.price)
+                                                :
+                                                fCurrency(calculateProfileTotal(Number(property.dimension.split('*')[0]), property.quantity) * property.profile_type.unit_price)
+                                            }
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </React.Fragment>
                         ))}
 
                         <TableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
@@ -131,6 +233,9 @@ export default function InvoiceView({ invoice }: Props) {
                             <TableCell></TableCell>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
 
                         {invoice.items.map((row, index) => (
@@ -146,6 +251,10 @@ export default function InvoiceView({ invoice }: Props) {
                                         </Typography>
                                     </Box>
                                 </TableCell>
+
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
 
                                 <TableCell>{row.quantity}</TableCell>
 
@@ -252,8 +361,20 @@ export default function InvoiceView({ invoice }: Props) {
             </TableContainer>
 
             <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={() => checkout.onBackStep()}>مرحله قبل</StyledRoundedWhiteButton>
-                <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={() => checkout.onNextStep()}>ثبت و ادامه</LoadingButton>
+                <StyledRoundedWhiteButton
+                    variant='outlined'
+                    sx={{ px: 4 }}
+                // onClick={() => checkout.onBackStep()}
+                >
+                    مرحله قبل
+                </StyledRoundedWhiteButton>
+                <LoadingButton
+                    variant='contained'
+                    sx={{ borderRadius: '24px', px: 4 }}
+                // onClick={() => checkout.onNextStep()}
+                >
+                    ثبت و ادامه
+                </LoadingButton>
             </Stack>
         </Box>
     )

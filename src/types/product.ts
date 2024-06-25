@@ -74,6 +74,7 @@ export type IProductProperties = {
 export type IProductProfileType = {
   id: number
   name: string
+  unit_price: number
   createdAt: string
 }
 export type IProductFrameType = {
