@@ -27,7 +27,7 @@ const TABS = [
 ];
 
 export default function UserPanelView() {
-    const [currentTab, setCurrentTab] = useState('user-details');
+    const [currentTab, setCurrentTab] = useState('orders' || 'user-details');
 
     return (
         <Box>

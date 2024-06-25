@@ -17,9 +17,9 @@ export function useGetOrders() {
     () => ({
       orders: (data as IOrderItem[]) || [],
       ordersLoading: isLoading,
-    //   productsError: error,
-    //   productsValidating: isValidating,
-    //   productsEmpty: !isLoading && !data?.products.length,
+      //   productsError: error,
+      //   productsValidating: isValidating,
+      //   productsEmpty: !isLoading && !data?.products.length,
     }),
     // [data, error, isLoading, isValidating]
     [data]
@@ -37,11 +37,11 @@ export function useGetTrackingOrders() {
     () => ({
       orders: (data as IOrderItem[]) || [],
       ordersLoading: isLoading,
-    //   productsError: error,
-    //   productsValidating: isValidating,
-    //   productsEmpty: !isLoading && !data?.products.length,
+      //  productsError: error,
+      //  productsValidating: isValidating,
+      ordersEmpty: !isLoading && !data.length,
     }),
-    // [data, error, isLoading, isValidating]
+    [data, error, isLoading, isValidating]
     [data]
   );
 
