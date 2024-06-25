@@ -6,7 +6,7 @@ import { SaleManagementDetailsView } from 'src/sections/admin-panel/sale-managem
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Product: Details',
+  title: 'sale-management: Details',
 };
 
 type Props = {
