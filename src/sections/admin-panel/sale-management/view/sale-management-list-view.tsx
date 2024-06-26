@@ -160,7 +160,7 @@ export default function SaleManagementListView() {
                             <TableBody>
                                 {orders.map((row: IOrderItem, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{row.id}</TableCell>
 
                                         <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
 
