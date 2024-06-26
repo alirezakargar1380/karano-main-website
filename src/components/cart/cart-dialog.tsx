@@ -90,10 +90,10 @@ export default function CartDialog({
     const onSubmit = handleSubmit(async (data: any) => {
         try {
             const custom = {...data}
-            custom.profile_type = form.profile_type.find((item) => item.id === data.profile_type);
-            custom.cover_type = form.cover_type.find((item) => item.id === data.cover_type);
-            custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
-            console.log(id);
+            if (form.profile_type) custom.profile_type = form.profile_type.find((item) => item.id === data.profile_type);
+            if (form.cover_type) custom.cover_type = form.cover_type.find((item) => item.id === data.cover_type);
+            if (form.frame_type) custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
+            
             if (id == null) {
                 setList([
                     ...list,

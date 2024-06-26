@@ -215,11 +215,11 @@ export default function CartDialogView({
                                         key={index}
                                         row={{
                                             quality: item.quantity,
-                                            coating: item.coating_type,
+                                            coating: item?.coating_type,
                                             dimensions: item.dimention.width + 'x' + item.dimention.height,
-                                            final_coating: item.cover_type.name,
-                                            frame_type: item.frame_type.name,
-                                            profile_type: item.profile_type.name,
+                                            final_coating: item.cover_type?.name,
+                                            frame_type: item.frame_type?.name,
+                                            profile_type: item.profile_type?.name,
                                         }}
                                     />
                                 ))}
