@@ -11,53 +11,52 @@ import { useCheckoutContext } from "src/sections/checkout/context";
 import { DeliveryRecipientInformation } from "../delivery-recipient-information";
 import InvoiceView from "../invoice-view";
 import Payment from "../payment";
+import { useGetOrderProducts } from "src/api/order-products";
 
+interface Props {
+    orderId: number
+}
 
-export default function CompleteOrderView() {
+export default function CompleteOrderView({ orderId }: Props) {
     const checkout = useCheckoutContext();
 
     const currentInvoice = _invoices.filter((invoice) => invoice.id === "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2")[0];
 
+    const { orderProducts } = useGetOrderProducts(orderId);
+
     useEffect(() => {
-        // checkout.onNextStep()
-        // checkout.onBackStep()
-        checkout.onGotoStep(0)
+        // checkout.onGotoStep(0)
         console.log(checkout.activeStep)
     }, [])
 
-
-    const methods = useForm({
-        // resolver: yupResolver(NewAddressSchema),
-        defaultValues: {},
-    });
-
     return (
-        <FormProvider methods={methods}>
-            <Scrollbar >
-                <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                        نهایی کردن سفارش
-                    </Typography>
+        <Scrollbar>
+            <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
+                <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                    نهایی کردن سفارش
+                </Typography>
+
+                <Container>
+                    <Box sx={{ my: 3 }}>
+                        <CheckoutSteps
+                            activeStep={checkout.activeStep}
+                            steps={PRODUCT_CHECKOUT_STEPS}
+                        />
+                    </Box>
+
+                    {checkout.activeStep === 0 && <DeliveryRecipientInformation orderId={orderId} />}
+                    {checkout.activeStep === 1 && (
+                        <InvoiceView
+                            orderProducts={orderProducts}
+                            invoice={currentInvoice}
+                            submitHandler={checkout.onNextStep}
+                        />
+                    )}
+                    {checkout.activeStep === 2 && <Payment />}
 
 
-                    <Container>
-                        <Box sx={{ my: 3 }}>
-                            <CheckoutSteps activeStep={checkout.activeStep} steps={PRODUCT_CHECKOUT_STEPS} />
-                        </Box>
-
-
-                        {checkout.activeStep === 0 && <DeliveryRecipientInformation />}
-                        {checkout.activeStep === 1 && <InvoiceView invoice={currentInvoice} />}
-                        {checkout.activeStep === 2 && <Payment />}
-
-
-                    </Container>
-
-
-
-                </Box>
-            </Scrollbar>
-        </FormProvider >
-
+                </Container>
+            </Box>
+        </Scrollbar>
     )
 }

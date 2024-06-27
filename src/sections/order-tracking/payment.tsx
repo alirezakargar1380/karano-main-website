@@ -33,7 +33,7 @@ export default function Payment() {
                     sx={{ mt: 2 }}
                     spacing={2}
                 >
-                    <RHFTitleTextField name='first_name' custom_label='کد تخفیف' placeholder='666784' />
+                    {/* <RHFTitleTextField name='first_name' custom_label='کد تخفیف' placeholder='666784' /> */}
                 </Stack>
             </Box>
             <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
