@@ -14,17 +14,20 @@ export default function CarouselHomeCategory() {
   const { categories, categoryLoading } = useGetCategories();
 
   const router = useRouter();
-  
+
   const carousel = useCarousel({
     autoplay: false,
     rtl: false,
-    slidesToShow: 10,
+    slidesToShow: categories.length > 3 ? 10 : 7,
+    // slidesToShow: 10,
     swipeToSlide: true,
     // centerMode: true,
     responsive: [
       {
         breakpoint: 1366,
-        settings: { slidesToShow: 6 },
+        settings: {
+          slidesToShow: 6
+        },
       },
       {
         breakpoint: 1024,
@@ -144,7 +147,7 @@ export default function CarouselHomeCategory() {
               :
               categories.map((v: any, index: number) => (
                 <Box key={index}>
-                  <TiltCard halt_rotation_range={1.5} rotation_range={1.5}>
+                  <TiltCard halt_rotation_range={20} rotation_range={20}>
                     <Button sx={{
                       border: '2px solid #f2f2f2',
                       color: '#000',

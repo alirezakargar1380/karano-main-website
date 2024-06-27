@@ -107,7 +107,7 @@ export default function ShoppingCartList({ items }: Props) {
                                             row={{
                                                 quality: property_price?.quantity,
                                                 coating: property_price?.coating_type || '',
-                                                dimensions: property_price?.dimention ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '',
+                                                dimensions: (property_price?.dimention) ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '',
                                                 final_coating: property_price?.cover_type?.name,
                                                 frame_type: property_price?.frame_type?.name || '',
                                                 profile_type: property_price?.profile_type?.name || '',

@@ -41,9 +41,9 @@ export function CheckoutProvider({ children }: Props) {
   const { state, update, reset } = useLocalStorage(STORAGE_KEY, initialState);
 
   const onGetCart = useCallback(() => {
-    // const quality: number = state.items.map((item: ICheckoutItem) => item.property_prices.reduce((acc, curr) => acc + curr.quantity, 0))[0];
+    // const quality: number = state.items.map((item: ICheckoutItem) => item.properties.reduce((acc, curr) => acc + curr.quantity, 0))[0];
     // const getTotalQuantity = (item: ICheckoutItem) => {
-    //   return item.property_prices.reduce((total, propertyPrice) => propertyPrice.quantity, 0);
+    //   return item.properties.reduce((total, propertyPrice) => propertyPrice.quantity, 0);
     // };
     // const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
     // const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
@@ -51,7 +51,7 @@ export function CheckoutProvider({ children }: Props) {
     let quality: number = 0
 
     state.items.map((product: ICheckoutItem) => {
-      quality += _.sumBy(product.property_prices, 'quantity');
+      quality += _.sumBy(product.properties, 'quantity');
     })
 
     const totalItems: number = quality;
@@ -118,16 +118,16 @@ export function CheckoutProvider({ children }: Props) {
             return {
               ...item,
               ...newItem,
-              property_prices: (newItem?.property_prices?.length) ?
-                item.property_prices.concat(newItem.property_prices) : item.property_prices,
+              properties: (newItem?.properties?.length) ?
+                item.properties.concat(newItem.properties) : item.properties,
             };
           } else {
             return {
               ...item,
               ...newItem,
-              // property_prices: (newItem?.property_prices?.length) ? 
-              // item.property_prices.concat(newItem.property_prices) : item.property_prices,
-              property_prices: newItem.property_prices,
+              // properties: (newItem?.properties?.length) ? 
+              // item.properties.concat(newItem.properties) : item.properties,
+              properties: newItem.properties,
             };
           }
 
@@ -139,7 +139,7 @@ export function CheckoutProvider({ children }: Props) {
       if (!updatedItems.some((item: ICheckoutItem) => item.id === newItem.id)) {
         updatedItems.push({
           ...newItem,
-          property_prices: newItem.property_prices,
+          properties: newItem.properties,
         });
       }
 

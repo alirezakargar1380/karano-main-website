@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
+import { update } from 'lodash';
 
 import { HOST_API, BACKEND_API } from 'src/config-global';
 
@@ -88,6 +89,8 @@ export const endpoints = {
     create: '/api/orders',
     list: '/api/orders',
     tracking: '/api/orders/tracking',
+    one: (id: any) => '/api/orders/' + id,
+    update: (id: any) => '/api/orders/' + id,
   },
   orderProductProperties: {
     update: (id: any) => `/api/order-product-properties/${id}`,

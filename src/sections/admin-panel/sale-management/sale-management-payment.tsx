@@ -14,7 +14,15 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
-export default function SaleManagementPayment() {
+import { useBooleanReturnType } from "src/hooks/use-boolean";
+
+interface Props {
+    invoiceDialog: useBooleanReturnType
+}
+
+export default function SaleManagementPayment({
+    invoiceDialog
+}: Props) {
     const methods = useForm({
         defaultValues: {},
     });
@@ -30,8 +38,9 @@ export default function SaleManagementPayment() {
     const onSubmit = handleSubmit(async (data) => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            reset();
+            // reset();
             console.info('DATA', data);
+            invoiceDialog.onToggle();
         } catch (error) {
             console.error(error);
         }
@@ -76,8 +85,8 @@ export default function SaleManagementPayment() {
                     <RHFTitleTextField custom_label={"تخمین زمان تولید (روز)"} name="" placeholder="قیمت" />
                 </Stack>
                 <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ p: 2, mt: 1 }}>
-                    <LoadingButton variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
-                        تایید نهایی
+                    <LoadingButton type="submit" variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
+                        نمایش پیش فاکتور
                     </LoadingButton>
                 </Box>
             </Box>

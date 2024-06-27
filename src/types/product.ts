@@ -25,12 +25,11 @@ export type IProductReviewNewForm = {
   email: string;
 };
 
-export type ProductDimension = {
+export type IProductDimension = {
   id?: number;
-  // unit: string;
-  length: string;
-  width: string;
-  height: string;
+  length: number;
+  width: number;
+  height: number;
 }
 
 export type IProductCoverType = {
@@ -55,7 +54,7 @@ export type IProductReview = {
 export type IProductPropertyValues = {
   price: number,
   cover_type: Partial<IProductCoverType> | null,
-  dimension: Partial<ProductDimension> | null
+  dimension: Partial<IProductDimension> | null
 }
 
 export type IProductProperties = {
@@ -64,6 +63,7 @@ export type IProductProperties = {
   quantity: number,
   coating_type: string,
   dimension: string,
+  product_dimension: IProductDimension
   rejection_reason: string,
   is_approved: boolean | string,
   cover_type: IProductCoverType,
@@ -102,7 +102,7 @@ export type IProductItem = {
   sku: string;
   attributes: string;
   name: string;
-  product_dimension: ProductDimension[];
+  product_dimension: IProductDimension[];
   code: string;
   price: number;
   taxes: number;

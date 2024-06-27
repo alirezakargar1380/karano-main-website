@@ -7,9 +7,10 @@ import { fDateTime } from "src/utils/format-time"
 
 interface Props {
     order: IOrderItem
+    handleMoreBtn: (id: number, status: OrderStatus) => void
 }
 
-export default function TrackingOrderItem({ order }: Props) {
+export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
     return (
         <Box sx={{ bgcolor: '#F8F8F8', borderRadius: '16px', border: '1px solid #D1D1D1', padding: 4 }}>
             <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
@@ -19,7 +20,7 @@ export default function TrackingOrderItem({ order }: Props) {
                     (order.status === OrderStatus.accepted && 'success') ||
                     'default'
                 } fontFamily={'peyda-bold'}>
-                    وضعیت:
+                    {' وضعیت: '}
                     {
                         (order.status === OrderStatus.pending && 'در انتظار تایید') ||
                         (order.status === OrderStatus.failed && 'رد شده') ||
@@ -28,7 +29,10 @@ export default function TrackingOrderItem({ order }: Props) {
                 </Label>
                 <StyledRoundedWhiteButton
                     variant="outlined"
-                // onClick={() => { orderRejectingDialog.onTrue() }}
+                    onClick={() => {
+                        // orderRejectingDialog.onTrue()
+                        handleMoreBtn(+order.id, order.status)
+                    }}
                 >
                     مشاهده جزئیات
                     <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />

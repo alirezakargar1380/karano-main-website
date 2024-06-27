@@ -130,7 +130,7 @@ export default function ProductDetailsSummary({
         ...values,
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
         order_form_id: product.order_form_options.id,
-        property_prices: [
+        properties: [
           {
             quantity: values.quantity,
             dimention: dimention,
@@ -170,7 +170,7 @@ export default function ProductDetailsSummary({
         // order_form_options: product.order_form_options,
         coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
         order_form_id: product.order_form_options.id,
-        property_prices: data,
+        properties: data,
         subTotal: 0,
       });
 
@@ -339,7 +339,7 @@ export default function ProductDetailsSummary({
                   price={product.price}
                   dimention_id={values.dimension_id || 0}
                   cover_type_id={values.cover_type_id || 0}
-                  property_values={product.property_prices}
+                  properties={product.property_prices}
                   quantity={values.quantity || 1}
                   updatePrice={updatePrice}
                 />

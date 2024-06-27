@@ -21,10 +21,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type Props = {
     invoice: IInvoice;
-    orderProducts: IOrderProductItem[]
+    orderProducts: IOrderProductItem[];
+    submitHandler: () => void
 };
 
-export default function InvoiceView({ invoice, orderProducts }: Props) {
+export default function InvoiceView({ 
+    invoice, 
+    orderProducts,
+    submitHandler 
+}: Props) {
     // const checkout = useCheckoutContext();
 
     const renderTotal = (
@@ -201,13 +206,13 @@ export default function InvoiceView({ invoice, orderProducts }: Props) {
                                         </TableCell>
 
                                         <TableCell>
-                                            {calculateProfileTotal(Number(property?.dimension?.split('*')[0]), property.quantity)}
+                                            {calculateProfileTotal(Number(property?.dimension?.split('x')[0]), property.quantity)}
                                         </TableCell>
 
                                         <TableCell align="right">
                                             {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
                                                 fCurrency(orderProduct.product.price) :
-                                                fCurrency((calculateProfileTotal(Number(property?.dimension?.split('*')[0]), property.quantity) * property.profile_type.unit_price) / property.quantity)
+                                                fCurrency((calculateProfileTotal(Number(property?.dimension?.split('x')[0]), property.quantity) * property.profile_type.unit_price) / property.quantity)
                                             }
                                         </TableCell>
 
@@ -216,7 +221,7 @@ export default function InvoiceView({ invoice, orderProducts }: Props) {
                                             {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
                                                 fCurrency(property.quantity * orderProduct.product.price)
                                                 :
-                                                fCurrency(calculateProfileTotal(Number(property?.dimension?.split('*')[0]), property.quantity) * property.profile_type.unit_price)
+                                                fCurrency(calculateProfileTotal(Number(property?.dimension?.split('x')[0]), property.quantity) * property.profile_type.unit_price)
                                             }
                                         </TableCell>
                                     </TableRow>
@@ -371,7 +376,8 @@ export default function InvoiceView({ invoice, orderProducts }: Props) {
                 <LoadingButton
                     variant='contained'
                     sx={{ borderRadius: '24px', px: 4 }}
-                // onClick={() => checkout.onNextStep()}
+                    // onClick={() => checkout.onNextStep()}
+                    onClick={submitHandler}
                 >
                     ثبت و ادامه
                 </LoadingButton>

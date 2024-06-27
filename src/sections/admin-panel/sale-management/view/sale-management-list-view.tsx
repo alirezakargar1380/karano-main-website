@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { useGetOrders } from "src/api/orders";
-import { IOrderItem } from "src/types/order";
+import { IOrderItem, OrderStatus } from "src/types/order";
 import { fDate, fDateTime } from "src/utils/format-time";
 
 export default function SaleManagementListView() {
@@ -167,9 +167,23 @@ export default function SaleManagementListView() {
                                         <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>
-                                            <Label variant="filled" color="info">
-                                                در حال بررسی
-                                            </Label>
+                                            {
+                                                (row.status === OrderStatus.pending) && (
+                                                    <Label variant="filled" color="info">
+                                                        در حال بررسی
+                                                    </Label>
+                                                ) || (row.status === OrderStatus.failed) && (
+                                                    <Label variant="filled" color="error">
+                                                        رد شده
+                                                    </Label>
+                                                ) || (row.status === OrderStatus.accepted) && (
+                                                    <Label variant="filled" color="success">
+                                                        تایید شده
+                                                    </Label>
+                                                ) ||
+                                                ''
+                                            }
+
                                         </TableCell>
 
                                         <TableCell dir="ltr">{row.user.phone}</TableCell>

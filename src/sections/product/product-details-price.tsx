@@ -7,7 +7,7 @@ interface Props {
     price: number
     dimention_id: number
     cover_type_id: number
-    property_values: IProductPropertyValues[]
+    properties: IProductPropertyValues[]
     quantity: number
     updatePrice: (price: number) => void
 }
@@ -16,7 +16,7 @@ export default function ProductDetailsPrice({
     price,
     dimention_id,
     cover_type_id,
-    property_values,
+    properties,
     quantity,
     updatePrice
 }: Props) {
@@ -25,11 +25,11 @@ export default function ProductDetailsPrice({
     useEffect(() => {
         let property
         if (cover_type_id !== 0 && dimention_id !== 0) {
-            property = property_values.find((p) => (p?.dimension?.id == dimention_id && p?.cover_type?.id == cover_type_id))
+            property = properties.find((p) => (p?.dimension?.id == dimention_id && p?.cover_type?.id == cover_type_id))
         } else if (dimention_id !== 0) {
-            property = property_values.find((p) => (p?.dimension?.id == dimention_id))
+            property = properties.find((p) => (p?.dimension?.id == dimention_id))
         } else {
-            property = property_values.find((p) => (p?.cover_type?.id == cover_type_id))
+            property = properties.find((p) => (p?.cover_type?.id == cover_type_id))
         }
 
         console.log('property', property)
@@ -38,7 +38,7 @@ export default function ProductDetailsPrice({
             setNewPrice(property.price * quantity)
         else
             setNewPrice(price * quantity)
-    }, [property_values, dimention_id, cover_type_id, quantity])
+    }, [properties, dimention_id, cover_type_id, quantity])
 
     useEffect(() => {
         updatePrice(newPrice)

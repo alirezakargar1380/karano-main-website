@@ -1,5 +1,5 @@
 import { IAddressItem } from './address';
-import { IProductCoverType, IProductFrameType, IProductProfileType, ProductDimension, ProductOrderType } from './product';
+import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType } from './product';
 
 // ----------------------------------------------------------------------
 
@@ -9,7 +9,7 @@ export type ICheckoutItem = {
   coverUrl: string;
   price: number;
   order_type: ProductOrderType;
-  property_prices: ICheckoutItemPropertyPrice[]
+  properties: ICheckoutItemPropertyPrice[]
   subTotal: number;
   order_form_id: number;
   need_to_assemble: boolean
@@ -30,8 +30,8 @@ export type ICheckoutAddCustomMadeProductData = {
   frame_type: string,
 };
 
-export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'property_prices'> {
-  property_prices: ICheckoutItemPropertyPrice[]
+export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'properties'> {
+  properties: ICheckoutItemPropertyPrice[]
 }
 
 export interface ICheckoutItemPropertyPrice {

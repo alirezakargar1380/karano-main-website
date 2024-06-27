@@ -7,13 +7,16 @@ import { IOrderProductItem } from "src/types/order-products";
 import { IProductItem, IProductProperties } from "src/types/product";
 import { endpoints, server_axios } from "src/utils/axios";
 import { useSnackbar } from 'src/components/snackbar';
+import Label from "src/components/label";
+import { IOrderItem, OrderStatus } from "src/types/order";
 
 interface Props {
     order: IOrderProductItem[]
+    o: IOrderItem
 }
 
 
-export default function SaleManagementProducts({ order }: Props) {
+export default function SaleManagementProducts({ order, o }: Props) {
 
     return (
         <Box border={(theme) => `1px solid ${theme.palette.divider}`} bgcolor={'#FFF'} width={1} borderRadius={'16px'}>
@@ -21,8 +24,8 @@ export default function SaleManagementProducts({ order }: Props) {
                 <Stack direction={'row'}>
                     <Box display={'flex'} width={'50%'}>
                         <Typography variant="h6" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
-                        <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            123456789
+                        <Typography variant="subtitle1" noWrap fontFamily={'peyda-light'} sx={{ pl: 1 }}>
+                            {o.order_number}
                         </Typography>
                     </Box>
                     <Box display={'flex'} width={'50%'}>
@@ -44,19 +47,21 @@ export default function SaleManagementProducts({ order }: Props) {
                             نام سفارش دهنده:
                         </Typography>
                         <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            لهراسب افروزنده
+                            {o.user.first_name + " " + o.user.last_name}
                         </Typography>
                     </Box>
                 </Stack>
             </Stack>
             <Box p={2}>
-                {order.map(({ product, properties }) => (
+                {order.map(({ product, properties, need_to_assemble }) => (
                     <Box key={product.id}>
                         {properties.map((p, propertyIndex) => (
                             <SaleManagementProductItem
                                 key={propertyIndex}
                                 product={product}
                                 property={p}
+                                need_to_assemble={need_to_assemble}
+                                order_id={o.id}
                             />
                         ))}
                     </Box>
@@ -69,21 +74,24 @@ export default function SaleManagementProducts({ order }: Props) {
 
 interface SaleManagmentItem {
     product: IProductItem,
-    property: IProductProperties
+    property: IProductProperties,
+    need_to_assemble: boolean,
+    order_id: string
 }
 
 function SaleManagementProductItem({
     product,
-    property
+    property,
+    need_to_assemble,
+    order_id
 }: SaleManagmentItem) {
-
     const { enqueueSnackbar } = useSnackbar();
 
     const methods = useForm({
         // resolver: yupResolver<any>(schema),
         defaultValues: {
             rejection_reason: property.rejection_reason || null,
-            is_approved: (property.is_approved !== null) ? (property.is_approved ? '1' : '0')  : null
+            is_approved: (property.is_approved !== null) ? (property.is_approved ? '1' : '0') : null
         },
     });
 
@@ -100,7 +108,15 @@ function SaleManagementProductItem({
 
     const onSubmit = handleSubmit(async (d) => {
         try {
-            console.log(d);
+            if (d.is_approved == "0") {
+                await server_axios.patch(endpoints.orders.update(order_id), {
+                    status: OrderStatus.failed
+                })
+                enqueueSnackbar('وضعیت سفارش به رد شده تغییر کرد!', {
+                    variant: 'warning'
+                })
+            } 
+            
             await server_axios.patch(endpoints.orderProductProperties.update(property.id), {
                 ...d,
                 rejection_reason: (d.rejection_reason) ? d.rejection_reason : null,
@@ -169,6 +185,10 @@ function SaleManagementProductItem({
                                     <TableCell sx={{ fontFamily: 'peyda-bold' }}>
                                         تعداد
                                     </TableCell>
+
+                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                        نیاز به مونتاژ
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
 
@@ -193,6 +213,19 @@ function SaleManagementProductItem({
                                     </TableCell>
                                     <TableCell>
                                         {property.quantity}
+                                    </TableCell>
+
+
+                                    <TableCell>
+                                        {need_to_assemble ?
+                                            <Label variant="outlined" color="success">
+                                                دارد
+                                            </Label>
+                                            :
+                                            <Label variant="outlined" color="error">
+                                                ندارد
+                                            </Label>
+                                        }
                                     </TableCell>
                                 </TableRow>
                             </TableBody>

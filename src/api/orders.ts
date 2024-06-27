@@ -28,6 +28,26 @@ export function useGetOrders() {
   return memoizedValue;
 }
 
+export function useGetOrder(id: string) {
+  const URL = endpoints.orders.one(id);
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      order: (data as IOrderItem) || {},
+      orderLoading: isLoading,
+      //   productsError: error,
+      //   productsValidating: isValidating,
+      //   productsEmpty: !isLoading && !data?.products.length,
+    }),
+    // [data, error, isLoading, isValidating]
+    [data]
+  );
+
+  return memoizedValue;
+}
+
 export function useGetTrackingOrders() {
   const URL = endpoints.orders.tracking;
 

@@ -20,9 +20,13 @@ import OrderRejectionDialogView from "./order-rejection-dialog-view";
 import { useGetTrackingOrders } from "src/api/orders";
 import TrackingOrderItem from "../tracking-order-item";
 import { useState } from "react";
+import ShoppingCartList from "src/sections/shopping-cart/shopping-cart-list";
+import { useGetOrderProducts } from "src/api/order-products";
+import { endpoints } from "src/utils/axios";
+import { OrderStatus } from "src/types/order";
 
 export default function OrderTrackingView() {
-    const [orderId, setOrderId] = useState<number>();
+    const [orderId, setOrderId] = useState<number>(0);
 
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
@@ -31,122 +35,59 @@ export default function OrderTrackingView() {
     const {
         orders
     } = useGetTrackingOrders();
+    const { orderProducts } = useGetOrderProducts(orderId);
 
-    const handleUpdateOrderId = (id: number) => {
+    const handleMore = (id: number, status: OrderStatus) => {
         setOrderId(id);
+        if (status === OrderStatus.failed) {
+
+        } else if (status === OrderStatus.pending) {
+            cartDialog.onTrue()
+        } else {
+            finalOrderDialog.onTrue()
+        }
+
     };
 
     return (
         <Box>
 
             <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
-                <CompleteOrderView />
+                <CompleteOrderView orderId={orderId} />
             </DialogWithButton>
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>
-                <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                        سبد خرید
-                    </Typography>
-                    <Box>
-                        <Grid container spacing={2} sx={{ py: 4 }}>
-                            <Grid item sm={2} />
-                            <Grid item sm={10}>
-                                <Stack direction={'row'} spacing={2}>
-                                    <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>درب کابینتی - P60</Typography>
-                                    <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
-                                </Stack>
-                            </Grid>
-                            <Grid item sm={2} sx={{ pt: 2 }}>
-                                <Image src='/img/product/product.png' sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
-                            </Grid>
-                            <Grid item sm={10} sx={{ pt: 2 }}>
-                                <Scrollbar sx={{ maxHeight: 680 }}>
-                                    <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                        <TableHeadCustom
-                                            sx={{
-                                                backgroundColor: '#F2F2F2'
-                                            }}
-                                            headLabel={CartTableHead}
-                                        />
-
-                                        <TableBody>
-                                            {[...Array(4)].map((data, index: number) => (
-                                                <CartTableRow
-                                                    onDeleteRow={() => { }}
-                                                    onEditRow={() => { }}
-                                                    key={index}
-                                                    row={{
-                                                        quality: 11,
-                                                        coating: 'غیر جناقی',
-                                                        dimensions: '210*235',
-                                                        final_coating: 'روکش خام',
-                                                        frame_type: 'حجمی',
-                                                        profile_type: 'درب کابینتی',
-                                                    }}
-                                                />
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </Scrollbar>
-                            </Grid>
-                        </Grid>
-                        <Grid container spacing={2} sx={{ py: 4 }}>
-                            <Grid item sm={2} />
-                            <Grid item sm={10}>
-                                <Stack direction={'row'} spacing={2}>
-                                    <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>درب کابینتی - P60</Typography>
-                                    <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
-                                </Stack>
-                            </Grid>
-                            <Grid item sm={2} sx={{ pt: 2 }}>
-                                <Image src='/img/product/product.png' sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
-                            </Grid>
-                            <Grid item sm={10} sx={{ pt: 2 }}>
-                                <Scrollbar sx={{ maxHeight: 680 }}>
-                                    <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                        <TableHeadCustom
-                                            sx={{
-                                                backgroundColor: '#F2F2F2'
-                                            }}
-                                            headLabel={CartTableHead}
-                                        />
-
-                                        <TableBody>
-                                            {[...Array(4)].map((data, index: number) => (
-                                                <CartTableRow
-                                                    onDeleteRow={() => { }}
-                                                    onEditRow={() => { }}
-                                                    key={index}
-                                                    row={{
-                                                        quality: 11,
-                                                        coating: 'غیر جناقی',
-                                                        dimensions: '210*235',
-                                                        final_coating: 'روکش خام',
-                                                        frame_type: 'حجمی',
-                                                        profile_type: 'درب کابینتی',
-                                                    }}
-                                                />
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </Scrollbar>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                    <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                        <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} >تایید</LoadingButton>
-                    </Stack>
-                </Box>
+                <ShoppingCartList
+                    items={orderProducts.map((op) => {
+                        return {
+                            // id: op.product.id,
+                            // name: op.product.name,
+                            ...op.product,
+                            coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
+                            need_to_assemble: op.need_to_assemble,
+                            order_form_id: op.product.order_form_options.id,
+                            subTotal: 0,
+                            properties: op.properties.map((property) => {
+                                return {
+                                    // ...property,
+                                    dimention: property.product_dimension,
+                                    quantity: property.quantity,
+                                    coating_type: property.coating_type,
+                                    cover_type: property.cover_type,
+                                    profile_type: property.profile_type,
+                                    frame_type: property.frame_type,
+                                }
+                            }),
+                        }
+                    })}
+                />
             </DialogWithButton>
-
 
             <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
                 <OrderRejectionDialogView dialog={orderRejectingDialog} />
             </DialogWithButton>
 
-            <Stack spacing={4}>
+            <Stack spacing={4} pb={10}>
                 <BlueNotification title='مهلت پرداخت'>
                     ما تنها برای ۴۸ ساعت می‌توانیم پیش‌فاکتورتان را فعال نگه داریم. در صورت عدم‌پرداخت، ناچار به بررسی مجدد سفارش‌تان هستیم.
                 </BlueNotification>
@@ -165,9 +106,13 @@ export default function OrderTrackingView() {
                     }}
                 />
                 {orders.map((order) => (
-                    <TrackingOrderItem key={order.id} order={order} />
+                    <TrackingOrderItem
+                        key={order.id}
+                        order={order}
+                        handleMoreBtn={handleMore}
+                    />
                 ))}
-                <Box sx={{ bgcolor: '#F8F8F8', borderRadius: '16px', border: '1px solid #D1D1D1', padding: 4 }}>
+                {/* <Box sx={{ bgcolor: '#F8F8F8', borderRadius: '16px', border: '1px solid #D1D1D1', padding: 4 }}>
                     <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                         <Label color="error" fontFamily={'peyda-bold'}>وضعیت: رد شده</Label>
                         <StyledRoundedWhiteButton
@@ -312,7 +257,7 @@ export default function OrderTrackingView() {
                             </Box>
                         </Stack>
                     </Stack>
-                </Box>
+                </Box> */}
             </Stack>
         </Box>
     )
