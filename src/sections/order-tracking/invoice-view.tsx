@@ -20,63 +20,61 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 type Props = {
-    invoice: IInvoice;
     orderProducts: IOrderProductItem[];
     submitHandler: () => void
 };
 
-export default function InvoiceView({ 
-    invoice, 
+export default function InvoiceView({
     orderProducts,
     submitHandler 
 }: Props) {
     // const checkout = useCheckoutContext();
 
-    const renderTotal = (
-        <>
-            <StyledTableRow>
-                <TableCell colSpan={3} />
-                <TableCell sx={{ color: 'text.secondary' }}>
-                    <Box sx={{ mt: 2 }} />
-                    Subtotal
-                </TableCell>
-                <TableCell width={120} sx={{ typography: 'subtitle2' }}>
-                    <Box sx={{ mt: 2 }} />
-                    {fCurrency(invoice.subTotal)}
-                </TableCell>
-            </StyledTableRow>
+    // const renderTotal = (
+    //     <>
+    //         <StyledTableRow>
+    //             <TableCell colSpan={3} />
+    //             <TableCell sx={{ color: 'text.secondary' }}>
+    //                 <Box sx={{ mt: 2 }} />
+    //                 Subtotal
+    //             </TableCell>
+    //             <TableCell width={120} sx={{ typography: 'subtitle2' }}>
+    //                 <Box sx={{ mt: 2 }} />
+    //                 {fCurrency(invoice.subTotal)}
+    //             </TableCell>
+    //         </StyledTableRow>
 
-            <StyledTableRow>
-                <TableCell colSpan={3} />
-                <TableCell sx={{ color: 'text.secondary' }}>Shipping</TableCell>
-                <TableCell width={120} sx={{ color: 'error.main', typography: 'body2' }}>
-                    {fCurrency(-invoice.shipping)}
-                </TableCell>
-            </StyledTableRow>
+    //         <StyledTableRow>
+    //             <TableCell colSpan={3} />
+    //             <TableCell sx={{ color: 'text.secondary' }}>Shipping</TableCell>
+    //             <TableCell width={120} sx={{ color: 'error.main', typography: 'body2' }}>
+    //                 {fCurrency(-invoice.shipping)}
+    //             </TableCell>
+    //         </StyledTableRow>
 
-            <StyledTableRow>
-                <TableCell colSpan={3} />
-                <TableCell sx={{ color: 'text.secondary' }}>Discount</TableCell>
-                <TableCell width={120} sx={{ color: 'error.main', typography: 'body2' }}>
-                    {fCurrency(-invoice.discount)}
-                </TableCell>
-            </StyledTableRow>
+    //         <StyledTableRow>
+    //             <TableCell colSpan={3} />
+    //             <TableCell sx={{ color: 'text.secondary' }}>Discount</TableCell>
+    //             <TableCell width={120} sx={{ color: 'error.main', typography: 'body2' }}>
+    //                 {fCurrency(-invoice.discount)}
+    //             </TableCell>
+    //         </StyledTableRow>
 
-            <StyledTableRow>
-                <TableCell colSpan={3} />
-                <TableCell sx={{ color: 'text.secondary' }}>Taxes</TableCell>
-                <TableCell width={120}>{fCurrency(invoice.taxes)}</TableCell>
-            </StyledTableRow>
+    //         <StyledTableRow>
+    //             <TableCell colSpan={3} />
+    //             <TableCell sx={{ color: 'text.secondary' }}>Taxes</TableCell>
+    //             <TableCell width={120}>{fCurrency(invoice.taxes)}</TableCell>
+    //         </StyledTableRow>
 
-            <StyledTableRow>
-                <TableCell colSpan={3} />
-                <TableCell sx={{ typography: 'subtitle1' }}>Total</TableCell>
-                <TableCell width={140} sx={{ typography: 'subtitle1' }}>
-                    {fCurrency(invoice.totalAmount)}
-                </TableCell>
-            </StyledTableRow>
-        </>
-    );
+    //         <StyledTableRow>
+    //             <TableCell colSpan={3} />
+    //             <TableCell sx={{ typography: 'subtitle1' }}>Total</TableCell>
+    //             <TableCell width={140} sx={{ typography: 'subtitle1' }}>
+    //                 {fCurrency(invoice.totalAmount)}
+    //             </TableCell>
+    //         </StyledTableRow>
+    //     </>
+    // );
 
     function calculateProfileTotal(width: number, qty: number) {
         let panels = {
@@ -243,7 +241,7 @@ export default function InvoiceView({
                             <TableCell></TableCell>
                         </TableRow>
 
-                        {invoice.items.map((row, index) => (
+                        {/* {invoice.items.map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell>{index + 1}</TableCell>
 
@@ -267,7 +265,7 @@ export default function InvoiceView({
 
                                 <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
                             </TableRow>
-                        ))}
+                        ))} */}
 
                         {/* {renderTotal} */}
                     </TableBody>

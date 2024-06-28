@@ -20,8 +20,6 @@ interface Props {
 export default function CompleteOrderView({ orderId }: Props) {
     const checkout = useCheckoutContext();
 
-    const currentInvoice = _invoices.filter((invoice) => invoice.id === "e99f09a7-dd88-49d5-b1c8-1daf80c2d7b2")[0];
-
     const { orderProducts } = useGetOrderProducts(orderId);
 
     useEffect(() => {
@@ -48,7 +46,6 @@ export default function CompleteOrderView({ orderId }: Props) {
                     {checkout.activeStep === 1 && (
                         <InvoiceView
                             orderProducts={orderProducts}
-                            invoice={currentInvoice}
                             submitHandler={checkout.onNextStep}
                         />
                     )}

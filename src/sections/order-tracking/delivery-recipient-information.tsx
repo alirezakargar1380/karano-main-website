@@ -6,7 +6,7 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { useCheckoutContext } from "../checkout/context";
 import { useForm } from "react-hook-form";
 import { endpoints, server_axios } from "src/utils/axios";
-import DeliveryAdresses from "./delivery-adresses";
+import DeliveryAdresses from "./delivery-addresses";
 
 interface Props {
     orderId: number

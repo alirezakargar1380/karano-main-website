@@ -15,20 +15,25 @@ import FormProvider, {
     RHFTitleTextField,
 } from 'src/components/hook-form';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
+import { endpoints, server_axios } from 'src/utils/axios';
+
+import { useSnackbar } from 'src/components/snackbar';
+import { useGetAddresses } from 'src/api/address';
 
 export default function DeliveryAdresses() {
     const [newAddress, setNewAddress] = useState<boolean>(false);
 
+    const { enqueueSnackbar } = useSnackbar();
+
+    const { addresses, addressesEmpty } = useGetAddresses()
+
     const methods = useForm({
         // resolver: yupResolver(NewProductSchema),
         defaultValues: {
-            reciver_name: '',
-            reciver_phone: '',
-            invoice_owner: {
-                first_name: '',
-                last_name: '',
-                id_code: ''
-            }
+            address: '',
+            postal_code: '',
+            provice: '',
+            city: ''
         },
     });
 
@@ -44,7 +49,10 @@ export default function DeliveryAdresses() {
         try {
             console.info('DATA', data);
             setNewAddress(false)
-            // await server_axios.patch(endpoints.orders.update(orderId), data)
+            await server_axios.post(endpoints.addresses.create, data)
+            enqueueSnackbar('آدرس جدید اضافه شد', {
+                variant: 'info'
+            })
         } catch (error) {
             console.error(error);
         }
@@ -65,18 +73,21 @@ export default function DeliveryAdresses() {
                             افزودن آدرس
                         </StyledRoundedWhiteButton>
                     </Box>
-                    <RHFRadioGroup
-                        name='af'
-                        sx={{
-                            mt: 3
-                        }}
-                        options={[
-                            {
-                                label: 'adfasdf',
-                                value: ''
-                            }
-                        ]}
-                    />
+                    {(!addressesEmpty) && (
+                        <RHFRadioGroup
+                            name='af'
+                            sx={{
+                                mt: 3
+                            }}
+                            options={addresses.map((add) => {
+                                return {
+                                    label: add.provice + ", " + add.provice + ", " + add.address,
+                                    value: add.id
+                                }
+                            })}
+                        />
+                    )}
+
                 </Box>
 
                 {(newAddress === true) && (
@@ -85,7 +96,7 @@ export default function DeliveryAdresses() {
                             اطلاعات آدرس جدید
                         </Typography>
                         <Box sx={{ mt: 2 }}>
-                            <RHFTitleTextField name='first_name' custom_label='آدرس پستی' placeholder='نام' sx={{ bgcolor: '#fff' }} />
+                            <RHFTitleTextField name='address' custom_label='آدرس پستی' placeholder='نام' sx={{ bgcolor: '#fff' }} />
                         </Box>
                         <Stack
                             direction={{ xs: 'column', sm: 'row' }}
@@ -97,9 +108,9 @@ export default function DeliveryAdresses() {
                             sx={{ mt: 2 }}
                             spacing={2}
                         >
-                            <RHFTitleTextField name='first_name' custom_label='استان' placeholder='نام' sx={{ bgcolor: '#fff' }} />
-                            <RHFTitleTextField name='first_name' custom_label='شهر' placeholder='+98' sx={{ bgcolor: '#fff' }} />
-                            <RHFTitleTextField name='first_name' custom_label='کد پستی' placeholder='75416-11111' sx={{ bgcolor: '#fff' }} />
+                            <RHFTitleTextField name='provice' custom_label='استان' placeholder='نام' sx={{ bgcolor: '#fff' }} />
+                            <RHFTitleTextField name='city' custom_label='شهر' placeholder='+98' sx={{ bgcolor: '#fff' }} />
+                            <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='75416-11111' sx={{ bgcolor: '#fff' }} />
                         </Stack>
                         <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
                             <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>

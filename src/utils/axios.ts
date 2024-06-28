@@ -50,6 +50,10 @@ export const endpoints = {
   image: {
     url: (name: string) => `${BACKEND_API}/api/images/` + name,
   },
+  addresses: {
+    create: '/api/addresses',
+    list: '/api/addresses',
+  },
   cover_type: {
     list: '/api/products-cover-types',
     create: '/api/products-cover-types',
