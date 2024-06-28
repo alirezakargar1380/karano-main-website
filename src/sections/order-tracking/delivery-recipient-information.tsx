@@ -59,7 +59,7 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
                 </Box>
             </FormProvider>
 
-            <DeliveryAdresses />
+            <DeliveryAdresses orderId={orderId} />
 
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>

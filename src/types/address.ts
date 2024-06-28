@@ -1,6 +1,6 @@
 
 export type IAddressItem = {
-  id?: number;
+  id: number;
   city: string;
   provice: string;
   postal_code: boolean;

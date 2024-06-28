@@ -1,6 +1,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Stack, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FormProvider, {
     RHFSelect,
@@ -16,41 +16,43 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import { endpoints, server_axios } from 'src/utils/axios';
-
 import { useSnackbar } from 'src/components/snackbar';
-import { useGetAddresses } from 'src/api/address';
 
-export default function DeliveryAdresses() {
+import { useGetAddresses } from 'src/api/address';
+import { DeliveryAdressesNewEditForm } from './delivery-addresses-new-edit-form';
+
+export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     const [newAddress, setNewAddress] = useState<boolean>(false);
 
-    const { enqueueSnackbar } = useSnackbar();
+    const { addresses, addressesEmpty, addressesLoading } = useGetAddresses();
 
-    const { addresses, addressesEmpty } = useGetAddresses()
+    const { enqueueSnackbar } = useSnackbar();
 
     const methods = useForm({
         // resolver: yupResolver(NewProductSchema),
         defaultValues: {
-            address: '',
-            postal_code: '',
-            provice: '',
-            city: ''
+            address: {
+                id: 0
+            }
         },
     });
 
     const {
-        reset,
         watch,
-        setValue,
         handleSubmit,
+        reset,
         formState: { isSubmitting },
     } = methods;
+
+    const values = watch();
 
     const onSubmit = handleSubmit(async (data) => {
         try {
             console.info('DATA', data);
-            setNewAddress(false)
-            await server_axios.post(endpoints.addresses.create, data)
-            enqueueSnackbar('آدرس جدید اضافه شد', {
+            console.info('addresses', addresses);
+            await server_axios.patch(endpoints.orders.update(orderId), data)
+            // await server_axios.post(endpoints.addresses.create, data)
+            enqueueSnackbar(`آدرس: ${addresses.find((add) => add.id == data.address.id)?.address} انتخاب شد`, {
                 variant: 'info'
             })
         } catch (error) {
@@ -58,12 +60,33 @@ export default function DeliveryAdresses() {
         }
     });
 
+    useEffect(() => {
+        if (values?.address?.id === 0) return
+
+        onSubmit()
+    }, [values.address?.id])
+
+    useEffect(() => {
+        if (addresses.length === 0) return
+
+        reset({
+            address: {
+                id: addresses[0].id
+            }
+        })
+    }, [addresses])
+
+    const handleAfterAddingAddress = useCallback(() => {
+        setNewAddress(false);
+    }, [setNewAddress]);
+
     return (
-        <FormProvider methods={methods} onSubmit={onSubmit}>
-            <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                    آدرس تحویل گیرنده
-                </Typography>
+
+        <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
+            <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                آدرس تحویل گیرنده
+            </Typography>
+            <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box py={2}>
                     <Box textAlign={'center'}>
                         <Typography variant='body2' textAlign={'center'} py={2}>
@@ -75,7 +98,7 @@ export default function DeliveryAdresses() {
                     </Box>
                     {(!addressesEmpty) && (
                         <RHFRadioGroup
-                            name='af'
+                            name='address.id'
                             sx={{
                                 mt: 3
                             }}
@@ -87,46 +110,15 @@ export default function DeliveryAdresses() {
                             })}
                         />
                     )}
-
                 </Box>
+            </FormProvider>
 
-                {(newAddress === true) && (
-                    <Box sx={{ border: '2px solid #D1D1D1', borderRadius: '16px', p: 4, mt: 3, bgcolor: '#F8F8F8' }}>
-                        <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                            اطلاعات آدرس جدید
-                        </Typography>
-                        <Box sx={{ mt: 2 }}>
-                            <RHFTitleTextField name='address' custom_label='آدرس پستی' placeholder='نام' sx={{ bgcolor: '#fff' }} />
-                        </Box>
-                        <Stack
-                            direction={{ xs: 'column', sm: 'row' }}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}
-                            sx={{ mt: 2 }}
-                            spacing={2}
-                        >
-                            <RHFTitleTextField name='provice' custom_label='استان' placeholder='نام' sx={{ bgcolor: '#fff' }} />
-                            <RHFTitleTextField name='city' custom_label='شهر' placeholder='+98' sx={{ bgcolor: '#fff' }} />
-                            <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='75416-11111' sx={{ bgcolor: '#fff' }} />
-                        </Stack>
-                        <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                            <LoadingButton
-                                variant='contained'
-                                sx={{ borderRadius: '24px', px: 4 }}
-                                //  onClick={() => checkout.onNextStep()}
-                                type="submit"
-                            >
-                                ثبت و ادامه
-                            </LoadingButton>
-                        </Stack>
-                    </Box>
-                )}
+            {(newAddress === true) && (
+                <DeliveryAdressesNewEditForm
+                    handleAfterAddingAddress={handleAfterAddingAddress}
+                />
+            )}
 
-            </Box>
-        </FormProvider>
+        </Box>
     )
 }
