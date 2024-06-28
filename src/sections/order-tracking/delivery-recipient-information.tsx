@@ -7,25 +7,38 @@ import { useCheckoutContext } from "../checkout/context";
 import { useForm } from "react-hook-form";
 import { endpoints, server_axios } from "src/utils/axios";
 import DeliveryAdresses from "./delivery-addresses";
+import { useAuthContext } from "src/auth/hooks";
+import { useEffect, useState } from "react";
 
 interface Props {
     orderId: number
 }
 
+enum InvoiceOwner {
+    me = "me",
+    another = "another"
+}
+
 export function DeliveryRecipientInformation({ orderId }: Props) {
+    const [invoiceOwner, setInvoiceOwner] = useState<InvoiceOwner>(InvoiceOwner.me)
+
     const checkout = useCheckoutContext();
+    const { user } = useAuthContext();
+
+
+    const defaultValues = {
+        reciver_name: '',
+        reciver_phone: '',
+        invoice_owner: {
+            first_name: '',
+            last_name: '',
+            id_code: ''
+        }
+    }
 
     const methods = useForm({
         // resolver: yupResolver(NewProductSchema),
-        defaultValues: {
-            reciver_name: '',
-            reciver_phone: '',
-            invoice_owner: {
-                first_name: '',
-                last_name: '',
-                id_code: ''
-            }
-        },
+        defaultValues
     });
 
     const {
@@ -44,6 +57,21 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
             console.error(error);
         }
     });
+
+    useEffect(() => {
+        if (invoiceOwner === InvoiceOwner.me && user) {
+            reset({
+                ...defaultValues,
+                invoice_owner: {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    id_code: user.id_code,
+                }
+            });
+        } else {
+            reset(defaultValues);
+        }
+    }, [invoiceOwner])
 
     return (
         <Stack spacing={3}>
@@ -70,8 +98,30 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
                         می‌توانید فاکتور را به نام خود و یا فرد دیگری انتخاب کنید.
                     </BlueNotification>
                     <Stack direction={"row"} sx={{ p: 1.25, borderRadius: '12px', bgcolor: '#F2F2F2', textAlign: 'center', fontFamily: 'peyda-bold', my: 2 }}>
-                        <Box sx={{ width: '50%', bgcolor: '#FFF', py: 1, borderRadius: '8px', cursor: 'pointer' }}>خودم</Box>
-                        <Box sx={{ width: '50%', bgcolor: '#F2F2F2', py: 1, borderRadius: '8px', cursor: 'pointer' }}>فرد دیگر</Box>
+                        <Box
+                            onClick={() => setInvoiceOwner(InvoiceOwner.me)}
+                            sx={{
+                                width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
+                                gcolor: '#F2F2F2',
+                                ...(invoiceOwner === InvoiceOwner.me && {
+                                    bgcolor: '#FFF'
+                                })
+                            }}
+                        >
+                            خودم
+                        </Box>
+                        <Box
+                            onClick={() => setInvoiceOwner(InvoiceOwner.another)}
+                            sx={{
+                                width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
+                                bgcolor: '#F2F2F2',
+                                ...(invoiceOwner === InvoiceOwner.another && {
+                                    bgcolor: '#FFF'
+                                })
+                            }}
+                        >
+                            فرد دیگر
+                        </Box>
                     </Stack>
                     <Stack
                         direction={{ xs: 'column', sm: 'row' }}
