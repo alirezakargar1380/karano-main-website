@@ -20,6 +20,7 @@ import { useSnackbar } from 'src/components/snackbar';
 
 import { useGetAddresses } from 'src/api/address';
 import { DeliveryAdressesNewEditForm } from './delivery-addresses-new-edit-form';
+import Iconify from 'src/components/iconify';
 
 export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     const [newAddress, setNewAddress] = useState<boolean>(false);
@@ -88,27 +89,46 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
             </Typography>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box py={2}>
-                    <Box textAlign={'center'}>
-                        <Typography variant='body2' textAlign={'center'} py={2}>
-                            در حال حاضر آدرس ثبت‌شده‌ای ندارید. برای ثبت آدرس جدید بر روی دکمه «افزودن آدرس» کلیک کنید.
-                        </Typography>
-                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4, mt: 4 }} onClick={() => setNewAddress(true)}>
-                            افزودن آدرس
-                        </StyledRoundedWhiteButton>
-                    </Box>
+                    {(addressesEmpty) && (
+                        <Box textAlign={'center'}>
+                            <Typography variant='body2' textAlign={'center'} py={2}>
+                                در حال حاضر آدرس ثبت‌شده‌ای ندارید. برای ثبت آدرس جدید بر روی دکمه «افزودن آدرس» کلیک کنید.
+                            </Typography>
+                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4, mt: 4 }} onClick={() => setNewAddress(true)}>
+                                افزودن آدرس
+                            </StyledRoundedWhiteButton>
+                        </Box>
+                    )}
+
                     {(!addressesEmpty) && (
-                        <RHFRadioGroup
-                            name='address.id'
-                            sx={{
-                                mt: 3
-                            }}
-                            options={addresses.map((add) => {
-                                return {
-                                    label: add.provice + ", " + add.provice + ", " + add.address,
-                                    value: add.id
-                                }
-                            })}
-                        />
+                        <>
+                            <RHFRadioGroup
+                                name='address.id'
+                                sx={{
+                                    mt: 3
+                                }}
+                                options={addresses.map((add) => {
+                                    return {
+                                        label: add.provice + ", " + add.provice + ", " + add.address,
+                                        value: add.id
+                                    }
+                                })}
+                            />
+                            <br />
+                            <StyledRoundedWhiteButton
+                                variant='outlined'
+                                sx={{
+                                    px: 4,
+                                    mt: 2,
+                                    borderColor: '#0B7BA7!important',
+                                    color: '#0B7BA7'
+                                }}
+                                onClick={() => setNewAddress(true)}
+                            >
+                                <Iconify icon={'ic:outline-plus'} mr={0.5} />
+                                افزودن آدرس
+                            </StyledRoundedWhiteButton>
+                        </>
                     )}
                 </Box>
             </FormProvider>
