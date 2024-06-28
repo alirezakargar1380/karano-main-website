@@ -6,6 +6,7 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { useCheckoutContext } from "../checkout/context";
 import { useForm } from "react-hook-form";
 import { endpoints, server_axios } from "src/utils/axios";
+import DeliveryAdresses from "./delivery-adresses";
 
 interface Props {
     orderId: number
@@ -58,33 +59,7 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
                 </Box>
             </FormProvider>
 
-            <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                    آدرس تحویل گیرنده
-                </Typography>
-                <Box sx={{ border: '2px solid #D1D1D1', borderRadius: '16px', p: 4, mt: 3, bgcolor: '#F8F8F8' }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                        اطلاعات آدرس جدید
-                    </Typography>
-                    <Box sx={{ mt: 2 }}>
-                        {/* <RHFTitleTextField name='first_name' custom_label='آدرس پستی' placeholder='نام' sx={{ bgcolor: '#fff' }} /> */}
-                    </Box>
-                    <Stack
-                        direction={{ xs: 'column', sm: 'row' }}
-                        display="grid"
-                        gridTemplateColumns={{
-                            xs: 'repeat(1, 1fr)',
-                            md: 'repeat(2, 1fr)',
-                        }}
-                        sx={{ mt: 2 }}
-                        spacing={2}
-                    >
-                        {/* <RHFTitleTextField name='first_name' custom_label='استان' placeholder='نام' sx={{ bgcolor: '#fff' }} />
-                        <RHFTitleTextField name='first_name' custom_label='شهر' placeholder='+98' sx={{ bgcolor: '#fff' }} />
-                        <RHFTitleTextField name='first_name' custom_label='کد پستی' placeholder='75416-11111' sx={{ bgcolor: '#fff' }} /> */}
-                    </Stack>
-                </Box>
-            </Box>
+            <DeliveryAdresses />
 
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
