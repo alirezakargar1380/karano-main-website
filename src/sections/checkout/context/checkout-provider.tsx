@@ -87,7 +87,8 @@ export function CheckoutProvider({ children }: Props) {
         console.log(newState)
         if (newState.items?.length !== state.items?.length)
           update('items', newState.items || []);
-        // setCheckoutState(newState);
+
+        window.removeEventListener('storage', handleStorageChange);
       }
     };
 
