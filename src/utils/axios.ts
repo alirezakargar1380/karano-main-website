@@ -88,6 +88,7 @@ export const endpoints = {
   },
   orderProducts: {
     one: (id: any) => '/api/order-products/' + id,
+    update_ready_product_status: (id: any) => `/api/order-products/${id}/ready-products/status`,
   },
   orders: {
     create: '/api/orders',

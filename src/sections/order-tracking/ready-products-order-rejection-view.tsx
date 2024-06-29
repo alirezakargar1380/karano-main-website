@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { ProductOrderType } from "src/types/product";
 import { useGetOrderProducts } from "src/api/order-products";
 import { IOrderProductItem } from "src/types/order-products";
+import { endpoints, server_axios } from "src/utils/axios";
 
 
 interface Props {
@@ -39,7 +40,9 @@ export default function ReadyProductsOrderRejectionDialogView({
 
     const methods = useForm({
         // resolver: yupResolver(NewAddressSchema),
-        defaultValues: {},
+        defaultValues: {
+            status: "0"
+        },
     });
 
 
@@ -48,10 +51,14 @@ export default function ReadyProductsOrderRejectionDialogView({
     } = methods;
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
-    })
+        try {
+            await server_axios.patch(endpoints.orderProducts.update_ready_product_status(orderId), data)
+            afterSubmitHandler();
+            alert('success')
+        } catch (e) {
 
-    console.log(orderProducts);
+        }
+    })
 
     return (
         <>
@@ -61,90 +68,91 @@ export default function ReadyProductsOrderRejectionDialogView({
                 <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                     لیست کالاهای «آماده» ناموجود
                 </Typography>
-                <Container>
-                    <YellowNotification title="لیست کالاهای «آماده» ناموجود" sx={{ my: 3 }}>
-                        این کالاها در سبد خرید شما ناموجود هستند!
-                    </YellowNotification>
+                <FormProvider methods={methods} onSubmit={onSubmit}>
+                    <Box>
+                        <YellowNotification title="لیست کالاهای «آماده» ناموجود" sx={{ my: 3 }}>
+                            این کالاها در سبد خرید شما ناموجود هستند!
+                        </YellowNotification>
 
-                    {orderProducts.map((product, index: number) => {
-                        if (product.product.order_type === ProductOrderType.ready_to_use) {
-                            return (
-                                <Box key={index} sx={{ mb: 2 }}>
-                                    <Stack direction={'row'} sx={{ pb: 1 }} spacing={2}>
-                                        <Typography variant='h6' sx={{ pt: 1 }}>
-                                            {product.product.name}
-                                        </Typography>
-                                        <StyledRoundedWhiteButton variant="outlined">
-                                            مشاهده تاریچه
-                                        </StyledRoundedWhiteButton>
-                                    </Stack>
-                                    <Box>
-                                        <Scrollbar sx={{ maxHeight: 680 }}>
-                                            <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                                <TableHeadCustom
-                                                    sx={{
-                                                        backgroundColor: '#F2F2F2'
-                                                    }}
-                                                    headLabel={ReadyProductCartTableHead}
-                                                />
-                                                <TableBody>
-                                                    {product.properties.map((property, index: number) => (
-                                                        <CartTableRow
-                                                            // onDeleteRow={() => { }}
-                                                            // onEditRow={() => cartDialog.onTrue()}
-                                                            key={index}
-                                                            row={{
-                                                                quality: property.quantity,
-                                                                coating: property.coating_type,
-                                                                dimensions: (property.product_dimension) ? property?.product_dimension?.width + 'x' + property?.product_dimension?.height : '-',
-                                                                final_coating: property.cover_type?.name,
-                                                                frame_type: property.frame_type?.name,
-                                                                profile_type: property.profile_type?.name || '-',
-                                                            }}
-                                                        />
-                                                    ))}
-                                                </TableBody>
-                                            </Table>
-                                        </Scrollbar>
+                        {orderProducts.map((product, index: number) => {
+                            if (product.product.order_type === ProductOrderType.ready_to_use && product.properties.some((prop) => !prop.is_approved)) {
+                                return (
+                                    <Box key={index} sx={{ mb: 2 }}>
+                                        <Stack direction={'row'} sx={{ pb: 1 }} spacing={2}>
+                                            <Typography variant='h6' sx={{ pt: 1 }}>
+                                                {product.product.name}
+                                            </Typography>
+                                            <StyledRoundedWhiteButton variant="outlined">
+                                                مشاهده تاریچه
+                                            </StyledRoundedWhiteButton>
+                                        </Stack>
+                                        <Box>
+                                            <Scrollbar sx={{ maxHeight: 680 }}>
+                                                <Table size={'medium'} sx={{ minWidth: 780 }}>
+                                                    <TableHeadCustom
+                                                        sx={{
+                                                            backgroundColor: '#F2F2F2'
+                                                        }}
+                                                        headLabel={ReadyProductCartTableHead}
+                                                    />
+                                                    <TableBody>
+                                                        {product.properties.map((property, index: number) => (
+                                                            <CartTableRow
+                                                                // onDeleteRow={() => { }}
+                                                                // onEditRow={() => cartDialog.onTrue()}
+                                                                key={index}
+                                                                row={{
+                                                                    quality: property.quantity,
+                                                                    coating: property.coating_type,
+                                                                    dimensions: (property.product_dimension) ? property?.product_dimension?.width + 'x' + property?.product_dimension?.height : '-',
+                                                                    final_coating: property.cover_type?.name,
+                                                                    frame_type: property.frame_type?.name,
+                                                                    profile_type: property.profile_type?.name || '-',
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </TableBody>
+                                                </Table>
+                                            </Scrollbar>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            )
-                        }
-                    })}
+                                )
+                            }
+                        })}
 
-                    <BlueNotification sx={{ mb: 3 }}>
-                        برای ثبت تغییرات کالاهای ناموجود،یکی از گزینه‌های زیر را انتخاب کنید و سپس بر روی دکمه ثبت کلیک کنید.
-                    </BlueNotification>
-                    <FormProvider methods={methods} onSubmit={onSubmit}>
+                        <BlueNotification sx={{ mb: 3 }}>
+                            برای ثبت تغییرات کالاهای ناموجود،یکی از گزینه‌های زیر را انتخاب کنید و سپس بر روی دکمه ثبت کلیک کنید.
+                        </BlueNotification>
+
                         <RHFRadioGroupTitleText
                             row
-                            name="addressType"
+                            name="status"
                             options={[
                                 {
                                     label: 'حذف کالاهای ناموجود از سبد خرید',
                                     text: 'کالاهایی که فعلا در انبار کارانو موجود نیستند، از سبد خرید شما حذف شده و پس از پرداخت بهای کالاهای باقیمانده، آن‌هارا تحویل خواهید گرفت.',
-                                    value: '1'
+                                    value: '0'
                                 },
                                 {
                                     label: 'تحویل همه محصولات با زمان بیشتر',
                                     text: 'با انتخاب این گزینه شما بهای تمام کالاهای مورد نظر را باید پرداخت ‌کنید و برای تحویل آن‌ها زمان بیشتری را منتظر خواهید ‌ماند تا کالاهای ناموجود توسط کارانو، موجود شوند.',
-                                    value: '2'
+                                    value: '1'
                                 },
                                 {
                                     label: 'انصراف از خرید',
-                                    value: '3'
+                                    value: '2'
                                 },
                             ]}
                             sx={{ width: '100%' }}
                         />
-                    </FormProvider>
-                </Container>
-                <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                    <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={afterSubmitHandler}>
-                        {(hasReady && hasCustomize) ? 'ثبت و مرحله بعد' : 'ثبت'}
-                    </LoadingButton>
-                </Stack>
+                    </Box>
+                    <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
+                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
+                        <LoadingButton variant='contained' type="submit" sx={{ borderRadius: '24px', px: 4 }}>
+                            {(hasReady && hasCustomize) ? 'ثبت و مرحله بعد' : 'ثبت'}
+                        </LoadingButton>
+                    </Stack>
+                </FormProvider>
             </Box>
             {/* )} */}
         </>
