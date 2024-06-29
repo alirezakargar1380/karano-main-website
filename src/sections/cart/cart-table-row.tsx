@@ -30,12 +30,14 @@ import { Stack } from '@mui/material';
 
 type Props = {
   row: ICartItem;
-  onEditRow: VoidFunction;
-  onDeleteRow: VoidFunction;
+  selected?: boolean;
+  onEditRow?: VoidFunction;
+  onDeleteRow?: VoidFunction;
 };
 
 export default function CartTableRow({
   row,
+  selected,
   onDeleteRow,
   onEditRow,
 }: Props) {
@@ -54,7 +56,11 @@ export default function CartTableRow({
 
   return (
     <>
-      <TableRow hover>
+      <TableRow hover sx={{
+        ...(selected && {
+          border: '2px solid #000'
+        })
+      }}>
 
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
@@ -78,7 +84,6 @@ export default function CartTableRow({
           <TableCell>
             {coating}
           </TableCell>
-
         )}
 
         <TableCell>
@@ -91,12 +96,16 @@ export default function CartTableRow({
 
         <TableCell align="right">
           <Stack direction={'row'}>
-            <IconButton color={popover.open ? 'primary' : 'default'} onClick={onEditRow}>
-              <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
-            </IconButton>
-            <IconButton color={popover.open ? 'primary' : 'default'}>
-              <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
-            </IconButton>
+            {(onEditRow) && (
+              <IconButton color={popover.open ? 'primary' : 'default'} onClick={onEditRow}>
+                <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
+              </IconButton>
+            )}
+            {(onDeleteRow) && (
+              <IconButton color={popover.open ? 'primary' : 'default'} onClick={confirm.onTrue}>
+                <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
+              </IconButton>
+            )}
           </Stack>
           {/* <IconButton color={popover.open ? 'primary' : 'default'} onClick={popover.onOpen}>
             <Iconify icon="eva:more-vertical-fill" />
@@ -114,7 +123,7 @@ export default function CartTableRow({
 
         <MenuItem
           onClick={() => {
-            onEditRow();
+            // onEditRow();
             popover.onClose();
           }}
         >
