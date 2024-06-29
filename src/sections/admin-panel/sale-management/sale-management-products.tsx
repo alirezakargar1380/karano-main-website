@@ -3,8 +3,8 @@ import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import FormProvider, { RHFRadioGroup, RHFRadioGroupCard, RHFTextField } from "src/components/hook-form";
 import Scrollbar from "src/components/scrollbar";
-import { IOrderProductItem } from "src/types/order-products";
-import { IProductItem, IProductProperties } from "src/types/product";
+import { IOrderProductItem, IOrderProductStatus } from "src/types/order-products";
+import { IProductItem, IProductProperties, ProductOrderType } from "src/types/product";
 import { endpoints, server_axios } from "src/utils/axios";
 import { useSnackbar } from 'src/components/snackbar';
 import Label from "src/components/label";
@@ -53,7 +53,7 @@ export default function SaleManagementProducts({ order, o }: Props) {
                 </Stack>
             </Stack>
             <Box p={2}>
-                {order.map(({ product, properties, need_to_assemble }) => (
+                {order.map(({ product, properties, need_to_assemble, status }) => (
                     <Box key={product.id}>
                         {properties.map((p, propertyIndex) => (
                             <SaleManagementProductItem
@@ -62,6 +62,7 @@ export default function SaleManagementProducts({ order, o }: Props) {
                                 property={p}
                                 need_to_assemble={need_to_assemble}
                                 order_id={o.id}
+                                status={status}
                             />
                         ))}
                     </Box>
@@ -76,14 +77,16 @@ interface SaleManagmentItem {
     product: IProductItem,
     property: IProductProperties,
     need_to_assemble: boolean,
-    order_id: string
+    order_id: number,
+    status: string
 }
 
 function SaleManagementProductItem({
     product,
     property,
     need_to_assemble,
-    order_id
+    order_id,
+    status
 }: SaleManagmentItem) {
     const { enqueueSnackbar } = useSnackbar();
 
@@ -115,8 +118,8 @@ function SaleManagementProductItem({
                 enqueueSnackbar('وضعیت سفارش به رد شده تغییر کرد!', {
                     variant: 'warning'
                 })
-            } 
-            
+            }
+
             await server_axios.patch(endpoints.orderProductProperties.update(property.id), {
                 ...d,
                 rejection_reason: (d.rejection_reason) ? d.rejection_reason : null,
@@ -149,11 +152,28 @@ function SaleManagementProductItem({
         onSubmit();
     }, [])
 
+    console.log(product)
+
     return (
         <Box sx={{ mb: 6 }}>
             <Stack p={0} spacing={2} mb={2}>
                 <Typography fontFamily={'peyda-bold'} variant="h5" mt={1}>
                     {product.name}
+                    {(product.order_type === ProductOrderType.ready_to_use) && (
+                        <Label
+                            sx={{ ml: 1 }}
+                            color={
+                                (status === IOrderProductStatus.more_time) && 'info'
+                                || (status === IOrderProductStatus.cancelled) && 'warning'
+                                || 'default'
+                            }
+                        >
+                            {
+                                (status === IOrderProductStatus.more_time) && 'تحویل بلند مدت تر'
+                                || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
+                            }
+                        </Label>
+                    )}
                 </Typography>
                 <TableContainer sx={{ overflow: 'unset' }}>
                     <Scrollbar>

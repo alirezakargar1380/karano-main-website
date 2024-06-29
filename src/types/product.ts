@@ -61,6 +61,7 @@ export type IProductProperties = {
   id: number
   price: number,
   quantity: number,
+  // status: 
   coating_type: string,
   dimension: string,
   product_dimension: IProductDimension
@@ -102,6 +103,7 @@ export type IProductItem = {
   sku: string;
   attributes: string;
   name: string;
+  status: string;
   product_dimension: IProductDimension[];
   code: string;
   price: number;
