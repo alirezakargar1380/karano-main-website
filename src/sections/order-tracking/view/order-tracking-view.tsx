@@ -16,17 +16,22 @@ import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import CompleteOrderView from "./complete-order-view";
-import OrderRejectionDialogView from "./order-rejection-dialog-view";
+import ReadyProductsOrderRejectionDialogView from "../ready-products-order-rejection-view";
 import { useGetTrackingOrders } from "src/api/orders";
 import TrackingOrderItem from "../tracking-order-item";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ShoppingCartList from "src/sections/shopping-cart/shopping-cart-list";
 import { useGetOrderProducts } from "src/api/order-products";
 import { endpoints } from "src/utils/axios";
-import { OrderStatus } from "src/types/order";
+import { IOrderItem, OrderStatus } from "src/types/order";
+import { ProductOrderType } from "src/types/product";
+import CustomProductsOrderRejectionDialogView from "../custom-products-order-rejection-view";
 
 export default function OrderTrackingView() {
+    const [order, setOrder] = useState<IOrderItem>();
     const [orderId, setOrderId] = useState<number>(0);
+    const [hasReady, setHasReady] = useState<boolean>(false);
+    const [hasCustomize, setHasCustomize] = useState<boolean>(false);
 
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
@@ -40,20 +45,33 @@ export default function OrderTrackingView() {
     const handleMore = (id: number, status: OrderStatus) => {
         setOrderId(id);
         if (status === OrderStatus.failed) {
-
+            orderRejectingDialog.onTrue();
+            setOrder(orders.find((order) => order.id === id));
         } else if (status === OrderStatus.pending) {
-            cartDialog.onTrue()
+            cartDialog.onTrue();
         } else {
-            finalOrderDialog.onTrue()
+            finalOrderDialog.onTrue();
         }
-
     };
+
+    useEffect(() => {
+        if (orderProducts.length > 0) {
+            setHasReady(orderProducts.some((order) => order.product.order_type === ProductOrderType.ready_to_use));
+            setHasCustomize(orderProducts.some((order) => order.product.order_type === ProductOrderType.custom_made));
+            // setHasReady(!!orders.find((order) => order.order_products.some((product) => product.product.order_type === ProductOrderType.ready_to_use)));
+            // setHasCustomize(!!orders.some((order) => order.order_products.some((product) => product.product.order_type === ProductOrderType.custom_made)));
+        }
+    }, [orderProducts]);
+
+    const handleAfterSubmitReadyProductsOrderRejection = useCallback(() => {
+        setHasReady(false);
+    }, [setHasReady]);
 
     return (
         <Box>
 
             <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
-                <CompleteOrderView orderId={orderId} />
+                <CompleteOrderView orderId={orderId} finalOrderDialog={finalOrderDialog} />
             </DialogWithButton>
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>
@@ -84,7 +102,19 @@ export default function OrderTrackingView() {
             </DialogWithButton>
 
             <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
-                <OrderRejectionDialogView dialog={orderRejectingDialog} />
+                {(hasReady) && (
+                    <ReadyProductsOrderRejectionDialogView
+                        dialog={orderRejectingDialog}
+                        orderId={orderId}
+                        orderProducts={orderProducts}
+                        hasReady={hasReady}
+                        hasCustomize={hasCustomize}
+                        afterSubmitHandler={handleAfterSubmitReadyProductsOrderRejection}
+                    />
+                )}
+                {(!hasReady && hasCustomize) && (
+                    <CustomProductsOrderRejectionDialogView />
+                )}
             </DialogWithButton>
 
             <Stack spacing={4} pb={10}>

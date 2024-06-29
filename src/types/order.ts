@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 
+import { IProductItem } from "./product";
 import { IUser } from "./user";
 
 export type IOrderTableFilterValue = string | Date | null;
@@ -60,13 +61,18 @@ export type IOrderProductItem = {
 export enum OrderStatus {
   pending = 'pending',
   failed = 'failed', 
-  accepted = 'accepted' 
+  accepted = 'accepted',
+  paid = 'paid', 
 }
 
 export type IOrderItem = {
-  id: string;
+  id: number;
   user: IUser;
   status: OrderStatus;
+  order_products: {
+    id: number
+    product: IProductItem;
+  }[]
   order_number: string;
   createdAt: Date;
 };

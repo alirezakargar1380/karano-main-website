@@ -12,18 +12,20 @@ import { DeliveryRecipientInformation } from "../delivery-recipient-information"
 import InvoiceView from "../invoice-view";
 import Payment from "../payment";
 import { useGetOrderProducts } from "src/api/order-products";
+import { useBooleanReturnType } from "src/hooks/use-boolean";
 
 interface Props {
     orderId: number
+    finalOrderDialog: useBooleanReturnType
 }
 
-export default function CompleteOrderView({ orderId }: Props) {
+export default function CompleteOrderView({ orderId, finalOrderDialog }: Props) {
     const checkout = useCheckoutContext();
 
     const { orderProducts } = useGetOrderProducts(orderId);
 
     useEffect(() => {
-        // checkout.onGotoStep(0)
+        checkout.onGotoStep(0)
         console.log(checkout.activeStep)
     }, [])
 
@@ -42,14 +44,20 @@ export default function CompleteOrderView({ orderId }: Props) {
                         />
                     </Box>
 
-                    {checkout.activeStep === 0 && <DeliveryRecipientInformation orderId={orderId} />}
+                    {checkout.activeStep === 0 && (
+                        <DeliveryRecipientInformation orderId={orderId} />
+                    )}
+                    
                     {checkout.activeStep === 1 && (
                         <InvoiceView
                             orderProducts={orderProducts}
                             submitHandler={checkout.onNextStep}
                         />
                     )}
-                    {checkout.activeStep === 2 && <Payment />}
+
+                    {checkout.activeStep === 2 && (
+                        <Payment finalOrderDialog={finalOrderDialog} orderId={orderId} />
+                    )}
 
 
                 </Container>

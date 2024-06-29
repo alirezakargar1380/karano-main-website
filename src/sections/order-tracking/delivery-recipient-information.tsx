@@ -53,6 +53,7 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
         try {
             console.info('DATA', data);
             await server_axios.patch(endpoints.orders.update(orderId), data)
+            checkout.onNextStep()
         } catch (error) {
             console.error(error);
         }
