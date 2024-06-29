@@ -46,10 +46,9 @@ export default function RHFRadioGroupTitleText({
 
                     <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
                         {options.map((option) => (
-                            <Box sx={{ border: '2px solid #000', borderRadius: '16px', width: 1, mb: 2, p: 2 }}>
+                            <Box sx={{ border: '2px solid #000', borderRadius: '16px', width: 1, mb: 2, p: 2 }} key={option.value}>
                                 <Stack direction={'row'} sx={{}}>
                                     <FormControlLabel
-                                        key={option.value}
                                         value={option.value}
                                         control={<Radio />}
                                         label={''}
