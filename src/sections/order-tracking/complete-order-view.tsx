@@ -8,9 +8,9 @@ import { BlueNotification } from "src/components/notification";
 import Scrollbar from "src/components/scrollbar";
 import CheckoutSteps from "src/sections/checkout/checkout-steps";
 import { useCheckoutContext } from "src/sections/checkout/context";
-import { DeliveryRecipientInformation } from "../delivery-recipient-information";
-import InvoiceView from "../invoice-view";
-import Payment from "../payment";
+import { DeliveryRecipientInformation } from "./delivery-recipient-information";
+import InvoiceView from "./invoice-view";
+import Payment from "./payment";
 import { useGetOrderProducts } from "src/api/order-products";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 
