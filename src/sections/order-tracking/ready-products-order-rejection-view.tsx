@@ -9,7 +9,7 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { TableHeadCustom } from "src/components/table";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
-import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
+import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import { useForm } from "react-hook-form";
 import { IOrderItem } from "src/types/order";
 import { useEffect, useState } from "react";
@@ -42,12 +42,20 @@ export default function ReadyProductsOrderRejectionDialogView({
         defaultValues: {},
     });
 
-    // console.log(hasCustomize, hasReady);
-    // console.log(orderProducts);
+
+    const {
+        handleSubmit
+    } = methods;
+
+    const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
+    })
+
+    console.log(orderProducts);
 
     return (
         <>
-            {/* <CartDialog dialog={cartDialog} /> */}
+            {/* <CartDialog dialog={cartDialog} order_form_id={2}  /> */}
             {/* {content.value && ( */}
             <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                 <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
@@ -58,54 +66,56 @@ export default function ReadyProductsOrderRejectionDialogView({
                         این کالاها در سبد خرید شما ناموجود هستند!
                     </YellowNotification>
 
-                    {/* {order.order_products.map((data, index: number) => (
-                            <Box key={index} sx={{ mb: 2 }}>
-                                <Stack direction={'row'} sx={{ pb: 1 }} spacing={2}>
-                                    <Typography variant='h6' sx={{ pt: 1 }}>
-                                        درب کابینتی - P60
-                                    </Typography>
-                                    <StyledRoundedWhiteButton variant="outlined">
-                                        مشاهده تاریچه
-                                    </StyledRoundedWhiteButton>
-                                </Stack>
-                                <Box>
-                                    <Scrollbar sx={{ maxHeight: 680 }}>
-                                        <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                            <TableHeadCustom
-                                                sx={{
-                                                    backgroundColor: '#F2F2F2'
-                                                }}
-                                                headLabel={CartTableHead}
-                                            />
-                                            <TableBody>
-                                                {[...Array(1)].map((data, index: number) => (
-                                                    <CartTableRow
-                                                        onDeleteRow={() => { }}
-                                                        onEditRow={() => {
-                                                            // content.onFalse()
-                                                            cartDialog.onTrue()
-                                                        }}
-                                                        key={index}
-                                                        row={{
-                                                            quality: 11,
-                                                            coating: 'غیر جناقی',
-                                                            dimensions: '210*235',
-                                                            final_coating: 'روکش خام',
-                                                            frame_type: 'حجمی',
-                                                            profile_type: 'درب کابینتی',
-                                                        }}
-                                                    />
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </Scrollbar>
+                    {orderProducts.map((product, index: number) => {
+                        if (product.product.order_type === ProductOrderType.ready_to_use) {
+                            return (
+                                <Box key={index} sx={{ mb: 2 }}>
+                                    <Stack direction={'row'} sx={{ pb: 1 }} spacing={2}>
+                                        <Typography variant='h6' sx={{ pt: 1 }}>
+                                            {product.product.name}
+                                        </Typography>
+                                        <StyledRoundedWhiteButton variant="outlined">
+                                            مشاهده تاریچه
+                                        </StyledRoundedWhiteButton>
+                                    </Stack>
+                                    <Box>
+                                        <Scrollbar sx={{ maxHeight: 680 }}>
+                                            <Table size={'medium'} sx={{ minWidth: 780 }}>
+                                                <TableHeadCustom
+                                                    sx={{
+                                                        backgroundColor: '#F2F2F2'
+                                                    }}
+                                                    headLabel={ReadyProductCartTableHead}
+                                                />
+                                                <TableBody>
+                                                    {product.properties.map((property, index: number) => (
+                                                        <CartTableRow
+                                                            // onDeleteRow={() => { }}
+                                                            // onEditRow={() => cartDialog.onTrue()}
+                                                            key={index}
+                                                            row={{
+                                                                quality: property.quantity,
+                                                                coating: property.coating_type,
+                                                                dimensions: (property.product_dimension) ? property?.product_dimension?.width + 'x' + property?.product_dimension?.height : '-',
+                                                                final_coating: property.cover_type?.name,
+                                                                frame_type: property.frame_type?.name,
+                                                                profile_type: property.profile_type?.name || '-',
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </Scrollbar>
+                                    </Box>
                                 </Box>
-                            </Box>
-                        ))} */}
+                            )
+                        }
+                    })}
+
                     <BlueNotification sx={{ mb: 3 }}>
                         برای ثبت تغییرات کالاهای ناموجود،یکی از گزینه‌های زیر را انتخاب کنید و سپس بر روی دکمه ثبت کلیک کنید.
                     </BlueNotification>
-                    <FormProvider methods={methods}>
+                    <FormProvider methods={methods} onSubmit={onSubmit}>
                         <RHFRadioGroupTitleText
                             row
                             name="addressType"

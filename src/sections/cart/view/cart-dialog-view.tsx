@@ -31,6 +31,7 @@ export const ReadyProductCartTableHead = [
 
 interface Props {
     title: string
+    listId: number | null
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
     onUpdate: (id: number) => void
@@ -40,6 +41,7 @@ export default function CartDialogView({
     title,
     formOptions,
     data,
+    listId,
     onUpdate
 }: Props) {
 
@@ -212,6 +214,7 @@ export default function CartDialogView({
                                     <CartTableRow
                                         onDeleteRow={() => { }}
                                         onEditRow={() => onUpdate(index)}
+                                        selected={(listId === index)}
                                         key={index}
                                         row={{
                                             quality: item.quantity,

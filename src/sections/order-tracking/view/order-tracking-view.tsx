@@ -15,7 +15,7 @@ import { TableHeadCustom } from "src/components/table";
 import { useBoolean } from "src/hooks/use-boolean";
 import CartTableRow from "src/sections/cart/cart-table-row";
 import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
-import CompleteOrderView from "./complete-order-view";
+import CompleteOrderView from "../complete-order-view";
 import ReadyProductsOrderRejectionDialogView from "../ready-products-order-rejection-view";
 import { useGetTrackingOrders } from "src/api/orders";
 import TrackingOrderItem from "../tracking-order-item";
@@ -61,7 +61,7 @@ export default function OrderTrackingView() {
             // setHasReady(!!orders.find((order) => order.order_products.some((product) => product.product.order_type === ProductOrderType.ready_to_use)));
             // setHasCustomize(!!orders.some((order) => order.order_products.some((product) => product.product.order_type === ProductOrderType.custom_made)));
         }
-    }, [orderProducts]);
+    }, [orderProducts, orderRejectingDialog.value]);
 
     const handleAfterSubmitReadyProductsOrderRejection = useCallback(() => {
         setHasReady(false);
@@ -113,7 +113,9 @@ export default function OrderTrackingView() {
                     />
                 )}
                 {(!hasReady && hasCustomize) && (
-                    <CustomProductsOrderRejectionDialogView />
+                    <CustomProductsOrderRejectionDialogView
+                        orderProducts={orderProducts}
+                    />
                 )}
             </DialogWithButton>
 

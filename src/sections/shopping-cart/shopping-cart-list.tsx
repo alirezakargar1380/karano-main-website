@@ -78,17 +78,19 @@ export default function ShoppingCartList({ items }: Props) {
             )}
             {items.map((item, index: number) => (
                 <Grid container spacing={2} sx={{ py: 4 }} key={index}>
-                    <Grid item sm={2} />
+                    {item.coverUrl? <Grid item sm={2} /> : null}
                     <Grid item sm={10}>
                         <Stack direction={'row'} spacing={2}>
                             <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
                             <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
                         </Stack>
                     </Grid>
-                    <Grid item sm={2} sx={{ pt: 2 }}>
-                        <Image src={item.coverUrl} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
-                    </Grid>
-                    <Grid item sm={10} sx={{ pt: 2 }}>
+                    {(item.coverUrl) && (
+                        <Grid item sm={2} sx={{ pt: 2 }}>
+                            <Image src={item.coverUrl} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                        </Grid>
+                    )}
+                    <Grid item sm={item.coverUrl ? 10 : 12} sx={{ pt: 2 }}>
                         <Scrollbar sx={{ maxHeight: 680 }}>
                             <Table size={'medium'} sx={{ minWidth: 780 }}>
                                 <TableHeadCustom
@@ -107,10 +109,10 @@ export default function ShoppingCartList({ items }: Props) {
                                             row={{
                                                 quality: property_price?.quantity,
                                                 coating: property_price?.coating_type || '',
-                                                dimensions: (property_price?.dimention) ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '',
+                                                dimensions: (property_price?.dimention) ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '-',
                                                 final_coating: property_price?.cover_type?.name,
                                                 frame_type: property_price?.frame_type?.name || '',
-                                                profile_type: property_price?.profile_type?.name || '',
+                                                profile_type: property_price?.profile_type?.name || '-',
                                             }}
                                         />
                                     ))}

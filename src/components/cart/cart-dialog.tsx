@@ -89,11 +89,11 @@ export default function CartDialog({
 
     const onSubmit = handleSubmit(async (data: any) => {
         try {
-            const custom = {...data}
+            const custom = { ...data }
             if (form.profile_type) custom.profile_type = form.profile_type.find((item) => item.id === data.profile_type);
             if (form.cover_type) custom.cover_type = form.cover_type.find((item) => item.id === data.cover_type);
             if (form.frame_type) custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
-            
+
             if (id == null) {
                 setList([
                     ...list,
@@ -117,7 +117,7 @@ export default function CartDialog({
             profile_type: item.profile_type.id,
             frame_type: item.frame_type.id
         }
-    },[form])
+    }, [form])
 
     useEffect(() => {
         if (listId === undefined || listId === null) return;
@@ -143,6 +143,7 @@ export default function CartDialog({
 
     const handleUpdate = useCallback((itemId: number) => {
         setId(itemId)
+        console.log('.. ' + itemId)
     }, [setId])
 
     const handleAddToList = useCallback(() => {
@@ -161,6 +162,7 @@ export default function CartDialog({
                         title={product_name}
                         formOptions={form}
                         data={list}
+                        listId={id}
                         onUpdate={handleUpdate}
                     />
                 )}
@@ -171,7 +173,7 @@ export default function CartDialog({
                         <Box>
                             {/* <LoadingButton type='submit'>ss</LoadingButton> */}
                             <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6 }}>
-                                {(listId === undefined || listId === null || id === null) ? 'افزودن به لیست' : 'ویرایش لیست'}
+                                {(id === undefined || id === null || id === null) ? 'افزودن به لیست' : 'ثبت تغییرات لیست'}
                             </StyledRoundedWhiteButton>
                         </Box>
                         <Stack direction={'row'} spacing={2}>
