@@ -25,6 +25,7 @@ import { IProductItem } from 'src/types/product';
 import { ICartItem } from 'src/types/cart';
 import SvgColor from '../../components/svg-color';
 import { Stack } from '@mui/material';
+import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function CartTableRow({
   onEditRow,
 }: Props) {
   const {
+    status,
     coating,
     dimensions,
     final_coating,
@@ -65,6 +67,12 @@ export default function CartTableRow({
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
+            {(status === IOrderProductPropertyStatus.denied) && (
+              <Label color='error' sx={{ ml: 1 }}>رد شده</Label>
+            )}
+            {(status === IOrderProductPropertyStatus.edited) && (
+              <Label color='warning' sx={{ ml: 1 }}>اصلاح شده</Label>
+            )}
           </TableCell>
         )}
 

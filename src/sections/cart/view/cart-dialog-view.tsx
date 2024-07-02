@@ -217,6 +217,7 @@ export default function CartDialogView({
                                         selected={(listId === index)}
                                         key={index}
                                         row={{
+                                            status: item.status,
                                             quality: item.quantity,
                                             coating: item?.coating_type,
                                             dimensions: item.dimention.width + 'x' + item.dimention.height,
