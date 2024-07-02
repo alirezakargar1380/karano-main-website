@@ -9,6 +9,8 @@ import IconButton from '@mui/material/IconButton';
 import Iconify from '../iconify';
 import { useSettingsContext } from '../settings';
 import { StyledIcon, StyledNotistack } from './styles';
+import SvgColor from '../svg-color';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -31,7 +33,7 @@ export default function SnackbarProvider({ children }: Props) {
       autoHideDuration={3000}
       TransitionComponent={isRTL ? Collapse : undefined}
       variant="success" // Set default variant
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       iconVariant={{
         info: (
           <StyledIcon color="info">
@@ -50,7 +52,7 @@ export default function SnackbarProvider({ children }: Props) {
         ),
         error: (
           <StyledIcon color="error">
-            <Iconify icon="solar:danger-bold" width={24} />
+            <SvgColor src="/assets/icons/notification/alert-circle.svg" />
           </StyledIcon>
         ),
       }}
@@ -64,11 +66,13 @@ export default function SnackbarProvider({ children }: Props) {
       // with close as default
       action={(snackbarId) => (
         <IconButton size="small" onClick={() => closeSnackbar(snackbarId)} sx={{ p: 0.5 }}>
-          <Iconify width={16} icon="mingcute:close-line" />
+          <Iconify width={16} icon="mingcute:close-line" color={'#fff'} />
         </IconButton>
       )}
     >
-      {children}
+      <Box>
+        {children}
+      </Box>
     </NotistackProvider>
   );
 }
