@@ -115,7 +115,7 @@ export default function ShoppingCartList({ items, type }: Props) {
                     listId={propertyId}
                     listData={list}
                     onAddCart={handleUpdate}
-                    handleUpdateRow={handleUpdateRow}
+                    handleUpdateRow={(type === 'edit') ? handleUpdateRow : undefined}
                     currentData={property}
                 />
             )}
