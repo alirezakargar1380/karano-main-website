@@ -188,8 +188,8 @@ export default function CartDialogView({
                                 xs: 'repeat(1, 1fr)',
                                 md: 'repeat(2, 1fr)',
                             }}>
-                            <RHFTitleTextField name='dimention.height' custom_label='عرض (سانتی‌متر)' placeholder='26' />
-                            <RHFTitleTextField name='dimention.width' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                            <RHFTitleTextField name='dimension.height' custom_label='عرض (سانتی‌متر)' placeholder='26' />
+                            <RHFTitleTextField name='dimension.width' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                         </Stack>
                         <RHFTitleTextField name='quantity' custom_label='تعداد' placeholder='2' />
                     </Box>
@@ -220,7 +220,7 @@ export default function CartDialogView({
                                             status: item.status,
                                             quality: item.quantity,
                                             coating: item?.coating_type,
-                                            dimensions: item.dimention.width + 'x' + item.dimention.height,
+                                            dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
                                             final_coating: item.cover_type?.name,
                                             frame_type: item.frame_type?.name,
                                             profile_type: item.profile_type?.name,

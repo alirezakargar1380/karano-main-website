@@ -65,8 +65,7 @@ export type IProductProperties = {
   quantity: number,
   status?: IOrderProductPropertyStatus
   coating_type: string,
-  dimension: string,
-  product_dimension: IProductDimension
+  dimension: IProductDimension
   rejection_reason: string,
   is_approved: boolean | string,
   cover_type: IProductCoverType,

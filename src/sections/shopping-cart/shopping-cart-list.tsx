@@ -7,13 +7,16 @@ import { TableHeadCustom } from "src/components/table";
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 import { ProductOrderType } from "src/types/product";
 import CartTableRow from "../cart/cart-table-row";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CartDialog from "src/components/cart/cart-dialog";
 import { useCheckoutContext } from "../checkout/context";
 import { useBoolean } from "src/hooks/use-boolean";
 
 import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
+import { endpoints, server_axios } from "src/utils/axios";
+import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
+import { useSnackbar } from "src/components/snackbar";
 
 interface Props {
     items: ICheckoutItem[]
@@ -23,12 +26,15 @@ interface Props {
 export default function ShoppingCartList({ items, type }: Props) {
     const checkout = useCheckoutContext()
 
+    const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();
     const [propertyId, setPropertyId] = useState<number>();
     const [property, setProperty] = useState<ICheckoutItemPropertyPrice>();
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>();
 
     const cartDialog = useBoolean();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleEdit = useCallback((item: ICheckoutItem, property_ind: number) => {
         setCheckoutItem(item);
@@ -41,6 +47,10 @@ export default function ShoppingCartList({ items, type }: Props) {
 
         cartDialog.onTrue();
     }, [setCheckoutItem, setPropertyId, setPropertyId]);
+
+    useEffect(() => {
+        setCheckoutItems(items);
+    }, [items])
 
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
@@ -64,6 +74,37 @@ export default function ShoppingCartList({ items, type }: Props) {
         checkout.onDeleteCart(itemId, itemIndex, propertyIndex)
     }, []);
 
+    const handleUpdateRow = useCallback((data: ICheckoutItemPropertyPrice) => {
+        try {
+            if (data.status === IOrderProductPropertyStatus.normal)
+                return enqueueSnackbar('فقط امکان ویرایش موارد رد شده را دارید!');
+
+            const updatedCheckoutItems = [...checkoutItems];
+            const index = updatedCheckoutItems.findIndex((checkout) => checkout.id === checkoutItem?.id)
+            const item = updatedCheckoutItems[index];
+            const pIndex = item.properties.findIndex((property) => property.id === data.id)
+            updatedCheckoutItems[index].properties[pIndex] = {
+                ...data,
+                // status: IOrderProductPropertyStatus.denied,
+                status: IOrderProductPropertyStatus.edited
+            };
+            console.log(updatedCheckoutItems[index].properties[pIndex])
+            setCheckoutItems(updatedCheckoutItems)
+
+            server_axios.patch(endpoints.orderProductProperties.update(data.id), {
+                ...data,
+                // status: IOrderProductPropertyStatus.denied
+                status: IOrderProductPropertyStatus.edited
+            })
+                .then(({ data }) => {
+                    console.log(data)
+                })
+            cartDialog.onFalse();
+        } catch (error) {
+            console.error(error);
+        }
+    }, [setCheckoutItems, checkoutItem]);
+
     return (
         <Box>
             {checkoutItem && (
@@ -74,10 +115,11 @@ export default function ShoppingCartList({ items, type }: Props) {
                     listId={propertyId}
                     listData={list}
                     onAddCart={handleUpdate}
+                    handleUpdateRow={handleUpdateRow}
                     currentData={property}
                 />
             )}
-            {items.map((item, index: number) => (
+            {checkoutItems.map((item, index: number) => (
                 <Grid container spacing={2} sx={{ py: 4 }} key={index}>
                     {item.coverUrl ? <Grid item sm={2} /> : null}
                     <Grid item sm={10}>
@@ -108,10 +150,11 @@ export default function ShoppingCartList({ items, type }: Props) {
                                             onEditRow={(item.order_type === ProductOrderType.custom_made) ? () => handleEdit(item, ind) : undefined}
                                             key={ind * 2}
                                             row={{
+                                                id: property_price?.id,
                                                 status: property_price?.status,
                                                 quality: property_price?.quantity,
                                                 coating: property_price?.coating_type || '',
-                                                dimensions: (property_price?.dimention) ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '-',
+                                                dimensions: (property_price?.dimension) ? property_price?.dimension?.width + 'x' + property_price?.dimension?.height : '-',
                                                 final_coating: property_price?.cover_type?.name,
                                                 frame_type: property_price?.frame_type?.name,
                                                 profile_type: property_price?.profile_type?.name,

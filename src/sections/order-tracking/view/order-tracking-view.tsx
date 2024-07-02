@@ -53,10 +53,6 @@ export default function OrderTrackingView() {
         }
     }, [orderProducts, orderRejectingDialog.value]);
 
-    const handleAfterSubmitReadyProductsOrderRejection = useCallback(() => {
-        setHasReady(false);
-    }, [setHasReady]);
-
     return (
         <Box>
 
@@ -81,7 +77,7 @@ export default function OrderTrackingView() {
                                     id: property.id,
                                     // status: property.status,
                                     // status: '',
-                                    dimention: property.product_dimension,
+                                    dimension: property.dimension,
                                     quantity: property.quantity,
                                     coating_type: property.coating_type,
                                     cover_type: property.cover_type,

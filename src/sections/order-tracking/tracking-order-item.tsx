@@ -32,7 +32,6 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                 <StyledRoundedWhiteButton
                     variant="outlined"
                     onClick={() => {
-                        // orderRejectingDialog.onTrue()
                         handleMoreBtn(+order.id, order.status)
                     }}
                 >

@@ -36,12 +36,10 @@ export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'properties'> {
 }
 
 export interface ICheckoutItemPropertyPrice {
+  id?: number
   status?: IOrderProductPropertyStatus
   quantity: number;
-  dimention: {
-    width: number;
-    height: number;
-  };
+  dimension: IProductDimension;
   coating_type: string;
   cover_type: IProductCoverType;
   profile_type: IProductProfileType,

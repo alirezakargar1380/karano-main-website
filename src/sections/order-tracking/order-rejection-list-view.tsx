@@ -55,7 +55,7 @@ export default function OrderRejectionListView({
                                 return {
                                     id: property.id,
                                     status: property.status,
-                                    dimention: property.product_dimension,
+                                    dimension: property.dimension,
                                     quantity: property.quantity,
                                     coating_type: property.coating_type,
                                     cover_type: property.cover_type,

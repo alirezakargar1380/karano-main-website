@@ -27,6 +27,7 @@ interface Props {
     listId?: number | undefined;
     listData?: ICheckoutItemPropertyPrice[] | undefined
     onAddCart: (data: ICheckoutItemPropertyPrice[]) => void;
+    handleUpdateRow?: (data: ICheckoutItemPropertyPrice) => void;
 }
 
 export default function CartDialog({
@@ -36,8 +37,10 @@ export default function CartDialog({
     currentData,
     listId,
     listData,
-    onAddCart
+    onAddCart,
+    handleUpdateRow
 }: Props) {
+    if (listData) console.log(listData[1].status)
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
     const [id, setId] = useState<null | number>(null);
     const { form, formLoading } = useGetOrderForm(order_form_id);
@@ -53,15 +56,15 @@ export default function CartDialog({
         cover_type: Yup.number().required('نوع پوشش الزامی است'),
         frame_type: Yup.number().required('نوع قاب الزامی است'),
         quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
-        dimention: Yup.object().shape({
+        dimension: Yup.object().shape({
             width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
             height: Yup.number().required('ارتفاع الزامی است').typeError('ارتفاع باید عدد باشد'),
         })
     });
 
-    const defaultValues = {
+    const defaultValues: any = {
         quantity: 1,
-        dimention: {
+        dimension: {
             width: 0,
             height: 0,
         },
@@ -71,6 +74,8 @@ export default function CartDialog({
         frame_type: 0,
         coating_type: 'جناقی'
     };
+
+    if (currentData?.id) defaultValues.id = currentData.id;
 
     const methods = useForm({
         resolver: yupResolver(NewProductSchema),
@@ -103,19 +108,26 @@ export default function CartDialog({
                 ]);
             } else {
                 list[id] = custom;
-                setId(null);
+                // setId(null); // felan khali bashe
             }
+
+            if (handleUpdateRow) handleUpdateRow(custom);
         } catch (error) {
             console.error(error);
         }
     });
 
     const customizeData = useCallback((item: ICheckoutItemPropertyPrice) => {
+        console.log(item.dimension)
         return {
             ...item,
             cover_type: item.cover_type.id,
             profile_type: item.profile_type.id,
-            frame_type: item.frame_type.id
+            frame_type: item.frame_type.id,
+            dimension: {
+                width: item.dimension?.width || 0,
+                height: item.dimension?.height || 0,
+            }
         }
     }, [form])
 
