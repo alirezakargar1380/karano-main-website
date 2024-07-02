@@ -1,5 +1,7 @@
 // ----------------------------------------------------------------------
 
+import { IOrderProductPropertyStatus } from "./order-products-property";
+
 export type IProductFilterValue = string | string[] | number | number[];
 
 export type IProductFilters = {
@@ -61,7 +63,7 @@ export type IProductProperties = {
   id: number
   price: number,
   quantity: number,
-  // status: 
+  status?: IOrderProductPropertyStatus
   coating_type: string,
   dimension: string,
   product_dimension: IProductDimension

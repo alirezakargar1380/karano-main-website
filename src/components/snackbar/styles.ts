@@ -15,7 +15,7 @@ export const StyledNotistack = styled(MaterialDesignContent)(({ theme }) => {
       borderRight: '1px solid #fff',
       marginRight: '22px',
       color: '#fff',
-      padding: theme.spacing(1, 0, 1, 0),
+      padding: theme.spacing(1, 2, 1, 0),
     },
     '&.notistack-MuiContent': {
       color: theme.palette.text.primary,
@@ -25,19 +25,25 @@ export const StyledNotistack = styled(MaterialDesignContent)(({ theme }) => {
       // backgroundColor: theme.palette.background.paper,
       backgroundColor: '#000',
       display: 'flex',
-      flexWrap: 'nowrap'
+      flexWrap: 'nowrap',
       // display: 'block',
-      // maxWidth: '420px',
+      maxWidth: '550px',
     },
     '&.notistack-MuiContent-default': {
-      padding: theme.spacing(1, 2, 1, 1),
+      padding: theme.spacing(1, 1, 1, 1),
       color: lightMode ? theme.palette.common.white : theme.palette.grey[800],
       backgroundColor: lightMode ? theme.palette.grey[800] : theme.palette.common.white,
       // backgroundColor: '#000'
     },
-    // '&.notistack-MuiContent-info': {},
-    // '&.notistack-MuiContent-success': {},
-    // '&.notistack-MuiContent-warning': {},
+    '&.notistack-MuiContent-info': {
+      backgroundColor: 'blue'
+    },
+    '&.notistack-MuiContent-success': {
+      backgroundColor: '#D12215'
+    },
+    '&.notistack-MuiContent-warning': {
+      backgroundColor: '#D12215'
+    },
     '&.notistack-MuiContent-error': {
       backgroundColor: '#D12215'
     },
@@ -53,11 +59,10 @@ type StyledIconProps = {
 export const StyledIcon = styled('span')<StyledIconProps>(({ color, theme }) => ({
   width: 44,
   height: 44,
-  // display: 'flex',
+  display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  margin: theme.spacing(1.5, 1.5, 1.5, 1.5),
-  // paddingRight: '0px!important',
+  // margin: theme.spacing(1.5, 1, 1.5, 1),
   // paddingLeft: '0px!important',
   // color: theme.palette[color].main,
   color: "#fff",

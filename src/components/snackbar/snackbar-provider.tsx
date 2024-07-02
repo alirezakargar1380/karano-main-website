@@ -37,17 +37,17 @@ export default function SnackbarProvider({ children }: Props) {
       iconVariant={{
         info: (
           <StyledIcon color="info">
-            <Iconify icon="eva:info-fill" width={24} />
+            <SvgColor src="/assets/icons/notification/alert-circle.svg" />
           </StyledIcon>
         ),
         success: (
           <StyledIcon color="success">
-            <Iconify icon="eva:checkmark-circle-2-fill" width={24} />
+            <SvgColor src="/assets/icons/notification/alert-circle.svg" />
           </StyledIcon>
         ),
         warning: (
           <StyledIcon color="warning">
-            <Iconify icon="eva:alert-triangle-fill" width={24} />
+            <SvgColor src="/assets/icons/notification/alert-circle.svg" />
           </StyledIcon>
         ),
         error: (

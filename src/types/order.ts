@@ -62,7 +62,8 @@ export enum OrderStatus {
   pending = 'pending',
   failed = 'failed', 
   accepted = 'accepted',
-  paid = 'paid', 
+  paid = 'paid',
+  edited = 'edited',
 }
 
 export type IOrderItem = {

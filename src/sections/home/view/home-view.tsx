@@ -27,6 +27,8 @@ import HomeOrderWithKarano from '../home-order-with-karano';
 import CountUp from 'react-countup';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { LoadingButton } from '@mui/lab';
+
+import { useSnackbar } from 'src/components/snackbar';
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
@@ -35,6 +37,8 @@ export default function HomeView() {
   const { scrollY, scrollYProgress } = useScroll();
 
   const [percent, setPercent] = useState(0);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const customizedPopover = usePopover();
 
@@ -55,6 +59,13 @@ export default function HomeView() {
   useEffect(() => {
     getScroll();
   }, [getScroll]);
+
+  useEffect(() => {
+    enqueueSnackbar('این یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست م تست است', {
+      autoHideDuration: 60000 * 1000,
+      variant: 'error'
+    })
+  }, [])
 
   return (
     <MainLayout>

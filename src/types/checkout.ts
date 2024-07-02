@@ -1,4 +1,5 @@
 import { IAddressItem } from './address';
+import { IOrderProductPropertyStatus } from './order-products-property';
 import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType } from './product';
 
 // ----------------------------------------------------------------------
@@ -35,6 +36,7 @@ export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'properties'> {
 }
 
 export interface ICheckoutItemPropertyPrice {
+  status?: IOrderProductPropertyStatus
   quantity: number;
   dimention: {
     width: number;
@@ -74,12 +76,13 @@ export type ICheckoutValue = {
   billing: IAddressItem | null;
 };
 
-export type CheckoutContextProps = ICheckoutValue & {
+// export type CheckoutContextProps = ICheckoutValue & {
+export type CheckoutContextProps = {
   completed: boolean;
   //
   onGetCart: () => void;
   onAddToCart: (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean) => void;
-  onDeleteCart: (itemId: string) => void;
+  onDeleteCart: (index: number, itemIndex: number, propertyIndex: number) => void;
   //
   onIncreaseQuantity: (itemId: string) => void;
   onDecreaseQuantity: (itemId: string) => void;

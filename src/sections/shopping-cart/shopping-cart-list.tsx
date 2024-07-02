@@ -17,9 +17,10 @@ import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view
 
 interface Props {
     items: ICheckoutItem[]
+    type: 'cart' | 'edit'
 }
 
-export default function ShoppingCartList({ items }: Props) {
+export default function ShoppingCartList({ items, type }: Props) {
     const checkout = useCheckoutContext()
 
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();
@@ -34,34 +35,34 @@ export default function ShoppingCartList({ items }: Props) {
         const property = item.properties[property_ind];
         setPropertyId(property_ind);
         setList(item.properties);
-        // setList(item.property_prices.map((prop) => { 
-        //     return {
-        //         ...prop,
-        //         cover_type: prop.cover_type.name,
-        //         profile_type: prop.profile_type.name,
-        //         frame_type: prop.frame_type.name
-        // }
+
         if (property)
             setProperty(property)
 
         cartDialog.onTrue();
-    }, [setCheckoutItem]);
+    }, [setCheckoutItem, setPropertyId, setPropertyId]);
 
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
-            if (!checkoutItem) return
+            if (type === 'edit') {
+                console.log(data)
+            } else {
+                if (!checkoutItem) return
 
-            checkout.onAddToCart({
-                id: checkoutItem.id,
-                properties: data
-            }, false)
-
-            console.log(data)
+                checkout.onAddToCart({
+                    id: checkoutItem.id,
+                    properties: data
+                }, false)
+            }
             cartDialog.onFalse();
         } catch (error) {
             console.error(error);
         }
     }, [checkoutItem]);
+
+    const handleRemove = useCallback((itemId: number, itemIndex: number, propertyIndex: number) => {
+        checkout.onDeleteCart(itemId, itemIndex, propertyIndex)
+    }, []);
 
     return (
         <Box>
@@ -78,7 +79,7 @@ export default function ShoppingCartList({ items }: Props) {
             )}
             {items.map((item, index: number) => (
                 <Grid container spacing={2} sx={{ py: 4 }} key={index}>
-                    {item.coverUrl? <Grid item sm={2} /> : null}
+                    {item.coverUrl ? <Grid item sm={2} /> : null}
                     <Grid item sm={10}>
                         <Stack direction={'row'} spacing={2}>
                             <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
@@ -103,16 +104,17 @@ export default function ShoppingCartList({ items }: Props) {
                                 <TableBody>
                                     {item.properties?.map((property_price, ind: number) => (
                                         <CartTableRow
-                                            onDeleteRow={() => { }}
-                                            onEditRow={() => handleEdit(item, ind)}
+                                            onDeleteRow={() => handleRemove(item.id, index, ind)}
+                                            onEditRow={(item.order_type === ProductOrderType.custom_made) ? () => handleEdit(item, ind) : undefined}
                                             key={ind * 2}
                                             row={{
+                                                status: property_price?.status,
                                                 quality: property_price?.quantity,
                                                 coating: property_price?.coating_type || '',
                                                 dimensions: (property_price?.dimention) ? property_price?.dimention?.width + 'x' + property_price?.dimention?.height : '-',
                                                 final_coating: property_price?.cover_type?.name,
-                                                frame_type: property_price?.frame_type?.name || '',
-                                                profile_type: property_price?.profile_type?.name || '-',
+                                                frame_type: property_price?.frame_type?.name,
+                                                profile_type: property_price?.profile_type?.name,
                                             }}
                                         />
                                     ))}
