@@ -9,6 +9,7 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { useSnackbar } from 'src/components/snackbar';
 import Label from "src/components/label";
 import { IOrderItem, OrderStatus } from "src/types/order";
+import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
 interface Props {
     order: IOrderProductItem[]
@@ -122,6 +123,7 @@ function SaleManagementProductItem({
 
             await server_axios.patch(endpoints.orderProductProperties.update(property.id), {
                 ...d,
+                status: (d.is_approved == "0") ? IOrderProductPropertyStatus.denied : IOrderProductPropertyStatus.normal,
                 rejection_reason: (d.rejection_reason) ? d.rejection_reason : null,
             })
                 .then(({ data }) => {
@@ -150,9 +152,7 @@ function SaleManagementProductItem({
         }
         setValue('is_approved', v);
         onSubmit();
-    }, [])
-
-    console.log(product)
+    }, []);
 
     return (
         <Box sx={{ mb: 6 }}>
