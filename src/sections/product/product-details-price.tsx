@@ -32,8 +32,6 @@ export default function ProductDetailsPrice({
             property = properties.find((p) => (p?.cover_type?.id == cover_type_id))
         }
 
-        console.log('property', property)
-
         if (property)
             setNewPrice(property.price * quantity)
         else

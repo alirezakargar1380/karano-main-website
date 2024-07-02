@@ -15,6 +15,7 @@ import { ICheckoutItem, ICheckoutNewItem } from 'src/types/checkout';
 
 import { CheckoutContext } from './checkout-context';
 import _ from 'lodash';
+import { useChannel } from 'src/hooks/use-chennel';
 
 // ----------------------------------------------------------------------
 
@@ -39,8 +40,24 @@ export function CheckoutProvider({ children }: Props) {
   const router = useRouter();
 
   const { state, update, reset } = useLocalStorage(STORAGE_KEY, initialState);
+  const { channel } = useChannel(STORAGE_KEY);
+
+  useEffect(() => {
+    channel.addEventListener('message', function (event) {
+      if (event.data.key === STORAGE_KEY) {
+        console.log(event.data.value);
+        update('items', event.data.value)
+      }
+    })
+  }, []);
 
   const onGetCart = useCallback(() => {
+    // const restored = getStorage(STORAGE_KEY);
+    // if (restored) {
+    //   update('items', restored.items || []);
+    // }
+
+
     // const quality: number = state.items.map((item: ICheckoutItem) => item.properties.reduce((acc, curr) => acc + curr.quantity, 0))[0];
     // const getTotalQuantity = (item: ICheckoutItem) => {
     //   return item.properties.reduce((total, propertyPrice) => propertyPrice.quantity, 0);
@@ -75,46 +92,14 @@ export function CheckoutProvider({ children }: Props) {
     state.discount,
     state.shipping,
     state.subTotal,
+    update,
   ]);
-
-  useEffect(() => {
-    console.log('...')
-    // setCheckoutState(state);
-
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === STORAGE_KEY) {
-        const newState = JSON.parse(event.newValue || '{}');
-        console.log(newState)
-        if (newState.items?.length !== state.items?.length)
-          update('items', newState.items || []);
-
-        window.removeEventListener('storage', handleStorageChange);
-      }
-    };
-
-    console.log('i start event listenter')
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      console.log('i stop event listenter')
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   console.log('...')
-  //   const restored = getStorage(STORAGE_KEY);
-
-  //   if (restored) {
-  //     onGetCart();
-  //   }
-  // }, [onGetCart]);
 
   const onAddToCart = useCallback(
     (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean = true) => {
 
       const updatedItems: ICheckoutItem[] | any = state.items.map((item: ICheckoutItem) => {
-        if (item.id === newItem.id) {
+        if (item.id == newItem.id) {
           if (concatWithProperty) {
             return {
               ...item,
@@ -126,8 +111,6 @@ export function CheckoutProvider({ children }: Props) {
             return {
               ...item,
               ...newItem,
-              // properties: (newItem?.properties?.length) ? 
-              // item.properties.concat(newItem.properties) : item.properties,
               properties: newItem.properties,
             };
           }
@@ -145,34 +128,37 @@ export function CheckoutProvider({ children }: Props) {
       }
 
       update('items', updatedItems);
+      channel.postMessage({ key: STORAGE_KEY, value: updatedItems })
     },
-    [update, state.items]
+    [update, state.items, channel]
   );
 
-  const onDeleteCart = useCallback(
+  const onDeleteCart = // useCallback(
     (itemId: number, itemIndex: number, propertyIndex: number) => {
+      const restored = getStorage(STORAGE_KEY);
+      if (!restored?.items?.length) return
 
-      let item = state.items.find((item: ICheckoutItem) => item.id === itemId);
+      let item = restored.items.find((item: ICheckoutItem) => item.id === itemId);
 
-      let updatedItems = state.items;
-
+      console.log('->', restored.items.length)
+      console.log(item)
       const index = propertyIndex;
       if (index > -1)
         item.properties.splice(index, 1)
 
       if (!item.properties.length) {
-        console.log('im filtering')
-        updatedItems = updatedItems.filter((item: ICheckoutItem) => item.id !== itemId);
+        restored.items = restored.items.filter((item: ICheckoutItem) => item.id !== itemId);
       } else {
-        updatedItems[itemIndex] = item
+        restored.items[itemIndex] = item
       }
 
-      console.log(updatedItems)
+      console.log(restored.items)
 
-      update('items', updatedItems);
-    },
-    [update, state.items]
-  );
+      update('items', restored.items);
+      channel.postMessage({ key: STORAGE_KEY, value: restored.items })
+    }//,
+  // [update, channel, state.items]
+  // );
 
   const onBackStep = useCallback(() => {
     update('activeStep', state.activeStep - 1);
@@ -250,8 +236,10 @@ export function CheckoutProvider({ children }: Props) {
 
   // Reset
   const onReset = useCallback(() => {
+    console.log('im resetting...')
     // if (completed) {
     reset();
+    channel.postMessage({ key: STORAGE_KEY, value: [] })
     // router.replace(paths.product.root);
     // }
   }, [completed, reset, router]);

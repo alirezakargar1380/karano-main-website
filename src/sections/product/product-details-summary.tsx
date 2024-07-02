@@ -1,31 +1,16 @@
 import { useEffect, useCallback } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Rating from '@mui/material/Rating';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import { formHelperTextClasses } from '@mui/material/FormHelperText';
-
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-
-import { fCurrency, fShortenNumber } from 'src/utils/format-number';
-
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
-import { ColorPicker } from 'src/components/color-utils';
-import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage, RHFSelect } from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 
 import { IProductItem, ProductOrderType } from 'src/types/product';
-import { ICheckoutAddCustomMadeProductData, ICheckoutItem, ICheckoutItemPropertyPrice, ICheckoutNewItem } from 'src/types/checkout';
+import { ICheckoutItem, ICheckoutItemPropertyPrice, ICheckoutNewItem } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
-import { Avatar, FormControl, FormControlLabel, IconButton, Radio, RadioGroup } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import CartDialog from 'src/components/cart/cart-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
