@@ -1,20 +1,10 @@
 "use client";
 
-import { LoadingButton } from "@mui/lab";
 import { Box, Container, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
 import { DialogWithButton } from "src/components/custom-dialog";
-import FormProvider, { RHFRadioGroupTitleText } from "src/components/hook-form";
 import Iconify from "src/components/iconify";
-import Image from "src/components/image";
-import Label from "src/components/label";
-import { BlueNotification, YellowNotification } from "src/components/notification";
-import Scrollbar from "src/components/scrollbar";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
-import { TableHeadCustom } from "src/components/table";
+import { BlueNotification } from "src/components/notification";
 import { useBoolean } from "src/hooks/use-boolean";
-import CartTableRow from "src/sections/cart/cart-table-row";
-import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import CompleteOrderView from "../complete-order-view";
 import ReadyProductsOrderRejectionDialogView from "../ready-products-order-rejection-view";
 import { useGetTrackingOrders } from "src/api/orders";
@@ -25,7 +15,7 @@ import { useGetOrderProducts } from "src/api/order-products";
 import { endpoints } from "src/utils/axios";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { ProductOrderType } from "src/types/product";
-import CustomProductsOrderRejectionDialogView from "../custom-products-order-rejection-view";
+import OrderRejectionListView from "../order-rejection-list-view";
 
 export default function OrderTrackingView() {
     const [order, setOrder] = useState<IOrderItem>();
@@ -87,7 +77,8 @@ export default function OrderTrackingView() {
                             subTotal: 0,
                             properties: op.properties.map((property) => {
                                 return {
-                                    // ...property,
+                                    id: property.id,
+                                    status: property.status,
                                     dimention: property.product_dimension,
                                     quantity: property.quantity,
                                     coating_type: property.coating_type,
@@ -102,21 +93,9 @@ export default function OrderTrackingView() {
             </DialogWithButton>
 
             <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
-                {(hasReady) && (
-                    <ReadyProductsOrderRejectionDialogView
-                        dialog={orderRejectingDialog}
-                        orderId={orderId}
-                        orderProducts={orderProducts}
-                        hasReady={hasReady}
-                        hasCustomize={hasCustomize}
-                        afterSubmitHandler={handleAfterSubmitReadyProductsOrderRejection}
-                    />
-                )}
-                {(!hasReady && hasCustomize) && (
-                    <CustomProductsOrderRejectionDialogView
-                        orderProducts={orderProducts}
-                    />
-                )}
+                <OrderRejectionListView
+                    orderProducts={orderProducts}
+                />
             </DialogWithButton>
 
             <Stack spacing={4} pb={10}>

@@ -1,35 +1,31 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Container, Stack, Table, TableBody, Typography } from "@mui/material";
-import CartDialog from "src/components/cart/cart-dialog";
-import { RHFRadioGroupTitleText } from "src/components/hook-form";
-import FormProvider from "src/components/hook-form/form-provider";
+import { Box, Stack, Typography } from "@mui/material";
 import { BlueNotification, YellowNotification } from "src/components/notification";
-import Scrollbar from "src/components/scrollbar";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
-import { TableHeadCustom } from "src/components/table";
-import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
-import CartTableRow from "src/sections/cart/cart-table-row";
-import { CartTableHead } from "src/sections/cart/view/cart-dialog-view";
-import { useForm } from "react-hook-form";
-import { IOrderItem } from "src/types/order";
+import { useBoolean } from "src/hooks/use-boolean";
 import { useEffect, useState } from "react";
-import { ProductOrderType } from "src/types/product";
-import { useGetOrderProducts } from "src/api/order-products";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
 import { IOrderProductItem } from "src/types/order-products";
-import { endpoints } from "src/utils/axios";
 
+import { useSnackbar } from "src/components/snackbar";
 
 interface Props {
     orderProducts: IOrderProductItem[]
 }
 
-export default function CustomProductsOrderRejectionDialogView({
+export default function OrderRejectionListView({
     orderProducts
 }: Props) {
     const cartDialog = useBoolean();
     const [hasReady, setHasReady] = useState<boolean>(false);
     const [hasCustomize, setHasCustomize] = useState<boolean>(false);
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    useEffect(() => {
+        const text = "یکی از سفارش‌های پروفیل درب کابینتی - P60  در وضعیت «ردشده» است. تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه ثبت نهایی کلیک کنید."
+        enqueueSnackbar(text)
+    }, []) 
 
     return (
         <>
@@ -49,8 +45,6 @@ export default function CustomProductsOrderRejectionDialogView({
                 <ShoppingCartList
                     items={orderProducts.map((op) => {
                         return {
-                            // id: op.product.id,
-                            // name: op.product.name,
                             ...op.product,
                             // coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
                             need_to_assemble: op.need_to_assemble,
@@ -58,7 +52,8 @@ export default function CustomProductsOrderRejectionDialogView({
                             subTotal: 0,
                             properties: op.properties.map((property) => {
                                 return {
-                                    // ...property,
+                                    id: property.id,
+                                    status: property.status,
                                     dimention: property.product_dimension,
                                     quantity: property.quantity,
                                     coating_type: property.coating_type,
