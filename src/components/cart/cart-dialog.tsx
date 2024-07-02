@@ -126,7 +126,7 @@ export default function CartDialog({
     }, [listId])
 
     useEffect(() => {
-        if (id === null) return;
+        if (id === null || !list.length) return;
         const item = list[id];
         reset(customizeData(item));
     }, [id, list])
@@ -139,11 +139,10 @@ export default function CartDialog({
     useEffect(() => {
         if (!listData?.length) return;
         setList(listData)
-    }, [listData])
+    }, [listData, id])
 
     const handleUpdate = useCallback((itemId: number) => {
         setId(itemId)
-        console.log('.. ' + itemId)
     }, [setId])
 
     const handleAddToList = useCallback(() => {
@@ -178,7 +177,7 @@ export default function CartDialog({
                         </Box>
                         <Stack direction={'row'} spacing={2}>
                             <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={() => {
-                                dialog.onFalse()
+                                dialog.onFalse();
                                 setList([]);
                                 setId(null);
                             }}>
