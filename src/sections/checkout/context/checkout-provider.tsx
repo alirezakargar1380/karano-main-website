@@ -150,8 +150,24 @@ export function CheckoutProvider({ children }: Props) {
   );
 
   const onDeleteCart = useCallback(
-    (itemId: string) => {
-      const updatedItems = state.items.filter((item: ICheckoutItem) => item.id !== itemId);
+    (itemId: number, itemIndex: number, propertyIndex: number) => {
+
+      let item = state.items.find((item: ICheckoutItem) => item.id === itemId);
+
+      let updatedItems = state.items;
+
+      const index = propertyIndex;
+      if (index > -1)
+        item.properties.splice(index, 1)
+
+      if (!item.properties.length) {
+        console.log('im filtering')
+        updatedItems = updatedItems.filter((item: ICheckoutItem) => item.id !== itemId);
+      } else {
+        updatedItems[itemIndex] = item
+      }
+
+      console.log(updatedItems)
 
       update('items', updatedItems);
     },

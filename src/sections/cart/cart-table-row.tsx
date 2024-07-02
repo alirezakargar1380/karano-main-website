@@ -54,8 +54,6 @@ export default function CartTableRow({
 
   const confirm = useBoolean();
 
-  const popover = usePopover();
-
   return (
     <>
       <TableRow hover sx={{
@@ -105,12 +103,12 @@ export default function CartTableRow({
         <TableCell align="right">
           <Stack direction={'row'}>
             {(onEditRow) && (
-              <IconButton color={popover.open ? 'primary' : 'default'} onClick={onEditRow}>
+              <IconButton color={'default'} onClick={onEditRow}>
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
             {(onDeleteRow) && (
-              <IconButton color={popover.open ? 'primary' : 'default'} onClick={confirm.onTrue}>
+              <IconButton color={'default'} onClick={confirm.onTrue}>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
@@ -122,43 +120,17 @@ export default function CartTableRow({
         </TableCell>
       </TableRow>
 
-      <CustomPopover
-        open={popover.open}
-        onClose={popover.onClose}
-        arrow="right-top"
-        sx={{ width: 140 }}
-      >
-
-        <MenuItem
-          onClick={() => {
-            // onEditRow();
-            popover.onClose();
-          }}
-        >
-          <Iconify icon="solar:pen-bold" />
-          Edit
-        </MenuItem>
-
-        <MenuItem
-          onClick={() => {
-            confirm.onTrue();
-            popover.onClose();
-          }}
-          sx={{ color: 'error.main' }}
-        >
-          <Iconify icon="solar:trash-bin-trash-bold" />
-          Delete
-        </MenuItem>
-      </CustomPopover>
-
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="Delete"
-        content="Are you sure want to delete?"
+        title="حذف آیتم از سبد خرید"
+        content="آیا مطمئن هستید؟"
         action={
-          <Button variant="contained" color="error" onClick={onDeleteRow}>
-            Delete
+          <Button variant="contained" color="error" onClick={() => {
+            if (onDeleteRow) onDeleteRow();
+            confirm.onFalse();
+          }}>
+            تایید
           </Button>
         }
       />

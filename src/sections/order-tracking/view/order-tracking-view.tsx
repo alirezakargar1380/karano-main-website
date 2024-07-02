@@ -66,6 +66,7 @@ export default function OrderTrackingView() {
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>
                 <ShoppingCartList
+                    type="cart"
                     items={orderProducts.map((op) => {
                         return {
                             // id: op.product.id,
@@ -78,7 +79,8 @@ export default function OrderTrackingView() {
                             properties: op.properties.map((property) => {
                                 return {
                                     id: property.id,
-                                    status: property.status,
+                                    // status: property.status,
+                                    // status: '',
                                     dimention: property.product_dimension,
                                     quantity: property.quantity,
                                     coating_type: property.coating_type,

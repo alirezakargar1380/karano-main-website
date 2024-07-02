@@ -43,6 +43,7 @@ export default function OrderRejectionListView({
                 </Box>
 
                 <ShoppingCartList
+                    type="edit"
                     items={orderProducts.map((op) => {
                         return {
                             ...op.product,

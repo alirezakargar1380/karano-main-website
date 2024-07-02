@@ -93,7 +93,7 @@ export default function ShoppingCartView() {
                     بعد از بررسی محصولاتی که به صورت سفارشی ثبت شده‌اند، می‌توانید پیش‌فاکتور خود را مشاهده کنید.
                 </BlueNotification>
             </Box>
-            <ShoppingCartList items={checkout.items} />
+            <ShoppingCartList type="cart" items={checkout.items} />
             <Box sx={{ py: 4 }}>
                 <CheckCartCard dialog={howToSendDialog}>
                     نتیجه بررسی سفارش شما بعد  از ارسال به کارشناسان کارانو، از طریق «پیام کوتاه» اعلام و پیش‌فاکتور صادر می‌شود.
