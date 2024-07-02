@@ -32,7 +32,7 @@ export default function ReminderDialog({
                     </Box>
                 </DialogTitle>
 
-                {content && <DialogContent sx={{ typography: 'body2', pl: 0, mt: 2 }}> {content} </DialogContent>}
+                {content && <DialogContent sx={{ typography: 'body2', px: 0, mt: 2 }}> {content} </DialogContent>}
 
                 <DialogActions sx={{ pr: 0 }}>
                     {action}
