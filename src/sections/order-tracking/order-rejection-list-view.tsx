@@ -29,7 +29,7 @@ export default function OrderRejectionListView({
 
     return (
         <>
-            <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
+            <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
                 <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                     جزییات رد ‌سفارش
                 </Typography>
@@ -53,6 +53,7 @@ export default function OrderRejectionListView({
                             subTotal: 0,
                             properties: op.properties.map((property) => {
                                 return {
+                                    ...property,
                                     id: property.id,
                                     status: property.status,
                                     dimension: property.dimension,

@@ -18,13 +18,13 @@ import { fCurrency } from 'src/utils/format-number';
 
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
-import { ConfirmDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog, DialogWithButton } from 'src/components/custom-dialog';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 import { IProductItem } from 'src/types/product';
 import { ICartItem } from 'src/types/cart';
 import SvgColor from '../../components/svg-color';
-import { Stack } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 
 // ----------------------------------------------------------------------
@@ -49,18 +49,39 @@ export default function CartTableRow({
     final_coating,
     frame_type,
     profile_type,
-    quality
+    quality,
+    rejection_reason
   } = row;
 
   const confirm = useBoolean();
 
+  const rejectionDialog = useBoolean();
+
   return (
     <>
-      <TableRow hover sx={{
-        ...(selected && {
-          border: '2px solid #000'
-        })
-      }}>
+      <DialogWithButton fullWith={true} dialog={rejectionDialog}>
+        <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+          علت رد ‌سفارش
+        </Typography>
+        <Typography variant='body2' py={3} color={"#727272"}>دلایل رد سفارش شما به همراه راه‌حل‌های احتمالی برای اصلاح سفارش را در متن زیر بیان شده است.</Typography>
+        <Typography variant='body2' pt={3} fontFamily={'peyda-bold'}>
+          توضیحات ادمین
+        </Typography>
+        <Box mt={2} bgcolor={"#F8F8F8"} border={'1px solid #E0E0E0'} borderRadius={'12px'} p={2}>
+          <Typography variant='body2' color={"#727272"}>
+            {rejection_reason}
+          </Typography>
+        </Box>
+
+      </DialogWithButton>
+      <TableRow
+        hover
+        sx={{
+          ...(selected && {
+            border: '2px solid #000'
+          })
+        }}
+      >
 
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
@@ -70,6 +91,9 @@ export default function CartTableRow({
             )}
             {(status === IOrderProductPropertyStatus.edited) && (
               <Label color='warning' sx={{ ml: 1 }}>اصلاح شده</Label>
+            )}
+            {(status === IOrderProductPropertyStatus.approve) && (
+              <Label color='success' sx={{ ml: 1 }}>تایید شده</Label>
             )}
           </TableCell>
         )}
@@ -96,8 +120,21 @@ export default function CartTableRow({
           {dimensions}
         </TableCell>
 
-        <TableCell>
+        <TableCell sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium' }}>
           {quality}
+          {(rejection_reason) && (
+            <Box
+              sx={{
+                ml: 1, borderRadius: '50px', border: '1px solid #D1D1D1', fontSize: '0.75rem', textWrap: 'nowrap', pl: 1.5, pr: 1.5, display: 'flex', alignItems: 'center', py: 0.5, cursor: 'pointer'
+              }}
+              onClick={rejectionDialog.onTrue}
+            >
+              <SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mr: 0.5 }} />
+              <Box pt={0.25}>
+                مشاهده علت
+              </Box>
+            </Box>
+          )}
         </TableCell>
 
         <TableCell align="right">

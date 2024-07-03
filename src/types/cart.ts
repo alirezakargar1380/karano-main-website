@@ -9,4 +9,5 @@ export interface ICartItem {
     coating: string;
     dimensions: string;
     quality: number;
+    rejection_reason: string | null;
 }

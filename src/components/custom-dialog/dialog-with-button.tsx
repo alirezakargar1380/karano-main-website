@@ -34,7 +34,11 @@ export default function DialogWithButton({ dialog, children, fullWith }: Props) 
 
     return (
 
-        <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} maxWidth={false}
+        <Dialog
+            open={dialog.value}
+            onClose={dialog.onFalse}
+            scroll={'body'}
+            maxWidth={false}
             PaperProps={{
                 style: {
                     backgroundColor: 'transparent',
@@ -42,14 +46,19 @@ export default function DialogWithButton({ dialog, children, fullWith }: Props) 
                 },
             }}
             fullWidth={fullWith}
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: 'rgba(0,0,0,0.8)'
+                }
+            }}
         >
-            <Container>
+            <Container maxWidth={'lg'}>
                 <Box sx={{
                     display: 'flex',
                     ...sx
                 }}>
                     <Scrollbar>
-                        <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
+                        <Box sx={{ p: 2, bgcolor: 'white', borderRadius: '16px' }}>
                             {children}
                         </Box>
                     </Scrollbar>

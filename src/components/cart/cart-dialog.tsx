@@ -40,7 +40,6 @@ export default function CartDialog({
     onAddCart,
     handleUpdateRow
 }: Props) {
-    if (listData) console.log(listData[1].status)
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
     const [id, setId] = useState<null | number>(null);
     const { form, formLoading } = useGetOrderForm(order_form_id);
@@ -118,7 +117,6 @@ export default function CartDialog({
     });
 
     const customizeData = useCallback((item: ICheckoutItemPropertyPrice) => {
-        console.log(item.dimension)
         return {
             ...item,
             cover_type: item.cover_type.id,

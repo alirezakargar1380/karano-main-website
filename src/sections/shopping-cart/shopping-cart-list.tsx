@@ -150,6 +150,7 @@ export default function ShoppingCartList({ items, type }: Props) {
                                             onEditRow={(item.order_type === ProductOrderType.custom_made) ? () => handleEdit(item, ind) : undefined}
                                             key={ind * 2}
                                             row={{
+                                                rejection_reason: property_price?.rejection_reason,
                                                 id: property_price?.id,
                                                 status: property_price?.status,
                                                 quality: property_price?.quantity,

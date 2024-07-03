@@ -96,9 +96,11 @@ export const endpoints = {
     tracking: '/api/orders/tracking',
     one: (id: any) => '/api/orders/' + id,
     update: (id: any) => '/api/orders/' + id,
+    
   },
   orderProductProperties: {
     update: (id: any) => `/api/order-product-properties/${id}`,
+    update_approve: (id: any) => `/api/order-product-properties/${id}/approve`,
   },
   category: {
     list: '/api/category',

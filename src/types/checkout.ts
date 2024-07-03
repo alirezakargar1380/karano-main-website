@@ -36,14 +36,15 @@ export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'properties'> {
 }
 
 export interface ICheckoutItemPropertyPrice {
-  id?: number
-  status?: IOrderProductPropertyStatus
+  id?: number;
+  status?: IOrderProductPropertyStatus;
   quantity: number;
   dimension: IProductDimension;
   coating_type: string;
   cover_type: IProductCoverType;
-  profile_type: IProductProfileType,
-  frame_type: IProductFrameType,
+  profile_type: IProductProfileType;
+  frame_type: IProductFrameType;
+  rejection_reason: string | null;
 }
 
 export type ICheckoutDeliveryOption = {

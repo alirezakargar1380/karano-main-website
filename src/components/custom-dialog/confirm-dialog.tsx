@@ -17,7 +17,11 @@ export default function ConfirmDialog({
   ...other
 }: ConfirmDialogProps) {
   return (
-    <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose} {...other}>
+    <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose} {...other} sx={{
+      '& .MuiBackdrop-root': {
+        backgroundColor: 'rgba(0,0,0,0.8)'
+      }
+    }}>
       <DialogTitle sx={{ pb: 2 }}>{title}</DialogTitle>
 
       {content && <DialogContent sx={{ typography: 'body2' }}> {content} </DialogContent>}
@@ -26,7 +30,7 @@ export default function ConfirmDialog({
         <Button variant="outlined" color="inherit" onClick={onClose}>
           Cancel
         </Button>
-        
+
         {action}
       </DialogActions>
     </Dialog>
