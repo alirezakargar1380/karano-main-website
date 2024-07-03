@@ -67,7 +67,6 @@ export default function CartDialog({
             width: 0,
             height: 0,
         },
-        // profile_type: '',
         profile_type: 0,
         cover_type: 0,
         frame_type: 0,
@@ -131,9 +130,14 @@ export default function CartDialog({
 
     useEffect(() => {
         if (listId === undefined || listId === null) return;
-        console.log('--> im setting list id', listId)
         setId(listId)
     }, [listId])
+
+    useEffect(() => {
+        if (id === null) {
+            reset(defaultValues);
+        }
+    }, [id])
 
     useEffect(() => {
         if (id === null || !list.length) return;
@@ -179,12 +183,31 @@ export default function CartDialog({
 
                 <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden', width: 1 }}>
                     <Stack direction={'row'} justifyContent={'space-between'}>
-                        <Box>
-                            {/* <LoadingButton type='submit'>ss</LoadingButton> */}
-                            <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6 }}>
-                                {(id === undefined || id === null || id === null) ? 'افزودن به لیست' : 'ثبت تغییرات لیست'}
-                            </StyledRoundedWhiteButton>
-                        </Box>
+                        <Stack direction={'row'} spacing={2}>
+                            {(id !== null && id >= 0) && (
+                                <>
+                                    <StyledRoundedWhiteButton
+                                        variant='outlined'
+                                        sx={{ borderRadius: '24px', px: 4 }}
+                                        onClick={() => setId(null)}
+                                    >
+                                        انصراف
+                                    </StyledRoundedWhiteButton>
+                                    <LoadingButton
+                                        variant='contained'
+                                        sx={{ borderRadius: '24px', px: 4 }}
+                                        type='submit'
+                                    >
+                                        اعمال تغییرات
+                                    </LoadingButton>
+                                </>
+                            )}
+                            {(listId === undefined && id === null && !listData?.length) && (
+                                <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6 }}>
+                                    افزودن به لیست
+                                </StyledRoundedWhiteButton>
+                            )}
+                        </Stack>
                         <Stack direction={'row'} spacing={2}>
                             <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={() => {
                                 dialog.onFalse();
