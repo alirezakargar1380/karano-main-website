@@ -26,7 +26,7 @@ export default function CompleteOrderView({ orderId, finalOrderDialog }: Props) 
 
     useEffect(() => {
         checkout.onGotoStep(0)
-        console.log(checkout.activeStep)
+        // console.log(checkout.activeStep)
     }, [])
 
     return (

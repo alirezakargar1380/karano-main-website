@@ -2,30 +2,57 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Stack, Typography } from "@mui/material";
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
-import { useBoolean } from "src/hooks/use-boolean";
+import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import { useEffect, useState } from "react";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
 import { IOrderProductItem } from "src/types/order-products";
 
 import { useSnackbar } from "src/components/snackbar";
+import { IOrderProductPropertyStatus } from "src/types/order-products-property";
+import { endpoints, server_axios } from "src/utils/axios";
+import { OrderStatus } from "src/types/order";
 
 interface Props {
     orderProducts: IOrderProductItem[]
+    dialog: useBooleanReturnType
+    orderId: number
 }
 
 export default function OrderRejectionListView({
-    orderProducts
+    orderProducts,
+    dialog,
+    orderId
 }: Props) {
-    const cartDialog = useBoolean();
-    const [hasReady, setHasReady] = useState<boolean>(false);
-    const [hasCustomize, setHasCustomize] = useState<boolean>(false);
+    const [disable, setDisable] = useState<boolean>(true);
 
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         const text = "یکی از سفارش‌های پروفیل درب کابینتی - P60  در وضعیت «ردشده» است. تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه ثبت نهایی کلیک کنید."
         enqueueSnackbar(text)
-    }, []) 
+    }, [])
+
+    const canConfirm = (can: boolean) => {
+        setDisable(can)
+    }
+
+    // useEffect(() => {
+    //     console.log('chenged...')
+    //     orderProducts.forEach((op) => {
+    //         op.properties.forEach((p) => {
+    //             if (p.status === IOrderProductPropertyStatus.denied) {
+    //                 setDisable(true)
+    //             }
+    //         })
+    //     })
+    // }, [orderProducts])
+
+    const handleUpdateOrder = async () => {
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: OrderStatus.edited
+        })
+        dialog.onFalse()
+    }
 
     return (
         <>
@@ -44,6 +71,7 @@ export default function OrderRejectionListView({
 
                 <ShoppingCartList
                     type="edit"
+                    canConfirm={canConfirm}
                     items={orderProducts.map((op) => {
                         return {
                             ...op.product,
@@ -68,10 +96,10 @@ export default function OrderRejectionListView({
                     })}
                 />
 
-                <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
-                    <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }}>
-                        ثبت
+                <Stack sx={{ mt: 6 }} direction={'row'} spacing={1} justifyContent={'end'}>
+                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>انصراف</StyledRoundedWhiteButton>
+                    <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} disabled={disable} onClick={() => handleUpdateOrder()}>
+                        ثبت نهایی اصلاحات
                     </LoadingButton>
                 </Stack>
             </Box>

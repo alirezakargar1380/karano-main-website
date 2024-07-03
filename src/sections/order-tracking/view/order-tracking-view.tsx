@@ -37,9 +37,9 @@ export default function OrderTrackingView() {
         if (status === OrderStatus.failed) {
             orderRejectingDialog.onTrue();
             setOrder(orders.find((order) => order.id === id));
-        } else if (status === OrderStatus.pending) {
+        } else if (status === OrderStatus.pending || status === OrderStatus.edited) {
             cartDialog.onTrue();
-        } else {
+        } else if (status === OrderStatus.accepted) {
             finalOrderDialog.onTrue();
         }
     };
@@ -61,37 +61,41 @@ export default function OrderTrackingView() {
             </DialogWithButton>
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>
-                <ShoppingCartList
-                    type="cart"
-                    items={orderProducts.map((op) => {
-                        return {
-                            // id: op.product.id,
-                            // name: op.product.name,
-                            ...op.product,
-                            coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
-                            need_to_assemble: op.need_to_assemble,
-                            order_form_id: op.product.order_form_options.id,
-                            subTotal: 0,
-                            properties: op.properties.map((property) => {
-                                return {
-                                    id: property.id,
-                                    rejection_reason: null,
-                                    dimension: property.dimension,
-                                    quantity: property.quantity,
-                                    coating_type: property.coating_type,
-                                    cover_type: property.cover_type,
-                                    profile_type: property.profile_type,
-                                    frame_type: property.frame_type,
-                                }
-                            }),
-                        }
-                    })}
-                />
+                <Box p={2}>
+                    <ShoppingCartList
+                        type="cart"
+                        items={orderProducts.map((op) => {
+                            return {
+                                // id: op.product.id,
+                                // name: op.product.name,
+                                ...op.product,
+                                coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
+                                need_to_assemble: op.need_to_assemble,
+                                order_form_id: op.product.order_form_options.id,
+                                subTotal: 0,
+                                properties: op.properties.map((property) => {
+                                    return {
+                                        id: property.id,
+                                        rejection_reason: null,
+                                        dimension: property.dimension,
+                                        quantity: property.quantity,
+                                        coating_type: property.coating_type,
+                                        cover_type: property.cover_type,
+                                        profile_type: property.profile_type,
+                                        frame_type: property.frame_type,
+                                    }
+                                }),
+                            }
+                        })}
+                    />
+                </Box>
             </DialogWithButton>
 
             <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
                 <OrderRejectionListView
                     orderProducts={orderProducts}
+                    dialog={orderRejectingDialog}
+                    orderId={orderId}
                 />
             </DialogWithButton>
 

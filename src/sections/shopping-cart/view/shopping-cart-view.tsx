@@ -24,17 +24,11 @@ import { ProductOrderType } from "src/types/product";
 import ShoppingCartList from "../shopping-cart-list";
 
 export default function ShoppingCartView() {
-    
-
     const howToSendDialog = useBoolean();
     
     const popover = usePopover();
 
     const checkout = useCheckoutContext();
-
-    
-
-    
 
     // console.log(checkout.items)
 

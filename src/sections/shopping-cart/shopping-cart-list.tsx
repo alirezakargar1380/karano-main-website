@@ -21,9 +21,10 @@ import { useSnackbar } from "src/components/snackbar";
 interface Props {
     items: ICheckoutItem[]
     type: 'cart' | 'edit'
+    canConfirm?: (can: boolean) => void
 }
 
-export default function ShoppingCartList({ items, type }: Props) {
+export default function ShoppingCartList({ items, type, canConfirm }: Props) {
     const checkout = useCheckoutContext()
 
     const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
@@ -36,14 +37,16 @@ export default function ShoppingCartList({ items, type }: Props) {
 
     const { enqueueSnackbar } = useSnackbar();
 
-    const handleEdit = useCallback((item: ICheckoutItem, property_ind: number) => {
+    const handleEdit = useCallback((item: ICheckoutItem, property_ind?: number) => {
         setCheckoutItem(item);
-        const property = item.properties[property_ind];
-        setPropertyId(property_ind);
         setList(item.properties);
 
-        if (property)
-            setProperty(property)
+        if (property_ind !== undefined) {
+            const property = item.properties[property_ind];
+            setPropertyId(property_ind);
+            if (property)
+                setProperty(property)
+        }
 
         cartDialog.onTrue();
     }, [setCheckoutItem, setPropertyId, setPropertyId]);
@@ -55,7 +58,7 @@ export default function ShoppingCartList({ items, type }: Props) {
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
             if (type === 'edit') {
-                console.log(data)
+                // console.log(data)
             } else {
                 if (!checkoutItem) return
 
@@ -85,10 +88,8 @@ export default function ShoppingCartList({ items, type }: Props) {
             const pIndex = item.properties.findIndex((property) => property.id === data.id)
             updatedCheckoutItems[index].properties[pIndex] = {
                 ...data,
-                // status: IOrderProductPropertyStatus.denied,
                 status: IOrderProductPropertyStatus.edited
             };
-            console.log(updatedCheckoutItems[index].properties[pIndex])
             setCheckoutItems(updatedCheckoutItems)
 
             server_axios.patch(endpoints.orderProductProperties.update(data.id), {
@@ -99,11 +100,21 @@ export default function ShoppingCartList({ items, type }: Props) {
                 .then(({ data }) => {
                     console.log(data)
                 })
-            cartDialog.onFalse();
+            // cartDialog.onFalse();
         } catch (error) {
             console.error(error);
         }
     }, [setCheckoutItems, checkoutItem]);
+
+    useEffect(() => {
+        let can = false
+        checkoutItems.forEach((op) => {
+            op.properties.forEach((p) => {
+                if (p.status === IOrderProductPropertyStatus.denied) can = true
+            })
+        })
+        if (canConfirm) canConfirm(can)
+    }, [checkoutItems])
 
     return (
         <Box>
@@ -120,53 +131,60 @@ export default function ShoppingCartList({ items, type }: Props) {
                 />
             )}
             {checkoutItems.map((item, index: number) => (
-                <Grid container spacing={2} sx={{ py: 4 }} key={index}>
-                    {item.coverUrl ? <Grid item sm={2} /> : null}
-                    <Grid item sm={10}>
-                        <Stack direction={'row'} spacing={2}>
-                            <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
-                            <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
-                        </Stack>
-                    </Grid>
-                    {(item.coverUrl) && (
-                        <Grid item sm={2} sx={{ pt: 2 }}>
-                            <Image src={item.coverUrl} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                <Box textAlign={'right'} key={index}>
+                    <Grid container spacing={2} sx={{ pt: 2 }}>
+                        {item.coverUrl ? <Grid item sm={2} /> : null}
+                        <Grid item sm={10}>
+                            <Stack direction={'row'} spacing={2}>
+                                <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
+                                <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
+                            </Stack>
                         </Grid>
-                    )}
-                    <Grid item sm={item.coverUrl ? 10 : 12} sx={{ pt: 2 }}>
-                        <Scrollbar sx={{ maxHeight: 680 }}>
-                            <Table size={'medium'} sx={{ minWidth: 780 }}>
-                                <TableHeadCustom
-                                    sx={{
-                                        backgroundColor: '#F2F2F2'
-                                    }}
-                                    headLabel={(item.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
-                                />
+                        {(item.coverUrl) && (
+                            <Grid item sm={2} sx={{ pt: 2 }}>
+                                <Image src={item.coverUrl} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                            </Grid>
+                        )}
+                        <Grid item sm={item.coverUrl ? 10 : 12} sx={{ pt: 2 }}>
+                            <Scrollbar sx={{ maxHeight: 680 }}>
+                                <Table size={'medium'} sx={{ minWidth: 780 }}>
+                                    <TableHeadCustom
+                                        sx={{
+                                            backgroundColor: '#F2F2F2'
+                                        }}
+                                        headLabel={(item.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
+                                    />
 
-                                <TableBody>
-                                    {item.properties?.map((property_price, ind: number) => (
-                                        <CartTableRow
-                                            onDeleteRow={() => handleRemove(item.id, index, ind)}
-                                            onEditRow={(item.order_type === ProductOrderType.custom_made) ? () => handleEdit(item, ind) : undefined}
-                                            key={ind * 2}
-                                            row={{
-                                                rejection_reason: property_price?.rejection_reason,
-                                                id: property_price?.id,
-                                                status: property_price?.status,
-                                                quality: property_price?.quantity,
-                                                coating: property_price?.coating_type || '',
-                                                dimensions: (property_price?.dimension) ? property_price?.dimension?.width + 'x' + property_price?.dimension?.height : '-',
-                                                final_coating: property_price?.cover_type?.name,
-                                                frame_type: property_price?.frame_type?.name,
-                                                profile_type: property_price?.profile_type?.name,
-                                            }}
-                                        />
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </Scrollbar>
+                                    <TableBody>
+                                        {item.properties?.map((property_price, ind: number) => (
+                                            <CartTableRow
+                                                onDeleteRow={() => handleRemove(item.id, index, ind)}
+                                                onEditRow={(item.order_type === ProductOrderType.custom_made) ? () => handleEdit(item, ind) : undefined}
+                                                key={ind * 2}
+                                                row={{
+                                                    rejection_reason: property_price?.rejection_reason,
+                                                    id: property_price?.id,
+                                                    status: property_price?.status,
+                                                    quality: property_price?.quantity,
+                                                    coating: property_price?.coating_type || '',
+                                                    dimensions: (property_price?.dimension) ? property_price?.dimension?.width + 'x' + property_price?.dimension?.height : '-',
+                                                    final_coating: property_price?.cover_type?.name,
+                                                    frame_type: property_price?.frame_type?.name,
+                                                    profile_type: property_price?.profile_type?.name,
+                                                }}
+                                            />
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </Scrollbar>
+                        </Grid>
                     </Grid>
-                </Grid>
+                    {(type === 'edit') && (
+                        <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 2 }} onClick={() => handleEdit(item)}>
+                            اصلاح / حذف کالا
+                        </StyledRoundedWhiteButton>
+                    )}
+                </Box>
             ))}
         </Box>
     )

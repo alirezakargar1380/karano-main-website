@@ -75,8 +75,8 @@ export type ICheckoutValue = {
   billing: IAddressItem | null;
 };
 
-// export type CheckoutContextProps = ICheckoutValue & {
-export type CheckoutContextProps = {
+export type CheckoutContextProps = ICheckoutValue & {
+// export type CheckoutContextProps = {
   completed: boolean;
   //
   onGetCart: () => void;

@@ -208,7 +208,6 @@ export default function CartDialogView({
                                 }}
                                 headLabel={CartTableHead}
                             />
-
                             <TableBody>
                                 {data.map((item, index: number) => (
                                     <CartTableRow
