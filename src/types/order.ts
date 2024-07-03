@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------
 
-import { IProductItem } from "./product";
+import { IProductItem, IProductProperties } from "./product";
 import { IUser } from "./user";
 
 export type IOrderTableFilterValue = string | Date | null;
@@ -73,6 +73,7 @@ export type IOrderItem = {
   order_products: {
     id: number
     product: IProductItem;
+    properties: IProductProperties[]
   }[]
   order_number: string;
   createdAt: Date;

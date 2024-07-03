@@ -5,8 +5,13 @@ import ProductionPDF from "./production-pdf";
 import { _invoices } from "src/_mock";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useEffect, useState } from "react";
+import { IOrderItem } from "src/types/order";
 
-export function ProductionTableRow() {
+interface Props {
+    row: IOrderItem
+}
+
+export function ProductionTableRow({ row }: Props) {
 
     const [isClient, setIsClient] = useState(false)
 
@@ -16,38 +21,52 @@ export function ProductionTableRow() {
 
     return (
         <TableBody>
-            {[...Array(5)].map((row, index) => (
-                <TableRow key={index}>
-                    <TableCell>{index + 1}</TableCell>
+            <TableRow>
+                <TableCell>{row.id}</TableCell>
 
-                    <TableCell>{23335}</TableCell>
+                <TableCell>{row.order_number}</TableCell>
 
-                    <TableCell>
-                        <Label variant="filled" color="info">
-                            در حال بررسی
-                        </Label>
-                    </TableCell>
+                <TableCell>
+                    <Label variant="filled" color="info">
+                        در حال بررسی
+                    </Label>
+                </TableCell>
 
-                    <TableCell>علیرضا کارگر</TableCell>
+                <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
 
-                    <TableCell>1409/01/01</TableCell>
+                <TableCell>1409/01/01</TableCell>
 
-                    <TableCell>
-                        {isClient ?
-                            <PDFDownloadLink
-                                document={<ProductionPDF invoice={_invoices[0]} currentStatus={'production'} />}
-                                fileName={'131313-559984-as588981.pdf'}
-                                style={{ textDecoration: 'none' }}
-                            >
-                                {({ loading }) => (
-                                    <StyledRoundedWhiteButton
-                                        variant="outlined"
-                                        sx={{ borderRadius: '28px', width: 1 }}
-                                    >
-                                        دانلود فرم سفارش ساخت
-                                    </StyledRoundedWhiteButton>
-                                )}
-                                {/* {({ loading }) => (
+                <TableCell>
+                    {isClient ?
+                        <PDFDownloadLink
+                            document={<ProductionPDF invoice={{
+                                ..._invoices[0],
+                                items: row.order_products.map((op) => {
+                                    return op.properties.map((opp) => {
+                                        return {
+                                            id: op.id,
+                                            title: op.product.name,
+                                            price: op.product.price,
+                                            total: op.product.price * opp.quantity,
+                                            service: '*** - ***',
+                                            quantity: opp.quantity,
+                                            description: opp.dimension ? opp.dimension.width + "*" + opp.dimension.height : '***'
+                                        }
+                                    })
+                                }).reduce((acc, current) => acc.concat(current), [])
+                            }} currentStatus={'production'} />}
+                            fileName={`${row.order_number}.pdf`}
+                            style={{ textDecoration: 'none' }}
+                        >
+                            {({ loading }) => (
+                                <StyledRoundedWhiteButton
+                                    variant="outlined"
+                                    sx={{ borderRadius: '28px', width: 1 }}
+                                >
+                                    دانلود فرم سفارش ساخت
+                                </StyledRoundedWhiteButton>
+                            )}
+                            {/* {({ loading }) => (
                             <Tooltip title="Download">
                                 <IconButton>
                                     {loading ? (
@@ -58,12 +77,10 @@ export function ProductionTableRow() {
                                 </IconButton>
                             </Tooltip>
                         )} */}
-                            </PDFDownloadLink>
-
-                            : null}
-                    </TableCell>
-                </TableRow>
-            ))}
+                        </PDFDownloadLink>
+                        : null}
+                </TableCell>
+            </TableRow>
         </TableBody>
     )
 }

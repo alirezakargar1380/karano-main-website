@@ -19,11 +19,14 @@ import ProductionPDF from "../production-pdf";
 import { _invoices } from "src/_mock";
 import { ProductionTableRow } from "../production-table-row";
 import { useEffect, useState } from "react";
+import { useGetProductionOrders } from "src/api/orders";
 
 export default function ProductionListView() {
     const settings = useSettingsContext();
 
     const router = useRouter();
+
+    const { orders } = useGetProductionOrders()
 
     const schema = Yup.object().shape({
     });
@@ -159,18 +162,20 @@ export default function ProductionListView() {
                                     <TableCell width={200}></TableCell>
                                 </TableRow>
                             </TableHead>
-                            <ProductionTableRow />
+                            {orders.map((order, ind) => (
+                                <ProductionTableRow key={ind} row={order} />
+                            ))}
                         </Table>
                     </Scrollbar>
                 </TableContainer>
 
             </Box>
 
-            {isClient && (
+            {/* {isClient && (
                 <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
                     <ProductionPDF invoice={_invoices[0]} currentStatus={'production'} />
                 </PDFViewer>
-            )}
+            )} */}
 
         </Container>
     )

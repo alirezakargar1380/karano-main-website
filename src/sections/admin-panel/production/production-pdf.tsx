@@ -36,6 +36,9 @@ const useStyles = () =>
                 subtitle2: { fontSize: 9, fontWeight: 700 },
                 alignRight: { textAlign: 'right' },
                 alignCenter: { textAlign: 'center' },
+                directionRight: {
+                    
+                },
                 page: {
                     fontSize: 9,
                     lineHeight: 1.6,
@@ -114,6 +117,8 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
         subTotal,
     } = invoice;
 
+    console.log(items)
+
     const styles = useStyles();
 
     return (
@@ -128,7 +133,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     </View>
                 </View>
 
-                <View style={[styles.gridContainer, styles.mb40]}>
+                {/* <View style={[styles.gridContainer, styles.mb40]}>
                     <View style={styles.col6}>
                         <Text style={[styles.subtitle2, styles.mb4]}>Invoice from</Text>
                         <Text style={styles.body2}>{invoiceFrom.name}</Text>
@@ -153,14 +158,14 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                         <Text style={[styles.subtitle2, styles.mb4]}>Due date</Text>
                         <Text style={styles.body2}>{fDate(dueDate)}</Text>
                     </View>
-                </View>
+                </View> */}
 
                 <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات محصولات سفارشی</Text>
 
                 <View style={styles.table}>
                     <View>
                         <View style={[styles.tableRow, styles.tableRowColor]}>
-                            
+
                             <View style={styles.tableCell_3}>
                                 <Text style={styles.subtitle2}>Description</Text>
                             </View>
@@ -186,7 +191,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     <View>
                         {items.map((item: any, index: number) => (
                             <View style={styles.tableRow} key={item.id}>
-                                
+
                                 <View style={styles.tableCell_3}>
                                     <Text>{item.quantity}</Text>
                                 </View>
@@ -200,7 +205,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                 </View>
 
                                 <View style={styles.tableCell_2}>
-                                    <Text style={[styles.subtitle2, styles.alignRight]}>{item.title}</Text>
+                                    <Text style={[styles.subtitle2, styles.alignRight, styles.directionRight]}>{item.title}</Text>
                                     <Text style={[styles.alignRight]}>{item.description}</Text>
                                 </View>
 
@@ -210,7 +215,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                             </View>
                         ))}
 
-                        <View style={[styles.tableRow, styles.noBorder]}>
+                        {/* <View style={[styles.tableRow, styles.noBorder]}>
                             <View style={styles.tableCell_1} />
                             <View style={styles.tableCell_2} />
                             <View style={styles.tableCell_3} />
@@ -269,10 +274,11 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                 <Text style={styles.h4}>{fCurrency(totalAmount)}</Text>
                             </View>
                         </View>
-                    </View>
+                        */}
+                    </View> 
                 </View>
 
-                <View style={[styles.gridContainer, styles.footer]} fixed>
+                {/* <View style={[styles.gridContainer, styles.footer]} fixed>
                     <View style={styles.col8}>
                         <Text style={styles.subtitle2}>NOTES</Text>
                         <Text>
@@ -283,7 +289,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                         <Text style={styles.subtitle2}>Have a Question?</Text>
                         <Text>support@abcapp.com</Text>
                     </View>
-                </View>
+                </View> */}
             </Page>
         </Document>
     );
