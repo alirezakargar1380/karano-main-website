@@ -200,8 +200,8 @@ export default function CartDialogView({
                     لیست سفارش های ثبت شده
                 </Typography>
                 <Box>
-                    <Scrollbar sx={{ maxHeight: 680 }}>
-                        <Table size={'medium'} sx={{ minWidth: 780 }}>
+                    <Scrollbar sx={{ maxHeight: 780 }}>
+                        <Table size={'medium'}>
                             <TableHeadCustom
                                 sx={{
                                     backgroundColor: '#F2F2F2'
@@ -217,6 +217,7 @@ export default function CartDialogView({
                                         selected={(listId === index)}
                                         key={index}
                                         row={{
+                                            ...item,
                                             status: item.status,
                                             quality: item.quantity,
                                             coating: item?.coating_type,

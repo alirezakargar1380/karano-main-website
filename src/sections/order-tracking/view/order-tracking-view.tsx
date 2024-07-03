@@ -75,8 +75,7 @@ export default function OrderTrackingView() {
                             properties: op.properties.map((property) => {
                                 return {
                                     id: property.id,
-                                    // status: property.status,
-                                    // status: '',
+                                    rejection_reason: null,
                                     dimension: property.dimension,
                                     quantity: property.quantity,
                                     coating_type: property.coating_type,
