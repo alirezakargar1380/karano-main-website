@@ -14,6 +14,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
+import ProductionPDF from "../production-pdf";
+import { _invoices } from "src/_mock";
+import { ProductionTableRow } from "../production-table-row";
+import { useEffect, useState } from "react";
 
 export default function ProductionListView() {
     const settings = useSettingsContext();
@@ -44,6 +49,12 @@ export default function ProductionListView() {
             reset();
         }
     });
+
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true)
+    }, [])
 
     return (
 
@@ -148,41 +159,19 @@ export default function ProductionListView() {
                                     <TableCell width={200}></TableCell>
                                 </TableRow>
                             </TableHead>
-
-                            <TableBody>
-                                {[...Array(5)].map((row, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{index + 1}</TableCell>
-
-                                        <TableCell>{23335}</TableCell>
-
-                                        <TableCell>
-                                            <Label variant="filled" color="info">
-                                                در حال بررسی
-                                            </Label>
-                                        </TableCell>
-
-                                        <TableCell>علیرضا کارگر</TableCell>
-
-                                        <TableCell>1409/01/01</TableCell>
-
-                                        <TableCell>
-                                            <StyledRoundedWhiteButton
-                                                variant="outlined"
-                                                sx={{ borderRadius: '28px', width: 1 }}
-                                            // onClick={() => router.push(paths.admin_dashboard.saleManagement.details(1))}
-                                            >
-                                                دانلود فرم سفارش ساخت
-                                            </StyledRoundedWhiteButton>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+                            <ProductionTableRow />
                         </Table>
                     </Scrollbar>
                 </TableContainer>
 
             </Box>
+
+            {isClient && (
+                <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+                    <ProductionPDF invoice={_invoices[0]} currentStatus={'production'} />
+                </PDFViewer>
+            )}
+
         </Container>
     )
 
