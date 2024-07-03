@@ -1,4 +1,3 @@
-import { OverviewAppView } from 'src/sections/admin-overview/app/view';
 import AdminPanelOverview from 'src/sections/admin-panel/view/overview-view';
 
 // ----------------------------------------------------------------------

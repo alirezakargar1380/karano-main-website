@@ -2,12 +2,19 @@ import axios, { endpoints } from 'src/utils/axios';
 
 import { ProductShopDetailsView } from 'src/sections/product/view';
 import { SaleManagementDetailsView } from 'src/sections/admin-panel/sale-management/view';
+import { Viewport } from 'next';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
   title: 'sale-management: Details',
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1
+}
 
 type Props = {
   params: {
