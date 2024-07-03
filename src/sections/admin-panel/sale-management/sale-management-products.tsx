@@ -94,7 +94,7 @@ function SaleManagementProductItem({
     const methods = useForm({
         // resolver: yupResolver<any>(schema),
         defaultValues: {
-            rejection_reason: property.rejection_reason || null,
+            rejection_reason: property.rejection_reason || '',
             is_approved: (property.is_approved !== null) ? (property.is_approved ? '1' : '0') : null
         },
     });
@@ -116,17 +116,20 @@ function SaleManagementProductItem({
                 await server_axios.patch(endpoints.orders.update(order_id), {
                     status: OrderStatus.failed
                 })
-                enqueueSnackbar('وضعیت سفارش به رد شده تغییر کرد!', {
-                    variant: 'warning'
+                enqueueSnackbar('وضعیت سفارش تغییر کرد', {
+                    variant: 'info'
                 })
             }
 
-            await server_axios.patch(endpoints.orderProductProperties.update(property.id), {
+            const data = {
                 ...d,
-                status: (d.is_approved == "0") ? IOrderProductPropertyStatus.denied : IOrderProductPropertyStatus.normal,
+                status: (d.is_approved == "0") ? IOrderProductPropertyStatus.denied : IOrderProductPropertyStatus.approve,
                 rejection_reason: (d.rejection_reason) ? d.rejection_reason : null,
-            })
-                .then(({ data }) => {
+            }
+
+            await server_axios.patch(endpoints.orderProductProperties.update_approve(property.id), data)
+                .then(() => {
+                    property.status = data.status
                     enqueueSnackbar('آپدیت شد', {
                         variant: 'info'
                     })
@@ -154,6 +157,8 @@ function SaleManagementProductItem({
         onSubmit();
     }, []);
 
+    console.log(property.status)
+
     return (
         <Box sx={{ mb: 6 }}>
             <Stack p={0} spacing={2} mb={2}>
@@ -171,6 +176,25 @@ function SaleManagementProductItem({
                             {
                                 (status === IOrderProductStatus.more_time) && 'تحویل بلند مدت تر'
                                 || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
+                            }
+                        </Label>
+                    )}
+                    {(product.order_type === ProductOrderType.custom_made && property.status !== IOrderProductPropertyStatus.normal) && (
+                        <Label
+                            sx={{ ml: 1 }}
+                            color={
+                                (property.status === IOrderProductPropertyStatus.edited) && 'warning'
+                                || (property.status === IOrderProductPropertyStatus.approve) && 'success'
+                                || (property.status === IOrderProductPropertyStatus.denied) && 'error'
+                                || 'default'
+                            }
+                        >
+                            {
+                                (property.status === IOrderProductPropertyStatus.edited) && 'اصلاح شده'
+                                || (property.status === IOrderProductPropertyStatus.approve) && 'تایید شده'
+                                || (property.status === IOrderProductPropertyStatus.denied) && 'رد شده'
+                                || 'تعریف نشده'
+                                // || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
                             }
                         </Label>
                     )}
@@ -229,7 +253,7 @@ function SaleManagementProductItem({
                                         {property.coating_type || '-'}
                                     </TableCell>
                                     <TableCell>
-                                        {property.dimension}
+                                        {property.dimension?.width + "x" + property.dimension?.height}
                                     </TableCell>
                                     <TableCell>
                                         {property.quantity}
