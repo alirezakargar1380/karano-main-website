@@ -68,11 +68,15 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
 
     return (
 
-        <DialogWithButton dialog={dialog} fullWith={false}>
+        <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography fontFamily={'peyda-bold'} borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
+                <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
+                    <Typography fontFamily={'peyda-bold'} variant='h4' borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
                         تاییدیه هزینه مونتاژ
+                    </Typography>
+
+                    <Typography fontFamily={'peyda-bold'} pb={2} color={"#727272"} pt={3}>
+                        آیا می‌خواهیدسفارش شما توسط کارانو مونتاژ ‌شود؟
                     </Typography>
 
                     <Stack direction={'row'} spacing={2} py={2}>
@@ -90,19 +94,19 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                                 }
                             ]}
                             RadioSx={{
-                                p: '4px',
-                                '&::after': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    left: '4px',
-                                    // right: '1px',
-                                    top: '4px',
-                                    // bottom: '6px',
-                                    background: 'white',
-                                    borderRadius: '50%',
-                                    width: '6px',
-                                    height: '6px'
-                                },
+                                // p: '4px',
+                                // '&::after': {
+                                //     content: '""',
+                                //     position: 'absolute',
+                                //     left: '4px',
+                                //     // right: '1px',
+                                //     top: '4px',
+                                //     // bottom: '6px',
+                                //     background: 'white',
+                                //     borderRadius: '50%',
+                                //     width: '6px',
+                                //     height: '6px'
+                                // },
                             }}
                         />
                     </Stack>
