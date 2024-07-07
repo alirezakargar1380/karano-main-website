@@ -200,17 +200,17 @@ export default function InvoiceView({
                                         </TableCell>
 
                                         <TableCell>
-                                            {property.dimension}
+                                            {/* {property.dimension} */}
                                         </TableCell>
 
                                         <TableCell>
-                                            {calculateProfileTotal(Number(property?.dimension?.split('x')[0]), property.quantity)}
+                                            {calculateProfileTotal(Number(property?.dimension?.width), property.quantity)}
                                         </TableCell>
 
                                         <TableCell align="right">
                                             {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
                                                 fCurrency(orderProduct.product.price) :
-                                                fCurrency((calculateProfileTotal(Number(property?.dimension?.split('x')[0]), property.quantity) * property.profile_type.unit_price) / property.quantity)
+                                                fCurrency((calculateProfileTotal(Number(property?.dimension?.width), property.quantity) * property.profile_type.unit_price) / property.quantity)
                                             }
                                         </TableCell>
 
@@ -219,7 +219,7 @@ export default function InvoiceView({
                                             {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
                                                 fCurrency(property.quantity * orderProduct.product.price)
                                                 :
-                                                fCurrency(calculateProfileTotal(Number(property?.dimension?.split('x')[0]), property.quantity) * property.profile_type.unit_price)
+                                                fCurrency(calculateProfileTotal(Number(property?.dimension?.width), property.quantity) * property.profile_type.unit_price)
                                             }
                                         </TableCell>
                                     </TableRow>
