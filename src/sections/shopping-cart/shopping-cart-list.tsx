@@ -77,44 +77,54 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
         checkout.onDeleteCart(itemId, itemIndex, propertyIndex)
     }, []);
 
-    const handleUpdateRow = useCallback((data: ICheckoutItemPropertyPrice) => {
+    const handleUpdateRow = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
-            if (data.status === IOrderProductPropertyStatus.normal)
-                return enqueueSnackbar('فقط امکان ویرایش موارد رد شده را دارید!');
+            // if (data.status === IOrderProductPropertyStatus.normal)
+            //     return enqueueSnackbar('فقط امکان ویرایش موارد رد شده را دارید!');
 
+            // OLD Code
             const updatedCheckoutItems = [...checkoutItems];
-            const index = updatedCheckoutItems.findIndex((checkout) => checkout.id === checkoutItem?.id)
-            const item = updatedCheckoutItems[index];
-            const pIndex = item.properties.findIndex((property) => property.id === data.id)
-            updatedCheckoutItems[index].properties[pIndex] = {
-                ...data,
-                status: IOrderProductPropertyStatus.edited
-            };
-            setCheckoutItems(updatedCheckoutItems)
+            let index = updatedCheckoutItems.findIndex((checkout) => checkout.id === checkoutItem?.id);
+            updatedCheckoutItems[index].properties = [...data];
+            // OLD Code
 
-            server_axios.patch(endpoints.orderProductProperties.update(data.id), {
-                ...data,
-                // status: IOrderProductPropertyStatus.denied
-                status: IOrderProductPropertyStatus.edited
-            })
-                .then(({ data }) => {
-                    console.log(data)
-                })
-            // cartDialog.onFalse();
+
+            // const updatedCheckoutItems = checkoutItems.map((checkout) =>
+            //     checkout.id === checkoutItem?.id
+            //         ? {
+            //               ...checkout,
+            //               properties: checkout.properties.map((property) =>
+            //                   property.id === data.id ? { ...data, status: IOrderProductPropertyStatus.edited } : property
+            //               ),
+            //           }
+            //         : checkout
+            // );
+
+
+            // you have to check disabling of confirm button before update checkout item
+            let can = false
+            for (let i = 0; i < updatedCheckoutItems.length; i++) {
+                const element = updatedCheckoutItems[i];
+                for (let j = 0; j < element.properties.length; j++) {
+                    const p = element.properties[j];
+                    if (p.status === IOrderProductPropertyStatus.denied) can = true
+                }
+            }
+            if (canConfirm) canConfirm(can)
+
+
+            setCheckoutItems([...updatedCheckoutItems]);
+
+            cartDialog.onFalse();
         } catch (error) {
             console.error(error);
         }
-    }, [setCheckoutItems, checkoutItem]);
+    }, [setCheckoutItems, checkoutItems, checkoutItem]);
 
-    useEffect(() => {
-        let can = false
-        checkoutItems.forEach((op) => {
-            op.properties.forEach((p) => {
-                if (p.status === IOrderProductPropertyStatus.denied) can = true
-            })
-        })
-        if (canConfirm) canConfirm(can)
-    }, [checkoutItems])
+    // useEffect(() => {
+    //     console.log('disabling checking...')
+
+    // }, [checkoutItems])
 
     return (
         <Box>

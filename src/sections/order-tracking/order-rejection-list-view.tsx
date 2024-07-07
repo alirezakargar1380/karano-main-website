@@ -51,7 +51,7 @@ export default function OrderRejectionListView({
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: OrderStatus.edited
         })
-        dialog.onFalse()
+        dialog.onFalse();
     }
 
     return (

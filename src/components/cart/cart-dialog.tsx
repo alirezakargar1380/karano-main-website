@@ -17,6 +17,8 @@ import { useGetOrderForm } from 'src/api/order-form';
 import { ICheckoutAddCustomMadeProductData, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'src/components/snackbar';
+import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -27,7 +29,7 @@ interface Props {
     listId?: number | undefined;
     listData?: ICheckoutItemPropertyPrice[] | undefined
     onAddCart: (data: ICheckoutItemPropertyPrice[]) => void;
-    handleUpdateRow?: (data: ICheckoutItemPropertyPrice) => void;
+    handleUpdateRow?: (data: ICheckoutItemPropertyPrice[]) => void;
 }
 
 export default function CartDialog({
@@ -106,11 +108,15 @@ export default function CartDialog({
                 ]);
             } else {
                 list[id] = custom;
+                if (handleUpdateRow) list[id].status = IOrderProductPropertyStatus.edited;
                 setList([...list]);
+
+                server_axios.patch(endpoints.orderProductProperties.update(list[id].id), list[id])
+                    .then(({ data }) => {
+                        console.log(data)
+                    })
                 // setId(null); // felan khali bashe
             }
-
-            if (handleUpdateRow) handleUpdateRow(custom);
         } catch (error) {
             console.error(error);
         }
@@ -164,7 +170,11 @@ export default function CartDialog({
         if (!list.length) return enqueueSnackbar("لطفا لیست را پر کنید", {
             variant: 'error'
         })
-        onAddCart(list)
+
+        if (handleUpdateRow !== undefined)
+            handleUpdateRow(list)
+        else
+            onAddCart(list)
     }, [list])
 
     return (
