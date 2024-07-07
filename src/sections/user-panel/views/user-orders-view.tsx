@@ -3,7 +3,9 @@ import { useState } from "react";
 import { useGetTrackingOrders } from "src/api/orders";
 import Image from "src/components/image";
 import SvgColor from "src/components/svg-color";
+import OrderTrackingListView from "src/sections/order-tracking/order-tracking-list-view";
 import TrackingOrderItem from "src/sections/order-tracking/tracking-order-item";
+import { OrderTrackingView } from "src/sections/order-tracking/view";
 
 const TABS = [
     {
@@ -83,11 +85,12 @@ export default function UserOrdersView() {
                 </Box>
             </Grid>
             <Grid item sm={9}>
-                <Stack spacing={2} pb={10}>
+                {/* <Stack spacing={2} pb={10}>
                     {orders.map((order) => (
                         <TrackingOrderItem key={order.id} order={order} />
                     ))}
-                </Stack>
+                </Stack> */}
+                <OrderTrackingListView />
                 {(ordersEmpty) && (
                     <Box sx={{
                         border: (theme) => `1px solid #A9A9A9`,

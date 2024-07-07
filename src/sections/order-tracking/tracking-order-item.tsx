@@ -17,7 +17,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                 <Label color={
                     (order.status === OrderStatus.pending && 'info') ||
                     (order.status === OrderStatus.failed && 'error') ||
-                    (order.status === OrderStatus.accepted && 'success') ||
+                    ((order.status === OrderStatus.accepted || order.status === OrderStatus.paid) && 'success') ||
                     (order.status === OrderStatus.edited && 'warning') ||
                     'default'
                 } fontFamily={'peyda-bold'}>
@@ -26,6 +26,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         (order.status === OrderStatus.edited && 'اصلاح شده') ||
                         (order.status === OrderStatus.pending && 'در انتظار تایید') ||
                         (order.status === OrderStatus.failed && 'رد شده') ||
+                        (order.status === OrderStatus.paid && 'پرداخت شده') ||
                         (order.status === OrderStatus.accepted && 'تایید شده')
                     }
                 </Label>

@@ -180,6 +180,14 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="success">
                                                         تایید شده
                                                     </Label>
+                                                ) || (row.status === OrderStatus.edited) && (
+                                                    <Label variant="filled" color="warning">
+                                                        اصلاح شده
+                                                    </Label>
+                                                ) || (row.status === OrderStatus.paid) && (
+                                                    <Label variant="filled" color="success">
+                                                        پرداخت شده
+                                                    </Label>
                                                 ) ||
                                                 ''
                                             }
