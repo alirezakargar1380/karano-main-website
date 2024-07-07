@@ -36,13 +36,13 @@ export const StyledNotistack = styled(MaterialDesignContent)(({ theme }) => {
       // backgroundColor: '#000'
     },
     '&.notistack-MuiContent-info': {
-      backgroundColor: 'blue'
+      backgroundColor: '#2B2B2B'
     },
     '&.notistack-MuiContent-success': {
-      backgroundColor: '#D12215'
+      backgroundColor: '#2B2B2B'
     },
     '&.notistack-MuiContent-warning': {
-      backgroundColor: '#D12215'
+      backgroundColor: '#2B2B2B'
     },
     '&.notistack-MuiContent-error': {
       backgroundColor: '#D12215'
