@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
@@ -16,9 +16,10 @@ import CartDialog from 'src/components/cart/cart-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 import SvgColor from 'src/components/svg-color';
 import ProductDetailsPrice from './product-details-price';
-import { endpoints } from 'src/utils/axios';
+import { endpoints, server_axios } from 'src/utils/axios';
 import ProductDetailsDescription from './product-details-description';
 import { AssembleDialog } from '../assemble/assemble-dialog';
+import { useSnackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,8 @@ export default function ProductDetailsSummary({
   const cartDialog = useBoolean();
   const assmbleDialog = useBoolean();
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const {
     id,
     name,
@@ -49,9 +52,11 @@ export default function ProductDetailsSummary({
     product_dimension,
     order_form_options,
     coverUrl,
-    available,
-    order_type
+    order_type,
+    is_user_favorite
   } = product;
+
+  const [isFavorite, setFavorite] = useState<boolean>(is_user_favorite);
 
   const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
 
@@ -63,7 +68,6 @@ export default function ProductDetailsSummary({
     id,
     name,
     coverUrl,
-    available,
     price,
     order_type,
     dimension_id: 0,
@@ -165,7 +169,6 @@ export default function ProductDetailsSummary({
     }
   }, [onAddCart, values, product]);
 
-
   const updateAssemble = useCallback((is_need: boolean) => {
     setValue('need_to_assemble', is_need);
     onAddCart?.({
@@ -178,6 +181,24 @@ export default function ProductDetailsSummary({
   const updatePrice = useCallback((price: number) => {
     setValue('price', price);
   }, [setValue]);
+
+  const handleAddToFavorites = useCallback(async () => {
+    await server_axios.post(endpoints.favorite.create, {
+      product: { id: product.id },
+    })
+    setFavorite(true);
+    enqueueSnackbar("محصول به علاقه مندی های شما اضافه شد", {
+      variant: 'info'
+    })
+  }, [product]);
+
+  const handleRemoveToFavorites = useCallback(async () => {
+    await server_axios.delete(endpoints.favorite.delete(product.id))
+    setFavorite(false);
+    enqueueSnackbar("محصول از علاقه مندی های شما حذف شد", {
+      variant: 'error'
+    });
+  }, [product]);
 
   const renderActions = (
     <LoadingButton
@@ -300,8 +321,19 @@ export default function ProductDetailsSummary({
             {/* {renderInventoryType} */}
 
             <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} sx={{ pb: 2, width: 1 }} spacing={1.5}>
-              <IconButton size='small' sx={{ bgcolor: "#D1D1D1", height: 28, width: 28, borderRadius: 10, mt: 0.5 }}>
-                <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
+              <IconButton
+                size='small'
+                sx={{
+                  bgcolor: "#D1D1D1", height: 28, width: 28, borderRadius: 10, mt: 0.5, '&:hover': { backgroundColor: "#E0E0E0" }
+                }}
+                onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}
+              >
+                {isFavorite ?
+                  <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
+                  :
+                  <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
+                }
+                {/*  */}
               </IconButton>
               <Typography variant="h4" fontFamily={'peyda-bold'}>
                 {name}

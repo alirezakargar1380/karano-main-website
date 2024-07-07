@@ -99,6 +99,11 @@ export const endpoints = {
     update: (id: any) => '/api/orders/' + id,
     
   },
+  favorite: {
+    list: '/api/favorites',
+    create: '/api/favorites',
+    delete: (id: any) => `/api/favorites/${id}`,
+  },
   orderProductProperties: {
     update: (id: any) => `/api/order-product-properties/${id}`,
     update_approve: (id: any) => `/api/order-product-properties/${id}/approve`,

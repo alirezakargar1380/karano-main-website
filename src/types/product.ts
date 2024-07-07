@@ -118,32 +118,11 @@ export type IProductItem = {
   order_form_options: IProductDefaultDetails;
   coverUrl: string;
   images: IProductImage[];
-  colors: string[];
   quantity: number;
   category: string;
-  available: number;
-  totalSold: number;
+  is_user_favorite: boolean;
   description: string;
-  totalRatings: number;
-  totalReviews: number;
-  inventoryType: string;
-  subDescription: string;
-  priceSale: number | null;
-  reviews: IProductReview[];
   createdAt: Date;
-  ratings: {
-    name: string;
-    starCount: number;
-    reviewCount: number;
-  }[];
-  saleLabel: {
-    enabled: boolean;
-    content: string;
-  };
-  newLabel: {
-    enabled: boolean;
-    content: string;
-  };
 };
 
 export type IProductTableFilterValue = string | string[];
