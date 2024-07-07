@@ -108,7 +108,7 @@ export default function ProductDetailsSummary({
     try {
       if (product.order_type !== ProductOrderType.ready_to_use) return
 
-      const dimention = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
+      const dimension = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
       const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
 
       onAddCart?.({
@@ -118,7 +118,7 @@ export default function ProductDetailsSummary({
         properties: [
           {
             quantity: values.quantity,
-            dimention: dimention,
+            dimension: dimension,
             cover_type
           }
         ],
