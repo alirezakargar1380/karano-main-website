@@ -97,7 +97,7 @@ export default function CartDialog({
             if (form.cover_type) custom.cover_type = form.cover_type.find((item) => item.id === data.cover_type);
             if (form.frame_type) custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
 
-            if (id == null) {
+            if (id === null) {
                 setList([
                     ...list,
                     {
@@ -106,6 +106,7 @@ export default function CartDialog({
                 ]);
             } else {
                 list[id] = custom;
+                setList([...list]);
                 // setId(null); // felan khali bashe
             }
 
@@ -180,7 +181,6 @@ export default function CartDialog({
                     />
                 )}
 
-
                 <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden', width: 1 }}>
                     <Stack direction={'row'} justifyContent={'space-between'}>
                         <Stack direction={'row'} spacing={2}>
@@ -203,7 +203,7 @@ export default function CartDialog({
                                 </>
                             )}
                             {(listId === undefined && id === null && !listData?.length) && (
-                                <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6 }}>
+                                <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
                                     افزودن به لیست
                                 </StyledRoundedWhiteButton>
                             )}
@@ -221,7 +221,7 @@ export default function CartDialog({
                                 sx={{ borderRadius: '24px', px: 4 }}
                                 onClick={handleAddToList}
                             >
-                                افزودن به لیست سبد
+                                افزودن به سبد خرید
                             </LoadingButton>
                         </Stack>
                     </Stack>
