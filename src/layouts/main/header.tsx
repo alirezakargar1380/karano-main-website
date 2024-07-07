@@ -45,10 +45,11 @@ function StyledToolbar({ children }: Props) {
       disableGutters
       sx={{
         bgcolor: '#fff',
-        height: {
-          xs: HEADER.H_MOBILE,
-          md: HEADER.H_DESKTOP,
-        },
+        // height: {
+        //   xs: HEADER.H_MOBILE,
+        //   md: HEADER.H_DESKTOP,
+        // },
+        height: '76px',
         transition: theme.transitions.create(['height'], {
           easing: theme.transitions.easing.easeInOut,
           duration: theme.transitions.duration.shorter,
@@ -96,7 +97,13 @@ export default function Header({ toggleBanner }: any) {
         </Box>
       ) : null} */}
       <StyledToolbar>
-        <Container maxWidth={'xl'} sx={{ height: 1, display: 'flex', alignItems: 'center', borderBottom: '1px solid #D1D1D1' }}>
+        <Box sx={{
+          height: 1,
+          display: 'flex',
+          alignItems: 'center',
+          borderBottom: '1px solid #D1D1D1',
+          width: 1
+        }}>
           <Badge
             sx={{
               [`& .${badgeClasses.badge}`]: {
@@ -145,7 +152,7 @@ export default function Header({ toggleBanner }: any) {
             /> */}
             {!mdUp && <NavMobile data={navDesktopConfig} />}
           </Stack>
-        </Container>
+        </Box>
       </StyledToolbar>
 
       {/* {offsetTop && <HeaderShadow />} */}
