@@ -14,12 +14,13 @@ interface Props {
     dialog: useBooleanReturnType,
     children: React.ReactNode,
     fullWith: boolean
+    width?: number
 }
 
 
-export default function DialogWithButton({ dialog, children, fullWith }: Props) {
+export default function DialogWithButton({ dialog, children, fullWith, width = 480 }: Props) {
 
-    const sx = fullWith ? {} : { minWidth: 480 }
+    const sx = fullWith ? {} : { minWidth: width }
 
     const descriptionElementRef = useRef<HTMLElement>(null);
 
