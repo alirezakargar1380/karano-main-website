@@ -25,7 +25,7 @@ import ShoppingCartList from "../shopping-cart-list";
 
 export default function ShoppingCartView() {
     const howToSendDialog = useBoolean();
-    
+
     const popover = usePopover();
 
     const checkout = useCheckoutContext();
@@ -33,7 +33,7 @@ export default function ShoppingCartView() {
     // console.log(checkout.items)
 
     return (
-        <Container maxWidth={'xl'}>
+        <Box sx={{ width: 1 }}>
 
             <HowToSendDialog dialog={howToSendDialog} />
             {/* {(checkoutItem) && (
@@ -66,10 +66,10 @@ export default function ShoppingCartView() {
                 arrow="top-center"
                 sx={{ width: 140, mt: 3 }}
                 hiddenArrow={true}
-                // anchorOrigin={{
-                //     vertical: 'bottom',
-                //     horizontal: 'center',
-                // }}
+            // anchorOrigin={{
+            //     vertical: 'bottom',
+            //     horizontal: 'center',
+            // }}
             >
                 <MenuItem
                     onClick={() => {
@@ -79,7 +79,7 @@ export default function ShoppingCartView() {
                     sx={{ color: 'error.main' }}
                 >
                     <Iconify icon="pixelarticons:notes-delete" />
-                    حدف همه    
+                    حدف همه
                 </MenuItem>
             </CustomPopover>
             <Box sx={{ pt: 4 }}>
@@ -94,6 +94,6 @@ export default function ShoppingCartView() {
                     همچنین همواره می‌توانید برای پیگیری وضعیت سفارش خود، به صفحه «پیگیری سفارش» در بالای صفحه مراجعه کنید.
                 </CheckCartCard>
             </Box>
-        </Container>
+        </Box>
     )
 }
