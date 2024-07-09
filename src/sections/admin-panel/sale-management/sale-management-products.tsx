@@ -164,7 +164,7 @@ function SaleManagementProductItem({
             <Stack p={0} spacing={2} mb={2}>
                 <Typography fontFamily={'peyda-bold'} variant="h5" mt={1}>
                     {product.name}
-                    {(product.order_type === ProductOrderType.ready_to_use) && (
+                    {/* {(product.order_type === ProductOrderType.ready_to_use) && (
                         <Label
                             sx={{ ml: 1 }}
                             color={
@@ -178,22 +178,22 @@ function SaleManagementProductItem({
                                 || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
                             }
                         </Label>
-                    )}
-                    {(product.order_type === ProductOrderType.custom_made && property.status !== IOrderProductPropertyStatus.normal) && (
+                    )} */}
+                    {(product.order_type === ProductOrderType.custom_made && property.status === IOrderProductPropertyStatus.edited) && (
                         <Label
                             sx={{ ml: 1 }}
                             color={
                                 (property.status === IOrderProductPropertyStatus.edited) && 'warning'
-                                || (property.status === IOrderProductPropertyStatus.approve) && 'success'
-                                || (property.status === IOrderProductPropertyStatus.denied) && 'error'
+                                // || (property.status === IOrderProductPropertyStatus.approve) && 'success'
+                                // || (property.status === IOrderProductPropertyStatus.denied) && 'error'
                                 || 'default'
                             }
                         >
                             {
                                 (property.status === IOrderProductPropertyStatus.edited) && 'اصلاح شده'
-                                || (property.status === IOrderProductPropertyStatus.approve) && 'تایید شده'
-                                || (property.status === IOrderProductPropertyStatus.denied) && 'رد شده'
-                                || 'تعریف نشده'
+                                // || (property.status === IOrderProductPropertyStatus.approve) && 'تایید شده'
+                                // || (property.status === IOrderProductPropertyStatus.denied) && 'رد شده'
+                                || ''
                                 // || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
                             }
                         </Label>

@@ -86,7 +86,7 @@ export default function SaleManagementPayment({
                 </Stack>
                 <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ p: 2, mt: 1 }}>
                     <LoadingButton type="submit" variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
-                        نمایش پیش فاکتور
+                        تایید نهایی
                     </LoadingButton>
                 </Box>
             </Box>

@@ -168,9 +168,9 @@ export default function SaleManagementListView() {
 
                                         <TableCell>
                                             {
-                                                (row.status === OrderStatus.pending) && (
+                                                (row.status === OrderStatus.pending || row.status === OrderStatus.edited) && (
                                                     <Label variant="filled" color="info">
-                                                        در حال بررسی
+                                                        در انتظار بررسی
                                                     </Label>
                                                 ) || (row.status === OrderStatus.failed) && (
                                                     <Label variant="filled" color="error">

@@ -36,7 +36,13 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         handleMoreBtn(+order.id, order.status)
                     }}
                 >
-                    مشاهده جزئیات
+                    {
+                        ((order.status === OrderStatus.pending || order.status === OrderStatus.edited) && 'مشاهده سبد خرید') ||
+                        (order.status === OrderStatus.failed && 'test') ||
+                        ((order.status === OrderStatus.accepted || order.status === OrderStatus.paid) && 'ادامه و تکمیل خرید') ||
+                        (order.status === OrderStatus.edited && 'test') ||
+                        'default'
+                    }
                     <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
                 </StyledRoundedWhiteButton>
             </Stack>

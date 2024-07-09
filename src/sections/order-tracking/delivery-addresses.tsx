@@ -126,7 +126,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                                 onClick={() => setNewAddress(true)}
                             >
                                 <Iconify icon={'ic:outline-plus'} mr={0.5} />
-                                افزودن آدرس
+                                آدرس جدید
                             </StyledRoundedWhiteButton>
                         </>
                     )}
