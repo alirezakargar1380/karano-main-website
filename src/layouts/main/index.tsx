@@ -17,9 +17,10 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 type Props = {
   children: React.ReactNode;
+  header?: boolean;
 };
 
-export default function MainLayout({ children }: Props) {
+export default function MainLayout({ children, header = true }: Props) {
   const [showBanner, setShowBanner] = useState(false);
   const pathname = usePathname();
   const homePage = pathname === '/';
@@ -28,43 +29,47 @@ export default function MainLayout({ children }: Props) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
 
-      <Box sx={{ bgcolor: '#454545', py: 2 }}>
-        <Stack justifyContent={'center'} direction={'row'}>
-          <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
-            متن بنر مورد نظر اینجا قرار می‌گیرد
-          </Typography>
-          <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '50%' }}>
-            <IconButton sx={{ p: 0 }}
+      {(header) && (
+        <Box sx={{ bgcolor: '#454545', py: 2 }}>
+          <Stack justifyContent={'center'} direction={'row'}>
+            <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
+              متن بنر مورد نظر اینجا قرار می‌گیرد
+            </Typography>
+            <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '50%' }}>
+              <IconButton sx={{ p: 0 }}
               // onClick={() => toggle()}
-            >
-              <SvgColor src="/assets/icons/navbar/x-close.svg" color={'#F8F8F8'} sx={{ width: 16, height: 16 }} />
-            </IconButton>
-          </Box>
-        </Stack>
-      </Box>
+              >
+                <SvgColor src="/assets/icons/navbar/x-close.svg" color={'#F8F8F8'} sx={{ width: 16, height: 16 }} />
+              </IconButton>
+            </Box>
+          </Stack>
+        </Box>
+      )}
 
-      <Container maxWidth={'xl'}>
+      <Container maxWidth={'xl'} sx={{ pl: !mdUp ? 12 : '0px!important' }}>
         <Grid container>
-          {mdUp ? (
+          {(mdUp) ? (
             <Grid item xs={2} sm={1} md={1}>
-              <AppBar position='sticky' sx={{
-                // pt: 8,
-                pt: 1,
-                // pr: 3,
-                // right: 0,
-                mx: 'auto',
-                width: '100%',
-                // ...(showBanner && {
-                //   pt: 16,
-                // })
-              }}>
-                <NavDesktopModern data={navDesktopConfig} />
-              </AppBar>
+              {(header) && (
+                <AppBar position='sticky' sx={{
+                  // pt: 8,
+                  pt: 1,
+                  // pr: 3,
+                  // right: 0,
+                  mx: 'auto',
+                  width: '100%',
+                  // ...(showBanner && {
+                  //   pt: 16,
+                  // })
+                }}>
+                  <NavDesktopModern data={navDesktopConfig} />
+                </AppBar>
+              )}
             </Grid>
           ) : null}
 
           <Grid item xs={!mdUp ? 12 : 10} sm={!mdUp ? 12 : 11} md={11} sx={{ px: '0px!important' }}>
-            <Header toggleBanner={(v: boolean) => setShowBanner(v)} />
+            {(header) && (<Header toggleBanner={(v: boolean) => setShowBanner(v)} />)}
             <Box
               component="main"
               sx={{

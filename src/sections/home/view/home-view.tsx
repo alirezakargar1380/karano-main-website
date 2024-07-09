@@ -61,63 +61,63 @@ export default function HomeView() {
   }, [getScroll]);
 
   useEffect(() => {
-    enqueueSnackbar('این یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست م تست است', {
-      autoHideDuration: 60000 * 1000,
-      variant: 'error'
-    })
+    // enqueueSnackbar('این یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست م تست است', {
+    //   autoHideDuration: 60000 * 1000,
+    //   variant: 'error'
+    // })
   }, [])
 
   return (
-    <MainLayout>
-      <ScrollProgress scrollYProgress={scrollYProgress} />
+    <>
+      <MainLayout>
+        <ScrollProgress scrollYProgress={scrollYProgress} />
 
-      {/* <HomeHero /> */}
+        <Box
+          // maxWidth={'xl'}
+          component={MotionViewport}
+          sx={{
+            overflow: 'hidden',
+            position: 'relative',
+            bgcolor: 'background.default',
+            // mt: `${HEADER.H_DESKTOP + 100}px`
+          }}
+        >
 
-      <Box
-        // maxWidth={'xl'}
-        component={MotionViewport}
-        sx={{
-          overflow: 'hidden',
-          position: 'relative',
-          bgcolor: 'background.default',
-          // mt: `${HEADER.H_DESKTOP + 100}px`
-        }}
-      >
-
-        <Container maxWidth={'xl'}>
           <Stack spacing={4}>
             <CarouselHomeCategory />
             <CarouselBasic1 data={_carouselsExample.slice(0, 8)} sx={{ mt: 4 }} />
           </Stack>
-        </Container>
 
+        </Box>
+      </MainLayout>
 
-        <m.div
-          initial={varFade().inDown.initial}
-          whileInView={varFade().inDown.animate}
-          exit={varFade().inUp.exit}
-          viewport={{
-            once: true,
-            // amount: 1
-          }}
-          transition={{
-            duration: 1,
-          }}
-        >
-          <Box sx={{
-            mt: 10,
-            backgroundImage: "url('/assets/images/landing/mmm.jpg')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            color: '#fff', textAlign: 'center'
-          }}>
+      <m.div
+        initial={varFade().inDown.initial}
+        whileInView={varFade().inDown.animate}
+        exit={varFade().inUp.exit}
+        viewport={{
+          once: true,
+          // amount: 1
+        }}
+        transition={{
+          duration: 1,
+        }}
+      >
+        <Box sx={{
+          mt: 10,
+          backgroundImage: "url('/assets/images/landing/mmm.jpg')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+          color: '#fff', textAlign: 'center'
+        }}>
+          <Container maxWidth={'xl'}>
             <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='h3'>
               کارانو، راه‌حل‌های کارامد در صنعت چوب
             </Typography>
             <Grid
               container
-              sx={{ py: 6, fontFamily: 'peyda-bold', fontSize: '4rem' }}
+              sx={{ py: 8, fontFamily: 'peyda-bold', fontSize: '4rem' }}
               spacing={!mdUp ? 6 : 0}
             >
 
@@ -158,10 +158,12 @@ export default function HomeView() {
               </Grid>
 
             </Grid>
-          </Box>
-        </m.div>
+          </Container>
+        </Box>
+      </m.div>
 
-        <Container maxWidth={'xl'} sx={{ mt: 10 }}>
+      <MainLayout header={false}>
+        <Container maxWidth={'xl'} sx={{ mt: 8 }}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
             <Box>
@@ -263,33 +265,7 @@ export default function HomeView() {
 
           </Stack>
         </Container>
-
-
-
-
-
-
-
-        {/* <HomeHugePackElements />
-
-        <Box sx={{ position: 'relative' }}>
-          <StyledPolygon />
-          <HomeForDesigner />
-          <StyledPolygon anchor="bottom" />
-        </Box>
-
-        <HomeDarkMode />
-
-        <HomeColorPresets />
-
-        <HomeCleanInterfaces />
-
-        <HomePricing />
-
-        <HomeLookingFor />
-
-        <HomeAdvertisement /> */}
-      </Box>
-    </MainLayout>
+      </MainLayout>
+    </>
   );
 }
