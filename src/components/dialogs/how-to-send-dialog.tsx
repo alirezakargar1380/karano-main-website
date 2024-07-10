@@ -26,7 +26,8 @@ export default function HowToSendDialog({ dialog }: Props) {
     const { enqueueSnackbar } = useSnackbar();
 
     const defaultValues = {
-        delivery_type: 'tehran'
+        delivery_type: 'tehran',
+        helo: 'hh'
     };
 
     const methods = useForm({
@@ -60,16 +61,17 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            await server_axios.post(endpoints.orders.create, {
-                ...data,
-                items: checkout.items
-            })
-                .then(({ data }) => {
-                    console.log(data);
-                    enqueueSnackbar('سفارش شما ثبت شد', {
-                        variant: 'info'
-                    })
-                })
+            console.log(data);
+            // await server_axios.post(endpoints.orders.create, {
+            //     ...data,
+            //     items: checkout.items
+            // })
+            //     .then(({ data }) => {
+            //         console.log(data);
+            //         enqueueSnackbar('سفارش شما ثبت شد', {
+            //             variant: 'info'
+            //         })
+            //     })
 
             console.log(data)
         } catch (error) {
@@ -78,7 +80,10 @@ export default function HowToSendDialog({ dialog }: Props) {
     });
 
     return (
-        <DialogWithButton dialog={dialog} fullWith={false}>
+        <DialogWithButton dialog={dialog} fullWith={false} width={640} sx={{ minWidth: {
+            md: 640,
+            sm: 480,
+        } }}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
