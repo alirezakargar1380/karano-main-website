@@ -6,8 +6,10 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
-import { Box, Stack, SxProps, Typography, TypographyOwnProps, TypographyPropsVariantOverrides, TypographyVariant } from '@mui/material';
+import { Box, Divider, MenuItem, Stack, SxProps, Typography, TypographyOwnProps, TypographyPropsVariantOverrides, TypographyVariant } from '@mui/material';
 import SvgColor from '../svg-color';
+import RHFTextField from './rhf-text-field';
+import { RHFSelect } from './rhf-select';
 
 // ----------------------------------------------------------------------
 
@@ -55,11 +57,13 @@ export default function RHFRadioGroupCard({
                                 <Box
                                     key={index}
                                     sx={{
-                                        border: '2px solid #D1D1D1',
-                                        borderRadius: '16px', mb: 2, py: 0.5, pl: 2, pr: 4,
+                                        border: '1px solid #D1D1D1',
+                                        borderRadius: '16px',
+                                        mb: 2, py: 0.5, pl: 2, pr: 2,
                                         ...BSx,
                                         ...(field.value === option.value) && {
-                                            border: '2px solid #000'
+                                            border: '1px solid #D1D1D1',
+                                            bgcolor: '#E0E0E0'
                                         }
                                     }}
                                 >
@@ -93,6 +97,31 @@ export default function RHFRadioGroupCard({
                                         )}
                                         <Typography sx={{ pt: 0.5 }} variant={variant} fontFamily={'peyda-bold'}>{option.label}</Typography>
                                     </Stack>
+
+                                    {(field.value === option.value) && (
+                                        <>
+                                            <Divider sx={{ borderColor: '#D1D1D1', my: 2 }} />
+
+                                            <Stack direction={'row'} sx={{ width: 1, mb: 2 }} justifyContent={'space-between'} spacing={1}>
+                                                <Box sx={{ width: 0.5 }}>
+                                                    <Typography variant='h6'>استان</Typography>
+                                                    <RHFSelect name='city' sx={{ width: 1, bgcolor: 'white', borderRadius: 1, border: '1px solid #D1D1D1' }} variant='outlined' size='small' placeholder='انتخاب کنید'>
+                                                        <MenuItem value='1'>تهران</MenuItem>
+                                                        <MenuItem value='1'>تهران</MenuItem>
+                                                    </RHFSelect>
+                                                </Box>
+                                                <Box sx={{ width: 0.5 }}>
+                                                    <Typography variant='h6'>شهر</Typography>
+                                                    <RHFSelect name='city' sx={{ width: 1, bgcolor: 'white', borderRadius: 1, border: '1px solid #D1D1D1' }} variant='outlined' size='small' placeholder='انتخاب کنید'>
+                                                        <MenuItem value='1'>تهران</MenuItem>
+                                                        <MenuItem value='1'>تهران</MenuItem>
+                                                    </RHFSelect>
+                                                </Box>
+                                            </Stack>
+                                        </>
+                                    )}
+
+
                                     {option.text && (
                                         <Typography sx={{ pt: 1 }} fontFamily={'peyda-regular'}>
                                             با انتخاب این گزینه شما بهای تمام کالاهای مورد نظر را باید پرداخت ‌کنید و برای تحویل آن‌ها زمان بیشتری را منتظر خواهید ‌ماند تا کالاهای ناموجود توسط کارانو، موجود شوند.
