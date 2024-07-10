@@ -46,6 +46,8 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                 style: {
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
+                    // margin: 0
+                    width: '100%'
                 },
             }}
             fullWidth={fullWith}

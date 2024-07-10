@@ -80,10 +80,12 @@ export default function HowToSendDialog({ dialog }: Props) {
     });
 
     return (
-        <DialogWithButton dialog={dialog} fullWith={false} width={640} sx={{ minWidth: {
-            md: 640,
-            sm: 480,
-        } }}>
+        <DialogWithButton dialog={dialog} fullWith={false} width={640} sx={{
+            minWidth: {
+                md: 640,
+                sm: 540,
+            }
+        }}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
