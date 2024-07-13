@@ -62,16 +62,16 @@ export default function HowToSendDialog({ dialog }: Props) {
     const onSubmit = handleSubmit(async (data) => {
         try {
             console.log(data);
-            // await server_axios.post(endpoints.orders.create, {
-            //     ...data,
-            //     items: checkout.items
-            // })
-            //     .then(({ data }) => {
-            //         console.log(data);
-            //         enqueueSnackbar('سفارش شما ثبت شد', {
-            //             variant: 'info'
-            //         })
-            //     })
+            await server_axios.post(endpoints.orders.create, {
+                ...data,
+                items: checkout.items
+            })
+                .then(({ data }) => {
+                    console.log(data);
+                    enqueueSnackbar('سفارش شما ثبت شد', {
+                        variant: 'info'
+                    })
+                })
 
             console.log(data)
         } catch (error) {

@@ -67,7 +67,6 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
     });
 
     return (
-
         <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>

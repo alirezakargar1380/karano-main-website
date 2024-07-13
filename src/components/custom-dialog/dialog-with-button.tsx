@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 
 import { useBooleanReturnType } from 'src/hooks/use-boolean';
 import { Container, IconButton, Radio, Stack, Typography } from '@mui/material';
-import { Box, SxProps } from '@mui/system';
+import { Box, maxWidth, SxProps } from '@mui/system';
 import Scrollbar from '../scrollbar';
 import SvgColor from '../svg-color';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
@@ -21,7 +21,7 @@ interface Props {
 
 export default function DialogWithButton({ dialog, children, fullWith, width = 480, sx }: Props) {
 
-    const default_sx = fullWith ? {} : { minWidth: width }
+    const default_sx = fullWith ? {} : { maxWidth: width }
     
 
     const descriptionElementRef = useRef<HTMLElement>(null);
@@ -60,8 +60,9 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             <Container maxWidth={'lg'}>
                 <Box sx={{
                     display: 'flex',
+                    mx: 'auto',
                     ...default_sx,
-                    ...sx
+                    // ...sx
                 }}>
                     <Scrollbar>
                         <Box sx={{ p: 2, bgcolor: 'white', borderRadius: '16px' }}>
