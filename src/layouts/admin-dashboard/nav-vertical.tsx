@@ -17,6 +17,7 @@ import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
 import { Avatar, Typography } from '@mui/material';
 import { useAuthContext } from 'src/auth/hooks';
+import { EAdminRole } from 'src/types/admin';
 
 // ----------------------------------------------------------------------
 
@@ -64,11 +65,18 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
             <Avatar sx={{ mx: 2, border: `solid 8px #F8F8F8`, width: 80, height: 80 }} src={''} />
           </Box>
           <Box>
-            <Typography variant="h6" sx={{}}>نام کاربر</Typography>
+            <Typography variant="h6">{admin?.fullName}</Typography>
             <Typography variant="body2" sx={{
               bgcolor: '#F2F2F2', borderRadius: '8px', px: 1, mt: 1
             }}>
-              دسترسی: سوپر ادمین
+              دسترسی:
+              {
+                (admin?.role === EAdminRole.adminstrator && "سوپر ادمین") ||
+                (admin?.role === EAdminRole.sale && "مدیر فروش") ||
+                (admin?.role === EAdminRole.delivery && "مدیر ارسال") ||
+                (admin?.role === EAdminRole.storage && "مدیر انبار") ||
+                ""
+              }
             </Typography>
           </Box>
         </Stack>
