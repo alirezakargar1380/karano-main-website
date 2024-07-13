@@ -21,10 +21,7 @@ export default function UserAddressView() {
                 </StyledRoundedWhiteButton>
             </Stack>
             <Box sx={{textAlign: 'center' }}>
-                <Image src="/assets/images/user-panel/Empty-State-address.png" sx={{
-
-                }}
-                />
+                <Image src="/assets/images/user-panel/Empty-State-address.png" />
             </Box>
         </Box>
     )
