@@ -19,19 +19,23 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import _ from "lodash";
 import { EAdminRole } from "src/types/admin";
+import { endpoints, server_axios } from "src/utils/axios";
 
 export default function AccessLevelview() {
-    const adminDialog = useBoolean(true);
+    const adminDialog = useBoolean();
 
-    const FormSchema = Yup.object().shape({
-        fullName: Yup.string()
-            .required('Full name is required')
-            .min(6, 'Mininum 6 characters')
-            .max(32, 'Maximum 32 characters')
-    });
+    // const FormSchema = Yup.object().shape({
+    //     fullName: Yup.string()
+    //         .required('Full name is required')
+    //         .min(6, 'Mininum 6 characters')
+    //         .max(32, 'Maximum 32 characters')
+    // });
 
     const defaultValues = {
         fullName: '',
+        username: '',
+        password: '',
+        phone: '',
         role: EAdminRole.delivery,
     }
 
@@ -53,8 +57,9 @@ export default function AccessLevelview() {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-            reset();
+            console.log(data)
+            server_axios.post(endpoints.auth.admin.create, data);
+            adminDialog.onFalse();
             console.info('DATA', data);
         } catch (error) {
             console.error(error);
@@ -89,8 +94,8 @@ export default function AccessLevelview() {
                                     سطح دسترسی
                                 </Typography>
                                 <RHFSelect name="role" placeholder="افزودن محتوا">
-                                    {_.values(EAdminRole).map((value) => (
-                                        <MenuItem value={value}>
+                                    {_.values(EAdminRole).map((value, index) => (
+                                        <MenuItem value={value} key={index}>
                                             <Checkbox
                                                 checked={(values.role === value)}
                                             />
@@ -113,7 +118,7 @@ export default function AccessLevelview() {
                                 <LoadingButton
                                     variant='contained'
                                     sx={{ borderRadius: '24px', px: 3 }}
-                                    onClick={() => { }}
+                                    type="submit"
                                 >
                                     افزودن
                                 </LoadingButton>

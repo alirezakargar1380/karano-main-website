@@ -1,20 +1,15 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import InputAdornment from '@mui/material/InputAdornment';
-
-import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
@@ -23,14 +18,18 @@ import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
-import { Box, MenuItem, Select } from '@mui/material';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import { Box, IconButton, MenuItem, MenuItemProps, Select, styled } from '@mui/material';
 import { countries } from 'src/assets/data';
+import { paths } from 'src/routes/paths';
+import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
-export default function JwtLoginView() {
-  const { login } = useAuthContext();
+export default function PhoneLoginView() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { adminLogin } = useAuthContext();
 
   const router = useRouter();
 
@@ -42,32 +41,30 @@ export default function JwtLoginView() {
 
   const password = useBoolean();
 
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
-  });
+  // const LoginSchema = Yup.object().shape({
+  //   phone: Yup.string().required('شماره تماس مورد نیاز است'),
+  // });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    username: '',
+    password: ''
   };
 
   const methods = useForm({
-    resolver: yupResolver(LoginSchema),
+    // resolver: yupResolver(LoginSchema),
     defaultValues,
   });
 
   const {
     reset,
     handleSubmit,
+    setValue,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await login?.(data.email, data.password);
-
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      adminLogin(data.username, data.password)
     } catch (error) {
       console.error(error);
       reset();
@@ -75,10 +72,20 @@ export default function JwtLoginView() {
     }
   });
 
+  const handleShowPassword = useCallback(() => {
+    setShowPassword(!showPassword);
+  }, [showPassword]);
+
+  const handleMouseDownPassword = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  }, []);
+
   const renderHead = (
-    <Stack spacing={2} sx={{ mb: 10 }}>
+    <Stack spacing={2} sx={{ mb: 4 }}>
       <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
-        <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
+        <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>
+          ورود - پنل ادمین
+        </Typography>
       </Box>
 
       {/* <Stack direction="row" spacing={0.5}>
@@ -92,47 +99,41 @@ export default function JwtLoginView() {
   );
 
   const renderForm = (
-    <Stack spacing={2.5}>
-      {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
+    <Stack spacing={4} width={1}>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
+        <Typography variant="body1" textAlign={'left'} pb={0.5}>
+          نام کاربری
+        </Typography>
+        <RHFTextField
+          name="username"
+          placeholder='افزودن محتوا'
+        />
+      </Box>
+
+      <Box mb={3}>
+        <Typography variant="body1" textAlign={'left'} pb={0.5}>
+          پسورد
+        </Typography>
         <RHFTextField
           name="password"
-          // label="Password"
-          type={password.value ? 'text' : 'password'}
+          placeholder='افزودن محتوا'
+          type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
-              <RHFAutocomplete
-                name="country"
-                // label="Country"
-                sx={{ width: '50%' }}
-                options={countries.map((country) => country.code)}
-                getOptionLabel={(option) => option}
-                isOptionEqualToValue={(option, value) => option === value}
-                renderOption={(props, option) => {
-                  const { code, label, phone } = countries.filter(
-                    (country) => country.code === option
-                  )[0];
-
-                  if (!label) {
-                    return null;
-                  }
-
-                  return (
-                    <li {...props} key={label}>
-                      <Iconify
-                        key={label}
-                        icon={`circle-flags:${code.toLowerCase()}`}
-                        width={28}
-                        sx={{ mr: 1 }}
-                      />
-                      {/* {label} ({code}) +{phone} */}
-                      +{phone}
-                    </li>
-                  );
-                }}
-              />
+              <InputAdornment position="end" sx={{ mr: 2 }}>
+                <IconButton
+                  onClick={handleShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? (
+                    <Iconify icon="solar:eye-bold" width={24} />
+                  ) : (
+                    <Iconify icon="solar:eye-closed-bold" width={24} />
+                  )}
+                </IconButton>
+              </InputAdornment>
             ),
           }}
         />
@@ -161,10 +162,6 @@ export default function JwtLoginView() {
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {renderHead}
-
-      <Alert severity="error" sx={{ mb: 3, position: 'absolute', top: 70 }}>
-        Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-      </Alert>
 
       {renderForm}
 

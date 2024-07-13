@@ -55,6 +55,9 @@ export const paths = {
   },
   // AUTH
   auth: {
+    admin: {
+      login: `${ROOTS.AUTH}/admin/login`,
+    },
     amplify: {
       login: `${ROOTS.AUTH}/amplify/login`,
       verify: `${ROOTS.AUTH}/amplify/verify`,
@@ -84,6 +87,7 @@ export const paths = {
       // register: `${ROOTS.AUTH}/firebase/register`,
       // forgotPassword: `${ROOTS.AUTH}/firebase/forgot-password`,
     },
+
   },
   authDemo: {
     classic: {

@@ -5,16 +5,10 @@ import { useMemo, useEffect, useReducer, useCallback } from 'react';
 import axios, { endpoints, server_axios } from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
-import { setSession, isValidToken } from './utils';
+import { setSession, isValidToken, setAdminSession } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
-
-// ----------------------------------------------------------------------
-
-// NOTE:
-// We only build demo at basic level.
-// Customer will need to do some extra handling yourself if you want to extend the logic and other features...
 
 // ----------------------------------------------------------------------
 
@@ -78,6 +72,7 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
 // ----------------------------------------------------------------------
 
 const STORAGE_KEY = 'accessToken';
+const ADMIN_STORAGE_KEY = 'adminAccessToken';
 
 type Props = {
   children: React.ReactNode;
@@ -95,7 +90,7 @@ export function AuthProvider({ children }: Props) {
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
 
-        const res = await server_axios.get(endpoints.auth.user.me); ////////////////////////////////////////////////////////////////////
+        const res = await server_axios.get(endpoints.auth.user.me);
 
         const { user } = res.data;
 
@@ -131,28 +126,72 @@ export function AuthProvider({ children }: Props) {
     initialize();
   }, [initialize]);
 
+  const adminInitialize = useCallback(async () => {
+    try {
+      const adminAccessToken = localStorage.getItem(ADMIN_STORAGE_KEY);
+
+      if (adminAccessToken && isValidToken(adminAccessToken)) {
+        setAdminSession(adminAccessToken);
+
+        const res = await server_axios.get(endpoints.auth.admin.me);
+
+        const { user } = res.data;
+
+        dispatch({
+          type: Types.INITIAL,
+          payload: {
+            user: {
+              ...user,
+              adminAccessToken,
+            },
+          },
+        });
+      } else {
+        dispatch({
+          type: Types.INITIAL,
+          payload: {
+            user: null,
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({
+        type: Types.INITIAL,
+        payload: {
+          user: null,
+        },
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    adminInitialize();
+  }, [adminInitialize]);
+
   // LOGIN
-  const login = useCallback(async (phone: string, code: string) => {
+  const adminLogin = useCallback(async (username: string, password: string) => {
     const data = {
-      phone,
-      code,
+      username,
+      password,
     };
 
+    const res = await server_axios.post(endpoints.auth.admin.login, data);
     // const res = await axios.post(endpoints.auth.login, data);
 
-    // const { accessToken, user } = res.data;
+    const { accessToken, user } = res.data;
 
-    // setSession(accessToken);
+    setAdminSession(accessToken);
 
-    // dispatch({
-    //   type: Types.LOGIN,
-    //   payload: {
-    //     user: {
-    //       ...user,
-    //       accessToken,
-    //     },
-    //   },
-    // });
+    dispatch({
+      type: Types.LOGIN,
+      payload: {
+        user: {
+          ...user,
+          accessToken,
+        },
+      },
+    });
   }, []);
 
   // Veify
@@ -176,8 +215,6 @@ export function AuthProvider({ children }: Props) {
     }
 
     const { accessToken, user } = res;
-
-    console.log(user)
 
     setSession(accessToken);
 
@@ -224,8 +261,9 @@ export function AuthProvider({ children }: Props) {
   // LOGOUT
   const logout = useCallback(async () => {
     setSession(null);
+    setAdminSession(null);
     dispatch({
-      type: Types.LOGOUT,
+      type: Types.LOGOUT
     });
   }, []);
 
@@ -243,12 +281,12 @@ export function AuthProvider({ children }: Props) {
       authenticated: status === 'authenticated',
       unauthenticated: status === 'unauthenticated',
       //
-      login,
+      adminLogin,
       verify,
       register,
       logout,
     }),
-    [login, logout, register, state.user, status]
+    [adminLogin, logout, register, state.user, status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;

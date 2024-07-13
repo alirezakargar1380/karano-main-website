@@ -1,7 +1,9 @@
 'use client';
 
 import { AuthGuard } from 'src/auth/guard';
+import AdminGuard from 'src/auth/guard/admin-guard';
 import DashboardLayout from 'src/layouts/admin-dashboard';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -10,10 +12,9 @@ type Props = {
 };
 
 export default function Layout({ children }: Props) {
-  return <DashboardLayout>{children}</DashboardLayout>
-  // return (
-  //   <AuthGuard>
-  //     <DashboardLayout>{children}</DashboardLayout>
-  //   </AuthGuard>
-  // );
+  return (
+    <AdminGuard>
+      <DashboardLayout>{children}</DashboardLayout>
+    </AdminGuard>
+  );
 }
