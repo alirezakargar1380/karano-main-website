@@ -29,7 +29,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       active,
       hasChild,
       externalLink,
-      currentRole = 'admin',
+      currentRole,
       ...other
     },
     ref
@@ -94,6 +94,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     );
 
     // Hidden item by role
+    console.log(currentRole)
     if (roles && !roles.includes(`${currentRole}`)) {
       return null;
     }

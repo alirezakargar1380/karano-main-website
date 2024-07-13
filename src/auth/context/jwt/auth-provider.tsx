@@ -303,6 +303,7 @@ export function AuthProvider({ children }: Props) {
   const memoizedValue = useMemo(
     () => ({
       user: state.user,
+      admin: state.admin,
       method: 'jwt',
       loading: status === 'loading',
       authenticated: status === 'authenticated',

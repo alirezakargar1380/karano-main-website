@@ -26,8 +26,7 @@ type Props = {
 };
 
 export default function NavVertical({ openNav, onCloseNav }: Props) {
-  const { user } = useMockedUser();
-  const { logout } = useAuthContext();
+  const { admin, logout } = useAuthContext();
 
   const pathname = usePathname();
 
@@ -78,7 +77,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       <NavSectionVertical
         data={navData}
         slotProps={{
-          currentRole: user?.role,
+          currentRole: admin?.role,
         }}
       />
 

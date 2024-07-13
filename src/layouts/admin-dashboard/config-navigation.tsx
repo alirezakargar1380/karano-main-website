@@ -7,6 +7,7 @@ import { useTranslate } from 'src/locales';
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
 import SvgColor from 'src/components/svg-color';
+import { EAdminRole } from 'src/types/admin';
 
 // ----------------------------------------------------------------------
 
@@ -68,6 +69,7 @@ export function useNavData() {
           },
           {
             title: t('مدیریت فروش'),
+            roles: [EAdminRole.adminstrator, EAdminRole.sale],
             path: paths.admin_dashboard.saleManagement.root,
             icon: <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" />,
           },

@@ -47,6 +47,7 @@ type CanRemove = {
 
 export type JWTContextType = CanRemove & {
   user: AuthUserType;
+  admin: AuthUserType;
   method: string;
   loading: boolean;
   authenticated: boolean;
