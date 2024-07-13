@@ -45,6 +45,9 @@ export function RHFSelect({
           select
           fullWidth
           SelectProps={{
+            renderValue(value) {
+              return <>{value}</>;
+            },
             native,
             MenuProps: {
               PaperProps: {

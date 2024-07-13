@@ -1,4 +1,4 @@
-import AccessLevelview from 'src/sections/admin-panel/view/access-level-view';
+import AccessLevelview from 'src/sections/admin-panel/access-level/view/access-level-view';
 
 // ----------------------------------------------------------------------
 

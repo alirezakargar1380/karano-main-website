@@ -15,7 +15,7 @@ interface Props {
     children: React.ReactNode,
     fullWith: boolean
     width?: number
-    sx: SxProps
+    sx?: SxProps
 }
 
 
