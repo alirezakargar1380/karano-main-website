@@ -45,6 +45,11 @@ export const endpoints = {
       verify: '/api/authentication/user/verify',
       add_password: (id: any) => '/api/authentication/user/add-password/' + id,
     },
+    admin: {
+      login: '/api/admin/login',
+      create: '/api/admin',
+      me: '/api/admin/me',
+    },
     register: '/api/authentication/user/register',
   },
   image: {
@@ -97,7 +102,7 @@ export const endpoints = {
     production_list: '/api/orders/production',
     one: (id: any) => '/api/orders/' + id,
     update: (id: any) => '/api/orders/' + id,
-    
+
   },
   favorite: {
     list: '/api/favorites',
