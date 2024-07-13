@@ -20,9 +20,12 @@ import * as Yup from "yup";
 import _ from "lodash";
 import { EAdminRole } from "src/types/admin";
 import { endpoints, server_axios } from "src/utils/axios";
+import { useGetAdmins } from "src/api/admin";
 
 export default function AccessLevelview() {
     const adminDialog = useBoolean();
+
+    const {admins} = useGetAdmins();
 
     // const FormSchema = Yup.object().shape({
     //     fullName: Yup.string()
@@ -187,21 +190,21 @@ export default function AccessLevelview() {
                                 </TableHead>
 
                                 <TableBody>
-                                    {[...Array(5)].map((row, index) => (
+                                    {admins.map((row, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{index + 1}</TableCell>
 
-                                            <TableCell>عباس محمودی</TableCell>
+                                            <TableCell>{row.fullName}</TableCell>
 
                                             <TableCell>
                                                 <Label variant="filled" color="info">
-                                                    مدیر فروش
+                                                    {row.role}
                                                 </Label>
                                             </TableCell>
 
-                                            <TableCell>test_user</TableCell>
-                                            <TableCell>55977418</TableCell>
-                                            <TableCell>093764899999</TableCell>
+                                            <TableCell>{row.username}</TableCell>
+                                            <TableCell>**********</TableCell>
+                                            <TableCell>{row.phone}</TableCell>
 
                                             <TableCell>
                                                 <Stack direction={'row'}>
