@@ -165,10 +165,6 @@ export default function PhoneLoginView() {
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {renderHead}
 
-      <Alert severity="error" sx={{ mb: 3, position: 'absolute', top: 70 }}>
-        Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-      </Alert>
-
       {renderForm}
 
     </FormProvider>
