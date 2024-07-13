@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
 import { IOrderProductItem } from "src/types/order-products";
 
@@ -32,9 +32,10 @@ export default function OrderRejectionListView({
         enqueueSnackbar(text)
     }, [])
 
-    const canConfirm = (can: boolean) => {
+    const canConfirm = useCallback(async(can: boolean) => {
+        // await new Promise((resolve) => setTimeout(resolve, 1000))
         setDisable(can)
-    }
+    }, [setDisable])
 
     // useEffect(() => {
     //     console.log('chenged...')
