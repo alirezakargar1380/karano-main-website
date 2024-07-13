@@ -25,7 +25,7 @@ import { useGetAdmins } from "src/api/admin";
 export default function AccessLevelview() {
     const adminDialog = useBoolean();
 
-    const {admins} = useGetAdmins();
+    const { admins } = useGetAdmins();
 
     // const FormSchema = Yup.object().shape({
     //     fullName: Yup.string()
@@ -102,7 +102,15 @@ export default function AccessLevelview() {
                                             <Checkbox
                                                 checked={(values.role === value)}
                                             />
-                                            <ListItemText primary={value} />
+                                            <ListItemText primary={
+                                                (value === EAdminRole.adminstrator && "سوپر ادمین") || 
+                                                (value === EAdminRole.delivery && "مدیر ارسال") || 
+                                                (value === EAdminRole.production && "مدیر ارسال") || 
+                                                (value === EAdminRole.sale && "مدیر فروش") || 
+                                                (value === EAdminRole.storage && "مدیر انبار") || 
+                                                ""
+                                            }
+                                            />
                                         </MenuItem>
                                     ))}
 

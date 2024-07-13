@@ -64,6 +64,7 @@ export function useNavData() {
           },
           {
             title: t('مدیریت دسترسی ها'),
+            roles: [EAdminRole.adminstrator],
             path: paths.admin_dashboard.access_level.root,
             icon: <SvgColor src="/assets/icons/admin-panel/lock-01.svg" />,
           },
@@ -75,6 +76,7 @@ export function useNavData() {
           },
           {
             title: t('مدیریت تولید'),
+            roles: [EAdminRole.adminstrator, EAdminRole.production],
             path: paths.admin_dashboard.production.root,
             icon: <SvgColor src="/assets/icons/admin-panel/loading-01.svg" />,
           },
@@ -85,6 +87,7 @@ export function useNavData() {
           // },
           {
             title: t('مدیریت ارسال'),
+            roles: [EAdminRole.adminstrator, EAdminRole.delivery],
             path: paths.admin_dashboard.delivery.root,
             icon: <SvgColor src="/assets/icons/admin-panel/send-03.svg" />,
           },
