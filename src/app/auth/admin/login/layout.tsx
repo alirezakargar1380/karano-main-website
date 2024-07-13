@@ -2,6 +2,7 @@
 
 import { Grid } from '@mui/material';
 import { GuestGuard } from 'src/auth/guard';
+import AdminGuestGuard from 'src/auth/guard/admin-guest-guard';
 import AuthClassicLayout from 'src/layouts/auth/classic';
 
 // ----------------------------------------------------------------------
@@ -12,10 +13,10 @@ type Props = {
 
 export default function Layout({ children }: Props) {
   return (
-    <GuestGuard>
+    <AdminGuestGuard>
       <AuthClassicLayout maxWidth={380}>
         {children}
       </AuthClassicLayout>
-    </GuestGuard>
+    </AdminGuestGuard>
   );
 }

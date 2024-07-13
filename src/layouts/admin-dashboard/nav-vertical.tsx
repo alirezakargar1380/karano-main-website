@@ -16,6 +16,7 @@ import { NavSectionVertical } from 'src/components/admin-panel-nav-section';
 import { NAV } from '../config-layout';
 import { useNavData } from './config-navigation';
 import { Avatar, Typography } from '@mui/material';
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ type Props = {
 
 export default function NavVertical({ openNav, onCloseNav }: Props) {
   const { user } = useMockedUser();
+  const { logout } = useAuthContext();
 
   const pathname = usePathname();
 
@@ -84,6 +86,8 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box sx={{ mx: 2, borderTop: (theme) => `solid 1px ${theme.palette.divider}` }}>
         <Logo sx={{ mt: 3, ml: 0, mb: 3 }} />
+        <br />
+        <Typography onClick={() => logout()} variant='body1' mb={3} sx={{ cursor: "pointer" }}>خروج از حساب کاربری</Typography>
       </Box>
 
     </Scrollbar>

@@ -36,15 +36,12 @@ export default function AdminGuard({ children }: Props) {
 function Container({ children }: Props) {
   const router = useRouter();
 
-  const { user, authenticated, method, logout } = useAuthContext();
+  const { adminAuthenticated, method } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
 
   const check = useCallback(async () => {
-    console.log(user)
-    if (!user?.role
-      //  || !_.values(EAdminRole).includes(user?.role)
-    ) {
+    if (!adminAuthenticated) {
       const searchParams = new URLSearchParams({
         returnTo: window.location.pathname,
       }).toString();
@@ -54,17 +51,14 @@ function Container({ children }: Props) {
       const href = `${loginPath}?${searchParams}`;
 
       router.replace(href);
-      console.log('----> <<<<');
     } else {
-      console.log('---->');
       setChecked(true);
     }
-  }, [authenticated, method, router]);
+  }, [adminAuthenticated, method, router]);
 
   useEffect(() => {
-    console.log('i called')
     check();
-  }, []);
+  }, [adminAuthenticated]);
 
   if (!checked) {
     return null;

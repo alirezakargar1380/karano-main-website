@@ -64,7 +64,9 @@ export default function PhoneLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      adminLogin(data.username, data.password)
+      await adminLogin(data.username, data.password)
+
+      // router.push(returnTo || paths.admin_dashboard.root);
     } catch (error) {
       console.error(error);
       reset();

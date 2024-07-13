@@ -22,12 +22,15 @@ enum Types {
 type Payload = {
   [Types.INITIAL]: {
     user: AuthUserType;
+    admin: AuthUserType;
   };
   [Types.LOGIN]: {
     user: AuthUserType;
+    admin: AuthUserType;
   };
   [Types.REGISTER]: {
     user: AuthUserType;
+    admin: AuthUserType;
   };
   [Types.LOGOUT]: undefined;
 };
@@ -37,6 +40,7 @@ type ActionsType = ActionMapType<Payload>[keyof ActionMapType<Payload>];
 // ----------------------------------------------------------------------
 
 const initialState: AuthStateType = {
+  admin: null,
   user: null,
   loading: true,
 };
@@ -45,6 +49,7 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
   if (action.type === Types.INITIAL) {
     return {
       loading: false,
+      admin: action.payload.admin,
       user: action.payload.user,
     };
   }
@@ -52,6 +57,7 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
     return {
       ...state,
       user: action.payload.user,
+      admin: action.payload.admin,
     };
   }
   if (action.type === Types.REGISTER) {
@@ -64,6 +70,7 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
     return {
       ...state,
       user: null,
+      admin: null
     };
   }
   return state;
@@ -97,6 +104,7 @@ export function AuthProvider({ children }: Props) {
         dispatch({
           type: Types.INITIAL,
           payload: {
+            admin: null,
             user: {
               ...user,
               accessToken,
@@ -108,6 +116,7 @@ export function AuthProvider({ children }: Props) {
           type: Types.INITIAL,
           payload: {
             user: null,
+            admin: null,
           },
         });
       }
@@ -117,6 +126,7 @@ export function AuthProvider({ children }: Props) {
         type: Types.INITIAL,
         payload: {
           user: null,
+          admin: null,
         },
       });
     }
@@ -140,7 +150,8 @@ export function AuthProvider({ children }: Props) {
         dispatch({
           type: Types.INITIAL,
           payload: {
-            user: {
+            user: null,
+            admin: {
               ...user,
               adminAccessToken,
             },
@@ -151,6 +162,7 @@ export function AuthProvider({ children }: Props) {
           type: Types.INITIAL,
           payload: {
             user: null,
+            admin: null,
           },
         });
       }
@@ -160,6 +172,7 @@ export function AuthProvider({ children }: Props) {
         type: Types.INITIAL,
         payload: {
           user: null,
+          admin: null,
         },
       });
     }
@@ -181,15 +194,18 @@ export function AuthProvider({ children }: Props) {
 
     const { accessToken, user } = res.data;
 
+    console.log("adminLogin", user)
+
     setAdminSession(accessToken);
 
     dispatch({
       type: Types.LOGIN,
       payload: {
-        user: {
+        admin: {
           ...user,
           accessToken,
         },
+        user: null,
       },
     });
   }, []);
@@ -225,6 +241,7 @@ export function AuthProvider({ children }: Props) {
           ...user,
           accessToken,
         },
+        admin: null,
       },
     });
   }, []);
@@ -252,6 +269,7 @@ export function AuthProvider({ children }: Props) {
             ...user,
             accessToken,
           },
+          admin: null,
         },
       });
     },
@@ -260,6 +278,7 @@ export function AuthProvider({ children }: Props) {
 
   // LOGOUT
   const logout = useCallback(async () => {
+    console.log("logout");
     setSession(null);
     setAdminSession(null);
     dispatch({
@@ -271,7 +290,15 @@ export function AuthProvider({ children }: Props) {
 
   const checkAuthenticated = state.user ? 'authenticated' : 'unauthenticated';
 
+  const adminCheckAuthenticated = state.admin ? 'authenticated' : 'unauthenticated';
+
+  console.log("state");
+
   const status = state.loading ? 'loading' : checkAuthenticated;
+
+  const admin_status = state.loading ? 'loading' : adminCheckAuthenticated;
+
+  console.log(admin_status);
 
   const memoizedValue = useMemo(
     () => ({
@@ -280,13 +307,15 @@ export function AuthProvider({ children }: Props) {
       loading: status === 'loading',
       authenticated: status === 'authenticated',
       unauthenticated: status === 'unauthenticated',
+      adminAuthenticated: admin_status === 'authenticated',
+      adminUnauthenticated: admin_status === 'unauthenticated',
       //
       adminLogin,
       verify,
       register,
       logout,
     }),
-    [adminLogin, logout, register, state.user, status]
+    [adminLogin, logout, register, state.user, state.admin, status, admin_status]
   );
 
   return <AuthContext.Provider value={memoizedValue}>{children}</AuthContext.Provider>;
