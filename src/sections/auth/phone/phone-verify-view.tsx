@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -32,7 +32,7 @@ import { endpoints, server_axios } from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
 export default function PhoneVerifyView() {
-  const { login, verify } = useAuthContext();
+  const { verify } = useAuthContext();
 
   const router = useRouter();
 
@@ -47,7 +47,7 @@ export default function PhoneVerifyView() {
   const LoginSchema = Yup.object().shape({
     // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
     // password: Yup.string().required('کد را وارد کنید').min(6, 'کد باید حداقل 6 کرکتر باشد'),
-    code: Yup.string().length(6, 'کد باید حداقل 6 کرکتر باشد'),
+    code: Yup.string().required('کد را وارد کنید').length(6, 'کد باید حداقل 6 کرکتر باشد'),
   });
 
   const defaultValues = {
@@ -62,8 +62,11 @@ export default function PhoneVerifyView() {
   const {
     reset,
     handleSubmit,
+    watch,
     formState: { isSubmitting },
   } = methods;
+
+  const values = watch();
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
@@ -81,6 +84,13 @@ export default function PhoneVerifyView() {
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
+
+  useEffect(() => {
+    if (values.code)
+      if (values.code.length === 6) {
+        onSubmit();
+      }
+  }, [values.code])
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 4 }}>
