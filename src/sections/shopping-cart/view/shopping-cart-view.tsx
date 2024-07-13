@@ -31,8 +31,6 @@ export default function ShoppingCartView() {
 
     const checkout = useCheckoutContext();
 
-    // console.log(checkout.items)
-
     useEffect(() => {
         setDisable(!checkout.items.length)
         console.log(checkout.items.length)
@@ -85,6 +83,7 @@ export default function ShoppingCartView() {
                     <Image src="/assets/images/user-panel/Empty-State-address.png" />
                 </Box>
             )}
+
             <ShoppingCartList type="cart" items={checkout.items} />
 
             {(checkout.items.length > 0) && (

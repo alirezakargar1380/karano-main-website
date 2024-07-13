@@ -29,6 +29,7 @@ interface Props {
     listId?: number | undefined;
     listData?: ICheckoutItemPropertyPrice[] | undefined
     onAddCart: (data: ICheckoutItemPropertyPrice[]) => void;
+    onDelete: (propertyId: number) => void;
     handleUpdateRow?: (data: ICheckoutItemPropertyPrice[]) => void;
 }
 
@@ -40,6 +41,7 @@ export default function CartDialog({
     listId,
     listData,
     onAddCart,
+    onDelete,
     handleUpdateRow
 }: Props) {
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
@@ -158,7 +160,11 @@ export default function CartDialog({
     }, [currentData])
 
     useEffect(() => {
-        if (!listData?.length) return;
+        console.log('listData updating...',)
+        if (!listData?.length) {
+            if (!listData?.length && id === null) return setList([]);
+            return
+        }
         setList(listData)
     }, [listData, id])
 
@@ -188,6 +194,7 @@ export default function CartDialog({
                         data={list}
                         listId={id}
                         onUpdate={handleUpdate}
+                        onDelete={onDelete}
                     />
                 )}
 
