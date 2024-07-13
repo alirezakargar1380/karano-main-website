@@ -21,12 +21,12 @@ enum Types {
 
 type Payload = {
   [Types.INITIAL]: {
-    user: AuthUserType;
-    admin: AuthUserType;
+    user?: AuthUserType;
+    admin?: AuthUserType;
   };
   [Types.LOGIN]: {
-    user: AuthUserType;
-    admin: AuthUserType;
+    user?: AuthUserType;
+    admin?: AuthUserType;
   };
   [Types.REGISTER]: {
     user: AuthUserType;
@@ -49,21 +49,21 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
   if (action.type === Types.INITIAL) {
     return {
       loading: false,
-      admin: action.payload.admin,
-      user: action.payload.user,
+      admin: action?.payload?.admin ? action.payload.admin : state.admin,
+      user: action?.payload?.user ? action?.payload?.user : state.user,
     };
   }
   if (action.type === Types.LOGIN) {
     return {
       ...state,
-      user: action.payload.user,
-      admin: action.payload.admin,
+      user: action?.payload?.user ? action?.payload?.user : null,
+      admin: action?.payload?.admin ? action.payload.admin : null,
     };
   }
   if (action.type === Types.REGISTER) {
     return {
       ...state,
-      user: action.payload.user,
+      user: action?.payload?.user ? action?.payload?.user : null,
     };
   }
   if (action.type === Types.LOGOUT) {
@@ -94,7 +94,7 @@ export function AuthProvider({ children }: Props) {
     try {
       const accessToken = localStorage.getItem(STORAGE_KEY);
 
-      if (accessToken && isValidToken(accessToken)) {
+      if (accessToken) {
         setSession(accessToken);
 
         const res = await server_axios.get(endpoints.auth.user.me);
@@ -104,7 +104,6 @@ export function AuthProvider({ children }: Props) {
         dispatch({
           type: Types.INITIAL,
           payload: {
-            admin: null,
             user: {
               ...user,
               accessToken,
@@ -140,7 +139,7 @@ export function AuthProvider({ children }: Props) {
     try {
       const adminAccessToken = localStorage.getItem(ADMIN_STORAGE_KEY);
 
-      if (adminAccessToken && isValidToken(adminAccessToken)) {
+      if (adminAccessToken) {
         setAdminSession(adminAccessToken);
 
         const res = await server_axios.get(endpoints.auth.admin.me);
@@ -150,7 +149,6 @@ export function AuthProvider({ children }: Props) {
         dispatch({
           type: Types.INITIAL,
           payload: {
-            user: null,
             admin: {
               ...user,
               adminAccessToken,
@@ -161,7 +159,6 @@ export function AuthProvider({ children }: Props) {
         dispatch({
           type: Types.INITIAL,
           payload: {
-            user: null,
             admin: null,
           },
         });
@@ -194,8 +191,6 @@ export function AuthProvider({ children }: Props) {
 
     const { accessToken, user } = res.data;
 
-    console.log("adminLogin", user)
-
     setAdminSession(accessToken);
 
     dispatch({
@@ -205,7 +200,6 @@ export function AuthProvider({ children }: Props) {
           ...user,
           accessToken,
         },
-        user: null,
       },
     });
   }, []);
@@ -241,7 +235,7 @@ export function AuthProvider({ children }: Props) {
           ...user,
           accessToken,
         },
-        admin: null,
+        admin: state.admin,
       },
     });
   }, []);
@@ -269,7 +263,7 @@ export function AuthProvider({ children }: Props) {
             ...user,
             accessToken,
           },
-          admin: null,
+          admin: state.admin,
         },
       });
     },
@@ -278,7 +272,6 @@ export function AuthProvider({ children }: Props) {
 
   // LOGOUT
   const logout = useCallback(async () => {
-    console.log("logout");
     setSession(null);
     setAdminSession(null);
     dispatch({
@@ -292,13 +285,9 @@ export function AuthProvider({ children }: Props) {
 
   const adminCheckAuthenticated = state.admin ? 'authenticated' : 'unauthenticated';
 
-  console.log("state");
-
   const status = state.loading ? 'loading' : checkAuthenticated;
 
   const admin_status = state.loading ? 'loading' : adminCheckAuthenticated;
-
-  console.log(admin_status);
 
   const memoizedValue = useMemo(
     () => ({
