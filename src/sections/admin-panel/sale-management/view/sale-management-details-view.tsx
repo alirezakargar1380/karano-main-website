@@ -10,9 +10,8 @@ import { useGetOrderProducts } from "src/api/order-products";
 import { useBoolean } from "src/hooks/use-boolean";
 import InvoiceDialog from "../common/invoice-dialog";
 import { useGetOrder } from "src/api/orders";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { endpoints, server_axios } from "src/utils/axios";
-import { useSnackbar } from 'src/components/snackbar';
 import { OrderStatus } from "src/types/order";
 import { ReminderDialog } from "src/components/custom-dialog";
 import { IOrderProductStatus } from "src/types/order-products";
@@ -24,32 +23,40 @@ type Props = {
 
 export default function SaleManagementDetailsView({ id }: Props) {
     const invoiceDialog = useBoolean();
+
     const deleteReminder = useBoolean();
     const timeReminder = useBoolean();
 
-    const { enqueueSnackbar } = useSnackbar();
+    const [sendToUser, setSendToUser] = useState(true);
+    const [hasCustomMade, setHasCustomMade] = useState(false);
 
     const { orderProducts } = useGetOrderProducts(+id);
     const { order, orderLoading } = useGetOrder(id);
 
-    const handleApprovOrder = useCallback(async () => {
-        await server_axios.patch(endpoints.orders.update(id), {
-            status: OrderStatus.accepted
-        })
-        invoiceDialog.onFalse();
-        enqueueSnackbar("وضعیت سفارش تایید شد", {
-            variant: 'info',
-        })
-    }, [id]);
+    // const handleApprovOrder = useCallback(async () => {
+    //     await server_axios.patch(endpoints.orders.update(id), {
+    //         status: OrderStatus.accepted
+    //     })
+    //     invoiceDialog.onFalse();
+    //     enqueueSnackbar("وضعیت سفارش تایید شد", {
+    //         variant: 'info',
+    //     })
+    // }, [id]);
 
     useEffect(() => {
         if (orderProducts.length > 0) {
-            if (orderProducts.some((op) => op.status === IOrderProductStatus.deleted && op.product.order_type === ProductOrderType.ready_to_use))
-                deleteReminder.onTrue();
-            if (orderProducts.some((op) => op.status === IOrderProductStatus.more_time && op.product.order_type === ProductOrderType.ready_to_use))
-                timeReminder.onTrue();
+            if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
+                setHasCustomMade(true)
+            // if (orderProducts.some((op) => op.status === IOrderProductStatus.deleted && op.product.order_type === ProductOrderType.ready_to_use))
+            //     deleteReminder.onTrue();
+            // if (orderProducts.some((op) => op.status === IOrderProductStatus.more_time && op.product.order_type === ProductOrderType.ready_to_use))
+            //     timeReminder.onTrue();
         }
-    }, [orderProducts])
+    }, [orderProducts]);
+
+    const handleHasApprove = useCallback((allApproved: boolean) => {
+        setSendToUser(allApproved)
+    }, [])
 
     return (!orderLoading) && (
         <Box>
@@ -96,18 +103,22 @@ export default function SaleManagementDetailsView({ id }: Props) {
                 <PageTitle title="مدیریت فروش" icon="/assets/icons/shop/shopping-cart-01.svg" />
             </Box>
 
-            <InvoiceDialog
-                dialog={invoiceDialog}
-                orderProducts={orderProducts}
-                submitHandler={() => handleApprovOrder()}
-            />
-
             <Grid container spacing={2}>
                 <Grid sm={8} item>
-                    <SaleManagementProducts order={orderProducts} o={order} />
+                    <SaleManagementProducts
+                        orderProducts={orderProducts}
+                        order={order}
+                        updateHasAnydeapprove={handleHasApprove}
+                    />
                 </Grid>
                 <Grid sm={4} item>
-                    <SaleManagementPayment invoiceDialog={invoiceDialog} />
+                    <SaleManagementPayment
+                        invoiceDialog={invoiceDialog}
+                        sendToUser={sendToUser}
+                        orderId={+id}
+                        hasCustomMade={hasCustomMade}
+                        orderProducts={orderProducts}
+                    />
                 </Grid>
             </Grid>
         </Box>

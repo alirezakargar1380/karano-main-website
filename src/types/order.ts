@@ -60,10 +60,12 @@ export type IOrderProductItem = {
 
 export enum OrderStatus {
   pending = 'pending',
-  failed = 'failed', 
+  failed = 'failed',
   accepted = 'accepted',
   paid = 'paid',
   edited = 'edited',
+  produced = 'produced',
+  production = 'production'
 }
 
 export type IOrderItem = {

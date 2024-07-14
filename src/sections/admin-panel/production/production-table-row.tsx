@@ -1,10 +1,10 @@
-import { TableBody, TableCell, TableRow } from "@mui/material";
+import { MenuItem, Select, TableBody, TableCell, TableRow, TextField } from "@mui/material";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Label from "src/components/label";
 import ProductionPDF from "./production-pdf";
 import { _invoices } from "src/_mock";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IOrderItem } from "src/types/order";
 
 interface Props {
@@ -14,9 +14,14 @@ interface Props {
 export function ProductionTableRow({ row }: Props) {
 
     const [isClient, setIsClient] = useState(false)
+    const [value, setValue] = useState("درحال تولید")
 
     useEffect(() => {
         setIsClient(true)
+    }, []);
+
+    const handleChangeProductionStatus = useCallback((e: any) => {
+        setValue(e.target.value);
     }, [])
 
     return (
@@ -27,9 +32,32 @@ export function ProductionTableRow({ row }: Props) {
                 <TableCell>{row.order_number}</TableCell>
 
                 <TableCell>
-                    <Label variant="filled" color="info">
-                        در حال بررسی
-                    </Label>
+                    <Select fullWidth value={value} size="small"
+                        sx={{
+                            ...((value === "درحال تولید") ? {
+                                bgcolor: "#DCF9FF",
+                                color: "#005878!important",
+                                borderRadius: '24px',
+                                border: '1px solid #86D8F8!important',
+                            } : {
+                                bgcolor: "#E0FFEB",
+                                color: "#096E35!important",
+                                borderRadius: '24px',
+                                border: '1px solid #8EEFB4!important',
+                            }),
+                        }}
+                        variant="outlined"
+                        onChange={handleChangeProductionStatus}>
+                        <MenuItem value={"درحال تولید"}>
+                            درحال تولید
+                        </MenuItem>
+                        <MenuItem value={"تولید شده"}>
+                            تولید شده
+                        </MenuItem>
+                    </Select>
+                    {/* <Select >
+
+                    </Select> */}
                 </TableCell>
 
                 <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>

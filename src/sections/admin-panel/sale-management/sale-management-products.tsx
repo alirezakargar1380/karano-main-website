@@ -12,12 +12,19 @@ import { IOrderItem, OrderStatus } from "src/types/order";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
 interface Props {
-    order: IOrderProductItem[]
-    o: IOrderItem
+    orderProducts: IOrderProductItem[]
+    order: IOrderItem
+    updateHasAnydeapprove: (val: boolean) => void
 }
 
 
-export default function SaleManagementProducts({ order, o }: Props) {
+export default function SaleManagementProducts({ orderProducts, order, updateHasAnydeapprove }: Props) {
+
+    useEffect(() => {
+        let isAllApproved: boolean = true;
+        isAllApproved = !orderProducts.find((pp) => pp.properties.find((p) => p.status !== IOrderProductPropertyStatus.approve));
+        updateHasAnydeapprove(!isAllApproved)
+    }, []);
 
     return (
         <Box border={(theme) => `1px solid ${theme.palette.divider}`} bgcolor={'#FFF'} width={1} borderRadius={'16px'}>
@@ -26,13 +33,13 @@ export default function SaleManagementProducts({ order, o }: Props) {
                     <Box display={'flex'} width={'50%'}>
                         <Typography variant="h6" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
                         <Typography variant="subtitle1" noWrap fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {o.order_number}
+                            {order.order_number}
                         </Typography>
                     </Box>
                     <Box display={'flex'} width={'50%'}>
                         <Typography variant="h6" fontFamily={'peyda-bold'}>تعداد کالا :</Typography>
                         <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {order.length > 0 ? order.map(({ product, properties }) => properties?.map((p) => p?.quantity)?.reduce((a, b) => (a ?? 0) + (b ?? 0), 0)) : 0}
+                            {150}
                         </Typography>
                     </Box>
                 </Stack>
@@ -48,13 +55,13 @@ export default function SaleManagementProducts({ order, o }: Props) {
                             نام سفارش دهنده:
                         </Typography>
                         <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {o.user.first_name + " " + o.user.last_name}
+                            {order.user.first_name + " " + order.user.last_name}
                         </Typography>
                     </Box>
                 </Stack>
             </Stack>
             <Box p={2}>
-                {order.map(({ product, properties, need_to_assemble, status }) => (
+                {orderProducts.map(({ product, properties, need_to_assemble }) => (
                     <Box key={product.id}>
                         {properties.map((p, propertyIndex) => (
                             <SaleManagementProductItem
@@ -62,8 +69,6 @@ export default function SaleManagementProducts({ order, o }: Props) {
                                 product={product}
                                 property={p}
                                 need_to_assemble={need_to_assemble}
-                                order_id={o.id}
-                                status={status}
                             />
                         ))}
                     </Box>
@@ -78,16 +83,12 @@ interface SaleManagmentItem {
     product: IProductItem,
     property: IProductProperties,
     need_to_assemble: boolean,
-    order_id: number,
-    status: string
 }
 
 function SaleManagementProductItem({
     product,
     property,
     need_to_assemble,
-    order_id,
-    status
 }: SaleManagmentItem) {
     const { enqueueSnackbar } = useSnackbar();
 
@@ -101,25 +102,23 @@ function SaleManagementProductItem({
 
     const {
         reset,
-        control,
         setValue,
         handleSubmit,
         watch,
-        formState: { isSubmitting },
     } = methods;
 
     const values = watch();
 
     const onSubmit = handleSubmit(async (d) => {
         try {
-            if (d.is_approved == "0") {
-                await server_axios.patch(endpoints.orders.update(order_id), {
-                    status: OrderStatus.failed
-                })
-                enqueueSnackbar('وضعیت سفارش تغییر کرد', {
-                    variant: 'info'
-                })
-            }
+            // if (d.is_approved == "0") {
+            //     await server_axios.patch(endpoints.orders.update(order_id), {
+            //         status: OrderStatus.failed
+            //     })
+            //     enqueueSnackbar('وضعیت سفارش تغییر کرد', {
+            //         variant: 'info'
+            //     })
+            // }
 
             const data = {
                 ...d,
@@ -157,44 +156,20 @@ function SaleManagementProductItem({
         onSubmit();
     }, []);
 
-    console.log(property.status)
-
     return (
         <Box sx={{ mb: 6 }}>
             <Stack p={0} spacing={2} mb={2}>
                 <Typography fontFamily={'peyda-bold'} variant="h5" mt={1}>
                     {product.name}
-                    {/* {(product.order_type === ProductOrderType.ready_to_use) && (
-                        <Label
-                            sx={{ ml: 1 }}
-                            color={
-                                (status === IOrderProductStatus.more_time) && 'info'
-                                || (status === IOrderProductStatus.cancelled) && 'warning'
-                                || 'default'
-                            }
-                        >
-                            {
-                                (status === IOrderProductStatus.more_time) && 'تحویل بلند مدت تر'
-                                || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
-                            }
-                        </Label>
-                    )} */}
                     {(product.order_type === ProductOrderType.custom_made && property.status === IOrderProductPropertyStatus.edited) && (
                         <Label
                             sx={{ ml: 1 }}
                             color={
-                                (property.status === IOrderProductPropertyStatus.edited) && 'warning'
-                                // || (property.status === IOrderProductPropertyStatus.approve) && 'success'
-                                // || (property.status === IOrderProductPropertyStatus.denied) && 'error'
-                                || 'default'
+                                (property.status === IOrderProductPropertyStatus.edited) && 'warning' || 'default'
                             }
                         >
                             {
-                                (property.status === IOrderProductPropertyStatus.edited) && 'اصلاح شده'
-                                // || (property.status === IOrderProductPropertyStatus.approve) && 'تایید شده'
-                                // || (property.status === IOrderProductPropertyStatus.denied) && 'رد شده'
-                                || ''
-                                // || (status === IOrderProductStatus.cancelled) && 'انصراف از خرید'
+                                (property.status === IOrderProductPropertyStatus.edited) && 'اصلاح شده' || ''
                             }
                         </Label>
                     )}
