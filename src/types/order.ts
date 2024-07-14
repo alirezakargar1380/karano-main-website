@@ -62,22 +62,35 @@ export enum OrderStatus {
   pending = 'pending',
   failed = 'failed',
   accepted = 'accepted',
-  paid = 'paid',
   edited = 'edited',
   produced = 'produced',
   production = 'production',
   ready_to_send = 'ready_to_send',
 }
 
+export enum IOrderDeliveryType {
+  tehran = 'tehran',
+  factory = 'factory', 
+  city = 'city' 
+}
+
 export type IOrderItem = {
   id: number;
   user: IUser;
   status: OrderStatus;
+  reciver_name: string;
+  reciver_phone: string;
+  delivery_type: IOrderDeliveryType;
   order_products: {
     id: number
     product: IProductItem;
     properties: IProductProperties[]
   }[]
+  invoice_owner: {
+    first_name: string;
+    last_name: string;
+    id_code: string;
+  }
   order_number: string;
   createdAt: Date;
 };

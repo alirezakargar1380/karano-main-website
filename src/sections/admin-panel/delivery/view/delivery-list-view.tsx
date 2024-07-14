@@ -15,10 +15,21 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
-import { useGetDeliveryOrders } from "src/api/orders";
-import { OrderStatus } from "src/types/order";
+import { useGetDeliveryOrders, useGetOrder } from "src/api/orders";
+import { IOrderDeliveryType, OrderStatus } from "src/types/order";
+import { DialogWithButton } from "src/components/custom-dialog";
+import { useBoolean } from "src/hooks/use-boolean";
+import Iconify from "src/components/iconify";
+import SvgColor from "src/components/svg-color";
+import { useState } from "react";
 
 export default function DeliveryListView() {
+    const [orderId, setOrderId] = useState(0);
+
+    const { order, orderLoading } = useGetOrder(`${orderId}`)
+
+    const detailsDialog = useBoolean(true);
+
     const settings = useSettingsContext();
 
     const router = useRouter();
@@ -52,6 +63,123 @@ export default function DeliveryListView() {
 
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+            <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
+                {(!orderLoading) && (
+                    <>
+                        <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
+                            <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }} mt={1}>
+                                آماده ارسال
+                            </Label>
+                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }}>
+                                مشاهده فاکتور
+                                <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
+                            </StyledRoundedWhiteButton>
+                        </Stack>
+
+                        <Stack spacing={2} py={2}>
+                            <Box
+                                columnGap={2}
+                                rowGap={3}
+                                display="grid"
+                                gridTemplateColumns={{
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                }}
+                            >
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
+                                    <Typography ml={1} mt={0.5}>{order.order_number}</Typography>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>تعداد کالا:</Typography>
+                                    <Typography ml={1} mt={0.25}>150</Typography>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>تاریخ ثبت سفارش:</Typography>
+                                    <Typography ml={1} mt={0.25}>1340/58/88</Typography>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>تاریخ تحویل:</Typography>
+                                    <Typography ml={1} mt={0.25}>1340/58/88</Typography>
+                                </Stack>
+                            </Box>
+                        </Stack>
+
+                        <Stack direction={'row'} my={2}>
+                            <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ textWrap: 'nowrap' }}>اطلاعات تحویل گیرنده</Typography>
+                            <Box width={1} borderBottom={'1px solid #D1D1D1'} mb={1.5} ml={1}></Box>
+                        </Stack>
+
+                        <Stack spacing={2} py={2}>
+                            <Box
+                                columnGap={2}
+                                rowGap={3}
+                                display="grid"
+                                gridTemplateColumns={{
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                }}
+                            >
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>نام تحویل گیرنده:</Typography>
+                                    <Typography ml={1}>{order.reciver_name}</Typography>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>شماره تماس</Typography>
+                                    <Typography ml={1} mt={0.25} sx={{ direction: 'rtl' }}>{order.reciver_phone}</Typography>
+                                </Stack>
+                            </Box>
+                        </Stack>
+
+                        <Stack direction={'row'} my={2}>
+                            <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ textWrap: 'nowrap' }}>آدرس و نحوه ارسال</Typography>
+                            <Box width={1} borderBottom={'1px solid #D1D1D1'} mb={1.5} ml={1}></Box>
+                        </Stack>
+
+                        <Stack direction={'row'}>
+                            <Typography variant="h6" fontFamily={'peyda-bold'}>نحوه ارسال:</Typography>
+                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2, ml: 1, mb: 3 }}>
+                                <SvgColor src={'/assets/icons/orders/delivery/flag-01.svg'} color={"#727272"} sx={{ mr: 1, width: 16 }} />
+                                {
+                                    (order.delivery_type === IOrderDeliveryType.tehran && "تحویل در تهران") ||
+                                    (order.delivery_type === IOrderDeliveryType.factory && "تحویل درب کارخانه") ||
+                                    (order.delivery_type === IOrderDeliveryType.city && "تحویل در شهرستان") || ""
+                                }
+                            </StyledRoundedWhiteButton>
+                        </Stack>
+
+                        <Stack direction={'row'} my={2}>
+                            <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ textWrap: 'nowrap' }}>مشخصات صاحب فاکتور</Typography>
+                            <Box width={1} borderBottom={'1px solid #D1D1D1'} mb={1.5} ml={1}></Box>
+                        </Stack>
+
+                        <Stack spacing={2} py={2}>
+                            <Box
+                                columnGap={2}
+                                rowGap={3}
+                                display="grid"
+                                gridTemplateColumns={{
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                }}
+                            >
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>نام:</Typography>
+                                    <Typography ml={1} mt={0.5}>{order.invoice_owner?.first_name}</Typography>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>نام خانوادگی:</Typography>
+                                    <Typography ml={1} mt={0.25}>{order.invoice_owner?.last_name}</Typography>
+                                </Stack>
+                                <Stack direction={'row'}>
+                                    <Typography variant="h6" fontFamily={'peyda-bold'}>کد ملی:</Typography>
+                                    <Typography ml={1} mt={0.25}>{order.invoice_owner?.id_code}</Typography>
+                                </Stack>
+                            </Box>
+                        </Stack>
+                    </>
+                )}
+            </DialogWithButton>
             <AdminBreadcrumbs
                 links={[
                     { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
@@ -183,7 +311,10 @@ export default function DeliveryListView() {
                                             <LoadingButton
                                                 variant="contained"
                                                 sx={{ borderRadius: '28px', width: 1 }}
-                                            // onClick={() => router.push(paths.admin_dashboard.saleManagement.details(1))}
+                                                onClick={() => {
+                                                    setOrderId(row.id)
+                                                    detailsDialog.onTrue()
+                                                }}
                                             >
                                                 مشاهده جزئیات
                                             </LoadingButton>
