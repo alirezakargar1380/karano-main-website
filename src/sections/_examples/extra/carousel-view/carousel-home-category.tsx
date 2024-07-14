@@ -55,8 +55,6 @@ export default function CarouselHomeCategory() {
   useEffect(() => {
     if (!selectedCategoryId && !categoryLoading) {
       router.push("?category=" + categories[0]?.id?.toString());
-    } else {
-      console.log("=========>>> selecte", selectedCategoryId)
     }
   }, [categoryLoading])
 
