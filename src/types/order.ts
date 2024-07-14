@@ -65,7 +65,8 @@ export enum OrderStatus {
   paid = 'paid',
   edited = 'edited',
   produced = 'produced',
-  production = 'production'
+  production = 'production',
+  ready_to_send = 'ready_to_send',
 }
 
 export type IOrderItem = {

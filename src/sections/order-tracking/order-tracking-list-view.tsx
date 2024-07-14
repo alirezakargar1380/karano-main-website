@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Container, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
 import { DialogWithButton } from "src/components/custom-dialog";
 import Iconify from "src/components/iconify";
 import { BlueNotification } from "src/components/notification";
@@ -11,10 +11,13 @@ import TrackingOrderItem from "./tracking-order-item";
 import { useCallback, useEffect, useState } from "react";
 import ShoppingCartList from "src/sections/shopping-cart/shopping-cart-list";
 import { useGetOrderProducts } from "src/api/order-products";
-import { endpoints } from "src/utils/axios";
+import { endpoints, server_axios } from "src/utils/axios";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { ProductOrderType } from "src/types/product";
 import OrderRejectionListView from "./order-rejection-list-view";
+import { LoadingButton } from "@mui/lab";
+import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { useSnackbar } from "src/components/snackbar";
 
 export default function OrderTrackingListView() {
     const [orderId, setOrderId] = useState<number>(0);
@@ -22,6 +25,9 @@ export default function OrderTrackingListView() {
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
     const finalOrderDialog = useBoolean();
+    const finalPaymentDialog = useBoolean();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const {
         orders
@@ -36,11 +42,43 @@ export default function OrderTrackingListView() {
             cartDialog.onTrue();
         } else if (status === OrderStatus.accepted) {
             finalOrderDialog.onTrue();
+        } else if (status === OrderStatus.produced) {
+            finalPaymentDialog.onTrue()
         }
     };
 
+    const pay = async () => {
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: OrderStatus.ready_to_send
+        })
+        finalPaymentDialog.onFalse();
+        enqueueSnackbar("سفارش شما با موفقیت پرداخت شد")
+    }
+
     return (
         <Box>
+            <DialogWithButton dialog={finalPaymentDialog} fullWith={false} width={800}>
+                <Box p={3}>
+                    <Stack direction={"row"} borderBottom={'1px solid #1D1D1D'} pb={2} justifyContent={"space-between"}>
+                        <Typography variant="h4" fontFamily={'peyda-bold'}>پرداخت نهایی</Typography>
+                        <Button
+                            sx={{ color: "#0B7BA7", fontFamily: "peyda-bold", fontSize: '16px' }}
+                        >
+                            دانلود فاکتور نهایی
+                        </Button>
+                    </Stack>
+                    <Typography variant="body1" color={"#727272"} py={4}>برای نهایی‌کردن سفارش، لطفا مبلغ باقی‌مانده فاکتور خود را پرداخت کنید.</Typography>
+                    <Stack direction={"row"}>
+                        <Typography fontFamily={'peyda-bold'}>مبلغ:</Typography>
+                        <Typography px={3}>1455555</Typography>
+                        <Typography color={"#727272"} fontFamily={'peyda-light'}>ریال</Typography>
+                    </Stack>
+                    <Stack direction={'row'} justifyContent={'end'} pt={4} spacing={1}>
+                        <StyledRoundedWhiteButton variant='outlined' onClick={finalPaymentDialog.onFalse}>انصراف</StyledRoundedWhiteButton>
+                        <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={() => pay()}>پرداخت</LoadingButton>
+                    </Stack>
+                </Box>
+            </DialogWithButton>
 
             <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
                 <CompleteOrderView orderId={orderId} finalOrderDialog={finalOrderDialog} />

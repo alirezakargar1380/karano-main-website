@@ -15,11 +15,15 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { useGetDeliveryOrders } from "src/api/orders";
+import { OrderStatus } from "src/types/order";
 
 export default function DeliveryListView() {
     const settings = useSettingsContext();
 
     const router = useRouter();
+
+    const { orders } = useGetDeliveryOrders();
 
     const schema = Yup.object().shape({
     });
@@ -151,17 +155,17 @@ export default function DeliveryListView() {
                             </TableHead>
 
                             <TableBody>
-                                {[...Array(5)].map((row, index) => (
+                                {orders.map((row, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{index + 1}</TableCell>
 
-                                        <TableCell>علیرضا کارگر</TableCell>
+                                        <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
                                         <TableCell>{23335}</TableCell>
 
                                         <TableCell>
-                                            {(index !== 2) ? (
+                                            {(row.status === OrderStatus.produced) ? (
                                                 <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
-                                                    در حال بررسی
+                                                    در انتظار پرداخت نهایی
                                                 </Label>
                                             ) : (
                                                 <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>

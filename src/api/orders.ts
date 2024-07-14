@@ -48,6 +48,26 @@ export function useGetProductionOrders() {
   return memoizedValue;
 }
 
+export function useGetDeliveryOrders() {
+  const URL = endpoints.orders.delivery_list;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      //   productsError: error,
+      //   productsValidating: isValidating,
+      //   productsEmpty: !isLoading && !data?.products.length,
+    }),
+    // [data, error, isLoading, isValidating]
+    [data]
+  );
+
+  return memoizedValue;
+}
+
 export function useGetOrder(id: string) {
   const URL = endpoints.orders.one(id);
 
