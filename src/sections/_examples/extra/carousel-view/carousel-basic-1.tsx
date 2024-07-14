@@ -2,7 +2,7 @@ import Card from '@mui/material/Card';
 
 import Image from 'src/components/image';
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
-import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { Stack, SxProps, Theme } from '@mui/system';
 import Iconify from 'src/components/iconify';
 import { m } from 'framer-motion';
@@ -12,6 +12,7 @@ import ProductItemSlider from 'src/sections/product/product-slider-item';
 import { useGetCategories, useGetCategoryProducts } from 'src/api/category';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { useCallback, useEffect } from 'react';
+import { TextAnimate } from 'src/components/animation/text-animation';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -77,15 +78,20 @@ export default function CarouselBasic1({ data, sx }: Props) {
   }, [carousel, selectedCategoryId, categories, router])
 
   return (
-    <Box sx={{ ...sx }}>
+    <Box sx={{ ...sx }} component={MotionContainer}>
       <Grid container spacing={2}>
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h2' fontFamily={'peyda-bold'}>
-            <m.span key={1 * Math.random()}>
-              {categories.find((category) => category.id === Number(selectedCategoryId))?.name}
-            </m.span>
+            <TextAnimate
+              text={categories.find((category) => category.id === Number(selectedCategoryId))?.name || ''}
+              sx={{
+                color: '#000',
+                fontFamily: "peyda-bold"
+              }}
+              variants={varFade().in}
+              px={.45}
+            />
           </Typography>
-
           <Stack direction={'row'}>
             <IconButton size='large' onClick={onPrev}>
               <SvgColor
@@ -104,20 +110,18 @@ export default function CarouselBasic1({ data, sx }: Props) {
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
           <Stack sx={{ p: 2, fontFamily: 'peyda-black' }}>
-            <Typography variant='body2' sx={{ p: 1, listStyleType: 'initial' }} fontFamily={'peyda-black'} display={'list-item'}>مونتاژ شده</Typography>
+            <Typography variant='body2' sx={{ p: 1, listStyleType: 'initial' }} fontFamily={'peyda-black'} display={'list-item'}>
+              مونتاژ شده
+            </Typography>
             <Typography variant='body2' sx={{ p: 1, listStyleType: 'initial' }} fontFamily={'peyda-black'} display={'list-item'}>
               قابلیت ثبت ابعاد سفارشی
             </Typography>
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
           <Typography variant='body2' sx={{ p: 2 }}>
-            {(carousel.currentIndex % 2 === 0) ?
-              <m.span key={1} {...varFade().in}>
-                یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند کالاهایی متنوع، باکیفیت و دارای قیمت مناسب را در مدت زمانی کوتاه به دست مشتریان خود برساند و ضمانت بازگشت کالا هم داشته باشد؛ ویژگی‌هایی که فروشگاه اینترنتی کارانو مدت‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق مشتریان ثابت خود را داشته باشد.
-              </m.span>
-              : <m.span key={2} {...varFade().in}>
-                یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند کالاهایی متنوع، باکیفیت و دارای قیمت مناسب را در مدت زمانی کوتاه به دست مشتریان خود برساند و ضمانت بازگشت کالا هم داشته باشد؛ ویژگی‌هایی که فروشگاه اینترنتی کارانو مدت‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق مشتریان ثابت خود را داشته باشد.
-              </m.span>}
+            <m.span {...varFade().in}>
+              یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند کالاهایی متنوع، باکیفیت و دارای قیمت مناسب را در مدت زمانی کوتاه به دست مشتریان خود برساند و ضمانت بازگشت کالا هم داشته باشد؛ ویژگی‌هایی که فروشگاه اینترنتی کارانو مدت‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق مشتریان ثابت خود را داشته باشد.
+            </m.span>
           </Typography>
         </Grid>
         <Grid md={9} xs={12} item>
