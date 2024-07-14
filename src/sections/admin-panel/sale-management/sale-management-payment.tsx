@@ -69,7 +69,7 @@ export default function SaleManagementPayment({
                 invoiceDialog.onFalse();
                 await server_axios.patch(endpoints.orders.update(orderId), {
                     ...data,
-                    status: hasCustomMade ? OrderStatus.production : OrderStatus.accepted
+                    status: OrderStatus.accepted
                 })
             }
         } catch (error) {

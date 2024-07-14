@@ -17,9 +17,10 @@ import { useBooleanReturnType } from "src/hooks/use-boolean";
 interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
+    hasCustomMade: boolean
 }
 
-export default function CompleteOrderView({ orderId, finalOrderDialog }: Props) {
+export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustomMade }: Props) {
     const checkout = useCheckoutContext();
 
     const { orderProducts } = useGetOrderProducts(orderId);
@@ -47,7 +48,7 @@ export default function CompleteOrderView({ orderId, finalOrderDialog }: Props) 
                     {checkout.activeStep === 0 && (
                         <DeliveryRecipientInformation orderId={orderId} />
                     )}
-                    
+
                     {checkout.activeStep === 1 && (
                         <InvoiceView
                             orderProducts={orderProducts}
@@ -56,7 +57,11 @@ export default function CompleteOrderView({ orderId, finalOrderDialog }: Props) 
                     )}
 
                     {checkout.activeStep === 2 && (
-                        <Payment finalOrderDialog={finalOrderDialog} orderId={orderId} />
+                        <Payment
+                            finalOrderDialog={finalOrderDialog}
+                            orderId={orderId}
+                            hasCustomMade={hasCustomMade}
+                        />
                     )}
 
 

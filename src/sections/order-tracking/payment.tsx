@@ -12,14 +12,15 @@ import { OrderStatus } from "src/types/order";
 interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
+    hasCustomMade: boolean
 }
 
-export default function Payment({ finalOrderDialog, orderId }: Props) {
+export default function Payment({ finalOrderDialog, hasCustomMade, orderId }: Props) {
     const checkout = useCheckoutContext();
 
     const handle = async () => {
         await server_axios.patch(endpoints.orders.update(orderId), {
-            status: OrderStatus.paid
+            status: (hasCustomMade) ? OrderStatus.production : OrderStatus.ready_to_send
         })
         finalOrderDialog.onFalse()
     }

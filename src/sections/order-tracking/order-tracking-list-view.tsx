@@ -21,6 +21,7 @@ import { useSnackbar } from "src/components/snackbar";
 
 export default function OrderTrackingListView() {
     const [orderId, setOrderId] = useState<number>(0);
+    const [hasCustomMade, setHasCustomMade] = useState(false);
 
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
@@ -33,6 +34,13 @@ export default function OrderTrackingListView() {
         orders
     } = useGetTrackingOrders();
     const { orderProducts } = useGetOrderProducts(orderId);
+
+    useEffect(() => {
+        if (orderProducts.length > 0) {
+            if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
+                setHasCustomMade(true);
+        }
+    }, [orderProducts]);
 
     const handleMore = (id: number, status: OrderStatus) => {
         setOrderId(id);
@@ -81,7 +89,11 @@ export default function OrderTrackingListView() {
             </DialogWithButton>
 
             <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
-                <CompleteOrderView orderId={orderId} finalOrderDialog={finalOrderDialog} />
+                <CompleteOrderView
+                    orderId={orderId}
+                    finalOrderDialog={finalOrderDialog}
+                    hasCustomMade={hasCustomMade}
+                />
             </DialogWithButton>
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>

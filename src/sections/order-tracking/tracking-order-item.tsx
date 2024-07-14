@@ -26,8 +26,8 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         (order.status === OrderStatus.failed && 'error') ||
                         ((
                             order.status === OrderStatus.accepted ||
-                            order.status === OrderStatus.paid ||
-                            order.status === OrderStatus.ready_to_send
+                            order.status === OrderStatus.ready_to_send ||
+                            order.status === OrderStatus.production
                         ) && 'success') ||
                         (order.status === OrderStatus.edited && 'warning') ||
                         'default'
@@ -37,7 +37,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         (order.status === OrderStatus.edited && 'اصلاح شده') ||
                         (order.status === OrderStatus.pending && 'در انتظار تایید') ||
                         (order.status === OrderStatus.failed && 'رد شده') ||
-                        (order.status === OrderStatus.paid && 'پرداخت شده') ||
+                        (order.status === OrderStatus.production && 'در حال تولید') ||
                         (order.status === OrderStatus.produced && 'در انتظار پرداخت نهایی') ||
                         (order.status === OrderStatus.ready_to_send && 'آماده ارسال') ||
                         (order.status === OrderStatus.accepted && 'تایید شده')
@@ -60,7 +60,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         {
                             ((order.status === OrderStatus.pending || order.status === OrderStatus.edited) && 'مشاهده سبد خرید') ||
                             (order.status === OrderStatus.failed && 'test') ||
-                            ((order.status === OrderStatus.accepted || order.status === OrderStatus.paid) && 'ادامه و تکمیل خرید') ||
+                            ((order.status === OrderStatus.accepted) && 'ادامه و تکمیل خرید') ||
                             (order.status === OrderStatus.edited && 'test') ||
                             (order.status === OrderStatus.produced && 'پرداخت نهایی') ||
                             'default'
