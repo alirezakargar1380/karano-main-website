@@ -5,7 +5,8 @@ import ProductionPDF from "./production-pdf";
 import { _invoices } from "src/_mock";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useCallback, useEffect, useState } from "react";
-import { IOrderItem } from "src/types/order";
+import { IOrderItem, OrderStatus } from "src/types/order";
+import { endpoints, server_axios } from "src/utils/axios";
 
 interface Props {
     row: IOrderItem
@@ -14,14 +15,17 @@ interface Props {
 export function ProductionTableRow({ row }: Props) {
 
     const [isClient, setIsClient] = useState(false)
-    const [value, setValue] = useState("درحال تولید")
+    const [value, setValue] = useState(row.status)
 
     useEffect(() => {
         setIsClient(true)
     }, []);
 
-    const handleChangeProductionStatus = useCallback((e: any) => {
+    const handleChangeProductionStatus = useCallback(async (e: any) => {
         setValue(e.target.value);
+        await server_axios.patch(endpoints.orders.update(row.id), {
+            status: e.target.value
+        });
     }, [])
 
     return (
@@ -34,7 +38,7 @@ export function ProductionTableRow({ row }: Props) {
                 <TableCell>
                     <Select fullWidth value={value} size="small"
                         sx={{
-                            ...((value === "درحال تولید") ? {
+                            ...((value === OrderStatus.production) ? {
                                 bgcolor: "#DCF9FF",
                                 color: "#005878!important",
                                 borderRadius: '24px',
@@ -48,10 +52,10 @@ export function ProductionTableRow({ row }: Props) {
                         }}
                         variant="outlined"
                         onChange={handleChangeProductionStatus}>
-                        <MenuItem value={"درحال تولید"}>
+                        <MenuItem value={OrderStatus.production}>
                             درحال تولید
                         </MenuItem>
-                        <MenuItem value={"تولید شده"}>
+                        <MenuItem value={OrderStatus.produced}>
                             تولید شده
                         </MenuItem>
                     </Select>
