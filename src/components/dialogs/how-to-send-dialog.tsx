@@ -27,7 +27,8 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     const defaultValues = {
         delivery_type: 'tehran',
-        helo: 'hh'
+        provice: '',
+        city: ''
     };
 
     const methods = useForm({
@@ -61,16 +62,17 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            console.log(data);
+            console.log(data)
+            // return 
             await server_axios.post(endpoints.orders.create, {
                 ...data,
                 items: checkout.items
             })
                 .then(({ data }) => {
-                    console.log(data);
                     enqueueSnackbar('سفارش شما ثبت شد', {
                         variant: 'info'
                     })
+                    dialog.onFalse();
                 })
 
             console.log(data)
@@ -106,7 +108,29 @@ export default function HowToSendDialog({ dialog }: Props) {
                                 },
                                 {
                                     label: 'تحویل در شهرستان',
-                                    value: 'city'
+                                    value: 'city',
+                                    children: [
+                                        {
+                                            lable: "استان",
+                                            name: "provice",
+                                            options: [
+                                                {
+                                                    label: "بوشهر",
+                                                    value: "بوشهر"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            lable: "شهر",
+                                            name: "city",
+                                            options: [
+                                                {
+                                                    label: "برازجان",
+                                                    value: "برازجان"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                             ]}
                             BSx={{

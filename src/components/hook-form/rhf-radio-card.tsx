@@ -15,7 +15,20 @@ import { RHFSelect } from './rhf-select';
 
 type Props = RadioGroupProps & {
     name: string;
-    options: { label: string; value: any, text?: string, icon?: string }[];
+    options: {
+        label: string
+        value: any
+        text?: string
+        icon?: string
+        children?: {
+            name: string
+            lable: string
+            options: {
+                value: string
+                label: string
+            }[]
+        }[]
+    }[];
     label?: string;
     spacing?: number;
     helperText?: React.ReactNode;
@@ -63,6 +76,9 @@ export default function RHFRadioGroupCard({
                                         ...BSx,
                                         ...(field.value === option.value) && {
                                             border: '1px solid #D1D1D1',
+                                        },
+                                        ...(field.value === option.value && option.children?.length) && {
+                                            border: '1px solid #D1D1D1',
                                             bgcolor: '#E0E0E0'
                                         }
                                     }}
@@ -98,25 +114,26 @@ export default function RHFRadioGroupCard({
                                         <Typography sx={{ pt: 0.5 }} variant={variant} fontFamily={'peyda-bold'}>{option.label}</Typography>
                                     </Stack>
 
-                                    {(field.value === option.value) && (
+                                    {(field.value === option.value && option.children?.length) && (
                                         <>
                                             <Divider sx={{ borderColor: '#D1D1D1', my: 2 }} />
 
                                             <Stack direction={'row'} sx={{ width: 1, mb: 2 }} justifyContent={'space-between'} spacing={1}>
-                                                <Box sx={{ width: 0.5 }}>
-                                                    <Typography variant='h6'>استان</Typography>
-                                                    <RHFSelect name='city' sx={{ width: 1, bgcolor: 'white', borderRadius: 1, border: '1px solid #D1D1D1' }} variant='outlined' size='small' placeholder='انتخاب کنید'>
-                                                        <MenuItem value='1'>تهران</MenuItem>
-                                                        <MenuItem value='1'>تهران</MenuItem>
-                                                    </RHFSelect>
-                                                </Box>
-                                                <Box sx={{ width: 0.5 }}>
-                                                    <Typography variant='h6'>شهر</Typography>
-                                                    <RHFSelect name='city' sx={{ width: 1, bgcolor: 'white', borderRadius: 1, border: '1px solid #D1D1D1' }} variant='outlined' size='small' placeholder='انتخاب کنید'>
-                                                        <MenuItem value='1'>تهران</MenuItem>
-                                                        <MenuItem value='1'>تهران</MenuItem>
-                                                    </RHFSelect>
-                                                </Box>
+                                                {option.children.map((option, index) => (
+                                                    <Box sx={{ width: 0.5 }} key={index}>
+                                                        <Typography variant='h6'>{option.lable}</Typography>
+                                                        <RHFSelect name={option.name} sx={{
+                                                            width: 1,
+                                                            bgcolor: 'white',
+                                                            borderRadius: 1,
+                                                            // border: '1px solid #D1D1D1'
+                                                        }} variant='outlined' size='small' placeholder='انتخاب کنید'>
+                                                            {option.options.map((item, ind) => (
+                                                                <MenuItem value={item.value} key={ind}>{item.label}</MenuItem>
+                                                            ))}
+                                                        </RHFSelect>
+                                                    </Box>
+                                                ))}
                                             </Stack>
                                         </>
                                     )}
