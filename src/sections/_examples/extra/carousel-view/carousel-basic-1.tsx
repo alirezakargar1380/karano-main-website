@@ -40,7 +40,7 @@ export default function CarouselBasic1({ data, sx }: Props) {
 
   const selectedCategoryId = searchParams.get('category') || '';
 
-  const { products } = useGetCategoryProducts(selectedCategoryId);
+  const { products, favProductIds } = useGetCategoryProducts(selectedCategoryId);
   console.log("=========>>> products", products)
 
   const onNext = useCallback(() => {
@@ -137,7 +137,7 @@ export default function CarouselBasic1({ data, sx }: Props) {
               }}
             >
               {products.map((v, key) => (
-                <ProductItemSlider product={v} ind={key * Math.random()} key={key} />
+                <ProductItemSlider product={v} ind={key * Math.random()} favorite={favProductIds.includes(v.id)} key={key} />
               ))}
             </Stack>
           </Carousel>

@@ -34,11 +34,12 @@ export function useGetCategoryProducts(id: any) {
         () => ({
             categoryLoading: isLoading,
             // productsError: error,
-            products: (data as IProductItem[]) || [],
+            favProductIds: (data?.favProductIds as number[]) || [],
+            products: (data?.data as IProductItem[]) || []
             // productsValidating: isValidating,
             // productsEmpty: !isLoading && !data?.products.length,
         }),
-        [data]
+        [data?.data, data?.favProductIds]
     );
 
     return memoizedValue;

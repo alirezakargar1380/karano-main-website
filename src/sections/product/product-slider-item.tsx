@@ -13,13 +13,13 @@ import { useSnackbar } from 'src/components/snackbar';
 import { useAuthContext } from "src/auth/hooks";
 
 type Props = {
-    product: IProductItem;
-    ind: number
+    product: IProductItem
+    favorite: boolean
 };
 
-export default function ProductItemSlider({ product, ind }: Props) {
+export default function ProductItemSlider({ product, favorite = false }: Props) {
     const { authenticated } = useAuthContext();
-    const [isFavorite, setFavorite] = useState<boolean>(false);
+    const [isFavorite, setFavorite] = useState<boolean>(favorite);
 
     const mainImageUrl = endpoints.image.url(product?.images?.find((img) => img.main)?.name || '');
     const hoverImageUrl = endpoints.image.url(product?.images?.find((img) => !img.main)?.name || '');
@@ -84,7 +84,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
             transition: '0.3s ease-in-out'
         }}
         >
-            <Link href={`/product/${product?.id}/`} color={'inherit'} underline="none" key={ind}>
+            <Link href={`/product/${product?.id}/`} color={'inherit'} underline="none">
                 <Stack sx={{ textAlign: 'right', alignItems: 'start' }} spacing={1}>
                     {hover ? <Img /> : <Img />}
 
@@ -100,7 +100,7 @@ export default function ProductItemSlider({ product, ind }: Props) {
                 </Stack>
             </Link>
             <Stack direction={'row'} sx={{ textAlign: 'left', alignItems: 'end' }}>
-                <IconButton size='small' sx={{ bgcolor: "#D1D1D1" }} disabled={!authenticated} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
+                <IconButton size='small' sx={{ bgcolor: "#D1D1D1" }} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
                     {isFavorite ?
                         <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
                         :

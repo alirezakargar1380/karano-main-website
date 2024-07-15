@@ -6,6 +6,7 @@ import UserDetailsView from "./user-details-view";
 import { cu } from "@fullcalendar/core/internal-common";
 import UserAddressView from "./user-address-view";
 import UserOrdersView from "./user-orders-view";
+import UserFavoriteView from "./user-favorite-view";
 
 const TABS = [
     {
@@ -27,7 +28,7 @@ const TABS = [
 ];
 
 export default function UserPanelView() {
-    const [currentTab, setCurrentTab] = useState('orders' || 'user-details');
+    const [currentTab, setCurrentTab] = useState('user-details');
 
     return (
         <Box>
@@ -65,7 +66,8 @@ export default function UserPanelView() {
                 {
                     (currentTab === 'user-details') && <UserDetailsView /> ||
                     (currentTab === 'addresses') && <UserAddressView /> ||
-                    (currentTab === 'orders') && <UserOrdersView />
+                    (currentTab === 'orders') && <UserOrdersView /> || 
+                    (currentTab === 'favorites') && <UserFavoriteView />
                 }
             </Box>
         </Box >
