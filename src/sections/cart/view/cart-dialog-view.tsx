@@ -213,7 +213,7 @@ export default function CartDialogView({
                             <TableBody>
                                 {data.map((item, index: number) => (
                                     <CartTableRow
-                                        onDeleteRow={() => onDelete(item.id)}
+                                        onDeleteRow={() => onDelete(item.id || index)}
                                         onEditRow={() => onUpdate(index)}
                                         selected={(listId === index)}
                                         key={index}

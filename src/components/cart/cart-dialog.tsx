@@ -29,7 +29,7 @@ interface Props {
     listId?: number | undefined;
     listData?: ICheckoutItemPropertyPrice[] | undefined
     onAddCart: (data: ICheckoutItemPropertyPrice[]) => void;
-    onDelete: (propertyId: number) => void;
+    onDelete?: (propertyId: number) => void;
     handleUpdateRow?: (data: ICheckoutItemPropertyPrice[]) => void;
 }
 
@@ -108,6 +108,7 @@ export default function CartDialog({
                         ...custom
                     }
                 ]);
+                console.log("data was updated")
             } else {
                 list[id] = custom;
                 if (handleUpdateRow) list[id].status = IOrderProductPropertyStatus.edited;
@@ -181,7 +182,16 @@ export default function CartDialog({
             handleUpdateRow(list)
         else
             onAddCart(list)
-    }, [list])
+    }, [list]);
+      
+    const onDeleteRow = (pIndex: number) => {
+        // remove from list
+        console.log(list[0])
+        let newList = [...list];
+        newList.splice(pIndex, 1);
+        console.log(newList, pIndex)
+        setList(newList)
+    }
 
     return (
         <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} fullWidth={true} maxWidth={'xl'}>
@@ -194,7 +204,7 @@ export default function CartDialog({
                         data={list}
                         listId={id}
                         onUpdate={handleUpdate}
-                        onDelete={onDelete}
+                        onDelete={onDelete || onDeleteRow}
                     />
                 )}
 
