@@ -34,7 +34,7 @@ export default function UserDetailsRow({
     const NewProductSchema = Yup.object().shape({
         [name]: Yup.string().required('Name is required'),
     });
-    
+
 
     const defaultValues = useMemo(
         () => ({
@@ -87,9 +87,11 @@ export default function UserDetailsRow({
                         {fieldValue}
                     </Typography>
                 </Box>
-                <IconButton onClick={editDialog.onTrue}>
-                    <SvgColor src="/assets/icons/user-panel/edit-02.svg" color={'#727272'} sx={{ width: 16, height: 16 }} />
-                </IconButton>
+                {(name !== "user_type") && (
+                    <IconButton onClick={editDialog.onTrue}>
+                        <SvgColor src="/assets/icons/user-panel/edit-02.svg" color={'#727272'} sx={{ width: 16, height: 16 }} />
+                    </IconButton>
+                )}
             </Stack>
         </>
 
