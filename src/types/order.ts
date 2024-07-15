@@ -78,6 +78,7 @@ export type IOrderItem = {
   id: number;
   user: IUser;
   status: OrderStatus;
+  need_prepayment: boolean;
   reciver_name: string;
   reciver_phone: string;
   delivery_type: IOrderDeliveryType;

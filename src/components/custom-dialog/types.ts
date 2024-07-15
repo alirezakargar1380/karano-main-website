@@ -8,3 +8,7 @@ export type ConfirmDialogProps = Omit<DialogProps, 'title' | 'content'> & {
   action: React.ReactNode;
   onClose: VoidFunction;
 };
+
+export type SuccessDialogProps = Omit<DialogProps, 'title' | 'content'> & {
+  onClose: VoidFunction;
+};

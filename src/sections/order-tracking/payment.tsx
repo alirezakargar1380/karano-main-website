@@ -8,15 +8,28 @@ import { RHFTitleTextField } from "src/components/hook-form";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { endpoints, server_axios } from "src/utils/axios";
 import { OrderStatus } from "src/types/order";
+import { useEffect } from "react";
 
 interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
     hasCustomMade: boolean
+    need_prepayment: boolean
+    submitHandler: () => void
 }
 
-export default function Payment({ finalOrderDialog, hasCustomMade, orderId }: Props) {
+export default function Payment({ 
+    finalOrderDialog, hasCustomMade, orderId, need_prepayment,
+    submitHandler
+ }: Props) {
     const checkout = useCheckoutContext();
+
+    useEffect(() => {
+        if (need_prepayment){ 
+            submitHandler();
+            handle();
+        }
+    }, [need_prepayment])
 
     const handle = async () => {
         await server_axios.patch(endpoints.orders.update(orderId), {

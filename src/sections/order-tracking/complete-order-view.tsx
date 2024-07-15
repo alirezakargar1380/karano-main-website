@@ -2,7 +2,7 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import { borderRadius } from "@mui/system";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { PRODUCT_CHECKOUT_STEPS, _invoices } from "src/_mock";
+import { _invoices } from "src/_mock";
 import FormProvider, { RHFTitleTextField } from "src/components/hook-form";
 import { BlueNotification } from "src/components/notification";
 import Scrollbar from "src/components/scrollbar";
@@ -13,22 +13,35 @@ import InvoiceView from "./invoice-view";
 import Payment from "./payment";
 import { useGetOrderProducts } from "src/api/order-products";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
+import { useGetOrder } from "src/api/orders";
 
 interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
     hasCustomMade: boolean
+    handleAfterLastSection: () => void
 }
 
-export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustomMade }: Props) {
+export let PRODUCT_CHECKOUT_STEPS_CUSTOM = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پیش‌پرداخت'];
+export let PRODUCT_CHECKOUT_STEPS_READY = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پرداخت'];
+
+export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustomMade, handleAfterLastSection }: Props) {
     const checkout = useCheckoutContext();
 
     const { orderProducts } = useGetOrderProducts(orderId);
+    const { order } = useGetOrder(`${orderId}`);
 
     useEffect(() => {
-        checkout.onGotoStep(0)
-        // console.log(checkout.activeStep)
+        checkout.onGotoStep(0) // console.log(checkout.activeStep)
     }, [])
+
+    useEffect(() => {
+        if (order.need_prepayment) {
+            PRODUCT_CHECKOUT_STEPS_READY[2] = "ثبت"
+            PRODUCT_CHECKOUT_STEPS_CUSTOM[2] = "ثبت"
+        }
+        console.log(PRODUCT_CHECKOUT_STEPS_CUSTOM, order.need_prepayment)
+    }, [order])
 
     return (
         <Scrollbar>
@@ -41,7 +54,7 @@ export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustom
                     <Box sx={{ my: 3 }}>
                         <CheckoutSteps
                             activeStep={checkout.activeStep}
-                            steps={PRODUCT_CHECKOUT_STEPS}
+                            steps={hasCustomMade ? PRODUCT_CHECKOUT_STEPS_CUSTOM : PRODUCT_CHECKOUT_STEPS_READY}
                         />
                     </Box>
 
@@ -61,6 +74,8 @@ export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustom
                             finalOrderDialog={finalOrderDialog}
                             orderId={orderId}
                             hasCustomMade={hasCustomMade}
+                            need_prepayment={order.need_prepayment}
+                            submitHandler={handleAfterLastSection}
                         />
                     )}
 

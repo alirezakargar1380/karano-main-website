@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Container, Grid, InputAdornment, Stack, Table, TableBody, TextField, Typography } from "@mui/material";
-import { DialogWithButton } from "src/components/custom-dialog";
+import { DialogWithButton, SuccessDialog } from "src/components/custom-dialog";
 import Iconify from "src/components/iconify";
 import { BlueNotification } from "src/components/notification";
 import { useBoolean } from "src/hooks/use-boolean";
@@ -27,6 +27,7 @@ export default function OrderTrackingListView() {
     const cartDialog = useBoolean();
     const finalOrderDialog = useBoolean();
     const finalPaymentDialog = useBoolean();
+    const successDialog = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -55,6 +56,10 @@ export default function OrderTrackingListView() {
         }
     };
 
+    const handleConfirmSubmitDialog = () => {
+        successDialog.onTrue();
+    }
+
     const pay = async () => {
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: OrderStatus.ready_to_send
@@ -65,6 +70,12 @@ export default function OrderTrackingListView() {
 
     return (
         <Box>
+            <SuccessDialog
+                open={successDialog.value}
+                onClose={successDialog.onFalse}
+            />
+
+
             <DialogWithButton dialog={finalPaymentDialog} fullWith={false} width={800}>
                 <Box p={3}>
                     <Stack direction={"row"} borderBottom={'1px solid #1D1D1D'} pb={2} justifyContent={"space-between"}>
@@ -93,6 +104,7 @@ export default function OrderTrackingListView() {
                     orderId={orderId}
                     finalOrderDialog={finalOrderDialog}
                     hasCustomMade={hasCustomMade}
+                    handleAfterLastSection={handleConfirmSubmitDialog}
                 />
             </DialogWithButton>
 
