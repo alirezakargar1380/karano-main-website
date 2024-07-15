@@ -9,8 +9,10 @@ import { useRouter, useSearchParams } from 'src/routes/hooks';
 import { useEffect } from 'react';
 import { paths } from 'src/routes/paths';
 import TiltCard from 'src/components/animation/tilt-card';
+import { useAuthContext } from 'src/auth/hooks';
 
 export default function CarouselHomeCategory() {
+  const { authenticated } = useAuthContext();
   const { categories, categoryLoading } = useGetCategories();
 
   const router = useRouter();
@@ -53,10 +55,13 @@ export default function CarouselHomeCategory() {
   const selectedCategoryId = searchParams.get('category') || '';
 
   useEffect(() => {
+    console.log("i called")
     if (!selectedCategoryId && !categoryLoading) {
       router.push("?category=" + categories[0]?.id?.toString());
+    } else if (!categoryLoading) {
+      router.push("?category=" + categories[0]?.id?.toString());
     }
-  }, [categoryLoading])
+  }, [categoryLoading, authenticated])
 
   return (
     <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', py: 3 }}>

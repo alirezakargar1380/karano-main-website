@@ -100,7 +100,12 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                 </Stack>
             </Link>
             <Stack direction={'row'} sx={{ textAlign: 'left', alignItems: 'end' }}>
-                <IconButton size='small' sx={{ bgcolor: "#D1D1D1" }} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
+                <IconButton size='small' sx={{ 
+                    bgcolor: "#D1D1D1",
+                    "&.Mui-disabled": {
+                        backgroundColor: "#f0f0f0!important"
+                    }
+                 }} disabled={!authenticated} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
                     {isFavorite ?
                         <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
                         :

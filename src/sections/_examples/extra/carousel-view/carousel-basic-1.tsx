@@ -17,15 +17,9 @@ import { TextAnimate } from 'src/components/animation/text-animation';
 
 type Props = {
   sx?: SxProps<Theme>;
-  data: {
-    id: string;
-    title: string;
-    coverUrl: string;
-    description: string;
-  }[];
 };
 
-export default function CarouselBasic1({ data, sx }: Props) {
+export default function CarouselBasic1({ sx }: Props) {
 
   const router = useRouter();
 
@@ -41,7 +35,6 @@ export default function CarouselBasic1({ data, sx }: Props) {
   const selectedCategoryId = searchParams.get('category') || '';
 
   const { products, favProductIds } = useGetCategoryProducts(selectedCategoryId);
-  console.log("=========>>> products", products)
 
   const onNext = useCallback(() => {
     carousel.onPrev();
