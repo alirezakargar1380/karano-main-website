@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Container, Grid } from "@mui/material";
 import SaleManagementPayment from "../sale-management-payment";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
@@ -59,7 +59,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
     }, [])
 
     return (!orderLoading) && (
-        <Box>
+        <Box sx={{height: '100vh'}}>
             <ReminderDialog
                 open={deleteReminder.value}
                 onClose={deleteReminder.onFalse}
@@ -103,24 +103,26 @@ export default function SaleManagementDetailsView({ id }: Props) {
                 <PageTitle title="مدیریت فروش" icon="/assets/icons/shop/shopping-cart-01.svg" />
             </Box>
 
-            <Grid container spacing={2}>
-                <Grid sm={8} item>
-                    <SaleManagementProducts
-                        orderProducts={orderProducts}
-                        order={order}
-                        updateHasAnydeapprove={handleHasApprove}
-                    />
+            <Container maxWidth="xl">
+                <Grid container spacing={2}>
+                    <Grid sm={8} item>
+                        <SaleManagementProducts
+                            orderProducts={orderProducts}
+                            order={order}
+                            updateHasAnydeapprove={handleHasApprove}
+                        />
+                    </Grid>
+                    <Grid sm={4} item>
+                        <SaleManagementPayment
+                            invoiceDialog={invoiceDialog}
+                            sendToUser={sendToUser}
+                            orderId={+id}
+                            hasCustomMade={hasCustomMade}
+                            orderProducts={orderProducts}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid sm={4} item>
-                    <SaleManagementPayment
-                        invoiceDialog={invoiceDialog}
-                        sendToUser={sendToUser}
-                        orderId={+id}
-                        hasCustomMade={hasCustomMade}
-                        orderProducts={orderProducts}
-                    />
-                </Grid>
-            </Grid>
+            </Container>
         </Box>
     )
 }
