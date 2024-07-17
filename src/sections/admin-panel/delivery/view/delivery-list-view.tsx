@@ -28,7 +28,7 @@ export default function DeliveryListView() {
 
     const { order, orderLoading } = useGetOrder(`${orderId}`)
 
-    const detailsDialog = useBoolean(true);
+    const detailsDialog = useBoolean();
 
     const settings = useSettingsContext();
 
@@ -60,6 +60,8 @@ export default function DeliveryListView() {
             reset();
         }
     });
+
+    console.log(order, orderLoading, order.reciver_name)
 
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -285,10 +287,10 @@ export default function DeliveryListView() {
                             <TableBody>
                                 {orders.map((row, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{row.id}</TableCell>
 
                                         <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
-                                        <TableCell>{23335}</TableCell>
+                                        <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>
                                             {(row.status === OrderStatus.produced) ? (
