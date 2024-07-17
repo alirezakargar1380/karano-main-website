@@ -81,7 +81,7 @@ export type CheckoutContextProps = ICheckoutValue & {
   //
   onGetCart: () => void;
   onAddToCart: (newItem: Partial<ICheckoutNewItem>, concatWithProperty: boolean) => void;
-  onDeleteCart: (index: number, itemIndex: number, propertyIndex: number) => void;
+  onDeleteCart: (pId: number, itemIndex: number, propertyIndex: number) => void;
   //
   onIncreaseQuantity: (itemId: string) => void;
   onDecreaseQuantity: (itemId: string) => void;
