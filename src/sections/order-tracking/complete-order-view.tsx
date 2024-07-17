@@ -14,18 +14,27 @@ import Payment from "./payment";
 import { useGetOrderProducts } from "src/api/order-products";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { useGetOrder } from "src/api/orders";
+import { IOrderDeliveryType } from "src/types/order";
 
 interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
     hasCustomMade: boolean
     handleAfterLastSection: () => void
+    delivery_type: IOrderDeliveryType
 }
 
-export let PRODUCT_CHECKOUT_STEPS_CUSTOM = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پیش‌پرداخت'];
-export let PRODUCT_CHECKOUT_STEPS_READY = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پرداخت'];
+export let PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پیش‌پرداخت'];
+export let PRODUCT_CHECKOUT_STEPS_CUSTOM = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'ثبت'];
+export let PRODUCT_CHECKOUT_STEPS_READY_PRE = ['اطلاعات تحویل‌گیرنده', 'مشاهده فاکتور', 'پرداخت'];
+export let PRODUCT_CHECKOUT_STEPS_READY = ['اطلاعات تحویل‌گیرنده', 'مشاهده فاکتور', 'ثبت'];
 
-export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustomMade, handleAfterLastSection }: Props) {
+export default function CompleteOrderView({
+    orderId,
+    finalOrderDialog,
+    hasCustomMade,
+    handleAfterLastSection
+}: Props) {
     const checkout = useCheckoutContext();
 
     const { orderProducts } = useGetOrderProducts(orderId);
@@ -33,15 +42,7 @@ export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustom
 
     useEffect(() => {
         checkout.onGotoStep(0) // console.log(checkout.activeStep)
-    }, [])
-
-    useEffect(() => {
-        if (order.need_prepayment) {
-            PRODUCT_CHECKOUT_STEPS_READY[2] = "ثبت"
-            PRODUCT_CHECKOUT_STEPS_CUSTOM[2] = "ثبت"
-        }
-        console.log(PRODUCT_CHECKOUT_STEPS_CUSTOM, order.need_prepayment)
-    }, [order])
+    }, []);
 
     return (
         <Scrollbar>
@@ -54,12 +55,15 @@ export default function CompleteOrderView({ orderId, finalOrderDialog, hasCustom
                     <Box sx={{ my: 3 }}>
                         <CheckoutSteps
                             activeStep={checkout.activeStep}
-                            steps={hasCustomMade ? PRODUCT_CHECKOUT_STEPS_CUSTOM : PRODUCT_CHECKOUT_STEPS_READY}
+                            steps={hasCustomMade ?
+                                (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_CUSTOM : PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE
+                                :
+                                (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_READY : PRODUCT_CHECKOUT_STEPS_READY_PRE}
                         />
                     </Box>
 
                     {checkout.activeStep === 0 && (
-                        <DeliveryRecipientInformation orderId={orderId} />
+                        <DeliveryRecipientInformation orderId={orderId} delivery_type={order.delivery_type} />
                     )}
 
                     {checkout.activeStep === 1 && (
