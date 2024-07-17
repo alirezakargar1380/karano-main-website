@@ -12,7 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 import ShoppingCartList from "src/sections/shopping-cart/shopping-cart-list";
 import { useGetOrderProducts } from "src/api/order-products";
 import { endpoints, server_axios } from "src/utils/axios";
-import { IOrderItem, OrderStatus } from "src/types/order";
+import { IOrderDeliveryType, IOrderItem, OrderStatus } from "src/types/order";
 import { ProductOrderType } from "src/types/product";
 import OrderRejectionListView from "./order-rejection-list-view";
 import { LoadingButton } from "@mui/lab";
