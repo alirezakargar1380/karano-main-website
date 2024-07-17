@@ -184,9 +184,9 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="warning">
                                                         اصلاح شده
                                                     </Label>
-                                                ) || (row.status === OrderStatus.paid) && (
+                                                ) || (row.status === OrderStatus.ready_to_send) && (
                                                     <Label variant="filled" color="success">
-                                                        پرداخت شده
+                                                        آماده ارسال
                                                     </Label>
                                                 ) ||
                                                 ''
