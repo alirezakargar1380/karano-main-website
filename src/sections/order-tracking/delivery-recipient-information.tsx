@@ -9,9 +9,11 @@ import { endpoints, server_axios } from "src/utils/axios";
 import DeliveryAdresses from "./delivery-addresses";
 import { useAuthContext } from "src/auth/hooks";
 import { useEffect, useState } from "react";
+import { IOrderDeliveryType } from "src/types/order";
 
 interface Props {
-    orderId: number
+    orderId: number,
+    delivery_type: IOrderDeliveryType
 }
 
 enum InvoiceOwner {
@@ -19,7 +21,7 @@ enum InvoiceOwner {
     another = "another"
 }
 
-export function DeliveryRecipientInformation({ orderId }: Props) {
+export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) {
     const [invoiceOwner, setInvoiceOwner] = useState<InvoiceOwner>(InvoiceOwner.me)
 
     const checkout = useCheckoutContext();
@@ -59,10 +61,12 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
         }
     });
 
+    const values = watch();
+
     useEffect(() => {
         if (invoiceOwner === InvoiceOwner.me && user) {
             reset({
-                ...defaultValues,
+                ...values,
                 invoice_owner: {
                     first_name: user.first_name,
                     last_name: user.last_name,
@@ -70,9 +74,15 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
                 }
             });
         } else {
-            reset(defaultValues);
+            reset({
+                ...defaultValues,
+                reciver_name: values.reciver_name,
+                reciver_phone: values.reciver_phone,
+            });
         }
     }, [invoiceOwner])
+
+    console.log(delivery_type)
 
     return (
         <Stack spacing={3}>
@@ -88,7 +98,7 @@ export function DeliveryRecipientInformation({ orderId }: Props) {
                 </Box>
             </FormProvider>
 
-            <DeliveryAdresses orderId={orderId} />
+            {delivery_type === IOrderDeliveryType.tehran && (<DeliveryAdresses orderId={orderId} />)}
 
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
