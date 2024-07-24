@@ -19,12 +19,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'src/components/snackbar';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
+import { useCheckoutContext } from 'src/sections/checkout/context';
 
 // ----------------------------------------------------------------------
 interface Props {
     dialog: useBooleanReturnType;
     order_form_id: number;
+    pId?: number;
     product_name: string;
+    type?: 'cart' | 'edit';
     currentData?: ICheckoutItemPropertyPrice | undefined;
     listId?: number | undefined;
     listData?: ICheckoutItemPropertyPrice[] | undefined
@@ -36,14 +39,19 @@ interface Props {
 export default function CartDialog({
     dialog,
     order_form_id,
+    pId,
     product_name,
     currentData,
     listId,
     listData,
     onAddCart,
     onDelete,
-    handleUpdateRow
+    handleUpdateRow,
+    type = 'cart'
 }: Props) {
+
+    const checkout = useCheckoutContext();
+
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
     const [id, setId] = useState<null | number>(null);
     const { form, formLoading } = useGetOrderForm(order_form_id);
@@ -108,7 +116,6 @@ export default function CartDialog({
                         ...custom
                     }
                 ]);
-                console.log("data was updated")
             } else {
                 list[id] = custom;
                 if (handleUpdateRow) list[id].status = IOrderProductPropertyStatus.edited;
@@ -144,9 +151,7 @@ export default function CartDialog({
     }, [listId])
 
     useEffect(() => {
-        if (id === null) {
-            reset(defaultValues);
-        }
+        if (id === null) reset(defaultValues);
     }, [id])
 
     useEffect(() => {
@@ -159,15 +164,6 @@ export default function CartDialog({
         if (!currentData) return;
         reset(customizeData(currentData));
     }, [currentData])
-
-    useEffect(() => {
-        console.log('listData updating...',)
-        if (!listData?.length) {
-            if (!listData?.length && id === null) return setList([]);
-            return
-        }
-        setList(listData)
-    }, [listData, id])
 
     const handleUpdate = useCallback((itemId: number) => {
         setId(itemId)
@@ -183,15 +179,28 @@ export default function CartDialog({
         else
             onAddCart(list)
     }, [list]);
-      
-    const onDeleteRow = (pIndex: number) => {
+
+    const onDeleteRow = (propertyIndex: number) => {
+        if (propertyIndex === id) return enqueueSnackbar("آیتم انتخاب شده قابل حذف نیست", {
+            variant: 'error'
+        })
+
         // remove from list
-        console.log(list[0])
         let newList = [...list];
-        newList.splice(pIndex, 1);
-        console.log(newList, pIndex)
-        setList(newList)
+        newList.splice(propertyIndex, 1);
+        setList(newList);
+
+        // remove from checkout
+        if (pId) checkout.onDeleteCart(pId, propertyIndex);
     }
+
+    useEffect(() => {
+        if (!listData?.length) {
+            if (!listData?.length && id === null && !list.length) return setList([]);
+            return
+        }
+        setList(listData)
+    }, [listData, id]);
 
     return (
         <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} fullWidth={true} maxWidth={'xl'}>
@@ -229,11 +238,14 @@ export default function CartDialog({
                                     </LoadingButton>
                                 </>
                             )}
-                            {(listId === undefined && id === null && !listData?.length) && (
-                                <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
-                                    افزودن به لیست
-                                </StyledRoundedWhiteButton>
-                            )}
+                            {
+                                // (listId === undefined && id === null && !listData?.length)
+                                (id === null && type === 'cart')
+                                && (
+                                    <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
+                                        افزودن به لیست
+                                    </StyledRoundedWhiteButton>
+                                )}
                         </Stack>
                         <Stack direction={'row'} spacing={2}>
                             <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={() => {
