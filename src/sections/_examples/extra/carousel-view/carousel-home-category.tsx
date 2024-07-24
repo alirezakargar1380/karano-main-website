@@ -57,9 +57,9 @@ export default function CarouselHomeCategory() {
   useEffect(() => {
     console.log("i called")
     if (!selectedCategoryId && !categoryLoading) {
-      router.push("?category=" + categories[0]?.id?.toString());
+      router.replace("?category=" + categories[0]?.id?.toString());
     } else if (!categoryLoading) {
-      router.push("?category=" + categories[0]?.id?.toString());
+      router.replace("?category=" + categories[0]?.id?.toString());
     }
   }, [categoryLoading, authenticated])
 
