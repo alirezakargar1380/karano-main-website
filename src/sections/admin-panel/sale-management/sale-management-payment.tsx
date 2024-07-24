@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import Iconify from "src/components/iconify";
 import { GrayNotification } from "src/components/notification";
 import FormProvider, {
@@ -15,12 +15,13 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
-import { useBooleanReturnType } from "src/hooks/use-boolean";
+import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import { endpoints, server_axios } from "src/utils/axios";
 import { OrderStatus } from "src/types/order";
 import { IOrderProductItem } from "src/types/order-products";
 import InvoiceDialog from "./common/invoice-dialog";
 import { useSnackbar } from 'src/components/snackbar';
+import { ReminderDialog, WarningDialog } from "src/components/custom-dialog";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
@@ -37,6 +38,7 @@ export default function SaleManagementPayment({
     hasCustomMade,
     orderProducts
 }: Props) {
+    const timeReminder = useBoolean();
 
     const defaultValues = {
         need_prepayment: false,
@@ -66,7 +68,7 @@ export default function SaleManagementPayment({
                 enqueueSnackbar("وضعیت سفارش به رد شده تغییر پیدا کرد")
             } else {
                 console.log("update stauts", data)
-                invoiceDialog.onFalse();
+                timeReminder.onFalse();
                 await server_axios.patch(endpoints.orders.update(orderId), {
                     ...data,
                     status: OrderStatus.accepted
@@ -80,10 +82,28 @@ export default function SaleManagementPayment({
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
 
+            <WarningDialog
+                open={timeReminder.value}
+                onClose={timeReminder.onFalse}
+                title="اطمینان از تایید سفارش"
+                content="آیا از تایید تمام کالاهای این سفارش مطمئن هستید؟"
+                action={
+                    <LoadingButton variant="contained" onClick={() => onSubmit()} sx={{
+                        borderRadius: '50px',
+                        px: 4
+                    }}>
+                        بله
+                    </LoadingButton>
+                }
+            />
+
             <InvoiceDialog
                 dialog={invoiceDialog}
                 orderProducts={orderProducts}
-                submitHandler={() => onSubmit()}
+                submitHandler={() => {
+                    timeReminder.onTrue();
+                    invoiceDialog.onFalse();
+                }}
             />
 
             <Box sx={{

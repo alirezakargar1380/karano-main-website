@@ -60,7 +60,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
 
     return (!orderLoading) && (
         <Box sx={{height: '100vh'}}>
-            <ReminderDialog
+            {/* <ReminderDialog
                 open={deleteReminder.value}
                 onClose={deleteReminder.onFalse}
                 title="یادآوری"
@@ -75,6 +75,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
                     </Button>
                 }
             />
+
             <ReminderDialog
                 open={timeReminder.value}
                 onClose={timeReminder.onFalse}
@@ -89,7 +90,8 @@ export default function SaleManagementDetailsView({ id }: Props) {
                         متوجه شدم
                     </Button>
                 }
-            />
+            /> */}
+
             <AdminBreadcrumbs
                 links={[
                     { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
