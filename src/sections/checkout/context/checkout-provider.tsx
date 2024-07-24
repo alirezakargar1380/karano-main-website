@@ -1,12 +1,10 @@
 'use client';
 
-import uniq from 'lodash/uniq';
 import { useMemo, useEffect, useCallback } from 'react';
 
-import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
 
-import { getStorage, setStorage, useLocalStorage } from 'src/hooks/use-local-storage';
+import { getStorage, useLocalStorage } from 'src/hooks/use-local-storage';
 
 import { PRODUCT_CHECKOUT_STEPS } from 'src/_mock/_product';
 
@@ -45,7 +43,6 @@ export function CheckoutProvider({ children }: Props) {
   useEffect(() => {
     channel.addEventListener('message', function (event) {
       if (event.data.key === STORAGE_KEY) {
-        console.log(event.data.value);
         update('items', event.data.value)
       }
     })
@@ -134,13 +131,14 @@ export function CheckoutProvider({ children }: Props) {
   );
 
   const onDeleteCart = // useCallback(
-    (itemId: number, itemIndex: number, propertyIndex: number) => {
+    (itemId: number, propertyIndex: number) => {
       const restored = getStorage(STORAGE_KEY);
       if (!restored?.items?.length) return
 
       let item = restored.items.find((item: ICheckoutItem) => item.id === itemId);
+      let productIndex = restored.items.findIndex((item: ICheckoutItem) => item.id === itemId);
 
-      console.log('->', restored.items.length)
+      console.log('-> productIndex', productIndex)
       console.log(item)
       const index = propertyIndex;
       if (index > -1)
@@ -149,10 +147,8 @@ export function CheckoutProvider({ children }: Props) {
       if (!item.properties.length) {
         restored.items = restored.items.filter((item: ICheckoutItem) => item.id !== itemId);
       } else {
-        restored.items[itemIndex] = item
+        restored.items[productIndex] = item
       }
-
-      console.log(restored.items)
 
       update('items', restored.items);
       channel.postMessage({ key: STORAGE_KEY, value: restored.items })

@@ -54,7 +54,7 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
 
     useEffect(() => {
         setCheckoutItems(items);
-    }, [items])
+    }, [items, setList]);
 
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
@@ -75,7 +75,7 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
     }, [checkoutItem]);
 
     const handleRemoveCart = useCallback((itemId: number, itemIndex: number, propertyIndex: number) => {
-        checkout.onDeleteCart(itemId, itemIndex, propertyIndex)
+        checkout.onDeleteCart(itemId, propertyIndex)
     }, []);
 
     const handleRemove = useCallback(async (propertyId: number) => {
@@ -130,7 +130,7 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
 
     useEffect(() => {
         handleCanDelete();
-    }, [])
+    }, []);
 
     return (
         <Box>
@@ -139,12 +139,14 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
                     dialog={cartDialog}
                     order_form_id={checkoutItem.order_form_id}
                     product_name={checkoutItem.name}
+                    pId={checkoutItem.id}
                     listId={propertyId}
                     listData={list}
                     onAddCart={handleUpdate}
-                    onDelete={handleRemove}
+                    onDelete={(type === 'edit') ? handleRemove : undefined}
                     handleUpdateRow={(type === 'edit') ? handleUpdateRow : undefined}
                     currentData={property}
+                    type={type}
                 />
             )}
             {checkoutItems.map((item, index: number) => {
