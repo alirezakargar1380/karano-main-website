@@ -127,7 +127,7 @@ export default function CarouselProducts({ data, label }: Props) {
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {data.map((item, index) => (
             <Stack key={item.id} sx={{ mt: 10, px: 2 }}>
-              <ProductItemSlider ind={index} />
+              <ProductItemSlider product={item} />
               {/* <Image alt={item.title} src={item.coverUrl} ratio="4/3" />
 
             <CardContent sx={{ textAlign: 'left' }}>
