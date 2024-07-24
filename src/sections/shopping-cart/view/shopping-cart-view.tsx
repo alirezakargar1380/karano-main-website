@@ -33,7 +33,6 @@ export default function ShoppingCartView() {
 
     useEffect(() => {
         setDisable(!checkout.items.length)
-        console.log(checkout.items.length)
     }, [checkout.items])
 
     return (
