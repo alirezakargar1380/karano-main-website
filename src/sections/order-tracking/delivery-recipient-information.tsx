@@ -92,7 +92,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                         اطلاعات تحویل گیرنده
                     </Typography>
                     <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ mt: 2 }} spacing={2}>
-                        <RHFTitleTextField name='reciver_name' custom_label='نام' placeholder='نام' />
+                        <RHFTitleTextField name='reciver_name' custom_label='نام و نام خانوادگی' placeholder='نام و نام خانوادگی' />
                         <RHFTitleTextField name='reciver_phone' custom_label='شماره تماس' placeholder='+98' />
                     </Stack>
                 </Box>

@@ -22,12 +22,11 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         })
                     }}
                     color={
-                        (order.status === OrderStatus.pending && 'info') ||
+                        ((order.status === OrderStatus.pending || order.status === OrderStatus.ready_to_send) && 'info') ||
                         (order.status === OrderStatus.failed && 'error') ||
                         ((
                             order.status === OrderStatus.accepted ||
-                            order.status === OrderStatus.ready_to_send ||
-                            order.status === OrderStatus.production
+                            order.status === OrderStatus.ready_to_send
                         ) && 'success') ||
                         (order.status === OrderStatus.edited && 'warning') ||
                         'default'
@@ -58,8 +57,8 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         }}
                     >
                         {
-                            ((order.status === OrderStatus.pending || order.status === OrderStatus.edited) && 'مشاهده سبد خرید') ||
-                            (order.status === OrderStatus.failed && 'test') ||
+                            ((order.status === OrderStatus.pending || order.status === OrderStatus.edited || order.status === OrderStatus.ready_to_send) && 'مشاهده سبد خرید') ||
+                            ((order.status === OrderStatus.failed) && 'مشاهده جزئیات') ||
                             ((order.status === OrderStatus.accepted) && 'ادامه و تکمیل خرید') ||
                             (order.status === OrderStatus.edited && 'test') ||
                             (order.status === OrderStatus.produced && 'پرداخت نهایی') ||

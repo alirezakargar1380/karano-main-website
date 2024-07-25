@@ -77,7 +77,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress }: Props)
                         //  onClick={() => checkout.onNextStep()}
                         type="submit"
                     >
-                        ثبت و ادامه
+                        ثبت آدرس
                     </LoadingButton>
                 </Stack>
             </Box>

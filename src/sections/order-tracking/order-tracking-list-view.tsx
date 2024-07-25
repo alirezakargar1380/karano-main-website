@@ -47,7 +47,7 @@ export default function OrderTrackingListView() {
         setOrderId(id);
         if (status === OrderStatus.failed) {
             orderRejectingDialog.onTrue();
-        } else if (status === OrderStatus.pending || status === OrderStatus.edited) {
+        } else if (status === OrderStatus.pending || status === OrderStatus.edited || status === OrderStatus.ready_to_send) {
             cartDialog.onTrue();
         } else if (status === OrderStatus.accepted) {
             finalOrderDialog.onTrue();
