@@ -161,7 +161,7 @@ export default function CartDialogView({
                 tooltipComponent={Tooltip}
                 steps={steps}
                 run={state.run}
-                disableScrolling
+                // disableScrolling
                 continuous
                 scrollToFirstStep
                 disableOverlayClose
