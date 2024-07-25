@@ -10,6 +10,7 @@ import { useSnackbar } from 'src/components/snackbar';
 import Label from "src/components/label";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
+import { IUserTypes } from "src/types/user";
 
 interface Props {
     orderProducts: IOrderProductItem[]
@@ -55,7 +56,7 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
                             نام سفارش دهنده:
                         </Typography>
                         <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {order.user.first_name + " " + order.user.last_name}
+                            {(order.user.user_type === IUserTypes.genuine) ? order.user.first_name + " " + order.user.last_name : order.user.company_name}
                         </Typography>
                     </Box>
                 </Stack>

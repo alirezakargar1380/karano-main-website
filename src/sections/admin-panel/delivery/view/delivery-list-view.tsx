@@ -22,6 +22,7 @@ import { useBoolean } from "src/hooks/use-boolean";
 import Iconify from "src/components/iconify";
 import SvgColor from "src/components/svg-color";
 import { useState } from "react";
+import { IUserTypes } from "src/types/user";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -289,7 +290,7 @@ export default function DeliveryListView() {
                                     <TableRow key={index}>
                                         <TableCell>{row.id}</TableCell>
 
-                                        <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
+                                        <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
                                         <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>

@@ -16,6 +16,7 @@ import * as Yup from 'yup';
 import { useGetOrders } from "src/api/orders";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { fDate, fDateTime } from "src/utils/format-time";
+import { IUserTypes } from "src/types/user";
 
 export default function SaleManagementListView() {
     const settings = useSettingsContext();
@@ -50,6 +51,8 @@ export default function SaleManagementListView() {
             reset();
         }
     });
+
+    console.log(orders)
 
     return (
 
@@ -162,7 +165,7 @@ export default function SaleManagementListView() {
                                     <TableRow key={index}>
                                         <TableCell>{row.id}</TableCell>
 
-                                        <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
+                                        <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
 
                                         <TableCell>{row.order_number}</TableCell>
 

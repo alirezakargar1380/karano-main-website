@@ -19,6 +19,7 @@ export interface IUser {
   id: number
   first_name: string
   last_name: string
+  company_name: string;
   phone: string
   email: string
   id_code: string

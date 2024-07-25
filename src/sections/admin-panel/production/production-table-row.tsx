@@ -7,6 +7,7 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { useCallback, useEffect, useState } from "react";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { endpoints, server_axios } from "src/utils/axios";
+import { IUserTypes } from "src/types/user";
 
 interface Props {
     row: IOrderItem
@@ -64,7 +65,7 @@ export function ProductionTableRow({ row }: Props) {
                     </Select> */}
                 </TableCell>
 
-                <TableCell>{row.user.first_name + " " + row.user.last_name}</TableCell>
+                <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
 
                 <TableCell>1409/01/01</TableCell>
 
