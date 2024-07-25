@@ -90,16 +90,14 @@ export default function UserOrdersView() {
                         <TrackingOrderItem key={order.id} order={order} />
                     ))}
                 </Stack> */}
-                <OrderTrackingListView />
+                {(!ordersEmpty) && <OrderTrackingListView />}
                 {(ordersEmpty) && (
                     <Box sx={{
                         border: (theme) => `1px solid #A9A9A9`,
                         borderRadius: '16px',
                     }}>
                         <Box sx={{ textAlign: 'center' }}>
-                            <Image src="/assets/images/user-panel/Empty-State-orders.png" sx={{
-                            }}
-                            />
+                            <Image src="/assets/images/user-panel/Empty-State-orders.png" />
                         </Box>
                     </Box>
                 )}
