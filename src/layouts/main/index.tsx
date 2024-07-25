@@ -74,9 +74,9 @@ export default function MainLayout({ children, header = true }: Props) {
               component="main"
               sx={{
                 flexGrow: 1,
-                // ...(!homePage && {
-                //   pt: { xs: 8, md: 12 },
-                // }),
+                ...(!homePage && {
+                  pt: { xs: 8, md: 6 },
+                }),
                 // ...(showBanner && {
                 //   mt: { xs: 8, md: 6 },
                 // })
