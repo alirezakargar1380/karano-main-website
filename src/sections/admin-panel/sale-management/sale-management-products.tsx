@@ -253,68 +253,70 @@ function SaleManagementProductItem({
                     </Scrollbar>
                 </TableContainer>
             </Stack>
-            <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Stack sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} direction={'row'} justifyContent={'space-between'}>
-                    <Box p={2} fontFamily={'peyda-bold'}>
-                        {'آیا کالای فوق را تایید میکنید؟'}
-                    </Box>
-                    <Box>
-                        <RHFRadioGroupCard
-                            name={`is_approved`}
-                            row
-                            options={[
-                                {
-                                    label: 'عدم تایید',
-                                    value: '0'
-                                },
-                                {
-                                    label: 'تایید',
-                                    value: '1'
+            {product.order_type === ProductOrderType.custom_made && (
+                <FormProvider methods={methods} onSubmit={onSubmit}>
+                    <Stack sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} direction={'row'} justifyContent={'space-between'}>
+                        <Box p={2} fontFamily={'peyda-bold'}>
+                            {'آیا کالای فوق را تایید میکنید؟'}
+                        </Box>
+                        <Box>
+                            <RHFRadioGroupCard
+                                name={`is_approved`}
+                                row
+                                options={[
+                                    {
+                                        label: 'عدم تایید',
+                                        value: '0'
+                                    },
+                                    {
+                                        label: 'تایید',
+                                        value: '1'
+                                    }
+                                ]}
+                                sx={{ pt: 1, mr: 1 }}
+                                BSx={{
+                                    mb: 1
+                                }}
+                                // FSx={{ border: (theme: any) => `1px solid ${theme?.palette?.divider}`, borderRadius: '8px', pr: 2 }}
+                                variant="body1"
+                                RadioSx={{
+                                    p: '4px',
+                                    '&::after': {
+                                        content: '""',
+                                        position: 'absolute',
+                                        left: '3px',
+                                        // right: '1px',
+                                        top: '3px',
+                                        // bottom: '6px',
+                                        background: 'white',
+                                        borderRadius: '50%',
+                                        width: '6px',
+                                        height: '6px'
+                                    },
+                                }}
+                                onChange={handleApprove}
+                            />
+                        </Box>
+                    </Stack>
+                    <Box mt={3}>
+                        <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ pb: 1 }}>توضیحات برای مشتری</Typography>
+                        <RHFTextField
+                            name="rejection_reason"
+                            multiline
+                            rows={3}
+                            disabled={values.is_approved === '1'}
+                            sx={{
+                                pt: 1,
+                                mr: 1,
+                                '& .MuiInputBase-root': {
+                                    bgcolor: '#E0E0E0',
                                 }
-                            ]}
-                            sx={{ pt: 1, mr: 1 }}
-                            BSx={{
-                                mb: 1
                             }}
-                            // FSx={{ border: (theme: any) => `1px solid ${theme?.palette?.divider}`, borderRadius: '8px', pr: 2 }}
-                            variant="body1"
-                            RadioSx={{
-                                p: '4px',
-                                '&::after': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    left: '3px',
-                                    // right: '1px',
-                                    top: '3px',
-                                    // bottom: '6px',
-                                    background: 'white',
-                                    borderRadius: '50%',
-                                    width: '6px',
-                                    height: '6px'
-                                },
-                            }}
-                            onChange={handleApprove}
+                            placeholder="متن محتوا"
                         />
                     </Box>
-                </Stack>
-                <Box mt={3}>
-                    <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ pb: 1 }}>توضیحات برای مشتری</Typography>
-                    <RHFTextField
-                        name="rejection_reason"
-                        multiline
-                        rows={3}
-                        disabled={values.is_approved === '1'}
-                        sx={{
-                            pt: 1,
-                            mr: 1,
-                            '& .MuiInputBase-root': {
-                                bgcolor: '#E0E0E0',
-                            }
-                        }}
-                        placeholder="متن محتوا"
-                    />
-                </Box>
-            </FormProvider>
+                </FormProvider>
+            )}
         </Box>
 
     )

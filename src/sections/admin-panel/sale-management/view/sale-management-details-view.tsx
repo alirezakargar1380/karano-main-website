@@ -55,6 +55,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
     }, [orderProducts]);
 
     const handleHasApprove = useCallback((allApproved: boolean) => {
+        allApproved = false
         setSendToUser(allApproved)
     }, [])
 
