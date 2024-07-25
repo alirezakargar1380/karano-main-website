@@ -80,7 +80,8 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
 
     const handleRemove = useCallback(async (propertyId: number) => {
         const p = checkoutItems.find((item) => item.properties.find((p) => p.id === propertyId))
-        if (p?.properties.find((pp) => pp.status === IOrderProductPropertyStatus.approve))
+        console.log(p)
+        if (p?.properties.find((pp) => pp.status === IOrderProductPropertyStatus.approve && pp.id === propertyId))
             return enqueueSnackbar('این مورد تایید شده است، نمیتوانید حذف کنید', { variant: 'error' });
 
         await server_axios.delete(endpoints.orderProductProperties.delete(propertyId));
