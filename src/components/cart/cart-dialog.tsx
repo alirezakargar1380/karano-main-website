@@ -212,6 +212,7 @@ export default function CartDialog({
                         formOptions={form}
                         data={list}
                         listId={id}
+                        type={type}
                         onUpdate={handleUpdate}
                         onDelete={onDelete || onDeleteRow}
                     />

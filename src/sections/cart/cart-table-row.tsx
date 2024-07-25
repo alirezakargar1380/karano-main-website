@@ -32,6 +32,7 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 type Props = {
   row: ICartItem;
   selected?: boolean;
+  type?: 'cart' | 'edit';
   onEditRow?: VoidFunction;
   onDeleteRow?: VoidFunction;
 };
@@ -39,6 +40,7 @@ type Props = {
 export default function CartTableRow({
   row,
   selected,
+  type,
   onDeleteRow,
   onEditRow,
 }: Props) {
@@ -144,7 +146,7 @@ export default function CartTableRow({
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
-            {(onDeleteRow) && (
+            {(onDeleteRow && type !== 'edit') && (
               <IconButton color={'default'} onClick={confirm.onTrue}>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>

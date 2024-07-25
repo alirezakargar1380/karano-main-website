@@ -34,6 +34,7 @@ interface Props {
     listId: number | null
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
+    type?: 'cart' | 'edit';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
 }
@@ -43,6 +44,7 @@ export default function CartDialogView({
     formOptions,
     data,
     listId,
+    type,
     onUpdate,
     onDelete
 }: Props) {
@@ -213,6 +215,7 @@ export default function CartDialogView({
                             <TableBody>
                                 {data.map((item, index: number) => (
                                     <CartTableRow
+                                        type={type}
                                         onDeleteRow={() => onDelete(item.id || index)}
                                         onEditRow={() => onUpdate(index)}
                                         selected={(listId === index)}
