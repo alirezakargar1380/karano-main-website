@@ -11,6 +11,7 @@ import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IProductDefaultDetails } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { ICheckoutAddCustomMadeProductData, ICheckoutItemPropertyPrice } from 'src/types/checkout';
+import { useEffect, useState } from 'react';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل' },
@@ -37,6 +38,7 @@ interface Props {
     type?: 'cart' | 'edit';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
+    values: any
 }
 
 export default function CartDialogView({
@@ -46,8 +48,41 @@ export default function CartDialogView({
     listId,
     type,
     onUpdate,
-    onDelete
+    onDelete,
+    values,
 }: Props) {
+    const [disable, setDisable] = useState({
+        profile_type: false,
+        cover_type: true,
+        frame_type: true,
+        coating_type: true,
+        dimension: true
+    })
+
+    useEffect(() => {
+        // check for wich one is the first
+        console.log(values.profile_type)
+        if (values.profile_type) {
+            if (formOptions.cover_type)
+                setDisable({ ...disable, cover_type: false })
+        }
+
+        if (values.cover_type) {
+            if (formOptions.frame_type)
+                setDisable({ ...disable, frame_type: false })
+        }
+
+        if (values.frame_type) {
+            if (formOptions.coating_type)
+                setDisable({ ...disable, coating_type: false })
+        }
+
+        if (values.coating_type) {
+            setDisable({ ...disable, dimension: false })
+        }
+    }, [values]);
+
+
 
     return (
         // <Scrollbar sx={{ minHeight: 200 }}>
@@ -57,20 +92,54 @@ export default function CartDialogView({
                     <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
                         {title}
                     </Typography>
-                    <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
-                        <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
-                            ویژگی های مورد نظر را انتخاب کنید
-                        </Typography>
-                        <Box width={1}>
+
+                    {formOptions.profile_type && (
+                        <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
+                            <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
+                                ویژگی های مورد نظر را انتخاب کنید
+                            </Typography>
+                            <Box width={1}>
+                                <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+                                    width: 1, pb: 1
+                                }}>
+                                    نوع پروفیل
+                                </Typography>
+
+                                <RHFRadioGroup
+                                    name='profile_type'
+                                    row
+                                    sx={{
+                                        width: 1,
+                                        display: 'grid',
+                                        gridTemplateColumns: {
+                                            xs: 'repeat(1, 1fr)',
+                                            md: 'repeat(2, 1fr)',
+                                        },
+                                    }}
+                                    FormControlSx={{
+                                        width: 1
+                                    }}
+                                    options={formOptions.profile_type.map((profile_type) => {
+                                        return {
+                                            label: profile_type.name,
+                                            value: profile_type.id,
+                                        }
+                                    })}
+                                />
+                            </Box>
+                        </Box>
+                    )}
+
+                    {formOptions.cover_type && (
+                        <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: 1
                             }}>
-                                نوع پروفیل
+                                پوشش نهایی
                             </Typography>
-
-                            <RHFRadioGroup
-                                name='profile_type'
-                                row
+                            <RHFRadioGroupWithImage
+                                name='cover_type'
+                                disabled={disable.cover_type}
                                 sx={{
                                     width: 1,
                                     display: 'grid',
@@ -79,41 +148,23 @@ export default function CartDialogView({
                                         md: 'repeat(2, 1fr)',
                                     },
                                 }}
-                                FormControlSx={{
-                                    width: 1
+                                FSx={{
+                                    '&.MuiFormControlLabel-root': {
+                                        mr: 0
+                                    }
                                 }}
-                                options={formOptions.profile_type.map((profile_type) => {
+                                options={formOptions.cover_type.map((cover_type) => {
                                     return {
-                                        label: profile_type.name,
-                                        value: profile_type.id,
+                                        label: cover_type.name,
+                                        value: cover_type.id,
+                                        src: endpoints.cover_type.get_image(cover_type.icon_image_name)
                                     }
                                 })}
                             />
                         </Box>
-                    </Box>
-                    <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                        <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                            width: 1, pb: 1
-                        }}>
-                            پوشش نهایی
-                        </Typography>
-                        <RHFRadioGroupWithImage
-                            name='cover_type'
-                            FSx={{
-                                '&.MuiFormControlLabel-root': {
-                                    ml: 0,
-                                    mr: 0
-                                }
-                            }}
-                            options={formOptions.cover_type.map((cover_type) => {
-                                return {
-                                    label: cover_type.name,
-                                    value: cover_type.id,
-                                    src: endpoints.cover_type.get_image(cover_type.icon_image_name)
-                                }
-                            })}
-                        />
-                    </Box>
+
+                    )}
+
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
                             width: 1, pb: 1
@@ -122,6 +173,7 @@ export default function CartDialogView({
                         </Typography>
                         <RHFRadioGroup
                             name='frame_type'
+                            disabled={disable.frame_type}
                             row
                             sx={{
                                 mt: 2,
@@ -144,6 +196,7 @@ export default function CartDialogView({
                             })}
                         />
                     </Box>
+
                     <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
                             width: 1, pb: 3, pt: 1
@@ -153,6 +206,7 @@ export default function CartDialogView({
                         <RHFRadioGroup
                             name='coating_type'
                             row
+                            disabled={disable.coating_type}
                             sx={{
                                 width: 1,
                                 display: 'grid',
@@ -176,6 +230,7 @@ export default function CartDialogView({
                             ]}
                         />
                     </Box>
+
                     <Box sx={{ py: 2 }}>
                         <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
                             width: 1, pb: 3, pt: 1
@@ -192,10 +247,10 @@ export default function CartDialogView({
                                 xs: 'repeat(1, 1fr)',
                                 md: 'repeat(2, 1fr)',
                             }}>
-                            <RHFTitleTextField name='dimension.height' custom_label='عرض (سانتی‌متر)' placeholder='26' />
-                            <RHFTitleTextField name='dimension.width' custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                            <RHFTitleTextField name='dimension.height' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
+                            <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                         </Stack>
-                        <RHFTitleTextField name='quantity' custom_label='تعداد' placeholder='2' />
+                        <RHFTitleTextField name='quantity' disabled={disable.dimension} custom_label='تعداد' placeholder='2' />
                     </Box>
                 </Box>
             </Grid>
