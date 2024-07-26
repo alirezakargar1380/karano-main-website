@@ -82,7 +82,7 @@ export default function CartDialog({
         profile_type: 0,
         cover_type: 0,
         frame_type: 0,
-        coating_type: 'جناقی'
+        coating_type: ''
     };
 
     if (currentData?.id) defaultValues.id = currentData.id;
@@ -212,6 +212,7 @@ export default function CartDialog({
                         formOptions={form}
                         data={list}
                         listId={id}
+                        values={values}
                         type={type}
                         onUpdate={handleUpdate}
                         onDelete={onDelete || onDeleteRow}
