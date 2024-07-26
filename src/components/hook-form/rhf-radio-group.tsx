@@ -17,8 +17,10 @@ type Props = RadioGroupProps & {
   label?: string;
   spacing?: number;
   helperText?: React.ReactNode;
-  FSx?: SxProps
+  FSx?: SxProps,
+  disabled?: boolean | undefined
   FormControlSx?: SxProps
+
 };
 
 export default function RHFRadioGroup({
@@ -29,6 +31,7 @@ export default function RHFRadioGroup({
   spacing,
   helperText,
   FSx,
+  disabled,
   FormControlSx,
   ...other
 }: Props) {
@@ -53,7 +56,8 @@ export default function RHFRadioGroup({
               <Box key={option.value}>
                 <FormControlLabel
                   value={option.value}
-                  control={<Radio />}
+                  disabled={disabled}
+                  control={<Radio disabled={disabled} />}
                   label={option.label}
                   sx={{
                     '&:not(:last-of-type)': {

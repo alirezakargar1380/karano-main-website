@@ -54,6 +54,9 @@ export function radio(theme: Theme) {
             borderColor: "#2B2B2B!important",
             background: '#2B2B2B!important',
           },
+          '&.Mui-disabled': {
+            borderColor: "#E0E0E0!important",
+          },
           '&.Mui-checked:hover': {
             borderColor: "#2B2B2B!important",
             background: '#2B2B2B!important',
