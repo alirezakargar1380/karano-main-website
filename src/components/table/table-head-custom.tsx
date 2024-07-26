@@ -31,6 +31,7 @@ type Props = {
   onSort?: (id: string) => void;
   onSelectAllRows?: (checked: boolean) => void;
   sx?: SxProps<Theme>;
+  cellSx?: SxProps<Theme>;
 };
 
 export default function TableHeadCustom({
@@ -42,6 +43,7 @@ export default function TableHeadCustom({
   onSort,
   onSelectAllRows,
   sx,
+  cellSx,
 }: Props) {
   return (
     <TableHead sx={sx}>
@@ -63,7 +65,7 @@ export default function TableHeadCustom({
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth }}
+            sx={{ width: headCell.width, minWidth: headCell.minWidth, ...cellSx }}
           >
             {onSort ? (
               <TableSortLabel

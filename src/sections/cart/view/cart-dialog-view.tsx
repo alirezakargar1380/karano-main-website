@@ -89,7 +89,7 @@ export default function CartDialogView({
         <Grid container spacing={4} sx={{ width: 1, padding: 3 }}>
             <Grid item xs={12} md={4}>
                 <Box sx={{ px: 0 }}>
-                    <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
+                    <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5, fontFamily: 'peyda-bold' }} variant='h4'>
                         {title}
                     </Typography>
 
@@ -255,7 +255,7 @@ export default function CartDialogView({
                 </Box>
             </Grid>
             <Grid item xs={12} md={8}>
-                <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }} variant='h3'>
+                <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
                     لیست سفارش های ثبت شده
                 </Typography>
                 <Box>
@@ -265,6 +265,7 @@ export default function CartDialogView({
                                 sx={{
                                     backgroundColor: '#F2F2F2'
                                 }}
+                                cellSx={{ fontFamily: 'peyda-medium!important' }}
                                 headLabel={CartTableHead}
                             />
                             <TableBody>
