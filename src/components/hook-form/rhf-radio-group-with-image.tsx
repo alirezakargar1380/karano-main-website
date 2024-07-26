@@ -17,7 +17,8 @@ type Props = RadioGroupProps & {
   label?: string;
   spacing?: number;
   helperText?: React.ReactNode;
-  FSx?: SxProps
+  FSx?: SxProps;
+  disabled: boolean | undefined
 };
 
 export default function RHFRadioGroup({
@@ -28,6 +29,7 @@ export default function RHFRadioGroup({
   spacing,
   helperText,
   FSx,
+  disabled,
   ...other
 }: Props) {
   const { control } = useFormContext();
@@ -39,7 +41,7 @@ export default function RHFRadioGroup({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <FormControl component="fieldset">
+        <FormControl component="fieldset" sx={{ width: 1 }}>
           {label && (
             <FormLabel component="legend" id={labelledby} sx={{ typography: 'body2' }}>
               {label}
@@ -47,37 +49,55 @@ export default function RHFRadioGroup({
           )}
 
           <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
-            <Stack
+            {/* <Stack
               columnGap={12}
               rowGap={0}
               display="grid"
+              justifyItems={'center'}
               gridTemplateColumns={{
                 xs: 'repeat(1, 1fr)',
                 md: 'repeat(1, 1fr)',
                 lg: 'repeat(2, 1fr)',
-              }}>
-              {options.map((option, index) => (
-                <Box sx={{ display: 'flex', alignItems: 'center' }} key={option.value}>
-                  <FormControlLabel
-                    value={option.value}
-                    control={<Radio />}
-                    label={''}
-                    sx={{
-                      '&:not(:last-of-type)': {
-                        mb: spacing || 0,
-                      },
-                      ...(row && {
-                        mr: 0,
-                        ml: 0,
-                      }),
-                      ...FSx
-                    }}
-                  />
-                  <Avatar src={option.src} />
-                  <Typography variant="body2" sx={{ textTransform: 'capitalize', pt: 1, pl: 1 }}>{option.label}</Typography>
-                </Box>
-              ))}
-            </Stack>
+              }}
+              > */}
+            {options.map((option, index) => (
+              <Box sx={{ display: 'flex', justifyContent: 'normal' }} key={option.value}>
+                <FormControlLabel
+                  value={option.value}
+                  disabled={disabled}
+                  control={<Radio disabled={disabled} />}
+                  label={''}
+                  sx={{
+                    '&:not(:last-of-type)': {
+                      mb: spacing || 0,
+                    },
+                    ...(row && {
+                      mr: 0,
+                      ml: 0,
+                    }),
+                    ...FSx
+                  }}
+                />
+                <Avatar src={option.src}
+                  sx={{
+                    ...(disabled && {
+                      opacity: 0.5
+                    })
+                  }}
+                />
+                <Typography variant="body2" sx={{
+                  textTransform: 'capitalize',
+                  pt: 1,
+                  pl: 1,
+                  ...(disabled && {
+                    color: '#D1D1D1'
+                  })
+                }}>
+                  {option.label}
+                </Typography>
+              </Box>
+            ))}
+            {/* </Stack> */}
 
           </RadioGroup>
 
