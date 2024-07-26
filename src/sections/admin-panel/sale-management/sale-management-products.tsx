@@ -23,7 +23,7 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
 
     useEffect(() => {
         let isAllApproved: boolean = true;
-        isAllApproved = !orderProducts.find((pp) => pp.properties.find((p) => p.status !== IOrderProductPropertyStatus.approve));
+        isAllApproved = !orderProducts.find((pp) => pp.properties.find((p) => p.status !== IOrderProductPropertyStatus.approve && pp.product.order_type === ProductOrderType.custom_made));
         updateHasAnydeapprove(!isAllApproved)
     }, []);
 
