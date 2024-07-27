@@ -12,6 +12,7 @@ import { IProductDefaultDetails } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { ICheckoutAddCustomMadeProductData, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import { useEffect, useState } from 'react';
+import IncrementerButton from 'src/sections/product/common/incrementer-button';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل' },
@@ -38,6 +39,7 @@ interface Props {
     type?: 'cart' | 'edit';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
+    setValue: (name: string, value: any) => void
     values: any
 }
 
@@ -49,6 +51,7 @@ export default function CartDialogView({
     type,
     onUpdate,
     onDelete,
+    setValue,
     values,
 }: Props) {
     const [disable, setDisable] = useState({
@@ -250,7 +253,26 @@ export default function CartDialogView({
                             <RHFTitleTextField name='dimension.height' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
                             <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                         </Stack>
-                        <RHFTitleTextField name='quantity' disabled={disable.dimension} custom_label='تعداد' placeholder='2' />
+                        <Typography variant="subtitle1" fontFamily={'peyda-bold'} sx={{
+                            width: 1, pb: 1, pt: 1
+                        }}>
+                            تعداد
+                        </Typography>
+                        <IncrementerButton
+                            name="quantity"
+                            quantity={values.quantity || 1}
+                            // quantity={values.quantity}
+                            disabled={disable.dimension}
+                            // disabledDecrease={values.quantity <= 1}
+                            // disabledIncrease={values.quantity >= available}
+                            // onIncrease={() => { }}
+                            // onDecrease={() => { }}
+                            onDecrease={() => setValue('quantity', values.quantity ? values.quantity + 1 : 1)}
+                            onIncrease={() => {
+                                if (values.quantity != 1)
+                                    setValue('quantity', values.quantity ? values.quantity - 1 : 1)
+                            }}
+                        />
                     </Box>
                 </Box>
             </Grid>

@@ -18,7 +18,7 @@ type Props = RadioGroupProps & {
   spacing?: number;
   helperText?: React.ReactNode;
   FSx?: SxProps;
-  disabled: boolean | undefined
+  disabled?: boolean | undefined
 };
 
 export default function RHFRadioGroup({

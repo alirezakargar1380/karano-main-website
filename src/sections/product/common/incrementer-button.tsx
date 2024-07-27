@@ -14,12 +14,13 @@ interface Props extends StackProps {
   quantity: number;
   disabledIncrease?: boolean;
   disabledDecrease?: boolean;
+  disabled?: boolean | undefined;
   onIncrease: VoidFunction;
   onDecrease: VoidFunction;
 }
 
 const IncrementerButton = forwardRef<HTMLDivElement, Props>(
-  ({ quantity, onIncrease, onDecrease, disabledIncrease, disabledDecrease, sx, ...other }, ref) => (
+  ({ quantity, onIncrease, onDecrease, disabledIncrease, disabledDecrease, disabled, sx, ...other }, ref) => (
     <Stack
       ref={ref}
       flexShrink={0}
@@ -34,38 +35,49 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
         typography: 'subtitle2',
         border: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
         ...sx,
+        ...(disabled && {
+          backgroundColor: "#F8F8F8"
+        })
       }}
       {...other}
     >
       <Stack sx={{
         borderRight: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
         py: 0.75,
-        textAlign: 'center'
+        textAlign: 'center',
       }}>
         <IconButton
           size="small"
           onClick={onDecrease}
-          disabled={disabledDecrease}
-          sx={{ borderRadius: 0.75, p: 0, px: 1 }}
+          disabled={disabledDecrease || disabled}
+          sx={{
+            borderRadius: 0.75,
+            p: 0,
+            px: 1,
+          }}
         >
           <Iconify icon="mingcute:up-line" width={16} />
         </IconButton>
         <IconButton
           size="small"
           onClick={onIncrease}
-          disabled={disabledIncrease}
+          disabled={disabledIncrease || disabled}
           sx={{ borderRadius: 0.75, p: 0 }}
         >
           <Iconify icon="mingcute:down-line" width={16} />
         </IconButton>
       </Stack>
-      {/* <Stack sx={{ width: 1, pl: 2 }}>
-        {quantity}
-      </Stack> */}
-      <RHFTextField name='quantity' type='number'
+      <RHFTextField
+        disabled={disabled}
+        name='quantity'
+        type='number'
         sx={{
           width: 1,
-          '& .MuiInputBase-root': { borderRadius: 0, borderTopRightRadius: '8px', borderBottomRightRadius: '8px' }
+          '& .MuiInputBase-root': {
+            borderRadius: 0,
+            borderTopRightRadius: '8px',
+            borderBottomRightRadius: '8px'
+          }
         }}
       />
     </Stack>

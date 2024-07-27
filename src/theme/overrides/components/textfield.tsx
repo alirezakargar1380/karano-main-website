@@ -61,6 +61,8 @@ export function textField(theme: Theme) {
         root: {
           paddingRight: '0px!important',
           [`&.${inputBaseClasses.disabled}`]: {
+            background: '#F8F8F8',
+            borderColor: '#D1D1D1',
             '& svg': {
               color: theme.palette.text.disabled,
             },

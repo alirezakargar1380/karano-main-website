@@ -214,6 +214,7 @@ export default function CartDialog({
                         listId={id}
                         values={values}
                         type={type}
+                        setValue={(name: string, value: any) => setValue(name, value)}
                         onUpdate={handleUpdate}
                         onDelete={onDelete || onDeleteRow}
                     />
@@ -262,7 +263,7 @@ export default function CartDialog({
                                 sx={{ borderRadius: '24px', px: 4 }}
                                 onClick={handleAddToList}
                             >
-                                افزودن به سبد خرید
+                                {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
                             </LoadingButton>
                         </Stack>
                     </Stack>
