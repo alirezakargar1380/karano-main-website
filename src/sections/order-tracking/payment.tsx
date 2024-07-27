@@ -15,11 +15,16 @@ interface Props {
     finalOrderDialog: useBooleanReturnType
     hasCustomMade: boolean
     need_prepayment: boolean
+    production_days: number
     submitHandler: () => void
 }
 
 export default function Payment({ 
-    finalOrderDialog, hasCustomMade, orderId, need_prepayment,
+    finalOrderDialog, 
+    hasCustomMade, 
+    orderId, 
+    need_prepayment,
+    production_days,
     submitHandler
  }: Props) {
     const checkout = useCheckoutContext();
@@ -33,7 +38,7 @@ export default function Payment({
 
     const handle = async () => {
         await server_axios.patch(endpoints.orders.update(orderId), {
-            status: (hasCustomMade) ? OrderStatus.production : OrderStatus.ready_to_send
+            status: (hasCustomMade) ? OrderStatus.production : (production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
         })
         finalOrderDialog.onFalse()
     }

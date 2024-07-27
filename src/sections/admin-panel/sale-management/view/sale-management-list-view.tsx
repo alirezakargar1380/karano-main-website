@@ -181,6 +181,14 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="success">
                                                         تایید شده
                                                     </Label>
+                                                ) || (row.status === OrderStatus.production) && (
+                                                    <Label variant="filled" color="info">
+                                                        در حال تولید
+                                                    </Label>
+                                                ) || (row.status === OrderStatus.preparing) && (
+                                                    <Label variant="filled" color="info">
+                                                        در حال آماده سازی
+                                                    </Label>
                                                 ) || (row.status === OrderStatus.edited) && (
                                                     <Label variant="filled" color="warning">
                                                         اصلاح شده

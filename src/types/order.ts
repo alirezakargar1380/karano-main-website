@@ -59,6 +59,7 @@ export type IOrderProductItem = {
 };
 
 export enum OrderStatus {
+  preparing = 'preparing',
   pending = 'pending',
   failed = 'failed',
   accepted = 'accepted',

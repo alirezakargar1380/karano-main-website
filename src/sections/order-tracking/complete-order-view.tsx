@@ -77,6 +77,7 @@ export default function CompleteOrderView({
                             orderId={orderId}
                             hasCustomMade={hasCustomMade}
                             need_prepayment={order.need_prepayment}
+                            production_days={order.production_days}
                             submitHandler={handleAfterLastSection}
                         />
                     )}
