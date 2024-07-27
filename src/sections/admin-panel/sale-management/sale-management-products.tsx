@@ -13,6 +13,9 @@ import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { IUserTypes } from "src/types/user";
 import { fToJamali } from "src/utils/format-time";
 
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 interface Props {
     orderProducts: IOrderProductItem[]
     order: IOrderItem
@@ -94,8 +97,16 @@ function SaleManagementProductItem({
 }: SaleManagmentItem) {
     const { enqueueSnackbar } = useSnackbar();
 
+    const schema = Yup.object().shape({
+        rejection_reason: Yup.string().when('is_approved', (type: any, schema) => {
+            if (type[0] == "1")
+                return schema
+            return schema.required('علت رد شدن را وارد کنید').min(20, 'علت باید حداقل 20 کلمه باشد')
+        }),
+    });
+
     const methods = useForm({
-        // resolver: yupResolver<any>(schema),
+        resolver: yupResolver<any>(schema),
         defaultValues: {
             rejection_reason: property.rejection_reason || '',
             is_approved: (property.is_approved !== null) ? (property.is_approved ? '1' : '0') : null
