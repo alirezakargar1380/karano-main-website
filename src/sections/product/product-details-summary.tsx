@@ -281,7 +281,6 @@ export default function ProductDetailsSummary({
       <Stack spacing={1}>
         <IncrementerButton
           name="quantity"
-          quantity={values.quantity || 1}
           // quantity={values.quantity}
           // disabledDecrease={values.quantity <= 1}
           // disabledIncrease={values.quantity >= available}

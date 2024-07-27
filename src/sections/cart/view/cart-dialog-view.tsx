@@ -260,9 +260,8 @@ export default function CartDialogView({
                         </Typography>
                         <IncrementerButton
                             name="quantity"
-                            quantity={values.quantity || 1}
+                            // quantity={values.quantity || 1}
                             // quantity={values.quantity}
-                            disabled={disable.dimension}
                             // disabledDecrease={values.quantity <= 1}
                             // disabledIncrease={values.quantity >= available}
                             // onIncrease={() => { }}
@@ -273,6 +272,7 @@ export default function CartDialogView({
                                     setValue('quantity', values.quantity ? values.quantity - 1 : 1)
                             }}
                         />
+                        <RHFTitleTextField name='quantity' disabled={disable.dimension} custom_label='تعداد' placeholder='2' />
                     </Box>
                 </Box>
             </Grid>

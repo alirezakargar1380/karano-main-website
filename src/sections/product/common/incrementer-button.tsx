@@ -10,8 +10,7 @@ import { RHFTextField } from 'src/components/hook-form';
 // ----------------------------------------------------------------------
 
 interface Props extends StackProps {
-  name?: string;
-  quantity: number;
+  name: string;
   disabledIncrease?: boolean;
   disabledDecrease?: boolean;
   disabled?: boolean | undefined;
@@ -20,7 +19,7 @@ interface Props extends StackProps {
 }
 
 const IncrementerButton = forwardRef<HTMLDivElement, Props>(
-  ({ quantity, onIncrease, onDecrease, disabledIncrease, disabledDecrease, disabled, sx, ...other }, ref) => (
+  ({ onIncrease, onDecrease, name, disabledIncrease, disabledDecrease, disabled, sx, ...other }, ref) => (
     <Stack
       ref={ref}
       flexShrink={0}
@@ -69,7 +68,7 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
       </Stack>
       <RHFTextField
         disabled={disabled}
-        name='quantity'
+        name={name}
         type='number'
         sx={{
           width: 1,
