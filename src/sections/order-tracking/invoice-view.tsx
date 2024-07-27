@@ -21,12 +21,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type Props = {
     orderProducts: IOrderProductItem[];
-    submitHandler: () => void
+    submitHandler: () => void;
+    title?: string
 };
 
 export default function InvoiceView({
     orderProducts,
-    submitHandler 
+    submitHandler,
+    title = 'مشاهده فاکتور' 
 }: Props) {
     // const checkout = useCheckoutContext();
 
@@ -275,9 +277,9 @@ export default function InvoiceView({
     );
 
     return (
-        <Box>
+        <Box p={2}>
             <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                پیش‌فاکتور فروش کالا‌و‌خدمات
+                {title}
             </Typography>
             {renderList}
 

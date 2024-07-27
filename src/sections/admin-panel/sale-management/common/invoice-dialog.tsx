@@ -7,13 +7,15 @@ export interface Props {
     dialog: useBooleanReturnType;
     orderProducts: IOrderProductItem[];
     submitHandler: () => void;
+    title?: string
 }
 
-export default function InvoiceDialog({ dialog, orderProducts, submitHandler }: Props) {
+export default function InvoiceDialog({ dialog, orderProducts, title, submitHandler }: Props) {
 
     return (
         <DialogWithButton dialog={dialog} fullWith={true}>
             <InvoiceView
+                title={title}
                 orderProducts={orderProducts}
                 submitHandler={() => submitHandler()}
             />

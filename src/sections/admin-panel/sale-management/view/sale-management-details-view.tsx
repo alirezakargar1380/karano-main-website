@@ -60,37 +60,6 @@ export default function SaleManagementDetailsView({ id }: Props) {
 
     return (!orderLoading) && (
         <Box sx={{height: '100vh'}}>
-            {/* <ReminderDialog
-                open={deleteReminder.value}
-                onClose={deleteReminder.onFalse}
-                title="یادآوری"
-                content="مشتری مورد نظر برای  کالاهای آماده ناموجود سفارش خود، گزینه «حذف کالاهای ناموجود از سبد خرید» را انتخاب کرد؛ از این رو  مدت زمان  تحویل کالاهای موجود را مشخص کنید."
-                action={
-                    <Button variant="outlined" color="info" onClick={deleteReminder.onFalse} sx={{
-                        color: '#0B7BA7',
-                        borderColor: '#0B7BA7',
-                        borderRadius: '50px',
-                    }}>
-                        متوجه شدم
-                    </Button>
-                }
-            />
-
-            <ReminderDialog
-                open={timeReminder.value}
-                onClose={timeReminder.onFalse}
-                title="یادآوری"
-                content="مشتری مورد نظر برای  کالاهای آماده ناموجود سفارش خود، گزینه «تحویل همه محصولات با زمان بیشتر» را انتخاب کرد؛ از این رو  مدت زمان  تحویل کالاهای موجود را مشخص کنید."
-                action={
-                    <Button variant="outlined" color="info" onClick={timeReminder.onFalse} sx={{
-                        color: '#0B7BA7',
-                        borderColor: '#0B7BA7',
-                        borderRadius: '50px',
-                    }}>
-                        متوجه شدم
-                    </Button>
-                }
-            /> */}
 
             <AdminBreadcrumbs
                 links={[

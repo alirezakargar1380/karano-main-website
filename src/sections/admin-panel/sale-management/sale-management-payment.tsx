@@ -98,6 +98,7 @@ export default function SaleManagementPayment({
             />
 
             <InvoiceDialog
+                title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
                 dialog={invoiceDialog}
                 orderProducts={orderProducts}
                 submitHandler={() => {
