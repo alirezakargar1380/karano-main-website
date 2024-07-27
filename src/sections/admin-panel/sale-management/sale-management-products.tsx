@@ -11,6 +11,7 @@ import Label from "src/components/label";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { IUserTypes } from "src/types/user";
+import { fToJamali } from "src/utils/format-time";
 
 interface Props {
     orderProducts: IOrderProductItem[]
@@ -47,8 +48,8 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
                 <Stack direction={'row'}>
                     <Box display={'flex'} width={'50%'}>
                         <Typography variant="h6" fontFamily={'peyda-bold'}>تاریخ ثب سفارش:</Typography>
-                        <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            1402/02/01
+                        <Typography variant="subtitle1" fontFamily={'peyda-extra-light'} sx={{ pl: 1, pt: 0.25 }}>
+                            {fToJamali(order.createdAt)}
                         </Typography>
                     </Box>
                     <Box display={'flex'} width={'50%'}>

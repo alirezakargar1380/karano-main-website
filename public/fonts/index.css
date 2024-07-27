@@ -41,6 +41,13 @@
 }
 
 @font-face {
+  font-family: 'peyda-extra-light';
+  /* font-weight: 500; */
+  /* font-style: normal; */
+  src: local('peyda-extralight'), url('peyda/peyda-extralight.ttf') format('opentype');
+}
+
+@font-face {
   font-family: 'peyda-bold';
   font-weight: 700;
   font-style: normal;

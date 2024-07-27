@@ -87,6 +87,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
                         <SaleManagementPayment
                             invoiceDialog={invoiceDialog}
                             sendToUser={sendToUser}
+                            order={order}
                             orderId={+id}
                             hasCustomMade={hasCustomMade}
                             orderProducts={orderProducts}

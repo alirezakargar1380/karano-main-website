@@ -79,6 +79,8 @@ export type IOrderItem = {
   user: IUser;
   status: OrderStatus;
   need_prepayment: boolean;
+  prepayment: number;
+  production_days: number;
   reciver_name: string;
   reciver_phone: string;
   delivery_type: IOrderDeliveryType;
@@ -93,5 +95,6 @@ export type IOrderItem = {
     id_code: string;
   }
   order_number: string;
-  createdAt: Date;
+  production_date: string;
+  createdAt: string;
 };

@@ -52,8 +52,6 @@ export default function SaleManagementListView() {
         }
     });
 
-    console.log(orders)
-
     return (
 
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>

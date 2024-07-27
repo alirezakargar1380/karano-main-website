@@ -3,7 +3,7 @@ import Iconify from "src/components/iconify"
 import Label from "src/components/label"
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button"
 import { IOrderItem, OrderStatus } from "src/types/order"
-import { fDateTime } from "src/utils/format-time"
+import { fDateTime, fToJamali } from "src/utils/format-time"
 
 interface Props {
     order: IOrderItem
@@ -81,8 +81,8 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         <Typography fontFamily={'peyda-bold'} sx={{ pr: 1 }}>
                             تاریخ ثبت سفارش:
                         </Typography>
-                        <Typography fontFamily={'peyda-medium'}>
-                            {fDateTime(order.createdAt)}
+                        <Typography fontFamily={'peyda-light'} variant="body1">
+                            {fToJamali(order.createdAt)}
                         </Typography>
                     </Box>
                 </Stack>
@@ -99,8 +99,8 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         <Typography fontFamily={'peyda-bold'} sx={{ pr: 1 }}>
                             تاریخ تحویل:
                         </Typography>
-                        <Typography fontFamily={'peyda-medium'}>
-                            1402/02/01
+                        <Typography fontFamily={'peyda-light'} variant="body1">
+                            {fToJamali(order.production_date)}
                         </Typography>
                     </Box>
                 </Stack>

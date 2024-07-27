@@ -17,17 +17,19 @@ import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import { endpoints, server_axios } from "src/utils/axios";
-import { OrderStatus } from "src/types/order";
+import { IOrderItem, OrderStatus } from "src/types/order";
 import { IOrderProductItem } from "src/types/order-products";
 import InvoiceDialog from "./common/invoice-dialog";
 import { useSnackbar } from 'src/components/snackbar';
 import { ReminderDialog, WarningDialog } from "src/components/custom-dialog";
+import IncrementerButton from "src/sections/product/common/incrementer-button";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
     sendToUser: boolean
     hasCustomMade: boolean
     orderId: number
+    order: IOrderItem
     orderProducts: IOrderProductItem[]
 }
 
@@ -36,13 +38,15 @@ export default function SaleManagementPayment({
     sendToUser,
     orderId,
     hasCustomMade,
+    order,
     orderProducts
 }: Props) {
     const timeReminder = useBoolean();
 
     const defaultValues = {
-        need_prepayment: false,
-        prepayment: 0
+        need_prepayment: order.need_prepayment || false,
+        prepayment: order.prepayment || 0,
+        production_days: order.production_days || 1,
     }
 
     const methods = useForm({
@@ -58,6 +62,8 @@ export default function SaleManagementPayment({
         handleSubmit,
         formState: { isSubmitting },
     } = methods;
+
+    const values = watch();
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -130,8 +136,32 @@ export default function SaleManagementPayment({
                         </Typography>
                     </Stack>
                     <RHFCheckbox name="need_prepayment" label="عدم نیاز به پیش‌پرداخت" />
-                    <RHFTitleTextField custom_label="مبلغ پیش‌پرداخت" name="prepayment" placeholder="قیمت" />
-                    <RHFTitleTextField custom_label={"تخمین زمان تولید (روز)"} name="" placeholder="قیمت" disabled />
+                    <RHFTitleTextField
+                        custom_label="مبلغ پیش‌پرداخت"
+                        name="prepayment"
+                        placeholder="قیمت"
+                        sx={{
+                            '& input': { textAlign: 'center!important' }
+                        }}
+                        InputProps={{
+                            endAdornment: (<Typography variant="body1" color={"#727272"} fontFamily={'peyda-light'} pr={1.5}>ریال</Typography>)
+                        }}
+                    />
+                    <Box>
+                        <Typography variant="subtitle1" fontFamily={'peyda-bold'} sx={{
+                            width: 1, pt: 1, pb: 1
+                        }}>
+                            تخمین زمان تولید (روز)
+                        </Typography>
+                        <IncrementerButton
+                            name="production_days"
+                            onDecrease={() => setValue('production_days', values.production_days ? values.production_days + 1 : 1)}
+                            onIncrease={() => {
+                                if (values.production_days != 1)
+                                    setValue('production_days', values.production_days ? values.production_days - 1 : 1)
+                            }}
+                        />
+                    </Box>
                 </Stack>
                 <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ p: 2, mt: 1 }}>
                     {sendToUser ? (
