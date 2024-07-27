@@ -1,27 +1,13 @@
-import { format } from 'date-fns';
-
 import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import LinearProgress from '@mui/material/LinearProgress';
 
 import { useBoolean } from 'src/hooks/use-boolean';
-
-import { fCurrency } from 'src/utils/format-number';
-
 import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
 import { ConfirmDialog, DialogWithButton } from 'src/components/custom-dialog';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { IProductItem } from 'src/types/product';
 import { ICartItem } from 'src/types/cart';
 import SvgColor from '../../components/svg-color';
 import { Stack, Typography } from '@mui/material';
@@ -122,9 +108,10 @@ export default function CartTableRow({
           {dimensions}
         </TableCell>
 
-        <TableCell sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium' }}>
-          {quality}
-          {(rejection_reason) && (
+        <TableCell sx={{}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium' }}>
+            {quality}
+            {(rejection_reason) && (
             <Box
               sx={{
                 ml: 1, borderRadius: '50px', border: '1px solid #D1D1D1', fontSize: '0.75rem', textWrap: 'nowrap', pl: 1.5, pr: 1.5, display: 'flex', alignItems: 'center', py: 0.5, cursor: 'pointer'
@@ -137,6 +124,7 @@ export default function CartTableRow({
               </Box>
             </Box>
           )}
+          </Box>
         </TableCell>
 
         <TableCell align="right">
