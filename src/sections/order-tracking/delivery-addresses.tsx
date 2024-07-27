@@ -136,6 +136,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
             {(newAddress === true) && (
                 <DeliveryAdressesNewEditForm
                     handleAfterAddingAddress={handleAfterAddingAddress}
+                    exit={() => setNewAddress(false)}
                 />
             )}
 

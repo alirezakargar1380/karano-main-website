@@ -6,13 +6,15 @@ import FormProvider, {
 } from 'src/components/hook-form';
 import { useSnackbar } from 'src/components/snackbar';
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { endpoints, server_axios } from "src/utils/axios";
 
 interface Props {
     handleAfterAddingAddress: () => void
+    exit: () => void
 }
 
-export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress }: Props) {
+export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: Props) {
     const { enqueueSnackbar } = useSnackbar();
 
     const methods = useForm({
@@ -70,7 +72,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress }: Props)
                     <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='75416-11111' sx={{ bgcolor: '#fff' }} />
                 </Stack>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
+                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={exit}>انصراف</StyledRoundedWhiteButton>
                     <LoadingButton
                         variant='contained'
                         sx={{ borderRadius: '24px', px: 4 }}
