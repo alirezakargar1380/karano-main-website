@@ -42,8 +42,8 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
       {...other}
     >
       <Stack sx={{
-        borderRight: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
-        py: 0.75,
+        // borderRight: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`,
+        // py: 1,
         textAlign: 'center',
       }}>
         <IconButton
@@ -73,10 +73,11 @@ const IncrementerButton = forwardRef<HTMLDivElement, Props>(
         type='number'
         sx={{
           width: 1,
-          '& .MuiInputBase-root': {
-            borderRadius: 0,
-            borderTopRightRadius: '8px',
-            borderBottomRightRadius: '8px'
+          '& .MuiInputBase-root input': {
+            borderLeft: (theme) => `solid 1px ${alpha(theme.palette.grey[500], 0.2)}`
+          },
+          '& .MuiInputBase-root fieldset': {
+            border: 'none',
           }
         }}
       />
