@@ -50,7 +50,7 @@ export default function CompleteOrderView({
                 </Typography>
 
                 <Container>
-                    <Box sx={{ my: 3 }}>
+                    <Box sx={{ my: 3, width: 0.7, mx: 'auto' }}>
                         <CheckoutSteps
                             activeStep={checkout.activeStep}
                             steps={hasCustomMade ?

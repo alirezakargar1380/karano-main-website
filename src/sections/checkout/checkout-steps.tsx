@@ -9,6 +9,7 @@ import MuiStepConnector, { stepConnectorClasses } from '@mui/material/StepConnec
 import Iconify from 'src/components/iconify';
 import { useEffect, useState } from 'react';
 import { useCheckoutContext } from './context';
+import { svgIconClasses } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -50,12 +51,39 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
       {...other}
     >
       {steps.map((label, index: number) => (
-        <Step key={label}>
+        <Step key={label} sx={{
+
+        }}>
           <StepLabel
-            StepIconComponent={StepIcon}
+            StepIconComponent={(props) => <StepIcon {...props} step={index + 1} />}
             sx={{
               [`& .${stepLabelClasses.label}`]: {
                 fontWeight: 'fontWeightSemiBold',
+              },
+              [`& .Mui-completed`]: {
+                // color: "#fff",
+                [`& .${svgIconClasses.root}`]: {
+                  // color: "#000",
+                  // fill: "#fff",
+                  border: "1.5px solid #000",
+                  borderRadius: 100
+                },
+                [`& .${svgIconClasses.root} path`]: {
+                  // color: "red"
+                },
+              },
+              [`& .Mui-completed .MuiStepLabel-label`]: {
+                // color: "#000",
+              },
+              [`& .${svgIconClasses.root}`]: {
+                ...((activeStep < index) && {
+                  color: "#F2F2F2"
+                })
+              },
+              [`& .${svgIconClasses.root} text`]: {
+                ...((activeStep < index) && {
+                  fill: "#727272"
+                })
               },
             }}
           >
@@ -72,26 +100,26 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
 type StepIconProps = {
   active: boolean;
   completed: boolean;
+  step: number;
 };
 
 
-function StepIcon({ active, completed }: StepIconProps) {
-  const checkout = useCheckoutContext();
+function StepIcon({ active, completed, step }: StepIconProps) {
 
   return (
     <Stack
       alignItems="center"
       justifyContent="center"
       sx={{
-        width: 28,
-        height: 28,
+        width: 24,
+        height: 24,
         borderRadius: '50%',
         bgcolor: '#F2F2F2',
         // color: 'text.disabled',
         ...(active && {
           color: '#fff',
           bgcolor: '#000',
-          pl: 0.1,
+          pl: 0.65,
           pb: 0.2
         }),
         ...(completed && {
@@ -105,15 +133,14 @@ function StepIcon({ active, completed }: StepIconProps) {
       ) : (
         <Box
           sx={{
-            width: 10,
-            height: 16,
-            borderRadius: '50%',
-            pb: 0.75
-            // backgroundColor: 'currentColor',
+            pt: 0.8,
+            pr: 0.5
+            // borderRadius: '50%',
           }}
         >
-          {active && checkout.activeStep + 1}
-          {!active && !completed && checkout.activeStep + 2}
+          {step === 1 && '۱'}
+          {step === 2 && '۲'}
+          {step === 3 && '۳'}
         </Box>
       )}
     </Stack>
