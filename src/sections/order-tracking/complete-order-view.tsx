@@ -14,14 +14,12 @@ import Payment from "./payment";
 import { useGetOrderProducts } from "src/api/order-products";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { useGetOrder } from "src/api/orders";
-import { IOrderDeliveryType } from "src/types/order";
 
 interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
     hasCustomMade: boolean
     handleAfterLastSection: () => void
-    delivery_type: IOrderDeliveryType
 }
 
 export let PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پیش‌پرداخت'];

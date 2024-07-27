@@ -70,11 +70,12 @@ export default function OrderTrackingListView() {
 
     return (
         <Box>
+
             <SuccessDialog
+                text={`سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`}
                 open={successDialog.value}
                 onClose={successDialog.onFalse}
             />
-
 
             <DialogWithButton dialog={finalPaymentDialog} fullWith={false} width={800}>
                 <Box p={3}>

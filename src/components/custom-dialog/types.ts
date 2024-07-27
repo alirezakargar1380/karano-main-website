@@ -11,4 +11,5 @@ export type ConfirmDialogProps = Omit<DialogProps, 'title' | 'content'> & {
 
 export type SuccessDialogProps = Omit<DialogProps, 'title' | 'content'> & {
   onClose: VoidFunction;
+  text: string
 };
