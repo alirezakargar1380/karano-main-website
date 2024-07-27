@@ -74,6 +74,7 @@ export default function CartTableRow({
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
+            <Label color='error' className='my-first-step' sx={{ ml: 1 }}>رد شده</Label>
             {(status === IOrderProductPropertyStatus.denied) && (
               <Label color='error' sx={{ ml: 1 }}>رد شده</Label>
             )}
@@ -130,12 +131,12 @@ export default function CartTableRow({
         <TableCell align="right">
           <Stack direction={'row'}>
             {(onEditRow) && (
-              <IconButton color={'default'} onClick={onEditRow}>
+              <IconButton color={'default'} onClick={onEditRow} className='edit'>
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
             {(onDeleteRow && type !== 'edit') && (
-              <IconButton color={'default'} onClick={confirm.onTrue}>
+              <IconButton color={'default'} onClick={confirm.onTrue} className='del'>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
