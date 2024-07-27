@@ -74,9 +74,8 @@ export default function CartTableRow({
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
-            <Label color='error' className='my-first-step' sx={{ ml: 1 }}>رد شده</Label>
             {(status === IOrderProductPropertyStatus.denied) && (
-              <Label color='error' sx={{ ml: 1 }}>رد شده</Label>
+              <Label color='error' className='my-first-step' sx={{ ml: 1 }}>رد شده</Label>
             )}
             {(status === IOrderProductPropertyStatus.edited) && (
               <Label color='warning' sx={{ ml: 1 }}>اصلاح شده</Label>
@@ -113,18 +112,19 @@ export default function CartTableRow({
           <Box sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium' }}>
             {quality}
             {(rejection_reason) && (
-            <Box
-              sx={{
-                ml: 1, borderRadius: '50px', border: '1px solid #D1D1D1', fontSize: '0.75rem', textWrap: 'nowrap', pl: 1.5, pr: 1.5, display: 'flex', alignItems: 'center', py: 0.5, cursor: 'pointer'
-              }}
-              onClick={rejectionDialog.onTrue}
-            >
-              <SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mr: 0.5 }} />
-              <Box pt={0.25}>
-                مشاهده علت
+              <Box
+                sx={{
+                  ml: 1, borderRadius: '50px', border: '1px solid #D1D1D1', fontSize: '0.75rem', textWrap: 'nowrap', pl: 1.5, pr: 1.5, display: 'flex', alignItems: 'center', py: 0.5, cursor: 'pointer'
+                }}
+                className={'reason'}
+                onClick={rejectionDialog.onTrue}
+              >
+                <SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mr: 0.5 }} />
+                <Box pt={0.25}>
+                  مشاهده علت
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
           </Box>
         </TableCell>
 

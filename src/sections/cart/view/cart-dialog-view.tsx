@@ -2,7 +2,7 @@ import {
     Button,
     Card,
     CardContent,
-    Grid, Stack, TableBody, Typography
+    Grid, IconButton, Stack, TableBody, Typography
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
@@ -17,6 +17,8 @@ import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
 import { ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import Joyride, { Step, ACTIONS, EVENTS, STATUS, TooltipRenderProps } from 'react-joyride';
+import Iconify from 'src/components/iconify';
+import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل' },
@@ -51,17 +53,26 @@ interface Props {
 const steps = [
     {
         target: '.my-first-step',
-        content: 'This is my awesome feature!',
+        title: 'وضعیت ردشده',
+        content: 'کالاهایی که وضعیت رد‌شده دارند، توسط ادمین تایید نشده‌اند.',
+        disableBeacon: true,
+    },
+    {
+        target: '.reason',
+        title: 'مشاهده علت',
+        content: 'توضیحات ادمین برای دلایل رد محصول از طریق این دکمه نمایش داده می‌شود.',
         disableBeacon: true,
     },
     {
         target: '.edit',
-        content: 'This another awesome feature!',
+        title: 'ویرایش محصول',
+        content: 'با کلیک بر روی این آیکون،می‌توانید سفارش خود را ویرایش و جهت بررسی دوباره، برای ادمین ارسال کنید.',
         disableBeacon: true,
     },
     {
         target: '.del',
-        content: 'This another awesome feature!',
+        title: 'حذف محصول',
+        content: 'در صورتی که مایل باشید میتوانید محصول رد شده را از سبد خرید حذف کنید.',
         disableBeacon: true,
     },
 ]
@@ -75,26 +86,41 @@ const Tooltip = ({
     primaryProps,
     tooltipProps,
 }: TooltipRenderProps) => (
-    <Card sx={{ p: 3, direction: 'rtl' }} {...tooltipProps}>
-        <>{(index + 1) + "/" + steps.length}</>
-        {step.title && <Typography>{step.title}</Typography>}
-        <CardContent>{step.content}</CardContent>
-        <Box>
-            {index > 0 && (
+    <Card sx={{ p: 2.5, direction: 'rtl', borderRadius: '24px', minWidth: 320, maxWidth: 320 }} {...tooltipProps}>
+
+        <Stack direction={'row-reverse'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
+            {step.title && <Typography mt={1} fontFamily={'peyda-bold'}>{step.title}</Typography>}
+            <Stack direction={'row'}>
+                <IconButton  {...primaryProps}>
+                    <Iconify id="next" icon={'icon-park-outline:left'} />
+                </IconButton>
+                <Stack direction={'row'} mt={1} spacing={1}>
+                    <Typography>{(index + 1)}</Typography>
+                    <Box>/</Box>
+                    <Typography border={'1px solid #D1D1D1'} borderRadius={'8px'} px={0.5}>{steps.length}</Typography>
+                </Stack>
+                <IconButton {...backProps}>
+                    <Iconify id="back" icon={'icon-park-outline:right'} />
+                </IconButton>
+            </Stack>
+        </Stack>
+        <CardContent sx={{ direction: 'ltr', textAlign: 'left', px: 0, fontFamily: 'peyda-regular' }}>{step.content}</CardContent>
+        <Box sx={{ direction: 'rtl' }}>
+            {/* {index > 0 && (
                 <Button {...backProps}>
                     <Typography id="back">back</Typography>
                 </Button>
-            )}
-            {continuous && (
-                <Button {...primaryProps}>
-                    <Typography id="next">next</Typography>
-                </Button>
-            )}
-            {!continuous && (
-                <Button {...closeProps}>
-                    <Typography id="close">close</Typography>
-                </Button>
-            )}
+            )} */}
+            {/* {continuous && ( */}
+            {/* <Button {...primaryProps}>
+                <Typography id="next">next</Typography>
+            </Button> */}
+            {/* )} */}
+            {/* {!continuous && ( */}
+            <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0 }} {...closeProps}>
+                <Box id="close">متوجه شدم</Box>
+            </StyledRoundedWhiteButton>
+            {/* )} */}
         </Box>
     </Card>
 );
@@ -119,15 +145,18 @@ export default function CartDialogView({
     });
 
     const [state, setState] = useState({
-        run: true,
+        run: false,
         loading: false,
         stepIndex: 0,
         modalOpen: false,
     });
 
     useEffect(() => {
+        setTimeout(() => setState({ ...state, run: true }), 1000);
+    }, [])
+
+    useEffect(() => {
         // check for wich one is the first
-        console.log(values.profile_type)
         if (values.profile_type) {
             if (formOptions.cover_type)
                 setDisable({ ...disable, cover_type: false })
@@ -150,6 +179,8 @@ export default function CartDialogView({
 
     const handleJoyrideCallback = (data: any) => {
         const { action, index, status, type } = data;
+
+        if (action === "close") setState({ ...state, run: false})
 
         // setState((prevState) => ({ ...prevState, run: true }));
         // if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
@@ -187,31 +218,31 @@ export default function CartDialogView({
                 tooltipComponent={Tooltip}
                 steps={steps}
                 run={state.run}
-                // disableScrolling
+                disableScrolling
                 continuous
-                scrollToFirstStep
+                // scrollToFirstStep
                 disableOverlayClose
                 // showProgress
                 showSkipButton
                 styles={{
                     overlay: {
                         height: '100%',
-                        position: 'fixed',
+                        // position: 'fixed',
                     },
                     options: {
                         zIndex: 10000,
                     },
                     spotlight: {
-                        borderRadius: 100,
-                        width: '100px!important',
-                        height: '100px!important',
+                        borderRadius: 100
                     }
                 }}
                 floaterProps={{
-                    autoOpen: true,
+                    // autoOpen: true,
+                    autoOpen: state.run,
                     hideArrow: true,
                 }}
             />
+
             {/* // <Scrollbar sx={{ minHeight: 200 }}> */}
             <Grid container spacing={4} sx={{ width: 1, padding: 3 }}>
                 <Grid item xs={12} md={4}>
@@ -382,6 +413,7 @@ export default function CartDialogView({
                                 name="quantity"
                                 // quantity={values.quantity || 1}
                                 // quantity={values.quantity}
+                                disabled={disable.dimension}
                                 // disabledDecrease={values.quantity <= 1}
                                 // disabledIncrease={values.quantity >= available}
                                 // onIncrease={() => { }}
@@ -392,7 +424,6 @@ export default function CartDialogView({
                                         setValue('quantity', values.quantity ? values.quantity - 1 : 1)
                                 }}
                             />
-                            <RHFTitleTextField name='quantity' disabled={disable.dimension} custom_label='تعداد' placeholder='2' />
                         </Box>
                     </Box>
                 </Grid>
@@ -413,11 +444,10 @@ export default function CartDialogView({
                                 <TableBody>
                                     {data.map((item, index: number) => (
                                         <CartTableRow
-                                            type={type}
+                                            key={index}
                                             onDeleteRow={() => onDelete(item.id || index)}
                                             onEditRow={() => onUpdate(index)}
                                             selected={(listId === index)}
-                                            key={index}
                                             row={{
                                                 ...item,
                                                 status: item.status,

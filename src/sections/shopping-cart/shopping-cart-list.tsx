@@ -17,7 +17,6 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
 import { useSnackbar } from "src/components/snackbar";
-import { set } from "lodash";
 
 interface Props {
     items: ICheckoutItem[]
@@ -26,7 +25,7 @@ interface Props {
 }
 
 export default function ShoppingCartList({ items, type, canConfirm }: Props) {
-    const checkout = useCheckoutContext()
+    const checkout = useCheckoutContext();
 
     const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();
@@ -59,7 +58,7 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
             if (type === 'edit') {
-                // console.log(data)
+                
             } else {
                 if (!checkoutItem) return
 
@@ -80,7 +79,6 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
 
     const handleRemove = useCallback(async (propertyId: number) => {
         const p = checkoutItems.find((item) => item.properties.find((p) => p.id === propertyId))
-        console.log(p)
         if (p?.properties.find((pp) => pp.status === IOrderProductPropertyStatus.approve && pp.id === propertyId))
             return enqueueSnackbar('این مورد تایید شده است، نمیتوانید حذف کنید', { variant: 'error' });
 
@@ -177,28 +175,32 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
                                         />
 
                                         <TableBody>
-                                            {item.properties?.map((property_price, ind: number) => (
-                                                <CartTableRow
-                                                    onDeleteRow={(type === "cart") ?
-                                                        () => handleRemoveCart(item.id, index, ind) :
-                                                        (property_price?.status !== IOrderProductPropertyStatus.approve) ?
-                                                            () => handleRemove(property_price.id) : undefined
-                                                    }
-                                                    onEditRow={(item.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
-                                                    key={ind * 2}
-                                                    row={{
-                                                        rejection_reason: property_price?.rejection_reason,
-                                                        id: property_price?.id,
-                                                        status: property_price?.status,
-                                                        quality: property_price?.quantity,
-                                                        coating: property_price?.coating_type || '',
-                                                        dimensions: (property_price?.dimension) ? property_price?.dimension?.width + 'x' + property_price?.dimension?.height : '-',
-                                                        final_coating: property_price?.cover_type?.name,
-                                                        frame_type: property_price?.frame_type?.name,
-                                                        profile_type: property_price?.profile_type?.name,
-                                                    }}
-                                                />
-                                            ))}
+                                            {cartDialog.value === false && (
+                                                <>
+                                                    {item.properties?.map((property_price, ind: number) => (
+                                                        <CartTableRow
+                                                            onDeleteRow={(type === "cart") ?
+                                                                () => handleRemoveCart(item.id, index, ind) :
+                                                                (property_price?.status !== IOrderProductPropertyStatus.approve) ?
+                                                                    () => handleRemove(property_price.id) : undefined
+                                                            }
+                                                            onEditRow={(item.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
+                                                            key={ind * 2}
+                                                            row={{
+                                                                rejection_reason: property_price?.rejection_reason,
+                                                                id: property_price?.id,
+                                                                status: property_price?.status,
+                                                                quality: property_price?.quantity,
+                                                                coating: property_price?.coating_type || '',
+                                                                dimensions: (property_price?.dimension) ? property_price?.dimension?.width + 'x' + property_price?.dimension?.height : '-',
+                                                                final_coating: property_price?.cover_type?.name,
+                                                                frame_type: property_price?.frame_type?.name,
+                                                                profile_type: property_price?.profile_type?.name,
+                                                            }}
+                                                        />
+                                                    ))}
+                                                </>
+                                            )}
                                         </TableBody>
                                     </Table>
                                 </Scrollbar>
