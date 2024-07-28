@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
@@ -11,6 +11,7 @@ import { useSnackbar } from "src/components/snackbar";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { endpoints, server_axios } from "src/utils/axios";
 import { OrderStatus } from "src/types/order";
+import { ReminderDialog } from "src/components/custom-dialog";
 
 interface Props {
     orderProducts: IOrderProductItem[]
@@ -23,6 +24,8 @@ export default function OrderRejectionListView({
     dialog,
     orderId
 }: Props) {
+    const reminderDialog = useBoolean(true)
+
     const [disable, setDisable] = useState<boolean>(true);
 
     const { enqueueSnackbar } = useSnackbar();
@@ -32,7 +35,7 @@ export default function OrderRejectionListView({
         enqueueSnackbar(text)
     }, [])
 
-    const canConfirm = useCallback(async(can: boolean) => {
+    const canConfirm = useCallback(async (can: boolean) => {
         // await new Promise((resolve) => setTimeout(resolve, 1000))
         setDisable(can)
     }, [setDisable])
@@ -57,6 +60,23 @@ export default function OrderRejectionListView({
 
     return (
         <>
+            <ReminderDialog
+                color="#727272"
+                onClose={reminderDialog.onFalse}
+                title='یادآوری'
+                open={reminderDialog.value}
+                content={'تعدادی از کالاهای شما رد شده‌اند؛ شما می‌بایست آن‌ها را اصلاح یا حذف کنید.'}
+                action={
+                    <LoadingButton variant="contained" onClick={reminderDialog.onFalse} sx={{
+                        // color: '#0B7BA7',
+                        // borderColor: '#0B7BA7',
+                        borderRadius: '50px',
+                        px: 2
+                    }}>
+                        متوجه شدم
+                    </LoadingButton>
+                }
+            />
             <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
                 <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                     جزییات رد ‌سفارش
