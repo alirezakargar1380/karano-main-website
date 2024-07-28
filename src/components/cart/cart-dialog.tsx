@@ -220,7 +220,14 @@ export default function CartDialog({
                     />
                 )}
 
-                <DialogContent sx={{ p: 4, backgroundColor: '#F8F8F8', overflow: 'hidden', width: 1 }}>
+                <DialogContent sx={{
+                    p: 4,
+                    backgroundColor: '#F8F8F8',
+                    overflow: 'hidden',
+                    width: 1,
+                    borderBottomRightRadius: '16px',
+                    borderBottomLeftRadius: '16px'
+                }}>
                     <Stack direction={'row'} justifyContent={'space-between'}>
                         <Stack direction={'row'} spacing={2}>
                             {(id !== null && id >= 0) && (
