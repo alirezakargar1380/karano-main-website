@@ -75,13 +75,13 @@ export default function CartTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
             {(status === IOrderProductPropertyStatus.denied) && (
-              <Label color='error' className='my-first-step' sx={{ ml: 1 }}>رد شده</Label>
+              <Label color='error' className='my-first-step' sx={{ ml: 1, px: 1 }}>رد شده</Label>
             )}
             {(status === IOrderProductPropertyStatus.edited) && (
-              <Label color='warning' sx={{ ml: 1 }}>اصلاح شده</Label>
+              <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
             )}
             {(status === IOrderProductPropertyStatus.approve) && (
-              <Label color='success' sx={{ ml: 1 }}>تایید شده</Label>
+              <Label color='success' sx={{ ml: 1, px: 1 }}>تایید شده</Label>
             )}
           </TableCell>
         )}
@@ -130,13 +130,13 @@ export default function CartTableRow({
 
         <TableCell align="right">
           <Stack direction={'row'}>
-            {(onEditRow) && (
+            {(onEditRow && status !== IOrderProductPropertyStatus.approve) && (
               <IconButton color={'default'} onClick={onEditRow} className='edit'>
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
-            {(onDeleteRow && type !== 'edit') && (
-              <IconButton color={'default'} onClick={confirm.onTrue} className='del'>
+            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve) && (
+              <IconButton color={'default'} onClick={confirm.onTrue} className='del' disabled={!!selected}>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
