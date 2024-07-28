@@ -24,6 +24,9 @@ import { useSnackbar } from 'src/components/snackbar';
 import { ReminderDialog, WarningDialog } from "src/components/custom-dialog";
 import IncrementerButton from "src/sections/product/common/incrementer-button";
 
+import { useRouter } from 'src/routes/hooks';
+import { paths } from "src/routes/paths";
+
 interface Props {
     invoiceDialog: useBooleanReturnType
     sendToUser: boolean
@@ -41,6 +44,8 @@ export default function SaleManagementPayment({
     order,
     orderProducts
 }: Props) {
+    const router = useRouter();
+
     const timeReminder = useBoolean();
 
     const defaultValues = {
@@ -80,6 +85,7 @@ export default function SaleManagementPayment({
                     status: OrderStatus.accepted
                 })
             }
+            router.push(paths.admin_dashboard.saleManagement.root)
         } catch (error) {
             console.error(error);
         }
