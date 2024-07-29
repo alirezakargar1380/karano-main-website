@@ -46,7 +46,9 @@ export default function MainLayout({ children, header = true }: Props) {
         </Box>
       )}
 
-      <Container maxWidth={'xl'} sx={{ pl: !mdUp ? 12 : '0px!important' }}>
+      <Container maxWidth={'xl'} sx={{
+        // pl: !mdUp ? 12 : '0px!important'
+      }}>
         <Grid container>
           {(mdUp) ? (
             <Grid item xs={2} sm={1} md={1}>
