@@ -71,7 +71,7 @@ export default function AccessLevelview() {
 
     return (
         <>
-            <DialogWithButton dialog={adminDialog} fullWith={false}>
+            <DialogWithButton dialog={adminDialog} fullWith={false} width={960}>
                 <Box p={2}>
                     <FormProvider methods={methods} onSubmit={onSubmit}>
                         <Typography variant="h4" fontFamily={'peyda-bold'} sx={{ borderBottom: (theme) => `solid 1px ${theme.palette.divider}`, pb: 2 }}>
