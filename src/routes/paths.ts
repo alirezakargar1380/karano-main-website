@@ -210,6 +210,10 @@ export const paths = {
     delivery: {
       root: `${ROOTS.ADMIN_DASHBOARD}/delivery`
     },
+    storage: {
+      root: `${ROOTS.ADMIN_DASHBOARD}/storage`,
+      details: (id: any) => `${ROOTS.ADMIN_DASHBOARD}/storage/${id}`,
+    },
     mail: `${ROOTS.ADMIN_DASHBOARD}/mail`,
     chat: `${ROOTS.ADMIN_DASHBOARD}/chat`,
     blank: `${ROOTS.ADMIN_DASHBOARD}/blank`,

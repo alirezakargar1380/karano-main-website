@@ -80,11 +80,11 @@ export function useNavData() {
             path: paths.admin_dashboard.production.root,
             icon: <SvgColor src="/assets/icons/admin-panel/loading-01.svg" />,
           },
-          // {
-          //   title: t('مدیریت انبار'),
-          //   path: paths.admin_dashboard.general.booking,
-          //   icon: ICONS.booking,
-          // },
+          {
+            title: t('مدیریت انبار'),
+            path: paths.admin_dashboard.storage.root,
+            icon: <SvgColor src="/assets/icons/admin-panel/archive.svg" />,
+          },
           {
             title: t('مدیریت ارسال'),
             roles: [EAdminRole.adminstrator, EAdminRole.delivery],

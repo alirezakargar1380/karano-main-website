@@ -104,6 +104,7 @@ export const endpoints = {
     tracking: '/api/orders/tracking',
     production_list: '/api/orders/production',
     delivery_list: '/api/orders/delivery',
+    storage_list: '/api/orders/storage',
     one: (id: any) => '/api/orders/' + id,
     update: (id: any) => '/api/orders/' + id,
 

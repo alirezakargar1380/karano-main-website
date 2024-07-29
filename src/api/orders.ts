@@ -107,3 +107,23 @@ export function useGetTrackingOrders() {
 
   return memoizedValue;
 }
+
+export function useGetStorageOrders() {
+  const URL = endpoints.orders.storage_list;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      //  productsError: error,
+      //  productsValidating: isValidating,
+      ordersEmpty: !isLoading && !data.length,
+    }),
+    [data, error, isLoading, isValidating]
+    [data]
+  );
+
+  return memoizedValue;
+}
