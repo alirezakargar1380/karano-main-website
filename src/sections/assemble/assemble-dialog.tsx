@@ -6,7 +6,7 @@ import { useBooleanReturnType } from 'src/hooks/use-boolean';
 import { Stack, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
-import FormProvider, { RHFRadioGroupCard, RHFRadioGroupTitleText } from 'src/components/hook-form';
+import FormProvider, { RHFRadioGroupCard } from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import { DialogWithButton } from 'src/components/custom-dialog';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';

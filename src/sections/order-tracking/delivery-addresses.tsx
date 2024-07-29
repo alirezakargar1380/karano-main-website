@@ -13,6 +13,7 @@ import FormProvider, {
     RHFMultiCheckbox,
     RHFRadioGroup,
     RHFTitleTextField,
+    RHFRadioAddress,
 } from 'src/components/hook-form';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import { endpoints, server_axios } from 'src/utils/axios';
@@ -102,15 +103,17 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
 
                     {(!addressesEmpty) && (
                         <>
-                            <RHFRadioGroup
+                            <RHFRadioAddress
                                 name='address.id'
                                 sx={{
                                     mt: 3
                                 }}
+                                row
                                 options={addresses.map((add) => {
                                     return {
                                         label: add.provice + ", " + add.provice + ", " + add.address,
-                                        value: add.id
+                                        value: add.id,
+                                        icon: '/assets/icons/address/marker-pin-01.svg'
                                     }
                                 })}
                             />

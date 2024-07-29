@@ -13,7 +13,7 @@ export { default as RHFRadioGroup } from './rhf-radio-group';
 export { default as RHFAutocomplete } from './rhf-autocomplete';
 export { default as RHFIconAutocomplete } from './rhf-icon-autocomplete';
 
-export { default as RHFRadioGroupTitleText } from './rhf-radio-title-text';
+export { default as RHFRadioAddress } from './rhf-radio-address';
 export { default as RHFTitleTextField } from './rhf-title-text-field';
 export { default as RHFRadioGroupWithImage } from './rhf-radio-group-with-image';
 export { default as RHFRadioGroupCard } from './rhf-radio-card';
