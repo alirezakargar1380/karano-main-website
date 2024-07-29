@@ -21,6 +21,7 @@ import Iconify from 'src/components/iconify';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import SvgColor from 'src/components/svg-color';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
+import Image from 'src/components/image';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -164,7 +165,7 @@ export default function CartDialogView({
     });
 
     useEffect(() => {
-        setTimeout(() => setState({ ...state, run: true }), 1000/2);
+        setTimeout(() => setState({ ...state, run: true }), 1000 / 2);
         setInd(data.findIndex((d) => d.status === IOrderProductPropertyStatus.denied))
     }, []);
 
@@ -436,7 +437,7 @@ export default function CartDialogView({
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={8}>
-                        <Stack direction={'row'} justifyContent={'space-between'}>
+                        <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
                             <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
                                 لیست سفارش های ثبت شده
                             </Typography>
@@ -444,41 +445,46 @@ export default function CartDialogView({
                                 <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
                             </IconButton>
                         </Stack>
-
                         <Box>
-                            <Scrollbar sx={{ maxHeight: 780 }}>
-                                <Table size={'medium'}>
-                                    <TableHeadCustom
-                                        sx={{
-                                            backgroundColor: '#F2F2F2'
-                                        }}
-                                        cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                        headLabel={CartTableHead}
-                                    />
-                                    <TableBody>
-                                        {data.map((item, index: number) => (
-                                            <CartTableRow
-                                                key={index}
-                                                index={index}
-                                                indexEqual={ind}
-                                                onDeleteRow={() => onDelete(item.id || index)}
-                                                onEditRow={() => onUpdate(index)}
-                                                selected={(listId === index)}
-                                                row={{
-                                                    ...item,
-                                                    status: item.status,
-                                                    quality: item.quantity,
-                                                    coating: item?.coating_type,
-                                                    dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
-                                                    final_coating: item.cover_type?.name,
-                                                    frame_type: item.frame_type?.name,
-                                                    profile_type: item.profile_type?.name,
-                                                }}
-                                            />
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </Scrollbar>
+                            {data.length ? (
+                                <Scrollbar sx={{ maxHeight: 780 }}>
+                                    <Table size={'medium'}>
+                                        <TableHeadCustom
+                                            sx={{
+                                                backgroundColor: '#F2F2F2'
+                                            }}
+                                            cellSx={{ fontFamily: 'peyda-medium!important' }}
+                                            headLabel={CartTableHead}
+                                        />
+                                        <TableBody>
+                                            {data.map((item, index: number) => (
+                                                <CartTableRow
+                                                    key={index}
+                                                    index={index}
+                                                    indexEqual={ind}
+                                                    onDeleteRow={() => onDelete(item.id || index)}
+                                                    onEditRow={() => onUpdate(index)}
+                                                    selected={(listId === index)}
+                                                    row={{
+                                                        ...item,
+                                                        status: item.status,
+                                                        quality: item.quantity,
+                                                        coating: item?.coating_type,
+                                                        dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
+                                                        final_coating: item.cover_type?.name,
+                                                        frame_type: item.frame_type?.name,
+                                                        profile_type: item.profile_type?.name,
+                                                    }}
+                                                />
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </Scrollbar>
+                            ) : (
+                                <Box sx={{ width: 1, textAlign: 'center', mt: 24 }}>
+                                    <Image src='/assets/images/cart/Empty State.png' />
+                                </Box>
+                            )}
                         </Box>
                     </Grid>
                 </Grid>
