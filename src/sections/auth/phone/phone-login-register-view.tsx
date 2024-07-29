@@ -39,7 +39,7 @@ export default function PhoneLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    phone: Yup.string().required('شماره تماس مورد نیاز است'),
+    phone: Yup.string().length(13, 'شماره تلفن باید 13 کلمه باشد').required('شماره تماس مورد نیاز است'),
   });
 
   const defaultValues = {

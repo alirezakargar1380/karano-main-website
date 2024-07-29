@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Link from '@mui/material/Link';
-import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -19,14 +18,12 @@ import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import FormProvider, { RHFRadioGroup } from 'src/components/hook-form';
-import { Box, Checkbox, Container, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Box, Checkbox, Container } from '@mui/material';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IUser, IUserTypes } from 'src/types/user';
-import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import axios from 'axios';
-import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
+import { endpoints, server_axios } from 'src/utils/axios';
 import { useSnackbar } from 'src/components/snackbar';
-import path from 'path';
 import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
