@@ -59,7 +59,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
     }, [])
 
     return (!orderLoading) && (
-        <Box sx={{height: '100vh'}}>
+        <Box>
 
             <AdminBreadcrumbs
                 links={[

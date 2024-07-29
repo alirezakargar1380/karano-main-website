@@ -28,3 +28,23 @@ export function useGetOrderProducts(id: number) {
 
   return memoizedValue;
 }
+
+export function useGetReadyOrderProducts(id: string) {
+  const URL = endpoints.orderProducts.ready_products_list(id);
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      orderProducts: (data as IOrderProductItem[]) || [],
+      ordersLoading: isLoading,
+    //   productsError: error,
+    //   productsValidating: isValidating,
+    //   productsEmpty: !isLoading && !data?.products.length,
+    }),
+    // [data, error, isLoading, isValidating]
+    [data]
+  );
+
+  return memoizedValue;
+}

@@ -73,9 +73,9 @@ export default function StorageListView() {
                                                     <Label variant="filled" color="warning">
                                                         در حال آماده‌سازی
                                                     </Label>
-                                                ) || (row.status === OrderStatus.failed) && (
+                                                ) || (row.status === OrderStatus.ready_to_send) && (
                                                     <Label variant="filled" color="success">
-                                                        آماده‌شده
+                                                        آماده‌ شده
                                                     </Label>
                                                 ) || ''
                                             }
@@ -100,7 +100,6 @@ export default function StorageListView() {
                         </Table>
                     </Scrollbar>
                 </TableContainer>
-
             </Box>
         </Container>
     )

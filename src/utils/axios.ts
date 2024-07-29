@@ -96,6 +96,7 @@ export const endpoints = {
   },
   orderProducts: {
     one: (id: any) => '/api/order-products/' + id,
+    ready_products_list: (id: any) => `/api/order-products/ready-products/${id}`,
     update_ready_product_status: (id: any) => `/api/order-products/${id}/ready-products/status`,
   },
   orders: {

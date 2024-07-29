@@ -1,3 +1,4 @@
+import { IOrderItem } from "./order"
 import { IProductItem, IProductProperties } from "./product"
 
 export enum IOrderProductStatus {
@@ -12,5 +13,6 @@ export interface IOrderProductItem {
     status: IOrderProductStatus
     need_to_assemble: boolean
     product: IProductItem
+    order: IOrderItem
     properties: IProductProperties[]
 }
