@@ -28,8 +28,6 @@ import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 
 export default function PhoneLoginView() {
 
-  const { login } = useAuthContext();
-
   const router = useRouter();
 
   const [errorMsg, setErrorMsg] = useState('');
@@ -91,21 +89,17 @@ export default function PhoneLoginView() {
 
       <Box>
         <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
+
         <RHFTextField
           name="phone"
           sx={{
-            '.MuiOutlinedInput-notchedOutline': {
-              border: '1px solid #D1D1D1'
-            },
             '.MuiInputBase-input': {
               textAlign: 'right!important',
               direction: 'rtl!important'
             }
           }}
-          // label="Password"
           type={'text'}
           placeholder='09123456789'
-
           onChange={(e) => {
             console.log(e.target.value)
             if (!e.target.value.startsWith('+98')) {
@@ -139,6 +133,7 @@ export default function PhoneLoginView() {
             )
           }}
         />
+
       </Box>
 
 
