@@ -17,16 +17,16 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 
 type Props = {
   row: ICartItem;
+  index?: number;
   selected?: boolean;
-  type?: 'cart' | 'edit';
   onEditRow?: VoidFunction;
   onDeleteRow?: VoidFunction;
 };
 
 export default function CartTableRow({
   row,
+  index,
   selected,
-  type,
   onDeleteRow,
   onEditRow,
 }: Props) {
@@ -75,7 +75,7 @@ export default function CartTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
             {(status === IOrderProductPropertyStatus.denied) && (
-              <Label color='error' className='my-first-step' sx={{ ml: 1, px: 1 }}>رد شده</Label>
+              <Label color='error' className={index === 0 ? 'my-first-step' : ''} sx={{ ml: 1, px: 1 }}>رد شده</Label>
             )}
             {(status === IOrderProductPropertyStatus.edited) && (
               <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
@@ -114,9 +114,19 @@ export default function CartTableRow({
             {(rejection_reason) && (
               <Box
                 sx={{
-                  ml: 1, borderRadius: '50px', border: '1px solid #D1D1D1', fontSize: '0.75rem', textWrap: 'nowrap', pl: 1.5, pr: 1.5, display: 'flex', alignItems: 'center', py: 0.5, cursor: 'pointer'
+                  ml: 1,
+                  borderRadius: '50px',
+                  border: '1px solid #D1D1D1',
+                  fontSize: '0.75rem',
+                  textWrap: 'nowrap',
+                  pl: 1.5,
+                  pr: 1.5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  py: 0.5,
+                  cursor: 'pointer'
                 }}
-                className={'reason'}
+                className={(index === 0 && status === IOrderProductPropertyStatus.denied) ? 'reason' : ''}
                 onClick={rejectionDialog.onTrue}
               >
                 <SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mr: 0.5 }} />
@@ -131,12 +141,12 @@ export default function CartTableRow({
         <TableCell align="right">
           <Stack direction={'row'}>
             {(onEditRow && status !== IOrderProductPropertyStatus.approve) && (
-              <IconButton color={'default'} onClick={onEditRow} className='edit'>
+              <IconButton color={'default'} onClick={onEditRow} className={(index === 0 && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
             {(onDeleteRow && status !== IOrderProductPropertyStatus.approve) && (
-              <IconButton color={'default'} onClick={confirm.onTrue} className='del' disabled={!!selected}>
+              <IconButton color={'default'} onClick={confirm.onTrue} className={(index === 0 && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}

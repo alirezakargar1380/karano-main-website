@@ -139,7 +139,13 @@ export default function CartDialogView({
     setValue,
     values,
 }: Props) {
-    const [disable, setDisable] = useState({
+    const [disable, setDisable] = useState((type === "edit") ? {
+        profile_type: false,
+        cover_type: false,
+        frame_type: false,
+        coating_type: false,
+        dimension: false
+    } : {
         profile_type: false,
         cover_type: true,
         frame_type: true,
@@ -155,7 +161,7 @@ export default function CartDialogView({
     });
 
     useEffect(() => {
-        setTimeout(() => setState({ ...state, run: true }), 1000);
+        setTimeout(() => setState({ ...state, run: true }), 1000/2);
     }, [])
 
     useEffect(() => {
@@ -178,7 +184,7 @@ export default function CartDialogView({
         if (values.coating_type) {
             setDisable({ ...disable, dimension: false })
         }
-    }, [values]);
+    }, [values, formOptions]);
 
     const handleJoyrideCallback = (data: any) => {
         const { action, index, status, type } = data;
@@ -221,16 +227,16 @@ export default function CartDialogView({
                 tooltipComponent={Tooltip}
                 steps={steps}
                 run={state.run}
-                disableScrolling
+                // disableScrolling
                 continuous
-                // scrollToFirstStep
+                scrollToFirstStep
                 disableOverlayClose
                 // showProgress
                 showSkipButton
                 styles={{
                     overlay: {
                         height: '100%',
-                        // position: 'fixed',
+                        position: 'fixed',
                     },
                     options: {
                         zIndex: 10000,
@@ -449,7 +455,7 @@ export default function CartDialogView({
                                         {data.map((item, index: number) => (
                                             <CartTableRow
                                                 key={index}
-                                                type={type}
+                                                index={index}
                                                 onDeleteRow={() => onDelete(item.id || index)}
                                                 onEditRow={() => onUpdate(index)}
                                                 selected={(listId === index)}
