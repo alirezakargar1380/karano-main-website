@@ -1,6 +1,6 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Stack, Typography } from "@mui/material";
-import FormProvider, { RHFTitleTextField } from "src/components/hook-form";
+import { Box, InputAdornment, MenuItem, Select, Stack, Typography } from "@mui/material";
+import FormProvider, { RHFTextField, RHFTitleTextField } from "src/components/hook-form";
 import { BlueNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useCheckoutContext } from "../checkout/context";
@@ -10,6 +10,8 @@ import DeliveryAdresses from "./delivery-addresses";
 import { useAuthContext } from "src/auth/hooks";
 import { useEffect, useState } from "react";
 import { IOrderDeliveryType } from "src/types/order";
+import { countries } from "src/assets/data";
+import Iconify from "src/components/iconify";
 
 interface Props {
     orderId: number,
@@ -30,7 +32,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
 
     const defaultValues = {
         reciver_name: '',
-        reciver_phone: '',
+        reciver_phone: '+98',
         invoice_owner: {
             first_name: '',
             last_name: '',
@@ -80,9 +82,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                 reciver_phone: values.reciver_phone,
             });
         }
-    }, [invoiceOwner])
-
-    console.log(delivery_type)
+    }, [invoiceOwner]);
 
     return (
         <Stack spacing={3}>
@@ -93,7 +93,51 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                     </Typography>
                     <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ mt: 2 }} spacing={2}>
                         <RHFTitleTextField name='reciver_name' custom_label='نام و نام خانوادگی' placeholder='نام و نام خانوادگی' />
-                        <RHFTitleTextField name='reciver_phone' custom_label='شماره تماس' placeholder='+98' />
+                        {/* <RHFTitleTextField name='reciver_phone' custom_label='شماره تماس' placeholder='+98' /> */}
+                        <RHFTitleTextField
+                            name="reciver_phone"
+                            custom_label='شماره تماس'
+                            sx={{
+                                '.MuiInputBase-input': {
+                                    textAlign: 'right!important',
+                                    direction: 'rtl!important'
+                                }
+                            }}
+                            type={'text'}
+                            placeholder='09123456789'
+                            onChange={(e) => {
+                                if (!e.target.value.startsWith('+98')) {
+                                    setValue('reciver_phone', '+98')
+                                } else {
+                                    setValue('reciver_phone', e.target.value)
+                                }
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <Select
+                                            value="IR"
+                                            variant='outlined'
+                                            sx={{
+                                                borderTopLeftRadius: '0px',
+                                                borderBottomLeftRadius: '0px',
+                                                '& .MuiSelect-select': {
+                                                    padding: "8px 35px 8px 14px!important",
+                                                    border: 'none!important'
+                                                }
+                                            }}
+                                        >
+                                            {countries.map((country) => (
+                                                <MenuItem key={country.code} value={country.code}>
+                                                    {/* <Iconify icon={`${country.code.toLowerCase()}`} /> */}
+                                                    <Iconify icon={`flagpack:${country.code.toLowerCase()}`} sx={{ mt: 1 }} />
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
                     </Stack>
                 </Box>
             </FormProvider>
