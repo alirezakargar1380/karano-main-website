@@ -46,6 +46,8 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
                     margin: 0,
+                    marginTop: 40,
+                    marginBottom: 40,
                     width: '100%',
                     maxWidth: 'calc(100% - 14px)'
                 },
