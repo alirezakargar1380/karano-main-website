@@ -217,6 +217,7 @@ export default function CartDialog({
                         setValue={(name: string, value: any) => setValue(name, value)}
                         onUpdate={handleUpdate}
                         onDelete={onDelete || onDeleteRow}
+                        onClose={dialog.onFalse}
                     />
                 )}
 
