@@ -84,7 +84,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     return (
 
         <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-            <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+            <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                 آدرس تحویل گیرنده
             </Typography>
             <FormProvider methods={methods} onSubmit={onSubmit}>

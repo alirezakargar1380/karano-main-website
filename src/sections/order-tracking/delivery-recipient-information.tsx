@@ -88,7 +88,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
         <Stack spacing={3}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                    <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         اطلاعات تحویل گیرنده
                     </Typography>
                     <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ mt: 2 }} spacing={2}>
@@ -146,7 +146,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
 
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                    <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         مشخصات صاحب فاکتور
                     </Typography>
                     <BlueNotification sx={{ mt: 2 }}>
@@ -185,7 +185,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                             xs: 'repeat(1, 1fr)',
                             md: 'repeat(2, 1fr)',
                         }}
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 3 }}
                         spacing={2}
                     >
                         <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='نام' />

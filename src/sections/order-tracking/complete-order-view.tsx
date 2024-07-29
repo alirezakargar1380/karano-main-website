@@ -76,6 +76,7 @@ export default function CompleteOrderView({
                         <InvoiceView
                             orderProducts={orderProducts}
                             submitHandler={checkout.onNextStep}
+                            onPrev={checkout.onBackStep}
                         />
                     )}
 

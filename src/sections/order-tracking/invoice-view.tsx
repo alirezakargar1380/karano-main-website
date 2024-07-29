@@ -22,13 +22,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 type Props = {
     orderProducts: IOrderProductItem[];
     submitHandler: () => void;
+    onPrev: () => void;
     title?: string
 };
 
 export default function InvoiceView({
     orderProducts,
     submitHandler,
-    title = 'مشاهده فاکتور' 
+    onPrev,
+    title = 'مشاهده فاکتور'
 }: Props) {
     // const checkout = useCheckoutContext();
 
@@ -369,7 +371,7 @@ export default function InvoiceView({
                 <StyledRoundedWhiteButton
                     variant='outlined'
                     sx={{ px: 4 }}
-                // onClick={() => checkout.onBackStep()}
+                    onClick={onPrev}
                 >
                     مرحله قبل
                 </StyledRoundedWhiteButton>
