@@ -20,6 +20,7 @@ import Joyride, { Step, ACTIONS, EVENTS, STATUS, TooltipRenderProps } from 'reac
 import Iconify from 'src/components/iconify';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import SvgColor from 'src/components/svg-color';
+import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -139,6 +140,8 @@ export default function CartDialogView({
     setValue,
     values,
 }: Props) {
+    const [ind, setInd] = useState<number | undefined>()
+
     const [disable, setDisable] = useState((type === "edit") ? {
         profile_type: false,
         cover_type: false,
@@ -162,7 +165,8 @@ export default function CartDialogView({
 
     useEffect(() => {
         setTimeout(() => setState({ ...state, run: true }), 1000/2);
-    }, [])
+        setInd(data.findIndex((d) => d.status === IOrderProductPropertyStatus.denied))
+    }, []);
 
     useEffect(() => {
         // check for wich one is the first
@@ -456,6 +460,7 @@ export default function CartDialogView({
                                             <CartTableRow
                                                 key={index}
                                                 index={index}
+                                                indexEqual={ind}
                                                 onDeleteRow={() => onDelete(item.id || index)}
                                                 onEditRow={() => onUpdate(index)}
                                                 selected={(listId === index)}

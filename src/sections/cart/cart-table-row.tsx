@@ -18,6 +18,7 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 type Props = {
   row: ICartItem;
   index?: number;
+  indexEqual?: number;
   selected?: boolean;
   onEditRow?: VoidFunction;
   onDeleteRow?: VoidFunction;
@@ -26,6 +27,7 @@ type Props = {
 export default function CartTableRow({
   row,
   index,
+  indexEqual,
   selected,
   onDeleteRow,
   onEditRow,
@@ -75,7 +77,7 @@ export default function CartTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
             {(status === IOrderProductPropertyStatus.denied) && (
-              <Label color='error' className={index === 0 ? 'my-first-step' : ''} sx={{ ml: 1, px: 1 }}>رد شده</Label>
+              <Label color='error' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: 1 }}>رد شده</Label>
             )}
             {(status === IOrderProductPropertyStatus.edited) && (
               <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
@@ -126,7 +128,7 @@ export default function CartTableRow({
                   py: 0.5,
                   cursor: 'pointer'
                 }}
-                className={(index === 0 && status === IOrderProductPropertyStatus.denied) ? 'reason' : ''}
+                className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'reason' : ''}
                 onClick={rejectionDialog.onTrue}
               >
                 <SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mr: 0.5 }} />
@@ -141,12 +143,12 @@ export default function CartTableRow({
         <TableCell align="right">
           <Stack direction={'row'}>
             {(onEditRow && status !== IOrderProductPropertyStatus.approve) && (
-              <IconButton color={'default'} onClick={onEditRow} className={(index === 0 && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
+              <IconButton color={'default'} onClick={onEditRow} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
             {(onDeleteRow && status !== IOrderProductPropertyStatus.approve) && (
-              <IconButton color={'default'} onClick={confirm.onTrue} className={(index === 0 && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
+              <IconButton color={'default'} onClick={confirm.onTrue} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
