@@ -15,7 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
 import { useGetOrders } from "src/api/orders";
 import { IOrderItem, OrderStatus } from "src/types/order";
-import { fDate, fDateTime } from "src/utils/format-time";
+import { fDateTime, fToJamali } from "src/utils/format-time";
 import { IUserTypes } from "src/types/user";
 
 export default function SaleManagementListView() {
@@ -204,7 +204,7 @@ export default function SaleManagementListView() {
                                         </TableCell>
 
                                         <TableCell dir="ltr">{row.user.phone}</TableCell>
-                                        <TableCell>{fDateTime(row.createdAt)}</TableCell>
+                                        <TableCell>{fToJamali(row.createdAt)}</TableCell>
 
                                         <TableCell>
                                             <LoadingButton
