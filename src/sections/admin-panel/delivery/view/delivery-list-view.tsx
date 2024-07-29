@@ -366,10 +366,9 @@ export default function DeliveryListView() {
                                             )}
                                         </TableCell>
 
+                                        <TableCell>{fToJamali(row.createdAt)}</TableCell>
 
-
-                                        <TableCell>1409/01/01</TableCell>
-                                        <TableCell>1409/01/01</TableCell>
+                                        <TableCell>{fToJamali(row.production_date)}</TableCell>
 
                                         <TableCell>
                                             <LoadingButton
