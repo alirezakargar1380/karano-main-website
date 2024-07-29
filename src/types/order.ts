@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 
+import { IAddressItem } from "./address";
 import { IProductItem, IProductProperties } from "./product";
 import { IUser } from "./user";
 
@@ -59,6 +60,7 @@ export type IOrderProductItem = {
 };
 
 export enum OrderStatus {
+  posted = 'posted',
   preparing = 'preparing',
   pending = 'pending',
   failed = 'failed',
@@ -86,6 +88,7 @@ export type IOrderItem = {
   reciver_phone: string;
   provice: string;
   city: string;
+  address: IAddressItem;
   delivery_type: IOrderDeliveryType;
   order_products: {
     id: number

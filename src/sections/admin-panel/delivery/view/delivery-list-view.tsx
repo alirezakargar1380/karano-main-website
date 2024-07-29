@@ -24,6 +24,7 @@ import SvgColor from "src/components/svg-color";
 import { useState } from "react";
 import { IUserTypes } from "src/types/user";
 import { fToJamali } from "src/utils/format-time";
+import { endpoints, server_axios } from "src/utils/axios";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -33,8 +34,6 @@ export default function DeliveryListView() {
     const detailsDialog = useBoolean();
 
     const settings = useSettingsContext();
-
-    const router = useRouter();
 
     const { orders } = useGetDeliveryOrders();
 
@@ -48,12 +47,8 @@ export default function DeliveryListView() {
 
     const {
         reset,
-        handleSubmit,
-        watch,
-        formState: { isSubmitting },
+        handleSubmit
     } = methods;
-
-    const values = watch();
 
     const onSubmit = handleSubmit(async () => {
         try {
@@ -63,7 +58,13 @@ export default function DeliveryListView() {
         }
     });
 
-    console.log(order, orderLoading, order.reciver_name)
+    const handleUpdateOrder = async () => {
+        if (!orderId) return
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: OrderStatus.posted
+        })
+        detailsDialog.onFalse()
+    }
 
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -154,6 +155,27 @@ export default function DeliveryListView() {
                             </Box>
                         </Stack>
 
+                        {order.address && (
+                            <Box py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
+                                <Typography variant="h6"
+                                    fontFamily={'peyda-bold'}
+                                    sx={{ textWrap: 'nowrap' }}
+                                    pb={2}
+                                    mb={2}
+                                    borderBottom={'1px solid #D1D1D1'}
+                                >
+                                    آدرس تحویل سفارش
+                                </Typography>
+                                <Stack direction={'row'} spacing={1}>
+                                    <SvgColor src="/assets/icons/address/marker-pin-01.svg" color={"#727272"} />
+                                    <Box display={"flex"}>
+                                        <Typography variant="body2">{order.address.provice + ", " + order.address.city + ", " + order.address.address}</Typography>
+                                        <Typography variant="body2" sx={{ direction: 'ltr', ml: 1, mt: 0.25 }}>{order.address.postal_code}</Typography>
+                                    </Box>
+                                </Stack>
+                            </Box>
+                        )}
+
                         <Box py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
                             <Typography variant="h6"
                                 fontFamily={'peyda-bold'}
@@ -162,7 +184,7 @@ export default function DeliveryListView() {
                                 mb={2}
                                 borderBottom={'1px solid #D1D1D1'}
                             >
-                                نحوه ارسال:
+                                جزییات نحوه ارسال
                             </Typography>
                             <Stack direction={'row'}>
                                 <Typography variant="body1" fontFamily={'peyda-regular'} pt={0.5}>نحوه ارسال</Typography>
@@ -209,6 +231,9 @@ export default function DeliveryListView() {
                                     <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{order.invoice_owner?.id_code}</Typography>
                                 </Stack>
                             </Box>
+                        </Stack>
+                        <Stack direction={'row'}>
+                            <LoadingButton variant="contained" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</LoadingButton>
                         </Stack>
                     </>
                 )}
@@ -324,13 +349,19 @@ export default function DeliveryListView() {
                                         <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>
-                                            {(row.status === OrderStatus.produced) ? (
+                                            {(row.status === OrderStatus.produced) && (
                                                 <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
                                                     در انتظار پرداخت نهایی
                                                 </Label>
-                                            ) : (
+                                            )}
+                                            {(row.status === OrderStatus.ready_to_send) && (
                                                 <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
                                                     آماده ارسال
+                                                </Label>
+                                            )}
+                                            {(row.status === OrderStatus.posted) && (
+                                                <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
+                                                    ارسال شده
                                                 </Label>
                                             )}
                                         </TableCell>
