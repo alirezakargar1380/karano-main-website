@@ -1,9 +1,9 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
 import { IOrderProductItem } from "src/types/order-products";
 
@@ -24,34 +24,22 @@ export default function OrderRejectionListView({
     dialog,
     orderId
 }: Props) {
-    const reminderDialog = useBoolean(true)
-
-    const [disable, setDisable] = useState<boolean>(true);
+    const reminderDialog = useBoolean(true);
 
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        const text = "یکی از سفارش‌های پروفیل درب کابینتی - P60  در وضعیت «ردشده» است. تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه ثبت نهایی کلیک کنید."
-        enqueueSnackbar(text)
     }, [])
 
-    const canConfirm = useCallback(async (can: boolean) => {
-        // await new Promise((resolve) => setTimeout(resolve, 1000))
-        setDisable(can)
-    }, [setDisable])
-
-    // useEffect(() => {
-    //     console.log('chenged...')
-    //     orderProducts.forEach((op) => {
-    //         op.properties.forEach((p) => {
-    //             if (p.status === IOrderProductPropertyStatus.denied) {
-    //                 setDisable(true)
-    //             }
-    //         })
-    //     })
-    // }, [orderProducts])
-
     const handleUpdateOrder = async () => {
+        const op = await server_axios.get(endpoints.orderProducts.one(orderId)).then(({ data }) => data)
+        if (op.find((item: any) => item.properties.find((property: any) => property.status === IOrderProductPropertyStatus.denied))) {
+            const text = "یکی یا چندتا از سفارش‌ها در وضعیت «ردشده» است. تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه ثبت نهایی کلیک کنید."
+            enqueueSnackbar(text, {
+                variant: "error"
+            })    
+            return
+        }
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: OrderStatus.edited
         })
@@ -92,7 +80,6 @@ export default function OrderRejectionListView({
 
                 <ShoppingCartList
                     type="edit"
-                    canConfirm={canConfirm}
                     items={orderProducts.map((op) => {
                         return {
                             ...op.product,
@@ -119,7 +106,7 @@ export default function OrderRejectionListView({
 
                 <Stack sx={{ mt: 6 }} direction={'row'} spacing={1} justifyContent={'end'}>
                     <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>انصراف</StyledRoundedWhiteButton>
-                    <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} disabled={disable} onClick={() => handleUpdateOrder()}>
+                    <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={() => handleUpdateOrder()}>
                         ثبت نهایی اصلاحات
                     </LoadingButton>
                 </Stack>

@@ -21,10 +21,9 @@ import { useSnackbar } from "src/components/snackbar";
 interface Props {
     items: ICheckoutItem[]
     type: 'cart' | 'edit'
-    canConfirm?: (can: boolean) => void
 }
 
-export default function ShoppingCartList({ items, type, canConfirm }: Props) {
+export default function ShoppingCartList({ items, type }: Props) {
     const checkout = useCheckoutContext();
 
     const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
@@ -103,9 +102,6 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
             updatedCheckoutItems[index].properties = [...data];
             // OLD Code
 
-            // you have to check disabling of confirm button before update checkout item
-            handleCanDelete();
-
             await new Promise((resolve) => setTimeout(resolve, 250));
             setCheckoutItems([...updatedCheckoutItems]);
 
@@ -114,22 +110,6 @@ export default function ShoppingCartList({ items, type, canConfirm }: Props) {
             console.error(error);
         }
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
-
-    const handleCanDelete = () => {
-        let can = false
-        for (let i = 0; i < checkoutItems.length; i++) {
-            const element = checkoutItems[i];
-            for (let j = 0; j < element.properties.length; j++) {
-                const p = element.properties[j];
-                if (p.status === IOrderProductPropertyStatus.denied) can = true
-            }
-        }
-        if (canConfirm) canConfirm(can)
-    }
-
-    useEffect(() => {
-        handleCanDelete();
-    }, []);
 
     return (
         <Box>
