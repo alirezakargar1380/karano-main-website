@@ -177,6 +177,10 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="error">
                                                         رد شده
                                                     </Label>
+                                                ) || (row.status === OrderStatus.posted) && (
+                                                    <Label variant="filled" color="success">
+                                                        ارسال شده
+                                                    </Label>
                                                 ) || (row.status === OrderStatus.accepted) && (
                                                     <Label variant="filled" color="success">
                                                         تایید شده

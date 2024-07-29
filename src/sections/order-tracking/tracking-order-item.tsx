@@ -29,6 +29,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         (order.status === OrderStatus.failed && 'error') ||
                         ((
                             order.status === OrderStatus.accepted ||
+                            order.status === OrderStatus.posted ||
                             order.status === OrderStatus.ready_to_send
                         ) && 'success') ||
                         (order.status === OrderStatus.edited && 'warning') ||
@@ -36,6 +37,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                     } fontFamily={'peyda-bold'}>
                     {' وضعیت: '}
                     {
+                        (order.status === OrderStatus.posted && 'ارسال شده') ||
                         (order.status === OrderStatus.edited && 'اصلاح شده') ||
                         (order.status === OrderStatus.pending && 'در انتظار تایید') ||
                         (order.status === OrderStatus.failed && 'رد شده') ||
@@ -44,7 +46,6 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         (order.status === OrderStatus.ready_to_send && 'آماده ارسال') ||
                         (order.status === OrderStatus.accepted && 'تایید شده') ||
                         (order.status === OrderStatus.preparing && 'در حال آماده سازی')
-
                     }
                 </Label>
                 <Stack direction={'row'} spacing={1}>
@@ -62,7 +63,12 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         }}
                     >
                         {
-                            ((order.status === OrderStatus.pending || order.status === OrderStatus.edited || order.status === OrderStatus.ready_to_send || order.status === OrderStatus.production || order.status === OrderStatus.preparing) && 'مشاهده سبد خرید') ||
+                            ((order.status === OrderStatus.pending
+                                || order.status === OrderStatus.edited
+                                || order.status === OrderStatus.ready_to_send
+                                || order.status === OrderStatus.production
+                                || order.status === OrderStatus.preparing
+                                || order.status === OrderStatus.posted) && 'مشاهده سبد خرید') ||
                             ((order.status === OrderStatus.failed) && 'مشاهده جزئیات') ||
                             ((order.status === OrderStatus.accepted) && 'ادامه و تکمیل خرید') ||
                             (order.status === OrderStatus.produced && 'پرداخت نهایی') ||
