@@ -14,6 +14,8 @@ import Payment from "./payment";
 import { useGetOrderProducts } from "src/api/order-products";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { useGetOrder } from "src/api/orders";
+import Label from "src/components/label";
+import { fToJamali } from "src/utils/format-time";
 
 interface Props {
     orderId: number
@@ -44,10 +46,16 @@ export default function CompleteOrderView({
 
     return (
         <Scrollbar>
-            <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
-                <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                    نهایی کردن سفارش
-                </Typography>
+            <Box sx={{ px: 2, pb: 3, pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
+                <Stack direction={'row'} spacing={2} borderBottom={'1px solid #D1D1D1'}>
+                    <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
+                        نهایی کردن سفارش
+                    </Typography>
+                    <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                        تاریخ تحویل:
+                        <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
+                    </Label>
+                </Stack>
 
                 <Container>
                     <Box sx={{ my: 3, width: 0.7, mx: 'auto' }}>
