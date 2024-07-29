@@ -36,7 +36,6 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
     }, [dialog.value]);
 
     return (
-
         <Dialog
             open={dialog.value}
             onClose={dialog.onFalse}
@@ -46,8 +45,9 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                 style: {
                     backgroundColor: 'transparent',
                     boxShadow: 'none',
-                    // margin: 0
-                    width: '100%'
+                    margin: 0,
+                    width: '100%',
+                    maxWidth: 'calc(100% - 14px)'
                 },
             }}
             fullWidth={fullWith}

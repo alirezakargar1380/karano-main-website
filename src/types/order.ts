@@ -84,6 +84,8 @@ export type IOrderItem = {
   production_days: number;
   reciver_name: string;
   reciver_phone: string;
+  provice: string;
+  city: string;
   delivery_type: IOrderDeliveryType;
   order_products: {
     id: number

@@ -23,6 +23,7 @@ import Iconify from "src/components/iconify";
 import SvgColor from "src/components/svg-color";
 import { useState } from "react";
 import { IUserTypes } from "src/types/user";
+import { fToJamali } from "src/utils/format-time";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -69,6 +70,9 @@ export default function DeliveryListView() {
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
                 {(!orderLoading) && (
                     <>
+                        <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2} mb={2}>
+                            <Typography variant="h4" fontFamily={'peyda-bold'}>جزییات ارسال</Typography>
+                        </Stack>
                         <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
                             <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }} mt={1}>
                                 آماده ارسال
@@ -79,7 +83,16 @@ export default function DeliveryListView() {
                             </StyledRoundedWhiteButton>
                         </Stack>
 
-                        <Stack spacing={2} py={2}>
+                        <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
+                            <Typography
+                                variant="h6"
+                                fontFamily={'peyda-bold'}
+                                sx={{ textWrap: 'nowrap' }}
+                                pb={2}
+                                borderBottom={'1px solid #D1D1D1'}
+                            >
+                                اطلاعات سفارش
+                            </Typography>
                             <Box
                                 columnGap={2}
                                 rowGap={3}
@@ -90,31 +103,38 @@ export default function DeliveryListView() {
                                 }}
                             >
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
-                                    <Typography ml={1} mt={0.5}>{order.order_number}</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>کد سفارش:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{order.order_number}</Typography>
                                 </Stack>
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>تعداد کالا:</Typography>
-                                    <Typography ml={1} mt={0.25}>150</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>تعداد کالا:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>150</Typography>
                                 </Stack>
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>تاریخ ثبت سفارش:</Typography>
-                                    <Typography ml={1} mt={0.25}>1340/58/88</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>تاریخ ثبت سفارش:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{fToJamali(order.createdAt)}</Typography>
                                 </Stack>
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>تاریخ تحویل:</Typography>
-                                    <Typography ml={1} mt={0.25}>1340/58/88</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>تاریخ تحویل:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{fToJamali(order.production_date)}</Typography>
                                 </Stack>
                             </Box>
                         </Stack>
 
-                        <Stack direction={'row'} my={2}>
-                            <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ textWrap: 'nowrap' }}>اطلاعات تحویل گیرنده</Typography>
-                            <Box width={1} borderBottom={'1px solid #D1D1D1'} mb={1.5} ml={1}></Box>
-                        </Stack>
 
-                        <Stack spacing={2} py={2}>
+
+                        <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
+                            <Typography
+                                variant="h6"
+                                fontFamily={'peyda-bold'}
+                                sx={{ textWrap: 'nowrap' }}
+                                pb={2}
+                                borderBottom={'1px solid #D1D1D1'}
+                            >
+                                اطلاعات تحویل گیرنده
+                            </Typography>
                             <Box
+
                                 columnGap={2}
                                 rowGap={3}
                                 display="grid"
@@ -124,39 +144,49 @@ export default function DeliveryListView() {
                                 }}
                             >
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>نام تحویل گیرنده:</Typography>
-                                    <Typography ml={1}>{order.reciver_name}</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>نام تحویل گیرنده:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{order.reciver_name}</Typography>
                                 </Stack>
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>شماره تماس</Typography>
-                                    <Typography ml={1} mt={0.25} sx={{ direction: 'rtl' }}>{order.reciver_phone}</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>شماره تماس</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'} sx={{ direction: 'rtl' }}>{order.reciver_phone}</Typography>
                                 </Stack>
                             </Box>
                         </Stack>
 
-                        <Stack direction={'row'} my={2}>
-                            <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ textWrap: 'nowrap' }}>آدرس و نحوه ارسال</Typography>
-                            <Box width={1} borderBottom={'1px solid #D1D1D1'} mb={1.5} ml={1}></Box>
-                        </Stack>
+                        <Box py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
+                            <Typography variant="h6"
+                                fontFamily={'peyda-bold'}
+                                sx={{ textWrap: 'nowrap' }}
+                                pb={2}
+                                mb={2}
+                                borderBottom={'1px solid #D1D1D1'}
+                            >
+                                نحوه ارسال:
+                            </Typography>
+                            <Stack direction={'row'}>
+                                <Typography variant="body1" fontFamily={'peyda-regular'} pt={0.5}>نحوه ارسال</Typography>
+                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2, ml: 1 }}>
+                                    <SvgColor src={'/assets/icons/orders/delivery/flag-01.svg'} color={"#727272"} sx={{ mr: 1, width: 16 }} />
+                                    {
+                                        (order.delivery_type === IOrderDeliveryType.tehran && "تحویل در تهران") ||
+                                        (order.delivery_type === IOrderDeliveryType.factory && "تحویل درب کارخانه") ||
+                                        (order.delivery_type === IOrderDeliveryType.city && `تحویل در شهرستان، استان ${order.provice}، شهر ${order.city}`) || ""
+                                    }
+                                </StyledRoundedWhiteButton>
+                            </Stack>
+                        </Box>
 
-                        <Stack direction={'row'}>
-                            <Typography variant="h6" fontFamily={'peyda-bold'}>نحوه ارسال:</Typography>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2, ml: 1, mb: 3 }}>
-                                <SvgColor src={'/assets/icons/orders/delivery/flag-01.svg'} color={"#727272"} sx={{ mr: 1, width: 16 }} />
-                                {
-                                    (order.delivery_type === IOrderDeliveryType.tehran && "تحویل در تهران") ||
-                                    (order.delivery_type === IOrderDeliveryType.factory && "تحویل درب کارخانه") ||
-                                    (order.delivery_type === IOrderDeliveryType.city && "تحویل در شهرستان") || ""
-                                }
-                            </StyledRoundedWhiteButton>
-                        </Stack>
-
-                        <Stack direction={'row'} my={2}>
-                            <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ textWrap: 'nowrap' }}>مشخصات صاحب فاکتور</Typography>
-                            <Box width={1} borderBottom={'1px solid #D1D1D1'} mb={1.5} ml={1}></Box>
-                        </Stack>
-
-                        <Stack spacing={2} py={2}>
+                        <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
+                            <Typography
+                                variant="h6"
+                                fontFamily={'peyda-bold'}
+                                sx={{ textWrap: 'nowrap' }}
+                                pb={2}
+                                borderBottom={'1px solid #D1D1D1'}
+                            >
+                                مشخصات صاحب فاکتور
+                            </Typography>
                             <Box
                                 columnGap={2}
                                 rowGap={3}
@@ -167,16 +197,16 @@ export default function DeliveryListView() {
                                 }}
                             >
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>نام:</Typography>
-                                    <Typography ml={1} mt={0.5}>{order.invoice_owner?.first_name}</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>نام:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{order.invoice_owner?.first_name}</Typography>
                                 </Stack>
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>نام خانوادگی:</Typography>
-                                    <Typography ml={1} mt={0.25}>{order.invoice_owner?.last_name}</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>نام خانوادگی:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{order.invoice_owner?.last_name}</Typography>
                                 </Stack>
                                 <Stack direction={'row'}>
-                                    <Typography variant="h6" fontFamily={'peyda-bold'}>کد ملی:</Typography>
-                                    <Typography ml={1} mt={0.25}>{order.invoice_owner?.id_code}</Typography>
+                                    <Typography variant="body1" fontFamily={'peyda-regular'}>کد ملی:</Typography>
+                                    <Typography ml={1} mt={0.25} fontFamily={'peyda-bold'}>{order.invoice_owner?.id_code}</Typography>
                                 </Stack>
                             </Box>
                         </Stack>
