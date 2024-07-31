@@ -74,6 +74,7 @@ export default function CompleteOrderView({
 
                     {checkout.activeStep === 1 && (
                         <InvoiceView
+                            title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
                             orderProducts={orderProducts}
                             submitHandler={checkout.onNextStep}
                             onPrev={checkout.onBackStep}
