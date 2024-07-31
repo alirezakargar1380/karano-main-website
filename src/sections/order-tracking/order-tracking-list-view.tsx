@@ -73,7 +73,8 @@ export default function OrderTrackingListView() {
             status: OrderStatus.ready_to_send
         })
         finalPaymentDialog.onFalse();
-        enqueueSnackbar("سفارش شما با موفقیت پرداخت شد")
+        // enqueueSnackbar("سفارش شما با موفقیت پرداخت شد")
+        handleConfirmSubmitDialog(orders.find((o) => o.id === orderId)?.need_prepayment || false)
     }
 
     return (
