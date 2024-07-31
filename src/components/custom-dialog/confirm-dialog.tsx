@@ -5,6 +5,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
 import { ConfirmDialogProps } from './types';
+import SvgColor from '../svg-color';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -22,17 +24,24 @@ export default function ConfirmDialog({
         backgroundColor: 'rgba(0,0,0,0.8)'
       }
     }}>
-      <DialogTitle sx={{ pb: 2 }}>{title}</DialogTitle>
+      <Box py={1} px={3}>
+        <DialogTitle sx={{ pb: 2, borderBottom: '1px solid #E8E8E8', pt: 2, display: 'flex', alignItems: 'center', fontFamily: 'peyda-bold', px: 0 }}>
+          <SvgColor src="/assets/icons/notification/alert-circle.svg" color={"#D12215"} mr={1} />
+          <Box>
+            {title}
+          </Box>
+        </DialogTitle>
 
-      {content && <DialogContent sx={{ typography: 'body2' }}> {content} </DialogContent>}
+        {content && <Box sx={{ typography: 'body2', pt: 2 }}> {content} </Box>}
 
-      <DialogActions>
-        <Button variant="outlined" color="inherit" onClick={onClose}>
-          Cancel
-        </Button>
+        <DialogActions sx={{ px: 0 }}>
+          <Button color="inherit" onClick={onClose}>
+            انصراف
+          </Button>
 
-        {action}
-      </DialogActions>
+          {action}
+        </DialogActions>
+      </Box>
     </Dialog>
   );
 }

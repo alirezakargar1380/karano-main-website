@@ -1,6 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
-
-import { DialogProps } from '@mui/material/Dialog';
+import { useRef, useEffect } from 'react';
 
 import { useBooleanReturnType } from 'src/hooks/use-boolean';
 import { Stack, Typography } from '@mui/material';
@@ -13,17 +11,15 @@ import DialogWithButton from '../custom-dialog/dialog-with-button';
 import { useCheckoutContext } from 'src/sections/checkout/context';
 import { endpoints, server_axios } from 'src/utils/axios';
 
-import { useSnackbar } from 'src/components/snackbar';
-
 // ----------------------------------------------------------------------
 interface Props {
     dialog: useBooleanReturnType
+    afterSubmit?: () => void
 }
 
 
-export default function HowToSendDialog({ dialog }: Props) {
+export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
     const checkout = useCheckoutContext();
-    const { enqueueSnackbar } = useSnackbar();
 
     const defaultValues = {
         delivery_type: 'tehran',
@@ -35,19 +31,7 @@ export default function HowToSendDialog({ dialog }: Props) {
         defaultValues,
     });
 
-    const { reset, watch, control, setValue, handleSubmit } = methods;
-
-    const values = watch();
-
-    const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
-
-    const handleClickOpen = useCallback(
-        (scrollType: DialogProps['scroll']) => () => {
-            dialog.onTrue();
-            //   setScroll(scrollType);
-        },
-        [dialog]
-    );
+    const { handleSubmit } = methods;
 
     const descriptionElementRef = useRef<HTMLElement>(null);
 
@@ -62,20 +46,15 @@ export default function HowToSendDialog({ dialog }: Props) {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            console.log(data)
-            // return 
             await server_axios.post(endpoints.orders.create, {
                 ...data,
                 items: checkout.items
             })
                 .then(({ data }) => {
-                    enqueueSnackbar('سفارش شما ثبت شد', {
-                        variant: 'info'
-                    })
                     dialog.onFalse();
+                    if (afterSubmit) afterSubmit();
                 })
 
-            console.log(data)
         } catch (error) {
             console.error(error);
         }

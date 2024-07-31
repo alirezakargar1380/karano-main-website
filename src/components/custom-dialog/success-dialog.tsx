@@ -7,7 +7,8 @@ import { LoadingButton } from "@mui/lab";
 export default function SuccessDialog({
     open,
     onClose,
-    text,
+    content,
+    title,
     ...other
 }: SuccessDialogProps) {
     return (
@@ -18,10 +19,8 @@ export default function SuccessDialog({
         }}>
             <Box p={3} textAlign={'center'}>
                 <Image src="/assets/images/order-tracking/success.png" />
-                <Typography variant="h4" color={"#000"} fontFamily={"peyda-bold"} my={2}>ثبت موفق</Typography>
-                <Typography variant="h6" color={"#000"} my={2}>
-                    {text}
-                </Typography>
+                {title && <Typography variant="h4" color={"#000"} fontFamily={"peyda-bold"} my={2}>{title}</Typography>}
+                {content && <Typography variant="body1" fontFamily={'peyda-regular'} color={"#000"} my={2}>{content}</Typography>}
                 <LoadingButton variant="contained" sx={{ borderRadius: '24px' }} onClick={onClose}>
                     متوجه شدم
                 </LoadingButton>

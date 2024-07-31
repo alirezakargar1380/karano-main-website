@@ -163,14 +163,14 @@ export default function CartTableRow({
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="حذف آیتم از سبد خرید"
-        content="آیا مطمئن هستید؟"
+        title="حذف کالا"
+        content="آیا از حذف کالای مورد نظر اطمینان دارید؟"
         action={
-          <Button variant="contained" color="error" onClick={() => {
+          <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
             if (onDeleteRow) onDeleteRow();
             confirm.onFalse();
           }}>
-            تایید
+            حذف
           </Button>
         }
       />

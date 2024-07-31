@@ -22,9 +22,12 @@ import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 import FormProvider from 'src/components/hook-form';
 import { ProductOrderType } from "src/types/product";
 import ShoppingCartList from "../shopping-cart-list";
+import { SuccessDialog } from "src/components/custom-dialog";
 
 export default function ShoppingCartView() {
     const howToSendDialog = useBoolean();
+    const succussDialog = useBoolean();
+
     const [disable, setDisable] = useState<boolean>(false);
 
     const popover = usePopover();
@@ -38,7 +41,17 @@ export default function ShoppingCartView() {
     return (
         <Box sx={{ width: 1 }}>
 
-            <HowToSendDialog dialog={howToSendDialog} />
+            <HowToSendDialog
+                dialog={howToSendDialog}
+                afterSubmit={succussDialog.onTrue}
+            />
+
+            <SuccessDialog
+                open={succussDialog.value}
+                onClose={succussDialog.onFalse}
+                content={`سبد خرید شما ثبت، و جهت بررسی به کارشناسان کارانو ارسال شد.
+نتیجه بررسی، از طریق پیامک برای شما ارسال خواهد شد. همچنین می‌توانید از طریق منوی پیگیری سفارش، وضعیت سفارش‌های خود را ببینید.`}
+            />
 
             <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1' }}>
                 <Typography variant="h3" fontFamily={'peyda-bold'} sx={{ py: 2 }}>سبد خرید</Typography>

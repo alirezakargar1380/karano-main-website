@@ -72,7 +72,8 @@ export default function OrderTrackingListView() {
         <Box>
 
             <SuccessDialog
-                text={`سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`}
+                title="ثبت موفق"
+                content={`سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`}
                 open={successDialog.value}
                 onClose={successDialog.onFalse}
             />

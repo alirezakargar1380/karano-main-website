@@ -17,7 +17,6 @@ export type ReminderDialogProps = Omit<DialogProps, 'title' | 'content'> & {
   onClose: VoidFunction;
 };
 
-export type SuccessDialogProps = Omit<DialogProps, 'title' | 'content'> & {
+export type SuccessDialogProps = DialogProps & {
   onClose: VoidFunction;
-  text: string
 };
