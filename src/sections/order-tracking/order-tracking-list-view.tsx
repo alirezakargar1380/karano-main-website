@@ -87,7 +87,10 @@ export default function OrderTrackingListView() {
 
             <SuccessDialog
                 title="پرداخت موفق"
-                content={`سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`}
+                content={hasCustomMade ?
+                    `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`
+                    : `پرداخت شما برای سفارش کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و 
+وارد فرایند آماده‌سازی و ارسال می‌شود.`}
                 open={successDialog.value}
                 onClose={successDialog.onFalse}
             />
