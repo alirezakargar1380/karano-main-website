@@ -112,6 +112,7 @@ export default function SaleManagementPayment({
             <InvoiceDialog
                 title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
                 dialog={invoiceDialog}
+                production_date={order.production_date}
                 orderProducts={orderProducts}
                 submitHandler={() => {
                     timeReminder.onTrue();
@@ -172,7 +173,7 @@ export default function SaleManagementPayment({
                 <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ p: 2, mt: 1 }}>
                     {sendToUser ? (
                         <LoadingButton type="submit" variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
-                            ارسال برای کاربر
+                            ارسال برای مشتری
                         </LoadingButton>
                     ) : (
                         <LoadingButton onClick={invoiceDialog.onTrue} variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>

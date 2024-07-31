@@ -8,9 +8,10 @@ export interface Props {
     orderProducts: IOrderProductItem[];
     submitHandler: () => void;
     title?: string
+    production_date?: string
 }
 
-export default function InvoiceDialog({ dialog, orderProducts, title, submitHandler }: Props) {
+export default function InvoiceDialog({ dialog, orderProducts, title, production_date, submitHandler }: Props) {
 
     return (
         <DialogWithButton dialog={dialog} fullWith={true}>
@@ -18,6 +19,7 @@ export default function InvoiceDialog({ dialog, orderProducts, title, submitHand
                 title={title}
                 orderProducts={orderProducts}
                 submitHandler={() => submitHandler()}
+                production_date={production_date}
             />
         </DialogWithButton>
     )

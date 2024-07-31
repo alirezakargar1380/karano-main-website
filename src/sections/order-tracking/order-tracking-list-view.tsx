@@ -60,7 +60,6 @@ export default function OrderTrackingListView() {
     };
 
     const handleConfirmSubmitDialog = (need_prepayment: boolean) => {
-        console.log("im hrerer")
         if (need_prepayment) {
             submitSuccessDialog.onTrue();
         } else {

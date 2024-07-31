@@ -9,6 +9,9 @@ import { IInvoice } from "src/types/invoice";
 import { IOrderProductItem } from "src/types/order-products";
 import React from "react";
 import { ProductOrderType } from "src/types/product";
+import Label from "src/components/label";
+import { fToJamali } from "src/utils/format-time";
+import SvgColor from "src/components/svg-color";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '& td': {
@@ -24,13 +27,15 @@ type Props = {
     submitHandler: () => void;
     onPrev: () => void;
     title?: string
+    production_date?: string
 };
 
 export default function InvoiceView({
     orderProducts,
     submitHandler,
     onPrev,
-    title = 'مشاهده فاکتور'
+    title = 'مشاهده فاکتور',
+    production_date
 }: Props) {
     // const checkout = useCheckoutContext();
 
@@ -280,9 +285,20 @@ export default function InvoiceView({
 
     return (
         <Box p={2}>
-            <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                {title}
-            </Typography>
+            <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'}>
+                <Stack direction={'row'} spacing={2}>
+                    <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>
+                        {title}
+                    </Typography>
+                    {production_date && (
+                        <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                            تاریخ تحویل:
+                            <Box pl={0.5}>{fToJamali(production_date)}</Box>
+                        </Label>
+                    )}
+                </Stack>
+                <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
+            </Stack>
             {renderList}
 
             <TableContainer sx={{ overflow: 'unset' }}>

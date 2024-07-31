@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Container, Grid } from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import SaleManagementPayment from "../sale-management-payment";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
@@ -8,13 +8,8 @@ import { PageTitle } from "../../page-title";
 import SaleManagementProducts from "../sale-management-products";
 import { useGetOrderProducts } from "src/api/order-products";
 import { useBoolean } from "src/hooks/use-boolean";
-import InvoiceDialog from "../common/invoice-dialog";
 import { useGetOrder } from "src/api/orders";
 import { useCallback, useEffect, useState } from "react";
-import { endpoints, server_axios } from "src/utils/axios";
-import { OrderStatus } from "src/types/order";
-import { ReminderDialog } from "src/components/custom-dialog";
-import { IOrderProductStatus } from "src/types/order-products";
 import { ProductOrderType } from "src/types/product";
 
 type Props = {
@@ -23,9 +18,6 @@ type Props = {
 
 export default function SaleManagementDetailsView({ id }: Props) {
     const invoiceDialog = useBoolean();
-
-    const deleteReminder = useBoolean();
-    const timeReminder = useBoolean();
 
     const [sendToUser, setSendToUser] = useState(true);
     const [hasCustomMade, setHasCustomMade] = useState(false);
