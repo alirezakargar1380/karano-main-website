@@ -79,7 +79,7 @@ export default function RHFRadioGroupCard({
                                         },
                                         ...(field.value === option.value && option.children?.length) && {
                                             border: '1px solid #D1D1D1',
-                                            bgcolor: '#E0E0E0'
+                                            bgcolor: '#F8F8F8'
                                         }
                                     }}
                                 >
@@ -106,12 +106,13 @@ export default function RHFRadioGroupCard({
                                                         mr: spacing || 2,
                                                     },
                                                 }),
+                                                mr: 0.5
                                             }}
                                         />
                                         {(option.icon) && (
-                                            <SvgColor src={option.icon} sx={{ mt: 0.7, mr: 2 }} />
+                                            <SvgColor src={option.icon} sx={{ mt: 0.7, mr: 1, color: "#727272" }} />
                                         )}
-                                        <Typography sx={{ pt: 0.5 }} variant={variant} fontFamily={'peyda-bold'}>{option.label}</Typography>
+                                        <Typography sx={{ pt: 0.5, color: "#2B2B2B" }} variant={variant} fontFamily={'peyda-bold'}>{option.label}</Typography>
                                     </Stack>
 
                                     {(field.value === option.value && option.children?.length) && (
@@ -126,7 +127,6 @@ export default function RHFRadioGroupCard({
                                                             width: 1,
                                                             bgcolor: 'white',
                                                             borderRadius: 1,
-                                                            // border: '1px solid #D1D1D1'
                                                         }} variant='outlined' size='small' placeholder='انتخاب کنید'>
                                                             {option.options.map((item, ind) => (
                                                                 <MenuItem value={item.value} key={ind}>{item.label}</MenuItem>

@@ -83,11 +83,13 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
                                 },
                                 {
                                     label: 'تحویل درب کارخانه',
-                                    value: 'factory'
+                                    value: 'factory',
+                                    icon: '/assets/icons/orders/delivery/building-07.svg'
                                 },
                                 {
                                     label: 'تحویل در شهرستان',
                                     value: 'city',
+                                    icon: '/assets/icons/orders/delivery/marker-pin-01.svg',
                                     children: [
                                         {
                                             lable: "استان",
