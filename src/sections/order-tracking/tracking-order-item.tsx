@@ -2,6 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material"
 import Iconify from "src/components/iconify"
 import Label from "src/components/label"
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button"
+import SvgColor from "src/components/svg-color"
 import { IOrderItem, OrderStatus } from "src/types/order"
 import { fDateTime, fToJamali } from "src/utils/format-time"
 
@@ -53,6 +54,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         <Button
                             sx={{ color: "#0B7BA7", fontFamily: "peyda-bold" }}
                         >
+                            <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
                             دانلود فاکتور نهایی
                         </Button>
                     )}

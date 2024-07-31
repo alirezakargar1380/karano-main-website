@@ -18,6 +18,7 @@ import OrderRejectionListView from "./order-rejection-list-view";
 import { LoadingButton } from "@mui/lab";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useSnackbar } from "src/components/snackbar";
+import SvgColor from "src/components/svg-color";
 
 export default function OrderTrackingListView() {
     const [orderId, setOrderId] = useState<number>(0);
@@ -102,17 +103,18 @@ export default function OrderTrackingListView() {
                         <Button
                             sx={{ color: "#0B7BA7", fontFamily: "peyda-bold", fontSize: '16px' }}
                         >
+                            <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
                             دانلود فاکتور نهایی
                         </Button>
                     </Stack>
-                    <Typography variant="body1" color={"#727272"} py={4}>برای نهایی‌کردن سفارش، لطفا مبلغ باقی‌مانده فاکتور خود را پرداخت کنید.</Typography>
+                    <Typography variant="body1" fontFamily={'peyda-regular'} color={"#727272"} py={4}>برای نهایی‌کردن سفارش، لطفا مبلغ باقی‌مانده فاکتور خود را پرداخت کنید.</Typography>
                     <Stack direction={"row"}>
                         <Typography fontFamily={'peyda-bold'}>مبلغ:</Typography>
                         <Typography px={3}>1455555</Typography>
                         <Typography color={"#727272"} fontFamily={'peyda-light'}>ریال</Typography>
                     </Stack>
                     <Stack direction={'row'} justifyContent={'end'} pt={4} spacing={1}>
-                        <StyledRoundedWhiteButton variant='outlined' onClick={finalPaymentDialog.onFalse}>انصراف</StyledRoundedWhiteButton>
+                        <StyledRoundedWhiteButton variant='outlined' onClick={finalPaymentDialog.onFalse} sx={{ px: 3 }}>انصراف</StyledRoundedWhiteButton>
                         <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={() => pay()}>پرداخت</LoadingButton>
                     </Stack>
                 </Box>
