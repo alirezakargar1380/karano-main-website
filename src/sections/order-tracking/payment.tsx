@@ -17,7 +17,7 @@ interface Props {
     hasCustomMade: boolean
     need_prepayment: boolean
     production_days: number
-    submitHandler: () => void
+    submitHandler: (need_prepayment: boolean) => void
 }
 
 export default function Payment({
@@ -32,7 +32,7 @@ export default function Payment({
 
     useEffect(() => {
         if (need_prepayment) {
-            submitHandler();
+            submitHandler(need_prepayment);
             handle();
         }
     }, [need_prepayment])
@@ -41,7 +41,8 @@ export default function Payment({
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: (hasCustomMade) ? OrderStatus.production : (production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
         })
-        finalOrderDialog.onFalse()
+        finalOrderDialog.onFalse();
+        submitHandler(need_prepayment)
     }
 
     const methods = useForm({

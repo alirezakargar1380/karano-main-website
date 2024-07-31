@@ -21,7 +21,7 @@ interface Props {
     orderId: number
     finalOrderDialog: useBooleanReturnType
     hasCustomMade: boolean
-    handleAfterLastSection: () => void
+    handleAfterLastSection: (need_prepayment: boolean) => void
 }
 
 export let PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE = ['اطلاعات تحویل‌گیرنده', 'مشاهده پیش‌فاکتور', 'پیش‌پرداخت'];
@@ -88,7 +88,7 @@ export default function CompleteOrderView({
                             hasCustomMade={hasCustomMade}
                             need_prepayment={order.need_prepayment}
                             production_days={order.production_days}
-                            submitHandler={handleAfterLastSection}
+                            submitHandler={(n) => handleAfterLastSection(n)}
                         />
                     )}
 

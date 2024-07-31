@@ -27,7 +27,9 @@ export default function OrderTrackingListView() {
     const cartDialog = useBoolean();
     const finalOrderDialog = useBoolean();
     const finalPaymentDialog = useBoolean();
+
     const successDialog = useBoolean();
+    const submitSuccessDialog = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -56,8 +58,13 @@ export default function OrderTrackingListView() {
         }
     };
 
-    const handleConfirmSubmitDialog = () => {
-        successDialog.onTrue();
+    const handleConfirmSubmitDialog = (need_prepayment: boolean) => {
+        console.log("im hrerer")
+        if (need_prepayment) {
+            submitSuccessDialog.onTrue();
+        } else {
+            successDialog.onTrue();
+        }
     }
 
     const pay = async () => {
@@ -73,6 +80,13 @@ export default function OrderTrackingListView() {
 
             <SuccessDialog
                 title="ثبت موفق"
+                content={`سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`}
+                open={submitSuccessDialog.value}
+                onClose={submitSuccessDialog.onFalse}
+            />
+
+            <SuccessDialog
+                title="پرداخت موفق"
                 content={`سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`}
                 open={successDialog.value}
                 onClose={successDialog.onFalse}
@@ -106,7 +120,7 @@ export default function OrderTrackingListView() {
                     orderId={orderId}
                     finalOrderDialog={finalOrderDialog}
                     hasCustomMade={hasCustomMade}
-                    handleAfterLastSection={handleConfirmSubmitDialog}
+                    handleAfterLastSection={(n) => handleConfirmSubmitDialog(n)}
                 />
             </DialogWithButton>
 
