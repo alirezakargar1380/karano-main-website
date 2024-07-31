@@ -190,7 +190,7 @@ export default function ProductShopDetailsView({ id }: Props) {
   );
 
   return (
-    <>
+    <Box sx={{ mt: 5 }}>
       {/* <CartIcon totalItems={checkout.totalItems} /> */}
 
       {productLoading && renderSkeleton}
@@ -198,6 +198,6 @@ export default function ProductShopDetailsView({ id }: Props) {
       {productError && renderError}
 
       {product && renderProduct}
-    </>
+    </Box>
   );
 }
