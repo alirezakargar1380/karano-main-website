@@ -12,7 +12,7 @@ import { LoadingButton } from "@mui/lab";
 import SvgColor from "src/components/svg-color";
 import Iconify from "src/components/iconify";
 import { useBoolean } from "src/hooks/use-boolean";
-import { DialogWithButton } from "src/components/custom-dialog";
+import { DialogWithButton, WarningDialog } from "src/components/custom-dialog";
 import FormProvider, { RHFSelect, RHFTitleTextField } from "src/components/hook-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -24,6 +24,7 @@ import { useGetAdmins } from "src/api/admin";
 
 export default function AccessLevelview() {
     const adminDialog = useBoolean();
+    const warningDialog = useBoolean();
 
     const { admins } = useGetAdmins();
 
@@ -60,9 +61,10 @@ export default function AccessLevelview() {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            console.log(data)
+            if (!warningDialog.value) return warningDialog.onTrue();
             server_axios.post(endpoints.auth.admin.create, data);
             adminDialog.onFalse();
+            warningDialog.onFalse();
             console.info('DATA', data);
         } catch (error) {
             console.error(error);
@@ -71,6 +73,21 @@ export default function AccessLevelview() {
 
     return (
         <>
+            <WarningDialog
+                open={warningDialog.value}
+                onClose={warningDialog.onFalse}
+                title="اطمینان از افزودن"
+                content="آیا از افزودن «پرهام بدر» به عنوان «مدیر فروش» اطمینان دارید؟"
+                action={
+                    <LoadingButton variant="contained" onClick={() => onSubmit()} sx={{
+                        borderRadius: '50px',
+                        px: 4
+                    }}>
+                        تایید
+                    </LoadingButton>
+                }
+            />
+
             <DialogWithButton dialog={adminDialog} fullWith={false} width={960}>
                 <Box p={2}>
                     <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -103,11 +120,11 @@ export default function AccessLevelview() {
                                                 checked={(values.role === value)}
                                             />
                                             <ListItemText primary={
-                                                (value === EAdminRole.adminstrator && "سوپر ادمین") || 
-                                                (value === EAdminRole.delivery && "مدیر ارسال") || 
-                                                (value === EAdminRole.production && "مدیر ارسال") || 
-                                                (value === EAdminRole.sale && "مدیر فروش") || 
-                                                (value === EAdminRole.storage && "مدیر انبار") || 
+                                                (value === EAdminRole.adminstrator && "سوپر ادمین") ||
+                                                (value === EAdminRole.delivery && "مدیر ارسال") ||
+                                                (value === EAdminRole.production && "مدیر ارسال") ||
+                                                (value === EAdminRole.sale && "مدیر فروش") ||
+                                                (value === EAdminRole.storage && "مدیر انبار") ||
                                                 ""
                                             }
                                             />
