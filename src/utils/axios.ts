@@ -41,6 +41,7 @@ export const endpoints = {
     user: {
       check_phone: '/api/authentication/user/check-phone',
       login: '/api/authentication/user/login',
+      loginSignUp: '/api/authentication/user/login-signup',
       me: '/api/authentication/user/me',
       verify: '/api/authentication/user/verify',
       add_password: (id: any) => '/api/authentication/user/add-password/' + id,

@@ -80,6 +80,7 @@ export const paths = {
     },
     phone: {
       login: `${ROOTS.AUTH}/phone/login`,
+      password: `${ROOTS.AUTH}/phone/password`,
       verify: `${ROOTS.AUTH}/phone/verify`,
       register: `${ROOTS.AUTH}/phone/register`,
       newPassword: `${ROOTS.AUTH}/phone/new-password`,

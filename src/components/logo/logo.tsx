@@ -5,6 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
 
 import { RouterLink } from 'src/routes/components';
+import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -19,15 +20,10 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
     // OR using local (public folder)
     // -------------------------------------------------------
     const logo = (
-      <Box
-        component="img"
-        src="/logo/karano-icon.png"
-        sx={{
-          cursor: 'pointer',
-          width: 62,
-          height: 39,
-         ...sx
-        }}
+      <SvgColor
+        src='/logo/logo.svg'
+        color={'#D71920'}
+        sx={{ width: 62, height: 38, ...sx }}
       />
     );
 

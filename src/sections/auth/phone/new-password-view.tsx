@@ -28,7 +28,6 @@ import { paths } from 'src/routes/paths';
 // ----------------------------------------------------------------------
 
 export default function NewPasswordView() {
-  const { login } = useAuthContext();
 
   const router = useRouter();
 
@@ -167,7 +166,7 @@ export default function NewPasswordView() {
         variant="contained"
         loading={isSubmitting}
       >
-        ادامه
+        ثبت نام
       </LoadingButton>
     </Stack>
   );

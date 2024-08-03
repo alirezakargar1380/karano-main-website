@@ -11,7 +11,7 @@ export default function AccessLevel() {
                         <Typography variant="h6">مدیریت فروش</Typography>
                         <Typography variant="body2">06 نفر</Typography>
                     </Box>
-                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
+                    <Box sx={{ borderRadius: '12px', p: 1.5, bgcolor: '#555555', height: '48px', width: '48px' }}>
                         <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
                     </Box>
 
@@ -20,11 +20,11 @@ export default function AccessLevel() {
             <Grid md={6} xl={3} item>
                 <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
                     <Box>
-                        <Typography variant="h6">مدیریت فروش</Typography>
+                        <Typography variant="h6">مدیریت تولید</Typography>
                         <Typography variant="body2">06 نفر</Typography>
                     </Box>
-                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
+                    <Box sx={{ borderRadius: '12px', p: 1.5, bgcolor: '#555555', height: '48px', width: '48px' }}>
+                        <SvgColor src="/assets/icons/admin-panel/loading-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
                     </Box>
 
                 </Stack>
@@ -32,11 +32,11 @@ export default function AccessLevel() {
             <Grid md={6} xl={3} item>
                 <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
                     <Box>
-                        <Typography variant="h6">مدیریت فروش</Typography>
+                        <Typography variant="h6">مدیریت انبار</Typography>
                         <Typography variant="body2">06 نفر</Typography>
                     </Box>
-                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
+                    <Box sx={{ borderRadius: '12px', p: 1.5, bgcolor: '#555555', height: '48px', width: '48px' }}>
+                        <SvgColor src="/assets/icons/admin-panel/archive.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
                     </Box>
 
                 </Stack>
@@ -44,11 +44,11 @@ export default function AccessLevel() {
             <Grid md={6} xl={3} item>
                 <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
                     <Box>
-                        <Typography variant="h6">مدیریت فروش</Typography>
+                        <Typography variant="h6">مدیریت ارسال</Typography>
                         <Typography variant="body2">06 نفر</Typography>
                     </Box>
-                    <Box sx={{ borderRadius: '12px', p: 2, bgcolor: '#555555', height: '48px', width: '48px' }}>
-                        <SvgColor src="/assets/icons/admin-panel/shopping-cart-01.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
+                    <Box sx={{ borderRadius: '12px', p: 1.5, bgcolor: '#555555', height: '48px', width: '48px' }}>
+                        <SvgColor src="/assets/icons/admin-panel/send-03.svg" color={'#fff'} sx={{ width: 1, height: 1 }} />
                     </Box>
 
                 </Stack>

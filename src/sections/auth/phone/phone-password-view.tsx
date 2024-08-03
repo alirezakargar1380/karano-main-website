@@ -25,7 +25,7 @@ import { Box, IconButton, InputAdornment } from '@mui/material';
 // ----------------------------------------------------------------------
 
 export default function PhonePasswordView() {
-  const { login } = useAuthContext();
+  const { userLogin } = useAuthContext();
 
   const router = useRouter();
 
@@ -60,7 +60,7 @@ export default function PhonePasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      // await login?.(data.email, data.password);
+      await userLogin?.(`+${phone}`, data.password);
 
       // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
@@ -93,12 +93,11 @@ export default function PhonePasswordView() {
       <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>رمز ورود خود را وارد کنید.</Typography>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'}>رمز ورود</Typography>
+        <Typography variant="h6" textAlign={'left'}>رمز عبور</Typography>
         <RHFTextField
-          name=""
-          // label="Password"
+          name="password"
           type={'text'}
-          placeholder='پسورد مورد نظر خود را وارد کنید'
+          placeholder='رمز ورود'
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
@@ -130,7 +129,7 @@ export default function PhonePasswordView() {
         variant="contained"
         loading={isSubmitting}
       >
-        ادامه
+        ورود
       </LoadingButton>
     </Stack>
   );
@@ -138,10 +137,6 @@ export default function PhonePasswordView() {
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {renderHead}
-
-      <Alert severity="error" sx={{ mb: 3, position: 'absolute', top: 70 }}>
-        Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-      </Alert>
 
       {renderForm}
 

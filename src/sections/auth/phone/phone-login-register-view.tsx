@@ -59,8 +59,28 @@ export default function PhoneLoginView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await server_axios.post(endpoints.auth.user.login, data).then(({ data }) => data)
-      router.push(paths.auth.phone.verify + '?phone=' + data.phone.split("+")[1]);
+      const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
+      
+      if (!res.phone_verified) {
+        router.push(paths.auth.phone.verify + '?phone=' + data.phone.split("+")[1]);
+        return
+      }
+      
+      if (!res.set_password) {
+        router.push(paths.auth.phone.newPassword + '?user_id=' + res.user_id);
+        return
+      }
+
+      if (!res.complete_information) {
+        router.push(paths.auth.phone.register + '?user_id=' + res.user_id);
+        return
+      }
+
+      if (res.authenticated) {
+        router.push(paths.auth.phone.password + '?phone=' + data.phone.split("+")[1]);
+      } else {
+        router.push(paths.auth.phone.verify + '?phone=' + data.phone.split("+")[1]);
+      }
     } catch (error) {
       console.error(error);
       reset();

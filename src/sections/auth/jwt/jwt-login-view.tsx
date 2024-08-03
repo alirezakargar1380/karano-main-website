@@ -115,7 +115,7 @@ export default function PhoneLoginView() {
 
       <Box mb={3}>
         <Typography variant="body1" textAlign={'left'} pb={0.5}>
-          پسورد
+          رمز ورود
         </Typography>
         <RHFTextField
           name="password"
@@ -156,7 +156,7 @@ export default function PhoneLoginView() {
         variant="contained"
         loading={isSubmitting}
       >
-        ادامه
+        ورود
       </LoadingButton>
     </Stack>
   );

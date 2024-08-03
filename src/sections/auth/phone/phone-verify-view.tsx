@@ -8,26 +8,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Link from '@mui/material/Link';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import { paths } from 'src/routes/paths';
-import { RouterLink } from 'src/routes/components';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useAuthContext } from 'src/auth/hooks';
-import { PATH_AFTER_LOGIN } from 'src/config-global';
 
-import Iconify from 'src/components/iconify';
-import FormProvider, { RHFAutocomplete, RHFCode, RHFTextField } from 'src/components/hook-form';
-import { Box, MenuItem, Select } from '@mui/material';
-import { countries } from 'src/assets/data';
-import OTPInput from './otp';
-import { endpoints, server_axios } from 'src/utils/axios';
+import FormProvider, { RHFCode,  } from 'src/components/hook-form';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -161,10 +153,6 @@ export default function PhoneVerifyView() {
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
       {renderHead}
-
-      <Alert severity="error" sx={{ mb: 3, position: 'absolute', top: 70 }}>
-        Use email : <strong>demo@minimals.cc</strong> / password :<strong> demo1234</strong>
-      </Alert>
 
       {renderForm}
 

@@ -14,7 +14,7 @@ import { bgGradient } from 'src/theme/css';
 import { useAuthContext } from 'src/auth/hooks';
 
 import Logo from 'src/components/logo';
-import { Grid } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -61,11 +61,13 @@ export default function AuthClassicLayout({ children, image, title, maxWidth = 4
 
   const renderLogo = (
     <Box sx={{ width: 1, borderBottom: '1px solid #D1D1D1', position: 'absolute' }}>
-      <Logo
-        sx={{
-          m: { xs: 2, md: 3 },
-        }}
-      />
+      <Container maxWidth="xl" sx={{ px: 0 }}>
+        <Logo
+          sx={{
+            m: { xs: 2, md: 2 },
+          }}
+        />
+      </Container>
     </Box>
   );
 

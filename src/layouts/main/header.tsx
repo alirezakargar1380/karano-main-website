@@ -1,8 +1,6 @@
 import Stack from '@mui/material/Stack';
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useTheme } from '@mui/material/styles';
-import Container from '@mui/material/Container';
 import Badge, { badgeClasses } from '@mui/material/Badge';
 
 import { useOffSetTop } from 'src/hooks/use-off-set-top';
@@ -17,14 +15,11 @@ import NavDesktop from './nav/desktop';
 import { HEADER } from '../config-layout';
 import { navConfig, navDesktopConfig } from './config-navigation';
 import LoginButton from '../common/login-button';
-import HeaderShadow from '../common/header-shadow';
-import SettingsButton from '../common/settings-button';
 import PriceListButton from '../common/price-list-button';
 import SearchButton from '../common/search-button';
 import LikeButton from '../common/like-button';
 import ShoppingCartButton from '../common/shopping-cart-button';
-import { Box, Button, IconButton, Typography } from '@mui/material';
-import SvgColor from 'src/components/svg-color';
+import { Box } from '@mui/material';
 import { useHandleBanner } from 'src/api/banner';
 import { useEffect } from 'react';
 

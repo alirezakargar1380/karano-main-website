@@ -204,6 +204,43 @@ export function AuthProvider({ children }: Props) {
     });
   }, []);
 
+  // USER LOGIN
+  const userLogin = useCallback(async (phone: string, password: string) => {
+    const data = {
+      phone,
+      password,
+    };
+
+    const res = await server_axios.post(endpoints.auth.user.login, data).then((res) => {
+      return res.data
+    });
+
+    // if (!res.set_password) {
+    //   router.push(paths.auth.phone.newPassword + '?user_id=' + res.user_id);
+    //   return
+    // }
+
+    // if (!res.complete_information) {
+    //   router.push(paths.auth.phone.register + '?user_id=' + res.user_id);
+    //   return
+    // }
+
+    const { accessToken, user } = res;
+
+    setSession(accessToken);
+
+    dispatch({
+      type: Types.LOGIN,
+      payload: {
+        user: {
+          ...user,
+          accessToken,
+        },
+        admin: state.admin,
+      },
+    });
+  }, []);
+
   // Veify
   const verify = useCallback(async (phone: string, code: string) => {
     const data = {
@@ -222,6 +259,7 @@ export function AuthProvider({ children }: Props) {
 
     if (!res.complete_information) {
       router.push(paths.auth.phone.register + '?user_id=' + res.user_id);
+      return
     }
 
     const { accessToken, user } = res;
@@ -301,6 +339,7 @@ export function AuthProvider({ children }: Props) {
       adminUnauthenticated: admin_status === 'unauthenticated',
       //
       adminLogin,
+      userLogin,
       verify,
       register,
       logout,
