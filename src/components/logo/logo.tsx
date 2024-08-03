@@ -21,7 +21,7 @@ const Logo = forwardRef<HTMLDivElement, LogoProps>(
     // -------------------------------------------------------
     const logo = (
       <SvgColor
-        src='/logo/logo.svg'
+        src='/logo/logo-karano.svg'
         color={'#D71920'}
         sx={{ width: 62, height: 38, ...sx }}
       />
