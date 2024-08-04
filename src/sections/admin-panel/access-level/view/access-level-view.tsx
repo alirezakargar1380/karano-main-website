@@ -21,6 +21,7 @@ import _ from "lodash";
 import { EAdminRole } from "src/types/admin";
 import { endpoints, server_axios } from "src/utils/axios";
 import { useGetAdmins } from "src/api/admin";
+import { adminRoleTranslate } from "src/utils/admin-role";
 
 export default function AccessLevelview() {
     const adminDialog = useBoolean();
@@ -28,12 +29,13 @@ export default function AccessLevelview() {
 
     const { admins } = useGetAdmins();
 
-    // const FormSchema = Yup.object().shape({
-    //     fullName: Yup.string()
-    //         .required('Full name is required')
-    //         .min(6, 'Mininum 6 characters')
-    //         .max(32, 'Maximum 32 characters')
-    // });
+    const FormSchema = Yup.object().shape({
+        username: Yup.string()
+            .required('نام کاربری مورد نیاز است')
+            .matches(/^[0-9aA-zZ]+$/, 'فقط از حروف انگلیسی و اعداد بدون فاصله استفاده کنید')
+            .min(6, 'Mininum 6 characters')
+            .max(32, 'Maximum 32 characters')
+    });
 
     const defaultValues = {
         fullName: '',
@@ -44,17 +46,13 @@ export default function AccessLevelview() {
     }
 
     const methods = useForm({
-        // resolver: yupResolver(FormSchema),
+        resolver: yupResolver(FormSchema),
         defaultValues,
     });
 
     const {
         watch,
-        reset,
-        control,
-        setValue,
-        handleSubmit,
-        formState: { isSubmitting },
+        handleSubmit
     } = methods;
 
     const values = watch();
@@ -113,21 +111,21 @@ export default function AccessLevelview() {
                                 <Typography fontFamily={'peyda-bold'} sx={{ pb: 0.5, pl: 0.75 }}>
                                     سطح دسترسی
                                 </Typography>
-                                <RHFSelect name="role" placeholder="افزودن محتوا">
+                                <RHFSelect
+                                    name="role"
+                                    placeholder="افزودن محتوا"
+                                    SelectProps={{
+                                        renderValue: (value) => {
+                                            return <>{adminRoleTranslate(`${value}`)}</>
+                                        },
+                                    }}
+                                >
                                     {_.values(EAdminRole).map((value, index) => (
                                         <MenuItem value={value} key={index}>
                                             <Checkbox
                                                 checked={(values.role === value)}
                                             />
-                                            <ListItemText primary={
-                                                (value === EAdminRole.adminstrator && "سوپر ادمین") ||
-                                                (value === EAdminRole.delivery && "مدیر ارسال") ||
-                                                (value === EAdminRole.production && "مدیر ارسال") ||
-                                                (value === EAdminRole.sale && "مدیر فروش") ||
-                                                (value === EAdminRole.storage && "مدیر انبار") ||
-                                                ""
-                                            }
-                                            />
+                                            <ListItemText primary={adminRoleTranslate(value)} />
                                         </MenuItem>
                                     ))}
 
@@ -140,7 +138,7 @@ export default function AccessLevelview() {
 
                         <Stack direction={'row'} justifyContent={'end'} mt={2}>
                             <Stack direction={'row'} spacing={2}>
-                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={adminDialog.onFalse}>
+                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 6 }} onClick={adminDialog.onFalse}>
                                     انصراف
                                 </StyledRoundedWhiteButton>
                                 <LoadingButton
@@ -223,7 +221,7 @@ export default function AccessLevelview() {
 
                                             <TableCell>
                                                 <Label variant="filled" color="info">
-                                                    {row.role}
+                                                    {adminRoleTranslate(row.role)}
                                                 </Label>
                                             </TableCell>
 

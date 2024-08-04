@@ -18,6 +18,7 @@ import { useNavData } from './config-navigation';
 import { Avatar, Typography } from '@mui/material';
 import { useAuthContext } from 'src/auth/hooks';
 import { EAdminRole } from 'src/types/admin';
+import { adminRoleTranslate } from 'src/utils/admin-role';
 
 // ----------------------------------------------------------------------
 
@@ -70,13 +71,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
               bgcolor: '#F2F2F2', borderRadius: '8px', px: 1, mt: 1
             }}>
               دسترسی:
-              {
-                (admin?.role === EAdminRole.adminstrator && "سوپر ادمین") ||
-                (admin?.role === EAdminRole.sale && "مدیر فروش") ||
-                (admin?.role === EAdminRole.delivery && "مدیر ارسال") ||
-                (admin?.role === EAdminRole.storage && "مدیر انبار") ||
-                ""
-              }
+              {adminRoleTranslate(admin?.role || '')}
             </Typography>
           </Box>
         </Stack>
