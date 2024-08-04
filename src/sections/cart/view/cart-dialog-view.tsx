@@ -226,7 +226,9 @@ export default function CartDialogView({
     };
 
     return (
-        <Box>
+        <Box sx={{
+            // minHeight: 800
+        }}>
             <Joyride
                 callback={handleJoyrideCallback}
                 tooltipComponent={Tooltip}
@@ -257,28 +259,128 @@ export default function CartDialogView({
                 }}
             />
 
-            {/* // <Scrollbar sx={{ minHeight: 200 }}> */}
-            <Box sx={{ pl: 3, pt: 3 }}>
-                <Grid container spacing={4} sx={{ width: 1 }}>
-                    <Grid item xs={12} md={4}>
-                        <Box sx={{ px: 0 }}>
-                            <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
-                                {title}
-                            </Typography>
-                            <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
-                                <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
-                                    ویژگی های مورد نظر را انتخاب کنید
+            <Scrollbar sx={{ maxHeight: {
+                sm: 500,
+                md: 890
+            } }}>
+                <Box sx={{ pl: 3, pt: 3 }}>
+                    <Grid container spacing={4} sx={{ width: 1 }}>
+                        <Grid item xs={12} md={4}>
+                            <Box sx={{ px: 0 }}>
+                                <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
+                                    {title}
                                 </Typography>
-                                <Box width={1}>
+                                <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
+                                    <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
+                                        ویژگی های مورد نظر را انتخاب کنید
+                                    </Typography>
+                                    <Box width={1}>
+                                        <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+                                            width: 1, pb: 1
+                                        }}>
+                                            نوع پروفیل
+                                        </Typography>
+
+                                        <RHFRadioGroup
+                                            name='profile_type'
+                                            row
+                                            sx={{
+                                                width: 1,
+                                                display: 'grid',
+                                                gridTemplateColumns: {
+                                                    xs: 'repeat(1, 1fr)',
+                                                    md: 'repeat(2, 1fr)',
+                                                },
+                                            }}
+                                            FormControlSx={{
+                                                width: 1
+                                            }}
+                                            options={formOptions.profile_type.map((profile_type) => {
+                                                return {
+                                                    label: profile_type.name,
+                                                    value: profile_type.id,
+                                                }
+                                            })}
+                                        />
+                                    </Box>
+                                </Box>
+
+                                {formOptions.cover_type && (
+                                    <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
+                                        <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+                                            width: 1, pb: 1
+                                        }}>
+                                            پوشش نهایی
+                                        </Typography>
+                                        <RHFRadioGroupWithImage
+                                            name='cover_type'
+                                            disabled={disable.cover_type}
+                                            sx={{
+                                                width: 1,
+                                                display: 'grid',
+                                                gridTemplateColumns: {
+                                                    xs: 'repeat(1, 1fr)',
+                                                    md: 'repeat(2, 1fr)',
+                                                },
+                                            }}
+                                            FSx={{
+                                                '&.MuiFormControlLabel-root': {
+                                                    mr: 0
+                                                }
+                                            }}
+                                            options={formOptions.cover_type.map((cover_type) => {
+                                                return {
+                                                    label: cover_type.name,
+                                                    value: cover_type.id,
+                                                    src: endpoints.cover_type.get_image(cover_type.icon_image_name)
+                                                }
+                                            })}
+                                        />
+                                    </Box>
+                                )}
+
+                                <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
                                     <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
                                         width: 1, pb: 1
                                     }}>
-                                        نوع پروفیل
+                                        نوع قاب
                                     </Typography>
-
                                     <RHFRadioGroup
-                                        name='profile_type'
+                                        name='frame_type'
+                                        disabled={disable.frame_type}
                                         row
+                                        sx={{
+                                            mt: 2,
+                                            width: 1,
+                                            display: 'grid',
+                                            rowGap: 1,
+                                            gridTemplateColumns: {
+                                                xs: 'repeat(1, 1fr)',
+                                                md: 'repeat(2, 1fr)',
+                                            },
+                                        }}
+                                        FormControlSx={{
+                                            width: 1
+                                        }}
+                                        options={formOptions.frame_type.map((frame_type) => {
+                                            return {
+                                                label: frame_type.name,
+                                                value: frame_type.id,
+                                            }
+                                        })}
+                                    />
+                                </Box>
+
+                                <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
+                                    <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+                                        width: 1, pb: 3, pt: 1
+                                    }}>
+                                        نوع روکش گیری
+                                    </Typography>
+                                    <RHFRadioGroup
+                                        name='coating_type'
+                                        row
+                                        disabled={disable.coating_type}
                                         sx={{
                                             width: 1,
                                             display: 'grid',
@@ -290,205 +392,109 @@ export default function CartDialogView({
                                         FormControlSx={{
                                             width: 1
                                         }}
-                                        options={formOptions.profile_type.map((profile_type) => {
-                                            return {
-                                                label: profile_type.name,
-                                                value: profile_type.id,
-                                            }
-                                        })}
-                                    />
-                                </Box>
-                            </Box>
-
-                            {formOptions.cover_type && (
-                                <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                                    <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                        width: 1, pb: 1
-                                    }}>
-                                        پوشش نهایی
-                                    </Typography>
-                                    <RHFRadioGroupWithImage
-                                        name='cover_type'
-                                        disabled={disable.cover_type}
-                                        sx={{
-                                            width: 1,
-                                            display: 'grid',
-                                            gridTemplateColumns: {
-                                                xs: 'repeat(1, 1fr)',
-                                                md: 'repeat(2, 1fr)',
+                                        options={[
+                                            {
+                                                label: 'جناقی',
+                                                value: 'جناقی'
                                             },
-                                        }}
-                                        FSx={{
-                                            '&.MuiFormControlLabel-root': {
-                                                mr: 0
+                                            {
+                                                label: 'غیر جناقی',
+                                                value: 'غیر جناقی'
                                             }
-                                        }}
-                                        options={formOptions.cover_type.map((cover_type) => {
-                                            return {
-                                                label: cover_type.name,
-                                                value: cover_type.id,
-                                                src: endpoints.cover_type.get_image(cover_type.icon_image_name)
-                                            }
-                                        })}
+                                        ]}
                                     />
                                 </Box>
-                            )}
 
-                            <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                                <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                    width: 1, pb: 1
-                                }}>
-                                    نوع قاب
-                                </Typography>
-                                <RHFRadioGroup
-                                    name='frame_type'
-                                    disabled={disable.frame_type}
-                                    row
-                                    sx={{
-                                        mt: 2,
-                                        width: 1,
-                                        display: 'grid',
-                                        rowGap: 1,
-                                        gridTemplateColumns: {
-                                            xs: 'repeat(1, 1fr)',
-                                            md: 'repeat(2, 1fr)',
-                                        },
-                                    }}
-                                    FormControlSx={{
-                                        width: 1
-                                    }}
-                                    options={formOptions.frame_type.map((frame_type) => {
-                                        return {
-                                            label: frame_type.name,
-                                            value: frame_type.id,
-                                        }
-                                    })}
-                                />
-                            </Box>
-
-                            <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                                <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                    width: 1, pb: 3, pt: 1
-                                }}>
-                                    نوع روکش گیری
-                                </Typography>
-                                <RHFRadioGroup
-                                    name='coating_type'
-                                    row
-                                    disabled={disable.coating_type}
-                                    sx={{
-                                        width: 1,
-                                        display: 'grid',
-                                        gridTemplateColumns: {
-                                            xs: 'repeat(1, 1fr)',
-                                            md: 'repeat(2, 1fr)',
-                                        },
-                                    }}
-                                    FormControlSx={{
-                                        width: 1
-                                    }}
-                                    options={[
-                                        {
-                                            label: 'جناقی',
-                                            value: 'جناقی'
-                                        },
-                                        {
-                                            label: 'غیر جناقی',
-                                            value: 'غیر جناقی'
-                                        }
-                                    ]}
-                                />
-                            </Box>
-
-                            <Box sx={{ py: 2 }}>
-                                <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                    width: 1, pb: 3, pt: 1
-                                }}>
-                                    ابعاد
-                                </Typography>
-                                <Stack direction={'row'}
-                                    sx={{ pb: 2 }}
-                                    spacing={2}
-                                    columnGap={2}
-                                    rowGap={3}
-                                    display="grid"
-                                    gridTemplateColumns={{
-                                        xs: 'repeat(1, 1fr)',
-                                        md: 'repeat(2, 1fr)',
+                                <Box sx={{ py: 2 }}>
+                                    <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+                                        width: 1, pb: 3, pt: 1
                                     }}>
-                                    <RHFTitleTextField name='dimension.height' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
-                                    <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
-                                </Stack>
-                                <Typography variant="subtitle1" fontFamily={'peyda-bold'} sx={{
-                                    width: 1, pb: 1, pt: 1
-                                }}>
-                                    تعداد
-                                </Typography>
-                                <IncrementerButton
-                                    name="quantity"
-                                    disabled={disable.dimension}
-                                    onDecrease={() => setValue('quantity', values.quantity ? values.quantity + 1 : 1)}
-                                    onIncrease={() => {
-                                        if (values.quantity != 1)
-                                            setValue('quantity', values.quantity ? values.quantity - 1 : 1)
-                                    }}
-                                />
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={8}>
-                        <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
-                            <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
-                                لیست سفارش های ثبت شده
-                            </Typography>
-                            <IconButton sx={{ mb: 1 }} onClick={onClose}>
-                                <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
-                            </IconButton>
-                        </Stack>
-                        <Box>
-                            {data.length ? (
-                                <Scrollbar sx={{ maxHeight: 780 }}>
-                                    <Table size={'medium'}>
-                                        <TableHeadCustom
-                                            sx={{
-                                                backgroundColor: '#F2F2F2'
-                                            }}
-                                            cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                            headLabel={CartTableHead}
-                                        />
-                                        <TableBody>
-                                            {data.map((item, index: number) => (
-                                                <CartTableRow
-                                                    key={index}
-                                                    index={index}
-                                                    indexEqual={ind}
-                                                    onDeleteRow={() => onDelete(item.id || index)}
-                                                    onEditRow={() => onUpdate(index)}
-                                                    selected={(listId === index)}
-                                                    row={{
-                                                        ...item,
-                                                        status: item.status,
-                                                        quality: item.quantity,
-                                                        coating: item?.coating_type,
-                                                        dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
-                                                        final_coating: item.cover_type?.name,
-                                                        frame_type: item.frame_type?.name,
-                                                        profile_type: item.profile_type?.name,
-                                                    }}
-                                                />
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </Scrollbar>
-                            ) : (
-                                <Box sx={{ width: 1, textAlign: 'center', mt: 24 }}>
-                                    <Image src='/assets/images/cart/Empty State.png' />
+                                        ابعاد
+                                    </Typography>
+                                    <Stack direction={'row'}
+                                        sx={{ pb: 2 }}
+                                        spacing={2}
+                                        columnGap={2}
+                                        rowGap={3}
+                                        display="grid"
+                                        gridTemplateColumns={{
+                                            xs: 'repeat(1, 1fr)',
+                                            md: 'repeat(2, 1fr)',
+                                        }}>
+                                        <RHFTitleTextField name='dimension.height' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
+                                        <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                                    </Stack>
+                                    <Typography variant="subtitle1" fontFamily={'peyda-bold'} sx={{
+                                        width: 1, pb: 1, pt: 1
+                                    }}>
+                                        تعداد
+                                    </Typography>
+                                    <IncrementerButton
+                                        name="quantity"
+                                        disabled={disable.dimension}
+                                        onDecrease={() => setValue('quantity', values.quantity ? values.quantity + 1 : 1)}
+                                        onIncrease={() => {
+                                            if (values.quantity != 1)
+                                                setValue('quantity', values.quantity ? values.quantity - 1 : 1)
+                                        }}
+                                    />
                                 </Box>
-                            )}
-                        </Box>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                            <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
+                                <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
+                                    لیست سفارش های ثبت شده
+                                </Typography>
+                                <IconButton sx={{ mb: 1 }} onClick={onClose}>
+                                    <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
+                                </IconButton>
+                            </Stack>
+                            <Box>
+                                {data.length ? (
+                                    <Scrollbar sx={{ maxHeight: 780 }}>
+                                        <Table size={'medium'}>
+                                            <TableHeadCustom
+                                                sx={{
+                                                    backgroundColor: '#F2F2F2'
+                                                }}
+                                                cellSx={{ fontFamily: 'peyda-medium!important' }}
+                                                headLabel={CartTableHead}
+                                            />
+                                            <TableBody>
+                                                {data.map((item, index: number) => (
+                                                    <CartTableRow
+                                                        key={index}
+                                                        index={index}
+                                                        indexEqual={ind}
+                                                        onDeleteRow={() => onDelete(item.id || index)}
+                                                        onEditRow={() => onUpdate(index)}
+                                                        selected={(listId === index)}
+                                                        row={{
+                                                            ...item,
+                                                            status: item.status,
+                                                            quality: item.quantity,
+                                                            coating: item?.coating_type,
+                                                            dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
+                                                            final_coating: item.cover_type?.name,
+                                                            frame_type: item.frame_type?.name,
+                                                            profile_type: item.profile_type?.name,
+                                                        }}
+                                                    />
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </Scrollbar>
+                                ) : (
+                                    <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
+                                        <Image src='/assets/images/cart/Empty State.png' />
+                                    </Box>
+                                )}
+                            </Box>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </Box>
+                </Box>
+            </ Scrollbar>
         </Box>
     );
 }
