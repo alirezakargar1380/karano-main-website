@@ -49,8 +49,8 @@ export default function ShoppingCartView() {
             <SuccessDialog
                 open={succussDialog.value}
                 onClose={succussDialog.onFalse}
-                content={`سبد خرید شما ثبت، و جهت بررسی به کارشناسان کارانو ارسال شد.
-نتیجه بررسی، از طریق پیامک برای شما ارسال خواهد شد. همچنین می‌توانید از طریق منوی پیگیری سفارش، وضعیت سفارش‌های خود را ببینید.`}
+                content="سبد خرید شما ثبت، و جهت بررسی به کارشناسان کارانو ارسال شد.
+نتیجه بررسی، از طریق پیامک برای شما ارسال خواهد شد. همچنین می‌توانید از طریق منوی پیگیری سفارش، وضعیت سفارش‌های خود را پیگیری کنید."
             />
 
             <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1' }}>

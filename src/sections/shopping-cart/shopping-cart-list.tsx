@@ -131,12 +131,13 @@ export default function ShoppingCartList({ items, type }: Props) {
             {checkoutItems.map((item, index: number) => {
                 const rdata = (
                     <Box textAlign={'right'} key={index}>
-                        <Grid container spacing={2} sx={{ pt: 2 }}>
+                        <Grid container spacing={2} sx={{ pt: 4 }}>
                             {item.coverUrl ? <Grid item sm={2} /> : null}
+                            {/* {(type === "")} */}
                             <Grid item sm={10}>
                                 <Stack direction={'row'} spacing={2}>
                                     <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
-                                    <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton>
+                                    {/* <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton> */}
                                 </Stack>
                             </Grid>
                             {(item.coverUrl) && (
