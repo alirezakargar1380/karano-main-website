@@ -8,6 +8,8 @@ export const StyledNotistack = styled(MaterialDesignContent)(({ theme }) => {
   const lightMode = theme.palette.mode === 'dark';
 
   return {
+    marginTop: '60px!important',
+    // paddingTop: '0px',
     '& #notistack-snackbar': {
       ...theme.typography.subtitle2,
       // padding: 0,
