@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { MuiOtpInput, MuiOtpInputProps } from 'mui-one-time-password-input';
 
 import FormHelperText from '@mui/material/FormHelperText';
+import { Box } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
@@ -19,20 +20,33 @@ export default function RHFCode({ name, helperText, ...other }: RHFCodesProps) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div>
-          <MuiOtpInput
-            {...field}
-            autoFocus
-            gap={1.5}
-            length={6}
-            TextFieldsProps={{
-              error: !!error,
-              placeholder: '-',
-            }}
-            {...other}
-          />
+          <Box sx={{ border: '1px solid #D1D1D1', borderRadius: '8px', overflow: 'hidden' }}>
+            <Box width={0.5} mx={'auto'}>
+              <MuiOtpInput
+                {...field}
+                autoFocus
+                gap={1}
+                length={6}
+                TextFieldsProps={{
+                  error: !!error,
+                  placeholder: '-',
+                  sx: {
+                    "& input": {
+                      px: 0,
+                    },
+                    px: 0,
+                    "& fieldset": {
+                      border: 'none'
+                    }
+                  }
+                }}
+                {...other}
+              />
+            </Box>
+          </Box>
 
-          {(error || helperText)&& (
-            <FormHelperText sx={{ px: 2 }} error={!!error}>
+          {(error || helperText) && (
+            <FormHelperText error={!!error}>
               {helperText || error?.message}
             </FormHelperText>
           )}
