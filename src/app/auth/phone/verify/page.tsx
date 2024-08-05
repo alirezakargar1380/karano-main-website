@@ -1,4 +1,4 @@
-import { PhoneVerifyView } from 'src/sections/auth/phone';
+import { PhoneVerifyView } from 'src/sections/auth/phone/view';
 
 // ----------------------------------------------------------------------
 

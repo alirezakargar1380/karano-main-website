@@ -13,7 +13,7 @@ type Props = {
 export default function Layout({ children }: Props) {
   return (
     <GuestGuard>
-      <AuthClassicLayout maxWidth={380}>
+      <AuthClassicLayout maxWidth={320}>
         {children}
       </AuthClassicLayout>
     </GuestGuard>

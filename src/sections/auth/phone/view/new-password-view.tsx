@@ -21,11 +21,14 @@ import { PATH_AFTER_LOGIN } from 'src/config-global';
 import Iconify from 'src/components/iconify';
 import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
 import { Box, IconButton, InputAdornment } from '@mui/material';
+import { endpoints, server_axios } from 'src/utils/axios';
+import { useSnackbar } from 'notistack';
+import { paths } from 'src/routes/paths';
+import RegisterLoginHead from '../register-login-head';
 
 // ----------------------------------------------------------------------
 
-export default function PhonePasswordView() {
-  const { userLogin } = useAuthContext();
+export default function NewPasswordView() {
 
   const router = useRouter();
 
@@ -33,18 +36,20 @@ export default function PhonePasswordView() {
 
   const searchParams = useSearchParams();
 
-  const phone = searchParams.get('phone');
+  const user_id = searchParams.get('user_id');
 
-  const password = useBoolean();
+  const password = useBoolean(true);
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().min(8, "رمز عبور حداقل باید 8 کرکتر باشد").required('Password is required'),
+    re_password: Yup.string().min(8, "رمز عبور حداقل باید 8 کرکتر باشد").required('Password is required'),
   });
 
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: 'demo1234',
+    password: '',
+    re_password: '',
   };
 
   const methods = useForm({
@@ -60,8 +65,19 @@ export default function PhonePasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await userLogin?.(`+${phone}`, data.password);
+      if (data.password !== data.re_password) {
+        setErrorMsg('Passwords do not match');
+        return;
+      }
+      // await login?.(data.email, data.password);
 
+      const response = await server_axios.post(endpoints.auth.user.add_password(user_id), data).then(({ data }) => data)
+
+      enqueueSnackbar('عملیات انجام شد!', { variant: 'success' });
+
+      if (!response.complete_information) {
+        router.push(paths.auth.phone.register + '?user_id=' + user_id);
+      }
       // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
@@ -90,14 +106,36 @@ export default function PhonePasswordView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>رمز ورود خود را وارد کنید.</Typography>
+      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>
+        یک رمز عبور مناسب برای خود انتخاب کنید.
+      </Typography>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'}>رمز عبور</Typography>
+        <Typography variant="h6" textAlign={'left'}>رمز ورود</Typography>
         <RHFTextField
           name="password"
-          type={'text'}
-          placeholder='رمز ورود'
+          type={password.value ? 'password' : 'text'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
+
+                <IconButton onClick={password.onToggle} edge="end">
+
+                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+
+                </IconButton>
+
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
+      <Box>
+        <Typography variant="h6" textAlign={'left'}>تکرار رمز ورود</Typography>
+        <RHFTextField
+          name="re_password"
+          type={password.value ? 'password' : 'text'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end" sx={{ cursor: 'pointer', paddingRight: '16px' }}>
@@ -129,17 +167,16 @@ export default function PhonePasswordView() {
         variant="contained"
         loading={isSubmitting}
       >
-        ورود
+        ثبت نام
       </LoadingButton>
     </Stack>
   );
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      {renderHead}
+      <RegisterLoginHead back />
 
       {renderForm}
-
     </FormProvider>
   );
 }

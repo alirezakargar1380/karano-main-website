@@ -104,7 +104,7 @@ export default function PhoneVerifyView() {
   const renderForm = (
     <Stack spacing={2.5}>
 
-      <Typography variant="body1" fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
+      <Typography variant="body1" fontFamily={'peyda-bold'} mt={3} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
 
       <Link variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
         تغییر شماره

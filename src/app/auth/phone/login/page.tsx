@@ -1,4 +1,4 @@
-import { PhoneLoginOrRegisterView } from 'src/sections/auth/phone';
+import { PhoneLoginOrRegisterView } from 'src/sections/auth/phone/view';
 
 // ----------------------------------------------------------------------
 

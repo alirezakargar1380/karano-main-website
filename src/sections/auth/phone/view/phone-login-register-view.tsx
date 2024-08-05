@@ -23,6 +23,7 @@ import { Box, MenuItem, MenuItemProps, Select, styled } from '@mui/material';
 import { countries } from 'src/assets/data';
 import { paths } from 'src/routes/paths';
 import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
+import RegisterLoginHead from '../register-login-head';
 
 // ----------------------------------------------------------------------
 
@@ -105,10 +106,10 @@ export default function PhoneLoginView() {
   );
 
   const renderForm = (
-    <Stack spacing={2.5} width={1}>
+    <Stack spacing={4} width={1} mt={7}>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'}>شماره تلفن همراه</Typography>
+        <Typography variant="h6" textAlign={'left'} mb={0.5}>شماره تلفن همراه</Typography>
 
         <RHFTextField
           name="phone"
@@ -127,30 +128,6 @@ export default function PhoneLoginView() {
             } else {
               methods.setValue('phone', e.target.value)
             }
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <Select
-                  value="IR"
-                  variant='outlined'
-                  sx={{
-                    borderTopLeftRadius: '0px',
-                    borderBottomLeftRadius: '0px',
-                    '& .MuiSelect-select': {
-                      padding: "8px 35px 8px 14px!important",
-                    }
-                  }}
-                >
-                  {countries.map((country) => (
-                    <MenuItem key={country.code} value={country.code}>
-                      {/* <Iconify icon={`${country.code.toLowerCase()}`} /> */}
-                      <Iconify icon={`flagpack:${country.code.toLowerCase()}`} sx={{ mt: 1 }} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </InputAdornment>
-            )
           }}
         />
 
@@ -178,7 +155,7 @@ export default function PhoneLoginView() {
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      {renderHead}
+      <RegisterLoginHead />
 
       {renderForm}
 

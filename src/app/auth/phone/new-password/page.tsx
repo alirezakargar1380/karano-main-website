@@ -1,4 +1,4 @@
-import { NewPasswordView } from 'src/sections/auth/phone';
+import { NewPasswordView } from 'src/sections/auth/phone/view';
 
 // ----------------------------------------------------------------------
 
