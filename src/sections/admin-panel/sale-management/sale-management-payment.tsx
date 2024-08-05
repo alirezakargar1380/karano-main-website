@@ -26,6 +26,8 @@ import IncrementerButton from "src/sections/product/common/incrementer-button";
 
 import { useRouter } from 'src/routes/hooks';
 import { paths } from "src/routes/paths";
+import { useCallback } from "react";
+import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
@@ -90,6 +92,17 @@ export default function SaleManagementPayment({
             console.error(error);
         }
     });
+
+    const handleFinalApprove = useCallback(async () => {
+        const op = await server_axios.get(endpoints.orderProducts.one(orderId))
+            .then(({ data }) => data)
+
+        const find = op.find((item: any) => item.status !== IOrderProductPropertyStatus.approve)
+        if (find) 
+            return enqueueSnackbar("ابتدا وضعیت «تایید»‌یا «عدم تایید» تمام سفارش‌ها را مشخص کنید. سپس بر روی دکمه «تایید نهایی» کلیک کنید.")
+        
+        invoiceDialog.onTrue()
+    }, []);
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -176,7 +189,7 @@ export default function SaleManagementPayment({
                             ارسال برای مشتری
                         </LoadingButton>
                     ) : (
-                        <LoadingButton onClick={invoiceDialog.onTrue} variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
+                        <LoadingButton onClick={handleFinalApprove} variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
                             تایید نهایی
                         </LoadingButton>
                     )}

@@ -177,7 +177,13 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="error">
                                                         رد شده
                                                     </Label>
-                                                ) || (row.status === OrderStatus.posted) && (
+                                                ) 
+                                                // || (row.status === OrderStatus.edited) && (
+                                                //     <Label variant="filled" color="error">
+                                                //         اصلاح شده توسط مشتری
+                                                //     </Label>
+                                                // ) 
+                                                || (row.status === OrderStatus.posted) && (
                                                     <Label variant="filled" color="success">
                                                         ارسال شده
                                                     </Label>
@@ -216,7 +222,9 @@ export default function SaleManagementListView() {
                                                 sx={{ borderRadius: '28px', width: 1 }}
                                                 onClick={() => router.push(paths.admin_dashboard.saleManagement.details(row.id))}
                                             >
-                                                بررسی
+                                               {(row.status === OrderStatus.edited 
+                                                || row.status === OrderStatus.pending 
+                                                || row.status === OrderStatus.failed) ? "بررسی" : "مشاهده"}
                                             </LoadingButton>
                                         </TableCell>
                                     </TableRow>

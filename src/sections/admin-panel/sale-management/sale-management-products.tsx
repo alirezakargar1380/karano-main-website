@@ -26,14 +26,25 @@ interface Props {
 export default function SaleManagementProducts({ orderProducts, order, updateHasAnydeapprove }: Props) {
 
     useEffect(() => {
-        let isAllApproved: boolean = true;
-        isAllApproved = !orderProducts.find((pp) => pp.properties.find((p) => p.status !== IOrderProductPropertyStatus.approve && pp.product.order_type === ProductOrderType.custom_made));
-        updateHasAnydeapprove(!isAllApproved)
+        // let isAllApproved: boolean = true;
+        // isAllApproved = !!!orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made));
+        console.log(
+            orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made))
+        )
+        if (orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made)))
+            updateHasAnydeapprove(true)
     }, []);
 
     return (
         <Box border={(theme) => `1px solid ${theme.palette.divider}`} bgcolor={'#FFF'} width={1} borderRadius={'16px'}>
-            <Stack direction={'column'} p={2} spacing={1.5} borderBottom={(theme) => `1px solid ${theme.palette.divider}`}>
+            <Stack
+                sx={{
+                    width: 1
+                }}
+                direction={'column'}
+                p={2}
+                spacing={1.5}
+                borderBottom={(theme) => `1px solid ${theme.palette.divider}`}>
                 <Stack direction={'row'}>
                     <Box display={'flex'} width={'50%'}>
                         <Typography variant="h6" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
@@ -65,21 +76,22 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
                     </Box>
                 </Stack>
             </Stack>
-            <Box p={2}>
-                {orderProducts.map(({ product, properties, need_to_assemble }) => (
-                    <Box key={product.id}>
-                        {properties.map((p, propertyIndex) => (
-                            <SaleManagementProductItem
-                                key={propertyIndex}
-                                product={product}
-                                property={p}
-                                need_to_assemble={need_to_assemble}
-                            />
-                        ))}
-                    </Box>
-                ))}
-            </Box>
-
+            <Scrollbar sx={{ maxHeight: 900 }}>
+                <Box p={2}>
+                    {orderProducts.map(({ product, properties, need_to_assemble }) => (
+                        <Box key={product.id}>
+                            {properties.map((p, propertyIndex) => (
+                                <SaleManagementProductItem
+                                    key={propertyIndex}
+                                    product={product}
+                                    property={p}
+                                    need_to_assemble={need_to_assemble}
+                                />
+                            ))}
+                        </Box>
+                    ))}
+                </Box>
+            </Scrollbar>
         </Box>
     )
 }
@@ -109,7 +121,7 @@ function SaleManagementProductItem({
         resolver: yupResolver<any>(schema),
         defaultValues: {
             rejection_reason: property.rejection_reason || '',
-            is_approved: (property.is_approved !== null) ? (property.is_approved ? '1' : '0') : null
+            is_approved: (property.is_approved !== null || property.status !== IOrderProductPropertyStatus.normal) ? (property.is_approved ? '1' : '0') : null
         },
     });
 
@@ -142,9 +154,6 @@ function SaleManagementProductItem({
             await server_axios.patch(endpoints.orderProductProperties.update_approve(property.id), data)
                 .then(() => {
                     property.status = data.status
-                    enqueueSnackbar('آپدیت شد', {
-                        variant: 'info'
-                    })
                 })
         } catch (error) {
             console.error(error);

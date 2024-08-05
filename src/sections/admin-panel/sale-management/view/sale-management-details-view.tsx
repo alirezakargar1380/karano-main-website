@@ -11,6 +11,7 @@ import { useBoolean } from "src/hooks/use-boolean";
 import { useGetOrder } from "src/api/orders";
 import { useCallback, useEffect, useState } from "react";
 import { ProductOrderType } from "src/types/product";
+import Scrollbar from "src/components/scrollbar";
 
 type Props = {
     id: string;
@@ -19,7 +20,7 @@ type Props = {
 export default function SaleManagementDetailsView({ id }: Props) {
     const invoiceDialog = useBoolean();
 
-    const [sendToUser, setSendToUser] = useState(true);
+    const [sendToUser, setSendToUser] = useState(false);
     const [hasCustomMade, setHasCustomMade] = useState(false);
 
     const { orderProducts } = useGetOrderProducts(+id);
@@ -48,7 +49,10 @@ export default function SaleManagementDetailsView({ id }: Props) {
 
     const handleHasApprove = useCallback((allApproved: boolean) => {
         setSendToUser(allApproved)
-    }, [])
+    }, [setSendToUser]);
+
+    // const handleAddId = () => {}
+    // const handleRemoveId = () => {}
 
     return (!orderLoading) && (
         <Box>
