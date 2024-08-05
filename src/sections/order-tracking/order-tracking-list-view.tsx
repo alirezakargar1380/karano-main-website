@@ -132,7 +132,7 @@ export default function OrderTrackingListView() {
             <DialogWithButton dialog={cartDialog} fullWith={true}>
                 <Box p={2}>
                     <ShoppingCartList
-                        type="cart"
+                        type="view"
                         items={orderProducts.map((op) => {
                             return {
                                 // id: op.product.id,

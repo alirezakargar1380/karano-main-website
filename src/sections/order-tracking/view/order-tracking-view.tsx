@@ -8,7 +8,7 @@ import OrderTrackingListView from "../order-tracking-list-view";
 export default function OrderTrackingView() {
 
     return (
-        <Stack spacing={4} pb={10}>
+        <Stack spacing={4} pb={10} mt={4}>
             <BlueNotification title='مهلت پرداخت'>
                 ما تنها برای ۴۸ ساعت می‌توانیم پیش‌فاکتورتان را فعال نگه داریم. در صورت عدم‌پرداخت، ناچار به بررسی مجدد سفارش‌تان هستیم.
             </BlueNotification>

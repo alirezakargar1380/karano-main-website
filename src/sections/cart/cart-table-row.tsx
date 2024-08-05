@@ -20,8 +20,9 @@ type Props = {
   index?: number;
   indexEqual?: number;
   selected?: boolean;
-  onEditRow?: VoidFunction;
-  onDeleteRow?: VoidFunction;
+  type?: 'cart' | 'edit' | 'view';
+  onEditRow?: VoidFunction | undefined;
+  onDeleteRow?: VoidFunction | undefined;
 };
 
 export default function CartTableRow({
@@ -29,6 +30,7 @@ export default function CartTableRow({
   index,
   indexEqual,
   selected,
+  type,
   onDeleteRow,
   onEditRow,
 }: Props) {
@@ -142,21 +144,17 @@ export default function CartTableRow({
 
         <TableCell align="right">
           <Stack direction={'row'}>
-            {(onEditRow && status !== IOrderProductPropertyStatus.approve) && (
+            {(onEditRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <IconButton color={'default'} onClick={onEditRow} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
                 <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
-            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve) && (
+            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <IconButton color={'default'} onClick={confirm.onTrue} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
                 <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
               </IconButton>
             )}
           </Stack>
-          {/* <IconButton color={popover.open ? 'primary' : 'default'} onClick={popover.onOpen}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton> */}
-
         </TableCell>
       </TableRow>
 

@@ -1,32 +1,27 @@
 'use client';
 
-import { Box, Container, Grid, IconButton, MenuItem, Stack, Table, TableBody, Typography } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { Box, IconButton, MenuItem, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { CheckCartCard } from "src/components/cart";
-import CartDialog from "src/components/cart/cart-dialog";
 import CustomPopover, { usePopover } from "src/components/custom-popover";
 import { HowToSendDialog } from "src/components/dialogs";
 import Iconify from "src/components/iconify";
 import Image from "src/components/image";
 import { BlueNotification } from "src/components/notification";
-import Scrollbar from "src/components/scrollbar";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import SvgColor from "src/components/svg-color";
-import { TableHeadCustom } from "src/components/table";
 import { useBoolean } from "src/hooks/use-boolean";
-import CartTableRow from "src/sections/cart/cart-table-row";
-import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import { useCheckoutContext } from "src/sections/checkout/context";
-import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 
-import FormProvider from 'src/components/hook-form';
-import { ProductOrderType } from "src/types/product";
 import ShoppingCartList from "../shopping-cart-list";
 import { SuccessDialog } from "src/components/custom-dialog";
+
+import { useRouter } from 'src/routes/hooks';
 
 export default function ShoppingCartView() {
     const howToSendDialog = useBoolean();
     const succussDialog = useBoolean();
+
+    const router = useRouter();
 
     const [disable, setDisable] = useState<boolean>(false);
 
@@ -48,7 +43,11 @@ export default function ShoppingCartView() {
 
             <SuccessDialog
                 open={succussDialog.value}
-                onClose={succussDialog.onFalse}
+                onClose={() => {
+                    succussDialog.onFalse()
+                    // checkout.onReset()
+                    router.replace('/')
+                }}
                 content="سبد خرید شما ثبت، و جهت بررسی به کارشناسان کارانو ارسال شد.
 نتیجه بررسی، از طریق پیامک برای شما ارسال خواهد شد. همچنین می‌توانید از طریق منوی پیگیری سفارش، وضعیت سفارش‌های خود را پیگیری کنید."
             />

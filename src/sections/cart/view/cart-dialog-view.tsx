@@ -45,7 +45,7 @@ interface Props {
     listId: number | null
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
-    type?: 'cart' | 'edit';
+    type?: 'cart' | 'edit' | 'view';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
     onClose: () => void
@@ -226,9 +226,7 @@ export default function CartDialogView({
     };
 
     return (
-        <Box sx={{
-            // minHeight: 800
-        }}>
+        <Box>
             <Joyride
                 callback={handleJoyrideCallback}
                 tooltipComponent={Tooltip}
@@ -259,10 +257,7 @@ export default function CartDialogView({
                 }}
             />
 
-            <Scrollbar sx={{ maxHeight: {
-                sm: 500,
-                md: 890
-            } }}>
+            <Scrollbar sx={{ maxHeight: '75vh' }}>
                 <Box sx={{ pl: 3, pt: 3 }}>
                     <Grid container spacing={4} sx={{ width: 1 }}>
                         <Grid item xs={12} md={4}>

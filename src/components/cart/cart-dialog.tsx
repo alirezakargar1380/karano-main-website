@@ -27,7 +27,7 @@ interface Props {
     order_form_id: number;
     pId?: number;
     product_name: string;
-    type?: 'cart' | 'edit';
+    type?: 'cart' | 'edit' | 'view';
     currentData?: ICheckoutItemPropertyPrice | undefined;
     listId?: number | undefined;
     listData?: ICheckoutItemPropertyPrice[] | undefined
@@ -125,7 +125,8 @@ export default function CartDialog({
                     .then(({ data }) => {
                         console.log(data)
                     })
-                // setId(null); // felan khali bashe
+
+                setId(null); // felan khali bashe
             }
         } catch (error) {
             console.error(error);
@@ -204,79 +205,84 @@ export default function CartDialog({
 
     return (
         <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} fullWidth={true} maxWidth={'xl'}>
-            <FormProvider methods={methods} onSubmit={onSubmit}>
+            <Box sx={{
+                // position: 'relative'
+            }}>
+                <FormProvider methods={methods} onSubmit={onSubmit}>
 
-                {(!formLoading) && (
-                    <CartDialogView
-                        title={product_name}
-                        formOptions={form}
-                        data={list}
-                        listId={id}
-                        values={values}
-                        type={type}
-                        setValue={(name: string, value: any) => setValue(name, value)}
-                        onUpdate={handleUpdate}
-                        onDelete={onDelete || onDeleteRow}
-                        onClose={dialog.onFalse}
-                    />
-                )}
+                    {(!formLoading) && (
+                        <CartDialogView
+                            title={product_name}
+                            formOptions={form}
+                            data={list}
+                            listId={id}
+                            values={values}
+                            type={type}
+                            setValue={(name: string, value: any) => setValue(name, value)}
+                            onUpdate={handleUpdate}
+                            onDelete={onDelete || onDeleteRow}
+                            onClose={dialog.onFalse}
+                        />
+                    )}
 
-                <DialogContent sx={{
-                    p: 4,
-                    backgroundColor: '#F8F8F8',
-                    overflow: 'hidden',
-                    width: 1,
-                    borderBottomRightRadius: '16px',
-                    borderBottomLeftRadius: '16px'
-                }}>
-                    <Stack direction={'row'} justifyContent={'space-between'}>
-                        <Stack direction={'row'} spacing={2}>
-                            {(id !== null && id >= 0) && (
-                                <>
-                                    <StyledRoundedWhiteButton
-                                        variant='outlined'
-                                        sx={{ borderRadius: '24px', px: 4 }}
-                                        onClick={() => setId(null)}
-                                    >
-                                        انصراف
-                                    </StyledRoundedWhiteButton>
-                                    <LoadingButton
-                                        variant='contained'
-                                        sx={{ borderRadius: '24px', px: 4 }}
-                                        type='submit'
-                                    >
-                                        اعمال تغییرات
-                                    </LoadingButton>
-                                </>
-                            )}
-                            {
-                                // (listId === undefined && id === null && !listData?.length)
-                                (id === null && type === 'cart')
-                                && (
-                                    <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
-                                        افزودن به لیست
-                                    </StyledRoundedWhiteButton>
+                    <DialogContent sx={{
+                        p: 4,
+                        // position: 'fixed',
+                        width: 1,
+                        backgroundColor: '#F8F8F8',
+                        overflow: 'hidden',
+                        borderBottomRightRadius: '16px',
+                        borderBottomLeftRadius: '16px'
+                    }}>
+                        <Stack direction={'row'} justifyContent={'space-between'}>
+                            <Stack direction={'row'} spacing={2}>
+                                {(id !== null && id >= 0) && (
+                                    <>
+                                        <StyledRoundedWhiteButton
+                                            variant='outlined'
+                                            sx={{ borderRadius: '24px', px: 4 }}
+                                            onClick={() => setId(null)}
+                                        >
+                                            انصراف
+                                        </StyledRoundedWhiteButton>
+                                        <LoadingButton
+                                            variant='contained'
+                                            sx={{ borderRadius: '24px', px: 4 }}
+                                            type='submit'
+                                        >
+                                            اعمال تغییرات
+                                        </LoadingButton>
+                                    </>
                                 )}
+                                {
+                                    // (listId === undefined && id === null && !listData?.length)
+                                    (id === null && type === 'cart')
+                                    && (
+                                        <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
+                                            افزودن به لیست
+                                        </StyledRoundedWhiteButton>
+                                    )}
+                            </Stack>
+                            <Stack direction={'row'} spacing={2}>
+                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={() => {
+                                    dialog.onFalse();
+                                    setList([]);
+                                    setId(null);
+                                }}>
+                                    انصراف
+                                </StyledRoundedWhiteButton>
+                                <LoadingButton
+                                    variant='contained'
+                                    sx={{ borderRadius: '24px', px: 4 }}
+                                    onClick={handleAddToList}
+                                >
+                                    {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
+                                </LoadingButton>
+                            </Stack>
                         </Stack>
-                        <Stack direction={'row'} spacing={2}>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={() => {
-                                dialog.onFalse();
-                                setList([]);
-                                setId(null);
-                            }}>
-                                انصراف
-                            </StyledRoundedWhiteButton>
-                            <LoadingButton
-                                variant='contained'
-                                sx={{ borderRadius: '24px', px: 4 }}
-                                onClick={handleAddToList}
-                            >
-                                {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
-                            </LoadingButton>
-                        </Stack>
-                    </Stack>
-                </DialogContent>
-            </FormProvider>
+                    </DialogContent>
+                </FormProvider>
+            </Box>
         </Dialog>
     );
 }

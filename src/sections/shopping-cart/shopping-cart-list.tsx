@@ -20,7 +20,7 @@ import { useSnackbar } from "src/components/snackbar";
 
 interface Props {
     items: ICheckoutItem[]
-    type: 'cart' | 'edit'
+    type: 'cart' | 'edit' | 'view'
 }
 
 export default function ShoppingCartList({ items, type }: Props) {
@@ -57,7 +57,6 @@ export default function ShoppingCartList({ items, type }: Props) {
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
             if (type === 'edit') {
-                
             } else {
                 if (!checkoutItem) return
 
@@ -167,6 +166,7 @@ export default function ShoppingCartList({ items, type }: Props) {
                                                             }
                                                             onEditRow={(item.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                             key={ind * 2}
+                                                            type={type}
                                                             row={{
                                                                 rejection_reason: property_price?.rejection_reason,
                                                                 id: property_price?.id,
@@ -196,6 +196,9 @@ export default function ShoppingCartList({ items, type }: Props) {
                 )
 
                 if (type === 'cart')
+                    return rdata
+
+                if (type === 'view')
                     return rdata
 
                 if (type === 'edit' && item.order_type === ProductOrderType.custom_made)
