@@ -103,7 +103,6 @@ export default function PhoneVerifyView() {
 
   const renderForm = (
     <Stack spacing={2.5}>
-      {/* {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>} */}
 
       <Typography variant="body1" fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
 
@@ -113,38 +112,18 @@ export default function PhoneVerifyView() {
 
       <Box sx={{ mb: 2 }}>
         <Typography variant="body2" mb={1} fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید</Typography>
-        {/* <OTPInput /> */}
-        <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'} />
-        {/* <RHFTextField
-          name="phone"
-          // label="Password"
-          sx={{
-            justifyContent: 'center',
-            '& input': {
-              textAlign: 'center',
-              direction: 'rtl'
-            }
-          }}
-          type={'text'}
-          helperText={'بعد از 2:59 میتوانید مجدد درخواست دهید'}
-        />
-        <OTPInput /> */}
+        <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={'دریافت مجدد کد پس از ۰۲:۵۹ '} />
       </Box>
-
-
-      {/* <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-        Forgot password?
-      </Link> */}
 
       <LoadingButton
         sx={{ borderRadius: '24px', fontFamily: 'peyda-bold' }}
+        disabled={values.code?.length !== 6}
         fullWidth
         color="inherit"
         size="large"
         type="submit"
         variant="contained"
         loading={isSubmitting}
-      // loading={true}
       >
         {isSubmitting ? '' : 'ادامه'}
       </LoadingButton>
