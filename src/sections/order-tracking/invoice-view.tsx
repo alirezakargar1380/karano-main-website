@@ -24,16 +24,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 type Props = {
     orderProducts: IOrderProductItem[];
-    submitHandler: () => void;
-    onPrev: () => void;
     title?: string
     production_date?: string
 };
 
 export default function InvoiceView({
     orderProducts,
-    submitHandler,
-    onPrev,
     title = 'مشاهده فاکتور',
     production_date
 }: Props) {
@@ -382,24 +378,6 @@ export default function InvoiceView({
                     </Table>
                 </Scrollbar>
             </TableContainer>
-
-            <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                <StyledRoundedWhiteButton
-                    variant='outlined'
-                    sx={{ px: 4 }}
-                    onClick={onPrev}
-                >
-                    مرحله قبل
-                </StyledRoundedWhiteButton>
-                <LoadingButton
-                    variant='contained'
-                    sx={{ borderRadius: '24px', px: 4 }}
-                    // onClick={() => checkout.onNextStep()}
-                    onClick={submitHandler}
-                >
-                    ثبت و ادامه
-                </LoadingButton>
-            </Stack>
         </Box>
     )
 }

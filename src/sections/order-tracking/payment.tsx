@@ -17,7 +17,7 @@ interface Props {
     hasCustomMade: boolean
     need_prepayment: boolean
     production_days: number
-    submitHandler: (need_prepayment: boolean) => void
+    // submitHandler: (need_prepayment: boolean) => void
 }
 
 export default function Payment({
@@ -26,23 +26,23 @@ export default function Payment({
     orderId,
     need_prepayment,
     production_days,
-    submitHandler
+    // submitHandler
 }: Props) {
     const checkout = useCheckoutContext();
 
-    useEffect(() => {
-        if (need_prepayment) {
-            submitHandler(need_prepayment);
-            handle();
-        }
-    }, [need_prepayment])
+    // useEffect(() => {
+    //     if (need_prepayment) {
+    //         // submitHandler(need_prepayment);
+    //         handle();
+    //     }
+    // }, [need_prepayment])
 
     const handle = async () => {
-        await server_axios.patch(endpoints.orders.update(orderId), {
-            status: (hasCustomMade) ? OrderStatus.production : (production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
-        })
-        finalOrderDialog.onFalse();
-        submitHandler(need_prepayment)
+        // await server_axios.patch(endpoints.orders.update(orderId), {
+        //     status: (hasCustomMade) ? OrderStatus.production : (production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
+        // })
+        // finalOrderDialog.onFalse();
+        // submitHandler(need_prepayment)
     }
 
     const methods = useForm({
@@ -93,13 +93,13 @@ export default function Payment({
                         sx={{ mt: 2 }}
                         spacing={2}
                     >
-                        {/* <RHFTitleTextField name='first_name' custom_label='کد تخفیف' placeholder='666784' /> */}
                     </Stack>
                 </Box>
-                <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
+
+                {/* <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
                     <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={() => checkout.onBackStep()}>مرحله قبل</StyledRoundedWhiteButton>
                     <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={() => handle()}>ثبت و ادامه</LoadingButton>
-                </Stack>
+                </Stack> */}
             </Box>
         </FormProvider>
     )

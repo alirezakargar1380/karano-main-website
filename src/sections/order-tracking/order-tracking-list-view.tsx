@@ -32,8 +32,6 @@ export default function OrderTrackingListView() {
     const successDialog = useBoolean();
     const submitSuccessDialog = useBoolean();
 
-    const { enqueueSnackbar } = useSnackbar();
-
     const {
         orders
     } = useGetTrackingOrders();

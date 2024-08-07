@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Container, DialogActions, DialogContent, Stack, Typography } from "@mui/material";
 import { borderRadius } from "@mui/system";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,10 @@ import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { useGetOrder } from "src/api/orders";
 import Label from "src/components/label";
 import { fToJamali } from "src/utils/format-time";
+import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { LoadingButton } from "@mui/lab";
+import { endpoints, server_axios } from "src/utils/axios";
+import { OrderStatus } from "src/types/order";
 
 interface Props {
     orderId: number
@@ -44,57 +48,87 @@ export default function CompleteOrderView({
         checkout.onGotoStep(0) // console.log(checkout.activeStep)
     }, []);
 
+    useEffect(() => {
+        if (checkout.activeStep === -1) finalOrderDialog.onFalse()
+        if (checkout.activeStep === 2 && order.need_prepayment) handle();
+        if (checkout.activeStep === 3) {
+            handleAfterLastSection(order.need_prepayment)
+            handle();
+        }
+    }, [checkout.activeStep]);
+
+    const handle = async () => {
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: (hasCustomMade) ? OrderStatus.production : (order.production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
+        })
+        finalOrderDialog.onFalse();
+        // submitHandler(need_prepayment)
+    }
+
     return (
-        <Scrollbar>
-            <Box sx={{ px: 2, pb: 3, pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
-                <Stack direction={'row'} spacing={2} borderBottom={'1px solid #D1D1D1'}>
-                    <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
-                        نهایی کردن سفارش
-                    </Typography>
-                    <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
-                        تاریخ تحویل:
-                        <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
-                    </Label>
-                </Stack>
+        <>
+            <Stack direction={'row'} spacing={2} sx={{ px: 4, pt: 2 }} borderBottom={'1px solid #D1D1D1'}>
+                <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
+                    نهایی کردن سفارش
+                </Typography>
+                <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                    تاریخ تحویل:
+                    <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
+                </Label>
+            </Stack>
+            <DialogContent>
+                <Scrollbar>
+                    <Box sx={{ px: 2, pb: 3, pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
 
-                <Container>
-                    <Box sx={{ my: 3, width: 0.7, mx: 'auto' }}>
-                        <CheckoutSteps
-                            activeStep={checkout.activeStep}
-                            steps={hasCustomMade ?
-                                (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_CUSTOM : PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE
-                                :
-                                (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_READY : PRODUCT_CHECKOUT_STEPS_READY_PRE}
-                        />
+                        <Box sx={{ my: 3, width: 0.7, mx: 'auto' }}>
+                            <CheckoutSteps
+                                activeStep={checkout.activeStep}
+                                steps={hasCustomMade ?
+                                    (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_CUSTOM : PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE
+                                    :
+                                    (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_READY : PRODUCT_CHECKOUT_STEPS_READY_PRE}
+                            />
+                        </Box>
+
+                        {checkout.activeStep === 0 && (
+                            <DeliveryRecipientInformation orderId={orderId} delivery_type={order.delivery_type} />
+                        )}
+
+                        {checkout.activeStep === 1 && (
+                            <InvoiceView
+                                title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
+                                orderProducts={orderProducts}
+                                submitHandler={checkout.onNextStep}
+                                onPrev={checkout.onBackStep}
+                            />
+                        )}
+
+                        {checkout.activeStep === 2 && (
+                            <Payment
+                                finalOrderDialog={finalOrderDialog}
+                                orderId={orderId}
+                                hasCustomMade={hasCustomMade}
+                                need_prepayment={order.need_prepayment}
+                                production_days={order.production_days}
+                            // submitHandler={(n) => handleAfterLastSection(n)}
+                            />
+                        )}
                     </Box>
-
-                    {checkout.activeStep === 0 && (
-                        <DeliveryRecipientInformation orderId={orderId} delivery_type={order.delivery_type} />
-                    )}
-
-                    {checkout.activeStep === 1 && (
-                        <InvoiceView
-                            title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
-                            orderProducts={orderProducts}
-                            submitHandler={checkout.onNextStep}
-                            onPrev={checkout.onBackStep}
-                        />
-                    )}
-
-                    {checkout.activeStep === 2 && (
-                        <Payment
-                            finalOrderDialog={finalOrderDialog}
-                            orderId={orderId}
-                            hasCustomMade={hasCustomMade}
-                            need_prepayment={order.need_prepayment}
-                            production_days={order.production_days}
-                            submitHandler={(n) => handleAfterLastSection(n)}
-                        />
-                    )}
-
-
-                </Container>
-            </Box>
-        </Scrollbar>
+                </Scrollbar>
+            </DialogContent>
+            <DialogActions>
+                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={checkout.onBackStep}>
+                    انصراف
+                </StyledRoundedWhiteButton>
+                <LoadingButton
+                    variant='contained'
+                    sx={{ borderRadius: '24px', px: 4 }}
+                    type="submit"
+                    onClick={checkout.onNextStep}
+                >
+                    ثبت و ادامه
+                </LoadingButton>
+            </DialogActions>
+        </>
     )
 }
