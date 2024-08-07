@@ -1,13 +1,14 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, forwardRef } from 'react';
 import Dialog from '@mui/material/Dialog';
 
 import { useBooleanReturnType } from 'src/hooks/use-boolean';
-import { Container, IconButton, Radio, Stack, Typography } from '@mui/material';
+import { Button, Container, IconButton, Paper, Radio, Slide, Stack, Typography } from '@mui/material';
 import { Box, maxWidth, SxProps } from '@mui/system';
 import Scrollbar from '../scrollbar';
 import SvgColor from '../svg-color';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 import { LoadingButton } from '@mui/lab';
+import { TransitionProps } from 'notistack';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -18,11 +19,21 @@ interface Props {
     sx?: SxProps
 }
 
+const Transition = forwardRef(
+    (
+        props: TransitionProps & {
+            children: React.ReactElement;
+        },
+        ref: React.Ref<unknown>
+    ) => <Slide direction="up" ref={ref} {...props} />
+);
+
+
 
 export default function DialogWithButton({ dialog, children, fullWith, width = 480, sx }: Props) {
 
     const default_sx = fullWith ? {} : { maxWidth: width }
-    
+
 
     const descriptionElementRef = useRef<HTMLElement>(null);
 
@@ -35,31 +46,73 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
         }
     }, [dialog.value]);
 
-    return (
-        <Dialog
-            open={dialog.value}
-            onClose={dialog.onFalse}
-            scroll={'body'}
-            maxWidth={false}
-            PaperProps={{
-                style: {
-                    backgroundColor: 'transparent',
-                    boxShadow: 'none',
-                    margin: 0,
-                    marginTop: 40,
-                    marginBottom: 40,
-                    width: '100%',
-                    maxWidth: 'calc(100% - 14px)'
-                },
-            }}
-            fullWidth={fullWith}
+    const CustomPaperComponent = React.forwardRef<HTMLDivElement>((props, ref) => (
+        <Box ref={ref}
+            display="flex"
+            // alignItems="center"
+            justifyContent={'center'}
+            width={1}
+            {...props}
             sx={{
-                '& .MuiBackdrop-root': {
-                    backgroundColor: 'rgba(0,0,0,0.8)'
-                }
-            }}
-        >
-            <Container maxWidth={'lg'}>
+                position: 'fixed!important',
+                // display: 'flex!important',
+                // position: 'relative',
+                // mx: 'auto',
+                flexDirection: 'row!important',
+                overflowY: 'unset!important',
+                // verticalAlign: 'center'
+            }}>
+            <Paper {...props} sx={{ width: 1, }} />
+            <Box mt={2}>
+                <IconButton
+                    onClick={dialog.onFalse}
+                    sx={{
+                        bgcolor: 'white',
+                        height: 'fit-content',
+                        borderRadius: '50%',
+                        border: '1px solid #D1D1D1',
+                        '&:hover': { background: '#F2F2F2' },
+                    }}
+                >
+                    <SvgColor src='/assets/icons/navbar/x-close.svg' />
+                </IconButton>
+            </Box>
+        </Box>
+    ));
+
+    return (
+        <Box>
+
+            <Dialog
+                open={dialog.value}
+                PaperComponent={CustomPaperComponent}
+                onClose={dialog.onFalse}
+                // scroll={'body'}
+                TransitionComponent={Transition}
+                maxWidth={'lg'}
+                PaperProps={{
+                    style: {
+                        // backgroundColor: 'transparent',
+                        // boxShadow: 'none',
+                        // margin: 0,
+                        // marginTop: 20,
+                        // marginBottom: 20,
+                        width: '100%',
+                        // zIndex: 99
+                        // maxWidth: 'calc(100% - 14px)',
+                        // minHeight: '90vh',
+                        // maxHeight: '90vh',
+                    },
+                }}
+                // fullWidth={fullWith}
+                sx={{
+                    '& .MuiBackdrop-root': {
+                        backgroundColor: 'rgba(0,0,0,0.8)'
+                    }
+                }}
+            >
+                {children}
+                {/* <Container maxWidth={'lg'} sx={{ px: '8px!important' }}>
                 <Box sx={{
                     display: 'flex',
                     mx: 'auto',
@@ -75,7 +128,26 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                         <SvgColor src='/assets/icons/navbar/x-close.svg' />
                     </IconButton>
                 </Box>
-            </Container>
-        </Dialog>
+            </Container> */}
+                {/* <IconButton onClick={() => { dialog.onFalse() }} sx={{
+                    position: 'fixed',
+                    left: 0,
+                    zIndex: 1000,
+                    bgcolor: 'white',
+                    height: 'fit-content',
+                    ml: 2,
+                    borderRadius: '50%',
+                    border: '1px solid #D1D1D1',
+                    '&:hover': { background: '#F2F2F2' }
+                }}>
+                    <SvgColor src='/assets/icons/navbar/x-close.svg' />
+                </IconButton> */}
+            </Dialog>
+            {/* {(dialog.value) && (
+                <Button variant="contained" onClick={dialog.onTrue} sx={{ mr: 2 }}>
+                    Open Dialog
+                </Button>
+            )} */}
+        </Box>
     );
 }
