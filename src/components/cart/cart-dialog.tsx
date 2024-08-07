@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { Stack, TableBody, Typography } from '@mui/material';
+import { DialogActions, Stack, TableBody, Typography } from '@mui/material';
 import { Box, height } from '@mui/system';
 import RHFTitleTextField from '../hook-form/rhf-title-text-field';
 import { useForm } from 'react-hook-form';
@@ -20,6 +20,7 @@ import { useSnackbar } from 'src/components/snackbar';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { useCheckoutContext } from 'src/sections/checkout/context';
+import Scrollbar from '../scrollbar';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -204,12 +205,17 @@ export default function CartDialog({
     }, [listData, id]);
 
     return (
-        <Dialog open={dialog.value} onClose={dialog.onFalse} scroll={'body'} fullWidth={true} maxWidth={'xl'}>
-            <Box sx={{
-                // position: 'relative'
-            }}>
-                <FormProvider methods={methods} onSubmit={onSubmit}>
+        <Dialog open={dialog.value} onClose={dialog.onFalse} fullWidth={true} maxWidth={'xl'}>
 
+            <DialogContent sx={{
+                // width: 1,
+                px: 0,
+                borderBottomRightRadius: '16px',
+                borderBottomLeftRadius: '16px',
+                // overflowY: 'hidden'
+            }}>
+
+                <FormProvider methods={methods} onSubmit={onSubmit}>
                     {(!formLoading) && (
                         <CartDialogView
                             title={product_name}
@@ -224,65 +230,66 @@ export default function CartDialog({
                             onClose={dialog.onFalse}
                         />
                     )}
-
-                    <DialogContent sx={{
-                        p: 4,
-                        // position: 'fixed',
-                        width: 1,
-                        backgroundColor: '#F8F8F8',
-                        overflow: 'hidden',
-                        borderBottomRightRadius: '16px',
-                        borderBottomLeftRadius: '16px'
-                    }}>
-                        <Stack direction={'row'} justifyContent={'space-between'}>
-                            <Stack direction={'row'} spacing={2}>
-                                {(id !== null && id >= 0) && (
-                                    <>
-                                        <StyledRoundedWhiteButton
-                                            variant='outlined'
-                                            sx={{ borderRadius: '24px', px: 4 }}
-                                            onClick={() => setId(null)}
-                                        >
-                                            انصراف
-                                        </StyledRoundedWhiteButton>
-                                        <LoadingButton
-                                            variant='contained'
-                                            sx={{ borderRadius: '24px', px: 4 }}
-                                            type='submit'
-                                        >
-                                            اعمال تغییرات
-                                        </LoadingButton>
-                                    </>
-                                )}
-                                {
-                                    // (listId === undefined && id === null && !listData?.length)
-                                    (id === null && type === 'cart')
-                                    && (
-                                        <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
-                                            افزودن به لیست
-                                        </StyledRoundedWhiteButton>
-                                    )}
-                            </Stack>
-                            <Stack direction={'row'} spacing={2}>
-                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }} onClick={() => {
-                                    dialog.onFalse();
-                                    setList([]);
-                                    setId(null);
-                                }}>
-                                    انصراف
-                                </StyledRoundedWhiteButton>
-                                <LoadingButton
-                                    variant='contained'
-                                    sx={{ borderRadius: '24px', px: 4 }}
-                                    onClick={handleAddToList}
-                                >
-                                    {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
-                                </LoadingButton>
-                            </Stack>
-                        </Stack>
-                    </DialogContent>
                 </FormProvider>
-            </Box>
+
+            </DialogContent>
+            <DialogActions sx={{
+                p: 4,
+                width: 1,
+                backgroundColor: '#F8F8F8',
+                overflow: 'hidden',
+                borderBottomRightRadius: '16px',
+                borderBottomLeftRadius: '16px'
+            }}>
+                <Stack direction={'row'} justifyContent={'space-between'} width={1}>
+                    <FormProvider methods={methods} onSubmit={onSubmit}>
+                        <Stack direction={'row'} spacing={2}>
+                            {(id !== null && id >= 0) && (
+                                <>
+                                    <StyledRoundedWhiteButton
+                                        variant='outlined'
+                                        sx={{ borderRadius: '24px', px: 4 }}
+                                        onClick={() => setId(null)}
+                                    >
+                                        انصراف
+                                    </StyledRoundedWhiteButton>
+                                    <LoadingButton
+                                        variant='contained'
+                                        sx={{ borderRadius: '24px', px: 4 }}
+                                        type='submit'
+                                    >
+                                        اعمال تغییرات
+                                    </LoadingButton>
+                                </>
+                            )}
+                            {
+                                // (listId === undefined && id === null && !listData?.length)
+                                (id === null && type === 'cart')
+                                && (
+                                    <StyledRoundedWhiteButton variant='outlined' type='submit' sx={{ px: 6, width: '400px' }}>
+                                        افزودن به لیست
+                                    </StyledRoundedWhiteButton>
+                                )}
+                        </Stack>
+                    </FormProvider>
+                    <Stack direction={'row'} spacing={2}>
+                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 3 }} onClick={() => {
+                            dialog.onFalse();
+                            setList([]);
+                            setId(null);
+                        }}>
+                            انصراف
+                        </StyledRoundedWhiteButton>
+                        <LoadingButton
+                            variant='contained'
+                            sx={{ borderRadius: '24px', px: 4 }}
+                            onClick={handleAddToList}
+                        >
+                            {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
+                        </LoadingButton>
+                    </Stack>
+                </Stack>
+            </DialogActions>
         </Dialog>
     );
 }
