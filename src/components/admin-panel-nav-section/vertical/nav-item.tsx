@@ -94,7 +94,6 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     );
 
     // Hidden item by role
-    console.log(currentRole)
     if (roles && !roles.includes(`${currentRole}`)) {
       return null;
     }
@@ -200,7 +199,7 @@ const StyledNavItem = styled(ListItemButton, {
     // Root item
     ...(!subItem && {
       ...baseStyles.item,
-      minHeight: 44,
+      minHeight: 48,
       '& .icon': {
         ...baseStyles.icon,
       },

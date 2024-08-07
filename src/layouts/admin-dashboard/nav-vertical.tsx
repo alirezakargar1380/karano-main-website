@@ -19,6 +19,7 @@ import { Avatar, Typography } from '@mui/material';
 import { useAuthContext } from 'src/auth/hooks';
 import { EAdminRole } from 'src/types/admin';
 import { adminRoleTranslate } from 'src/utils/admin-role';
+import NavToggleButton from '../common/nav-toggle-button';
 
 // ----------------------------------------------------------------------
 
@@ -32,8 +33,8 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
   const pathname = usePathname();
 
-  const lgUp = true;
-  // const lgUp = useResponsive('up', 'lg');
+  // const lgUp = true;
+  const lgUp = useResponsive('up', 'lg');
 
   const navData = useNavData();
 
@@ -48,6 +49,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
     <Scrollbar
       sx={{
         height: 1,
+        // width: 320,
         '& .simplebar-content': {
           height: 1,
           display: 'flex',
@@ -58,7 +60,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
       <Box sx={{ mx: 2, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
         <Logo sx={{ mt: 3, ml: 0, mb: 3 }} />
       </Box>
-
 
       <Box sx={{ mx: 2, py: 4, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
         <Stack direction="row" spacing={0} sx={{}}>
@@ -81,15 +82,17 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         data={navData}
         slotProps={{
           currentRole: admin?.role,
+          gap: 16
         }}
       />
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ mx: 2, borderTop: (theme) => `solid 1px ${theme.palette.divider}` }}>
-        <Logo sx={{ mt: 3, ml: 0, mb: 3 }} />
-        <br />
-        <Typography onClick={() => logout()} variant='body1' mb={3} sx={{ cursor: "pointer" }}>خروج از حساب کاربری</Typography>
+      <Box sx={{ mx: 2, borderTop: (theme) => `solid 1px ${theme.palette.divider}`, pt: 4 }}>
+        {/* <Logo sx={{ mt: 3, ml: 0, mb: 3 }} /> */}
+        <Typography  variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>تنظیمات پروفایل</Typography>
+        {/* <br /> */}
+        <Typography onClick={() => logout()} variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>خروج از حساب کاربری</Typography>
       </Box>
 
     </Scrollbar>

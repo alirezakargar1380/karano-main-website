@@ -38,7 +38,7 @@ function Group({ subheader, items, slotProps }: NavGroupProps) {
   ));
 
   return (
-    <Stack sx={{ px: 2 }}>
+    <Stack sx={{ px: 2, mt: '16px' }}>
       {(
         renderContent
       )}

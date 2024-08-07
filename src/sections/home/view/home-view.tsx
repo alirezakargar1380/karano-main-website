@@ -85,7 +85,7 @@ export default function HomeView() {
 
           <Stack spacing={4}>
             <CarouselHomeCategory />
-            <CarouselBasic1 data={_carouselsExample.slice(0, 8)} sx={{ mt: 4 }} />
+            <CarouselBasic1 sx={{ mt: 4 }} />
           </Stack>
 
         </Box>

@@ -20,8 +20,7 @@ type Props = {
 export default function DashboardLayout({ children }: Props) {
   const settings = useSettingsContext();
 
-  // const lgUp = useResponsive('up', 'lg');
-  const lgUp = false;
+  const lgUp = useResponsive('up', 'lg');
 
   const nav = useBoolean();
 
@@ -40,8 +39,8 @@ export default function DashboardLayout({ children }: Props) {
       <>
         <Header onOpenNav={nav.onTrue} />
 
-        {/* {lgUp ? renderHorizontal : renderNavVertical} */}
-        {renderNavVertical}
+        {lgUp ? renderHorizontal : renderNavVertical}
+        {/* {renderNavVertical} */}
 
         <Main>{children}</Main>
       </>
@@ -70,6 +69,7 @@ export default function DashboardLayout({ children }: Props) {
 
   return (
     <>
+      {/* ADMIN HEADER */}
       {/* <Header onOpenNav={nav.onTrue} /> */}
 
       <Box
@@ -80,7 +80,6 @@ export default function DashboardLayout({ children }: Props) {
         }}
       >
         {renderNavVertical}
-
         <Main>{children}</Main>
       </Box>
     </>
