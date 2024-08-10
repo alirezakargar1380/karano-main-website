@@ -1,20 +1,21 @@
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import FormProvider, { RHFRadioGroup, RHFRadioGroupCard, RHFTextField } from "src/components/hook-form";
+import FormProvider, { RHFRadioGroupCard, RHFTextField } from "src/components/hook-form";
 import Scrollbar from "src/components/scrollbar";
-import { IOrderProductItem, IOrderProductStatus } from "src/types/order-products";
+import { IOrderProductItem } from "src/types/order-products";
 import { IProductItem, IProductProperties, ProductOrderType } from "src/types/product";
 import { endpoints, server_axios } from "src/utils/axios";
 import { useSnackbar } from 'src/components/snackbar';
 import Label from "src/components/label";
-import { IOrderItem, OrderStatus } from "src/types/order";
+import { IOrderItem } from "src/types/order";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { IUserTypes } from "src/types/user";
 import { fToJamali } from "src/utils/format-time";
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 
 interface Props {
     orderProducts: IOrderProductItem[]
@@ -28,9 +29,7 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
     useEffect(() => {
         // let isAllApproved: boolean = true;
         // isAllApproved = !!!orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made));
-        console.log(
-            orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made))
-        )
+        
         if (orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made)))
             updateHasAnydeapprove(true)
     }, []);
@@ -76,8 +75,8 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
                     </Box>
                 </Stack>
             </Stack>
-            <Scrollbar sx={{ maxHeight: 900 }}>
-                <Box p={2}>
+            <Scrollbar sx={{ maxHeight: '70vh' }}>
+                <Box>
                     {orderProducts.map(({ product, properties, need_to_assemble }) => (
                         <Box key={product.id}>
                             {properties.map((p, propertyIndex) => (
@@ -107,13 +106,18 @@ function SaleManagementProductItem({
     property,
     need_to_assemble,
 }: SaleManagmentItem) {
-    const { enqueueSnackbar } = useSnackbar();
 
     const schema = Yup.object().shape({
         rejection_reason: Yup.string().when('is_approved', (type: any, schema) => {
             if (type[0] == "1")
                 return schema
-            return schema.required('علت رد شدن را وارد کنید').min(20, 'علت باید حداقل 20 کلمه باشد')
+            return schema
+                .required('پرکردن این فیلد اجباری‌ست.')
+                .test('rejection_reason', 'تعداد کاراکتر واردشده کمتر از ۲۰ کلمه است.', (val: any) => val.split(" ").length > 20)
+                .test('rejection_reason', 'تعداد کاراکتر واردشده بیشتر از ۱۰۰ کلمه است.', (val: any) => val.split(" ").length <= 100)
+
+            // .min(20, 'علت باید حداقل 20 کلمه باشد')
+
         }),
     });
 
@@ -130,6 +134,9 @@ function SaleManagementProductItem({
         setValue,
         handleSubmit,
         watch,
+        formState: {
+            isSubmitting,
+        }
     } = methods;
 
     const values = watch();
@@ -179,166 +186,179 @@ function SaleManagementProductItem({
     }, []);
 
     return (
-        <Box sx={{ mb: 6 }}>
-            <Stack p={0} spacing={2} mb={2}>
-                <Typography fontFamily={'peyda-bold'} variant="h5" mt={1}>
-                    {product.name}
-                    {(product.order_type === ProductOrderType.custom_made && property.status === IOrderProductPropertyStatus.edited) && (
-                        <Label
-                            sx={{ ml: 1 }}
-                            color={
-                                (property.status === IOrderProductPropertyStatus.edited) && 'warning' || 'default'
-                            }
-                        >
-                            {
-                                (property.status === IOrderProductPropertyStatus.edited) && 'اصلاح شده' || ''
-                            }
-                        </Label>
-                    )}
-                </Typography>
-                <TableContainer sx={{ overflow: 'unset' }}>
-                    <Scrollbar>
-                        <Table sx={{
-                            // minWidth: 960 
-                        }}>
-                            <TableHead>
-                                <TableRow>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        نوع پروفیل
-                                    </TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        پوشش نهایی
-                                    </TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        نوع قاب
-                                    </TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        روکش گیری
-                                    </TableCell>
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        ابعاد
-                                    </TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        تعداد
-                                    </TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                        نیاز به مونتاژ
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                <TableRow>
-
-                                    <TableCell>
-                                        {property.profile_type?.name || '-'}
-                                    </TableCell>
-
-                                    <TableCell>
-                                        {property.cover_type?.name || '-'}
-                                    </TableCell>
-                                    <TableCell>
-                                        {property.frame_type?.name || '-'}
-                                    </TableCell>
-                                    <TableCell>
-                                        {property.coating_type || '-'}
-                                    </TableCell>
-                                    <TableCell>
-                                        {property.dimension?.width + "x" + property.dimension?.height}
-                                    </TableCell>
-                                    <TableCell>
-                                        {property.quantity}
-                                    </TableCell>
-
-
-                                    <TableCell>
-                                        {need_to_assemble ?
-                                            <Label variant="outlined" color="success">
-                                                دارد
-                                            </Label>
-                                            :
-                                            <Label variant="outlined" color="error">
-                                                ندارد
-                                            </Label>
-                                        }
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </Scrollbar>
-                </TableContainer>
-            </Stack>
-            {product.order_type === ProductOrderType.custom_made && (
-                <FormProvider methods={methods} onSubmit={onSubmit}>
-                    <Stack sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} direction={'row'} justifyContent={'space-between'}>
-                        <Box p={2} fontFamily={'peyda-bold'}>
-                            {'آیا کالای فوق را تایید میکنید؟'}
-                        </Box>
-                        <Box>
-                            <RHFRadioGroupCard
-                                name={`is_approved`}
-                                row
-                                options={[
-                                    {
-                                        label: 'عدم تایید',
-                                        value: '0'
-                                    },
-                                    {
-                                        label: 'تایید',
-                                        value: '1'
-                                    }
-                                ]}
-                                sx={{ pt: 1, mr: 1 }}
-                                BSx={{
-                                    mb: 1
-                                }}
-                                // FSx={{ border: (theme: any) => `1px solid ${theme?.palette?.divider}`, borderRadius: '8px', pr: 2 }}
-                                variant="body1"
-                                RadioSx={{
-                                    p: '4px',
-                                    '&::after': {
-                                        content: '""',
-                                        position: 'absolute',
-                                        left: '3px',
-                                        // right: '1px',
-                                        top: '3px',
-                                        // bottom: '6px',
-                                        background: 'white',
-                                        borderRadius: '50%',
-                                        width: '6px',
-                                        height: '6px'
-                                    },
-                                }}
-                                onChange={handleApprove}
-                            />
-                        </Box>
-                    </Stack>
-                    <Box mt={3}>
-                        <Typography variant="h6" fontFamily={'peyda-bold'} sx={{ pb: 1 }}>توضیحات برای مشتری</Typography>
-                        <RHFTextField
-                            name="rejection_reason"
-                            multiline
-                            rows={3}
-                            disabled={values.is_approved === '1'}
-                            sx={{
-                                pt: 1,
-                                mr: 1,
-                                '& .MuiInputBase-root': {
-                                    bgcolor: '#E0E0E0',
+        <Box sx={{ borderBottom: '1px solid #e0e0e0' }}>
+            <Box sx={{ mb: 2, px: 2, py: 3 }}>
+                <Stack p={0} spacing={1} mb={2}>
+                    <Typography fontFamily={'peyda-bold'} variant="h5" mt={1}>
+                        {product.name}
+                        {(product.order_type === ProductOrderType.custom_made && property.status === IOrderProductPropertyStatus.edited) && (
+                            <Label
+                                sx={{ ml: 1 }}
+                                color={
+                                    (property.status === IOrderProductPropertyStatus.edited) && 'warning' || 'default'
                                 }
-                            }}
-                            placeholder="متن محتوا"
-                        />
-                    </Box>
-                </FormProvider>
-            )}
-        </Box>
+                            >
+                                {
+                                    (property.status === IOrderProductPropertyStatus.edited) && 'اصلاح شده' || ''
+                                }
+                            </Label>
+                        )}
+                    </Typography>
+                    <TableContainer sx={{ overflow: 'unset' }}>
+                        <Scrollbar>
+                            <Table sx={{
+                                // minWidth: 960 
+                            }}>
+                                <TableHead>
+                                    <TableRow>
 
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            نوع پروفیل
+                                        </TableCell>
+
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            پوشش نهایی
+                                        </TableCell>
+
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            نوع قاب
+                                        </TableCell>
+
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            روکش گیری
+                                        </TableCell>
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            ابعاد
+                                        </TableCell>
+
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            تعداد
+                                        </TableCell>
+
+                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            نیاز به مونتاژ
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+
+                                <TableBody>
+                                    <TableRow>
+
+                                        <TableCell>
+                                            {property.profile_type?.name || '-'}
+                                        </TableCell>
+
+                                        <TableCell>
+                                            {property.cover_type?.name || '-'}
+                                        </TableCell>
+                                        <TableCell>
+                                            {property.frame_type?.name || '-'}
+                                        </TableCell>
+                                        <TableCell>
+                                            {property.coating_type || '-'}
+                                        </TableCell>
+                                        <TableCell>
+                                            {property.dimension?.width + "x" + property.dimension?.height}
+                                        </TableCell>
+                                        <TableCell>
+                                            {property.quantity}
+                                        </TableCell>
+
+
+                                        <TableCell>
+                                            {need_to_assemble ?
+                                                <Label variant="outlined" color="success">
+                                                    دارد
+                                                </Label>
+                                                :
+                                                <Label variant="outlined" color="error">
+                                                    ندارد
+                                                </Label>
+                                            }
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Scrollbar>
+                    </TableContainer>
+                </Stack>
+                {product.order_type === ProductOrderType.custom_made && (
+                    <FormProvider methods={methods} onSubmit={onSubmit}>
+                        <Stack sx={{ border: '1px solid #D1D1D1', borderRadius: '8px', mt: 3 }} direction={'row'} justifyContent={'space-between'}>
+                            <Box p={2} fontFamily={'peyda-bold'}>
+                                {'آیا کالای فوق را تایید میکنید؟'}
+                            </Box>
+                            <Box>
+                                <RHFRadioGroupCard
+                                    name={`is_approved`}
+                                    row
+                                    options={[
+                                        {
+                                            label: 'عدم تایید',
+                                            value: '0'
+                                        },
+                                        {
+                                            label: 'تایید',
+                                            value: '1'
+                                        }
+                                    ]}
+                                    sx={{ pt: 1, mr: 1 }}
+                                    BSx={{
+                                        mb: 1
+                                    }}
+                                    // FSx={{ border: (theme: any) => `1px solid ${theme?.palette?.divider}`, borderRadius: '8px', pr: 2 }}
+                                    variant="body1"
+                                    RadioSx={{
+                                        p: '4px',
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: '3px',
+                                            // right: '1px',
+                                            top: '3px',
+                                            // bottom: '6px',
+                                            background: 'white',
+                                            borderRadius: '50%',
+                                            width: '6px',
+                                            height: '6px'
+                                        },
+                                    }}
+                                    onChange={handleApprove}
+                                />
+                            </Box>
+                        </Stack>
+                        <Box mt={3}>
+                            <Stack direction={'row'}>
+                                <Typography fontFamily={'peyda-bold'} sx={{ pb: 1, fontSize: 14 }}>توضیحات برای مشتری</Typography>
+                                <Typography fontFamily={'peyda-bold'} sx={{ pb: 1, color: "#727272", fontSize: 12, ml: 0.5, pt: 0.25 }}>(حداقل ۲۰ و حداکثر ۱۰۰ کلمه)</Typography>
+                            </Stack>
+                            <RHFTextField
+                                name="rejection_reason"
+                                multiline
+                                rows={3}
+                                disabled={values.is_approved === '1'}
+                                sx={{
+                                    mr: 1,
+                                    '& .MuiInputBase-root': {
+                                        bgcolor: '#E0E0E0',
+                                    }
+                                }}
+                                placeholder="متن محتوا"
+                            />
+                            <Box sx={{ width: 1, textAlign: 'right' }}>
+                                <StyledRoundedWhiteButton
+                                    type="submit"
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ mt: '12px', fontFamily: 'peyda-medium', py: '2px' }}
+                                >
+                                    ثبت
+                                </StyledRoundedWhiteButton>
+                            </Box>
+                        </Box>
+                    </FormProvider>
+                )}
+            </Box>
+        </Box>
     )
 }

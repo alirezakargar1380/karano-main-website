@@ -2,10 +2,8 @@ import { IOrderItem } from "./order"
 import { IProductItem, IProductProperties } from "./product"
 
 export enum IOrderProductStatus {
-    normal = 'normal',
-    cancelled = 'cancelled',
-    more_time = 'more_time',
-    deleted = 'deleted',
+    preparing = 'preparing',
+    ready = 'ready',
 }
 
 export interface IOrderProductItem {

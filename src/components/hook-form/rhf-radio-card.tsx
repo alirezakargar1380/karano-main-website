@@ -65,7 +65,7 @@ export default function RHFRadioGroupCard({
                         </FormLabel>
                     )}
                     <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
-                        <Stack direction={row ? 'row' : 'column'} spacing={1}>
+                        <Stack direction={row ? 'row' : 'column'} spacing={2}>
                             {options.map((option, index) => (
                                 <Box
                                     key={index}

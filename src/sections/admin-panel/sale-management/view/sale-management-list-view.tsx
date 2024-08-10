@@ -178,11 +178,11 @@ export default function SaleManagementListView() {
                                                         رد شده
                                                     </Label>
                                                 ) 
-                                                // || (row.status === OrderStatus.edited) && (
-                                                //     <Label variant="filled" color="error">
-                                                //         اصلاح شده توسط مشتری
-                                                //     </Label>
-                                                // ) 
+                                                || (row.status === OrderStatus.produced) && (
+                                                    <Label variant="filled" color="success">
+                                                        تولید شده
+                                                    </Label>
+                                                ) 
                                                 || (row.status === OrderStatus.posted) && (
                                                     <Label variant="filled" color="success">
                                                         ارسال شده

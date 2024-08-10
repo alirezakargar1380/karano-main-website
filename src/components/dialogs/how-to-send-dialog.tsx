@@ -61,12 +61,7 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
     });
 
     return (
-        <DialogWithButton dialog={dialog} fullWith={false} width={640} sx={{
-            minWidth: {
-                md: 640,
-                sm: 540,
-            }
-        }}>
+        <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
@@ -124,7 +119,7 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
                             }}
                         />
                     </Box>
-                    <Stack sx={{ mt: 2 }} direction={'row'} spacing={1} justifyContent={'end'}>
+                    <Stack sx={{ mt: 0 }} direction={'row'} spacing={1} justifyContent={'end'}>
                         <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
                         <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} type='submit'>تایید</LoadingButton>
                     </Stack>

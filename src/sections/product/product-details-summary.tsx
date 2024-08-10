@@ -302,6 +302,7 @@ export default function ProductDetailsSummary({
         dialog={assmbleDialog}
         onUpdateAssemble={updateAssemble}
       />
+      
       {product.order_type === ProductOrderType.custom_made ?
         // need to assemble ?
         <CartDialog

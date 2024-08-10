@@ -27,35 +27,9 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
     });
 
     const {
-        reset,
         watch,
-        control,
-        setValue,
         handleSubmit
     } = methods;
-
-    const values = watch();
-
-    const [scroll, setScroll] = useState<DialogProps['scroll']>('paper');
-
-    const handleClickOpen = useCallback(
-        (scrollType: DialogProps['scroll']) => () => {
-            dialog.onTrue();
-            //   setScroll(scrollType);
-        },
-        [dialog]
-    );
-
-    const descriptionElementRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        if (dialog.value) {
-            const { current: descriptionElement } = descriptionElementRef;
-            if (descriptionElement) {
-                descriptionElement.focus();
-            }
-        }
-    }, [dialog.value]);
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -70,7 +44,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
         <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography fontFamily={'peyda-bold'} variant='h4' borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
+                    <Typography fontFamily={'peyda-bold'} pt={2} variant='h4' borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
                         تاییدیه هزینه مونتاژ
                     </Typography>
 
@@ -84,15 +58,22 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                             row
                             options={[
                                 {
+                                    label: 'بله',
+                                    value: '1'
+                                },
+                                {
                                     label: 'خیر',
                                     value: '0'
                                 },
-                                {
-                                    label: 'بله',
-                                    value: '1'
-                                }
                             ]}
+                            BSx={{
+                                pr: 5,
+                                py: 0,
+                                borderRadius: '8px',
+                            }}
                             RadioSx={{
+                                ml: 0.5,
+                                mr: 0.25
                                 // p: '4px',
                                 // '&::after': {
                                 //     content: '""',
@@ -112,7 +93,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
 
 
                     <Stack direction={'row'} spacing={1} justifyContent={'end'}>
-                        <StyledRoundedWhiteButton variant='outlined' onClick={dialog.onFalse}>
+                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>
                             انصرف
                         </StyledRoundedWhiteButton>
                         <LoadingButton variant='contained' type='submit' sx={{ borderRadius: '24px', px: 4 }}>

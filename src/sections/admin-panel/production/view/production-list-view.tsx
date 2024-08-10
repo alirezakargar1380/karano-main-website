@@ -159,7 +159,7 @@ export default function ProductionListView() {
 
                                     <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>تاریخ تحویل</TableCell>
 
-                                    <TableCell width={200}></TableCell>
+                                    <TableCell width={250}></TableCell>
                                 </TableRow>
                             </TableHead>
                             {orders.map((order, ind) => (

@@ -66,8 +66,12 @@ export default function OrderTrackingListView() {
     }
 
     const pay = async () => {
+        let hasReadyProduct = false;
+        if (orderProducts.some((op) => op.product.order_type === ProductOrderType.ready_to_use))
+            hasReadyProduct = true
+
         await server_axios.patch(endpoints.orders.update(orderId), {
-            status: OrderStatus.ready_to_send
+            status: OrderStatus.preparing
         })
         finalPaymentDialog.onFalse();
         // enqueueSnackbar("سفارش شما با موفقیت پرداخت شد")

@@ -32,7 +32,7 @@ const Transition = forwardRef(
 
 export default function DialogWithButton({ dialog, children, fullWith, width = 480, sx }: Props) {
 
-    const default_sx = fullWith ? {} : { maxWidth: width }
+    const default_sx = fullWith ? {} : { maxWidth: `${width}px!important` }
 
 
     const descriptionElementRef = useRef<HTMLElement>(null);
@@ -51,7 +51,6 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             display="flex"
             // alignItems="center"
             justifyContent={'center'}
-            width={1}
             {...props}
             sx={{
                 position: 'fixed!important',
@@ -60,9 +59,10 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                 // mx: 'auto',
                 flexDirection: 'row!important',
                 overflowY: 'unset!important',
+                boxShadow: 'none!important'
                 // verticalAlign: 'center'
             }}>
-            <Paper {...props} sx={{ width: 1, }} />
+            <Paper {...props} sx={{ ...default_sx }} />
             <Box mt={2}>
                 <IconButton
                     onClick={dialog.onFalse}

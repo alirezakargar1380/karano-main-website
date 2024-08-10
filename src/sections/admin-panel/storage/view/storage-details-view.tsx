@@ -6,8 +6,8 @@ import { paths } from "src/routes/paths";
 import { PageTitle } from "../../page-title";
 import { Container } from "@mui/system";
 import Scrollbar from "src/components/scrollbar";
-import { useGetReadyOrderProducts } from "src/api/order-products";
-import { IOrderProductItem } from "src/types/order-products";
+import { useGetOrderProducts, useGetReadyOrderProducts } from "src/api/order-products";
+import { IOrderProductItem, IOrderProductStatus } from "src/types/order-products";
 import { OrderStatus } from "src/types/order";
 import { useState } from "react";
 import { endpoints, server_axios } from "src/utils/axios";
@@ -19,20 +19,27 @@ type Props = {
 export default function StorageDetailsView({ id }: Props) {
     const [select, setSelect] = useState('')
 
-    const { orderProducts } = useGetReadyOrderProducts(id);
+    const { orderProducts } = useGetOrderProducts(+id);
 
     const onChangeValue = async (value: string, orderId: number) => {
         setSelect(value);
-        await server_axios.patch(endpoints.orders.update(orderId), {
+        await server_axios.patch(endpoints.orderProducts.update(orderId), {
             status: value
-        });
+        })
+            .then(() => {
+
+            })
+    }
+
+    const readyCheck = () => {
+
     }
 
     return (
         <Box>
             <AdminBreadcrumbs
                 links={[
-                    { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
+                    { name: 'خانه', href: paths.admin_dashboard.root },
                     { name: 'مدیریت انبار' },
                 ]}
                 sx={{
@@ -46,7 +53,6 @@ export default function StorageDetailsView({ id }: Props) {
                     color="#727272"
                 />
             </Box>
-
             <Container maxWidth="xl">
                 <Typography variant="h6" fontFamily={'peyda-bold'}>لیست کالا ها</Typography>
                 <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
@@ -70,36 +76,64 @@ export default function StorageDetailsView({ id }: Props) {
 
                             <TableBody>
                                 {orderProducts.map((row: IOrderProductItem, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{row.id}</TableCell>
+                                    <Row row={row} key={index} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Scrollbar>
+                </TableContainer>
+            </Container>
+        </Box>
+    )
+}
 
-                                        <TableCell>{row.product.name}</TableCell>
-                                        <TableCell>{row.product.code}</TableCell>
-                                        <TableCell>{13}</TableCell>
-                                        <TableCell>شاخه</TableCell>
-                                        <TableCell>
-                                            <Select
-                                                size="small"
-                                                onChange={(e) => onChangeValue(e.target.value, row.order.id)}
-                                                value={select || row.order.status}
-                                                renderValue={(val) => <>{
-                                                    (val === OrderStatus.preparing && 'در حال آماده سازی') ||
-                                                    (val === OrderStatus.ready_to_send && 'آماده ارسال')
-                                                }</>}
-                                                sx={{ border: '1px solid #D1D1D1!important' }}>
-                                                <MenuItem value={OrderStatus.preparing}>
-                                                    <Radio disableRipple checked={select === OrderStatus.preparing} />
-                                                    در حال آماده سازی
-                                                    {/* <ListItemText primary={"در حال آماده سازی"} /> */}
-                                                </MenuItem>
-                                                <MenuItem value={OrderStatus.ready_to_send}>
-                                                    <Radio disableRipple checked={select === OrderStatus.ready_to_send} />
-                                                    آماده ارسال
-                                                </MenuItem>
-                                            </Select>
-                                        </TableCell>
+function Row({ row }: { row: IOrderProductItem }) {
+    const [select, setSelect] = useState(row.status);
 
-                                        {/* <TableCell>{row.order_number}</TableCell>
+    const onChangeValue = async (value: string, orderId: number) => {
+        setSelect(value);
+        await server_axios.patch(endpoints.orderProducts.update(orderId), {
+            status: value
+        })
+            .then(() => {
+
+            })
+    }
+
+    const readyCheck = () => {
+
+    }
+
+    return (
+        <TableRow >
+            <TableCell>{row.id}</TableCell>
+
+            <TableCell>{row.product.name}</TableCell>
+            <TableCell>{row.product.code}</TableCell>
+            <TableCell>{row.properties.reduce((a, b) => a + b.quantity, 0)}</TableCell>
+            <TableCell>شاخه</TableCell>
+            <TableCell>
+                <Select
+                    size="small"
+                    onChange={(e) => onChangeValue(e.target.value, row.order.id)}
+                    value={select || row.status}
+                    renderValue={(val) => <>{
+                        (val === IOrderProductStatus.preparing && 'در حال آماده سازی') ||
+                        (val === IOrderProductStatus.ready && 'آماده ارسال')
+                    }</>}
+                    sx={{ border: '1px solid #D1D1D1!important' }}>
+                    <MenuItem value={IOrderProductStatus.preparing}>
+                        <Radio disableRipple checked={select === IOrderProductStatus.preparing} />
+                        در حال آماده سازی
+                    </MenuItem>
+                    <MenuItem value={IOrderProductStatus.ready}>
+                        <Radio disableRipple checked={select === IOrderProductStatus.ready} />
+                        آماده ارسال
+                    </MenuItem>
+                </Select>
+            </TableCell>
+
+            {/* <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>
                                             {
@@ -128,13 +162,6 @@ export default function StorageDetailsView({ id }: Props) {
                                                 بررسی
                                             </LoadingButton>
                                         </TableCell> */}
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Scrollbar>
-                </TableContainer>
-            </Container>
-        </Box>
+        </TableRow>
     )
 }

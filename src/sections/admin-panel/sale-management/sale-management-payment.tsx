@@ -28,6 +28,7 @@ import { useRouter } from 'src/routes/hooks';
 import { paths } from "src/routes/paths";
 import { useCallback } from "react";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
+import { ProductOrderType } from "src/types/product";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
@@ -97,7 +98,7 @@ export default function SaleManagementPayment({
         const op = await server_axios.get(endpoints.orderProducts.one(orderId))
             .then(({ data }) => data)
 
-        const find = op.find((item: any) => item.status !== IOrderProductPropertyStatus.approve)
+        const find = op.find((item: any) => item.properties.find((op: any) => op.status !== IOrderProductPropertyStatus.approve && item.product.order_type === ProductOrderType.custom_made))
         if (find) 
             return enqueueSnackbar("ابتدا وضعیت «تایید»‌یا «عدم تایید» تمام سفارش‌ها را مشخص کنید. سپس بر روی دکمه «تایید نهایی» کلیک کنید.")
         

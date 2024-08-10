@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IUserTypes } from "src/types/user";
+import SvgColor from "src/components/svg-color";
 
 interface Props {
     row: IOrderItem
@@ -94,8 +95,9 @@ export function ProductionTableRow({ row }: Props) {
                             {({ loading }) => (
                                 <StyledRoundedWhiteButton
                                     variant="outlined"
-                                    sx={{ borderRadius: '28px', width: 1 }}
+                                    sx={{ borderRadius: '28px', color: "black" }}
                                 >
+                                    <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
                                     دانلود فرم سفارش ساخت
                                 </StyledRoundedWhiteButton>
                             )}
