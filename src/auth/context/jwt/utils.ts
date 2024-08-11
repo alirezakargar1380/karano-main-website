@@ -70,7 +70,7 @@ export const setSession = (accessToken: string | null) => {
   } else {
     localStorage.removeItem('accessToken');
 
-    delete axios.defaults.headers.common.Authorization;
+    delete server_axios.defaults.headers.common.Authorization;
   }
 };
 
@@ -78,7 +78,7 @@ export const setAdminSession = (accessToken: string | null) => {
   if (accessToken) {
     localStorage.setItem('adminAccessToken', accessToken);
 
-    server_axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
     // This function below will handle when token is expired
     const { exp } = jwtDecode(accessToken); // ~3 days by minimals server

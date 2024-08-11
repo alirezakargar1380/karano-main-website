@@ -142,7 +142,7 @@ export function AuthProvider({ children }: Props) {
       if (adminAccessToken) {
         setAdminSession(adminAccessToken);
 
-        const res = await server_axios.get(endpoints.auth.admin.me);
+        const res = await axios.get(endpoints.auth.admin.me);
 
         const { user } = res.data;
 
@@ -186,7 +186,7 @@ export function AuthProvider({ children }: Props) {
       password,
     };
 
-    const res = await server_axios.post(endpoints.auth.admin.login, data);
+    const res = await axios.post(endpoints.auth.admin.login, data);
     // const res = await axios.post(endpoints.auth.login, data);
 
     const { accessToken, user } = res.data;

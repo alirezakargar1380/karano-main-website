@@ -4,7 +4,7 @@ import { update } from 'lodash';
 import { HOST_API, BACKEND_API } from 'src/config-global';
 
 // ----------------------------------------------------------------------
-const axiosInstance = axios.create({ baseURL: HOST_API });
+const axiosInstance = axios.create({ baseURL: BACKEND_API });
 const backend_axios = axios.create({ baseURL: BACKEND_API });
 
 axiosInstance.interceptors.response.use(
