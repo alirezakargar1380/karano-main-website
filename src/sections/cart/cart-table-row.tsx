@@ -12,6 +12,7 @@ import { ICartItem } from 'src/types/cart';
 import SvgColor from '../../components/svg-color';
 import { Stack, Typography } from '@mui/material';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
+import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
@@ -52,20 +53,25 @@ export default function CartTableRow({
   return (
     <>
       <DialogWithButton fullWith={true} dialog={rejectionDialog}>
-        <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-          علت رد ‌سفارش
-        </Typography>
-        <Typography variant='body2' py={3} color={"#727272"}>دلایل رد سفارش شما به همراه راه‌حل‌های احتمالی برای اصلاح سفارش را در متن زیر بیان شده است.</Typography>
-        <Typography variant='body2' pt={3} fontFamily={'peyda-bold'}>
-          توضیحات ادمین
-        </Typography>
-        <Box mt={2} bgcolor={"#F8F8F8"} border={'1px solid #E0E0E0'} borderRadius={'12px'} p={2}>
-          <Typography variant='body2' color={"#727272"}>
-            {rejection_reason}
+        <Box p={3}>
+          <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+            علت رد ‌سفارش
           </Typography>
+          <Typography variant='body2' py={3} color={"#727272"}>دلایل رد سفارش شما به همراه راه‌حل‌های احتمالی برای اصلاح سفارش را در متن زیر بیان شده است.</Typography>
+          <Typography variant='body2' pt={3} fontFamily={'peyda-bold'}>
+            توضیحات ادمین
+          </Typography>
+          <Box mt={2} bgcolor={"#F8F8F8"} border={'1px solid #E0E0E0'} borderRadius={'12px'} p={2}>
+            <Typography variant='body2' color={"#727272"}>
+              {rejection_reason}
+            </Typography>
+          </Box>
+          <Box sx={{ textAlign: 'right', mt: 2 }}>
+            <LoadingButton variant='contained' onClick={rejectionDialog.onFalse} sx={{ borderRadius: '50px' }}>متوجه شدم</LoadingButton>
+          </Box>
         </Box>
       </DialogWithButton>
-      
+
       <TableRow
         hover
         sx={{

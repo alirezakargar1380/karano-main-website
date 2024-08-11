@@ -30,7 +30,6 @@ export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
 
     const { order, orderLoading } = useGetOrder(`${orderId}`);
-    const [value, setValue] = useState('')
 
     const detailsDialog = useBoolean();
 
@@ -63,12 +62,10 @@ export default function DeliveryListView() {
         detailsDialog.onFalse()
     }
 
-    const handleChangeProductionStatus = useCallback(async (e: any, orderId: number) => {
-        setValue(e.target.value);
-        await server_axios.patch(endpoints.orders.update(orderId), {
-            status: e.target.value
-        });
-    }, [])
+    const handleMore = (id: number) => {
+        setOrderId(id);
+        detailsDialog.onTrue();
+    }
 
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
@@ -344,43 +341,66 @@ export default function DeliveryListView() {
 
                             <TableBody>
                                 {orders.map((row, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{row.id}</TableCell>
+                                    <Row key={index} row={row} moreHandler={() => handleMore(row.id)} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Scrollbar>
+                </TableContainer>
+            </Box>
+        </Container >
+    )
+}
 
-                                        <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
-                                        <TableCell>{row.order_number}</TableCell>
 
-                                        <TableCell>
-                                            {(row.status === OrderStatus.produced) ? (
-                                                <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
-                                                    در انتظار پرداخت نهایی
-                                                </Label>
-                                            ) : (
-                                                <Select value={value || row.status} size="small"
-                                                    sx={{
-                                                        ...(((value || row.status) !== OrderStatus.ready_to_send) ? {
-                                                            bgcolor: "#DCF9FF",
-                                                            color: "#005878!important",
-                                                            borderRadius: '24px',
-                                                            border: '1px solid #86D8F8!important',
-                                                        } : {
-                                                            bgcolor: "#E0FFEB",
-                                                            color: "#096E35!important",
-                                                            borderRadius: '24px',
-                                                            border: '1px solid #8EEFB4!important',
-                                                        }),
-                                                    }}
-                                                    variant="outlined"
-                                                    onChange={(e) => handleChangeProductionStatus(e, row.id)}>
-                                                    <MenuItem value={OrderStatus.ready_to_send}>
-                                                        آماده ارسال
-                                                    </MenuItem>
-                                                    <MenuItem value={OrderStatus.posted}>
-                                                        ارسال شده
-                                                    </MenuItem>
-                                                </Select>
-                                            )}
-                                            {/* {(row.status === OrderStatus.ready_to_send) && (
+function Row({ row, moreHandler }: any) {
+    const [value, setValue] = useState('');
+
+    const handleChangeProductionStatus = useCallback(async (e: any, orderId: number) => {
+        setValue(e.target.value);
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: e.target.value
+        });
+    }, [])
+
+    return (
+        <TableRow>
+            <TableCell>{row.id}</TableCell>
+
+            <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
+            <TableCell>{row.order_number}</TableCell>
+
+            <TableCell>
+                {(row.status === OrderStatus.produced) ? (
+                    <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
+                        در انتظار پرداخت نهایی
+                    </Label>
+                ) : (
+                    <Select value={value || row.status} size="small"
+                        sx={{
+                            ...(((value || row.status) !== OrderStatus.ready_to_send) ? {
+                                bgcolor: "#DCF9FF",
+                                color: "#005878!important",
+                                borderRadius: '24px',
+                                border: '1px solid #86D8F8!important',
+                            } : {
+                                bgcolor: "#E0FFEB",
+                                color: "#096E35!important",
+                                borderRadius: '24px',
+                                border: '1px solid #8EEFB4!important',
+                            }),
+                        }}
+                        variant="outlined"
+                        onChange={(e) => handleChangeProductionStatus(e, row.id)}>
+                        <MenuItem value={OrderStatus.ready_to_send}>
+                            آماده ارسال
+                        </MenuItem>
+                        <MenuItem value={OrderStatus.posted}>
+                            ارسال شده
+                        </MenuItem>
+                    </Select>
+                )}
+                {/* {(row.status === OrderStatus.ready_to_send) && (
                                                 <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
                                                     آماده ارسال
                                                 </Label>
@@ -390,31 +410,21 @@ export default function DeliveryListView() {
                                                     ارسال شده
                                                 </Label>
                                             )} */}
-                                        </TableCell>
+            </TableCell>
 
-                                        <TableCell>{fToJamali(row.createdAt)}</TableCell>
+            <TableCell>{fToJamali(row.createdAt)}</TableCell>
 
-                                        <TableCell>{fToJamali(row.production_date)}</TableCell>
+            <TableCell>{fToJamali(row.production_date)}</TableCell>
 
-                                        <TableCell sx={{ textAlign: 'center' }}>
-                                            <LoadingButton
-                                                variant="contained"
-                                                sx={{ borderRadius: '28px', px: 1.5 }}
-                                                onClick={() => {
-                                                    setOrderId(row.id)
-                                                    detailsDialog.onTrue()
-                                                }}
-                                            >
-                                                مشاهده جزئیات
-                                            </LoadingButton>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Scrollbar>
-                </TableContainer>
-            </Box>
-        </Container >
+            <TableCell sx={{ textAlign: 'center' }}>
+                <LoadingButton
+                    variant="contained"
+                    sx={{ borderRadius: '28px', px: 1.5 }}
+                    onClick={moreHandler}
+                >
+                    مشاهده جزئیات
+                </LoadingButton>
+            </TableCell>
+        </TableRow>
     )
 }
