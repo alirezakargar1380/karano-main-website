@@ -76,19 +76,55 @@ export default function SaleManagementListView() {
                         value="1"
                         options={[
                             {
-                                label: '1',
+                                label: 'در حال آماده‌سازی',
                                 value: '1'
                             },
                             {
-                                label: '2',
+                                label: 'منقضی‌شده',
                                 value: '2'
                             },
                             {
-                                label: '3',
+                                label: 'آماده‌شده',
                                 value: '4'
-                            }
+                            },
+                            {
+                                label: 'تایید‌شده',
+                                value: '5'
+                            },
+                            {
+                                label: 'رد‌شده',
+                                value: '5'
+                            },
+                            {
+                                label: 'در حال تولید',
+                                value: '5'
+                            },
+                            {
+                                label: 'تولیدشده',
+                                value: '5'
+                            },
+                            {
+                                label: 'در انتظار پرداخت نهایی',
+                                value: '5'
+                            },
+                            {
+                                label: 'آماده ارسال',
+                                value: '5'
+                            },
+                            {
+                                label: 'ارسال‌شده',
+                                value: '5'
+                            },
+                            {
+                                label: 'اصلاح‌شده',
+                                value: '5'
+                            },
+                            {
+                                label: 'عدم موجودی',
+                                value: '5'
+                            },
                         ]}
-                        checkbox
+                        // checkbox
                         icon="/assets/icons/admin-panel/flag-01.svg"
                         sx={{
                             bgcolor: 'white',
@@ -177,12 +213,15 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="error">
                                                         رد شده
                                                     </Label>
-                                                ) 
+                                                )
                                                 || (row.status === OrderStatus.produced) && (
-                                                    <Label variant="filled" color="success">
-                                                        تولید شده
+                                                    // <Label variant="filled" color="success">
+                                                    //     تولید شده
+                                                    // </Label>
+                                                    <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
+                                                        در انتظار پرداخت نهایی
                                                     </Label>
-                                                ) 
+                                                )
                                                 || (row.status === OrderStatus.posted) && (
                                                     <Label variant="filled" color="success">
                                                         ارسال شده
@@ -222,9 +261,9 @@ export default function SaleManagementListView() {
                                                 sx={{ borderRadius: '28px', width: 1 }}
                                                 onClick={() => router.push(paths.admin_dashboard.saleManagement.details(row.id))}
                                             >
-                                               {(row.status === OrderStatus.edited 
-                                                || row.status === OrderStatus.pending 
-                                                || row.status === OrderStatus.failed) ? "بررسی" : "مشاهده"}
+                                                {(row.status === OrderStatus.edited
+                                                    || row.status === OrderStatus.pending
+                                                    || row.status === OrderStatus.failed) ? "بررسی" : "مشاهده"}
                                             </LoadingButton>
                                         </TableCell>
                                     </TableRow>

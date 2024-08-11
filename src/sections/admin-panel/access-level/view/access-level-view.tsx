@@ -46,7 +46,7 @@ export default function AccessLevelview() {
     }
 
     const methods = useForm({
-        resolver: yupResolver(FormSchema),
+        resolver: yupResolver<any>(FormSchema),
         defaultValues,
     });
 
@@ -76,6 +76,7 @@ export default function AccessLevelview() {
                 onClose={warningDialog.onFalse}
                 title="اطمینان از افزودن"
                 content="آیا از افزودن «پرهام بدر» به عنوان «مدیر فروش» اطمینان دارید؟"
+                closeTitle="لغو"
                 action={
                     <LoadingButton variant="contained" onClick={() => onSubmit()} sx={{
                         borderRadius: '50px',
@@ -138,12 +139,12 @@ export default function AccessLevelview() {
 
                         <Stack direction={'row'} justifyContent={'end'} mt={2}>
                             <Stack direction={'row'} spacing={2}>
-                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 6 }} onClick={adminDialog.onFalse}>
+                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={adminDialog.onFalse}>
                                     انصراف
                                 </StyledRoundedWhiteButton>
                                 <LoadingButton
                                     variant='contained'
-                                    sx={{ borderRadius: '24px', px: 3 }}
+                                    sx={{ borderRadius: '24px', px: 4 }}
                                     type="submit"
                                 >
                                     افزودن
@@ -185,12 +186,12 @@ export default function AccessLevelview() {
                 </Box>
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="h5" fontFamily={'peyda-bold'}>لیست ادمین ها</Typography>
-                    <StyledRoundedWhiteButton variant="outlined" sx={{ py: 0, px: 3 }} onClick={() => adminDialog.onTrue()}>
-                        <Iconify icon="eva:plus-fill" width={14} height={14} sx={{ mr: 1 }} />
-                        افزودن ادمین
+                    <StyledRoundedWhiteButton variant="outlined" sx={{ py: 0, px: 1, pr: 1.5 }} onClick={() => adminDialog.onTrue()}>
+                        <Iconify icon="eva:plus-fill" width={14} height={14} sx={{ mr: 0.75 }} />
+                        ادمین جدید
                     </StyledRoundedWhiteButton>
                 </Box>
-                <Box>
+                <Box sx={{ borderRadius: 16 }}>
                     <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                         <Scrollbar>
                             <Table sx={{ minWidth: 960, bgcolor: 'white' }}>

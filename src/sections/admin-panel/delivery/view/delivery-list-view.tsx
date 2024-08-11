@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Box, Container, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Container, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { useSettingsContext } from "src/components/settings";
 import { paths } from "src/routes/paths";
@@ -21,7 +21,7 @@ import { DialogWithButton } from "src/components/custom-dialog";
 import { useBoolean } from "src/hooks/use-boolean";
 import Iconify from "src/components/iconify";
 import SvgColor from "src/components/svg-color";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { IUserTypes } from "src/types/user";
 import { fToJamali } from "src/utils/format-time";
 import { endpoints, server_axios } from "src/utils/axios";
@@ -29,7 +29,8 @@ import { endpoints, server_axios } from "src/utils/axios";
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
 
-    const { order, orderLoading } = useGetOrder(`${orderId}`)
+    const { order, orderLoading } = useGetOrder(`${orderId}`);
+    const [value, setValue] = useState('')
 
     const detailsDialog = useBoolean();
 
@@ -59,18 +60,21 @@ export default function DeliveryListView() {
     });
 
     const handleUpdateOrder = async () => {
-        if (!orderId) return
-        await server_axios.patch(endpoints.orders.update(orderId), {
-            status: OrderStatus.posted
-        })
         detailsDialog.onFalse()
     }
+
+    const handleChangeProductionStatus = useCallback(async (e: any, orderId: number) => {
+        setValue(e.target.value);
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: e.target.value
+        });
+    }, [])
 
     return (
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
                 {(!orderLoading) && (
-                    <>
+                    <Box sx={{ p: 4 }}>
                         <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2} mb={2}>
                             <Typography variant="h4" fontFamily={'peyda-bold'}>جزییات ارسال</Typography>
                         </Stack>
@@ -121,8 +125,6 @@ export default function DeliveryListView() {
                                 </Stack>
                             </Box>
                         </Stack>
-
-
 
                         <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
                             <Typography
@@ -235,7 +237,7 @@ export default function DeliveryListView() {
                         <Stack direction={'row'}>
                             <LoadingButton variant="contained" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</LoadingButton>
                         </Stack>
-                    </>
+                    </Box>
                 )}
             </DialogWithButton>
             <AdminBreadcrumbs
@@ -349,12 +351,36 @@ export default function DeliveryListView() {
                                         <TableCell>{row.order_number}</TableCell>
 
                                         <TableCell>
-                                            {(row.status === OrderStatus.produced) && (
+                                            {(row.status === OrderStatus.produced) ? (
                                                 <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
                                                     در انتظار پرداخت نهایی
                                                 </Label>
+                                            ) : (
+                                                <Select value={value || row.status} size="small"
+                                                    sx={{
+                                                        ...(((value || row.status) !== OrderStatus.ready_to_send) ? {
+                                                            bgcolor: "#DCF9FF",
+                                                            color: "#005878!important",
+                                                            borderRadius: '24px',
+                                                            border: '1px solid #86D8F8!important',
+                                                        } : {
+                                                            bgcolor: "#E0FFEB",
+                                                            color: "#096E35!important",
+                                                            borderRadius: '24px',
+                                                            border: '1px solid #8EEFB4!important',
+                                                        }),
+                                                    }}
+                                                    variant="outlined"
+                                                    onChange={(e) => handleChangeProductionStatus(e, row.id)}>
+                                                    <MenuItem value={OrderStatus.ready_to_send}>
+                                                        آماده ارسال
+                                                    </MenuItem>
+                                                    <MenuItem value={OrderStatus.posted}>
+                                                        ارسال شده
+                                                    </MenuItem>
+                                                </Select>
                                             )}
-                                            {(row.status === OrderStatus.ready_to_send) && (
+                                            {/* {(row.status === OrderStatus.ready_to_send) && (
                                                 <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
                                                     آماده ارسال
                                                 </Label>
@@ -363,17 +389,17 @@ export default function DeliveryListView() {
                                                 <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
                                                     ارسال شده
                                                 </Label>
-                                            )}
+                                            )} */}
                                         </TableCell>
 
                                         <TableCell>{fToJamali(row.createdAt)}</TableCell>
 
                                         <TableCell>{fToJamali(row.production_date)}</TableCell>
 
-                                        <TableCell>
+                                        <TableCell sx={{ textAlign: 'center' }}>
                                             <LoadingButton
                                                 variant="contained"
-                                                sx={{ borderRadius: '28px', width: 1 }}
+                                                sx={{ borderRadius: '28px', px: 1.5 }}
                                                 onClick={() => {
                                                     setOrderId(row.id)
                                                     detailsDialog.onTrue()

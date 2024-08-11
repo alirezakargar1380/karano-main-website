@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, ListItemText, MenuItem, Radio, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, ListItemText, MenuItem, Radio, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
 import { PageTitle } from "../../page-title";
@@ -17,22 +17,15 @@ type Props = {
 };
 
 export default function StorageDetailsView({ id }: Props) {
-    const [select, setSelect] = useState('')
+    const [select, setSelect] = useState<string>(OrderStatus.preparing)
 
     const { orderProducts } = useGetOrderProducts(+id);
 
-    const onChangeValue = async (value: string, orderId: number) => {
+    const onChangeValue = async (value: string) => {
         setSelect(value);
-        await server_axios.patch(endpoints.orderProducts.update(orderId), {
+        await server_axios.patch(endpoints.orders.update(id), {
             status: value
         })
-            .then(() => {
-
-            })
-    }
-
-    const readyCheck = () => {
-
     }
 
     return (
@@ -52,9 +45,30 @@ export default function StorageDetailsView({ id }: Props) {
                     icon="/assets/icons/admin-panel/arrow-right.svg"
                     color="#727272"
                 />
+
             </Box>
             <Container maxWidth="xl">
-                <Typography variant="h6" fontFamily={'peyda-bold'}>لیست کالا ها</Typography>
+                <Stack direction={'row'} justifyContent={'space-between'}>
+                    <Typography variant="h6" fontFamily={'peyda-bold'}>لیست کالا ها</Typography>
+                    <Select
+                        size="small"
+                        onChange={(e) => onChangeValue(e.target.value)}
+                        value={select}
+                        renderValue={(val) => <>{
+                            (val === OrderStatus.preparing && 'در حال آماده سازی') ||
+                            (val === OrderStatus.ready_to_send && 'آماده شده')
+                        }</>}
+                        sx={{ border: '1px solid #D1D1D1!important' }}>
+                        <MenuItem value={OrderStatus.preparing}>
+                            <Radio disableRipple checked={select === OrderStatus.preparing} />
+                            در حال آماده سازی
+                        </MenuItem>
+                        <MenuItem value={OrderStatus.ready_to_send}>
+                            <Radio disableRipple checked={select === OrderStatus.ready_to_send} />
+                            آماده شده
+                        </MenuItem>
+                    </Select>
+                </Stack>
                 <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                     <Scrollbar>
                         <Table sx={{ minWidth: 960, bgcolor: 'white' }}>
@@ -88,80 +102,14 @@ export default function StorageDetailsView({ id }: Props) {
 }
 
 function Row({ row }: { row: IOrderProductItem }) {
-    const [select, setSelect] = useState(row.status);
-
-    const onChangeValue = async (value: string, orderId: number) => {
-        setSelect(value);
-        await server_axios.patch(endpoints.orderProducts.update(orderId), {
-            status: value
-        })
-            .then(() => {
-
-            })
-    }
-
-    const readyCheck = () => {
-
-    }
 
     return (
         <TableRow >
             <TableCell>{row.id}</TableCell>
-
             <TableCell>{row.product.name}</TableCell>
             <TableCell>{row.product.code}</TableCell>
             <TableCell>{row.properties.reduce((a, b) => a + b.quantity, 0)}</TableCell>
             <TableCell>شاخه</TableCell>
-            <TableCell>
-                <Select
-                    size="small"
-                    onChange={(e) => onChangeValue(e.target.value, row.order.id)}
-                    value={select || row.status}
-                    renderValue={(val) => <>{
-                        (val === IOrderProductStatus.preparing && 'در حال آماده سازی') ||
-                        (val === IOrderProductStatus.ready && 'آماده ارسال')
-                    }</>}
-                    sx={{ border: '1px solid #D1D1D1!important' }}>
-                    <MenuItem value={IOrderProductStatus.preparing}>
-                        <Radio disableRipple checked={select === IOrderProductStatus.preparing} />
-                        در حال آماده سازی
-                    </MenuItem>
-                    <MenuItem value={IOrderProductStatus.ready}>
-                        <Radio disableRipple checked={select === IOrderProductStatus.ready} />
-                        آماده ارسال
-                    </MenuItem>
-                </Select>
-            </TableCell>
-
-            {/* <TableCell>{row.order_number}</TableCell>
-
-                                        <TableCell>
-                                            {
-                                                (row.status === OrderStatus.preparing) && (
-                                                    <Label variant="filled" color="warning">
-                                                        در حال آماده‌سازی
-                                                    </Label>
-                                                ) || (row.status === OrderStatus.failed) && (
-                                                    <Label variant="filled" color="success">
-                                                        آماده‌شده
-                                                    </Label>
-                                                ) || ''
-                                            }
-
-                                        </TableCell>
-
-                                        <TableCell dir="ltr">{row.user.phone}</TableCell>
-                                        <TableCell>{fToJamali(row.createdAt)}</TableCell>
-
-                                        <TableCell>
-                                            <LoadingButton
-                                                variant="contained"
-                                                sx={{ borderRadius: '28px', width: 1 }}
-                                                onClick={() => router.push(paths.admin_dashboard.storage.details(row.id))}
-                                            >
-                                                بررسی
-                                            </LoadingButton>
-                                        </TableCell> */}
         </TableRow>
     )
 }

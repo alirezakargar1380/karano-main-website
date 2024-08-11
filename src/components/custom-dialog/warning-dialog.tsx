@@ -17,6 +17,7 @@ export default function WarningDialog({
     action,
     open,
     onClose,
+    closeTitle = "خیر",
     ...other
 }: ConfirmDialogProps) {
     return (
@@ -37,7 +38,7 @@ export default function WarningDialog({
 
                 <DialogActions sx={{ pr: 0 }}>
                     <Stack direction={'row'} spacing={2}>
-                        <Button sx={{ px: 3, borderRadius: '50px' }} onClick={onClose}>خیر</Button>
+                        <Button sx={{ px: 3, borderRadius: '50px' }} onClick={onClose}>{closeTitle}</Button>
                         {action}
                     </Stack>
                 </DialogActions>
