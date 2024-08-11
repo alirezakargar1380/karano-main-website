@@ -12,6 +12,8 @@ import { useGetOrder } from "src/api/orders";
 import { useCallback, useEffect, useState } from "react";
 import { ProductOrderType } from "src/types/product";
 import Scrollbar from "src/components/scrollbar";
+import { endpoints, server_axios } from "src/utils/axios";
+import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
 type Props = {
     id: string;
@@ -26,16 +28,6 @@ export default function SaleManagementDetailsView({ id }: Props) {
     const { orderProducts } = useGetOrderProducts(+id);
     const { order, orderLoading } = useGetOrder(id);
 
-    // const handleApprovOrder = useCallback(async () => {
-    //     await server_axios.patch(endpoints.orders.update(id), {
-    //         status: OrderStatus.accepted
-    //     })
-    //     invoiceDialog.onFalse();
-    //     enqueueSnackbar("وضعیت سفارش تایید شد", {
-    //         variant: 'info',
-    //     })
-    // }, [id]);
-
     useEffect(() => {
         if (orderProducts.length > 0) {
             if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
@@ -47,9 +39,18 @@ export default function SaleManagementDetailsView({ id }: Props) {
         }
     }, [orderProducts]);
 
-    const handleHasApprove = useCallback((allApproved: boolean) => {
-        setSendToUser(allApproved)
-    }, [setSendToUser]);
+    const handleHasApprove = useCallback(async (allApproved: boolean) => {
+        const op = await server_axios.get(endpoints.orderProducts.one(id))
+            .then(({ data }) => data)
+
+        console.log("i was call")
+
+        const find = op.find((item: any) => item.properties.find((op: any) => op.status === IOrderProductPropertyStatus.denied))
+        if (find)
+            setSendToUser(true)
+        else
+            setSendToUser(false)
+    }, [setSendToUser, id]);
 
     // const handleAddId = () => {}
     // const handleRemoveId = () => {}

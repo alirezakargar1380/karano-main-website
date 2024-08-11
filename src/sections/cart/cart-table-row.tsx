@@ -64,8 +64,8 @@ export default function CartTableRow({
             {rejection_reason}
           </Typography>
         </Box>
-
       </DialogWithButton>
+      
       <TableRow
         hover
         sx={{

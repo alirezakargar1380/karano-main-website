@@ -27,11 +27,7 @@ interface Props {
 export default function SaleManagementProducts({ orderProducts, order, updateHasAnydeapprove }: Props) {
 
     useEffect(() => {
-        // let isAllApproved: boolean = true;
-        // isAllApproved = !!!orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made));
-
-        if (orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made)))
-            updateHasAnydeapprove(true)
+        updateHasAnydeapprove(true)
     }, []);
 
     return (
@@ -85,6 +81,7 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
                                     product={product}
                                     property={p}
                                     need_to_assemble={need_to_assemble}
+                                    updateHasAnydeapprove={() => updateHasAnydeapprove(false)}
                                 />
                             ))}
                         </Box>
@@ -99,12 +96,14 @@ interface SaleManagmentItem {
     product: IProductItem,
     property: IProductProperties,
     need_to_assemble: boolean,
+    updateHasAnydeapprove: (data: boolean) => void
 }
 
 function SaleManagementProductItem({
     product,
     property,
     need_to_assemble,
+    updateHasAnydeapprove
 }: SaleManagmentItem) {
 
     const schema = Yup.object().shape({
@@ -154,9 +153,9 @@ function SaleManagementProductItem({
             //     })
             // }
 
-            enqueueSnackbar('وضعیت سفارش تغییر کرد', {
-                variant: 'info'
-            })
+            // enqueueSnackbar('وضعیت سفارش تغییر کرد', {
+            //     variant: 'info'
+            // })
 
             const data = {
                 ...d,
@@ -168,6 +167,8 @@ function SaleManagementProductItem({
                 .then(() => {
                     property.status = data.status
                 })
+
+            updateHasAnydeapprove(false)
         } catch (error) {
             console.error(error);
             reset();
@@ -175,18 +176,13 @@ function SaleManagementProductItem({
     });
 
     useEffect(() => {
-        if (values.is_approved == "1") {
-            onSubmit();
-        }
-    }, [values.is_approved])
+        const delayDebounceFn = setTimeout(() => {
+            if (values.rejection_reason !== '' && values.rejection_reason !== property.rejection_reason) onSubmit();
+        }, 500)
 
-    // useEffect(() => {
-    //     const delayDebounceFn = setTimeout(() => {
-    //         if (values.rejection_reason !== '' && values.rejection_reason !== property.rejection_reason) onSubmit();
-    //     }, 1500)
+        return () => clearTimeout(delayDebounceFn)
+    }, [values.rejection_reason]);
 
-    //     return () => clearTimeout(delayDebounceFn)
-    // }, [values.rejection_reason]);
 
     const handleApprove = useCallback((event: any) => {
         const v = event.target.value
@@ -219,7 +215,6 @@ function SaleManagementProductItem({
                     <TableContainer sx={{ overflow: 'unset' }}>
                         <Scrollbar>
                             <Table sx={{
-                                // minWidth: 960 
                             }}>
                                 <TableHead>
                                     <TableRow>
@@ -318,7 +313,6 @@ function SaleManagementProductItem({
                                     BSx={{
                                         mb: 1
                                     }}
-                                    // FSx={{ border: (theme: any) => `1px solid ${theme?.palette?.divider}`, borderRadius: '8px', pr: 2 }}
                                     variant="body1"
                                     RadioSx={{
                                         p: '4px',
@@ -357,7 +351,7 @@ function SaleManagementProductItem({
                                 }}
                                 placeholder="متن محتوا"
                             />
-                            <Box sx={{ width: 1, textAlign: 'right' }}>
+                            {/* <Box sx={{ width: 1, textAlign: 'right' }}>
                                 <StyledRoundedWhiteButton
                                     type="submit"
                                     variant="outlined"
@@ -366,7 +360,7 @@ function SaleManagementProductItem({
                                 >
                                     ثبت
                                 </StyledRoundedWhiteButton>
-                            </Box>
+                            </Box> */}
                         </Box>
                     </FormProvider>
                 )}
