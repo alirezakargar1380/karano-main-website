@@ -172,7 +172,7 @@ export default function CartDialog({
     }, [setId])
 
     const handleAddToList = useCallback(() => {
-        if (!list.length) return enqueueSnackbar("لطفا لیست را پر کنید", {
+        if (!list.length) return enqueueSnackbar("ابتدا دکمه «افزودن به لیست» و سپس دکمه «افزودن به سبد خرید» را کلیک کنید.", {
             variant: 'error'
         })
 
@@ -214,7 +214,6 @@ export default function CartDialog({
                 borderBottomLeftRadius: '16px',
                 // overflowY: 'hidden'
             }}>
-
                 <FormProvider methods={methods} onSubmit={onSubmit}>
                     {(!formLoading) && (
                         <CartDialogView
@@ -231,7 +230,6 @@ export default function CartDialog({
                         />
                     )}
                 </FormProvider>
-
             </DialogContent>
             <DialogActions sx={{
                 p: 4,

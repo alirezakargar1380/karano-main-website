@@ -19,7 +19,7 @@ interface Props {
 
 export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
     const defaultValues = {
-        assemble: '0'
+        assemble: ''
     };
 
     const methods = useForm({
@@ -94,7 +94,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
 
                     <Stack direction={'row'} spacing={1} justifyContent={'end'}>
                         <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>
-                            انصرف
+                            بستن
                         </StyledRoundedWhiteButton>
                         <LoadingButton variant='contained' type='submit' sx={{ borderRadius: '24px', px: 4 }}>
                             تایید

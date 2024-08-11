@@ -29,7 +29,7 @@ export default function SaleManagementProducts({ orderProducts, order, updateHas
     useEffect(() => {
         // let isAllApproved: boolean = true;
         // isAllApproved = !!!orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made));
-        
+
         if (orderProducts.find((pp) => pp.properties.find((p) => p.status === IOrderProductPropertyStatus.denied && pp.product.order_type === ProductOrderType.custom_made)))
             updateHasAnydeapprove(true)
     }, []);
@@ -121,6 +121,8 @@ function SaleManagementProductItem({
         }),
     });
 
+    const { enqueueSnackbar } = useSnackbar();
+
     const methods = useForm({
         resolver: yupResolver<any>(schema),
         defaultValues: {
@@ -152,6 +154,10 @@ function SaleManagementProductItem({
             //     })
             // }
 
+            enqueueSnackbar('وضعیت سفارش تغییر کرد', {
+                variant: 'info'
+            })
+
             const data = {
                 ...d,
                 status: (d.is_approved == "0") ? IOrderProductPropertyStatus.denied : IOrderProductPropertyStatus.approve,
@@ -169,12 +175,18 @@ function SaleManagementProductItem({
     });
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if (values.rejection_reason !== '' && values.rejection_reason !== property.rejection_reason) onSubmit();
-        }, 1500)
+        if (values.is_approved == "1") {
+            onSubmit();
+        }
+    }, [values.is_approved])
 
-        return () => clearTimeout(delayDebounceFn)
-    }, [values.rejection_reason]);
+    // useEffect(() => {
+    //     const delayDebounceFn = setTimeout(() => {
+    //         if (values.rejection_reason !== '' && values.rejection_reason !== property.rejection_reason) onSubmit();
+    //     }, 1500)
+
+    //     return () => clearTimeout(delayDebounceFn)
+    // }, [values.rejection_reason]);
 
     const handleApprove = useCallback((event: any) => {
         const v = event.target.value
