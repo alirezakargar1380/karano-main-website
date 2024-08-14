@@ -205,7 +205,7 @@ export default function SaleManagementListView() {
 
                                         <TableCell>
                                             {
-                                                (row.status === OrderStatus.pending || row.status === OrderStatus.edited) && (
+                                                (row.status === OrderStatus.pending) && (
                                                     <Label variant="filled" color="info">
                                                         در انتظار بررسی
                                                     </Label>
@@ -213,16 +213,15 @@ export default function SaleManagementListView() {
                                                     <Label variant="filled" color="error">
                                                         رد شده
                                                     </Label>
-                                                )
-                                                || (row.status === OrderStatus.produced) && (
-                                                    // <Label variant="filled" color="success">
-                                                    //     تولید شده
-                                                    // </Label>
+                                                ) || (row.status === OrderStatus.edited) && (
+                                                    <Label variant="filled" color="error">
+                                                        اصلاح شده
+                                                    </Label>
+                                                ) || (row.status === OrderStatus.produced) && (
                                                     <Label variant="outlined" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
                                                         در انتظار پرداخت نهایی
                                                     </Label>
-                                                )
-                                                || (row.status === OrderStatus.posted) && (
+                                                ) || (row.status === OrderStatus.posted) && (
                                                     <Label variant="filled" color="success">
                                                         ارسال شده
                                                     </Label>
