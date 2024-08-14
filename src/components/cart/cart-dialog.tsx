@@ -118,19 +118,22 @@ export default function CartDialog({
                     }
                 ]);
             } else {
-                list[id] = custom;
-                if (handleUpdateRow) list[id].status = IOrderProductPropertyStatus.edited;
+                let iid = id;
+                setId(null); // felan khali bashe
+
+                list[iid] = custom;
+                if (handleUpdateRow) list[iid].status = IOrderProductPropertyStatus.edited;
                 setList([...list]);
 
-                if (handleUpdateRow) await server_axios.patch(endpoints.orderProductProperties.update(list[id].id), {
-                    ...list[id],
+                if (handleUpdateRow) await server_axios.patch(endpoints.orderProductProperties.update(list[iid].id), {
+                    ...list[iid],
                     is_approved: null
                 })
                     .then(({ data }) => {
                         console.log(data)
                     })
 
-                setId(null); // felan khali bashe
+                
             }
         } catch (error) {
             console.error(error);
