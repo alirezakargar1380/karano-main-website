@@ -120,14 +120,19 @@ function SaleManagementProductItem({
         }),
     });
 
+    const defaultValues = {
+        rejection_reason: property.rejection_reason || '',
+        is_approved: (property.is_approved !== null || property.status !== IOrderProductPropertyStatus.normal) ?
+            (property.is_approved ?
+                '1' : property.status === IOrderProductPropertyStatus.edited ? null : '0'
+            ) : null
+    }
+
     const { enqueueSnackbar } = useSnackbar();
 
     const methods = useForm({
         resolver: yupResolver<any>(schema),
-        defaultValues: {
-            rejection_reason: property.rejection_reason || '',
-            is_approved: (property.is_approved !== null || property.status !== IOrderProductPropertyStatus.normal) ? (property.is_approved ? '1' : '0') : null
-        },
+        defaultValues,
     });
 
     const {
