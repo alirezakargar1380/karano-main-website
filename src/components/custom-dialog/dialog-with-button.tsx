@@ -81,38 +81,36 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
     ));
 
     return (
-        <Box>
-
-            <Dialog
-                open={dialog.value}
-                PaperComponent={CustomPaperComponent}
-                onClose={dialog.onFalse}
-                // scroll={'body'}
-                TransitionComponent={Transition}
-                maxWidth={'lg'}
-                PaperProps={{
-                    style: {
-                        // backgroundColor: 'transparent',
-                        // boxShadow: 'none',
-                        // margin: 0,
-                        // marginTop: 20,
-                        // marginBottom: 20,
-                        width: '100%',
-                        // zIndex: 99
-                        // maxWidth: 'calc(100% - 14px)',
-                        // minHeight: '90vh',
-                        // maxHeight: '90vh',
-                    },
-                }}
-                // fullWidth={fullWith}
-                sx={{
-                    '& .MuiBackdrop-root': {
-                        backgroundColor: 'rgba(0,0,0,0.8)'
-                    }
-                }}
-            >
-                {children}
-                {/* <Container maxWidth={'lg'} sx={{ px: '8px!important' }}>
+        <Dialog
+            open={dialog.value}
+            PaperComponent={CustomPaperComponent}
+            onClose={dialog.onFalse}
+            // scroll={'body'}
+            TransitionComponent={Transition}
+            maxWidth={'lg'}
+            PaperProps={{
+                style: {
+                    // backgroundColor: 'transparent',
+                    // boxShadow: 'none',
+                    // margin: 0,
+                    // marginTop: 20,
+                    // marginBottom: 20,
+                    width: '100%',
+                    // zIndex: 99
+                    // maxWidth: 'calc(100% - 14px)',
+                    // minHeight: '90vh',
+                    // maxHeight: '90vh',
+                },
+            }}
+            // fullWidth={fullWith}
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: 'rgba(0,0,0,0.8)'
+                }
+            }}
+        >
+            {children}
+            {/* <Container maxWidth={'lg'} sx={{ px: '8px!important' }}>
                 <Box sx={{
                     display: 'flex',
                     mx: 'auto',
@@ -129,7 +127,7 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                     </IconButton>
                 </Box>
             </Container> */}
-                {/* <IconButton onClick={() => { dialog.onFalse() }} sx={{
+            {/* <IconButton onClick={() => { dialog.onFalse() }} sx={{
                     position: 'fixed',
                     left: 0,
                     zIndex: 1000,
@@ -142,12 +140,6 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                 }}>
                     <SvgColor src='/assets/icons/navbar/x-close.svg' />
                 </IconButton> */}
-            </Dialog>
-            {/* {(dialog.value) && (
-                <Button variant="contained" onClick={dialog.onTrue} sx={{ mr: 2 }}>
-                    Open Dialog
-                </Button>
-            )} */}
-        </Box>
+        </Dialog>
     );
 }

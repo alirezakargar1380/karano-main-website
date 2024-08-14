@@ -261,11 +261,9 @@ export default function CartDialogView({
             <Box sx={{ pl: 3, pt: 3 }}>
                 <Grid container spacing={4} sx={{ width: 1 }}>
                     <Grid item xs={12} md={4}>
-                        <DialogTitle sx={{ p: 0 }}>
-                            <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
-                                {title}
-                            </Typography>
-                        </DialogTitle>
+                        <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
+                            {title}
+                        </Typography>
                         <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                             <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
                                 ویژگی های مورد نظر را انتخاب کنید
@@ -437,16 +435,14 @@ export default function CartDialogView({
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={8}>
-                        <DialogTitle sx={{ p: 0 }}>
-                            <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
-                                <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
-                                    لیست سفارش های ثبت شده
-                                </Typography>
-                                <IconButton sx={{ mb: 1 }} onClick={onClose}>
-                                    <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
-                                </IconButton>
-                            </Stack>
-                        </DialogTitle>
+                        <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
+                            <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
+                                لیست سفارش های ثبت شده
+                            </Typography>
+                            <IconButton sx={{ mb: 1 }} onClick={onClose}>
+                                <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
+                            </IconButton>
+                        </Stack>
                         <Box>
                             {data.length ? (
                                 <Scrollbar>
