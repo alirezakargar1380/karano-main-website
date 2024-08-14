@@ -5,6 +5,33 @@ import { LabelColor, LabelVariant } from './types';
 
 // ----------------------------------------------------------------------
 
+const outlinedColor = {
+  "primary": "",
+  "secondary": "",
+  "info": "#005878",
+  "success": "#096E35",
+  "warning": "#795105",
+  "error": "#A4190F"
+}
+
+const outlinedBgColor = {
+  "primary": "",
+  "secondary": "",
+  "info": "#DCF9FF",
+  "success": "#E0FFEB",
+  "warning": "#FFF6DD",
+  "error": "#FFE5E4"
+}
+
+const outlinedBorderColor = {
+  "primary": "",
+  "secondary": "",
+  "info": "#86D8F8",
+  "success": "#8EEFB4",
+  "warning": "#F8D185",
+  "error": "#FDBCB7"
+}
+
 export const StyledLabel = styled(Box)(({
   theme,
   ownerState,
@@ -53,9 +80,10 @@ export const StyledLabel = styled(Box)(({
       }),
       // OUTLINED
       ...(outlinedVariant && {
-        backgroundColor: 'transparent',
-        color: theme.palette[ownerState.color].main,
-        border: `2px solid ${theme.palette[ownerState.color].main}`,
+        borderRadius: 16,
+        backgroundColor: outlinedBgColor[ownerState.color],
+        color: outlinedColor[ownerState.color],
+        border: `2px solid ${outlinedBorderColor[ownerState.color]}`,
       }),
       // SOFT
       ...(softVariant && {
@@ -76,7 +104,7 @@ export const StyledLabel = styled(Box)(({
     display: 'inline-flex',
     justifyContent: 'center',
     textTransform: 'capitalize',
-    padding: theme.spacing(0, 0.75),
+    padding: theme.spacing(1.5, 1.25),
     fontSize: theme.typography.pxToRem(12),
     fontWeight: theme.typography.fontWeightBold,
     transition: theme.transitions.create('all', {

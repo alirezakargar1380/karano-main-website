@@ -206,15 +206,15 @@ export default function SaleManagementListView() {
                                         <TableCell>
                                             {
                                                 (row.status === OrderStatus.pending) && (
-                                                    <Label variant="filled" color="info">
+                                                    <Label variant="outlined" color="info">
                                                         در انتظار بررسی
                                                     </Label>
                                                 ) || (row.status === OrderStatus.failed) && (
-                                                    <Label variant="filled" color="error">
+                                                    <Label variant="outlined" color="error">
                                                         رد شده
                                                     </Label>
                                                 ) || (row.status === OrderStatus.edited) && (
-                                                    <Label variant="filled" color="error">
+                                                    <Label variant="outlined" color="warning">
                                                         اصلاح شده
                                                     </Label>
                                                 ) || (row.status === OrderStatus.produced) && (
@@ -222,27 +222,23 @@ export default function SaleManagementListView() {
                                                         در انتظار پرداخت نهایی
                                                     </Label>
                                                 ) || (row.status === OrderStatus.posted) && (
-                                                    <Label variant="filled" color="success">
+                                                    <Label variant="outlined" color="success">
                                                         ارسال شده
                                                     </Label>
                                                 ) || (row.status === OrderStatus.accepted) && (
-                                                    <Label variant="filled" color="success">
+                                                    <Label variant="outlined" color="success">
                                                         تایید شده
                                                     </Label>
                                                 ) || (row.status === OrderStatus.production) && (
-                                                    <Label variant="filled" color="info">
+                                                    <Label variant="outlined" color="info">
                                                         در حال تولید
                                                     </Label>
                                                 ) || (row.status === OrderStatus.preparing) && (
-                                                    <Label variant="filled" color="info">
+                                                    <Label variant="outlined" color="warning">
                                                         در حال آماده سازی
                                                     </Label>
-                                                ) || (row.status === OrderStatus.edited) && (
-                                                    <Label variant="filled" color="warning">
-                                                        اصلاح شده
-                                                    </Label>
                                                 ) || (row.status === OrderStatus.ready_to_send) && (
-                                                    <Label variant="filled" color="success">
+                                                    <Label variant="outlined" color="success">
                                                         آماده ارسال
                                                     </Label>
                                                 ) ||
