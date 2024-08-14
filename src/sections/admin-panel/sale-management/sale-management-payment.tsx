@@ -30,6 +30,9 @@ import { useCallback } from "react";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { ProductOrderType } from "src/types/product";
 
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 interface Props {
     invoiceDialog: useBooleanReturnType
     sendToUser: boolean
@@ -51,13 +54,18 @@ export default function SaleManagementPayment({
 
     const timeReminder = useBoolean();
 
+    const schema = Yup.object().shape({
+        prepayment: Yup.number().required('پر کردن این فیلد اجباری‌ست.').typeError('پر کردن این فیلد اجباری‌ست.'),
+    });
+
     const defaultValues = {
         need_prepayment: order.need_prepayment || false,
-        prepayment: order.prepayment || 0,
+        prepayment: order.prepayment || '',
         production_days: order.production_days || 1,
     }
 
     const methods = useForm({
+        resolver: yupResolver<any>(schema),
         defaultValues,
     });
 
@@ -79,31 +87,38 @@ export default function SaleManagementPayment({
                 await server_axios.patch(endpoints.orders.update(orderId), {
                     status: OrderStatus.failed
                 })
-                enqueueSnackbar("وضعیت سفارش به رد شده تغییر پیدا کرد")
+                // enqueueSnackbar("وضعیت سفارش به رد شده تغییر پیدا کرد")
+                router.push(paths.admin_dashboard.saleManagement.root)
             } else {
-                console.log("update stauts", data)
-                timeReminder.onFalse();
-                await server_axios.patch(endpoints.orders.update(orderId), {
-                    ...data,
-                    status: OrderStatus.accepted
-                })
+                const op = await server_axios.get(endpoints.orderProducts.one(orderId))
+                    .then(({ data }) => data)
+
+                const find = op.find((item: any) => item.properties.find((op: any) => op.status !== IOrderProductPropertyStatus.approve && item.product.order_type === ProductOrderType.custom_made))
+                if (find)
+                    return enqueueSnackbar("ابتدا وضعیت «تایید»‌یا «عدم تایید» تمام سفارش‌ها را مشخص کنید. سپس بر روی دکمه «تایید نهایی» کلیک کنید.")
+
+                invoiceDialog.onTrue();
             }
-            router.push(paths.admin_dashboard.saleManagement.root)
         } catch (error) {
             console.error(error);
         }
     });
 
     const handleFinalApprove = useCallback(async () => {
-        const op = await server_axios.get(endpoints.orderProducts.one(orderId))
-            .then(({ data }) => data)
+        timeReminder.onFalse();
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            ...values,
+            status: OrderStatus.accepted
+        })
+        // const op = await server_axios.get(endpoints.orderProducts.one(orderId))
+        //     .then(({ data }) => data)
 
-        const find = op.find((item: any) => item.properties.find((op: any) => op.status !== IOrderProductPropertyStatus.approve && item.product.order_type === ProductOrderType.custom_made))
-        if (find) 
-            return enqueueSnackbar("ابتدا وضعیت «تایید»‌یا «عدم تایید» تمام سفارش‌ها را مشخص کنید. سپس بر روی دکمه «تایید نهایی» کلیک کنید.")
-        
-        invoiceDialog.onTrue()
-    }, []);
+        // const find = op.find((item: any) => item.properties.find((op: any) => op.status !== IOrderProductPropertyStatus.approve && item.product.order_type === ProductOrderType.custom_made))
+        // if (find)
+        //     return enqueueSnackbar("ابتدا وضعیت «تایید»‌یا «عدم تایید» تمام سفارش‌ها را مشخص کنید. سپس بر روی دکمه «تایید نهایی» کلیک کنید.")
+
+        // invoiceDialog.onTrue()
+    }, [values]);
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
@@ -114,7 +129,7 @@ export default function SaleManagementPayment({
                 title="اطمینان از تایید سفارش"
                 content="آیا از تایید تمام کالاهای این سفارش مطمئن هستید؟"
                 action={
-                    <LoadingButton variant="contained" onClick={() => onSubmit()} sx={{
+                    <LoadingButton variant="contained" onClick={() => handleFinalApprove()} sx={{
                         borderRadius: '50px',
                         px: 4
                     }}>
@@ -129,8 +144,8 @@ export default function SaleManagementPayment({
                 production_date={order.production_date}
                 orderProducts={orderProducts}
                 submitHandler={() => {
-                    timeReminder.onTrue();
                     invoiceDialog.onFalse();
+                    timeReminder.onTrue();
                 }}
             />
 
@@ -160,7 +175,7 @@ export default function SaleManagementPayment({
                     <RHFTitleTextField
                         custom_label="مبلغ پیش‌پرداخت"
                         name="prepayment"
-                        placeholder="قیمت"
+                        placeholder="افزودن محتوا"
                         sx={{
                             '& input': { textAlign: 'center!important' }
                         }}
@@ -190,7 +205,7 @@ export default function SaleManagementPayment({
                             ارسال برای مشتری
                         </LoadingButton>
                     ) : (
-                        <LoadingButton onClick={handleFinalApprove} variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
+                        <LoadingButton type="submit" variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
                             تایید نهایی
                         </LoadingButton>
                     )}
