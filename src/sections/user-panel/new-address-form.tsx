@@ -22,7 +22,7 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { IAddressItem } from "src/types/address";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 
-export default function NewUserForm({ currentAddress, dialog }: { currentAddress?: IAddressItem, dialog: useBooleanReturnType }) {
+export default function NewUserForm({ currentAddress, dialog, onNewAddress }: { currentAddress?: IAddressItem, dialog: useBooleanReturnType, onNewAddress: (data: IAddressItem) => void }) {
 
     const schema = Yup.object().shape({
         address: Yup.string().required('پر کردن این فیلد اجباری‌ست.').typeError('پر کردن این فیلد اجباری‌ست.'),
@@ -58,7 +58,8 @@ export default function NewUserForm({ currentAddress, dialog }: { currentAddress
             if (currentAddress) {
                 await server_axios.patch(endpoints.addresses.update(currentAddress.id), data)
             } else {
-                await server_axios.post(endpoints.addresses.create, data)
+                const res = await server_axios.post(endpoints.addresses.create, data).then(({data}) => data)
+                onNewAddress(res)
             }
             dialog.onFalse()
         } catch (error) {

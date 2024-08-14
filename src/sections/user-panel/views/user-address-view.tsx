@@ -30,6 +30,12 @@ export default function UserAddressView() {
         setData(data.filter((add) => add.id !== id))
     }, [data])
 
+    const handleAddAddress = useCallback(async (address: IAddressItem) => {
+        let newData = [...data];
+        newData.push(address)
+        setData(newData)
+    }, [data])
+
     return (
         <Box sx={{
             border: (theme) => `1px solid #A9A9A9`,
@@ -42,6 +48,7 @@ export default function UserAddressView() {
                     <NewUserForm
                         currentAddress={address}
                         dialog={dialog}
+                        onNewAddress={(add) => handleAddAddress(add)}
                     />
                 </Box>
             </DialogWithButton>

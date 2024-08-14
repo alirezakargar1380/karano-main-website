@@ -11,7 +11,11 @@ type Props = {
     onDeleteRow: () => void
 }
 
-export default function AddressItem({ row, onEditRow, onDeleteRow }: Props) {
+export default function AddressItem({
+    row,
+    onEditRow,
+    onDeleteRow
+}: Props) {
     const confirm = useBoolean();
     const popover = usePopover();
 
