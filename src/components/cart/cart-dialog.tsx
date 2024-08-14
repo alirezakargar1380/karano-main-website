@@ -122,7 +122,10 @@ export default function CartDialog({
                 if (handleUpdateRow) list[id].status = IOrderProductPropertyStatus.edited;
                 setList([...list]);
 
-                if (handleUpdateRow) server_axios.patch(endpoints.orderProductProperties.update(list[id].id), list[id])
+                if (handleUpdateRow) await server_axios.patch(endpoints.orderProductProperties.update(list[id].id), {
+                    ...list[id],
+                    is_approved: null
+                })
                     .then(({ data }) => {
                         console.log(data)
                     })
