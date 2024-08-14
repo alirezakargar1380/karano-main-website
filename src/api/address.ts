@@ -15,7 +15,7 @@ export function useGetAddresses() {
         addressesLoading: isLoading,
         addressesEmpty: !isLoading && !data.length,
       }),
-      [data?.products, error, isLoading, isValidating]
+      [data, error, isLoading, isValidating]
     );
   
     return memoizedValue;

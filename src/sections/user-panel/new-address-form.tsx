@@ -20,8 +20,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IAddressItem } from "src/types/address";
+import { useBooleanReturnType } from "src/hooks/use-boolean";
 
-export default function NewUserForm({ currentAddress }: { currentAddress?: IAddressItem }) {
+export default function NewUserForm({ currentAddress, dialog }: { currentAddress?: IAddressItem, dialog: useBooleanReturnType }) {
 
     const schema = Yup.object().shape({
         address: Yup.string().required('پر کردن این فیلد اجباری‌ست.').typeError('پر کردن این فیلد اجباری‌ست.'),
@@ -54,7 +55,12 @@ export default function NewUserForm({ currentAddress }: { currentAddress?: IAddr
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            await server_axios.post(endpoints.addresses.create, data)
+            if (currentAddress) {
+                await server_axios.patch(endpoints.addresses.update(currentAddress.id), data)
+            } else {
+                await server_axios.post(endpoints.addresses.create, data)
+            }
+            dialog.onFalse()
         } catch (error) {
             console.error(error);
         }
@@ -86,7 +92,7 @@ export default function NewUserForm({ currentAddress }: { currentAddress?: IAddr
                     </Stack>
                 </Box>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }}>انصراف</StyledRoundedWhiteButton>
+                    <StyledRoundedWhiteButton variant='outlined' onClick={dialog.onFalse} sx={{ px: 2 }}>انصراف</StyledRoundedWhiteButton>
                     <LoadingButton
                         variant='contained'
                         sx={{ borderRadius: '24px', px: 3 }}
