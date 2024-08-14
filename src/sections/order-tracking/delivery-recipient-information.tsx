@@ -116,31 +116,6 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                                         setValue('reciver_phone', e.target.value)
                                     }
                                 }}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <Select
-                                                value="IR"
-                                                variant='outlined'
-                                                sx={{
-                                                    borderTopLeftRadius: '0px',
-                                                    borderBottomLeftRadius: '0px',
-                                                    '& .MuiSelect-select': {
-                                                        padding: "8px 35px 8px 14px!important",
-                                                        border: 'none!important'
-                                                    }
-                                                }}
-                                            >
-                                                {countries.map((country) => (
-                                                    <MenuItem key={country.code} value={country.code}>
-                                                        {/* <Iconify icon={`${country.code.toLowerCase()}`} /> */}
-                                                        <Iconify icon={`flagpack:${country.code.toLowerCase()}`} sx={{ mt: 1 }} />
-                                                    </MenuItem>
-                                                ))}
-                                            </Select>
-                                        </InputAdornment>
-                                    )
-                                }}
                             />
                         </Stack>
                     </Box>

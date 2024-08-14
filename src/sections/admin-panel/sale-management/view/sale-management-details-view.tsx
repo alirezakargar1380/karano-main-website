@@ -45,7 +45,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
 
         console.log("i was call")
 
-        const find = op.find((item: any) => item.properties.find((op: any) => op.status === IOrderProductPropertyStatus.denied))
+        const find = op.find((item: any) => item.properties.find((op: any) => op.status === IOrderProductPropertyStatus.denied && item.product.order_type === ProductOrderType.custom_made))
         if (find)
             setSendToUser(true)
         else
