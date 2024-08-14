@@ -1,12 +1,25 @@
 import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { useGetAddresses } from "src/api/address";
+import { DialogWithButton } from "src/components/custom-dialog";
 import Image from "src/components/image";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import SvgColor from "src/components/svg-color";
+import { useBoolean } from "src/hooks/use-boolean";
+import NewUserForm from "../new-address-form";
+import AddressItem from "../address-item";
+import { useCallback, useState } from "react";
+import { IAddressItem } from "src/types/address";
 
 export default function UserAddressView() {
+    const [address, setAddress] = useState<IAddressItem>()
+    const dialog = useBoolean();
 
     const { addresses, addressesEmpty } = useGetAddresses();
+
+    const handleEditRow = useCallback((id: number) => {
+        setAddress(addresses.find((add) => add.id === id))
+        dialog.onTrue()
+    }, [addresses])
 
     return (
         <Box sx={{
@@ -14,15 +27,25 @@ export default function UserAddressView() {
             borderRadius: '16px',
             mb: 10
         }}>
+
+            <DialogWithButton fullWith={false} dialog={dialog} width={960}>
+                <Box p={2}>
+                    <NewUserForm
+                        currentAddress={address}
+                    />
+                </Box>
+            </DialogWithButton>
+
             <Stack direction="row" justifyContent="space-between" spacing={1} sx={{
                 mx: 2,
                 my: 2,
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`
             }}>
-                <Typography variant="subtitle1" sx={{ fontFamily: 'peyda-bold' }}>
+                <Typography variant="subtitle1" sx={{ fontFamily: 'peyda-bold', pt: 1 }}>
                     آدرس های ثبت شده
                 </Typography>
-                <StyledRoundedWhiteButton variant="outlined" sx={{ mb: 1, color: 'blue' }}>
+                <StyledRoundedWhiteButton onClick={dialog.onTrue} variant="outlined" sx={{ mb: 2, color: '#0B7BA7', borderColor: "#0B7BA7!important" }}>
+                    <SvgColor src="/assets/icons/user-panel/plus.svg" sx={{ mr: 0.75, width: 20 }} />
                     آدرس جدید
                 </StyledRoundedWhiteButton>
             </Stack>
@@ -32,34 +55,12 @@ export default function UserAddressView() {
                 </Box>
                 : null}
             { }
-            <Box p={2}>
+            <Box px={2}>
                 {addresses.map((address, index) => (
-                    <Stack justifyContent={'space-between'} py={2} alignItems={'start'} direction={'row'} key={index} borderBottom={(index !== addresses.length-1) ? (theme) => `1px solid ${theme.palette.divider}` : ''}>
-                        <Stack spacing={1.5}>
-                            <Stack direction={'row'} spacing={1}>
-                                <Typography color={'text.secondary'}>آدرس پستی:</Typography>
-                                <Typography>{address.address}</Typography>
-                            </Stack>
-                            <Stack direction={'row'} spacing={1}>
-                                <Typography color={'text.secondary'}>استان:</Typography>
-                                <Typography>{address.provice}</Typography>
-                            </Stack>
-                            <Stack direction={'row'} spacing={1}>
-                                <Typography color={'text.secondary'}>شهر:</Typography>
-                                <Typography>{address.city}</Typography>
-                            </Stack>
-                            <Stack direction={'row'} spacing={1}>
-                                <Typography color={'text.secondary'}>کد پستی:</Typography>
-                                <Typography>7899</Typography>
-                            </Stack>
-                        </Stack>
-                        <IconButton
-                            // onClick={popover.onOpen} 
-                            sx={{ p: 0 }}
-                        >
-                            <SvgColor src="/assets/icons/cart/more-option.svg" />
-                        </IconButton>
-                    </Stack>
+                    <AddressItem
+                        row={address}
+                        onEditRow={() => handleEditRow(address.id)}
+                    />
                 ))}
             </Box>
         </Box>
