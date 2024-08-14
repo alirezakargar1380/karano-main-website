@@ -54,9 +54,9 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
             console.info('addresses', addresses);
             await server_axios.patch(endpoints.orders.update(orderId), data)
             // await server_axios.post(endpoints.addresses.create, data)
-            enqueueSnackbar(`آدرس: ${addresses.find((add) => add.id == data.address.id)?.address} انتخاب شد`, {
-                variant: 'info'
-            })
+            // enqueueSnackbar(`آدرس: ${addresses.find((add) => add.id == data.address.id)?.address} انتخاب شد`, {
+            //     variant: 'info'
+            // })
         } catch (error) {
             console.error(error);
         }
