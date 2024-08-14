@@ -59,7 +59,7 @@ export default function CompleteOrderView({
 
     const handle = async () => {
         await server_axios.patch(endpoints.orders.update(orderId), {
-            status: (hasCustomMade) ? OrderStatus.production : (order.production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
+            status: (hasCustomMade) ? OrderStatus.production : OrderStatus.preparing
         })
         finalOrderDialog.onFalse();
         // submitHandler(need_prepayment)
