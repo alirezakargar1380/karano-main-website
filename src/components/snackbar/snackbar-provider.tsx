@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
-import { closeSnackbar, SnackbarProvider as NotistackProvider } from 'notistack';
+import { useEffect, useRef, useState } from 'react';
+import { closeSnackbar, CustomContentProps, SnackbarProvider as NotistackProvider, SnackbarContent } from 'notistack';
 
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -10,9 +10,29 @@ import Iconify from '../iconify';
 import { useSettingsContext } from '../settings';
 import { StyledIcon, StyledNotistack } from './styles';
 import SvgColor from '../svg-color';
-import { Box } from '@mui/material';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
+
+declare module 'notistack' {
+  interface VariantOverrides {
+    // removes the `warning` variant
+    // warning: false;     
+    // adds `myCustomVariant` variant      
+    myCustomVariant: {
+      onClick: () => void;
+    };
+    // // adds `reportComplete` variant and specifies the
+    // // "extra" props it takes in options of `enqueueSnackbar`
+    // reportComplete: {         
+    //   allowDownload: boolean  
+    // }
+  }
+}
+
+interface myCustomVariantProps extends CustomContentProps {
+  allowDownload: boolean
+}
 
 type Props = {
   children: React.ReactNode;
@@ -55,6 +75,9 @@ export default function SnackbarProvider({ children }: Props) {
             <SvgColor src="/assets/icons/notification/alert-circle.svg" />
           </StyledIcon>
         ),
+        myCustomVariant: (
+          <></>
+        ),
       }}
       Components={{
         default: StyledNotistack,
@@ -62,6 +85,92 @@ export default function SnackbarProvider({ children }: Props) {
         success: StyledNotistack,
         warning: StyledNotistack,
         error: StyledNotistack,
+        myCustomVariant: (props: myCustomVariantProps | any) => {
+          const [count, setCount] = useState(10);
+          useEffect(() => {
+            const interval = setInterval(() => {
+              setCount((prevCount) => {
+                if (prevCount > 0) {
+                  return prevCount - 1;
+                }
+                closeSnackbar(props.id)
+                clearInterval(interval);
+                return prevCount;
+              });
+            }, 1000);
+
+            return () => clearInterval(interval);
+          }, []);
+          return (
+            <SnackbarContent>
+              <Box sx={{
+                bgcolor: '#2B2B2B',
+                display: 'flex',
+                color: 'white',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderRadius: '16px',
+                width: 1,
+                py: 2,
+                px: 2,
+                gap: 2
+              }}>
+                <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                  <CircularProgress variant="determinate" value={count * 10} size={"lg"} sx={{ color: "#D1D1D1", width: 24 }} />
+                  <Box
+                    sx={{
+                      top: 0,
+                      left: 0,
+                      bottom: 0,
+                      right: 0,
+                      position: 'absolute',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      component="div"
+                      mt={0.5}
+                      color="#F8F8F8"
+                      fontSize={12}
+                    >
+                      {count}
+                    </Typography>
+                  </Box>
+                </Box>
+                {/* <CircularProgress variant="determinate" value={count*10} /> */}
+                {/* <Box>{count}</Box> */}
+                {/* <IconButton
+                
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                }}
+              >
+                <Iconify icon="eva:close-fill" />
+              </IconButton> */}
+                <Typography fontSize={14} mr={2}>{props.message}</Typography>
+
+                <Button
+                  variant='outlined'
+                  sx={{
+                    borderRadius: '24px',
+                    borderColor: '#F8F8F8',
+                  }}
+                  onClick={() => {
+                    // closeSnackbar(props.id)
+                    props.onClick()
+                  }}
+                >
+                  خنثی کردن
+                </Button>
+              </Box>
+            </SnackbarContent>
+          )
+        }
       }}
       // with close as default
       action={(snackbarId) => (

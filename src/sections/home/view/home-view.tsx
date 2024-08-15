@@ -61,10 +61,14 @@ export default function HomeView() {
   }, [getScroll]);
 
   useEffect(() => {
-    // enqueueSnackbar('این یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست ا یک پیام تست م تست است', {
-    //   autoHideDuration: 60000 * 1000,
-    //   variant: 'error'
-    // })
+    enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
+      autoHideDuration: 10 * 1000,
+      variant: 'myCustomVariant',
+      onClick: () => {
+        console.log('clicked');
+      },
+      hideIconVariant: true,
+    })
   }, [])
 
   return (
