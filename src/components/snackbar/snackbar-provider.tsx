@@ -20,8 +20,15 @@ declare module 'notistack' {
     // warning: false;     
     // adds `myCustomVariant` variant      
     myCustomVariant: {
-      onClick: () => void;
-    };
+      onClick: () => void
+      showButton?: boolean
+      showTimer?: boolean
+    }
+    multiline: {
+      onClick: () => void
+      showButton?: boolean
+      showTimer?: boolean
+    }
     // // adds `reportComplete` variant and specifies the
     // // "extra" props it takes in options of `enqueueSnackbar`
     // reportComplete: {         
@@ -49,7 +56,7 @@ export default function SnackbarProvider({ children }: Props) {
     <NotistackProvider
       ref={notistackRef}
       maxSnack={5}
-      preventDuplicate
+      // preventDuplicate
       autoHideDuration={3000}
       TransitionComponent={isRTL ? Collapse : undefined}
       variant="success" // Set default variant
@@ -78,6 +85,9 @@ export default function SnackbarProvider({ children }: Props) {
         myCustomVariant: (
           <></>
         ),
+        multiline: (
+          <></>
+        ),
       }}
       Components={{
         default: StyledNotistack,
@@ -85,6 +95,109 @@ export default function SnackbarProvider({ children }: Props) {
         success: StyledNotistack,
         warning: StyledNotistack,
         error: StyledNotistack,
+        multiline: (props: myCustomVariantProps | any) => {
+          const [count, setCount] = useState(10);
+          useEffect(() => {
+            const interval = setInterval(() => {
+              setCount((prevCount) => {
+                if (prevCount > 0) {
+                  return prevCount - 1;
+                }
+                // closeSnackbar(props.id)
+                clearInterval(interval);
+                return prevCount;
+              });
+            }, 1000);
+
+            return () => clearInterval(interval);
+          }, []);
+
+          return (
+            <SnackbarContent>
+              <Box
+                sx={{
+                  bgcolor: '#2B2B2B',
+                  color: 'white',
+                  borderRadius: '16px',
+                  mt: '64px',
+                  display: 'flex',
+                  // alignItems: 'center',
+                }}
+              >
+                <Box sx={{
+                  py: 2,
+                  px: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  // justifyContent: 'space-around',
+                  maxWidth: '800px',
+                }}>
+                  {(props.showTimer) ? (
+                    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                      <CircularProgress variant="determinate" value={count * 10} size={"lg"} sx={{ color: "#D1D1D1", width: 24 }} />
+                      <Box
+                        sx={{
+                          top: 0,
+                          left: 0,
+                          bottom: 0,
+                          right: 0,
+                          position: 'absolute',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Typography
+                          variant="body1"
+                          component="div"
+                          mt={0.5}
+                          color="#F8F8F8"
+                          fontSize={12}
+                        >
+                          {count}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box>
+                      <SvgColor src="/assets/icons/notification/info-circle.svg" sx={{ width: 24, height: 24 }} />
+                    </Box>
+                  )}
+
+                  <Box sx={{ maxWidth: 574, ml: '16px' }}>
+                    <Typography fontSize={14} mr={'16px'}>{props.message}</Typography>
+                  </Box>
+
+                  {(props.showButton) && (
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        borderRadius: '8px',
+                        borderColor: '#F8F8F8',
+                        textWrap: 'nowrap',
+                        px: 2
+                      }}
+                      onClick={() => {
+                        // closeSnackbar(props.id)
+                        props.onClick()
+                      }}
+                    >
+                      متن دکمه
+                    </Button>
+                  )}
+                </Box>
+
+                {(!props.showTimer) && (
+                  <Box borderLeft={'1px solid #fff'} sx={{ display: 'flex', px: 2 }}>
+                    <IconButton size="small" onClick={() => closeSnackbar(props.id)} sx={{ p: 0.5 }}>
+                      <Iconify width={16} icon="mingcute:close-line" color={'#fff'} />
+                    </IconButton>
+                  </Box>
+                )}
+              </Box>
+            </SnackbarContent>
+          )
+        },
         myCustomVariant: (props: myCustomVariantProps | any) => {
           const [count, setCount] = useState(10);
           useEffect(() => {
@@ -93,7 +206,7 @@ export default function SnackbarProvider({ children }: Props) {
                 if (prevCount > 0) {
                   return prevCount - 1;
                 }
-                closeSnackbar(props.id)
+                closeSnackbar(props.id);
                 clearInterval(interval);
                 return prevCount;
               });
@@ -101,72 +214,80 @@ export default function SnackbarProvider({ children }: Props) {
 
             return () => clearInterval(interval);
           }, []);
+
           return (
             <SnackbarContent>
               <Box sx={{
                 bgcolor: '#2B2B2B',
                 display: 'flex',
                 color: 'white',
-                alignItems: 'center',
-                justifyContent: 'space-between',
                 borderRadius: '16px',
                 width: 1,
-                py: 2,
-                px: 2,
-                gap: 2
+                mt: '64px'
               }}>
-                <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                  <CircularProgress variant="determinate" value={count * 10} size={"lg"} sx={{ color: "#D1D1D1", width: 24 }} />
-                  <Box
-                    sx={{
-                      top: 0,
-                      left: 0,
-                      bottom: 0,
-                      right: 0,
-                      position: 'absolute',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Typography
-                      variant="body1"
-                      component="div"
-                      mt={0.5}
-                      color="#F8F8F8"
-                      fontSize={12}
-                    >
-                      {count}
-                    </Typography>
-                  </Box>
-                </Box>
-                {/* <CircularProgress variant="determinate" value={count*10} /> */}
-                {/* <Box>{count}</Box> */}
-                {/* <IconButton
-                
-                sx={{
-                  position: 'absolute',
-                  top: 0,
-                  right: 0,
-                }}
-              >
-                <Iconify icon="eva:close-fill" />
-              </IconButton> */}
-                <Typography fontSize={14} mr={2}>{props.message}</Typography>
+                <Box sx={{
+                  py: 2,
+                  px: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2
+                }}>
+                  {(props.showTimer) ? (
+                    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                      <CircularProgress variant="determinate" value={count * 10} size={"lg"} sx={{ color: "#D1D1D1", width: 24 }} />
+                      <Box
+                        sx={{
+                          top: 0,
+                          left: 0,
+                          bottom: 0,
+                          right: 0,
+                          position: 'absolute',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Typography
+                          variant="body1"
+                          component="div"
+                          mt={0.5}
+                          color="#F8F8F8"
+                          fontSize={12}
+                        >
+                          {count}
+                        </Typography>
+                      </Box>
+                    </Box>
+                  ) : (
+                    <SvgColor src="/assets/icons/notification/info-circle.svg" />
+                  )}
 
-                <Button
-                  variant='outlined'
-                  sx={{
-                    borderRadius: '24px',
-                    borderColor: '#F8F8F8',
-                  }}
-                  onClick={() => {
-                    // closeSnackbar(props.id)
-                    props.onClick()
-                  }}
-                >
-                  خنثی کردن
-                </Button>
+                  <Typography fontSize={14} mr={'16px'}>{props.message}</Typography>
+
+                  {(props.showButton) && (
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        borderRadius: '24px',
+                        borderColor: '#F8F8F8',
+                      }}
+                      onClick={() => {
+                        // closeSnackbar(props.id)
+                        props.onClick()
+                      }}
+                    >
+                      خنثی کردن
+                    </Button>
+                  )}
+                </Box>
+
+                {(!props.showTimer) && (
+                  <Box borderLeft={'1px solid #fff'} sx={{ display: 'flex', px: 2 }}>
+                    <IconButton size="small" onClick={() => closeSnackbar(props.id)} sx={{ p: 0.5 }}>
+                      <Iconify width={16} icon="mingcute:close-line" color={'#fff'} />
+                    </IconButton>
+                  </Box>
+                )}
               </Box>
             </SnackbarContent>
           )
