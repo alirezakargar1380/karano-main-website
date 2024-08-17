@@ -159,7 +159,7 @@ export default function SnackbarProvider({ children }: Props) {
                       </Box>
                     </Box>
                   ) : (
-                    <Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <SvgColor src="/assets/icons/notification/info-circle.svg" sx={{ width: 24, height: 24 }} />
                     </Box>
                   )}
@@ -259,7 +259,9 @@ export default function SnackbarProvider({ children }: Props) {
                       </Box>
                     </Box>
                   ) : (
-                    <SvgColor src="/assets/icons/notification/info-circle.svg" />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <SvgColor src="/assets/icons/notification/info-circle.svg" />
+                    </Box>
                   )}
 
                   <Typography fontSize={14} mr={'16px'}>{props.message}</Typography>
