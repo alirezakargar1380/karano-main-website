@@ -60,7 +60,7 @@ export default function AuthClassicLayout({ children, image, title, maxWidth = 4
   const mdUp = useResponsive('up', 'md');
 
   const renderLogo = (
-    <Box sx={{ width: 1, borderBottom: '1px solid #D1D1D1', position: 'absolute' }}>
+    <Box sx={{ width: 1, borderBottom: '1px solid #D1D1D1', bgcolor: '#fff' }}>
       <Container maxWidth="xl" sx={{ px: 0 }}>
         <Logo
           sx={{
