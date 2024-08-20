@@ -60,58 +60,7 @@ export default function HomeView() {
     getScroll();
   }, [getScroll]);
 
-  useEffect(() => {
-    enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
-      autoHideDuration: 10 * 1000,
-      // autoHideDuration: 5999 * 1000,
-      variant: 'myCustomVariant',
-      onClick: () => {
-        console.log('clicked');
-      },
-      showButton: false,
-      hideIconVariant: true,
-    })
-    enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
-      autoHideDuration: 10 * 1000,
-      // autoHideDuration: 5999 * 1000,
-      variant: 'myCustomVariant',
-      onClick: () => {
-        console.log('clicked');
-      },
-      showButton: false,
-      showTimer: true,
-      hideIconVariant: true,
-    })
-    enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
-      autoHideDuration: 10 * 1000,
-      variant: 'myCustomVariant',
-      onClick: () => {
-        console.log('clicked');
-      },
-      showButton: true,
-      showTimer: true,
-      hideIconVariant: true,
-    })
-    enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
-      autoHideDuration: 10 * 1000,
-      variant: 'myCustomVariant',
-      onClick: () => {
-        console.log('clicked');
-      },
-      showButton: true,
-      showTimer: false,
-      hideIconVariant: true,
-    })
-    enqueueSnackbar('متن اسنک بار تایپ چند خطی که  برای  توضیحات طولانی تر که در حداکثر عرض 800 پیکسل و حداکثر در 2 خط ایجاد میشود.', {
-      autoHideDuration: 10 * 1000,
-      variant: 'multiline',
-      onClick: () => {
-        console.log('clicked');
-      },
-      showButton: true,
-      showTimer: false,
-    })
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <>
