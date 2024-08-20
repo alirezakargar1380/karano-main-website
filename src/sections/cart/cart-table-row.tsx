@@ -10,7 +10,7 @@ import { ConfirmDialog, DialogWithButton } from 'src/components/custom-dialog';
 
 import { ICartItem } from 'src/types/cart';
 import SvgColor from '../../components/svg-color';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Tooltip, Typography } from '@mui/material';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { LoadingButton } from '@mui/lab';
 
@@ -131,14 +131,18 @@ export default function CartTableRow({
         <TableCell align="right">
           <Stack direction={'row'}>
             {(onEditRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
-              <IconButton color={'default'} onClick={onEditRow} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
-                <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
-              </IconButton>
+              <Tooltip title="اصلاح کالا" arrow>
+                <IconButton color={'default'} onClick={onEditRow} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
+                  <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
+                </IconButton>
+              </Tooltip>
             )}
             {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
-              <IconButton color={'default'} onClick={confirm.onTrue} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
-                <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
-              </IconButton>
+              <Tooltip title="حذف کالا" arrow>
+                <IconButton color={'default'} onClick={confirm.onTrue} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
+                  <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
+                </IconButton>
+              </Tooltip>
             )}
           </Stack>
         </TableCell>
@@ -178,7 +182,7 @@ export default function CartTableRow({
           </Box>
         </Box>
       </DialogWithButton>
-      
+
     </>
   );
 }
