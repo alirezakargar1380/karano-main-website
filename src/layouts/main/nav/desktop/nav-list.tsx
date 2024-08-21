@@ -58,6 +58,7 @@ export default function NavList({ data }: NavListProps) {
         externalLink={data.path.includes('http')}
         //
         active={active}
+        badge={data.badge}
       />
 
       {/* {!!data.children && openMenu && (

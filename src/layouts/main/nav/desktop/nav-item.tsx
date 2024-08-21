@@ -1,5 +1,5 @@
-import { m } from 'framer-motion';
-import { forwardRef } from 'react';
+import { color, m } from 'framer-motion';
+import { forwardRef, use, useEffect, useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
@@ -12,15 +12,31 @@ import { RouterLink } from 'src/routes/components';
 import Iconify from 'src/components/iconify';
 
 import { NavItemProps, NavItemStateProps } from '../types';
+import { Badge, Typography } from '@mui/material';
+import { OrderTrackingPopover } from 'src/components/custom-popover';
+import { usePopover } from 'src/components/custom-popover';
+import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 
 // ----------------------------------------------------------------------
 
 export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
-  ({ title, path, open, active, hasChild, externalLink, subItem, ...other }, ref) => {
+  ({ title, path, open, badge, active, hasChild, externalLink, subItem, ...other }, ref) => {
+    const customizedPopover = usePopover();
+    const refPop = useRef(null);
+    const [show, setShow] = useState(false);
+
+    useEffect(() => {
+      if (badge && refPop) {
+        customizedPopover.onOpen({ currentTarget: refPop.current } as any);
+        // setShow(true);
+      }
+    }, []);
+
+
     const renderContent = (
       <Box sx={{
         // height: '100%'
-        my: 'auto'
+        my: 'auto',
       }}>
         <StyledNavItem
           disableRipple
@@ -31,17 +47,83 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           subItem={subItem}
           {...other}
         >
-          {title}
-
+          <Box ref={refPop}>
+            {badge ? (
+              <Badge
+                sx={{
+                  "& .MuiBadge-badge": {
+                    color: "lightgreen",
+                    backgroundColor: "#D12215",
+                    mr: 2
+                  }
+                }}
+                variant='dot'
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+              >
+                {title}
+              </Badge>
+            ) : (<>{title}</>)}
+            <OrderTrackingPopover
+              open={customizedPopover.open}
+              onClose={() => {
+                customizedPopover.onClose();
+                setShow(true);
+              }}
+              arrow={'top-left'}
+              // anchorOrigin={{
+              //   horizontal: 'left',
+              //   vertical: 'bottom',
+              // }}
+              transformOrigin={{
+                horizontal: 'center',
+                vertical: 'top',
+              }}
+              sx={{
+                mt: 5,
+                width: '304px'
+              }}
+            >
+              <Box sx={{ p: 2, width: 1 }}>
+                <Typography fontFamily={'peyda-bold'} fontSize={16} borderBottom={'1px solid #f8f8f8'} pb={'16px'}>
+                  سفارش رد شده
+                </Typography>
+                <Typography fontFamily={'peyda-regular'} mt={'16px'} fontSize={12}>
+                  {`سفارش شما با کد {۱۲۳۴۵۶}  توسط مدیر فروش ردشده است. می‌توانید از طریق منوی «پیگیری سفارش»، وضعیت سفارش‌ ردشده خود را پیگیری کنید.`}
+                </Typography>
+                <Box textAlign={'right'}>
+                  <StyledRoundedWhiteButton variant='contained'
+                    sx={{
+                      color: "#000", mt: 2,
+                      "&:hover": {
+                        bgcolor: "#D1D1D1"
+                      }
+                    }}
+                    onClick={customizedPopover.onClose}
+                  >
+                    متوجه شدم
+                  </StyledRoundedWhiteButton>
+                </Box>
+              </Box>
+            </OrderTrackingPopover>
+          </Box>
           {hasChild && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
         </StyledNavItem>
       </Box>
     );
 
     return (
-      <Link component={RouterLink} href={path} color="inherit" underline="none" sx={{ height: 'fit-content', my: 'auto'}}>
-        {renderContent}
-      </Link>
+      <>
+        {(badge && show === false) ? (
+          <>{renderContent}</>
+        ) : (
+          <Link component={RouterLink} href={path} color="inherit" underline="none" sx={{ height: 'fit-content', my: 'auto' }}>
+            {renderContent}
+          </Link>
+        )}
+      </>
     );
   }
 );

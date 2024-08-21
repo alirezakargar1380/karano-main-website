@@ -6,7 +6,7 @@ export function getPosition(arrow: string) {
   switch (arrow) {
     case 'top-left':
       props = {
-        style: { ml: -0.75 },
+        style: { ml: -0.75, mr: -10 },
         anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
         transformOrigin: { vertical: 'top', horizontal: 'left' },
       };
