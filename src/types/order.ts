@@ -73,8 +73,8 @@ export enum OrderStatus {
 
 export enum IOrderDeliveryType {
   tehran = 'tehran',
-  factory = 'factory', 
-  city = 'city' 
+  factory = 'factory',
+  city = 'city'
 }
 
 export type IOrderItem = {
@@ -103,4 +103,10 @@ export type IOrderItem = {
   order_number: string;
   production_date: string;
   createdAt: string;
+};
+
+
+export type OrderContextProps = {
+  show: boolean;
+  onToggleShow: VoidFunction;
 };

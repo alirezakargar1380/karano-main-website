@@ -16,6 +16,8 @@ import { SettingsDrawer, SettingsProvider } from 'src/components/settings';
 import { CheckoutProvider } from 'src/sections/checkout/context';
 
 import { AuthProvider } from 'src/auth/context/jwt';
+import { OrderContext } from 'src/sections/order/context/order-context';
+import { OrderProvider } from 'src/sections/order/context/order-provider';
 
 // ----------------------------------------------------------------------
 
@@ -67,9 +69,11 @@ export default function RootLayout({ children }: Props) {
                 <MotionLazy>
                   <SnackbarProvider>
                     <CheckoutProvider>
-                      <SettingsDrawer />
-                      <ProgressBar />
-                      {children}
+                      <OrderProvider>
+                        <SettingsDrawer />
+                        <ProgressBar />
+                        {children}
+                      </OrderProvider>
                     </CheckoutProvider>
                   </SnackbarProvider>
                 </MotionLazy>

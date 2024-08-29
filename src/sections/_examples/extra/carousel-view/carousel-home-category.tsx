@@ -55,7 +55,6 @@ export default function CarouselHomeCategory() {
   const selectedCategoryId = searchParams.get('category') || '';
 
   useEffect(() => {
-    console.log("i called")
     if (!selectedCategoryId && !categoryLoading) {
       router.replace("?category=" + categories[0]?.id?.toString());
     } else if (!categoryLoading) {

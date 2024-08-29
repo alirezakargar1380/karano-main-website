@@ -9,7 +9,7 @@ export function useShowOneTime(section_name: string) {
             show: state[section_name] == 1 ? true : false,
             toggle: () => update(section_name, state[section_name] == "1" ? "0" : "1")
         }),
-        [state[section_name], update]
+        [state[section_name], update, state]
     );
 
     return memoizedValue;
