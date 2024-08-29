@@ -23,6 +23,7 @@ declare module 'notistack' {
       onClick?: () => void
       showButton?: boolean
       showTimer?: boolean
+      color: 'error' | 'info'
     }
     multiline: {
       onClick?: () => void
@@ -102,7 +103,6 @@ export default function SnackbarProvider({ children }: Props) {
         warning: StyledNotistack,
         error: StyledNotistack,
         multiline: (props: myCustomVariantProps | any) => {
-          console.log(props)
           const [count, setCount] = useState(10);
           useEffect(() => {
             const interval = setInterval(() => {
