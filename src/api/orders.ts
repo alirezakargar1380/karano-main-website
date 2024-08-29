@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { fetcher, endpoints } from 'src/utils/axios';
 
 import { IOrderItem, IRejectedOrderReport } from 'src/types/order';
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -124,7 +125,9 @@ export function useGetStorageOrders() {
 }
 
 export function useGetRejectedOrdersReport() {
-  const URL = endpoints.orders.report.rejected;
+  const { authenticated } = useAuthContext();
+
+  const URL = authenticated ? endpoints.orders.report.rejected : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
@@ -136,7 +139,7 @@ export function useGetRejectedOrdersReport() {
       //  productsValidating: isValidating,
       // ordersEmpty: !isLoading && !data.length,
     }),
-    [data, error, isLoading, isValidating]
+    [data?.order_number, error, isLoading, isValidating]
   );
 
   return memoizedValue;

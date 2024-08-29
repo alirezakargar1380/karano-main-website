@@ -37,11 +37,11 @@ import { paths } from 'src/routes/paths';
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
-  const { rejection_text, onShowPopover, onHideDialog } = useOrderContext();
+  const { show, rejection_text, onShowPopover, onHideDialog } = useOrderContext();
 
   const router = useRouter();
 
-  const confirm = useBoolean(true);
+  const confirm = useBoolean();
 
   const mdUp = useResponsive('up', 'md');
 
@@ -66,6 +66,10 @@ export default function HomeView() {
       setPercent(Math.floor(scrollPercent));
     });
   }, [scrollY]);
+
+  useEffect(() => {
+    if (show) confirm.onTrue();
+  }, [show])
 
   useEffect(() => {
     getScroll();

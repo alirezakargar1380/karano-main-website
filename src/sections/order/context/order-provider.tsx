@@ -28,15 +28,21 @@ export function OrderProvider({ children }: Props) {
     const { report } = useGetRejectedOrdersReport();
 
     useEffect(() => {
-        console.log(report)
+        if (report.count === 0) {
+            update("show", false);
+            return
+        }
         update("show", true);
         update("showPopover", false);
+    }, [report])
+
+    useEffect(() => {
         if (report.order_number) {
             update('rejection_text', `سفارش شما با کد ${report.order_number}  توسط مدیر فروش ردشده است. می‌توانید از طریق منوی «پیگیری سفارش»، وضعیت سفارش‌ ردشده خود را پیگیری کنید.`)
-        } else {
+        } else if (report.count > 0) {
             update('rejection_text', "تعدادی از سفارش‌های شما توسط مدیر فروش رد شده‌اند. می‌توانید از طریق منوی «پیگیری سفارش» وضعیت سفارش رد شده خود را پیگیری کنید.")
         }
-    }, [report])
+    }, [report.order_number])
 
     const onToggleShow = useCallback(() => {
         // toggle()
@@ -68,6 +74,7 @@ export function OrderProvider({ children }: Props) {
         }),
         [
             state,
+            report.order_number,
             onToggleShow,
             onShowPopover,
             onHideDialog,
