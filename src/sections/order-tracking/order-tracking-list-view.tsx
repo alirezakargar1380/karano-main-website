@@ -122,14 +122,12 @@ export default function OrderTrackingListView() {
                 </Box>
             </DialogWithButton>
 
-            <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
-                <CompleteOrderView
-                    orderId={orderId}
-                    finalOrderDialog={finalOrderDialog}
-                    hasCustomMade={hasCustomMade}
-                    handleAfterLastSection={(n) => handleConfirmSubmitDialog(n)}
-                />
-            </DialogWithButton>
+            <CompleteOrderView
+                orderId={orderId}
+                finalOrderDialog={finalOrderDialog}
+                hasCustomMade={hasCustomMade}
+                handleAfterLastSection={(n) => handleConfirmSubmitDialog(n)}
+            />
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>
                 <Box p={2}>

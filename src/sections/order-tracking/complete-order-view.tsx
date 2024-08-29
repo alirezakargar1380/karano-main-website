@@ -1,4 +1,4 @@
-import { Box, Container, DialogActions, DialogContent, Stack, Typography } from "@mui/material";
+import { Box, Container, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 import { borderRadius } from "@mui/system";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -20,6 +20,7 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { LoadingButton } from "@mui/lab";
 import { endpoints, server_axios } from "src/utils/axios";
 import { OrderStatus } from "src/types/order";
+import { DialogWithButton } from "src/components/custom-dialog";
 
 interface Props {
     orderId: number
@@ -41,7 +42,7 @@ export default function CompleteOrderView({
 }: Props) {
     const checkout = useCheckoutContext();
 
-    const { orderProducts } = useGetOrderProducts(orderId);
+    // const { orderProducts } = useGetOrderProducts(orderId);
     const { order } = useGetOrder(`${orderId}`);
 
     useEffect(() => {
@@ -66,17 +67,31 @@ export default function CompleteOrderView({
     }
 
     return (
-        <>
-            <Stack direction={'row'} spacing={2} sx={{ px: 4, pt: 2 }} borderBottom={'1px solid #D1D1D1'}>
-                <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
-                    نهایی کردن سفارش
-                </Typography>
-                <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
-                    تاریخ تحویل:
-                    <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
-                </Label>
-            </Stack>
-            <DialogContent>
+        <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
+            <DialogTitle>
+                <Stack direction={'row'} spacing={2} sx={{ px: 0, pt: 2 }} borderBottom={'1px solid #D1D1D1'}>
+                    <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
+                        نهایی کردن سفارش
+                    </Typography>
+                    <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                        تاریخ تحویل:
+                        <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
+                    </Label>
+                </Stack>
+                <Box sx={{ mt: 6, width: 0.7, mx: 'auto' }}>
+                    <CheckoutSteps
+                        activeStep={checkout.activeStep}
+                        steps={hasCustomMade ?
+                            (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_CUSTOM : PRODUCT_CHECKOUT_STEPS_CUSTOM_PRE
+                            :
+                            (order.need_prepayment) ? PRODUCT_CHECKOUT_STEPS_READY : PRODUCT_CHECKOUT_STEPS_READY_PRE}
+                    />
+                </Box>
+            </DialogTitle>
+            {checkout.activeStep === 0 && (
+                <DeliveryRecipientInformation orderId={orderId} delivery_type={order.delivery_type} />
+            )}
+            {/* <DialogContent>
                 <Scrollbar>
                     <Box sx={{ px: 2, pb: 3, pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
 
@@ -113,8 +128,8 @@ export default function CompleteOrderView({
                         )}
                     </Box>
                 </Scrollbar>
-            </DialogContent>
-            <DialogActions>
+            </DialogContent> */}
+            {/* <DialogActions>
                 <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={checkout.onBackStep}>
                     انصراف
                 </StyledRoundedWhiteButton>
@@ -122,11 +137,11 @@ export default function CompleteOrderView({
                     variant='contained'
                     sx={{ borderRadius: '24px', px: 4 }}
                     type="submit"
-                    onClick={checkout.onNextStep}
+                // onClick={checkout.onNextStep}
                 >
                     ثبت و ادامه
                 </LoadingButton>
-            </DialogActions>
-        </>
+            </DialogActions> */}
+        </DialogWithButton>
     )
 }
