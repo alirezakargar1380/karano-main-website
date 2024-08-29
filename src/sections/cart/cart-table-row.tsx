@@ -137,7 +137,7 @@ export default function CartTableRow({
                 </IconButton>
               </Tooltip>
             )}
-            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
+            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view' && !selected) && (
               <Tooltip title="حذف کالا" arrow>
                 <IconButton color={'default'} onClick={confirm.onTrue} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
                   <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
