@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { DialogActions, Stack, TableBody, Typography } from '@mui/material';
+import { DialogActions, DialogTitle, Grid, IconButton, Stack, TableBody, Typography } from '@mui/material';
 import { Box, height } from '@mui/system';
 import RHFTitleTextField from '../hook-form/rhf-title-text-field';
 import { useForm } from 'react-hook-form';
@@ -21,6 +21,8 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { useCheckoutContext } from 'src/sections/checkout/context';
 import Scrollbar from '../scrollbar';
+import { DefaultDialog, WarningDialog } from '../custom-dialog';
+import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -50,9 +52,11 @@ export default function CartDialog({
     handleUpdateRow,
     type = 'cart'
 }: Props) {
-
     const checkout = useCheckoutContext();
 
+    const infoDialog = useBoolean();
+
+    const [hasRejected, setHasRejected] = useState<boolean>(false);
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
     const [id, setId] = useState<null | number>(null);
     const { form, formLoading } = useGetOrderForm(order_form_id);
@@ -98,7 +102,8 @@ export default function CartDialog({
         watch,
         control,
         setValue,
-        handleSubmit
+        handleSubmit,
+        formState: { isSubmitted }
     } = methods;
 
     const values = watch();
@@ -129,11 +134,9 @@ export default function CartDialog({
                     ...list[iid],
                     is_approved: null
                 })
-                    .then(({ data }) => {
-                        console.log(data)
-                    })
+                    .then(({ data }) => {})
 
-                
+
             }
         } catch (error) {
             console.error(error);
@@ -151,7 +154,11 @@ export default function CartDialog({
                 height: item.dimension?.height || 0,
             }
         }
-    }, [form])
+    }, [form]);
+
+    useEffect(() => {
+        if ((id || id === 0) && type === 'edit') infoDialog.onTrue();
+    }, [id])
 
     useEffect(() => {
         if (listId === undefined || listId === null) return;
@@ -178,6 +185,10 @@ export default function CartDialog({
     }, [setId])
 
     const handleAddToList = useCallback(() => {
+        if (type === "edit") enqueueSnackbar("اصلاحات کالای مورد نظر با موفقیت ثبت شد.", {
+            color: "info",
+            variant: "myCustomVariant"
+        })
         if (!list.length) return enqueueSnackbar("ابتدا دکمه «افزودن به لیست» و سپس دکمه «افزودن به سبد خرید» را کلیک کنید.", {
             variant: 'error'
         })
@@ -186,7 +197,7 @@ export default function CartDialog({
             handleUpdateRow(list)
         else
             onAddCart(list)
-    }, [list]);
+    }, [list, type]);
 
     const onDeleteRow = (propertyIndex: number) => {
         if (propertyIndex === id) return enqueueSnackbar("آیتم انتخاب شده قابل حذف نیست", {
@@ -208,22 +219,53 @@ export default function CartDialog({
             return
         }
         setList(listData)
+        const findRjected = listData.find((item) => item.status === IOrderProductPropertyStatus.denied);
+        if (findRjected) setHasRejected(true)
     }, [listData, id]);
 
     return (
         <Dialog open={dialog.value} onClose={dialog.onFalse} fullWidth={true} maxWidth={'xl'}>
-
+            <DialogTitle sx={{ pb: 0 }}>
+                <Grid container spacing={4} sx={{ width: 1 }}>
+                    <Grid item xs={12} md={4}>
+                        <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
+                            {product_name}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={8}>
+                        <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
+                            <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
+                                لیست سفارش های ثبت شده
+                            </Typography>
+                            <IconButton sx={{ mb: 1 }} onClick={dialog.onFalse}>
+                                <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
+                            </IconButton>
+                        </Stack>
+                    </Grid>
+                </Grid>
+            </DialogTitle>
             <DialogContent sx={{
-                // width: 1,
                 px: 0,
                 borderBottomRightRadius: '16px',
-                borderBottomLeftRadius: '16px',
-                // overflowY: 'hidden'
+                borderBottomLeftRadius: '16px'
             }}>
+                <DefaultDialog
+                    open={infoDialog.value}
+                    title="اصلاح کالا"
+                    content="شما می‌توانید با اصلاح ویژگی‌های کالا، تغییرات مورد نظر خود را اعمال کنید."
+                    action={
+                        <LoadingButton variant="contained" onClick={infoDialog.onFalse} sx={{
+                            borderRadius: '50px',
+                            px: 2
+                        }}>
+                            متوجه شدم
+                        </LoadingButton>
+                    }
+                />
+
                 <FormProvider methods={methods} onSubmit={onSubmit}>
                     {(!formLoading) && (
                         <CartDialogView
-                            title={product_name}
                             formOptions={form}
                             data={list}
                             listId={id}
@@ -232,6 +274,7 @@ export default function CartDialog({
                             setValue={(name: string, value: any) => setValue(name, value)}
                             onUpdate={handleUpdate}
                             onDelete={onDelete || onDeleteRow}
+                            infoDialog={infoDialog.value}
                             onClose={dialog.onFalse}
                         />
                     )}
@@ -288,6 +331,9 @@ export default function CartDialog({
                             variant='contained'
                             sx={{ borderRadius: '24px', px: 4 }}
                             onClick={handleAddToList}
+                            disabled={(type === 'edit') ?
+                                (hasRejected) ? !isSubmitted : false
+                                : false}
                         >
                             {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
                         </LoadingButton>
