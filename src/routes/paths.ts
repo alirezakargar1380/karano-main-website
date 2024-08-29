@@ -22,6 +22,7 @@ export const paths = {
   comingSoon: '/coming-soon',
   shoppingCart: '/shopping-cart',
   maintenance: '/maintenance',
+  orderTracking: '/order-tracking',
   pricing: '/pricing',
   payment: '/payment',
   about: '/about-us',

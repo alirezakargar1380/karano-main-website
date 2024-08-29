@@ -16,6 +16,7 @@ export default function ConfirmDialog({
   action,
   open,
   onClose,
+  closeTitle = "انصراف",
   ...other
 }: ConfirmDialogProps) {
   return (
@@ -36,7 +37,7 @@ export default function ConfirmDialog({
 
         <DialogActions sx={{ px: 0 }}>
           <Button color="inherit" onClick={onClose}>
-            انصراف
+            {closeTitle}
           </Button>
 
           {action}

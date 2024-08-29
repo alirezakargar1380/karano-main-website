@@ -12,12 +12,10 @@ import ScrollProgress from 'src/components/scroll-progress';
 import Image from 'src/components/image';
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
-import CarouselBasic3 from 'src/sections/_examples/extra/carousel-view/carousel-basic-3';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
-import { HEADER } from 'src/layouts/config-layout';
 import { useCallback, useEffect, useState } from 'react';
 import CarouselHomeCategory from 'src/sections/_examples/extra/carousel-view/carousel-home-category';
-import CustomPopover, { usePopover, MenuPopoverArrowValue } from 'src/components/custom-popover';
+import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import CarouselBasic2 from 'src/sections/_examples/extra/carousel-view/carousel-basic-2';
 import CarouselProducts from 'src/sections/_examples/extra/carousel-view/carousel-products';
 import { varFade, MotionViewport } from 'src/components/animate';
@@ -29,9 +27,22 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { LoadingButton } from '@mui/lab';
 
 import { useSnackbar } from 'src/components/snackbar';
+import { useOrderContext } from 'src/sections/order/context/order-context';
+import { ConfirmDialog } from 'src/components/custom-dialog';
+import { useBoolean } from 'src/hooks/use-boolean';
+
+import { useRouter } from 'src/routes/hooks';
+import { paths } from 'src/routes/paths';
+
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
+  const { rejection_text, onShowPopover, onHideDialog } = useOrderContext();
+
+  const router = useRouter();
+
+  const confirm = useBoolean(true);
+
   const mdUp = useResponsive('up', 'md');
 
   const { scrollY, scrollYProgress } = useScroll();
@@ -60,11 +71,27 @@ export default function HomeView() {
     getScroll();
   }, [getScroll]);
 
-  useEffect(() => {}, [])
-
   return (
     <>
       <MainLayout>
+
+        <ConfirmDialog
+          open={confirm.value}
+          onClose={() => {
+            confirm.onFalse();
+            onHideDialog();
+            onShowPopover();
+          }}
+          title="سفارش ردشده"
+          closeTitle="الان نه؛ بعداً"
+          content={rejection_text}
+          action={
+            <LoadingButton variant='contained' sx={{ borderRadius: 50, px: 2 }} onClick={() => router.push(paths.orderTracking)}>
+              پیگیری سفارش
+            </LoadingButton>
+          }
+        />
+
         <ScrollProgress scrollYProgress={scrollYProgress} />
 
         <Box

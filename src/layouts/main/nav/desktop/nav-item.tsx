@@ -16,21 +16,23 @@ import { Badge, Typography } from '@mui/material';
 import { OrderTrackingPopover } from 'src/components/custom-popover';
 import { usePopover } from 'src/components/custom-popover';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
+import { useGetRejectedOrdersReport } from 'src/api/orders';
+import { useShowOneTime } from 'src/hooks/use-show-one-time';
+import { useOrderContext } from 'src/sections/order/context/order-context';
 
 // ----------------------------------------------------------------------
 
 export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   ({ title, path, open, badge, active, hasChild, externalLink, subItem, ...other }, ref) => {
+    const { show, showPopover, onHidePopover } = useOrderContext();
+
     const customizedPopover = usePopover();
     const refPop = useRef(null);
-    const [show, setShow] = useState(false);
 
     useEffect(() => {
-      if (badge && refPop) {
+      if (badge && refPop && showPopover && !show)
         customizedPopover.onOpen({ currentTarget: refPop.current } as any);
-        // setShow(true);
-      }
-    }, []);
+    }, [showPopover, show]);
 
 
     const renderContent = (
@@ -48,7 +50,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           {...other}
         >
           <Box ref={refPop}>
-            {badge ? (
+            {(badge && !active)? (
               <Badge
                 sx={{
                   "& .MuiBadge-badge": {
@@ -66,57 +68,60 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
                 {title}
               </Badge>
             ) : (<>{title}</>)}
-            <OrderTrackingPopover
-              open={customizedPopover.open}
-              onClose={() => {
-                customizedPopover.onClose();
-                setShow(true);
-              }}
-              arrow={'top-left'}
-              // anchorOrigin={{
-              //   horizontal: 'left',
-              //   vertical: 'bottom',
-              // }}
-              transformOrigin={{
-                horizontal: 'center',
-                vertical: 'top',
-              }}
-              sx={{
-                mt: 5,
-                width: '304px'
-              }}
-            >
-              <Box sx={{ p: 2, width: 1 }}>
-                <Typography fontFamily={'peyda-bold'} fontSize={16} borderBottom={'1px solid #f8f8f8'} pb={'16px'}>
-                  سفارش رد شده
-                </Typography>
-                <Typography fontFamily={'peyda-regular'} mt={'16px'} fontSize={12}>
-                  {`سفارش شما با کد {۱۲۳۴۵۶}  توسط مدیر فروش ردشده است. می‌توانید از طریق منوی «پیگیری سفارش»، وضعیت سفارش‌ ردشده خود را پیگیری کنید.`}
-                </Typography>
-                <Box textAlign={'right'}>
-                  <StyledRoundedWhiteButton variant='contained'
-                    sx={{
-                      color: "#000", mt: 2,
-                      "&:hover": {
-                        bgcolor: "#D1D1D1"
-                      }
-                    }}
-                    onClick={customizedPopover.onClose}
-                  >
-                    متوجه شدم
-                  </StyledRoundedWhiteButton>
-                </Box>
-              </Box>
-            </OrderTrackingPopover>
           </Box>
           {hasChild && <Iconify width={16} icon="eva:arrow-ios-downward-fill" sx={{ ml: 1 }} />}
         </StyledNavItem>
+
+        <OrderTrackingPopover
+          open={customizedPopover.open}
+          onClose={() => {
+            customizedPopover.onClose();
+          }}
+          arrow={'top-left'}
+          // anchorOrigin={{
+          //   horizontal: 'left',
+          //   vertical: 'bottom',
+          // }}
+          transformOrigin={{
+            horizontal: 'center',
+            vertical: 'top',
+          }}
+          sx={{
+            mt: 5,
+            width: '304px'
+          }}
+        >
+          <Box sx={{ p: 2, width: 1 }}>
+            <Typography fontFamily={'peyda-bold'} fontSize={16} borderBottom={'1px solid #f8f8f8'} pb={'16px'}>
+              سفارش رد شده
+            </Typography>
+            <Typography fontFamily={'peyda-regular'} mt={'16px'} fontSize={12}>
+              {`سفارش شما با کد {۱۲۳۴۵۶}  توسط مدیر فروش ردشده است. می‌توانید از طریق منوی «پیگیری سفارش»، وضعیت سفارش‌ ردشده خود را پیگیری کنید.`}
+            </Typography>
+            <Box textAlign={'right'}>
+              <StyledRoundedWhiteButton variant='contained'
+                sx={{
+                  color: "#000", mt: 2,
+                  "&:hover": {
+                    bgcolor: "#D1D1D1"
+                  }
+                }}
+                onClick={() => {
+                  customizedPopover.onClose();
+                  onHidePopover()
+                }}
+              >
+                متوجه شدم
+              </StyledRoundedWhiteButton>
+            </Box>
+          </Box>
+        </OrderTrackingPopover>
       </Box>
     );
 
     return (
       <>
-        {(badge && show === false) ? (
+        {(badge && showPopover === true) ? (
           <>{renderContent}</>
         ) : (
           <Link component={RouterLink} href={path} color="inherit" underline="none" sx={{ height: 'fit-content', my: 'auto' }}>

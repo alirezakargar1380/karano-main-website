@@ -10,7 +10,7 @@ export const navConfig = [
   {
     title: 'پیگیری سفارش',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,
-    path: '/order-tracking',
+    path: paths.orderTracking,
     badge: true
   },
   {

@@ -77,6 +77,11 @@ export enum IOrderDeliveryType {
   city = 'city'
 }
 
+export type IRejectedOrderReport = {
+  count: number;
+  order_number: string;
+}
+
 export type IOrderItem = {
   id: number;
   user: IUser;
@@ -108,5 +113,10 @@ export type IOrderItem = {
 
 export type OrderContextProps = {
   show: boolean;
+  showPopover: boolean;
+  rejection_text: string;
   onToggleShow: VoidFunction;
+  onShowPopover: VoidFunction;
+  onHideDialog: VoidFunction;
+  onHidePopover: VoidFunction;
 };

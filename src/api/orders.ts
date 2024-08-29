@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { fetcher, endpoints } from 'src/utils/axios';
 
-import { IOrderItem } from 'src/types/order';
+import { IOrderItem, IRejectedOrderReport } from 'src/types/order';
 
 // ----------------------------------------------------------------------
 
@@ -60,7 +60,6 @@ export function useGetDeliveryOrders() {
       //   productsValidating: isValidating,
       //   productsEmpty: !isLoading && !data?.products.length,
     }),
-    // [data, error, isLoading, isValidating]
     [data]
   );
 
@@ -80,7 +79,6 @@ export function useGetOrder(id: string) {
       //   productsValidating: isValidating,
       //   productsEmpty: !isLoading && !data?.products.length,
     }),
-    // [data, error, isLoading, isValidating]
     [data]
   );
 
@@ -101,7 +99,6 @@ export function useGetTrackingOrders() {
       ordersEmpty: !isLoading && !data.length,
     }),
     [data, error, isLoading, isValidating]
-    [data]
   );
 
   return memoizedValue;
@@ -121,7 +118,25 @@ export function useGetStorageOrders() {
       ordersEmpty: !isLoading && !data.length,
     }),
     [data, error, isLoading, isValidating]
-    [data]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetRejectedOrdersReport() {
+  const URL = endpoints.orders.report.rejected;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      report: (data as IRejectedOrderReport) || {},
+      // ordersLoading: isLoading,
+      //  productsError: error,
+      //  productsValidating: isValidating,
+      // ordersEmpty: !isLoading && !data.length,
+    }),
+    [data, error, isLoading, isValidating]
   );
 
   return memoizedValue;

@@ -104,6 +104,9 @@ export const endpoints = {
     update_ready_product_status: (id: any) => `/api/order-products/${id}/ready-products/status`,
   },
   orders: {
+    report: {
+      rejected: '/api/orders/report/rejection'
+    },
     create: '/api/orders',
     list: '/api/orders',
     tracking: '/api/orders/tracking',
