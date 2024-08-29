@@ -7,7 +7,7 @@ export type ConfirmDialogProps = Omit<DialogProps, 'title' | 'content'> & {
   content?: React.ReactNode;
   closeTitle?: string; 
   action: React.ReactNode;
-  onClose: VoidFunction;
+  onClose?: VoidFunction;
 };
 
 export type ReminderDialogProps = Omit<DialogProps, 'title' | 'content'> & {
