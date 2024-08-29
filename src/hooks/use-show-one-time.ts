@@ -7,7 +7,8 @@ export function useShowOneTime(section_name: string) {
     const memoizedValue = useMemo(
         () => ({
             show: state[section_name] == 1 ? true : false,
-            toggle: () => update(section_name, state[section_name] == "1" ? "0" : "1")
+            toggle: () => update(section_name, state[section_name] == "1" ? "0" : "1"),
+            update: (val: string) => update(section_name, val)
         }),
         [state[section_name], update, state]
     );
