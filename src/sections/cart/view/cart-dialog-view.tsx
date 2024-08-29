@@ -23,6 +23,7 @@ import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-wh
 import SvgColor from 'src/components/svg-color';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import Image from 'src/components/image';
+import { useShowOneTime } from 'src/hooks/use-show-one-time';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -42,7 +43,6 @@ export const ReadyProductCartTableHead = [
 ]
 
 interface Props {
-    title: string
     listId: number | null
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
@@ -51,6 +51,7 @@ interface Props {
     onDelete: (propertyId: number) => void
     onClose: () => void
     setValue: (name: string, value: any) => void
+    infoDialog: boolean
     values: any
 }
 
@@ -131,7 +132,6 @@ const Tooltip = ({
 );
 
 export default function CartDialogView({
-    title,
     formOptions,
     data,
     listId,
@@ -140,9 +140,11 @@ export default function CartDialogView({
     onDelete,
     onClose,
     setValue,
+    infoDialog,
     values,
 }: Props) {
-    const [ind, setInd] = useState<number | undefined>()
+    const [ind, setInd] = useState<number | undefined>();
+    const { show, update } = useShowOneTime("spot-light");
 
     const [disable, setDisable] = useState((type === "edit" || listId || listId === 0) ? {
         profile_type: false,
@@ -166,9 +168,15 @@ export default function CartDialogView({
     });
 
     useEffect(() => {
-        setTimeout(() => setState({ ...state, run: true }), 1000 / 2);
         setInd(data.findIndex((d) => d.status === IOrderProductPropertyStatus.denied))
     }, []);
+
+    useEffect(() => {
+        if (!infoDialog && !show)
+            setTimeout(() => setState({ ...state, run: true }), 1000 / 2);
+        else
+            setTimeout(() => setState({ ...state, run: false }), 1000 / 2);
+    }, [infoDialog])
 
     useEffect(() => {
         // check for wich one is the first
@@ -195,7 +203,10 @@ export default function CartDialogView({
     const handleJoyrideCallback = (data: any) => {
         const { action, index, status, type } = data;
 
-        if (action === "close") setState({ ...state, run: false })
+        if (action === "close") {
+            update("1")
+            setState({ ...state, run: false })
+        }
 
         // setState((prevState) => ({ ...prevState, run: true }));
         // if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
@@ -228,43 +239,42 @@ export default function CartDialogView({
 
     return (
         <Box>
-            <Joyride
-                callback={handleJoyrideCallback}
-                tooltipComponent={Tooltip}
-                steps={steps}
-                run={state.run}
-                // disableScrolling
-                continuous
-                scrollToFirstStep
-                disableOverlayClose
-                // showProgress
-                showSkipButton
-                styles={{
-                    overlay: {
-                        height: '100%',
-                        position: 'fixed',
-                    },
-                    options: {
-                        zIndex: 10000,
-                    },
-                    spotlight: {
-                        borderRadius: 100
-                    }
-                }}
-                floaterProps={{
-                    // autoOpen: true,
-                    autoOpen: state.run,
-                    hideArrow: true,
-                }}
-            />
+            {(!show) && (
+                <Joyride
+                    callback={handleJoyrideCallback}
+                    tooltipComponent={Tooltip}
+                    steps={steps}
+                    run={state.run}
+                    // disableScrolling
+                    continuous
+                    scrollToFirstStep
+                    disableOverlayClose
+                    // showProgress
+                    showSkipButton
+                    styles={{
+                        overlay: {
+                            height: '100%',
+                            position: 'fixed',
+                        },
+                        options: {
+                            zIndex: 10000,
+                        },
+                        spotlight: {
+                            borderRadius: 100
+                        }
+                    }}
+                    floaterProps={{
+                        // autoOpen: true,
+                        autoOpen: state.run,
+                        hideArrow: true,
+                    }}
+                />
+            )}
 
             <Box sx={{ pl: 3, pt: 3 }}>
                 <Grid container spacing={4} sx={{ width: 1 }}>
                     <Grid item xs={12} md={4}>
-                        <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
-                            {title}
-                        </Typography>
-                        <Box sx={{ pt: 2, borderBottom: '1px solid #D1D1D1', pb: 2 }}>
+                        <Box sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
                             <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
                                 ویژگی های مورد نظر را انتخاب کنید
                             </Typography>
@@ -435,57 +445,48 @@ export default function CartDialogView({
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={8}>
-                        <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
-                            <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
-                                لیست سفارش های ثبت شده
-                            </Typography>
-                            <IconButton sx={{ mb: 1 }} onClick={onClose}>
-                                <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
-                            </IconButton>
-                        </Stack>
-                        <Box>
+                        <Scrollbar>
                             {data.length ? (
-                                <Scrollbar>
-                                    <Table size={'medium'}>
-                                        <TableHeadCustom
-                                            sx={{
-                                                backgroundColor: '#F2F2F2'
-                                            }}
-                                            cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                            headLabel={CartTableHead}
-                                        />
-                                        <TableBody>
+                                <Table size={'medium'}>
+                                    <TableHeadCustom
+                                        sx={{
+                                            backgroundColor: '#F2F2F2'
+                                        }}
+                                        cellSx={{ fontFamily: 'peyda-medium!important' }}
+                                        headLabel={CartTableHead}
+                                    />
+                                    <TableBody>
 
-                                            {data.map((item, index: number) => (
-                                                <CartTableRow
-                                                    key={index}
-                                                    index={index}
-                                                    indexEqual={ind}
-                                                    onDeleteRow={() => onDelete(item.id || index)}
-                                                    onEditRow={() => onUpdate(index)}
-                                                    selected={(listId === index)}
-                                                    row={{
-                                                        ...item,
-                                                        status: item.status,
-                                                        quality: item.quantity,
-                                                        coating: item?.coating_type,
-                                                        dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
-                                                        final_coating: item.cover_type?.name,
-                                                        frame_type: item.frame_type?.name,
-                                                        profile_type: item.profile_type?.name,
-                                                    }}
-                                                />
-                                            ))}
+                                        {data.map((item, index: number) => (
+                                            <CartTableRow
+                                                key={index}
+                                                index={index}
+                                                indexEqual={ind}
+                                                onDeleteRow={() => onDelete(item.id || index)}
+                                                onEditRow={() => onUpdate(index)}
+                                                selected={(listId === index)}
+                                                row={{
+                                                    ...item,
+                                                    status: item.status,
+                                                    quality: item.quantity,
+                                                    coating: item?.coating_type,
+                                                    dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
+                                                    final_coating: item.cover_type?.name,
+                                                    frame_type: item.frame_type?.name,
+                                                    profile_type: item.profile_type?.name,
+                                                }}
+                                            />
+                                        ))}
 
-                                        </TableBody>
-                                    </Table>
-                                </Scrollbar>
+                                    </TableBody>
+                                </Table>
+
                             ) : (
                                 <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
                                     <Image src='/assets/images/cart/Empty State.png' />
                                 </Box>
                             )}
-                        </Box>
+                        </Scrollbar>
                     </Grid>
                 </Grid>
             </Box>
