@@ -20,14 +20,15 @@ declare module 'notistack' {
     // warning: false;     
     // adds `myCustomVariant` variant      
     myCustomVariant: {
-      onClick: () => void
+      onClick?: () => void
       showButton?: boolean
       showTimer?: boolean
     }
     multiline: {
-      onClick: () => void
+      onClick?: () => void
       showButton?: boolean
       showTimer?: boolean
+      color: 'error' | 'info'
     }
     // // adds `reportComplete` variant and specifies the
     // // "extra" props it takes in options of `enqueueSnackbar`
@@ -35,6 +36,11 @@ declare module 'notistack' {
     //   allowDownload: boolean  
     // }
   }
+}
+
+const bgColor: any = {
+  error: "#D12215",
+  info: "#2B2B2B"
 }
 
 interface myCustomVariantProps extends CustomContentProps {
@@ -59,7 +65,7 @@ export default function SnackbarProvider({ children }: Props) {
       // preventDuplicate
       autoHideDuration={3000}
       TransitionComponent={isRTL ? Collapse : undefined}
-      variant="success" // Set default variant
+      variant="info" // Set default variant
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       iconVariant={{
         info: (
@@ -96,6 +102,7 @@ export default function SnackbarProvider({ children }: Props) {
         warning: StyledNotistack,
         error: StyledNotistack,
         multiline: (props: myCustomVariantProps | any) => {
+          console.log(props)
           const [count, setCount] = useState(10);
           useEffect(() => {
             const interval = setInterval(() => {
@@ -116,7 +123,7 @@ export default function SnackbarProvider({ children }: Props) {
             <SnackbarContent>
               <Box
                 sx={{
-                  bgcolor: '#2B2B2B',
+                  bgcolor: bgColor[props.color],
                   color: 'white',
                   borderRadius: '16px',
                   mt: '64px',
@@ -165,7 +172,7 @@ export default function SnackbarProvider({ children }: Props) {
                   )}
 
                   <Box sx={{ maxWidth: 574, ml: '16px' }}>
-                    <Typography fontSize={14} mr={'16px'}>{props.message}</Typography>
+                    <Typography fontSize={14} mr={'16px'} whiteSpace={'pre-line'}>{props.message}</Typography>
                   </Box>
 
                   {(props.showButton) && (
