@@ -54,6 +54,12 @@ export default function ShoppingCartList({ items, type }: Props) {
         setCheckoutItems(items);
     }, [items, setList]);
 
+    useEffect(() => {
+        checkoutItems.map((item, index: number) => {
+            console.log(item)
+        })
+    }, [checkoutItems])
+
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
             if (type === 'edit') {
@@ -71,8 +77,14 @@ export default function ShoppingCartList({ items, type }: Props) {
         }
     }, [checkoutItem]);
 
-    const handleRemoveCart = useCallback((itemId: number, itemIndex: number, propertyIndex: number) => {
-        checkout.onDeleteCart(itemId, propertyIndex)
+    const handleRemoveCart = useCallback((itemId: number, propertyIndex: number) => {
+        checkout.onDeleteCart(itemId, propertyIndex);
+        enqueueSnackbar("کالای مورد نظر با موفقیت حذف شد.", {
+            color: 'info',
+            variant: 'myCustomVariant',
+            showTimer: true,
+            showButton: true
+        })
     }, []);
 
     const handleRemove = useCallback(async (propertyId: number) => {
@@ -109,6 +121,29 @@ export default function ShoppingCartList({ items, type }: Props) {
             console.error(error);
         }
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
+
+    const deleteRow = useCallback((item: ICheckoutItem, index: number, ppid: number, isLastOne?: boolean) => {
+        if (type === 'cart') {
+            handleRemoveCart(item.id, index)
+        } else {
+            handleRemove(ppid);
+        }
+        if (isLastOne) {
+            enqueueSnackbar(`تمامی کالاهای پروفیل ${item.name} از لیست کالاهای شما با موفقیت حذف شدند.`, {
+                color: 'info',
+                variant: 'multiline',
+                showTimer: true,
+                showButton: true
+            })
+        } else {
+            enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
+                color: 'info',
+                variant: 'myCustomVariant',
+                showTimer: true,
+                showButton: true
+            })
+        }
+    }, []);
 
     return (
         <Box>
@@ -159,13 +194,16 @@ export default function ShoppingCartList({ items, type }: Props) {
                                                 <>
                                                     {item.properties?.map((property_price, ind: number) => (
                                                         <CartTableRow
-                                                            onDeleteRow={(type === "cart") ?
-                                                                () => handleRemoveCart(item.id, index, ind) :
-                                                                (property_price?.status !== IOrderProductPropertyStatus.approve) ?
-                                                                    () => handleRemove(property_price.id) : undefined
-                                                            }
-                                                            onEditRow={(item.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                             key={ind * 2}
+                                                            isLastOne={(item.properties.length === 1)}
+                                                            product_name={item?.name || ''}
+                                                            // onDeleteRow={(type === "cart") ?
+                                                            //     () => handleRemoveCart(item.id, ind) :
+                                                            //     (property_price?.status !== IOrderProductPropertyStatus.approve) ?
+                                                            //         () => handleRemove(property_price.id) : undefined
+                                                            // }
+                                                            onDeleteRow={() => deleteRow(item, ind, property_price.id, (item.properties.length === 1))}
+                                                            onEditRow={(item.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                             type={type}
                                                             row={{
                                                                 rejection_reason: property_price?.rejection_reason,

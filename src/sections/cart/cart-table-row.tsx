@@ -22,6 +22,8 @@ type Props = {
   indexEqual?: number;
   selected?: boolean;
   type?: 'cart' | 'edit' | 'view';
+  isLastOne?: boolean;
+  product_name?: string;
   onEditRow?: VoidFunction | undefined;
   onDeleteRow?: VoidFunction | undefined;
 };
@@ -32,6 +34,8 @@ export default function CartTableRow({
   indexEqual,
   selected,
   type,
+  isLastOne = false,
+  product_name,
   onDeleteRow,
   onEditRow,
 }: Props) {
@@ -47,6 +51,7 @@ export default function CartTableRow({
   } = row;
 
   const confirm = useBoolean();
+  const confirmLast = useBoolean();
 
   const rejectionDialog = useBoolean();
 
@@ -139,7 +144,14 @@ export default function CartTableRow({
             )}
             {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view' && !selected) && (
               <Tooltip title="حذف کالا" arrow>
-                <IconButton color={'default'} onClick={confirm.onTrue} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''} disabled={!!selected}>
+                <IconButton
+                  color={'default'}
+                  onClick={() => {
+                    (isLastOne) ? confirmLast.onTrue() : confirm.onTrue()
+                  }}
+                  className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''}
+                  disabled={!!selected}
+                >
                   <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
                 </IconButton>
               </Tooltip>
@@ -151,12 +163,27 @@ export default function CartTableRow({
       <ConfirmDialog
         open={confirm.value}
         onClose={confirm.onFalse}
-        title="حذف کالا"
-        content="آیا از حذف کالای مورد نظر اطمینان دارید؟"
+        title={(status === IOrderProductPropertyStatus.denied) ? "حذف کالا" : "حذف کالای ردشده"}
+        content={(status === IOrderProductPropertyStatus.denied) ? `آیا از حذف ${product_name} اطمینان دارید؟` : "آیا از حذف کالای مورد نظر اطمینان دارید؟"}
         action={
           <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
             if (onDeleteRow) onDeleteRow();
             confirm.onFalse();
+          }}>
+            حذف
+          </Button>
+        }
+      />
+
+      <ConfirmDialog
+        open={confirmLast.value}
+        onClose={confirmLast.onFalse}
+        title="حذف آخرین کالای ردشده"
+        content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟ با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
+        action={
+          <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
+            if (onDeleteRow) onDeleteRow();
+            confirmLast.onFalse();
           }}>
             حذف
           </Button>

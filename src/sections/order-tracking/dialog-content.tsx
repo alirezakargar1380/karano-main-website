@@ -8,7 +8,6 @@ type Props = {
 }
 
 export default function CompleteOrderDialogContent({ children }: Props) {
-    const checkout = useCheckoutContext();
 
     return (
         <DialogContent>

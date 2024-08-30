@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, DialogActions, DialogContent, Stack, Typography } from "@mui/material";
+import { Box, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
@@ -25,19 +25,21 @@ export default function OrderRejectionListView({
     dialog,
     orderId
 }: Props) {
-    const reminderDialog = useBoolean(true);
+    const reminderDialog = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
+        // reminderDialog.onTrue();
     }, [])
 
     const handleUpdateOrder = async () => {
         const op = await server_axios.get(endpoints.orderProducts.one(orderId)).then(({ data }) => data)
         if (op.find((item: any) => item.properties.find((property: any) => property.status === IOrderProductPropertyStatus.denied))) {
-            const text = "یکی یا چندتا از سفارش‌ها در وضعیت «ردشده» است. تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه ثبت نهایی کلیک کنید."
+            const text = "تعدادی از سفارش‌های شما توسط مدیریت فروش،در وضعیت «ردشده» قرار گرفته‌اند. \n ابتدا تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید."
             enqueueSnackbar(text, {
-                variant: "error"
+                variant: "multiline",
+                color: "error"
             })
             return
         }
@@ -49,7 +51,7 @@ export default function OrderRejectionListView({
 
     return (
         <React.Fragment>
-            {/* <ReminderDialog
+            <ReminderDialog
                 color="#727272"
                 onClose={reminderDialog.onFalse}
                 title='یادآوری'
@@ -63,48 +65,53 @@ export default function OrderRejectionListView({
                         متوجه شدم
                     </LoadingButton>
                 }
-            /> */}
+            />
+
+            <Box sx={{ px: 6, bgcolor: 'white', borderRadius: '16px' }}>
+                <DialogTitle variant="h4" sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                    جزییات رد ‌سفارش
+                </DialogTitle>
+            </Box>
 
             <DialogContent>
-                <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                        جزییات رد ‌سفارش
-                    </Typography>
-                    <Box>
-                        <BlueNotification sx={{ my: 3 }}>
-                            برای ثبت تغییرات کالاهای ناموجود،یکی از گزینه‌های «اصلاح سفارش»  یا «حذف کالاهای ردشده»  را انتخاب و سپس بر روی دکمه ثبت و ادامه کلیک کنید.
-                        </BlueNotification>
-                        <YellowNotification title="لیست کالاهای «سفارشی» دارای اصلاح" sx={{ my: 3 }}>
-                            ادمین فروش اصلاحاتی برای این کالا ثبت کرده است. می‌توانید کالای مورد نظر را «اصلاح سفارش» یا «حذف کالاهای ردشده» کنید. در صورت اصلاح،  کالاهای مورد نظر بعد از اعمال اصلاحات و بررسی توسط ادمین، وضعیت‌شان در قسمت سبد خرید در بخش پروفایل، قابل مشاهده و پیگیری هستند.
-                        </YellowNotification>
-                    </Box>
+                <Scrollbar>
+                    <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
+                        <Box>
+                            <BlueNotification sx={{ mb: 3 }}>
+                                برای ثبت تغییرات کالاهای ناموجود،یکی از گزینه‌های «اصلاح سفارش»  یا «حذف کالاهای ردشده»  را انتخاب و سپس بر روی دکمه ثبت و ادامه کلیک کنید.
+                            </BlueNotification>
+                            <YellowNotification title="لیست کالاهای «سفارشی» دارای اصلاح" sx={{ my: 3 }}>
+                                ادمین فروش اصلاحاتی برای این کالا ثبت کرده است. می‌توانید کالای مورد نظر را «اصلاح سفارش» یا «حذف کالاهای ردشده» کنید. در صورت اصلاح،  کالاهای مورد نظر بعد از اعمال اصلاحات و بررسی توسط ادمین، وضعیت‌شان در قسمت سبد خرید در بخش پروفایل، قابل مشاهده و پیگیری هستند.
+                            </YellowNotification>
+                        </Box>
 
-                    <ShoppingCartList
-                        type="edit"
-                        items={orderProducts.map((op) => {
-                            return {
-                                ...op.product,
-                                // coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
-                                need_to_assemble: op.need_to_assemble,
-                                order_form_id: op.product.order_form_options.id,
-                                subTotal: 0,
-                                properties: op.properties.map((property) => {
-                                    return {
-                                        ...property,
-                                        id: property.id,
-                                        status: property.status,
-                                        dimension: property.dimension,
-                                        quantity: property.quantity,
-                                        coating_type: property.coating_type,
-                                        cover_type: property.cover_type,
-                                        profile_type: property.profile_type,
-                                        frame_type: property.frame_type,
-                                    }
-                                }),
-                            }
-                        })}
-                    />
-                </Box>
+                        <ShoppingCartList
+                            type="edit"
+                            items={orderProducts.map((op) => {
+                                return {
+                                    ...op.product,
+                                    // coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
+                                    need_to_assemble: op.need_to_assemble,
+                                    order_form_id: op.product.order_form_options.id,
+                                    subTotal: 0,
+                                    properties: op.properties.map((property) => {
+                                        return {
+                                            ...property,
+                                            id: property.id,
+                                            status: property.status,
+                                            dimension: property.dimension,
+                                            quantity: property.quantity,
+                                            coating_type: property.coating_type,
+                                            cover_type: property.cover_type,
+                                            profile_type: property.profile_type,
+                                            frame_type: property.frame_type,
+                                        }
+                                    }),
+                                }
+                            })}
+                        />
+                    </Box>
+                </Scrollbar>
             </DialogContent>
             <DialogActions>
                 <Stack direction={'row'} spacing={1} justifyContent={'end'}>
