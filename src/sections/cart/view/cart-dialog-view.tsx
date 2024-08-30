@@ -17,13 +17,13 @@ import { endpoints } from 'src/utils/axios';
 import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
 import { ICheckoutItemPropertyPrice } from 'src/types/checkout';
-import Joyride, { Step, ACTIONS, EVENTS, STATUS, TooltipRenderProps } from 'react-joyride';
+import Joyride, { TooltipRenderProps } from 'react-joyride';
 import Iconify from 'src/components/iconify';
 import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
-import SvgColor from 'src/components/svg-color';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import Image from 'src/components/image';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
+import { LoadingButton } from '@mui/lab';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -123,9 +123,31 @@ const Tooltip = ({
             </Button> */}
             {/* )} */}
             {/* {!continuous && ( */}
-            <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0 }} {...closeProps}>
-                <Box id="close">متوجه شدم</Box>
+            {(steps.length === (index + 1)) ? (
+                <>
+                    <LoadingButton variant='contained' sx={{ mt: 0, ml: 1, borderRadius: 50, fontFamily: 'peyda-bold' }} {...closeProps}>
+                        <Box id="close">متوجه شدم</Box>
+                    </LoadingButton>
+                    <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...backProps}>
+                        <Box id="back">مرحله قبل</Box>
+                    </StyledRoundedWhiteButton>
+                </>
+            ) : (
+                <>
+                    <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...primaryProps}>
+                        <Box id="next">مرحله بعد</Box>
+                    </StyledRoundedWhiteButton>
+                    <StyledRoundedWhiteButton sx={{ mt: 0, fontFamily: 'peyda-bold' }} {...closeProps}>
+                        <Box id="close">بستن راهنما</Box>
+                    </StyledRoundedWhiteButton>
+                </>
+            )}
+            {/* <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...primaryProps}>
+                <Box id="next">مرحله بعد</Box>
             </StyledRoundedWhiteButton>
+            <StyledRoundedWhiteButton sx={{ mt: 0, fontFamily: 'peyda-bold' }} {...closeProps}>
+                <Box id="close">بستن راهنما</Box>
+            </StyledRoundedWhiteButton> */}
             {/* )} */}
         </Box>
     </Card>
