@@ -10,11 +10,10 @@ import DeliveryAdresses from "./delivery-addresses";
 import { useAuthContext } from "src/auth/hooks";
 import { useEffect, useState } from "react";
 import { IOrderDeliveryType } from "src/types/order";
-import { countries } from "src/assets/data";
-import Iconify from "src/components/iconify";
-import Scrollbar from "src/components/scrollbar";
 import CompleteOrderDialogContent from "./dialog-content";
 import { Actions } from "./dialog-action";
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface Props {
     orderId: number,
@@ -43,8 +42,18 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
         }
     }
 
+    const Schema = Yup.object().shape({
+        reciver_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        reciver_phone: Yup.string().min(13, 'پرکردن این فیلد اجباری‌ست.'),
+        invoice_owner: Yup.object().shape({
+            first_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+            last_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+            id_code: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        }),
+    });
+
     const methods = useForm({
-        // resolver: yupResolver(NewProductSchema),
+        resolver: yupResolver<any>(Schema),
         defaultValues
     });
 
@@ -168,9 +177,9 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                                     sx={{ mt: 3 }}
                                     spacing={2}
                                 >
-                                    <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='نام' />
-                                    <RHFTitleTextField name='invoice_owner.last_name' custom_label='نام خانوادگی' placeholder='بدر' />
-                                    <RHFTitleTextField name='invoice_owner.id_code' custom_label='کد ملی' placeholder='بدر' />
+                                    <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='افزودن محتوا' />
+                                    <RHFTitleTextField name='invoice_owner.last_name' custom_label='نام خانوادگی' placeholder='افزودن محتوا' />
+                                    <RHFTitleTextField name='invoice_owner.id_code' custom_label='کد ملی' placeholder='افزودن محتوا' />
                                 </Stack>
                             </Box>
                         </FormProvider>
