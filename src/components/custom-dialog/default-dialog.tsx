@@ -21,7 +21,7 @@ export default function DefaultDialog({
     ...other
 }: ConfirmDialogProps) {
     return (
-        <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose} {...other} sx={{
+        <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose} {...other} sx={{
             '& .MuiBackdrop-root': {
                 backgroundColor: 'rgba(0,0,0,0.8)'
             }
@@ -34,7 +34,7 @@ export default function DefaultDialog({
                     </Box>
                 </DialogTitle>
 
-                {content && <DialogContent sx={{ typography: 'body2', px: 0, mt: 2 }}> {content} </DialogContent>}
+                {content && <DialogContent sx={{ fontSize: 16, fontFamily: 'peyda-regular', px: 0, mt: 2 }}> {content} </DialogContent>}
 
                 <DialogActions sx={{ pr: 0 }}>
                     <Stack direction={'row'} spacing={2}>
