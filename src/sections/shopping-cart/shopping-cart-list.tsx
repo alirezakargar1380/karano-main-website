@@ -54,12 +54,6 @@ export default function ShoppingCartList({ items, type }: Props) {
         setCheckoutItems(items);
     }, [items, setList]);
 
-    useEffect(() => {
-        checkoutItems.map((item, index: number) => {
-            console.log(item)
-        })
-    }, [checkoutItems])
-
     const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
             if (type === 'edit') {

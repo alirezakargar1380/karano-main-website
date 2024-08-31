@@ -22,6 +22,7 @@ import SvgColor from "src/components/svg-color";
 
 export default function OrderTrackingListView() {
     const [orderId, setOrderId] = useState<number>(0);
+    const [order, setOrder] = useState<IOrderItem>();
     const [hasCustomMade, setHasCustomMade] = useState(false);
 
     const orderRejectingDialog = useBoolean();
@@ -43,6 +44,10 @@ export default function OrderTrackingListView() {
                 setHasCustomMade(true);
         }
     }, [orderProducts]);
+
+    useEffect(() => {
+        setOrder(orders.find((o) => o.id === orderId))
+    }, [orderId])
 
     const handleMore = (id: number, status: OrderStatus) => {
         setOrderId(id);
@@ -135,8 +140,6 @@ export default function OrderTrackingListView() {
                         type="view"
                         items={orderProducts.map((op) => {
                             return {
-                                // id: op.product.id,
-                                // name: op.product.name,
                                 ...op.product,
                                 coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
                                 need_to_assemble: op.need_to_assemble,
@@ -165,6 +168,7 @@ export default function OrderTrackingListView() {
                     orderProducts={orderProducts}
                     dialog={orderRejectingDialog}
                     orderId={orderId}
+                    order_number={order?.order_number}
                 />
             </DialogWithButton>
 
