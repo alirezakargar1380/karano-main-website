@@ -29,11 +29,12 @@ export default function OrderRejectionListView({
 }: Props) {
     const reminderDialog = useBoolean();
     const confirm = useBoolean();
+    const cancel = useBoolean(true);
 
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        reminderDialog.onTrue();
+        // reminderDialog.onTrue();
     }, [])
 
     const handleUpdateOrder = async () => {
@@ -89,6 +90,29 @@ export default function OrderRejectionListView({
 
     return (
         <React.Fragment>
+
+            <DefaultDialog
+                onClose={cancel.onFalse}
+                title='انصراف از ثبت نهایی اصلاحات'
+                open={cancel.value}
+                content={'شما در حال انصراف از ثبت نهایی اصلاحات کالاهای ردشده  هستید.  تمام اطلاعات کالاهای رده‌شده‌ای که  اصلاح و حذف کرده‌اید، پاک می‌شوند. آیا مایل به ادامه انصراف هستید؟'}
+                closeTitle="انصراف"
+                action={
+                    <LoadingButton variant="contained" onClick={() => {
+                        cancel.onFalse();
+                        dialog.onFalse();
+                        enqueueSnackbar(`با انصراف از ثبت نهایی اصلاحات، شفارش شما با کد ${order_number} در وضعیت «ردشده» باقی می‌ماند.  `, {
+                            variant: 'multiline',
+                            color: 'info'
+                        })
+                    }} sx={{
+                        borderRadius: '50px',
+                        px: 4
+                    }}>
+                        تایید
+                    </LoadingButton>
+                }
+            />
 
             <DefaultDialog
                 onClose={confirm.onFalse}
@@ -171,7 +195,7 @@ export default function OrderRejectionListView({
             </DialogContent>
             <DialogActions>
                 <Stack direction={'row'} spacing={1} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>انصراف</StyledRoundedWhiteButton>
+                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={cancel.onTrue}>انصراف</StyledRoundedWhiteButton>
                     <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={handleUpdateOrder}>
                         ثبت نهایی اصلاحات
                     </LoadingButton>
