@@ -1,6 +1,6 @@
 import { IAddressItem } from './address';
 import { IOrderProductPropertyStatus } from './order-products-property';
-import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType } from './product';
+import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType, IProductItem } from './product';
 
 // ----------------------------------------------------------------------
 
@@ -10,6 +10,7 @@ export type ICheckoutItem = {
   coverUrl: string;
   price: number;
   order_type: ProductOrderType;
+  product: IProductItem;
   properties: ICheckoutItemPropertyPrice[]
   subTotal: number;
   order_form_id: number;

@@ -69,14 +69,18 @@ export default function CartTableRow({
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             {profile_type}
-            {(status === IOrderProductPropertyStatus.denied) && (
-              <Label color='error' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: 1 }}>رد شده</Label>
-            )}
-            {(status === IOrderProductPropertyStatus.edited) && (
-              <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
-            )}
-            {(status === IOrderProductPropertyStatus.approve) && (
-              <Label color='success' sx={{ ml: 1, px: 1 }}>تایید شده</Label>
+            {(type === 'edit') && (
+              <>
+                {(status === IOrderProductPropertyStatus.denied) && (
+                  <Label color='error' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: 1 }}>رد شده</Label>
+                )}
+                {(status === IOrderProductPropertyStatus.edited) && (
+                  <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
+                )}
+                {(status === IOrderProductPropertyStatus.approve) && (
+                  <Label color='success' sx={{ ml: 1, px: 1 }}>تایید شده</Label>
+                )}
+              </>
             )}
           </TableCell>
         )}

@@ -14,6 +14,7 @@ import { ICheckoutItem, ICheckoutNewItem } from 'src/types/checkout';
 import { CheckoutContext } from './checkout-context';
 import _ from 'lodash';
 import { useChannel } from 'src/hooks/use-chennel';
+import { useGetCart } from 'src/api/cart';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ export function CheckoutProvider({ children }: Props) {
 
   const { state, update, reset } = useLocalStorage(STORAGE_KEY, initialState);
   const { channel } = useChannel(STORAGE_KEY);
+  const { cart } = useGetCart();
 
   useEffect(() => {
     channel.addEventListener('message', function (event) {
@@ -48,19 +50,13 @@ export function CheckoutProvider({ children }: Props) {
     })
   }, []);
 
+  useEffect(() => {
+    update('items', cart)
+    update('totalItems', cart.length)
+    console.log(cart)
+  }, [cart])
+
   const onGetCart = useCallback(() => {
-    // const restored = getStorage(STORAGE_KEY);
-    // if (restored) {
-    //   update('items', restored.items || []);
-    // }
-
-
-    // const quality: number = state.items.map((item: ICheckoutItem) => item.properties.reduce((acc, curr) => acc + curr.quantity, 0))[0];
-    // const getTotalQuantity = (item: ICheckoutItem) => {
-    //   return item.properties.reduce((total, propertyPrice) => propertyPrice.quantity, 0);
-    // };
-    // const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
-    // const quality: number = state.items.reduce((total: number, item: ICheckoutItem) => total + getTotalQuantity(item), 0);
 
     let quality: number = 0
 

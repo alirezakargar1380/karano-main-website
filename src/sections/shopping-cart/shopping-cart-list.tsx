@@ -39,6 +39,7 @@ export default function ShoppingCartList({ items, type }: Props) {
     const handleEdit = useCallback((item: ICheckoutItem, property_ind?: number) => {
         setCheckoutItem(item);
         setList(item.properties);
+        console.log(item)
 
         if (property_ind !== undefined) {
             const property = item.properties[property_ind];
@@ -70,16 +71,6 @@ export default function ShoppingCartList({ items, type }: Props) {
             console.error(error);
         }
     }, [checkoutItem]);
-
-    const handleRemoveCart = useCallback((itemId: number, propertyIndex: number) => {
-        checkout.onDeleteCart(itemId, propertyIndex);
-        enqueueSnackbar("کالای مورد نظر با موفقیت حذف شد.", {
-            color: 'info',
-            variant: 'myCustomVariant',
-            showTimer: true,
-            showButton: true
-        })
-    }, []);
 
     const handleRemove = useCallback(async (propertyId: number) => {
         const p = checkoutItems.find((item) => item.properties.find((p) => p.id === propertyId))
@@ -116,12 +107,20 @@ export default function ShoppingCartList({ items, type }: Props) {
         }
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
 
-    const deleteRow = useCallback((item: ICheckoutItem, index: number, ppid: number, isLastOne?: boolean) => {
+    const deleteRow = useCallback(async (item: ICheckoutItem, ppid: number, isLastOne?: boolean) => {
+        // YOU MAY NEED TO DELETE THIS IF
         if (type === 'cart') {
-            handleRemoveCart(item.id, index)
+            let newItems = [...checkoutItems];
+            newItems = newItems.map(((item, index) => {
+                item.properties = item.properties.filter((property) => property.id !== ppid);
+                return item;
+            }));
+
+            setCheckoutItems(newItems);
         } else {
-            handleRemove(ppid);
+            // handleRemove(ppid);
         }
+        await server_axios.delete(endpoints.orderProductProperties.delete(ppid));
         if (isLastOne) {
             enqueueSnackbar(`تمامی کالاهای پروفیل ${item.name} از لیست کالاهای شما با موفقیت حذف شدند.`, {
                 color: 'info',
@@ -137,21 +136,21 @@ export default function ShoppingCartList({ items, type }: Props) {
                 showButton: true
             })
         }
-    }, []);
+    }, [checkoutItems]);
 
     return (
         <Box>
             {checkoutItem && (
                 <CartDialog
                     dialog={cartDialog}
-                    order_form_id={checkoutItem.order_form_id}
-                    product_name={checkoutItem.name}
+                    order_form_id={checkoutItem.product.order_form_options.id}
+                    product_name={checkoutItem.product.name}
                     pId={checkoutItem.id}
                     listId={propertyId}
                     listData={list}
                     onAddCart={handleUpdate}
-                    onDelete={(type === 'edit') ? handleRemove : undefined}
-                    handleUpdateRow={(type === 'edit') ? handleUpdateRow : undefined}
+                    onDelete={(ppid: number) => deleteRow(checkoutItem, ppid)}
+                    handleUpdateRow={handleUpdateRow}
                     currentData={property}
                     type={type}
                 />
@@ -160,27 +159,25 @@ export default function ShoppingCartList({ items, type }: Props) {
                 const rdata = (
                     <Box textAlign={'right'} key={index}>
                         <Grid container spacing={2} sx={{ pt: 4 }}>
-                            {item.coverUrl ? <Grid item sm={2} /> : null}
-                            {/* {(type === "")} */}
+                            {(type !== 'edit') ? <Grid item sm={2} /> : null}
                             <Grid item sm={10}>
                                 <Stack direction={'row'} spacing={2}>
-                                    <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.name}</Typography>
-                                    {/* <StyledRoundedWhiteButton variant="outlined">مشاهده تاریخچه</StyledRoundedWhiteButton> */}
+                                    <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.product.name}</Typography>
                                 </Stack>
                             </Grid>
-                            {(item.coverUrl) && (
+                            {((type !== 'edit')) && (
                                 <Grid item sm={2} sx={{ pt: 2 }}>
-                                    <Image src={item.coverUrl} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                                    <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
                                 </Grid>
                             )}
-                            <Grid item sm={item.coverUrl ? 10 : 12} sx={{ pt: 2 }}>
+                            <Grid item sm={(type !== 'edit') ? 10 : 12} sx={{ pt: 2 }}>
                                 <Scrollbar sx={{ maxHeight: 680 }}>
                                     <Table size={'medium'} sx={{ minWidth: 780 }}>
                                         <TableHeadCustom
                                             sx={{
                                                 backgroundColor: '#F2F2F2'
                                             }}
-                                            headLabel={(item.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
+                                            headLabel={(item.product.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
                                         />
 
                                         <TableBody>
@@ -196,8 +193,8 @@ export default function ShoppingCartList({ items, type }: Props) {
                                                             //     (property_price?.status !== IOrderProductPropertyStatus.approve) ?
                                                             //         () => handleRemove(property_price.id) : undefined
                                                             // }
-                                                            onDeleteRow={() => deleteRow(item, ind, property_price.id, (item.properties.length === 1))}
-                                                            onEditRow={(item.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
+                                                            onDeleteRow={() => deleteRow(item, property_price.id, (item.properties.length === 1))}
+                                                            onEditRow={(item.product.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                             type={type}
                                                             row={{
                                                                 rejection_reason: property_price?.rejection_reason,

@@ -133,35 +133,14 @@ export default function ProductDetailsSummary({
     }
   }, [onAddCart, values, product]);
 
-  const handleAddCartCustomMadeProduct = useCallback((data: ICheckoutItemPropertyPrice[]) => {
+  const handleAddCartCustomMadeProduct = useCallback(async (data: ICheckoutItemPropertyPrice[]) => {
     try {
       if (product.order_type === ProductOrderType.ready_to_use) return
 
-      // let ppp: any[] = data.map((item) => {
-      //   const cover_type = product.order_form_options.cover_type.find((cover_type) => cover_type.name == item.cover_type)
-      //   const frame_type = product.order_form_options.frame_type.find((frame_type) => frame_type.name == item.frame_type)
-      //   const profile_type = product.order_form_options.profile_type.find((profile_type) => profile_type.name == item.profile_type)
-
-      //   return {
-      //     quantity: item.quantity,
-      //     dimention: item.dimention,
-      //     coating_type: item.coating_type,
-      //     cover_type: cover_type,
-      //     frame_type: frame_type,
-      //     profile_type: profile_type
-      //   }
-      // });
-
-      // console.log(ppp)
-
-      onAddCart?.({
-        ...values,
-        // order_form_options: product.order_form_options,
-        coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
-        order_form_id: product.order_form_options.id,
-        properties: data,
-        subTotal: 0,
-      });
+      await server_axios.post(endpoints.cart.add, {
+        product_id: values.id,
+        product_property: data
+      })
 
       assmbleDialog.onTrue();
     } catch (error) {
@@ -169,12 +148,11 @@ export default function ProductDetailsSummary({
     }
   }, [onAddCart, values, product]);
 
-  const updateAssemble = useCallback((is_need: boolean) => {
+  const updateAssemble = useCallback(async (is_need: boolean) => {
     setValue('need_to_assemble', is_need);
-    onAddCart?.({
-      id: values.id,
-      need_to_assemble: is_need,
-    });
+    await server_axios.patch(endpoints.cart.update_product_assemble(values.id), {
+      need_to_assemble: is_need
+    })
     cartDialog.onFalse();
   }, [setValue, values, onAddCart, product]);
 
@@ -302,7 +280,7 @@ export default function ProductDetailsSummary({
         dialog={assmbleDialog}
         onUpdateAssemble={updateAssemble}
       />
-      
+
       {product.order_type === ProductOrderType.custom_made ?
         // need to assemble ?
         <CartDialog

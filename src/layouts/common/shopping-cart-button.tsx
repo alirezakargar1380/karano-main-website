@@ -38,9 +38,17 @@ export default function ShoppingCartButton({ sx }: Props) {
                     },
                 }}
                 badgeContent={
-                    <Label sx={{ pt: '3px', backgroundColor: "#000", color: 'white', borderRadius: '100%' }}>
+                    <Label sx={{
+                        p: 0,
+                        pt: 0.25,
+                        backgroundColor: "#000",
+                        color: 'white',
+                        borderRadius: '100%',
+                        minWidth: 20,
+                        height: 20
+                    }}>
                         {/* {checkout.totalItems} */}
-                        {checkout.items.length}
+                        {checkout.totalItems}
                     </Label>
                 }
             >
