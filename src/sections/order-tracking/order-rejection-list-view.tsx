@@ -29,12 +29,12 @@ export default function OrderRejectionListView({
 }: Props) {
     const reminderDialog = useBoolean();
     const confirm = useBoolean();
-    const cancel = useBoolean(true);
+    const cancel = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        // reminderDialog.onTrue();
+        reminderDialog.onTrue();
     }, [])
 
     const handleUpdateOrder = async () => {
@@ -156,7 +156,6 @@ export default function OrderRejectionListView({
                 <Scrollbar>
                     <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
                         <Box>
-
                             <YellowNotification title="لیست کالاهای «سفارشی» ناموجود" sx={{ my: 3 }}>
                                 ادمین فروش تعدادی / تمامی کالاهای شما را رد کرده  و علت‌های کالاهای ردشده را ثبت کرده است. می‌توانید کالا / کالاهای ردشده را اصلاح یا حذف کنید. در صورت اصلاح و سپس بررسی  توسط ادمین فروش، وضعیت‌ کالاهای سفارش شما در  سبد خرید در بخش پروفایل و همچنین از طریق منوی «پیگیری سفارش» قابل مشاهده و پیگیری هستند.
                             </YellowNotification>
