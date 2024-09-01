@@ -138,27 +138,7 @@ export default function OrderTrackingListView() {
                 <Box p={2}>
                     <ShoppingCartList
                         type="view"
-                        items={orderProducts.map((op) => {
-                            return {
-                                ...op.product,
-                                coverUrl: endpoints.image.url(op.product.images.find((item) => item.main)?.name || ''),
-                                need_to_assemble: op.need_to_assemble,
-                                order_form_id: op.product.order_form_options.id,
-                                subTotal: 0,
-                                properties: op.properties.map((property) => {
-                                    return {
-                                        id: property.id,
-                                        rejection_reason: null,
-                                        dimension: property.dimension,
-                                        quantity: property.quantity,
-                                        coating_type: property.coating_type,
-                                        cover_type: property.cover_type,
-                                        profile_type: property.profile_type,
-                                        frame_type: property.frame_type,
-                                    }
-                                }),
-                            }
-                        })}
+                        items={orderProducts}
                     />
                 </Box>
             </DialogWithButton>

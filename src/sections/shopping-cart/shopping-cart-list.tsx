@@ -108,32 +108,30 @@ export default function ShoppingCartList({ items, type }: Props) {
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
 
     const deleteRow = useCallback(async (item: ICheckoutItem, ppid: number, isLastOne?: boolean) => {
-        // YOU MAY NEED TO DELETE THIS IF
-        if (type === 'cart') {
-            let newItems = [...checkoutItems];
-            newItems = newItems.map(((item, index) => {
-                item.properties = item.properties.filter((property) => property.id !== ppid);
-                return item;
-            }));
+        let newItems = [...checkoutItems];
+        newItems = newItems.map(((item) => {
+            item.properties = item.properties.filter((property) => property.id !== ppid);
+            return item;
+        }));
 
-            setCheckoutItems(newItems);
-        } else {
-            // handleRemove(ppid);
-        }
+        setCheckoutItems(newItems);
+
         await server_axios.delete(endpoints.orderProductProperties.delete(ppid));
         if (isLastOne) {
-            enqueueSnackbar(`تمامی کالاهای پروفیل ${item.name} از لیست کالاهای شما با موفقیت حذف شدند.`, {
+            enqueueSnackbar(`تمامی کالاهای پروفیل ${item.product.name} از لیست کالاهای شما با موفقیت حذف شدند.`, {
                 color: 'info',
                 variant: 'multiline',
                 showTimer: true,
-                showButton: true
+                showButton: true,
+                autoHideDuration: 10 * 1000
             })
         } else {
             enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
                 color: 'info',
                 variant: 'myCustomVariant',
                 showTimer: true,
-                showButton: true
+                showButton: true,
+                autoHideDuration: 10 * 1000
             })
         }
     }, [checkoutItems]);
@@ -187,7 +185,7 @@ export default function ShoppingCartList({ items, type }: Props) {
                                                         <CartTableRow
                                                             key={ind * 2}
                                                             isLastOne={(item.properties.length === 1)}
-                                                            product_name={item?.name || ''}
+                                                            product_name={item?.product.name || ''}
                                                             // onDeleteRow={(type === "cart") ?
                                                             //     () => handleRemoveCart(item.id, ind) :
                                                             //     (property_price?.status !== IOrderProductPropertyStatus.approve) ?
@@ -230,7 +228,7 @@ export default function ShoppingCartList({ items, type }: Props) {
                 if (type === 'view')
                     return rdata
 
-                if (type === 'edit' && item.order_type === ProductOrderType.custom_made)
+                if (type === 'edit' && item.product.order_type === ProductOrderType.custom_made)
                     return rdata;
                 else
                     return null

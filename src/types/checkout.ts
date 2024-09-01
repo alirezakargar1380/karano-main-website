@@ -6,15 +6,15 @@ import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDime
 
 export type ICheckoutItem = {
   id: number | any;
-  name: string;
-  coverUrl: string;
-  price: number;
-  order_type: ProductOrderType;
+  // name: string;
+  // coverUrl: string;
+  // price: number;
+  // order_type: ProductOrderType;
   product: IProductItem;
   properties: ICheckoutItemPropertyPrice[]
-  subTotal: number;
-  order_form_id: number;
-  need_to_assemble: boolean
+  // subTotal: number;
+  // order_form_id: number;
+  // need_to_assemble: boolean
 };
 
 export type ICheckoutAddCustomMadeProductData = {
