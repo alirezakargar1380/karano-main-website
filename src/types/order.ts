@@ -78,8 +78,11 @@ export enum IOrderDeliveryType {
 }
 
 export type IRejectedOrderReport = {
-  count: number;
-  order_number: string;
+  // count: number;
+  // order_number: string;
+  title: string;
+  text: string;
+  color: string;
 }
 
 export type IOrderItem = {
@@ -114,7 +117,9 @@ export type IOrderItem = {
 export type OrderContextProps = {
   show: boolean;
   showPopover: boolean;
-  rejection_text: string;
+  text: string;
+  title: string;
+  color: string;
   onToggleShow: VoidFunction;
   onShowPopover: VoidFunction;
   onHideDialog: VoidFunction;

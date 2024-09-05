@@ -127,7 +127,7 @@ export default function CartDialog({
                 setId(null); // felan khali bashe
 
                 list[iid] = custom;
-                if (handleUpdateRow) list[iid].status = IOrderProductPropertyStatus.edited;
+                if (handleUpdateRow && type === 'edit') list[iid].status = IOrderProductPropertyStatus.edited;
                 setList([...list]);
 
                 if (handleUpdateRow) await server_axios.patch(endpoints.orderProductProperties.update(list[iid].id), {

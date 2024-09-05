@@ -487,6 +487,7 @@ export default function CartDialogView({
                                                 onDeleteRow={() => onDelete(item.id || index)}
                                                 onEditRow={() => onUpdate(index)}
                                                 selected={(listId === index)}
+                                                type={type}
                                                 row={{
                                                     ...item,
                                                     status: item.status,

@@ -16,15 +16,16 @@ export default function ReminderDialog({
     action,
     open,
     color = "#0B7BA7",
+    closeTitle = "خیر",
     onClose,
     ...other
 }: ReminderDialogProps) {
     return (
-        <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose} {...other} sx={{ 
+        <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose} {...other} sx={{
             '& .MuiBackdrop-root': {
                 backgroundColor: 'rgba(0,0,0,0.8)'
             }
-         }}>
+        }}>
             <Box py={1} px={3}>
                 <DialogTitle sx={{ pb: 2, borderBottom: '1px solid #E8E8E8', pt: 2, display: 'flex', alignItems: 'center', fontFamily: 'peyda-bold', px: 0 }}>
                     <SvgColor src="/assets/icons/notification/alert-circle.svg" color={color} mr={1} />
@@ -36,6 +37,12 @@ export default function ReminderDialog({
                 {content && <DialogContent sx={{ typography: 'body2', px: 0, mt: 2, fontFamily: 'peyda-medium', color: "#727272" }}> {content} </DialogContent>}
 
                 <DialogActions sx={{ pr: 0 }}>
+                    {(onClose) && (
+                        <Button color="inherit" onClick={onClose}>
+                            {closeTitle}
+                        </Button>
+                    )}
+
                     {action}
                 </DialogActions>
             </Box>

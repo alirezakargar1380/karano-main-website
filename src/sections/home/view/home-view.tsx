@@ -28,7 +28,7 @@ import { LoadingButton } from '@mui/lab';
 
 import { useSnackbar } from 'src/components/snackbar';
 import { useOrderContext } from 'src/sections/order/context/order-context';
-import { ConfirmDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog, ReminderDialog } from 'src/components/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useRouter } from 'src/routes/hooks';
@@ -37,7 +37,7 @@ import { paths } from 'src/routes/paths';
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
-  const { show, rejection_text, onShowPopover, onHideDialog } = useOrderContext();
+  const { show, title, text, color, onShowPopover, onHideDialog } = useOrderContext();
 
   const router = useRouter();
 
@@ -68,8 +68,8 @@ export default function HomeView() {
   }, [scrollY]);
 
   useEffect(() => {
-    if (show) confirm.onTrue();
-  }, [show])
+    if (show && title) confirm.onTrue();
+  }, [show, title])
 
   useEffect(() => {
     getScroll();
@@ -79,16 +79,17 @@ export default function HomeView() {
     <>
       <MainLayout>
 
-        <ConfirmDialog
+        <ReminderDialog
           open={confirm.value}
           onClose={() => {
             confirm.onFalse();
             onHideDialog();
             onShowPopover();
           }}
-          title="سفارش ردشده"
+          color={color}
+          title={title}
           closeTitle="الان نه؛ بعداً"
-          content={rejection_text}
+          content={text}
           action={
             <LoadingButton variant='contained' sx={{ borderRadius: 50, px: 2 }} onClick={() => router.push(paths.orderTracking)}>
               پیگیری سفارش

@@ -132,7 +132,7 @@ export default function OrderRejectionListView({
 
             <ReminderDialog
                 color="#727272"
-                onClose={reminderDialog.onFalse}
+                // onClose={reminderDialog.onFalse}
                 title='یادآوری'
                 open={reminderDialog.value}
                 content={'تعدادی از کالاهای شما رد شده‌اند؛ شما می‌بایست آن‌ها را اصلاح یا حذف کنید.'}
