@@ -47,11 +47,11 @@ export function CheckoutProvider({ children }: Props) {
   const { cart, cartEmpty } = useGetCart();
 
   useEffect(() => {
-    channel.addEventListener('message', function (event) {
-      if (event.data.key === STORAGE_KEY) {
-        update('items', event.data.value)
-      }
-    })
+    // channel.addEventListener('message', function (event) {
+    //   if (event.data.key === STORAGE_KEY) {
+    //     update('items', event.data.value)
+    //   }
+    // })
   }, []);
 
   useEffect(() => {
@@ -239,7 +239,7 @@ export function CheckoutProvider({ children }: Props) {
     console.log('im resetting...')
     // if (completed) {
     reset();
-    channel.postMessage({ key: STORAGE_KEY, value: [] })
+    // channel.postMessage({ key: STORAGE_KEY, value: [] })
     await server_axios.delete(endpoints.cart.emty)
     // router.replace(paths.product.root);
     // }
