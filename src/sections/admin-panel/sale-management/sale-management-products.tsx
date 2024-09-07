@@ -96,7 +96,7 @@ interface SaleManagmentItem {
     product: IProductItem,
     property: IProductProperties,
     need_to_assemble: boolean,
-    updateHasAnydeapprove: (data: boolean) => void
+    updateHasAnydeapprove: () => void
 }
 
 function SaleManagementProductItem({
@@ -173,7 +173,7 @@ function SaleManagementProductItem({
                     property.status = data.status
                 })
 
-            updateHasAnydeapprove(false)
+            updateHasAnydeapprove()
         } catch (error) {
             console.error(error);
             reset();
@@ -189,14 +189,21 @@ function SaleManagementProductItem({
     }, [values.rejection_reason]);
 
 
-    const handleApprove = useCallback((event: any) => {
+    const handleApprove = useCallback(async (event: any) => {
         const v = event.target.value
+        setValue('is_approved', v);
         if (v === '1') {
             setValue('rejection_reason', '')
+            await server_axios.patch(endpoints.orderProductProperties.update_approve(property.id), {
+                status: (v == "0") ? IOrderProductPropertyStatus.denied : IOrderProductPropertyStatus.approve,
+                is_approved: v,
+                rejection_reason: ''
+            }).then(() => console.log('done!'))
+            updateHasAnydeapprove()
+        } else {
+            if (values.rejection_reason) onSubmit();
         }
-        setValue('is_approved', v);
-        onSubmit();
-    }, []);
+    }, [values]);
 
     return (
         <Box sx={{ borderBottom: '1px solid #e0e0e0' }}>
@@ -347,7 +354,7 @@ function SaleManagementProductItem({
                                 name="rejection_reason"
                                 multiline
                                 rows={3}
-                                disabled={values.is_approved === '1'}
+                                disabled={(values.is_approved === '1')}
                                 sx={{
                                     mr: 1,
                                     '& .MuiInputBase-root': {

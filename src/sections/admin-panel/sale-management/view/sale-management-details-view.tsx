@@ -39,7 +39,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
         }
     }, [orderProducts]);
 
-    const handleHasApprove = useCallback(async (allApproved: boolean) => {
+    const handleHasApprove = useCallback(async () => {
         const op = await server_axios.get(endpoints.orderProducts.one(id))
             .then(({ data }) => data)
 
