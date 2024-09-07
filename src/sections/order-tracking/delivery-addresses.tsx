@@ -121,6 +121,9 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                                 sx={{
                                     mt: 3
                                 }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
                                 row
                                 options={addresses.map((add) => {
                                     return {
@@ -131,7 +134,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                                 })}
                             />
                             <br />
-                            <StyledRoundedWhiteButton
+                            {/* <StyledRoundedWhiteButton
                                 variant='outlined'
                                 sx={{
                                     px: 4,
@@ -143,7 +146,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                             >
                                 <Iconify icon={'ic:outline-plus'} mr={0.5} />
                                 آدرس جدید
-                            </StyledRoundedWhiteButton>
+                            </StyledRoundedWhiteButton> */}
                         </>
                     )}
                 </Box>

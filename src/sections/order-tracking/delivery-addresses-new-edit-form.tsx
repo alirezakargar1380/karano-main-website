@@ -79,7 +79,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                 >
                     <RHFTitleTextField name='provice' custom_label='استان' placeholder='نام' sx={{ bgcolor: '#fff' }} />
                     <RHFTitleTextField name='city' custom_label='شهر' placeholder='+98' sx={{ bgcolor: '#fff' }} />
-                    <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='75416-11111' sx={{ bgcolor: '#fff' }} />
+                    <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='12345-45678' sx={{ bgcolor: '#fff' }} />
                 </Stack>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
                     <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={exit}>انصراف</StyledRoundedWhiteButton>

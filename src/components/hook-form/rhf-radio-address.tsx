@@ -58,30 +58,32 @@ export default function RHFRadioAddress({
 
           <RadioGroup {...field} aria-labelledby={labelledby} {...other}>
             {options.map((option, index) => (
-              <Stack direction={row ? 'row' : 'column'} key={option.value}>
-                <FormControlLabel
-                  value={option.value}
-                  disabled={disabled}
-                  control={<Radio disabled={disabled} />}
-                  // label={option.label}
-                  label={''}
-                  sx={{
-                    '&:not(:last-of-type)': {
-                      mb: spacing || 0,
-                    },
-                    ...(row && {
-                      mr: 0,
+              <Stack direction={row ? 'row' : 'column'} justifyContent={'space-between'} key={option.value}>
+                <Stack direction={'row'}>
+                  <FormControlLabel
+                    value={option.value}
+                    disabled={disabled}
+                    control={<Radio disabled={disabled} />}
+                    // label={option.label}
+                    label={''}
+                    sx={{
                       '&:not(:last-of-type)': {
-                        mr: spacing || 2,
+                        mb: spacing || 0,
                       },
-                    }),
-                    ...FSx
-                  }}
-                />
-                {(option.icon) && (
-                  <SvgColor src={option.icon} sx={{ mt: 0.75, mr: 0.5 }} color={"#727272"} />
-                )}
-                <Typography variant='body2' sx={{ mt: 1 }} fontFamily={'peyda-regular'}>{option.label}</Typography>
+                      ...(row && {
+                        mr: 0,
+                        '&:not(:last-of-type)': {
+                          mr: spacing || 2,
+                        },
+                      }),
+                      ...FSx
+                    }}
+                  />
+                  {/* {(option.icon) && (
+                    <SvgColor src={option.icon} sx={{ mt: 0.75, mr: 0.5 }} color={"#727272"} />
+                  )} */}
+                  <Typography variant='body2' sx={{ mt: 1, ml: 1 }}>{option.label}</Typography>
+                </Stack>
                 {(option.icon) && (
                   <SvgColor src={'/assets/icons/user-panel/edit-02.svg'} sx={{ mt: 1.5, ml: 1, width: 16, height: 16 }} color={"#727272"} />
                 )}
