@@ -87,7 +87,6 @@ export default function SaleManagementPayment({
                 await server_axios.patch(endpoints.orders.update(orderId), {
                     status: OrderStatus.failed
                 })
-                // enqueueSnackbar("وضعیت سفارش به رد شده تغییر پیدا کرد")
                 router.push(paths.admin_dashboard.saleManagement.root)
             } else {
                 const op = await server_axios.get(endpoints.orderProducts.one(orderId))
@@ -110,6 +109,7 @@ export default function SaleManagementPayment({
             ...values,
             status: OrderStatus.accepted
         })
+        router.push(paths.admin_dashboard.saleManagement.root)
         // const op = await server_axios.get(endpoints.orderProducts.one(orderId))
         //     .then(({ data }) => data)
 
