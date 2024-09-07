@@ -19,12 +19,9 @@ export function useGetCart() {
         () => ({
             cart: (data as any[]) || [],
             ordersLoading: isLoading,
-            //   productsError: error,
-            //   productsValidating: isValidating,
-            //   productsEmpty: !isLoading && !data?.products.length,
+            cartEmpty: !isLoading && !data?.length,
         }),
-        // [data, error, isLoading, isValidating]
-        [data]
+        [data, data?.length]
     );
 
     return memoizedValue;

@@ -16,6 +16,7 @@ import _ from 'lodash';
 import { useChannel } from 'src/hooks/use-chennel';
 import { useGetCart } from 'src/api/cart';
 import { endpoints, server_axios } from 'src/utils/axios';
+import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
 
@@ -39,9 +40,11 @@ type Props = {
 export function CheckoutProvider({ children }: Props) {
   const router = useRouter();
 
+  const { authenticated } = useAuthContext();
+
   const { state, update, reset } = useLocalStorage(STORAGE_KEY, initialState);
   const { channel } = useChannel(STORAGE_KEY);
-  const { cart } = useGetCart();
+  const { cart, cartEmpty } = useGetCart();
 
   useEffect(() => {
     channel.addEventListener('message', function (event) {
@@ -52,11 +55,19 @@ export function CheckoutProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
+    onGetCart(cart);
+  }, [cart, cartEmpty])
+
+  const onGetCart = useCallback(async (cart?: any) => {
+    if (!authenticated) return
+
+    if (!cart)
+      cart = await server_axios.get(endpoints.cart.list).then(({ data }) => data);
+
     update('items', cart)
     update('totalItems', cart.length)
-  }, [cart])
 
-  const onGetCart = useCallback(() => {
+    return
 
     let quality: number = 0
 

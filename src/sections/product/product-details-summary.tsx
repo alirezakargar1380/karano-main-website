@@ -20,6 +20,7 @@ import { endpoints, server_axios } from 'src/utils/axios';
 import ProductDetailsDescription from './product-details-description';
 import { AssembleDialog } from '../assemble/assemble-dialog';
 import { useSnackbar } from 'src/components/snackbar';
+import { useCheckoutContext } from '../checkout/context';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ export default function ProductDetailsSummary({
   disabledActions,
   ...other
 }: Props) {
+  const checkout = useCheckoutContext();
 
   const cartDialog = useBoolean();
   const assmbleDialog = useBoolean();
@@ -135,12 +137,13 @@ export default function ProductDetailsSummary({
 
   const handleAddCartCustomMadeProduct = useCallback(async (data: ICheckoutItemPropertyPrice[]) => {
     try {
-      if (product.order_type === ProductOrderType.ready_to_use) return
 
       await server_axios.post(endpoints.cart.add, {
         product_id: values.id,
         product_property: data
       })
+
+      checkout.onGetCart();
 
       assmbleDialog.onTrue();
     } catch (error) {
@@ -281,15 +284,12 @@ export default function ProductDetailsSummary({
         onUpdateAssemble={updateAssemble}
       />
 
-      {product.order_type === ProductOrderType.custom_made ?
-        // need to assemble ?
-        <CartDialog
-          dialog={cartDialog}
-          order_form_id={product.order_form_options.id}
-          product_name={product.name}
-          onAddCart={handleAddCartCustomMadeProduct}
-        />
-        : null}
+      <CartDialog
+        dialog={cartDialog}
+        order_form_id={product.order_form_options.id}
+        product_name={product.name}
+        onAddCart={handleAddCartCustomMadeProduct}
+      />
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={3} {...other}>
