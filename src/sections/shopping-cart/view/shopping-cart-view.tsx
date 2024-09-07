@@ -45,7 +45,7 @@ export default function ShoppingCartView() {
                 open={succussDialog.value}
                 onClose={() => {
                     succussDialog.onFalse()
-                    // checkout.onReset()
+                    checkout.onReset();
                     router.replace('/')
                 }}
                 content="سبد خرید شما ثبت، و جهت بررسی به کارشناسان کارانو ارسال شد.
