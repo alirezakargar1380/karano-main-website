@@ -324,23 +324,27 @@ export default function CartDialog({
                             </Stack>
                         </FormProvider>
                         <Stack direction={'row'} spacing={2}>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 3 }} onClick={() => {
-                                dialog.onFalse();
-                                setList([]);
-                                setId(null);
-                            }}>
-                                انصراف
-                            </StyledRoundedWhiteButton>
-                            <LoadingButton
-                                variant='contained'
-                                sx={{ borderRadius: '24px', px: 4 }}
-                                onClick={handleAddToList}
-                                disabled={(type === 'edit') ?
-                                    (hasRejected) ? !isSubmitted : false
-                                    : false}
-                            >
-                                {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
-                            </LoadingButton>
+                            {(id === null) && (
+                                <>
+                                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 3 }} onClick={() => {
+                                        dialog.onFalse();
+                                        setList([]);
+                                        setId(null);
+                                    }}>
+                                        انصراف
+                                    </StyledRoundedWhiteButton>
+                                    <LoadingButton
+                                        variant='contained'
+                                        sx={{ borderRadius: '24px', px: 4 }}
+                                        onClick={handleAddToList}
+                                        disabled={(type === 'edit') ?
+                                            (hasRejected) ? !isSubmitted : false
+                                            : false}
+                                    >
+                                        {(type === 'cart') ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
+                                    </LoadingButton>
+                                </>
+                            )}
                         </Stack>
                     </Stack>
                 </DialogActions>

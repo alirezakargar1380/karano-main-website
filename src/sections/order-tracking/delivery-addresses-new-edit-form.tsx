@@ -38,11 +38,8 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
     });
 
     const {
-        reset,
-        watch,
-        setValue,
         handleSubmit,
-        formState: { isSubmitting },
+        formState: { isValid }
     } = methods;
 
     const onSubmit = handleSubmit(async (data) => {
@@ -86,8 +83,16 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                     <LoadingButton
                         variant='contained'
                         sx={{ borderRadius: '24px', px: 4 }}
-                        //  onClick={() => checkout.onNextStep()}
-                        type="submit"
+                        onClick={() => {
+                            if (!isValid)
+                                enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات آدرس جدید»، الزامی‌ست.', {
+                                    variant: 'myCustomVariant',
+                                    color: 'error'
+                                })
+
+                            onSubmit();
+                        }}
+                    // type="submit"
                     >
                         ثبت آدرس
                     </LoadingButton>

@@ -225,7 +225,7 @@ export default function SnackbarProvider({ children }: Props) {
           return (
             <SnackbarContent>
               <Box sx={{
-                bgcolor: '#2B2B2B',
+                bgcolor: bgColor[props.color],
                 display: 'flex',
                 color: 'white',
                 borderRadius: '16px',

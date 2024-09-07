@@ -21,6 +21,7 @@ import { LoadingButton } from "@mui/lab";
 import { endpoints, server_axios } from "src/utils/axios";
 import { OrderStatus } from "src/types/order";
 import { DialogWithButton } from "src/components/custom-dialog";
+import CompleteInvoiceView from "./complete-invoice-view";
 
 interface Props {
     orderId: number
@@ -42,7 +43,7 @@ export default function CompleteOrderView({
 }: Props) {
     const checkout = useCheckoutContext();
 
-    // const { orderProducts } = useGetOrderProducts(orderId);
+    const { orderProducts } = useGetOrderProducts(orderId);
     const { order } = useGetOrder(`${orderId}`);
 
     useEffect(() => {
@@ -52,10 +53,7 @@ export default function CompleteOrderView({
     useEffect(() => {
         if (checkout.activeStep === -1) finalOrderDialog.onFalse()
         if (checkout.activeStep === 2 && order.need_prepayment) handle();
-        if (checkout.activeStep === 3) {
-            handleAfterLastSection(order.need_prepayment)
-            handle();
-        }
+        if (checkout.activeStep === 3) handle();
     }, [checkout.activeStep]);
 
     const handle = async () => {
@@ -63,7 +61,7 @@ export default function CompleteOrderView({
             status: (hasCustomMade) ? OrderStatus.production : OrderStatus.preparing
         })
         finalOrderDialog.onFalse();
-        // submitHandler(need_prepayment)
+        handleAfterLastSection(order.need_prepayment);
     }
 
     return (
@@ -89,6 +87,7 @@ export default function CompleteOrderView({
                     />
                 </Box>
             </DialogTitle>
+
             {checkout.activeStep === 0 && (
                 <DeliveryRecipientInformation
                     orderId={orderId}
@@ -97,6 +96,26 @@ export default function CompleteOrderView({
                     dialog={finalOrderDialog}
                 />
             )}
+
+            {checkout.activeStep === 1 && (
+                <CompleteInvoiceView dialog={finalOrderDialog}>
+                    <InvoiceView
+                        title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
+                        orderProducts={orderProducts}
+                    />
+                </CompleteInvoiceView>
+            )}
+
+            {checkout.activeStep === 2 && (
+                <Payment
+                    finalOrderDialog={finalOrderDialog}
+                    orderId={orderId}
+                    hasCustomMade={hasCustomMade}
+                    need_prepayment={order.need_prepayment}
+                    production_days={order.production_days}
+                />
+            )}
+
             {/* <DialogContent>
                 <Scrollbar>
                     <Box sx={{ px: 2, pb: 3, pt: 2, bgcolor: 'white', borderRadius: '16px' }}>

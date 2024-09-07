@@ -1,11 +1,7 @@
-import { LoadingButton } from "@mui/lab";
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
-import { useCheckoutContext } from "../checkout/context";
 import Scrollbar from "src/components/scrollbar";
 import { styled } from '@mui/material/styles';
 import { fCurrency } from "src/utils/format-number";
-import { IInvoice } from "src/types/invoice";
 import { IOrderProductItem } from "src/types/order-products";
 import React from "react";
 import { ProductOrderType } from "src/types/product";
@@ -280,7 +276,7 @@ export default function InvoiceView({
     );
 
     return (
-        <Box p={2}>
+        <Box>
             <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'}>
                 <Stack direction={'row'} spacing={2}>
                     <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>

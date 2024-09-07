@@ -10,9 +10,9 @@ type Props = {
 export default function CompleteOrderDialogContent({ children }: Props) {
 
     return (
-        <DialogContent>
+        <DialogContent sx={{ px: 0 }}>
             <Scrollbar>
-                <Box sx={{ px: 2, pb: 3, pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
+                <Box sx={{ pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
                     {children}
                 </Box>
             </Scrollbar>

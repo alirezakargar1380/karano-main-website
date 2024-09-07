@@ -20,6 +20,8 @@ import { useSnackbar } from 'src/components/snackbar';
 import _ from "lodash";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import { ReminderDialog } from "src/components/custom-dialog";
+import { cancelDialogContent, cancelDialogTitle } from "./contants/dialog";
+import CompleteOrderLayout from "./layout/complete-order-layout";
 
 interface Props {
     orderId: number,
@@ -81,7 +83,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
         watch,
         setValue,
         handleSubmit,
-        formState: { isSubmitting, isValid, touchedFields },
+        formState: { isValid, touchedFields },
     } = methods;
 
     const onSubmit = handleSubmit(async (data) => {
@@ -146,8 +148,8 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
                 color="#C80303"
                 open={cancelDialog.value}
                 onClose={cancelDialog.onFalse}
-                title={'انصراف از نهایی‌کردن سفارش'}
-                content={'شما در حال انصراف از فرایند نهایی کردن سفارش خود هستید. آیا می‌خواهید اطلاعاتی که وارد کرده‌اید، ذخیره شوند؟'}
+                title={cancelDialogTitle}
+                content={cancelDialogContent}
                 action={
                     <LoadingButton variant="contained" onClick={() => {
                         onSubmit();
@@ -160,7 +162,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
             />
 
             <CompleteOrderDialogContent>
-                <Box>
+                <CompleteOrderLayout>
                     <Stack spacing={3}>
                         <FormProvider methods={methods} onSubmit={onSubmit}>
                             <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
@@ -247,7 +249,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
                             </FormProvider>
                         )}
                     </Stack>
-                </Box>
+                </CompleteOrderLayout>
             </CompleteOrderDialogContent>
             {/* <FormProvider methods={methods} onSubmit={onSubmit}> */}
             <Actions
