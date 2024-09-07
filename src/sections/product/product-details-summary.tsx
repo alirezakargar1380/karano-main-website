@@ -110,12 +110,27 @@ export default function ProductDetailsSummary({
     }
   });
 
-  const handleAddCartReadyProduct = useCallback(() => {
+  const handleAddCartReadyProduct = useCallback(async () => {
     try {
-      if (product.order_type !== ProductOrderType.ready_to_use) return
-
       const dimension = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
       const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
+
+      await server_axios.post(endpoints.cart.add, {
+        product_id: values.id,
+        product_property: [
+          {
+            quantity: values.quantity,
+            dimension: dimension,
+            cover_type
+          }
+        ]
+      })
+
+      checkout.onGetCart();
+
+      return
+
+      if (product.order_type !== ProductOrderType.ready_to_use) return
 
       onAddCart?.({
         ...values,
