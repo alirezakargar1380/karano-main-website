@@ -47,27 +47,27 @@ export default function PhoneRegisterView() {
   const RegisterSchema = Yup.object().shape({
     user_type: Yup.string().required('نوع کاربری مورد نیاز است'),
     first_name: Yup.string().when('user_type', (type: any, schema) => {
-      if (type[0] === IUserTypes.company)
+      if (type[0] === IUserTypes.legal)
         return schema
       return schema.required('نام خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد')
     }),
     last_name: Yup.string().when('user_type', (type: any, schema) => {
-      if (type[0] === IUserTypes.company)
+      if (type[0] === IUserTypes.legal)
         return schema
       return schema.required('نام خانوادگی خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد')
     }),
     id_code: Yup.string().when('user_type', (type: any, schema) => {
-      if (type[0] === IUserTypes.company)
+      if (type[0] === IUserTypes.legal)
         return schema
       return schema.required('کد ملی خود را وارد کنید').length(10, 'معتبر نیست!')
     }),
     company_name: Yup.string().when('user_type', (type: any, schema) => {
-      if (type[0] === IUserTypes.company)
+      if (type[0] === IUserTypes.legal)
         return schema.required("نام شرکت را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
       return schema
     }),
     national_id: Yup.string().when('user_type', (type: any, schema) => {
-      if (type[0] === IUserTypes.company)
+      if (type[0] === IUserTypes.legal)
         return schema.required("کد را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
       return schema
     }),
@@ -180,7 +180,7 @@ export default function PhoneRegisterView() {
           />
         </Box>
 
-        {(values.user_type !== IUserTypes.company) && (
+        {(values.user_type !== IUserTypes.legal) && (
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
             <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
@@ -188,7 +188,7 @@ export default function PhoneRegisterView() {
         )}
 
 
-        {(values.user_type === IUserTypes.company) && (
+        {(values.user_type === IUserTypes.legal) && (
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <RHFTitleTextField name='company_name' custom_label='نام شرکت' placeholder='نام' />
             <RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='9968741' />
@@ -196,13 +196,13 @@ export default function PhoneRegisterView() {
         )}
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          {(values.user_type !== IUserTypes.company) && (
+          {(values.user_type !== IUserTypes.legal) && (
             <RHFTitleTextField name='id_code' custom_label={'کد ملی'}
               placeholder='مثلا 3540200000'
             />
           )}
           <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
-          {(values.user_type === IUserTypes.company) && (
+          {(values.user_type === IUserTypes.legal) && (
             <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
           )}
         </Stack>

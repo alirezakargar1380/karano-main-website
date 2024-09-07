@@ -12,7 +12,7 @@ export type IUserTableFilters = {
 
 export enum IUserTypes {
   genuine = "حقیقی",
-  company = "شرکت"
+  legal = "حقوقی"
 }
 
 export interface IUser {
