@@ -195,8 +195,11 @@ export default function CartDialog({
 
         if (handleUpdateRow !== undefined)
             handleUpdateRow(list)
-        else
-            onAddCart(list)
+        else {
+            onAddCart(list);
+            setList([]);
+            reset(defaultValues);
+        }
     }, [list, type]);
 
     const onDeleteRow = (propertyIndex: number) => {
@@ -210,7 +213,7 @@ export default function CartDialog({
         setList(newList);
 
         // remove from checkout
-        if (pId) checkout.onDeleteCart(pId, propertyIndex);
+        // if (pId) checkout.onDeleteCart(pId, propertyIndex);
     }
 
     useEffect(() => {
