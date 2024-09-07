@@ -81,9 +81,26 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     return (
 
         <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-            <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                آدرس تحویل گیرنده
-            </Typography>
+            <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'}>
+                <Typography variant="h6" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>
+                    آدرس تحویل گیرنده
+                </Typography>
+                <StyledRoundedWhiteButton
+                    variant='outlined'
+                    size='small'
+                    disabled={!!newAddress}
+                    sx={{
+                        pr: 1.5,
+                        borderColor: '#0B7BA7',
+                        color: '#0B7BA7',
+                        width: 'fit-content'
+                    }}
+                    onClick={() => setNewAddress(true)}
+                >
+                    <Iconify icon={'ic:outline-plus'} mr={0.5} />
+                    آدرس جدید
+                </StyledRoundedWhiteButton>
+            </Stack>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box py={2}>
                     {(addressesEmpty) && (

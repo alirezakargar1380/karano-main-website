@@ -9,6 +9,9 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { endpoints, server_axios } from "src/utils/axios";
 
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 interface Props {
     handleAfterAddingAddress: () => void
     exit: () => void
@@ -17,8 +20,15 @@ interface Props {
 export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: Props) {
     const { enqueueSnackbar } = useSnackbar();
 
+    const NewAddressSchema = Yup.object().shape({
+        address: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        postal_code: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        provice: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        city: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+    });
+
     const methods = useForm({
-        // resolver: yupResolver(NewProductSchema),
+        resolver: yupResolver(NewAddressSchema),
         defaultValues: {
             address: '',
             postal_code: '',
