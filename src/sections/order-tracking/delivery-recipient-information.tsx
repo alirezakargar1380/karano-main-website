@@ -8,12 +8,15 @@ import { useForm } from "react-hook-form";
 import { endpoints, server_axios } from "src/utils/axios";
 import DeliveryAdresses from "./delivery-addresses";
 import { useAuthContext } from "src/auth/hooks";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IOrderDeliveryType } from "src/types/order";
 import CompleteOrderDialogContent from "./dialog-content";
 import { Actions } from "./dialog-action";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { IUserTypes } from "src/types/user";
+
+import { useSnackbar } from 'src/components/snackbar';
 
 interface Props {
     orderId: number,
@@ -28,9 +31,9 @@ enum InvoiceOwner {
 export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) {
     const [invoiceOwner, setInvoiceOwner] = useState<InvoiceOwner>(InvoiceOwner.me)
 
-    const checkout = useCheckoutContext();
     const { user } = useAuthContext();
 
+    const { enqueueSnackbar } = useSnackbar();
 
     const defaultValues = {
         reciver_name: '',
@@ -52,8 +55,13 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
         }),
     });
 
+    const LegalSchema = Yup.object().shape({
+        reciver_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        reciver_phone: Yup.string().min(13, 'پرکردن این فیلد اجباری‌ست.'),
+    });
+
     const methods = useForm({
-        resolver: yupResolver<any>(Schema),
+        resolver: yupResolver<any>((user?.user_type === IUserTypes.genuine) ? Schema : LegalSchema),
         defaultValues
     });
 
@@ -62,14 +70,16 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
         watch,
         setValue,
         handleSubmit,
-        formState: { isSubmitting },
+        formState: { isSubmitting, isValid },
     } = methods;
 
     const onSubmit = handleSubmit(async (data) => {
         try {
+            if (user?.user_type === IUserTypes.genuine) {
+
+            }
             console.info('DATA', data);
             await server_axios.patch(endpoints.orders.update(orderId), data)
-            // checkout.onNextStep();
         } catch (error) {
             console.error(error);
         }
@@ -95,6 +105,29 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
             });
         }
     }, [invoiceOwner]);
+
+    const onBeforeSubmit = useCallback(() => {
+        if (!isValid && user?.user_type === IUserTypes.legal) {
+            if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone)
+                enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده»، الزامی‌ست.', {
+                    color: 'error',
+                    variant: 'multiline'
+                })
+        } else {
+            
+            if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone && values.invoice_owner.first_name === '') {
+                enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده» و «مشخصات صاحب فاکتور» الزامی‌ست.', {
+                    color: 'error',
+                    variant: 'multiline'
+                })
+            } else if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone)
+                enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده»، الزامی‌ست.', {
+                    color: 'error',
+                    variant: 'multiline'
+                })
+        }
+        onSubmit();
+    }, [isValid, user, values, invoiceOwner])
 
     return (
         <>
@@ -133,151 +166,66 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
 
                         {delivery_type === IOrderDeliveryType.tehran && (<DeliveryAdresses orderId={orderId} />)}
 
-                        <FormProvider methods={methods} onSubmit={onSubmit}>
-                            <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                                <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                                    مشخصات صاحب فاکتور
-                                </Typography>
-                                <BlueNotification sx={{ mt: 2 }}>
-                                    می‌توانید فاکتور را به نام خود و یا فرد دیگری انتخاب کنید.
-                                </BlueNotification>
-                                <Stack direction={"row"} sx={{ p: 1.25, borderRadius: '12px', bgcolor: '#F2F2F2', textAlign: 'center', fontFamily: 'peyda-bold', my: 2 }}>
-                                    <Box
-                                        onClick={() => setInvoiceOwner(InvoiceOwner.me)}
-                                        sx={{
-                                            width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
-                                            gcolor: '#F2F2F2',
-                                            ...(invoiceOwner === InvoiceOwner.me && {
-                                                bgcolor: '#FFF'
-                                            })
+                        {(user?.user_type === IUserTypes.genuine) && (
+                            <FormProvider methods={methods} onSubmit={onSubmit}>
+                                <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
+                                    <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                                        مشخصات صاحب فاکتور
+                                    </Typography>
+                                    <BlueNotification sx={{ mt: 2 }}>
+                                        می‌توانید فاکتور را به نام خود و یا فرد دیگری انتخاب کنید.
+                                    </BlueNotification>
+                                    <Stack direction={"row"} sx={{ p: 1.25, borderRadius: '12px', bgcolor: '#F2F2F2', textAlign: 'center', fontFamily: 'peyda-bold', my: 2 }}>
+                                        <Box
+                                            onClick={() => setInvoiceOwner(InvoiceOwner.me)}
+                                            sx={{
+                                                width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
+                                                gcolor: '#F2F2F2',
+                                                ...(invoiceOwner === InvoiceOwner.me && {
+                                                    bgcolor: '#FFF'
+                                                })
+                                            }}
+                                        >
+                                            خودم
+                                        </Box>
+                                        <Box
+                                            onClick={() => setInvoiceOwner(InvoiceOwner.another)}
+                                            sx={{
+                                                width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
+                                                bgcolor: '#F2F2F2',
+                                                ...(invoiceOwner === InvoiceOwner.another && {
+                                                    bgcolor: '#FFF'
+                                                })
+                                            }}
+                                        >
+                                            فرد دیگر
+                                        </Box>
+                                    </Stack>
+                                    <Stack
+                                        direction={{ xs: 'column', sm: 'row' }}
+                                        display="grid"
+                                        gridTemplateColumns={{
+                                            xs: 'repeat(1, 1fr)',
+                                            md: 'repeat(2, 1fr)',
                                         }}
+                                        sx={{ mt: 3 }}
+                                        spacing={2}
                                     >
-                                        خودم
-                                    </Box>
-                                    <Box
-                                        onClick={() => setInvoiceOwner(InvoiceOwner.another)}
-                                        sx={{
-                                            width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
-                                            bgcolor: '#F2F2F2',
-                                            ...(invoiceOwner === InvoiceOwner.another && {
-                                                bgcolor: '#FFF'
-                                            })
-                                        }}
-                                    >
-                                        فرد دیگر
-                                    </Box>
-                                </Stack>
-                                <Stack
-                                    direction={{ xs: 'column', sm: 'row' }}
-                                    display="grid"
-                                    gridTemplateColumns={{
-                                        xs: 'repeat(1, 1fr)',
-                                        md: 'repeat(2, 1fr)',
-                                    }}
-                                    sx={{ mt: 3 }}
-                                    spacing={2}
-                                >
-                                    <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='افزودن محتوا' />
-                                    <RHFTitleTextField name='invoice_owner.last_name' custom_label='نام خانوادگی' placeholder='افزودن محتوا' />
-                                    <RHFTitleTextField name='invoice_owner.id_code' custom_label='کد ملی' placeholder='افزودن محتوا' />
-                                </Stack>
-                            </Box>
-                        </FormProvider>
+                                        <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='افزودن محتوا' />
+                                        <RHFTitleTextField name='invoice_owner.last_name' custom_label='نام خانوادگی' placeholder='افزودن محتوا' />
+                                        <RHFTitleTextField name='invoice_owner.id_code' custom_label='کد ملی' placeholder='افزودن محتوا' />
+                                    </Stack>
+                                </Box>
+                            </FormProvider>
+                        )}
                     </Stack>
                 </Box>
             </CompleteOrderDialogContent>
-            <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Actions />
-            </FormProvider>
+            {/* <FormProvider methods={methods} onSubmit={onSubmit}> */}
+            <Actions
+                onSubmit={onBeforeSubmit}
+            />
+            {/* </FormProvider> */}
         </>
-    )
-
-    return (
-        <Box>
-            <Stack spacing={3}>
-                <FormProvider methods={methods} onSubmit={onSubmit}>
-                    <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                        <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                            اطلاعات تحویل گیرنده
-                        </Typography>
-                        <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ mt: 2 }} spacing={2}>
-                            <RHFTitleTextField name='reciver_name' custom_label='نام و نام خانوادگی' placeholder='نام و نام خانوادگی' />
-                            <RHFTitleTextField
-                                name="reciver_phone"
-                                custom_label='شماره تماس'
-                                sx={{
-                                    '.MuiInputBase-input': {
-                                        textAlign: 'right!important',
-                                        direction: 'rtl!important'
-                                    }
-                                }}
-                                type={'text'}
-                                placeholder='09123456789'
-                                onChange={(e) => {
-                                    if (!e.target.value.startsWith('+98')) {
-                                        setValue('reciver_phone', '+98')
-                                    } else {
-                                        setValue('reciver_phone', e.target.value)
-                                    }
-                                }}
-                            />
-                        </Stack>
-                    </Box>
-                </FormProvider>
-
-                {delivery_type === IOrderDeliveryType.tehran && (<DeliveryAdresses orderId={orderId} />)}
-
-                <FormProvider methods={methods} onSubmit={onSubmit}>
-                    <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                        <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                            مشخصات صاحب فاکتور
-                        </Typography>
-                        <BlueNotification sx={{ mt: 2 }}>
-                            می‌توانید فاکتور را به نام خود و یا فرد دیگری انتخاب کنید.
-                        </BlueNotification>
-                        <Stack direction={"row"} sx={{ p: 1.25, borderRadius: '12px', bgcolor: '#F2F2F2', textAlign: 'center', fontFamily: 'peyda-bold', my: 2 }}>
-                            <Box
-                                onClick={() => setInvoiceOwner(InvoiceOwner.me)}
-                                sx={{
-                                    width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
-                                    gcolor: '#F2F2F2',
-                                    ...(invoiceOwner === InvoiceOwner.me && {
-                                        bgcolor: '#FFF'
-                                    })
-                                }}
-                            >
-                                خودم
-                            </Box>
-                            <Box
-                                onClick={() => setInvoiceOwner(InvoiceOwner.another)}
-                                sx={{
-                                    width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
-                                    bgcolor: '#F2F2F2',
-                                    ...(invoiceOwner === InvoiceOwner.another && {
-                                        bgcolor: '#FFF'
-                                    })
-                                }}
-                            >
-                                فرد دیگر
-                            </Box>
-                        </Stack>
-                        <Stack
-                            direction={{ xs: 'column', sm: 'row' }}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}
-                            sx={{ mt: 3 }}
-                            spacing={2}
-                        >
-                            <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='نام' />
-                            <RHFTitleTextField name='invoice_owner.last_name' custom_label='نام خانوادگی' placeholder='بدر' />
-                            <RHFTitleTextField name='invoice_owner.id_code' custom_label='کد ملی' placeholder='بدر' />
-                        </Stack>
-                    </Box>
-                </FormProvider>
-            </Stack>
-        </Box>
     )
 }
