@@ -3,7 +3,7 @@ import { Box, DialogActions, DialogContent, DialogTitle, Stack, Typography } fro
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
 import { IOrderProductItem } from "src/types/order-products";
 
@@ -13,6 +13,7 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { DefaultDialog, ReminderDialog } from "src/components/custom-dialog";
 import Scrollbar from "src/components/scrollbar";
 import { OrderStatus } from "src/types/order";
+import { useShowOneTime } from "src/hooks/use-show-one-time";
 
 interface Props {
     orderProducts: IOrderProductItem[]
@@ -27,6 +28,12 @@ export default function OrderRejectionListView({
     orderId,
     order_number
 }: Props) {
+    const [edited, setEdited] = useState<boolean>(false);
+    const {
+        show,
+        toggle
+    } = useShowOneTime("rejection-reminder")
+
     const reminderDialog = useBoolean();
     const confirm = useBoolean();
     const cancel = useBoolean();
@@ -34,10 +41,16 @@ export default function OrderRejectionListView({
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
-        reminderDialog.onTrue();
-    }, [])
+        if (!show) reminderDialog.onTrue();
+        else reminderDialog.onFalse();
+    }, [show])
 
     const handleUpdateOrder = async () => {
+        if (!edited) return enqueueSnackbar('تعدادی از سفارش‌های شما توسط مدیریت فروش،در وضعیت «ردشده» قرار گرفته‌اند.\n ابتدا تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید.', {
+            variant: 'multiline',
+            color: 'error'
+        })
+
         const op: IOrderProductItem[] = await server_axios.get(endpoints.orderProducts.one(orderId)).then(({ data }) => data);
 
         let isOnlyOne = false
@@ -93,23 +106,25 @@ export default function OrderRejectionListView({
 
             <DefaultDialog
                 onClose={cancel.onFalse}
-                title='انصراف از ثبت نهایی اصلاحات'
+                title={'انصراف از ثبت نهایی اصلاحات'}
                 open={cancel.value}
-                content={'شما در حال انصراف از ثبت نهایی اصلاحات کالاهای ردشده  هستید.  تمام اطلاعات کالاهای رده‌شده‌ای که  اصلاح و حذف کرده‌اید، پاک می‌شوند. آیا مایل به ادامه انصراف هستید؟'}
-                closeTitle="انصراف"
+                content={'شما در حال انصراف از ثبت نهایی اصلاحات کالاهای ردشده  هستید.  تمام اطلاعات کالاهای رده‌شده‌ای که  اصلاح و حذف کرده‌اید، ذخیره می‌شوند. آیا مایل به ادامه انصراف هستید؟'}
+                closeTitle="خیر"
                 action={
-                    <LoadingButton variant="contained" onClick={() => {
-                        cancel.onFalse();
-                        dialog.onFalse();
-                        enqueueSnackbar(`با انصراف از ثبت نهایی اصلاحات، شفارش شما با کد ${order_number} در وضعیت «ردشده» باقی می‌ماند.  `, {
-                            variant: 'multiline',
-                            color: 'info'
-                        })
-                    }} sx={{
-                        borderRadius: '50px',
-                        px: 4
-                    }}>
-                        تایید
+                    <LoadingButton variant="contained"
+                        onClick={() => {
+                            cancel.onFalse();
+                            dialog.onFalse();
+                            enqueueSnackbar(`با انصراف از ثبت نهایی اصلاحات، شفارش شما با کد ${order_number} در وضعیت «ردشده» باقی می‌ماند.  `, {
+                                variant: 'multiline',
+                                color: 'info'
+                            })
+                        }}
+                        sx={{
+                            borderRadius: '50px',
+                            px: 5
+                        }}>
+                        بله
                     </LoadingButton>
                 }
             />
@@ -137,7 +152,10 @@ export default function OrderRejectionListView({
                 open={reminderDialog.value}
                 content={'تعدادی از کالاهای شما رد شده‌اند؛ شما می‌بایست آن‌ها را اصلاح یا حذف کنید.'}
                 action={
-                    <LoadingButton variant="contained" onClick={reminderDialog.onFalse} sx={{
+                    <LoadingButton variant="contained" onClick={() => {
+                        reminderDialog.onFalse();
+                        toggle();
+                    }} sx={{
                         borderRadius: '50px',
                         px: 2
                     }}>
@@ -167,6 +185,7 @@ export default function OrderRejectionListView({
                         <ShoppingCartList
                             type="edit"
                             items={orderProducts}
+                            afterUpdate={() => setEdited(true)}
                         />
                     </Box>
                 </Scrollbar>

@@ -61,6 +61,7 @@ export const endpoints = {
   },
   cart: {
     list: '/api/cart',
+    emty: '/api/cart/emty',
     add: '/api/cart',
     update_product_assemble: (product_id: any) => `/api/cart/${product_id}/assemble`
   },

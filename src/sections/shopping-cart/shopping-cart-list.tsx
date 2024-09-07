@@ -21,9 +21,10 @@ import { useSnackbar } from "src/components/snackbar";
 interface Props {
     items: ICheckoutItem[]
     type: 'cart' | 'edit' | 'view'
+    afterUpdate?: () => void
 }
 
-export default function ShoppingCartList({ items, type }: Props) {
+export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
     const checkout = useCheckoutContext();
 
     const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
@@ -39,7 +40,6 @@ export default function ShoppingCartList({ items, type }: Props) {
     const handleEdit = useCallback((item: ICheckoutItem, property_ind?: number) => {
         setCheckoutItem(item);
         setList(item.properties);
-        console.log(item)
 
         if (property_ind !== undefined) {
             const property = item.properties[property_ind];
@@ -49,14 +49,18 @@ export default function ShoppingCartList({ items, type }: Props) {
         }
 
         cartDialog.onTrue();
+        if (afterUpdate) afterUpdate();
     }, [setCheckoutItem, setPropertyId, setPropertyId]);
 
     useEffect(() => {
         setCheckoutItems(items);
     }, [items, setList]);
 
-    const handleUpdate = useCallback((data: ICheckoutItemPropertyPrice[]) => {
+    const handleAddCart = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
+            /**
+             *  REFACTOR
+             */
             if (type === 'edit') {
             } else {
                 if (!checkoutItem) return
@@ -67,41 +71,41 @@ export default function ShoppingCartList({ items, type }: Props) {
                 }, false)
             }
             cartDialog.onFalse();
+            if (afterUpdate) afterUpdate();
         } catch (error) {
             console.error(error);
         }
     }, [checkoutItem]);
 
-    const handleRemove = useCallback(async (propertyId: number) => {
-        const p = checkoutItems.find((item) => item.properties.find((p) => p.id === propertyId))
-        if (p?.properties.find((pp) => pp.status === IOrderProductPropertyStatus.approve && pp.id === propertyId))
-            return enqueueSnackbar('این مورد تایید شده است، نمیتوانید حذف کنید', { variant: 'error' });
+    // const handleRemove = useCallback(async (propertyId: number) => {
+    //     const p = checkoutItems.find((item) => item.properties.find((p) => p.id === propertyId))
+    //     if (p?.properties.find((pp) => pp.status === IOrderProductPropertyStatus.approve && pp.id === propertyId))
+    //         return enqueueSnackbar('این مورد تایید شده است، نمیتوانید حذف کنید', { variant: 'error' });
 
-        await server_axios.delete(endpoints.orderProductProperties.delete(propertyId));
-        let up = checkoutItems.map((item) => {
-            item.properties = item.properties.filter((property) => property.id !== propertyId)
-            return item
-        });
-        up = up.filter((item) => item.properties.length > 0)
-        setCheckoutItems(up)
-        if (!list?.length) return setList([]);
-        if (list.length === 1) return setList([]);
-        let newList = list.filter((p) => p.id !== propertyId);
-        setList([...newList]);
-    }, [list, checkoutItems]);
+    //     await server_axios.delete(endpoints.orderProductProperties.delete(propertyId));
+    //     let up = checkoutItems.map((item) => {
+    //         item.properties = item.properties.filter((property) => property.id !== propertyId)
+    //         return item
+    //     });
+    //     up = up.filter((item) => item.properties.length > 0)
+    //     setCheckoutItems(up)
+    //     if (!list?.length) return setList([]);
+    //     if (list.length === 1) return setList([]);
+    //     let newList = list.filter((p) => p.id !== propertyId);
+    //     setList([...newList]);
+    // }, [list, checkoutItems]);
 
     const handleUpdateRow = useCallback(async (data: ICheckoutItemPropertyPrice[]) => {
         try {
-            // OLD Code
             const updatedCheckoutItems = [...checkoutItems];
             let index = updatedCheckoutItems.findIndex((checkout) => checkout.id === checkoutItem?.id);
             updatedCheckoutItems[index].properties = [...data];
-            // OLD Code
 
             await new Promise((resolve) => setTimeout(resolve, 250));
             setCheckoutItems([...updatedCheckoutItems]);
 
             cartDialog.onFalse();
+            if (afterUpdate) afterUpdate()
         } catch (error) {
             console.error(error);
         }
@@ -146,7 +150,7 @@ export default function ShoppingCartList({ items, type }: Props) {
                     pId={checkoutItem.id}
                     listId={propertyId}
                     listData={list}
-                    onAddCart={handleUpdate}
+                    onAddCart={handleAddCart}
                     onDelete={(ppid: number) => deleteRow(checkoutItem, ppid)}
                     handleUpdateRow={handleUpdateRow}
                     currentData={property}

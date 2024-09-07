@@ -4,7 +4,7 @@ import { useMemo, useEffect, useCallback } from 'react';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { getStorage, useLocalStorage } from 'src/hooks/use-local-storage';
+import { useLocalStorage } from 'src/hooks/use-local-storage';
 
 import { PRODUCT_CHECKOUT_STEPS } from 'src/_mock/_product';
 
@@ -15,6 +15,7 @@ import { CheckoutContext } from './checkout-context';
 import _ from 'lodash';
 import { useChannel } from 'src/hooks/use-chennel';
 import { useGetCart } from 'src/api/cart';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +54,6 @@ export function CheckoutProvider({ children }: Props) {
   useEffect(() => {
     update('items', cart)
     update('totalItems', cart.length)
-    console.log(cart)
   }, [cart])
 
   const onGetCart = useCallback(() => {
@@ -67,7 +67,7 @@ export function CheckoutProvider({ children }: Props) {
     const totalItems: number = quality;
 
     const subTotal: number = state.items.reduce(
-      (total: number, item: ICheckoutItem) => (total + quality) * item.price,
+      (total: number, item: ICheckoutItem) => (total + quality) * 25,
       0
     );
 
@@ -126,31 +126,28 @@ export function CheckoutProvider({ children }: Props) {
     [update, state.items, channel]
   );
 
-  const onDeleteCart = // useCallback(
-    (itemId: number, propertyIndex: number) => {
-      const restored = getStorage(STORAGE_KEY);
-      if (!restored?.items?.length) return
+  const onDeleteCart = (itemId: number, propertyIndex: number) => {
+    // const restored = getStorage(STORAGE_KEY);
+    // if (!restored?.items?.length) return
 
-      let item = restored.items.find((item: ICheckoutItem) => item.id === itemId);
-      let productIndex = restored.items.findIndex((item: ICheckoutItem) => item.id === itemId);
+    // let item = restored.items.find((item: ICheckoutItem) => item.id === itemId);
+    // let productIndex = restored.items.findIndex((item: ICheckoutItem) => item.id === itemId);
 
-      console.log('-> productIndex', productIndex)
-      console.log(item)
-      const index = propertyIndex;
-      if (index > -1)
-        item.properties.splice(index, 1)
+    // console.log('-> productIndex', productIndex)
+    // console.log(item)
+    // const index = propertyIndex;
+    // if (index > -1)
+    //   item.properties.splice(index, 1)
 
-      if (!item.properties.length) {
-        restored.items = restored.items.filter((item: ICheckoutItem) => item.id !== itemId);
-      } else {
-        restored.items[productIndex] = item
-      }
+    // if (!item.properties.length) {
+    //   restored.items = restored.items.filter((item: ICheckoutItem) => item.id !== itemId);
+    // } else {
+    //   restored.items[productIndex] = item
+    // }
 
-      update('items', restored.items);
-      channel.postMessage({ key: STORAGE_KEY, value: restored.items })
-    }//,
-  // [update, channel, state.items]
-  // );
+    // update('items', restored.items);
+    // channel.postMessage({ key: STORAGE_KEY, value: restored.items })
+  }
 
   const onBackStep = useCallback(() => {
     update('activeStep', state.activeStep - 1);
@@ -227,11 +224,12 @@ export function CheckoutProvider({ children }: Props) {
   const completed = state.activeStep === PRODUCT_CHECKOUT_STEPS.length;
 
   // Reset
-  const onReset = useCallback(() => {
+  const onReset = useCallback(async () => {
     console.log('im resetting...')
     // if (completed) {
     reset();
     channel.postMessage({ key: STORAGE_KEY, value: [] })
+    await server_axios.delete(endpoints.cart.emty)
     // router.replace(paths.product.root);
     // }
   }, [completed, reset, router]);
