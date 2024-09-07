@@ -46,8 +46,8 @@ export default function CompleteOrderView({
     const { order } = useGetOrder(`${orderId}`);
 
     useEffect(() => {
-        checkout.onGotoStep(0) // console.log(checkout.activeStep)
-    }, []);
+        checkout.onGotoStep(0)
+    }, [finalOrderDialog.value]);
 
     useEffect(() => {
         if (checkout.activeStep === -1) finalOrderDialog.onFalse()
@@ -90,7 +90,12 @@ export default function CompleteOrderView({
                 </Box>
             </DialogTitle>
             {checkout.activeStep === 0 && (
-                <DeliveryRecipientInformation orderId={orderId} delivery_type={order.delivery_type} />
+                <DeliveryRecipientInformation
+                    orderId={orderId}
+                    order={order}
+                    delivery_type={order.delivery_type}
+                    dialog={finalOrderDialog}
+                />
             )}
             {/* <DialogContent>
                 <Scrollbar>

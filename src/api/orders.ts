@@ -68,7 +68,7 @@ export function useGetDeliveryOrders() {
 }
 
 export function useGetOrder(id: string) {
-  const URL = endpoints.orders.one(id);
+  const URL = id ? endpoints.orders.one(id) : null
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 

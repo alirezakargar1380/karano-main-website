@@ -9,7 +9,7 @@ import { endpoints, server_axios } from "src/utils/axios";
 import DeliveryAdresses from "./delivery-addresses";
 import { useAuthContext } from "src/auth/hooks";
 import { useCallback, useEffect, useState } from "react";
-import { IOrderDeliveryType } from "src/types/order";
+import { IOrderDeliveryType, IOrderItem } from "src/types/order";
 import CompleteOrderDialogContent from "./dialog-content";
 import { Actions } from "./dialog-action";
 import * as Yup from 'yup';
@@ -17,10 +17,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { IUserTypes } from "src/types/user";
 
 import { useSnackbar } from 'src/components/snackbar';
+import _ from "lodash";
+import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
+import { ReminderDialog } from "src/components/custom-dialog";
 
 interface Props {
     orderId: number,
-    delivery_type: IOrderDeliveryType
+    delivery_type: IOrderDeliveryType,
+    dialog: useBooleanReturnType,
+    order: IOrderItem
 }
 
 enum InvoiceOwner {
@@ -28,20 +33,26 @@ enum InvoiceOwner {
     another = "another"
 }
 
-export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) {
+export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, order }: Props) {
     const [invoiceOwner, setInvoiceOwner] = useState<InvoiceOwner>(InvoiceOwner.me)
+
+    const cancelDialog = useBoolean();
+
+    const {
+        onNextStep
+    } = useCheckoutContext();
 
     const { user } = useAuthContext();
 
     const { enqueueSnackbar } = useSnackbar();
 
     const defaultValues = {
-        reciver_name: '',
-        reciver_phone: '+98',
+        reciver_name: order?.reciver_name || '',
+        reciver_phone: order?.reciver_phone || '+98',
         invoice_owner: {
-            first_name: '',
-            last_name: '',
-            id_code: ''
+            first_name: order?.invoice_owner?.first_name || '',
+            last_name: order?.invoice_owner?.last_name || '',
+            id_code: order?.invoice_owner?.id_code || ''
         }
     }
 
@@ -70,16 +81,14 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
         watch,
         setValue,
         handleSubmit,
-        formState: { isSubmitting, isValid },
+        formState: { isSubmitting, isValid, touchedFields },
     } = methods;
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            if (user?.user_type === IUserTypes.genuine) {
-
-            }
             console.info('DATA', data);
-            await server_axios.patch(endpoints.orders.update(orderId), data)
+            await server_axios.patch(endpoints.orders.update(orderId), data);
+            onNextStep();
         } catch (error) {
             console.error(error);
         }
@@ -100,11 +109,13 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
         } else {
             reset({
                 ...defaultValues,
-                reciver_name: values.reciver_name,
-                reciver_phone: values.reciver_phone,
             });
         }
     }, [invoiceOwner]);
+
+    useEffect(() => {
+        if (user?.first_name !== order?.invoice_owner?.first_name) setInvoiceOwner(InvoiceOwner.another)
+    }, [user])
 
     const onBeforeSubmit = useCallback(() => {
         if (!isValid && user?.user_type === IUserTypes.legal) {
@@ -114,7 +125,6 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
                     variant: 'multiline'
                 })
         } else {
-            
             if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone && values.invoice_owner.first_name === '') {
                 enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده» و «مشخصات صاحب فاکتور» الزامی‌ست.', {
                     color: 'error',
@@ -131,6 +141,24 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
 
     return (
         <>
+
+            <ReminderDialog
+                color="#C80303"
+                open={cancelDialog.value}
+                onClose={cancelDialog.onFalse}
+                title={'انصراف از نهایی‌کردن سفارش'}
+                content={'شما در حال انصراف از فرایند نهایی کردن سفارش خود هستید. آیا می‌خواهید اطلاعاتی که وارد کرده‌اید، ذخیره شوند؟'}
+                action={
+                    <LoadingButton variant="contained" onClick={() => {
+                        onSubmit();
+                        cancelDialog.onFalse();
+                        dialog.onFalse();
+                    }} sx={{ borderRadius: 50, px: 5 }}>
+                        بله
+                    </LoadingButton>
+                }
+            />
+
             <CompleteOrderDialogContent>
                 <Box>
                     <Stack spacing={3}>
@@ -223,6 +251,13 @@ export function DeliveryRecipientInformation({ orderId, delivery_type }: Props) 
             </CompleteOrderDialogContent>
             {/* <FormProvider methods={methods} onSubmit={onSubmit}> */}
             <Actions
+                onCancel={() => {
+                    if (_.keys(touchedFields).length) {
+                        cancelDialog.onTrue();
+                    } else {
+                        dialog.onFalse();
+                    }
+                }}
                 onSubmit={onBeforeSubmit}
             />
             {/* </FormProvider> */}
