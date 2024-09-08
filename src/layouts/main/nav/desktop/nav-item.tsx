@@ -24,7 +24,7 @@ import { useOrderContext } from 'src/sections/order/context/order-context';
 
 export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   ({ title, path, open, badge, active, hasChild, externalLink, subItem, ...other }, ref) => {
-    const { show, showPopover, onHidePopover } = useOrderContext();
+    const { show, text, showPopover, onHidePopover } = useOrderContext();
 
     const customizedPopover = usePopover();
     const refPop = useRef(null);
@@ -96,7 +96,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
               سفارش رد شده
             </Typography>
             <Typography fontFamily={'peyda-regular'} mt={'16px'} fontSize={12}>
-              {`سفارش شما با کد {۱۲۳۴۵۶}  توسط مدیر فروش ردشده است. می‌توانید از طریق منوی «پیگیری سفارش»، وضعیت سفارش‌ ردشده خود را پیگیری کنید.`}
+              {text}
             </Typography>
             <Box textAlign={'right'}>
               <StyledRoundedWhiteButton variant='contained'

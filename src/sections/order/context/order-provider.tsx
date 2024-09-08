@@ -25,17 +25,8 @@ type Props = {
 };
 
 export function OrderProvider({ children }: Props) {
-    const { state, update, reset } = useLocalStorage(STORAGE_KEY, initialState);
+    const { state, update } = useLocalStorage(STORAGE_KEY, initialState);
     const { report } = useGetRejectedOrdersReport();
-
-    // useEffect(() => {
-    //     if (report.title) {
-    //         update("show", false);
-    //         return
-    //     }
-    //     update("show", true);
-    //     update("showPopover", false);
-    // }, [report])
 
     useEffect(() => {
         update('title', report.title)
@@ -43,20 +34,13 @@ export function OrderProvider({ children }: Props) {
 
         update("show", true);
         update("showPopover", false);
-        // if (report.order_number) {
-        //     update('rejection_text', `سفارش شما با کد ${report.order_number}  توسط مدیر فروش ردشده است. می‌توانید از طریق منوی «پیگیری سفارش»، وضعیت سفارش‌ ردشده خود را پیگیری کنید.`)
-        // } else if (report.count > 0) {
-        //     update('rejection_text', "تعدادی از سفارش‌های شما توسط مدیر فروش رد شده‌اند. می‌توانید از طریق منوی «پیگیری سفارش» وضعیت سفارش رد شده خود را پیگیری کنید.")
-        // }
-    }, [report.title])
+    }, [report.title, report])
 
     const onToggleShow = useCallback(() => {
-        // toggle()
         update("show", !state.show);
     }, [state.show]);
 
     const onHideDialog = useCallback(() => {
-        // toggle()
         update("show", false);
     }, [state.show]);
 

@@ -43,7 +43,7 @@ export default function OrderTrackingListView() {
             if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
                 setHasCustomMade(true);
         }
-    }, [orderProducts]);
+    }, [orderProducts, orderId]);
 
     useEffect(() => {
         setOrder(orders.find((o) => o.id === orderId))
@@ -70,18 +70,19 @@ export default function OrderTrackingListView() {
         }
     }
 
-    const pay = async () => {
-        let hasReadyProduct = false;
-        if (orderProducts.some((op) => op.product.order_type === ProductOrderType.ready_to_use))
-            hasReadyProduct = true
+    const pay = useCallback(async () => {
+        // let hasReadyProduct = false;
+        // if (orderProducts.some((op) => op.product.order_type === ProductOrderType.ready_to_use))
+        //     hasReadyProduct = true
 
         await server_axios.patch(endpoints.orders.update(orderId), {
-            status: OrderStatus.preparing
+            status: hasCustomMade ? OrderStatus.production : OrderStatus.preparing
         })
         finalPaymentDialog.onFalse();
-        // enqueueSnackbar("سفارش شما با موفقیت پرداخت شد")
-        handleConfirmSubmitDialog(orders.find((o) => o.id === orderId)?.need_prepayment || false)
-    }
+
+        const order = orders.find((o) => o.id === orderId);
+        handleConfirmSubmitDialog(order?.need_prepayment || false);
+    }, [orderProducts, orders, hasCustomMade]);
 
     return (
         <Box>

@@ -10,7 +10,7 @@ import { IOrderProductItem } from 'src/types/order-products';
 // ----------------------------------------------------------------------
 
 export function useGetOrderProducts(id: number) {
-  const URL = endpoints.orderProducts.one(id);
+  const URL = id ? endpoints.orderProducts.one(id) : null
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
@@ -22,8 +22,7 @@ export function useGetOrderProducts(id: number) {
     //   productsValidating: isValidating,
     //   productsEmpty: !isLoading && !data?.products.length,
     }),
-    // [data, error, isLoading, isValidating]
-    [data]
+    [data, id]
   );
 
   return memoizedValue;

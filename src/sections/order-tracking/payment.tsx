@@ -14,6 +14,7 @@ import { Actions } from "./dialog-action";
 import { ReminderDialog } from "src/components/custom-dialog";
 import { cancelDialogContent, cancelDialogTitle } from "./contants/dialog";
 import CompleteOrderLayout from "./layout/complete-order-layout";
+import CompleteOrderDialogContent from "./dialog-content";
 
 interface Props {
     orderId: number
@@ -82,48 +83,50 @@ export default function Payment({
                     </LoadingButton>
                 }
             />
-            <FormProvider methods={methods}>
+            <CompleteOrderDialogContent>
                 <CompleteOrderLayout>
-                    <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                        پیش پرداخت
-                    </Typography>
-                    <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4, mt: 4 }}>
+                    <FormProvider methods={methods}>
                         <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                            مشخصات صاحب فاکتور
+                            پیش پرداخت
                         </Typography>
-                        <Typography variant="body2" sx={{ width: 1, py: 2, fontFamily: 'peyda-regular' }}>
-                            در صورت داشتن کد تخفیف، آن را وارد کنید.
-                        </Typography>
-                        <Box sx={{ width: 'fit-content' }}>
-                            <RHFTitleTextField
-                                custom_label="کد تخفیف"
-                                name="code"
-                                placeholder="کد تخفیف را وارد کنید"
-                                InputProps={{
-                                    endAdornment: (
-                                        <Button variant="outlined" sx={{ mr: 1 }}>ثبت</Button>
-                                    )
+                        <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4, mt: 4 }}>
+                            <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                                مشخصات صاحب فاکتور
+                            </Typography>
+                            <Typography variant="body2" sx={{ width: 1, py: 2, fontFamily: 'peyda-regular' }}>
+                                در صورت داشتن کد تخفیف، آن را وارد کنید.
+                            </Typography>
+                            <Box sx={{ width: 'fit-content' }}>
+                                <RHFTitleTextField
+                                    custom_label="کد تخفیف"
+                                    name="code"
+                                    placeholder="کد تخفیف را وارد کنید"
+                                    InputProps={{
+                                        endAdornment: (
+                                            <Button variant="outlined" sx={{ mr: 1 }}>ثبت</Button>
+                                        )
+                                    }}
+                                />
+                            </Box>
+                            <Stack
+                                direction={{ xs: 'column', sm: 'row' }}
+                                display="grid"
+                                gridTemplateColumns={{
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
                                 }}
-                            />
+                                sx={{ mt: 2 }}
+                                spacing={2}
+                            >
+                            </Stack>
                         </Box>
-                        <Stack
-                            direction={{ xs: 'column', sm: 'row' }}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}
-                            sx={{ mt: 2 }}
-                            spacing={2}
-                        >
-                        </Stack>
-                    </Box>
+                    </FormProvider>
                 </CompleteOrderLayout>
-                <Actions
-                    onCancel={cancelDialog.onTrue}
-                    onSubmit={checkout.onNextStep}
-                />
-            </FormProvider>
+            </CompleteOrderDialogContent>
+            <Actions
+                onCancel={cancelDialog.onTrue}
+                onSubmit={checkout.onNextStep}
+            />
         </>
     )
 }

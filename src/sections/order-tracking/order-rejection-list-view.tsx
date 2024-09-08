@@ -5,7 +5,7 @@ import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-wh
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import React, { useEffect, useState } from "react";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
-import { IOrderProductItem } from "src/types/order-products";
+import { IOrderProductItem, IOrderProductStatus } from "src/types/order-products";
 
 import { useSnackbar } from "src/components/snackbar";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
@@ -29,10 +29,7 @@ export default function OrderRejectionListView({
     order_number
 }: Props) {
     const [edited, setEdited] = useState<boolean>(false);
-    const {
-        show,
-        toggle
-    } = useShowOneTime("rejection-reminder")
+    const [show, setShow] = useState<boolean>(false);
 
     const reminderDialog = useBoolean();
     const confirm = useBoolean();
@@ -42,16 +39,16 @@ export default function OrderRejectionListView({
 
     useEffect(() => {
         if (!show) reminderDialog.onTrue();
-        else reminderDialog.onFalse();
     }, [show])
 
     const handleUpdateOrder = async () => {
-        if (!edited) return enqueueSnackbar('تعدادی از سفارش‌های شما توسط مدیریت فروش،در وضعیت «ردشده» قرار گرفته‌اند.\n ابتدا تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید.', {
-            variant: 'multiline',
-            color: 'error'
-        })
-
         const op: IOrderProductItem[] = await server_axios.get(endpoints.orderProducts.one(orderId)).then(({ data }) => data);
+
+        if (!edited && op.find((item) => item.properties.find((p) => p.status === IOrderProductPropertyStatus.denied)))
+            return enqueueSnackbar('تعدادی از سفارش‌های شما توسط مدیریت فروش،در وضعیت «ردشده» قرار گرفته‌اند.\n ابتدا تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید.', {
+                variant: 'multiline',
+                color: 'error'
+            })
 
         let isOnlyOne = false
         op.forEach((element) => {
@@ -154,7 +151,7 @@ export default function OrderRejectionListView({
                 action={
                     <LoadingButton variant="contained" onClick={() => {
                         reminderDialog.onFalse();
-                        toggle();
+                        setShow(true);
                     }} sx={{
                         borderRadius: '50px',
                         px: 2
