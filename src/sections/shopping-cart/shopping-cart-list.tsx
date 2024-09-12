@@ -105,7 +105,7 @@ export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
             setCheckoutItems([...updatedCheckoutItems]);
 
             cartDialog.onFalse();
-            if (afterUpdate) afterUpdate()
+            if (afterUpdate) afterUpdate();
         } catch (error) {
             console.error(error);
         }
@@ -138,6 +138,7 @@ export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
                 autoHideDuration: 10 * 1000
             })
         }
+        if (afterUpdate) afterUpdate();
     }, [checkoutItems]);
 
     return (
