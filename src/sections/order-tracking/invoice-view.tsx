@@ -22,12 +22,14 @@ type Props = {
     orderProducts: IOrderProductItem[];
     title?: string
     production_date?: string
+    downloadable?: boolean | undefined
 };
 
 export default function InvoiceView({
     orderProducts,
     title = 'مشاهده فاکتور',
-    production_date
+    production_date,
+    downloadable
 }: Props) {
     // const checkout = useCheckoutContext();
 
@@ -289,7 +291,9 @@ export default function InvoiceView({
                         </Label>
                     )}
                 </Stack>
-                <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
+                {downloadable && (
+                    <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
+                )}
             </Stack>
             {renderList}
 

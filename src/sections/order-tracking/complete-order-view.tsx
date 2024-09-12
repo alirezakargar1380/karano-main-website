@@ -1,4 +1,4 @@
-import { Box, Container, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import { Box, Container, DialogActions, DialogContent, DialogTitle, Stack, Tooltip, Typography } from "@mui/material";
 import { borderRadius } from "@mui/system";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -22,6 +22,7 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { OrderStatus } from "src/types/order";
 import { DialogWithButton } from "src/components/custom-dialog";
 import CompleteInvoiceView from "./complete-invoice-view";
+import SvgColor from "src/components/svg-color";
 
 interface Props {
     orderId: number
@@ -67,14 +68,21 @@ export default function CompleteOrderView({
     return (
         <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
             <DialogTitle>
-                <Stack direction={'row'} spacing={2} sx={{ px: 0, pt: 2 }} borderBottom={'1px solid #D1D1D1'}>
-                    <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
-                        نهایی کردن سفارش
-                    </Typography>
-                    <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
-                        تاریخ تحویل:
-                        <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
-                    </Label>
+                <Stack direction={'row'} justifyContent={'space-between'} spacing={2} sx={{ px: 0, pt: 1 }} borderBottom={'1px solid #D1D1D1'}>
+                    <Stack direction={'row'} spacing={2}>
+                        <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
+                            نهایی کردن سفارش
+                        </Typography>
+                        <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                            تاریخ تحویل:
+                            <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
+                        </Label>
+                    </Stack>
+                    {checkout.activeStep === 1 && (
+                        <Tooltip title="دانلود ‌فاکتور" arrow>
+                            <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
+                        </Tooltip>
+                    )}
                 </Stack>
                 <Box sx={{ mt: 6, width: 0.7, mx: 'auto' }}>
                     <CheckoutSteps
@@ -100,7 +108,7 @@ export default function CompleteOrderView({
             {checkout.activeStep === 1 && (
                 <CompleteInvoiceView dialog={finalOrderDialog}>
                     <InvoiceView
-                        title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
+                        title={hasCustomMade ? 'پیش‌فاکتور فروش کالا‌و‌خدمات' : 'فاکتور فروش کالا‌و‌خدمات'}
                         orderProducts={orderProducts}
                     />
                 </CompleteInvoiceView>
