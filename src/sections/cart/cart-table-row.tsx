@@ -168,7 +168,7 @@ export default function CartTableRow({
         open={confirm.value}
         onClose={confirm.onFalse}
         title={(status === IOrderProductPropertyStatus.denied) ? "حذف کالا" : "حذف کالای ردشده"}
-        content={(status === IOrderProductPropertyStatus.denied) ? `آیا از حذف ${product_name} اطمینان دارید؟` : "آیا از حذف کالای مورد نظر اطمینان دارید؟"}
+        content={(status === IOrderProductPropertyStatus.denied || status === IOrderProductPropertyStatus.edited) ? `آیا از حذف ${product_name} اطمینان دارید؟` : "آیا از حذف کالای مورد نظر اطمینان دارید؟"}
         action={
           <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
             if (onDeleteRow) onDeleteRow();
