@@ -96,6 +96,7 @@ export function CheckoutProvider({ children }: Props) {
     state.discount,
     state.shipping,
     state.subTotal,
+    state.totalItems,
     update,
   ]);
 
