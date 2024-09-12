@@ -132,6 +132,7 @@ export const endpoints = {
     update: (id: any) => `/api/order-product-properties/${id}`,
     delete: (id: any) => `/api/order-product-properties/${id}`,
     update_approve: (id: any) => `/api/order-product-properties/${id}/approve`,
+    cancel_delete: (id: any) => `/api/order-product-properties/${id}/remove`,
   },
   category: {
     list: '/api/category',

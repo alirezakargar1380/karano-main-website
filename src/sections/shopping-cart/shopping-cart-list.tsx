@@ -127,7 +127,10 @@ export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
                 variant: 'multiline',
                 showTimer: true,
                 showButton: true,
-                autoHideDuration: 10 * 1000
+                autoHideDuration: 10 * 1000,
+                onClick: async () => {
+                    server_axios.patch(endpoints.orderProductProperties.cancel_delete(ppid))
+                }
             })
         } else {
             enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
@@ -135,7 +138,10 @@ export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
                 variant: 'myCustomVariant',
                 showTimer: true,
                 showButton: true,
-                autoHideDuration: 10 * 1000
+                autoHideDuration: 10 * 1000,
+                onClick: async () => {
+                    server_axios.patch(endpoints.orderProductProperties.cancel_delete(ppid))
+                }
             })
         }
         if (afterUpdate) afterUpdate();

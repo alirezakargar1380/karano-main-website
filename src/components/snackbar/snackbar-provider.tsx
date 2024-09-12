@@ -179,17 +179,17 @@ export default function SnackbarProvider({ children }: Props) {
                     <Button
                       variant='outlined'
                       sx={{
-                        borderRadius: '8px',
+                        borderRadius: '24px',
                         borderColor: '#F8F8F8',
                         textWrap: 'nowrap',
                         px: 2
                       }}
                       onClick={() => {
-                        // closeSnackbar(props.id)
                         props.onClick()
+                        closeSnackbar(props.id)
                       }}
                     >
-                      متن دکمه
+                      خنثی کردن
                     </Button>
                   )}
                 </Box>
@@ -281,8 +281,8 @@ export default function SnackbarProvider({ children }: Props) {
                         borderColor: '#F8F8F8',
                       }}
                       onClick={() => {
-                        // closeSnackbar(props.id)
                         props.onClick()
+                        closeSnackbar(props.id)
                       }}
                     >
                       خنثی کردن
