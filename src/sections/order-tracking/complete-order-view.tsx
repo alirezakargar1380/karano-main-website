@@ -1,4 +1,4 @@
-import { Box, Container, DialogActions, DialogContent, DialogTitle, Stack, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Container, DialogActions, DialogContent, DialogTitle, Stack, Tooltip, Typography } from "@mui/material";
 import { borderRadius } from "@mui/system";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -80,7 +80,14 @@ export default function CompleteOrderView({
                     </Stack>
                     {checkout.activeStep === 1 && (
                         <Tooltip title="دانلود ‌فاکتور" arrow>
-                            <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
+                            <Button sx={{
+                                '&:hover': {
+                                    bgcolor: '#F2F2F2'
+                                },
+                                minWidth: 'fit-content'
+                            }} size="small">
+                                <SvgColor src="/assets/icons/orders/download-01.svg" />
+                            </Button>
                         </Tooltip>
                     )}
                 </Stack>

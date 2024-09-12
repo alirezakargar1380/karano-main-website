@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Tooltip, Typography } from "@mui/material";
 import { DialogWithButton, SuccessDialog } from "src/components/custom-dialog";
 import { useBoolean } from "src/hooks/use-boolean";
 import CompleteOrderView from "./complete-order-view";
@@ -23,6 +23,7 @@ export default function OrderTrackingListView() {
     const [orderId, setOrderId] = useState<number>(0);
     const [order, setOrder] = useState<IOrderItem>();
     const [hasCustomMade, setHasCustomMade] = useState(false);
+    const [prePayment, setPrePayment] = useState(false);
 
     const orderRejectingDialog = useBoolean();
     const cartDialog = useBoolean();
@@ -65,12 +66,12 @@ export default function OrderTrackingListView() {
     };
 
     const handleConfirmSubmitDialog = (need_prepayment: boolean) => {
-        console.log(need_prepayment)
-        if (need_prepayment) {
-            submitSuccessDialog.onTrue();
-        } else {
-            successDialog.onTrue();
-        }
+        setPrePayment(need_prepayment)
+        // if (need_prepayment) {
+        //     submitSuccessDialog.onTrue();
+        // } else {
+        successDialog.onTrue();
+        // }
     }
 
     const pay = useCallback(async () => {
@@ -97,17 +98,17 @@ export default function OrderTrackingListView() {
     return (
         <Box>
 
-            <SuccessDialog
+            {/* <SuccessDialog
                 title="ثبت موفق"
                 content={hasCustomMade ?
                     `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`
                     : `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد.`}
                 open={submitSuccessDialog.value}
                 onClose={submitSuccessDialog.onFalse}
-            />
+            /> */}
 
             <SuccessDialog
-                title="پرداخت موفق"
+                title={prePayment ? "ثبت موفق" : "پرداخت موفق"}
                 content={hasCustomMade ?
                     `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`
                     : `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد.`}
@@ -117,7 +118,7 @@ export default function OrderTrackingListView() {
 
             {/* final payment success dialog */}
             <SuccessDialog
-                title="پرداخت موفق"
+                title={"پرداخت موفق"}
                 content={`پرداخت شما برای سفارش کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت انجام شد و  به زودی ارسال می‌شود. `}
                 open={successFinalPaymentDialog.value}
                 onClose={successFinalPaymentDialog.onFalse}
@@ -160,7 +161,27 @@ export default function OrderTrackingListView() {
             />
 
             <DialogWithButton dialog={cartDialog} fullWith={true}>
-                <Box p={2}>
+                <Box p={4}>
+                    <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'}>
+                        <Stack direction={'row'} spacing={2}>
+                            <Typography variant="h4" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>
+                                {'سبدخرید'}
+                            </Typography>
+                        </Stack>
+                        <Box>
+                            <Tooltip title="دانلود سبد خرید" arrow>
+                                <Button sx={{
+                                    '&:hover': {
+                                        bgcolor: '#F2F2F2'
+                                    },
+                                    minWidth: 'fit-content'
+                                }} size="small">
+                                    <SvgColor src="/assets/icons/orders/download-01.svg" />
+                                </Button>
+                            </Tooltip>
+                        </Box>
+
+                    </Stack>
                     <ShoppingCartList
                         type="view"
                         items={orderProducts}
