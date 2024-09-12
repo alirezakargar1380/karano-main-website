@@ -1,4 +1,5 @@
 import { Box, Button, Stack, Typography } from "@mui/material"
+import { useCallback } from "react"
 import Iconify from "src/components/iconify"
 import Label from "src/components/label"
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button"
@@ -6,12 +7,24 @@ import SvgColor from "src/components/svg-color"
 import { IOrderItem, OrderStatus } from "src/types/order"
 import { fDateTime, fToJamali } from "src/utils/format-time"
 
+import { useSnackbar } from 'src/components/snackbar';
+
 interface Props {
     order: IOrderItem
     handleMoreBtn: (id: number, status: OrderStatus) => void
 }
 
 export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
+
+    const { enqueueSnackbar } = useSnackbar();
+
+    const handleDownloadFactor = useCallback(async () => {
+        enqueueSnackbar('فاکتور نهایی سفارش شما با موفقیت دانلود شد.', {
+            variant: 'myCustomVariant',
+            color: 'info'
+        })
+    }, []);
+
     return (
         <Box sx={{ bgcolor: '#F8F8F8', borderRadius: '16px', border: '1px solid #D1D1D1', padding: 4 }}>
             <Stack direction={'row'} justifyContent={'space-between'} sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
@@ -53,6 +66,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                     {order.status === OrderStatus.produced && (
                         <Button
                             sx={{ color: "#0B7BA7", fontFamily: "peyda-bold" }}
+                            onClick={handleDownloadFactor}
                         >
                             <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
                             دانلود فاکتور نهایی
