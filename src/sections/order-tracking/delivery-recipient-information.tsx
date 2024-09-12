@@ -116,23 +116,23 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
     }, [invoiceOwner]);
 
     useEffect(() => {
-        if (user?.first_name !== order?.invoice_owner?.first_name) setInvoiceOwner(InvoiceOwner.another)
+        if (order?.invoice_owner?.first_name && user?.first_name !== order?.invoice_owner?.first_name) setInvoiceOwner(InvoiceOwner.another)
     }, [user])
 
     const onBeforeSubmit = useCallback(() => {
         if (!isValid && user?.user_type === IUserTypes.legal) {
-            if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone)
+            if (!values.reciver_name && values.reciver_phone === '+98')
                 enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده»، الزامی‌ست.', {
                     color: 'error',
                     variant: 'multiline'
                 })
         } else {
-            if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone && values.invoice_owner.first_name === '') {
+            if (!values.reciver_name && values.reciver_phone === '+98' && values.invoice_owner.first_name === '') {
                 enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده» و «مشخصات صاحب فاکتور» الزامی‌ست.', {
                     color: 'error',
                     variant: 'multiline'
                 })
-            } else if (!values.reciver_name && values.reciver_phone === defaultValues.reciver_phone)
+            } else if (!values.reciver_name && values.reciver_phone === '+98')
                 enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات تحویل‌گیرنده»، الزامی‌ست.', {
                     color: 'error',
                     variant: 'multiline'
