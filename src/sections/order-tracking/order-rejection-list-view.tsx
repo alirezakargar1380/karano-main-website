@@ -74,7 +74,7 @@ export default function OrderRejectionListView({
             return
         } else {
             if (op.find((item: any) => item.properties.find((property: any) => property.status === IOrderProductPropertyStatus.denied))) {
-                const text = "تعدادی از سفارش‌های شما توسط مدیریت فروش،در وضعیت «ردشده» قرار گرفته‌اند. \n ابتدا تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید."
+                const text = "تعدادی از سفارش‌های شما در وضعیت «ردشده» هستند. \n ابتدا تغییرات مورد نظر را اعمال کنید. سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید."
                 enqueueSnackbar(text, {
                     variant: "multiline",
                     color: "error"
