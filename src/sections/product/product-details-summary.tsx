@@ -95,7 +95,12 @@ export default function ProductDetailsSummary({
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      cartDialog.onTrue()
+
+      if (product.order_type === ProductOrderType.custom_made) {
+        cartDialog.onTrue();
+      } else {
+        handleAddCartReadyProduct();
+      }
       if (!existProduct) {
         // onAddCart?.({
         //   ...data,
@@ -206,8 +211,7 @@ export default function ProductDetailsSummary({
       fullWidth
       color="inherit"
       size="large"
-      onClick={() => handleAddCartReadyProduct()}
-      type={(product.order_type === ProductOrderType.custom_made) ? "submit" : "button"}
+      type={"submit"}
       variant="contained"
     >
       {(product.order_type !== ProductOrderType.custom_made) ? "افزودن به سبد خرید" : "ثبت سفارش"}
