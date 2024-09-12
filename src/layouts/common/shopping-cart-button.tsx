@@ -47,7 +47,6 @@ export default function ShoppingCartButton({ sx }: Props) {
                         minWidth: 20,
                         height: 20
                     }}>
-                        {/* {checkout.totalItems} */}
                         {checkout.totalItems}
                     </Label>
                 }
