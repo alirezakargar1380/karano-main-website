@@ -59,7 +59,7 @@ export default function SaleManagementPayment({
     });
 
     const defaultValues = {
-        need_prepayment: order.need_prepayment || false,
+        need_prepayment: order.need_prepayment,
         prepayment: order.prepayment || '',
         production_days: order.production_days || 1,
     }
