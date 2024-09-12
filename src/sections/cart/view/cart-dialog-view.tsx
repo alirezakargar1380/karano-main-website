@@ -128,7 +128,7 @@ const Tooltip = ({
                     <LoadingButton variant='contained' sx={{ mt: 0, ml: 1, borderRadius: 50, fontFamily: 'peyda-bold' }} {...closeProps}>
                         <Box id="close">متوجه شدم</Box>
                     </LoadingButton>
-                    <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...backProps}>
+                    <StyledRoundedWhiteButton sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...backProps}>
                         <Box id="back">مرحله قبل</Box>
                     </StyledRoundedWhiteButton>
                 </>
