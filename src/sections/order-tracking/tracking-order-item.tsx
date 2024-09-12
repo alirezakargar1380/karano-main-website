@@ -53,7 +53,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                     {
                         (order.status === OrderStatus.posted && 'ارسال شده') ||
                         (order.status === OrderStatus.edited && 'اصلاح شده') ||
-                        (order.status === OrderStatus.pending && 'در انتظار تایید') ||
+                        (order.status === OrderStatus.pending && 'در حال بررسی') ||
                         (order.status === OrderStatus.failed && 'رد شده') ||
                         (order.status === OrderStatus.production && 'در حال تولید') ||
                         (order.status === OrderStatus.produced && 'در انتظار پرداخت نهایی') ||
