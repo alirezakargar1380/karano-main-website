@@ -70,7 +70,10 @@ export default function Payment({
             <ReminderDialog
                 color="#C80303"
                 open={cancelDialog.value}
-                onClose={cancelDialog.onFalse}
+                onClose={() => {
+                    finalOrderDialog.onFalse();
+                    cancelDialog.onFalse()
+                }}
                 title={cancelDialogTitle}
                 content={cancelDialogContent}
                 action={

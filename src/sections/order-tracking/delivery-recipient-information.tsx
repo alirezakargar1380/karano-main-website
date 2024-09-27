@@ -147,7 +147,10 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
             <ReminderDialog
                 color="#C80303"
                 open={cancelDialog.value}
-                onClose={cancelDialog.onFalse}
+                onClose={() => {
+                    dialog.onFalse();
+                    cancelDialog.onFalse()
+                }}
                 title={cancelDialogTitle}
                 content={cancelDialogContent}
                 action={

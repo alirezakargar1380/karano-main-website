@@ -24,7 +24,10 @@ export default function CompleteInvoiceView({ children, dialog }: Props) {
             <ReminderDialog
                 color="#C80303"
                 open={cancelDialog.value}
-                onClose={cancelDialog.onFalse}
+                onClose={() => {
+                    dialog.onFalse();
+                    cancelDialog.onFalse()
+                }}
                 title={cancelDialogTitle}
                 content={cancelDialogContent}
                 action={
