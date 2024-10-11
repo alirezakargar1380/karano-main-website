@@ -64,6 +64,8 @@ export function CheckoutProvider({ children }: Props) {
     if (!cart)
       cart = await server_axios.get(endpoints.cart.list).then(({ data }) => data);
 
+    console.log('cart', cart)
+
     update('items', cart)
     update('totalItems', cart.length)
 

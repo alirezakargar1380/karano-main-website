@@ -196,7 +196,7 @@ export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
                                                         <CartTableRow
                                                             key={ind * 2}
                                                             isLastOne={(item.properties.length === 1)}
-                                                            product_name={item?.product.name || ''}
+                                                            product_name={item?.product?.name || ''}
                                                             // onDeleteRow={(type === "cart") ?
                                                             //     () => handleRemoveCart(item.id, ind) :
                                                             //     (property_price?.status !== IOrderProductPropertyStatus.approve) ?
