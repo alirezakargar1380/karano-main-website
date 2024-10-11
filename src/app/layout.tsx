@@ -27,7 +27,7 @@ export const metadata = {
     'wood',
   keywords: 'react,material,kit,application,dashboard,admin,template',
   // themeColor: '#000000',
-  manifest: '/manifest.json',
+  // manifest: '/manifest.json',
   // viewport: { width: 'device-width', initialScale: 1, maximumScale: 1 },
   icons: [
     { rel: 'icon', url: '/logo/favicon.ico' },
