@@ -194,14 +194,9 @@ export default function ShoppingCartList({ items, type, afterUpdate }: Props) {
                                                 <>
                                                     {item.properties?.map((property_price, ind: number) => (
                                                         <CartTableRow
-                                                            key={ind * 2}
+                                                            key={ind}
                                                             isLastOne={(item.properties.length === 1)}
                                                             product_name={item?.product?.name || ''}
-                                                            // onDeleteRow={(type === "cart") ?
-                                                            //     () => handleRemoveCart(item.id, ind) :
-                                                            //     (property_price?.status !== IOrderProductPropertyStatus.approve) ?
-                                                            //         () => handleRemove(property_price.id) : undefined
-                                                            // }
                                                             onDeleteRow={() => deleteRow(item, property_price.id, (item.properties.length === 1))}
                                                             onEditRow={(item.product.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                             type={type}

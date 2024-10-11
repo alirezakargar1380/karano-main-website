@@ -59,7 +59,7 @@ export function CheckoutProvider({ children }: Props) {
   }, [cart, cartEmpty])
 
   const onGetCart = useCallback(async (cart?: any) => {
-    if (!authenticated) return
+    if (!authenticated) return console.error('not authenticated')
 
     if (!cart)
       cart = await server_axios.get(endpoints.cart.list).then(({ data }) => data);
@@ -100,6 +100,7 @@ export function CheckoutProvider({ children }: Props) {
     state.subTotal,
     state.totalItems,
     update,
+    authenticated,
   ]);
 
   const onAddToCart = useCallback(
