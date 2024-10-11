@@ -130,7 +130,7 @@ export default function CarouselBasic1({ sx }: Props) {
               }}
             >
               {products.map((v, key) => (
-                <ProductItemSlider product={v} ind={key * Math.random()} favorite={favProductIds.includes(v.id)} key={key} />
+                <ProductItemSlider product={v} favorite={favProductIds.includes(v.id)} key={key} />
               ))}
             </Stack>
           </Carousel>
