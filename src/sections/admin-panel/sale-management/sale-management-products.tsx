@@ -16,15 +16,22 @@ import { fToJamali } from "src/utils/format-time";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { useGetOrderProducts } from "src/api/order-products";
 
 interface Props {
-    orderProducts: IOrderProductItem[]
+    // orderProducts: IOrderProductItem[]
     order: IOrderItem
     updateHasAnydeapprove: (val: boolean) => void
 }
 
 
-export default function SaleManagementProducts({ orderProducts, order, updateHasAnydeapprove }: Props) {
+export default function SaleManagementProducts({
+    // orderProducts, 
+    order,
+    updateHasAnydeapprove
+}: Props) {
+
+    const { orderProducts } = useGetOrderProducts(order.id);
 
     useEffect(() => {
         updateHasAnydeapprove(true)

@@ -75,7 +75,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
                 <Grid container spacing={2}>
                     <Grid sm={8} item>
                         <SaleManagementProducts
-                            orderProducts={orderProducts}
+                            // orderProducts={orderProducts}
                             order={order}
                             updateHasAnydeapprove={handleHasApprove}
                         />
