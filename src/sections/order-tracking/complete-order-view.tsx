@@ -78,8 +78,8 @@ export default function CompleteOrderView({
                             <Box pl={0.5}>{fToJamali(order.production_date)}</Box>
                         </Label>
                     </Stack>
-                    {checkout.activeStep === 1 && (
-                        <Tooltip title="دانلود ‌فاکتور" arrow>
+                    {checkout.activeStep >= 1 && (
+                        <Tooltip title={hasCustomMade ? "دانلود پیش فاکتور" : "دانلود ‌فاکتور"} arrow>
                             <Button sx={{
                                 '&:hover': {
                                     bgcolor: '#F2F2F2'

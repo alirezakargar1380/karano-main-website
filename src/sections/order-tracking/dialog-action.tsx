@@ -6,9 +6,10 @@ import CompleteOrderLayout from "./layout/complete-order-layout";
 type Props = {
     onCancel?: () => void
     onSubmit?: () => void
+    title?: string
 }
 
-export function Actions({ onCancel, onSubmit }: Props) {
+export function Actions({ onCancel, onSubmit, title = 'ثبت و ادامه' }: Props) {
     return (
         <DialogActions sx={{ px: 0 }}>
             <CompleteOrderLayout>
@@ -23,7 +24,7 @@ export function Actions({ onCancel, onSubmit }: Props) {
                     type="submit"
                     onClick={onSubmit}
                 >
-                    ثبت و ادامه
+                    {title}
                 </LoadingButton>
             </CompleteOrderLayout>
         </DialogActions>

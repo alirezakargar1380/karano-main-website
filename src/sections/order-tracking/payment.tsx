@@ -89,14 +89,11 @@ export default function Payment({
             <CompleteOrderDialogContent>
                 <CompleteOrderLayout>
                     <FormProvider methods={methods}>
-                        <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                            پیش پرداخت
-                        </Typography>
-                        <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4, mt: 4 }}>
+                        <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 3 }}>
                             <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                                مشخصات صاحب فاکتور
+                                {hasCustomMade ? "پیش پرداخت" : "پرداخت"}
                             </Typography>
-                            <Typography variant="body2" sx={{ width: 1, py: 2, fontFamily: 'peyda-regular' }}>
+                            <Typography variant="body2" sx={{ width: 1, py: 4 }}>
                                 در صورت داشتن کد تخفیف، آن را وارد کنید.
                             </Typography>
                             <Box sx={{ width: 'fit-content' }}>
@@ -129,6 +126,7 @@ export default function Payment({
             <Actions
                 onCancel={cancelDialog.onTrue}
                 onSubmit={checkout.onNextStep}
+                title="پرداخت"
             />
         </>
     )
