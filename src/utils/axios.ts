@@ -138,4 +138,8 @@ export const endpoints = {
     list: '/api/category',
     products: (id: any) => `/api/category/${id}/products`,
   },
+  provinces: {
+    list: '/api/provinces',
+    cities: (id: any) => `/api/provinces/${id}/cities`,
+  }
 };

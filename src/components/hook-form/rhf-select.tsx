@@ -10,7 +10,7 @@ import { Theme, SxProps } from '@mui/material/styles';
 import FormHelperText from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControl, { FormControlProps } from '@mui/material/FormControl';
-import { InputAdornment, SvgIcon } from '@mui/material';
+import { InputAdornment, Stack, SvgIcon, Typography } from '@mui/material';
 import Iconify from '../iconify';
 import SvgColor from '../svg-color';
 
@@ -40,33 +40,41 @@ export function RHFSelect({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <TextField
-          {...field}
-          select
-          fullWidth
-          SelectProps={{
-            renderValue(value) {
-              return <>{value}</>;
-            },
-            native,
-            MenuProps: {
-              PaperProps: {
-                sx: {
-                  ...(!native && {
-                    maxHeight: typeof maxHeight === 'number' ? maxHeight : 'unset',
-                  }),
-                  ...PaperPropsSx,
+        <>
+          <TextField
+            {...field}
+            select
+            fullWidth
+            SelectProps={{
+              // renderValue(value) {
+              //   return <>{value}</>;
+              // },
+              native,
+              MenuProps: {
+                PaperProps: {
+                  sx: {
+                    ...(!native && {
+                      maxHeight: typeof maxHeight === 'number' ? maxHeight : 'unset',
+                    }),
+                    ...PaperPropsSx,
+                  },
                 },
               },
-            },
-            sx: { textTransform: 'capitalize' },
-          }}
-          error={!!error}
-          helperText={error ? error?.message : helperText}
-          {...other}
-        >
-          {children}
-        </TextField>
+              sx: { textTransform: 'capitalize' },
+            }}
+            error={!!error}
+            helperText={helperText}
+            {...other}
+          >
+            {children}
+          </TextField>
+          {error && (
+            <Stack direction={'row'}>
+              <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} mt={1} />
+              <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5} mt={1}>{error?.message}</Typography>
+            </Stack>
+          )}
+        </>
       )}
     />
   );

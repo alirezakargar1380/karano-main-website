@@ -127,26 +127,12 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                                 row
                                 options={addresses.map((add) => {
                                     return {
-                                        label: add.provice + ", " + add.provice + ", " + add.address,
+                                        label: add.province.name + ", " + add.city.name+ ", " + add.address,
                                         value: add.id,
                                         icon: '/assets/icons/address/marker-pin-01.svg'
                                     }
                                 })}
                             />
-                            {/* <br /> */}
-                            {/* <StyledRoundedWhiteButton
-                                variant='outlined'
-                                sx={{
-                                    px: 4,
-                                    mt: 2,
-                                    borderColor: '#0B7BA7!important',
-                                    color: '#0B7BA7'
-                                }}
-                                onClick={() => setNewAddress(true)}
-                            >
-                                <Iconify icon={'ic:outline-plus'} mr={0.5} />
-                                آدرس جدید
-                            </StyledRoundedWhiteButton> */}
                         </>
                     )}
                 </Box>

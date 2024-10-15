@@ -1,7 +1,8 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, MenuItem, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import FormProvider, {
+    RHFSelect,
     RHFTitleTextField,
 } from 'src/components/hook-form';
 import { useSnackbar } from 'src/components/snackbar';
@@ -11,6 +12,8 @@ import { endpoints, server_axios } from "src/utils/axios";
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useGetProvinceCities, useGetProvinces } from "src/api/province";
+import { useEffect } from "react";
 
 interface Props {
     handleAfterAddingAddress: () => void
@@ -23,8 +26,8 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
     const NewAddressSchema = Yup.object().shape({
         address: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
         postal_code: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
-        provice: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
-        city: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
+        province: Yup.number().required('پرکردن این فیلد اجباری‌ست.').notOneOf([0], 'پرکردن این فیلد اجباری‌ست.'),
+        city: Yup.number().required('پرکردن این فیلد اجباری‌ست.').notOneOf([0], 'پرکردن این فیلد اجباری‌ست.'),
     });
 
     const methods = useForm({
@@ -32,15 +35,22 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
         defaultValues: {
             address: '',
             postal_code: '',
-            provice: '',
-            city: ''
+            province: 0,
+            city: 0
         },
     });
 
     const {
         handleSubmit,
+        watch,
         formState: { isValid }
     } = methods;
+
+    const values = watch();
+
+    const { provinces } = useGetProvinces();
+    const { cities } = useGetProvinceCities(values.province);
+
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -55,6 +65,11 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
         }
     });
 
+    useEffect(() => {
+        if (values.province === 0) return
+        methods.setValue('city', 0)
+    }, [values.province])
+
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
             <Box sx={{ border: '2px solid #D1D1D1', borderRadius: '16px', p: 4, mt: 3, bgcolor: '#F8F8F8' }}>
@@ -62,7 +77,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                     اطلاعات آدرس جدید
                 </Typography>
                 <Box sx={{ mt: 2 }}>
-                    <RHFTitleTextField name='address' custom_label='آدرس پستی' placeholder='نام' sx={{ bgcolor: '#fff' }} />
+                    <RHFTitleTextField name='address' custom_label='آدرس پستی' placeholder='افزودن محتوا' sx={{ bgcolor: '#fff' }} />
                 </Box>
                 <Stack
                     direction={{ xs: 'column', sm: 'row' }}
@@ -74,9 +89,33 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                     sx={{ mt: 2 }}
                     spacing={2}
                 >
-                    <RHFTitleTextField name='provice' custom_label='استان' placeholder='نام' sx={{ bgcolor: '#fff' }} />
-                    <RHFTitleTextField name='city' custom_label='شهر' placeholder='+98' sx={{ bgcolor: '#fff' }} />
-                    <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='12345-45678' sx={{ bgcolor: '#fff' }} />
+                    <Box>
+                        <Typography fontFamily={'peyda-bold'} sx={{ pb: 0.5, pl: 0.75 }} variant='body2'>استان</Typography>
+                        <RHFSelect
+                            name="province"
+                            placeholder="انتخاب محتوا"
+                            sx={{ bgcolor: '#fff' }}
+                        >
+                            <MenuItem value={0}>انتخاب محتوا</MenuItem>
+                            {provinces.map((item, index) => (
+                                <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
+                            ))}
+                        </RHFSelect>
+                    </Box>
+                    <Box>
+                        <Typography fontFamily={'peyda-bold'} sx={{ pb: 0.5, pl: 0.75 }} variant='body2'>شهر</Typography>
+                        <RHFSelect
+                            name="city"
+                            placeholder="انتخاب محتوا"
+                            sx={{ bgcolor: '#fff' }}
+                        >
+                            <MenuItem value={0}>انتخاب محتوا</MenuItem>
+                            {cities.map((item, index) => (
+                                <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
+                            ))}
+                        </RHFSelect>
+                    </Box>
+                    <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='افزودن محتوا' sx={{ bgcolor: '#fff' }} />
                 </Stack>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
                     <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={exit}>انصراف</StyledRoundedWhiteButton>
@@ -92,7 +131,6 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
 
                             onSubmit();
                         }}
-                    // type="submit"
                     >
                         ثبت آدرس
                     </LoadingButton>
