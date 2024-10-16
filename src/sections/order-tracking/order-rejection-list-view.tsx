@@ -37,11 +37,11 @@ export default function OrderRejectionListView({
 
     const { enqueueSnackbar } = useSnackbar();
 
-    useEffect(() => {
-        console.log(show);
-        if (!show) reminderDialog.onTrue();
-        if (show) reminderDialog.onFalse();
-    }, [show])
+    // useEffect(() => {
+    //     console.log(show);
+    //     if (!show) reminderDialog.onTrue();
+    //     if (show) reminderDialog.onFalse();
+    // }, [show])
 
     const handleUpdateOrder = async () => {
         const op: IOrderProductItem[] = await server_axios.get(endpoints.orderProducts.one(orderId)).then(({ data }) => data);
@@ -149,9 +149,9 @@ export default function OrderRejectionListView({
                 }
             />
 
-            <ReminderDialog
+            {/* <ReminderDialog
                 color="#727272"
-                // onClose={reminderDialog.onFalse}
+                onClose={reminderDialog.onFalse}
                 title='یادآوری'
                 open={reminderDialog.value}
                 content={'تعدادی از کالاهای شما رد شده‌اند؛ شما می‌بایست آن‌ها را اصلاح یا حذف کنید.'}
@@ -166,7 +166,7 @@ export default function OrderRejectionListView({
                         متوجه شدم
                     </LoadingButton>
                 }
-            />
+            /> */}
 
             <Box sx={{ px: 6, bgcolor: 'white', borderRadius: '16px' }}>
                 <DialogTitle variant="h4" sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
