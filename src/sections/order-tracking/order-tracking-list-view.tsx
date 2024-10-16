@@ -32,7 +32,6 @@ export default function OrderTrackingListView() {
 
     const successDialog = useBoolean();
     const successFinalPaymentDialog = useBoolean();
-    const submitSuccessDialog = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
@@ -42,9 +41,11 @@ export default function OrderTrackingListView() {
     const { orderProducts } = useGetOrderProducts(orderId);
 
     useEffect(() => {
-        if (orderProducts.length > 0) {
+        if (orderProducts.length) {
             if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
                 setHasCustomMade(true);
+            else
+                setHasCustomMade(false);
         }
     }, [orderProducts, orderId]);
 
