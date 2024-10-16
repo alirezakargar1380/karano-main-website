@@ -29,16 +29,18 @@ export default function OrderRejectionListView({
     order_number
 }: Props) {
     const [edited, setEdited] = useState<boolean>(false);
-    const [show, setShow] = useState<boolean>(false);
+    const { show, update } = useShowOneTime('order-rejection-reminder');
 
-    const reminderDialog = useBoolean();
+    const reminderDialog = useBoolean(false);
     const confirm = useBoolean();
     const cancel = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
+        console.log(show);
         if (!show) reminderDialog.onTrue();
+        if (show) reminderDialog.onFalse();
     }, [show])
 
     const handleUpdateOrder = async () => {
@@ -90,7 +92,8 @@ export default function OrderRejectionListView({
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: OrderStatus.edited
         })
-        reminderDialog.onFalse();
+        // reminderDialog.onFalse();
+        update("1");
         dialog.onFalse();
         enqueueSnackbar(`اصلاح شفارش با کد ${order_number} با موفقیت انجام شد. \n بعد از بررسی توسط مدیر فروش، وضعیت سفارش شما از طریق منوی «پیگیری سفارش»، قابل پیگیری و بررسی ست.`, {
             variant: 'multiline',
@@ -133,10 +136,14 @@ export default function OrderRejectionListView({
                 content={'آیا از ثبت نهایی تمامی تغییرات و اصلاحات کالاهای ردشده اطمینان دارید؟'}
                 closeTitle="خیر"
                 action={
-                    <LoadingButton variant="contained" onClick={confirmOrder} sx={{
-                        borderRadius: '50px',
-                        px: 5
-                    }}>
+                    <LoadingButton
+                        variant="contained"
+                        onClick={confirmOrder}
+                        sx={{
+                            borderRadius: '50px',
+                            px: 5
+                        }}
+                    >
                         بله
                     </LoadingButton>
                 }
@@ -151,7 +158,7 @@ export default function OrderRejectionListView({
                 action={
                     <LoadingButton variant="contained" onClick={() => {
                         reminderDialog.onFalse();
-                        setShow(true);
+                        update("1");
                     }} sx={{
                         borderRadius: '50px',
                         px: 2

@@ -23,6 +23,7 @@ import { useCheckoutContext } from 'src/sections/checkout/context';
 import Scrollbar from '../scrollbar';
 import { DefaultDialog, WarningDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
+import { useShowOneTime } from 'src/hooks/use-show-one-time';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -52,7 +53,7 @@ export default function CartDialog({
     handleUpdateRow,
     type = 'cart'
 }: Props) {
-    const checkout = useCheckoutContext();
+    const { show, update } = useShowOneTime('edit-product-dialog');
 
     const infoDialog = useBoolean();
 
@@ -157,7 +158,10 @@ export default function CartDialog({
     }, [form]);
 
     useEffect(() => {
-        if ((id || id === 0) && type === 'edit') infoDialog.onTrue();
+        if ((id || id === 0) && type === 'edit' && !show) {
+            infoDialog.onTrue();
+            update("1");
+        }
     }, [id])
 
     useEffect(() => {
