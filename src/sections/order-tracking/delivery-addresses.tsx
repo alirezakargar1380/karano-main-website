@@ -127,7 +127,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                                 row
                                 options={addresses.map((add) => {
                                     return {
-                                        label: add.province.name + ", " + add.city.name+ ", " + add.address,
+                                        label: add?.province?.name + ", " + add?.city?.name+ ", " + add.address,
                                         value: add.id,
                                         icon: '/assets/icons/address/marker-pin-01.svg'
                                     }
