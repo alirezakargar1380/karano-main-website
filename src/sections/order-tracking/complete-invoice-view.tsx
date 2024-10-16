@@ -48,6 +48,7 @@ export default function CompleteInvoiceView({ children, dialog }: Props) {
                 <Actions
                     onCancel={cancelDialog.onTrue}
                     onSubmit={checkout.onNextStep}
+                    title="تایید و ادامه"
                 />
             </Box>
         </>
