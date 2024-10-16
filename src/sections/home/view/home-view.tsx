@@ -3,7 +3,6 @@
 import { useScroll } from 'framer-motion';
 
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
 
 import MainLayout from 'src/layouts/main';
 
@@ -28,7 +27,7 @@ import { LoadingButton } from '@mui/lab';
 
 import { useSnackbar } from 'src/components/snackbar';
 import { useOrderContext } from 'src/sections/order/context/order-context';
-import { ConfirmDialog, ReminderDialog } from 'src/components/custom-dialog';
+import { ReminderDialog } from 'src/components/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useRouter } from 'src/routes/hooks';
@@ -49,16 +48,10 @@ export default function HomeView() {
 
   const [percent, setPercent] = useState(0);
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const customizedPopover = usePopover();
 
   const getScroll = useCallback(() => {
     let heroHeight = 0;
-
-    // if (heroRef.current) {
-    //   heroHeight = heroRef.current.offsetHeight;
-    // }
 
     scrollY.on('change', (scrollHeight) => {
       const scrollPercent = (scrollHeight * 100) / heroHeight;

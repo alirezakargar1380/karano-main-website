@@ -10,7 +10,6 @@ import { useGetRejectedOrdersReport } from 'src/api/orders';
 // ----------------------------------------------------------------------
 
 const STORAGE_KEY = 'order';
-const SHOW_STORAGE_KEY = 'abc';
 
 const initialState = {
     show: false,
@@ -31,6 +30,7 @@ export function OrderProvider({ children }: Props) {
     useEffect(() => {
         update('title', report.title)
         update('text', report.text)
+        update('color', report.color)
 
         update("show", true);
         update("showPopover", false);
