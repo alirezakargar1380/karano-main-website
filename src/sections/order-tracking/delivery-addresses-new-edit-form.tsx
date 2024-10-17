@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, Divider, MenuItem, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import FormProvider, {
     RHFSelect,
@@ -96,7 +96,14 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                             placeholder="انتخاب محتوا"
                             sx={{ bgcolor: '#fff' }}
                         >
-                            <MenuItem value={0}>انتخاب محتوا</MenuItem>
+                            <MenuItem
+                                value={0}
+                                sx={{ fontStyle: 'italic', color: 'text.secondary' }}
+                                disabled
+                            >
+                                انتخاب محتوا
+                            </MenuItem>
+                            <Divider sx={{ borderStyle: 'dashed' }} />
                             {provinces.map((item, index) => (
                                 <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
                             ))}
@@ -109,7 +116,14 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                             placeholder="انتخاب محتوا"
                             sx={{ bgcolor: '#fff' }}
                         >
-                            <MenuItem value={0}>انتخاب محتوا</MenuItem>
+                            <MenuItem
+                                value={0}
+                                sx={{ fontStyle: 'italic', color: 'text.secondary' }}
+                                disabled
+                            >
+                                انتخاب محتوا
+                            </MenuItem>
+                            <Divider sx={{ borderStyle: 'dashed' }} />
                             {cities.map((item, index) => (
                                 <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
                             ))}
