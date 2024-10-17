@@ -83,6 +83,8 @@ export type IRejectedOrderReport = {
   title: string;
   text: string;
   color: string;
+  notification_id: string;
+  seen: boolean;
 }
 
 export type IOrderItem = {
@@ -120,6 +122,7 @@ export type OrderContextProps = {
   text: string;
   title: string;
   color: string;
+  notification_id: string;
   onToggleShow: VoidFunction;
   onShowPopover: VoidFunction;
   onHideDialog: VoidFunction;

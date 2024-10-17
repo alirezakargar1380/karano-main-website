@@ -16,7 +16,8 @@ const initialState = {
     showPopover: false,
     text: '',
     title: '',
-    color: '#1A9FD6'
+    color: '#1A9FD6',
+    notification_id: ''
 };
 
 type Props = {
@@ -27,13 +28,21 @@ export function OrderProvider({ children }: Props) {
     const { state, update } = useLocalStorage(STORAGE_KEY, initialState);
     const { report } = useGetRejectedOrdersReport();
 
+    console.log(report);
+
     useEffect(() => {
         update('title', report.title)
         update('text', report.text)
         update('color', report.color)
+        update('notification_id', report.notification_id)
 
-        update("show", true);
-        update("showPopover", false);
+        if (!report.seen) {
+            update("show", true);
+            update("showPopover", false);
+        } else {
+            update("show", false);
+            update("showPopover", false);
+        }
     }, [report.title, report])
 
     const onToggleShow = useCallback(() => {
@@ -64,6 +73,7 @@ export function OrderProvider({ children }: Props) {
         }),
         [
             state,
+            report.notification_id,
             report.title,
             onToggleShow,
             onShowPopover,

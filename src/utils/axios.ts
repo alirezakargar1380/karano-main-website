@@ -141,5 +141,8 @@ export const endpoints = {
   provinces: {
     list: '/api/provinces',
     cities: (id: any) => `/api/provinces/${id}/cities`,
+  },
+  notification: {
+    seen: (notif_id: string) => `/api/notification/${notif_id}/seen`,
   }
 };

@@ -12,7 +12,7 @@ import Image from 'src/components/image';
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
-import { useCallback, useEffect, useState } from 'react';
+import { use, useCallback, useEffect, useState } from 'react';
 import CarouselHomeCategory from 'src/sections/_examples/extra/carousel-view/carousel-home-category';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import CarouselBasic2 from 'src/sections/_examples/extra/carousel-view/carousel-basic-2';
@@ -32,11 +32,12 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
+import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
-  const { show, title, text, color, onShowPopover, onHideDialog } = useOrderContext();
+  const { show, title, text, color, notification_id, onShowPopover, onHideDialog } = useOrderContext();
 
   const router = useRouter();
 
@@ -68,13 +69,19 @@ export default function HomeView() {
     getScroll();
   }, [getScroll]);
 
+  const handleSeenNotification = useCallback(async () => {
+    console.log(notification_id)
+    await server_axios.patch(endpoints.notification.seen(notification_id))
+  }, [notification_id]);
+
   return (
     <>
       <MainLayout>
 
         <ReminderDialog
           open={confirm.value}
-          onClose={() => {
+          onClose={async () => {
+            await handleSeenNotification();
             confirm.onFalse();
             onHideDialog();
             onShowPopover();
@@ -84,7 +91,12 @@ export default function HomeView() {
           closeTitle="الان نه؛ بعداً"
           content={text}
           action={
-            <LoadingButton variant='contained' sx={{ borderRadius: 50, px: 2 }} onClick={() => router.push(paths.orderTracking)}>
+            <LoadingButton variant='contained' sx={{ borderRadius: 50, px: 2 }}
+              onClick={async () => {
+                await handleSeenNotification();
+                router.push(paths.orderTracking)
+              }}
+            >
               پیگیری سفارش
             </LoadingButton>
           }
