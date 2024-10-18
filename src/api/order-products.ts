@@ -18,11 +18,11 @@ export function useGetOrderProducts(id: number) {
     () => ({
       orderProducts: (data as IOrderProductItem[]) || [],
       ordersLoading: isLoading,
-    //   productsError: error,
-    //   productsValidating: isValidating,
-    //   productsEmpty: !isLoading && !data?.products.length,
+      ordersError: error,
+      productsValidating: isValidating,
+      ordersEmpty: !isLoading && !data?.length,
     }),
-    [data, id]
+    [data, id, isLoading]
   );
 
   return memoizedValue;
@@ -37,9 +37,9 @@ export function useGetReadyOrderProducts(id: string) {
     () => ({
       orderProducts: (data as IOrderProductItem[]) || [],
       ordersLoading: isLoading,
-    //   productsError: error,
-    //   productsValidating: isValidating,
-    //   productsEmpty: !isLoading && !data?.products.length,
+      //   productsError: error,
+      //   productsValidating: isValidating,
+      //   productsEmpty: !isLoading && !data?.products.length,
     }),
     // [data, error, isLoading, isValidating]
     [data]
