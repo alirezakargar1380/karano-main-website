@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { useMemo } from 'react';
 
 import { fetcher, endpoints } from 'src/utils/axios';
@@ -91,11 +91,16 @@ export function useGetTrackingOrders() {
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
+  const refreshOrders = () => {
+    mutate(URL);
+  };
+
   const memoizedValue = useMemo(
     () => ({
       orders: (data as IOrderItem[]) || [],
       ordersLoading: isLoading,
       ordersEmpty: !isLoading && !data.length,
+      refreshOrders
     }),
     [data, error, isLoading, isValidating]
   );

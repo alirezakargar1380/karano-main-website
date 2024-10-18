@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 import { useMemo } from 'react';
 
 import { fetcher, endpoints } from 'src/utils/axios';
@@ -14,6 +14,10 @@ export function useGetOrderProducts(id: number) {
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
+  const refreshOrderProducts = () => {
+    mutate(URL);
+  };
+
   const memoizedValue = useMemo(
     () => ({
       orderProducts: (data as IOrderProductItem[]) || [],
@@ -21,6 +25,7 @@ export function useGetOrderProducts(id: number) {
       ordersError: error,
       productsValidating: isValidating,
       ordersEmpty: !isLoading && !data?.length,
+      refreshOrderProducts,
     }),
     [data, id, isLoading]
   );
