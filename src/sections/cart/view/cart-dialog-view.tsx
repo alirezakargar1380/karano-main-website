@@ -168,18 +168,12 @@ export default function CartDialogView({
     const [ind, setInd] = useState<number | undefined>();
     const { show, update } = useShowOneTime("spot-light");
 
-    const [disable, setDisable] = useState((type === "edit" || listId || listId === 0) ? {
+    const [disable, setDisable] = useState({
         profile_type: false,
         cover_type: false,
         frame_type: false,
         coating_type: false,
         dimension: false
-    } : {
-        profile_type: false,
-        cover_type: true,
-        frame_type: true,
-        coating_type: true,
-        dimension: true
     });
 
     const [state, setState] = useState({
@@ -222,41 +216,33 @@ export default function CartDialogView({
         }
     }, [values, formOptions]);
 
+    useEffect(() => {
+        if (listId || listId === 0) {
+            setDisable({
+                profile_type: false,
+                cover_type: false,
+                frame_type: false,
+                coating_type: false,
+                dimension: false
+            })
+        } else {
+            setDisable({
+                profile_type: false,
+                cover_type: true,
+                frame_type: true,
+                coating_type: true,
+                dimension: true
+            })
+        }
+    }, [listId])
+
     const handleJoyrideCallback = (data: any) => {
-        const { action, index, status, type } = data;
+        const { action } = data;
 
         if (action === "close") {
             update("1")
             setState({ ...state, run: false })
         }
-
-        // setState((prevState) => ({ ...prevState, run: true }));
-        // if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-        //     setState((prevState) => ({
-        //         ...prevState,
-        //         run: false,
-        //         loading: true,
-        //     }));
-
-        //     setTimeout(() => {
-        //         setState((prevState) => ({
-        //             ...prevState,
-        //             loading: false,
-        //             run: true,
-        //             stepIndex: index + (action === ACTIONS.PREV ? -1 : 1),
-        //         }));
-        //     }, 2000);
-        // } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-        //     setState((prevState) => ({ ...prevState, run: false }));
-        //     // setJoyride(false);
-        // } else if (type === EVENTS.TOUR_END) {
-        //     setState((prevState) => ({ ...prevState, stepIndex: index + 1 }));
-        // }
-
-        // if (action === ACTIONS.NEXT && index === 3) {
-        //     // openModal(true);
-        //     setState((prevState) => ({ ...prevState, modalOpen: true }));
-        // }
     };
 
     return (
@@ -286,7 +272,6 @@ export default function CartDialogView({
                         }
                     }}
                     floaterProps={{
-                        // autoOpen: true,
                         autoOpen: state.run,
                         hideArrow: true,
                     }}
