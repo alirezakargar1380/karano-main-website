@@ -5,6 +5,7 @@ import { fetcher, endpoints } from 'src/utils/axios';
 
 import { IProductItem } from 'src/types/product';
 import { ICategory } from 'src/types/category';
+import { isNumber } from 'lodash';
 
 export function useGetCategories() {
     const URL = endpoints.category.list;
@@ -26,7 +27,7 @@ export function useGetCategories() {
 }
 
 export function useGetCategoryProducts(id: any) {
-    const URL = endpoints.category.products(id);
+    const URL = (id && !isNaN(Number(id))) ? endpoints.category.products(id) : null
 
     const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
