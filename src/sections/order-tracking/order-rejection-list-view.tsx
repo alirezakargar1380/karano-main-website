@@ -3,45 +3,42 @@ import { Box, DialogActions, DialogContent, DialogTitle, Stack, Typography } fro
 import { BlueNotification, YellowNotification } from "src/components/notification";
 import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ShoppingCartList from "../shopping-cart/shopping-cart-list";
-import { IOrderProductItem, IOrderProductStatus } from "src/types/order-products";
+import { IOrderProductItem } from "src/types/order-products";
 
 import { useSnackbar } from "src/components/snackbar";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { endpoints, server_axios } from "src/utils/axios";
-import { DefaultDialog, ReminderDialog } from "src/components/custom-dialog";
+import { DefaultDialog } from "src/components/custom-dialog";
 import Scrollbar from "src/components/scrollbar";
 import { OrderStatus } from "src/types/order";
-import { useShowOneTime } from "src/hooks/use-show-one-time";
+import { useGetOrderProducts } from "src/api/order-products";
 
 interface Props {
-    orderProducts: IOrderProductItem[]
     dialog: useBooleanReturnType
     orderId: number
     order_number?: string
+    onUpdate: () => void
 }
 
 export default function OrderRejectionListView({
-    orderProducts,
     dialog,
     orderId,
-    order_number
+    order_number,
+    onUpdate
 }: Props) {
     const [edited, setEdited] = useState<boolean>(false);
-    const { show, update } = useShowOneTime('order-rejection-reminder');
 
-    const reminderDialog = useBoolean(false);
     const confirm = useBoolean();
     const cancel = useBoolean();
 
     const { enqueueSnackbar } = useSnackbar();
 
-    // useEffect(() => {
-    //     console.log(show);
-    //     if (!show) reminderDialog.onTrue();
-    //     if (show) reminderDialog.onFalse();
-    // }, [show])
+    const {
+        orderProducts,
+        refreshOrderProducts
+    } = useGetOrderProducts(orderId);
 
     const handleUpdateOrder = async () => {
         const op: IOrderProductItem[] = await server_axios.get(endpoints.orderProducts.one(orderId)).then(({ data }) => data);
@@ -92,8 +89,6 @@ export default function OrderRejectionListView({
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: OrderStatus.edited
         })
-        // reminderDialog.onFalse();
-        update("1");
         dialog.onFalse();
         enqueueSnackbar(`اصلاح شفارش با کد ${order_number} با موفقیت انجام شد. \n بعد از بررسی توسط مدیر فروش، وضعیت سفارش شما از طریق منوی «پیگیری سفارش»، قابل پیگیری و بررسی ست.`, {
             variant: 'multiline',
@@ -149,25 +144,6 @@ export default function OrderRejectionListView({
                 }
             />
 
-            {/* <ReminderDialog
-                color="#727272"
-                onClose={reminderDialog.onFalse}
-                title='یادآوری'
-                open={reminderDialog.value}
-                content={'تعدادی از کالاهای شما رد شده‌اند؛ شما می‌بایست آن‌ها را اصلاح یا حذف کنید.'}
-                action={
-                    <LoadingButton variant="contained" onClick={() => {
-                        reminderDialog.onFalse();
-                        update("1");
-                    }} sx={{
-                        borderRadius: '50px',
-                        px: 2
-                    }}>
-                        متوجه شدم
-                    </LoadingButton>
-                }
-            /> */}
-
             <Box sx={{ px: 6, bgcolor: 'white', borderRadius: '16px' }}>
                 <DialogTitle variant="h4" sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                     جزییات رد ‌سفارش
@@ -189,8 +165,19 @@ export default function OrderRejectionListView({
                         <ShoppingCartList
                             type="edit"
                             items={orderProducts}
-                            afterUpdate={() => setEdited(true)}
+                            orderId={orderId}
+                            onRefresh={() => refreshOrderProducts()}
+                            afterUpdate={async (wasLastOne?: boolean) => {
+                                setEdited(true)
+                                // sleep
+                                await new Promise(resolve => setTimeout(resolve, 250))
+                                if (wasLastOne === true) {
+                                    dialog.onFalse();
+                                    onUpdate();
+                                }
+                            }}
                         />
+
                     </Box>
                 </Scrollbar>
             </DialogContent>

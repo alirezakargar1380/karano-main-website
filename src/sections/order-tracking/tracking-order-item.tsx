@@ -59,6 +59,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         (order.status === OrderStatus.produced && 'در انتظار پرداخت نهایی') ||
                         (order.status === OrderStatus.ready_to_send && 'آماده ارسال') ||
                         (order.status === OrderStatus.accepted && 'تایید شده') ||
+                        (order.status === OrderStatus.removed && 'حذف شده') ||
                         (order.status === OrderStatus.preparing && 'در حال آماده سازی')
                     }
                 </Label>
@@ -74,6 +75,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                     )}
                     <StyledRoundedWhiteButton
                         variant="outlined"
+                        disabled={order.status === OrderStatus.removed}
                         onClick={() => {
                             handleMoreBtn(+order.id, order.status)
                         }}
@@ -88,7 +90,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                             ((order.status === OrderStatus.failed) && 'مشاهده جزئیات') ||
                             ((order.status === OrderStatus.accepted) && 'ادامه و تکمیل خرید') ||
                             (order.status === OrderStatus.produced && 'پرداخت نهایی') ||
-                            'default'
+                            'مشاهده جزئیات'
                         }
                         <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
                     </StyledRoundedWhiteButton>

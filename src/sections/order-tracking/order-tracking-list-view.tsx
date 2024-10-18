@@ -36,7 +36,8 @@ export default function OrderTrackingListView() {
     const { enqueueSnackbar } = useSnackbar();
 
     const {
-        orders
+        orders,
+        refreshOrders
     } = useGetTrackingOrders();
     const { orderProducts } = useGetOrderProducts(orderId);
 
@@ -192,10 +193,10 @@ export default function OrderTrackingListView() {
 
             <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
                 <OrderRejectionListView
-                    orderProducts={orderProducts}
                     dialog={orderRejectingDialog}
                     orderId={orderId}
                     order_number={order?.order_number}
+                    onUpdate={() => refreshOrders()}
                 />
             </DialogWithButton>
 

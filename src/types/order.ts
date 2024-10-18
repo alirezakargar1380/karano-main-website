@@ -69,6 +69,7 @@ export enum OrderStatus {
   produced = 'produced',
   production = 'production',
   ready_to_send = 'ready_to_send',
+  removed = 'removed',
 }
 
 export enum IOrderDeliveryType {
