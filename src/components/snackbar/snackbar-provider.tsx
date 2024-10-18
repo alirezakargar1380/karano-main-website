@@ -110,7 +110,7 @@ export default function SnackbarProvider({ children }: Props) {
                 if (prevCount > 0) {
                   return prevCount - 1;
                 }
-                // closeSnackbar(props.id)
+                closeSnackbar(props.id);
                 clearInterval(interval);
                 return prevCount;
               });
