@@ -40,7 +40,8 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                             || order.status === OrderStatus.ready_to_send
                             || order.status === OrderStatus.preparing
                             || order.status === OrderStatus.production) && 'info') ||
-                        (order.status === OrderStatus.failed && 'error') ||
+                        ((order.status === OrderStatus.failed || order.status === OrderStatus.removed)
+                            && 'error') ||
                         ((
                             order.status === OrderStatus.accepted ||
                             order.status === OrderStatus.posted ||

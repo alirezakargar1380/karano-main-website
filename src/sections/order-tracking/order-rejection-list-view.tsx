@@ -154,10 +154,10 @@ export default function OrderRejectionListView({
                 <Scrollbar>
                     <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
                         <Box>
-                            <YellowNotification title="لیست کالاهای «سفارشی» ناموجود" sx={{ my: 3 }}>
+                            <YellowNotification title="لیست کالاهای «سفارشی» ناموجود" sx={{ mb: 3 }}>
                                 ادمین فروش تعدادی / تمامی کالاهای شما را رد کرده  و علت‌های کالاهای ردشده را ثبت کرده است. می‌توانید کالا / کالاهای ردشده را اصلاح یا حذف کنید. در صورت اصلاح و سپس بررسی  توسط ادمین فروش، وضعیت‌ کالاهای سفارش شما در  سبد خرید در بخش پروفایل و همچنین از طریق منوی «پیگیری سفارش» قابل مشاهده و پیگیری هستند.
                             </YellowNotification>
-                            <BlueNotification sx={{ mb: 3 }}>
+                            <BlueNotification sx={{ mb: 3 }} closeBtn>
                                 برای تغییرات کالاهای «ردشده»، دکمه «اصلاح / حذف کالا»  را انتخاب و سپس بعد از اعمال تمامی تغییرات،بر روی دکمه «ثبت تغییرات» کلیک کنید. همچنین می‌توانید با کلیک بر روی آیکون «اصلاح» و «حذف»، تغییرات مورد نظر خود را اعمال کنید. در آخر  برای ثبت نهایی تغییرات، بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید.
                             </BlueNotification>
                         </Box>
@@ -174,6 +174,10 @@ export default function OrderRejectionListView({
                                 if (wasLastOne === true) {
                                     dialog.onFalse();
                                     onUpdate();
+                                    enqueueSnackbar(`تمامی کالاهای پروفیل درب کابینتی P60  با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`, {
+                                        variant: 'multiline',
+                                        color: 'info'
+                                    })
                                 }
                             }}
                         />

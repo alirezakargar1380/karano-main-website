@@ -77,18 +77,14 @@ export default function OrderTrackingListView() {
     }
 
     const pay = useCallback(async () => {
-        // let hasReadyProduct = false;
-        // if (orderProducts.some((op) => op.product.order_type === ProductOrderType.ready_to_use))
-        //     hasReadyProduct = true
-
         await server_axios.patch(endpoints.orders.update(orderId), {
             status: hasCustomMade ? OrderStatus.production : OrderStatus.preparing
         })
         finalPaymentDialog.onFalse();
         successFinalPaymentDialog.onTrue();
 
-        const order = orders.find((o) => o.id === orderId);
-    }, [orderProducts, orders, hasCustomMade]);
+        refreshOrders(); // remove this line
+    }, [orderProducts, orders, hasCustomMade, refreshOrders]);
 
     const handleDownloadFactor = useCallback(async () => {
         enqueueSnackbar('فاکتور نهایی سفارش شما با موفقیت دانلود شد.', {
@@ -128,7 +124,7 @@ export default function OrderTrackingListView() {
 
             <DialogWithButton dialog={finalPaymentDialog} fullWith={false} width={800}>
                 <Box p={4}>
-                    <Stack direction={"row"} borderBottom={'1px solid #1D1D1D'} pb={2} justifyContent={"space-between"}>
+                    <Stack direction={"row"} borderBottom={'1px solid #D1D1D1'} pb={2} justifyContent={"space-between"}>
                         <Typography variant="h4" fontFamily={'peyda-bold'}>پرداخت نهایی</Typography>
                         <Button
                             sx={{ color: "#0B7BA7", fontFamily: "peyda-bold", fontSize: '16px' }}
@@ -138,7 +134,7 @@ export default function OrderTrackingListView() {
                             دانلود فاکتور نهایی
                         </Button>
                     </Stack>
-                    <Typography variant="body1" fontFamily={'peyda-regular'} color={"#727272"} py={4}>
+                    <Typography variant="body1" fontFamily={'peyda-regular'} color={"#2B2B2B"} py={4}>
                         می‌بایست برای نهایی‌کردن سفارش خود، مبلغ باقی‌مانده فاکتور خود را پرداخت کنید.
                     </Typography>
                     <Stack direction={"row"}>
@@ -146,7 +142,7 @@ export default function OrderTrackingListView() {
                             مبلغ قابل پرداخت:
                         </Typography>
                         <Typography fontFamily={'peyda-bold'} px={1}>1455555</Typography>
-                        <Typography color={"#727272"} fontFamily={'peyda-light'}>ریال</Typography>
+                        <Typography>ریال</Typography>
                     </Stack>
                     <Stack direction={'row'} justifyContent={'end'} pt={4} spacing={1}>
                         <StyledRoundedWhiteButton variant='outlined' onClick={finalPaymentDialog.onFalse} sx={{ px: 3 }}>انصراف</StyledRoundedWhiteButton>
