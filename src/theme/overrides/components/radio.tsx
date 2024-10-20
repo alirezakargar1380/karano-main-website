@@ -20,12 +20,16 @@ export function radio(theme: Theme) {
             display: 'none',
           },
           margin: theme.spacing(1),
-          padding: '8px',
-          width: '14px',
-          height: '14px',
+
+          // default
+          // color: "#fff!important",
+          // display: 'block',
+          width: '16px',
+          height: '16px',
           border: '2px solid #727272!important',
           float: 'left',
-          position: 'relative!important',
+          // margin: '0 10px 0 0',
+          position: 'relative',
           background: '#fff',
 
           '&::after': {
@@ -38,6 +42,10 @@ export function radio(theme: Theme) {
             background: 'white',
             borderRadius: '50%',
           },
+
+          // '&$checked': {
+          //   color: "#fff!important",
+          // },
           '&:hover': {
             borderColor: "#2B2B2B!important",
             background: '#fff!important',
@@ -53,6 +61,10 @@ export function radio(theme: Theme) {
             borderColor: "#2B2B2B!important",
             background: '#2B2B2B!important',
           }
+          // '&:hover'
+          // checked: {
+          //   color: "#fff!important",
+          // }
         },
       },
     },
