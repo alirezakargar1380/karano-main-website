@@ -126,9 +126,7 @@ export default function SnackbarProvider({ children }: Props) {
                   bgcolor: bgColor[props.color],
                   color: 'white',
                   borderRadius: '16px',
-                  mt: '64px',
                   display: 'flex',
-                  // alignItems: 'center',
                 }}
               >
                 <Box sx={{
@@ -229,8 +227,7 @@ export default function SnackbarProvider({ children }: Props) {
                 display: 'flex',
                 color: 'white',
                 borderRadius: '16px',
-                width: 1,
-                mt: '64px'
+                width: 1
               }}>
                 <Box sx={{
                   py: 2,
