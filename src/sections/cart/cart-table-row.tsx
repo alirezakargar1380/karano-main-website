@@ -146,7 +146,7 @@ export default function CartTableRow({
                 </IconButton>
               </Tooltip>
             )}
-            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view' && !selected) && (
+            {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <Tooltip title="حذف کالا" arrow>
                 <IconButton
                   color={'default'}
@@ -183,7 +183,7 @@ export default function CartTableRow({
         open={confirmLast.value}
         onClose={confirmLast.onFalse}
         title="حذف آخرین کالای ردشده"
-        content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟ با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
+        content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟\n با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
         action={
           <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
             if (onDeleteRow) onDeleteRow();
