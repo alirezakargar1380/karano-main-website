@@ -1,5 +1,5 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Divider, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, Checkbox, Divider, MenuItem, Radio, Stack, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import FormProvider, {
     RHFSelect,
@@ -13,7 +13,9 @@ import { endpoints, server_axios } from "src/utils/axios";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useGetProvinceCities, useGetProvinces } from "src/api/province";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Iconify from "src/components/iconify";
+import Scrollbar from "src/components/scrollbar";
 
 interface Props {
     handleAfterAddingAddress: () => void
@@ -21,6 +23,8 @@ interface Props {
 }
 
 export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: Props) {
+    const [searchTerm, setSearchTerm] = useState('');
+
     const { enqueueSnackbar } = useSnackbar();
 
     const NewAddressSchema = Yup.object().shape({
@@ -65,6 +69,12 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
         }
     });
 
+    const filteredProvinces = searchTerm
+        ? provinces.filter(province =>
+            province.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        : provinces;
+
     useEffect(() => {
         if (values.province === 0) return
         methods.setValue('city', 0)
@@ -96,15 +106,38 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                             placeholder="انتخاب محتوا"
                             sx={{ bgcolor: '#fff' }}
                         >
+                            {/* <MenuItem sx={{ '&:hover': { bgcolor: 'transparent', cursor: 'default' }, position: 'sticky' }}> */}
+                            <TextField
+                                sx={{
+                                    bgcolor: '#F8F8F8',
+                                    width: 1,
+                                    my: 1,
+                                    py: 0.5,
+                                    borderRadius: '8px',
+                                    '& fieldset': {
+                                        border: 'none'
+                                    }
+                                }}
+                                InputProps={{
+                                    startAdornment: (
+                                        <Iconify icon={'eva:search-fill'} sx={{ mr: 1 }} />
+                                    )
+                                }}
+                                size="small"
+                                placeholder="جستجو"
+                                onClick={(e) => e.stopPropagation()}
+                                onKeyDown={(e) => e.stopPropagation()}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            {/* </MenuItem> */}
+
                             <MenuItem
                                 value={0}
                                 sx={{ fontStyle: 'italic', color: 'text.secondary' }}
-                                disabled
                             >
                                 انتخاب محتوا
                             </MenuItem>
-                            <Divider sx={{ borderStyle: 'dashed' }} />
-                            {provinces.map((item, index) => (
+                            {filteredProvinces.map((item, index) => (
                                 <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
                             ))}
                         </RHFSelect>
