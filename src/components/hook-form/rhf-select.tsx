@@ -2,19 +2,32 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import Select from '@mui/material/Select';
+import Select, { SelectProps } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
-import InputLabel from '@mui/material/InputLabel';
 import { Theme, SxProps } from '@mui/material/styles';
 import FormHelperText from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControl, { FormControlProps } from '@mui/material/FormControl';
-import { InputAdornment, Stack, SvgIcon, Typography } from '@mui/material';
-import Iconify from '../iconify';
+import { Stack, Typography } from '@mui/material';
 import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
+const customScrollbarStyle = {
+  '&::-webkit-scrollbar': {
+    width: '4px',
+  },
+  '&::-webkit-scrollbar-track': {
+    background: '#fff',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: '#E0E0E0',
+    borderRadius: '4px',
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    background: '#555',
+  },
+};
 
 type RHFSelectProps = TextFieldProps & {
   name: string;
@@ -39,6 +52,7 @@ export function RHFSelect({
     <Controller
       name={name}
       control={control}
+      defaultValue={''}
       render={({ field, fieldState: { error } }) => (
         <>
           <TextField
@@ -57,6 +71,7 @@ export function RHFSelect({
                       maxHeight: typeof maxHeight === 'number' ? maxHeight : 'unset',
                     }),
                     ...PaperPropsSx,
+                    ...customScrollbarStyle,
                   },
                 },
               },
