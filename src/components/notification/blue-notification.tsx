@@ -7,9 +7,10 @@ interface Props {
     children?: React.ReactNode;
     title?: string
     sx?: SxProps;
+    closeBtn?: boolean
 }
 
-export default function BlueNotification({ children, title, sx }: Props) {
+export default function BlueNotification({ children, title, closeBtn, sx }: Props) {
     const [show, setShow] = useState<boolean>(true)
     return show && (
         <Box sx={{ width: '100%', height: '100%', backgroundColor: '#DCF9FF', border: '1px solid #0B7BA7', borderRadius: '8px', py: 2, px: 2, ...sx }}>
@@ -28,10 +29,12 @@ export default function BlueNotification({ children, title, sx }: Props) {
                     </Stack>
                 )}
 
-                {title && (
-                    <SvgColor src="/assets/icons/notification/x-close.svg" sx={{
-                        cursor: 'pointer'
-                    }} color={'#0B7BA7'} width={24} onClick={() => setShow(false)} />
+                {closeBtn && (
+                    <Box>
+                        <SvgColor src="/assets/icons/notification/x-close.svg" sx={{
+                            cursor: 'pointer'
+                        }} color={'#0B7BA7'} width={24} onClick={() => setShow(false)} />
+                    </Box>
                 )}
             </Stack>
             {title && (
