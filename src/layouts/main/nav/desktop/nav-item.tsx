@@ -24,15 +24,15 @@ import { useOrderContext } from 'src/sections/order/context/order-context';
 
 export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
   ({ title, path, open, badge, active, hasChild, externalLink, subItem, ...other }, ref) => {
-    const { show, text, showPopover, onHidePopover } = useOrderContext();
+    let order = useOrderContext();
 
     const customizedPopover = usePopover();
     const refPop = useRef(null);
 
     useEffect(() => {
-      if (badge && refPop && showPopover && !show)
+      if (badge && refPop && order.showPopover && !order.show)
         customizedPopover.onOpen({ currentTarget: refPop.current } as any);
-    }, [showPopover, show]);
+    }, [order.showPopover, order.show]);
 
 
     const renderContent = (
@@ -93,10 +93,10 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         >
           <Box sx={{ p: 2, width: 1 }}>
             <Typography fontFamily={'peyda-bold'} fontSize={16} borderBottom={'1px solid #f8f8f8'} pb={'16px'}>
-              سفارش رد شده
+              {order.title}
             </Typography>
             <Typography fontFamily={'peyda-regular'} mt={'16px'} fontSize={12}>
-              {text}
+              {order.text}
             </Typography>
             <Box textAlign={'right'}>
               <StyledRoundedWhiteButton variant='contained'
@@ -108,7 +108,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
                 }}
                 onClick={() => {
                   customizedPopover.onClose();
-                  onHidePopover()
+                  order.onHidePopover()
                 }}
               >
                 متوجه شدم
@@ -121,7 +121,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
 
     return (
       <>
-        {(badge && showPopover === true) ? (
+        {(badge && order.showPopover === true) ? (
           <>{renderContent}</>
         ) : (
           <Link component={RouterLink} href={path} color="inherit" underline="none" sx={{ height: 'fit-content', my: 'auto' }}>
