@@ -210,7 +210,7 @@ export default function ShoppingCartList({ items, type, afterUpdate, orderId, on
                     </Grid>
                     {(type === 'edit') && (
                         <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 2 }} onClick={() => handleEdit(item)}>
-                            اصلاح / حذف کالا
+                            <Typography variant="button1" fontFamily={'peyda-regular'}>اصلاح / حذف کالا</Typography>
                         </StyledRoundedWhiteButton>
                     )}
                 </Box>

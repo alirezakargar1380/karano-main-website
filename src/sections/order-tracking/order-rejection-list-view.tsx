@@ -14,6 +14,7 @@ import { DefaultDialog } from "src/components/custom-dialog";
 import Scrollbar from "src/components/scrollbar";
 import { OrderStatus } from "src/types/order";
 import { useGetOrderProducts } from "src/api/order-products";
+import { PrimaryButton } from "src/components/styles/buttons/primary";
 
 interface Props {
     dialog: useBooleanReturnType
@@ -186,11 +187,17 @@ export default function OrderRejectionListView({
                 </Scrollbar>
             </DialogContent>
             <DialogActions>
-                <Stack direction={'row'} spacing={1} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={cancel.onTrue}>انصراف</StyledRoundedWhiteButton>
-                    <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} onClick={handleUpdateOrder}>
-                        ثبت نهایی اصلاحات
-                    </LoadingButton>
+                <Stack direction={'row'} spacing={1} justifyContent={'end'} sx={{ height: 1 }}>
+                    <StyledRoundedWhiteButton variant='outlined' onClick={cancel.onTrue}>
+                        <Typography variant='button1' fontFamily={'peyda-light'}>انصراف</Typography>
+                    </StyledRoundedWhiteButton>
+                    <PrimaryButton //onClick={handleUpdateOrder}
+                    >
+                        <Typography variant='button1' fontFamily={'peyda-light'}>ثبت نهایی اصلاحات</Typography>
+                    </PrimaryButton>
+                    {/* <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: '20px', py: '4px' }} onClick={handleUpdateOrder}>
+                        <Typography variant='button1' fontFamily={'peyda-light'}>ثبت نهایی اصلاحات</Typography>
+                    </LoadingButton> */}
                 </Stack>
             </DialogActions>
         </React.Fragment>
