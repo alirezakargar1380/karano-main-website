@@ -38,6 +38,8 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                                 color: "white"
                             }),
                             px: pxToRem(8),
+                            py: pxToRem(2),
+                            borderRadius: '8px',
                         }}
                         color={
                             ((order.status === OrderStatus.pending
@@ -112,7 +114,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                 </Stack>
             </Stack>
             <Stack direction={'row'} justifyContent={'space-between'} sx={{ py: pxToRem(24) }}>
-                <Stack spacing={2} sx={{ width: 0.5 }}>
+                <Stack spacing={'8px'} sx={{ width: 0.5 }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography fontFamily={'peyda-bold'} variant="body3" sx={{ pr: 1 }}>شماره سفارش:</Typography>
                         <Typography fontFamily={'peyda-medium'} variant="body4">
@@ -128,7 +130,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                         </Typography>
                     </Box>
                 </Stack>
-                <Stack spacing={2} sx={{ width: 0.5 }}>
+                <Stack spacing={'8px'} sx={{ width: 0.5 }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography fontFamily={'peyda-bold'} variant="body3" sx={{ pr: 1 }}>
                             تعداد کالا:
