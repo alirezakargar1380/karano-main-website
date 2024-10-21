@@ -28,6 +28,16 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     fontSecondaryFamily: React.CSSProperties['fontFamily'];
     fontWeightSemiBold: React.CSSProperties['fontWeight'];
+    // body3: React.CSSProperties;
+  }
+}
+
+// Update the Typography's variant prop options
+declare module "@mui/material/Typography" {
+  interface TypographyPropsVariantOverrides {
+    body3: true;
+    body4: true;
+    button1: true;
   }
 }
 
@@ -50,25 +60,25 @@ export const typography = {
   h1: {
     fontWeight: 800,
     lineHeight: 80 / 64,
-    fontSize: pxToRem(40),
+    fontSize: pxToRem(48),
     ...responsiveFontSizes({ sm: 52, md: 58, lg: 64 }),
   },
   h2: {
     fontWeight: 800,
     lineHeight: 64 / 48,
-    fontSize: pxToRem(32),
+    fontSize: pxToRem(40),
     ...responsiveFontSizes({ sm: 40, md: 44, lg: 48 }),
   },
   h3: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(24),
+    fontSize: pxToRem(32),
     ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
   },
   h4: {
     fontWeight: 700,
     lineHeight: 1.5,
-    fontSize: pxToRem(20),
+    fontSize: pxToRem(22),
     ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
   },
   h5: {
@@ -80,7 +90,7 @@ export const typography = {
   h6: {
     fontWeight: 700,
     lineHeight: 28 / 18,
-    fontSize: pxToRem(17),
+    fontSize: pxToRem(16),
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
   subtitle1: {
@@ -99,7 +109,19 @@ export const typography = {
   },
   body2: {
     lineHeight: 22 / 14,
+    fontSize: pxToRem(16),
+  },
+  body3: {
+    lineHeight: '25px',
+    fontWeight: 600,
     fontSize: pxToRem(14),
+    letterSpacing: '0.03em',
+  },
+  body4: {
+    lineHeight: '25px',
+    fontWeight: 400,
+    fontSize: pxToRem(14),
+    letterSpacing: '0.03em',
   },
   caption: {
     lineHeight: 1.5,
@@ -116,5 +138,11 @@ export const typography = {
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
     textTransform: 'unset',
+  },
+  button1: {
+    fontWeight: 500,
+    lineHeight: '40px',
+    fontSize: pxToRem(16),
+    letterSpacing: '0.03em',
   },
 } as const;
