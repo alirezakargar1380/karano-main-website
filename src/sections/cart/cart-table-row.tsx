@@ -13,6 +13,7 @@ import SvgColor from '../../components/svg-color';
 import { Stack, Tooltip, Typography } from '@mui/material';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { LoadingButton } from '@mui/lab';
+import { pxToRem } from 'src/theme/typography';
 
 // ----------------------------------------------------------------------
 
@@ -68,11 +69,11 @@ export default function CartTableRow({
 
         {(!!profile_type) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-            {profile_type}
+            <Typography variant='body4'>{profile_type}</Typography>
             {(type === 'edit') && (
-              <>
+              <Typography variant='caption1' fontFamily={'peyda-medium'}>
                 {(status === IOrderProductPropertyStatus.denied) && (
-                  <Label color='error' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: 1 }}>رد شده</Label>
+                  <Label color='error' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: pxToRem(8), py: pxToRem(2), borderRadius: '8px' }}>رد شده</Label>
                 )}
                 {(status === IOrderProductPropertyStatus.edited) && (
                   <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
@@ -80,36 +81,36 @@ export default function CartTableRow({
                 {(status === IOrderProductPropertyStatus.approve) && (
                   <Label color='success' sx={{ ml: 1, px: 1 }}>تایید شده</Label>
                 )}
-              </>
+              </Typography>
             )}
           </TableCell>
         )}
 
         {(!!final_coating) && (
           <TableCell>
-            {final_coating}
+            <Typography variant='body4'>{final_coating}</Typography>
           </TableCell>
         )}
 
         {(!!frame_type) && (
           <TableCell>
-            {frame_type}
+            <Typography variant='body4'>{frame_type}</Typography>
           </TableCell>
         )}
 
         {(!!coating) && (
           <TableCell>
-            {coating}
+            <Typography variant='body4'>{coating}</Typography>
           </TableCell>
         )}
 
         <TableCell>
-          {dimensions}
+          <Typography variant='body4'>{dimensions}</Typography>
         </TableCell>
 
         <TableCell sx={{}}>
           <Box sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium' }}>
-            {quality}
+            <Typography variant='body4'>{quality}</Typography>
             {(rejection_reason) && (
               <Box
                 sx={{

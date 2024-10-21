@@ -38,6 +38,7 @@ declare module "@mui/material/Typography" {
     body3: true;
     body4: true;
     button1: true;
+    caption1: true;
   }
 }
 
@@ -127,6 +128,12 @@ export const typography = {
     lineHeight: 1.5,
     fontSize: pxToRem(12),
   },
+  caption1: {
+    fontWeight: 400,
+    lineHeight: '18.2px',
+    fontSize: pxToRem(13),
+    letterSpacing: '0.03em',
+  },
   overline: {
     fontWeight: 700,
     lineHeight: 1.5,
@@ -135,13 +142,11 @@ export const typography = {
   },
   button: {
     fontWeight: 700,
-    lineHeight: 24 / 14,
     fontSize: pxToRem(14),
     textTransform: 'unset',
   },
   button1: {
     fontWeight: 500,
-    lineHeight: '40px',
     fontSize: pxToRem(16),
     letterSpacing: '0.03em',
   },

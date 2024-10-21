@@ -96,15 +96,6 @@ export default function OrderTrackingListView() {
     return (
         <Box>
 
-            {/* <SuccessDialog
-                title="ثبت موفق"
-                content={hasCustomMade ?
-                    `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد و وارد فرایند تولید می‌شود.`
-                    : `سفارش شما با کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت ثبت شد.`}
-                open={submitSuccessDialog.value}
-                onClose={submitSuccessDialog.onFalse}
-            /> */}
-
             <SuccessDialog
                 title={prePayment ? "ثبت موفق" : "پرداخت موفق"}
                 content={hasCustomMade ?
@@ -113,8 +104,7 @@ export default function OrderTrackingListView() {
                 open={successDialog.value}
                 onClose={successDialog.onFalse}
             />
-
-            {/* final payment success dialog */}
+            
             <SuccessDialog
                 title={"پرداخت موفق"}
                 content={`پرداخت شما برای سفارش کد ${orders.find((o) => o.id === orderId)?.order_number || ''}، با موفقیت انجام شد و  به زودی ارسال می‌شود. `}
