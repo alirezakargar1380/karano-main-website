@@ -155,11 +155,11 @@ export default function ShoppingCartList({ items, type, afterUpdate, orderId, on
             )}
             {checkoutItems.map((item, index: number) => (
                 <Box textAlign={'right'} key={index}>
-                    <Grid container spacing={2} sx={{ pt: 4 }}>
+                    <Grid container spacing={2}>
                         {(type !== 'edit') ? <Grid item sm={2} /> : null}
                         <Grid item sm={10}>
                             <Stack direction={'row'} spacing={2}>
-                                <Typography fontFamily={'peyda-bold'} sx={{ pt: 1 }}>{item.product.name}</Typography>
+                                <Typography fontFamily={'peyda-bold'} variant="title2" sx={{ pt: 1 }}>{item.product.name}</Typography>
                             </Stack>
                         </Grid>
                         {((type !== 'edit')) && (

@@ -25,7 +25,7 @@ export default function BlueNotification({ children, title, closeBtn, sx }: Prop
                 {!title && (
                     <Stack direction={'row'} spacing={2}>
                         <SvgColor src="/assets/icons/notification/alert-circle.svg" sx={{ width: 24 }} color={'#0B7BA7'} />
-                        <Typography variant="h6" width={'fit-content'}>{children}</Typography>
+                        <Typography variant="body4" fontFamily={'peyda-medium'} width={'fit-content'}>{children}</Typography>
                     </Stack>
                 )}
 
@@ -38,7 +38,7 @@ export default function BlueNotification({ children, title, closeBtn, sx }: Prop
                 )}
             </Stack>
             {title && (
-                <Typography variant="h6" sx={{ pl: 5, pt: 2 }}>{children}</Typography>
+                <Typography variant="body4" sx={{ pl: 5, pt: 2 }}>{children}</Typography>
             )}
         </Box>
     )

@@ -7,7 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { ConfirmDialogProps } from './types';
 import SvgColor from '../svg-color';
 import { Box } from '@mui/system';
-import { Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -34,11 +34,7 @@ export default function DefaultDialog({
                     </Box>
                 </DialogTitle>
 
-                {content && <DialogContent sx={{ fontSize: 16, fontFamily: 'peyda-regular', px: 0, mt: 2 }}>
-                    <Typography variant='body4'>
-                        {content}
-                    </Typography>
-                </DialogContent>}
+                {content && <DialogContent sx={{ fontSize: 16, fontFamily: 'peyda-regular', px: 0, mt: 2 }}> {content} </DialogContent>}
 
                 <DialogActions sx={{ pr: 0 }}>
                     <Stack direction={'row'} spacing={2}>

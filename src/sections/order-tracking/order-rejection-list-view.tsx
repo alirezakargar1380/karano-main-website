@@ -146,7 +146,7 @@ export default function OrderRejectionListView({
             />
 
             <Box sx={{ px: '40px', bgcolor: 'white', borderRadius: '16px' }}>
-                <DialogTitle variant="h4" sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+                <DialogTitle variant="title1" sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                     جزییات رد ‌سفارش
                 </DialogTitle>
             </Box>
@@ -155,7 +155,11 @@ export default function OrderRejectionListView({
                     <Box sx={{ px: '40px', bgcolor: 'white', borderRadius: '16px', mb: '36px' }}>
                         <Box pt={'24px'}>
                             <YellowNotification title="لیست کالاهای «سفارشی» ناموجود" sx={{ mb: 3 }}>
-                                ادمین فروش تعدادی / تمامی کالاهای شما را رد کرده  و علت‌های کالاهای ردشده را ثبت کرده است. می‌توانید کالا / کالاهای ردشده را اصلاح یا حذف کنید. در صورت اصلاح و سپس بررسی  توسط ادمین فروش، وضعیت‌ کالاهای سفارش شما در  سبد خرید در بخش پروفایل و همچنین از طریق منوی «پیگیری سفارش» قابل مشاهده و پیگیری هستند.
+                                ادمین فروش تعدادی / تمامی کالاهای شما را
+                                <Typography variant="body3" fontFamily={'peyda-bold'}> رد کرده </Typography>
+                                و
+                                علت‌های
+                                کالاهای ردشده را ثبت کرده است. می‌توانید کالا / کالاهای ردشده را اصلاح یا حذف کنید. در صورت اصلاح و سپس بررسی  توسط ادمین فروش، وضعیت‌ کالاهای سفارش شما در  سبد خرید در بخش پروفایل و همچنین از طریق منوی «پیگیری سفارش» قابل مشاهده و پیگیری هستند.
                             </YellowNotification>
                             <BlueNotification sx={{ mb: 3 }} closeBtn>
                                 برای تغییرات کالاهای «ردشده»، دکمه «اصلاح / حذف کالا»  را انتخاب و سپس بعد از اعمال تمامی تغییرات،بر روی دکمه «ثبت تغییرات» کلیک کنید. همچنین می‌توانید با کلیک بر روی آیکون «اصلاح» و «حذف»، تغییرات مورد نظر خود را اعمال کنید. در آخر  برای ثبت نهایی تغییرات، بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید.
@@ -190,8 +194,7 @@ export default function OrderRejectionListView({
                     <StyledRoundedWhiteButton onClick={cancel.onTrue}>
                         <Typography variant='button1'>انصراف</Typography>
                     </StyledRoundedWhiteButton>
-                    <PrimaryButton //onClick={handleUpdateOrder}
-                    >
+                    <PrimaryButton onClick={handleUpdateOrder}>
                         <Typography variant='button1'>ثبت نهایی اصلاحات</Typography>
                     </PrimaryButton>
                     {/* <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: '20px', py: '4px' }} onClick={handleUpdateOrder}>

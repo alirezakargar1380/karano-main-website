@@ -14,15 +14,22 @@ export default function YellowNotification({ children, title, sx }: Props) {
     return show && (
         <Box sx={{ width: '100%', height: '100%', backgroundColor: '#FFF6DD', border: '1px solid #795105', borderRadius: '8px', py: 2, px: 2, ...sx }}>
             <Stack direction={'row'} justifyContent={'space-between'}>
-                <Stack direction={'row'} spacing={2}>
-                    <SvgColor src="/assets/icons/notification/alert-circle.svg" color={'#795105'} />
-                    <Typography variant="h6" fontFamily={'peyda-bold'}>{title}</Typography>
+                <Stack direction={'row'} spacing={'12px'}>
+                    <Box>
+                        <SvgColor src="/assets/icons/notification/alert-circle.svg" color={'#795105'} />
+                    </Box>
+                    <Box>
+                        <Typography variant="title3" fontFamily={'peyda-bold'} display={'block'} width={1}>{title}</Typography>
+                        <Typography variant="body4" sx={{ pt: 2, color: '#2B2B2B', mt: '4px' }}>{children}</Typography>
+                    </Box>
                 </Stack>
-                <SvgColor src="/assets/icons/notification/x-close.svg" sx={{
-                    cursor: 'pointer'
-                }} color={'#795105'} onClick={() => setShow(false)} />
+                <Box>
+                    <SvgColor src="/assets/icons/notification/x-close.svg" sx={{
+                        cursor: 'pointer'
+                    }} color={'#795105'} onClick={() => setShow(false)} />
+                </Box>
             </Stack>
-            <Typography variant="h6" sx={{ pl: 5, pt: 2 }}>{children}</Typography>
+
         </Box>
     )
 }
