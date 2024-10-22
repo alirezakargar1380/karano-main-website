@@ -109,8 +109,10 @@ export const typography = {
     fontSize: pxToRem(16),
   },
   body2: {
-    lineHeight: 22 / 14,
+    // lineHeight: 22 / 14,
+    fontWeight: 40,
     fontSize: pxToRem(16),
+    letterSpacing: '0.03em',
   },
   body3: {
     lineHeight: '25px',

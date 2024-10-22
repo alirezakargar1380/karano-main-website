@@ -85,22 +85,6 @@ export default function PhoneVerifyView() {
       }
   }, [values.code])
 
-  const renderHead = (
-    <Stack spacing={2} sx={{ mb: 4 }}>
-      <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
-        <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
-      </Box>
-
-      {/* <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">New user?</Typography>
-
-        <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
-          Create an account
-        </Link>
-      </Stack> */}
-    </Stack>
-  );
-
   const renderForm = (
     <Stack spacing={2.5}>
 

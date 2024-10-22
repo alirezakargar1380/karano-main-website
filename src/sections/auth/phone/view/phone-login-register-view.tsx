@@ -18,7 +18,7 @@ import { useAuthContext } from 'src/auth/hooks';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFPhoneInput, RHFTextField } from 'src/components/hook-form';
 import { Box, MenuItem, MenuItemProps, Select, styled } from '@mui/material';
 import { countries } from 'src/assets/data';
 import { paths } from 'src/routes/paths';
@@ -40,11 +40,11 @@ export default function PhoneLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    phone: Yup.string().length(13, 'شماره تلفن باید 13 کلمه باشد').required('شماره تماس مورد نیاز است'),
+    // phone: Yup.string().length(13, 'شماره تلفن باید 13 کلمه باشد').required('شماره تماس مورد نیاز است'),
   });
 
   const defaultValues = {
-    phone: '+98',
+    phone: '۹۸',
   };
 
   const methods = useForm({
@@ -58,8 +58,10 @@ export default function PhoneLoginView() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: any) => {
     try {
+      data = data.phone.split(" ").join("");
+      return console.log(data)
       const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
       
       if (!res.phone_verified) {
@@ -110,27 +112,7 @@ export default function PhoneLoginView() {
 
       <Box>
         <Typography variant="h6" textAlign={'left'} mb={0.5}>شماره تلفن همراه</Typography>
-
-        <RHFTextField
-          name="phone"
-          sx={{
-            '.MuiInputBase-input': {
-              textAlign: 'right!important',
-              direction: 'rtl!important'
-            }
-          }}
-          type={'text'}
-          placeholder='09123456789'
-          onChange={(e) => {
-            console.log(e.target.value)
-            if (!e.target.value.startsWith('+98')) {
-              methods.setValue('phone', '+98')
-            } else {
-              methods.setValue('phone', e.target.value)
-            }
-          }}
-        />
-
+        <RHFPhoneInput name="phone" />
       </Box>
 
 
