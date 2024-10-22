@@ -16,7 +16,7 @@ export default function RHFTitleTextField({ name, custom_label, helperText, type
 
   return (
     <Box sx={{ width: 1 }}>
-      <Typography fontFamily={'peyda-bold'} sx={{ pb: 0.5, pl: 0.75 }} variant='body2'>{custom_label}</Typography>
+      <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
       <Controller
         name={name}
         control={control}

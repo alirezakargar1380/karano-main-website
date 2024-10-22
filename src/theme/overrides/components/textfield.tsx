@@ -96,6 +96,18 @@ export function textField(theme: Theme) {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
+          
+          '& input': {
+            padding: '8px 12px',
+            fontSize: '16px',
+            lineHeight: '32px',
+            height: '32px',
+            letterSpacing: '0.03em',
+            fontFamily: 'peyda-regular',
+            '&::placeholder': {
+              color: '#D1D1D1',
+            }
+          },
           [`&.${outlinedInputClasses.focused}`]: {
             [`& .${outlinedInputClasses.notchedOutline}`]: {
               borderColor: color.focused,
@@ -113,7 +125,8 @@ export function textField(theme: Theme) {
           },
         },
         notchedOutline: {
-          borderColor: alpha(theme.palette.grey[500], 0.2),
+          borderRadius: '8px',
+          borderColor: '#D1D1D1',
           transition: theme.transitions.create(['border-color'], {
             duration: theme.transitions.duration.shortest,
           }),
