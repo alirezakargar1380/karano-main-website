@@ -14,7 +14,7 @@ export default function RHFPhoneInput({ name, helperText }: RHFPhoneInputProps) 
 
   const handleChange = (index: number, value: string, onChange: (value: string) => void, currentValue: string) => {
     const newValue = currentValue.split(' ');
-    newValue[index] = toFarsiNumber(value)//value;//.replace(/\D/g, '');
+    newValue[index] = value.replace(/\D/g, '');
     onChange(newValue.join(' '));
 
     // Auto-focus next input

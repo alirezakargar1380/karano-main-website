@@ -150,6 +150,8 @@ export const typography = {
   button1: {
     fontWeight: 500,
     fontSize: pxToRem(16),
+    lineHeight: '40px',
+    fontFamily: 'peyda-regular',
     letterSpacing: '0.03em',
   },
 } as const;

@@ -24,6 +24,7 @@ import { countries } from 'src/assets/data';
 import { paths } from 'src/routes/paths';
 import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 import RegisterLoginHead from '../register-login-head';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 
@@ -40,11 +41,12 @@ export default function PhoneLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    // phone: Yup.string().length(13, 'شماره تلفن باید 13 کلمه باشد').required('شماره تماس مورد نیاز است'),
+    phone: Yup.string().length(15, 'شماره تلفن باید 15 کلمه باشد').required('شماره تماس مورد نیاز است'),
   });
 
   const defaultValues = {
-    phone: '۹۸',
+    // phone: '۹۸',
+    phone: '98',
   };
 
   const methods = useForm({
@@ -55,20 +57,20 @@ export default function PhoneLoginView() {
   const {
     reset,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
-      data = data.phone.split(" ").join("");
-      return console.log(data)
-      const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
+      data.phone = data.phone.split(" ").join("");
       
+      const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
+
       if (!res.phone_verified) {
-        router.push(paths.auth.phone.verify + '?phone=' + data.phone.split("+")[1]);
+        router.push(paths.auth.phone.verify + '?phone=' + data.phone);
         return
       }
-      
+
       if (!res.set_password) {
         router.push(paths.auth.phone.newPassword + '?user_id=' + res.user_id);
         return
@@ -80,9 +82,9 @@ export default function PhoneLoginView() {
       }
 
       if (res.authenticated) {
-        router.push(paths.auth.phone.password + '?phone=' + data.phone.split("+")[1]);
+        router.push(paths.auth.phone.password + '?phone=' + data.phone);
       } else {
-        router.push(paths.auth.phone.verify + '?phone=' + data.phone.split("+")[1]);
+        router.push(paths.auth.phone.verify + '?phone=' + data.phone);
       }
     } catch (error) {
       console.error(error);
@@ -120,18 +122,15 @@ export default function PhoneLoginView() {
         Forgot password?
       </Link> */}
 
-      <LoadingButton
-        sx={{ borderRadius: '24px', fontFamily: 'peyda-bold' }}
-        fullWidth
-        color="inherit"
-        size="large"
-        // disabled={true}
-        type="submit"
-        variant="contained"
-        loading={isSubmitting}
-      >
-        ادامه
-      </LoadingButton>
+      
+        <PrimaryButton
+          sx={{ width: 1 }}
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={!isValid}
+        >
+          <Typography variant="button1">ادامه</Typography>
+        </PrimaryButton>
     </Stack>
   );
 

@@ -35,6 +35,7 @@ export function button(theme: Theme) {
     const largeSize = ownerState.size === 'large';
 
     const defaultStyle = {
+      transition: theme.transitions.create(['outline', 'background']),
       ...(inheritColor && {
         // CONTAINED
         ...(containedVariant && {

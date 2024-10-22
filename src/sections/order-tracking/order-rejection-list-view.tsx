@@ -145,16 +145,15 @@ export default function OrderRejectionListView({
                 }
             />
 
-            <Box sx={{ px: 6, bgcolor: 'white', borderRadius: '16px' }}>
+            <Box sx={{ px: '40px', bgcolor: 'white', borderRadius: '16px' }}>
                 <DialogTitle variant="h4" sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                     جزییات رد ‌سفارش
                 </DialogTitle>
             </Box>
-
-            <DialogContent>
+            <DialogContent sx={{ px: 0 }}>
                 <Scrollbar>
-                    <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
-                        <Box>
+                    <Box sx={{ px: '40px', bgcolor: 'white', borderRadius: '16px', mb: '36px' }}>
+                        <Box pt={'24px'}>
                             <YellowNotification title="لیست کالاهای «سفارشی» ناموجود" sx={{ mb: 3 }}>
                                 ادمین فروش تعدادی / تمامی کالاهای شما را رد کرده  و علت‌های کالاهای ردشده را ثبت کرده است. می‌توانید کالا / کالاهای ردشده را اصلاح یا حذف کنید. در صورت اصلاح و سپس بررسی  توسط ادمین فروش، وضعیت‌ کالاهای سفارش شما در  سبد خرید در بخش پروفایل و همچنین از طریق منوی «پیگیری سفارش» قابل مشاهده و پیگیری هستند.
                             </YellowNotification>
@@ -186,14 +185,14 @@ export default function OrderRejectionListView({
                     </Box>
                 </Scrollbar>
             </DialogContent>
-            <DialogActions>
-                <Stack direction={'row'} spacing={1} justifyContent={'end'} sx={{ height: 1 }}>
-                    <StyledRoundedWhiteButton variant='outlined' onClick={cancel.onTrue}>
-                        <Typography variant='button1' fontFamily={'peyda-light'}>انصراف</Typography>
+            <DialogActions sx={{ px: '40px', pb: '30px', pt: 0 }}>
+                <Stack direction={'row'} spacing={'12px'} justifyContent={'end'} borderTop={'1px solid #D1D1D1'} pt={'24px'} width={1}>
+                    <StyledRoundedWhiteButton onClick={cancel.onTrue}>
+                        <Typography variant='button1'>انصراف</Typography>
                     </StyledRoundedWhiteButton>
                     <PrimaryButton //onClick={handleUpdateOrder}
                     >
-                        <Typography variant='button1' fontFamily={'peyda-light'}>ثبت نهایی اصلاحات</Typography>
+                        <Typography variant='button1'>ثبت نهایی اصلاحات</Typography>
                     </PrimaryButton>
                     {/* <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: '20px', py: '4px' }} onClick={handleUpdateOrder}>
                         <Typography variant='button1' fontFamily={'peyda-light'}>ثبت نهایی اصلاحات</Typography>
