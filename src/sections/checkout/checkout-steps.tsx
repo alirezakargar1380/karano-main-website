@@ -7,9 +7,8 @@ import StepLabel, { stepLabelClasses } from '@mui/material/StepLabel';
 import MuiStepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
 import Iconify from 'src/components/iconify';
-import { useEffect, useState } from 'react';
-import { useCheckoutContext } from './context';
-import { svgIconClasses } from '@mui/material';
+import { useState } from 'react';
+import { svgIconClasses, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +44,6 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
       activeStep={activeStep}
       connector={<StepConnector />}
       sx={{
-        mb: { xs: 3, md: 5 },
         ...sx,
       }}
       {...other}
@@ -87,7 +85,7 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
               },
             }}
           >
-            {label}
+            <Typography variant="body4">{label}</Typography>
           </StepLabel>
         </Step>
       ))}

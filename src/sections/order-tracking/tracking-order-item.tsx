@@ -33,27 +33,24 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Label
                         sx={{
-                            ...(order.status === OrderStatus.produced && {
-                                bgcolor: "#0B7BA7",
-                                color: "white"
-                            }),
                             px: pxToRem(8),
                             py: pxToRem(2),
                             borderRadius: '8px',
                         }}
+                        variant={"filled"}
                         color={
                             ((order.status === OrderStatus.pending
                                 || order.status === OrderStatus.ready_to_send
                                 || order.status === OrderStatus.preparing
-                                || order.status === OrderStatus.production) && 'info') ||
+                                || order.status === OrderStatus.production) && 'blue') ||
                             ((order.status === OrderStatus.failed || order.status === OrderStatus.removed)
-                                && 'error') ||
+                                && 'red') ||
                             ((
                                 order.status === OrderStatus.accepted ||
                                 order.status === OrderStatus.posted ||
                                 order.status === OrderStatus.ready_to_send
-                            ) && 'success') ||
-                            (order.status === OrderStatus.edited && 'warning') ||
+                            ) && 'green') ||
+                            (order.status === OrderStatus.edited && 'yellow') ||
                             'default'
                         } fontFamily={'peyda-bold'}>
                         <Typography variant={'body3'}>

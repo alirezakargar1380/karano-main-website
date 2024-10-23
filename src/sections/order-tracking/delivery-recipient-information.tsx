@@ -22,6 +22,7 @@ import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
 import { ReminderDialog } from "src/components/custom-dialog";
 import { cancelDialogContent, cancelDialogTitle } from "./contants/dialog";
 import CompleteOrderLayout from "./layout/complete-order-layout";
+import InputCard from "./components/input-card";
 
 interface Props {
     orderId: number,
@@ -166,14 +167,11 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
 
             <CompleteOrderDialogContent>
                 <CompleteOrderLayout>
-                    <Stack spacing={3}>
+                    <Stack spacing={'24px'}>
                         <FormProvider methods={methods} onSubmit={onSubmit}>
-                            <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                                <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                                    اطلاعات تحویل گیرنده
-                                </Typography>
-                                <Stack direction={{ xs: 'column', sm: 'row' }} sx={{ mt: 2 }} spacing={2}>
-                                    <RHFTitleTextField name='reciver_name' custom_label='نام و نام خانوادگی' placeholder='نام و نام خانوادگی' />
+                            <InputCard title="اطلاعات تحویل گیرنده">
+                                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={'16px'}>
+                                    <RHFTitleTextField name='reciver_name' custom_label='نام و نام خانوادگی' placeholder='افزودن محتوا' />
                                     <RHFTitleTextField
                                         name="reciver_phone"
                                         custom_label='شماره تماس'
@@ -194,44 +192,55 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
                                         }}
                                     />
                                 </Stack>
-                            </Box>
+                            </InputCard>
                         </FormProvider>
 
                         {delivery_type === IOrderDeliveryType.tehran && (<DeliveryAdresses orderId={orderId} />)}
 
                         {(user?.user_type === IUserTypes.genuine) && (
                             <FormProvider methods={methods} onSubmit={onSubmit}>
-                                <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-                                    <Typography variant="h6" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                                        مشخصات صاحب فاکتور
-                                    </Typography>
+                                <InputCard title="مشخصات صاحب فاکتور">
                                     <BlueNotification sx={{ mt: 2 }}>
                                         می‌توانید فاکتور را به نام خود و یا فرد دیگری انتخاب کنید.
                                     </BlueNotification>
-                                    <Stack direction={"row"} sx={{ p: 1.25, borderRadius: '12px', bgcolor: '#F2F2F2', textAlign: 'center', fontFamily: 'peyda-bold', my: 2 }}>
+                                    <Stack direction={"row"} sx={{ p: '8px', borderRadius: '12px', bgcolor: '#F2F2F2', textAlign: 'center', fontFamily: 'peyda-bold', my: 2 }}>
                                         <Box
                                             onClick={() => setInvoiceOwner(InvoiceOwner.me)}
                                             sx={{
-                                                width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
-                                                gcolor: '#F2F2F2',
+                                                width: '50%',
+                                                py: '8px',
+                                                borderRadius: '8px',
+                                                cursor: 'pointer',
+                                                bgcolor: '#F2F2F2',
+                                                color: '#727272',
                                                 ...(invoiceOwner === InvoiceOwner.me && {
-                                                    bgcolor: '#FFF'
+                                                    color: '#000',
+                                                    bgcolor: '#FFF',
+                                                    border: '1px solid #D1D1D1',
+                                                    boxShadow: '0px 0.8px 1.8px 0px #0000001C, 0px 0.15px 0.5px 0px #0000001C',
                                                 })
                                             }}
                                         >
-                                            خودم
+                                            به نام خودم
                                         </Box>
                                         <Box
                                             onClick={() => setInvoiceOwner(InvoiceOwner.another)}
                                             sx={{
-                                                width: '50%', py: 1, borderRadius: '8px', cursor: 'pointer',
+                                                width: '50%',
+                                                py: '8px',
+                                                borderRadius: '8px',
+                                                cursor: 'pointer',
                                                 bgcolor: '#F2F2F2',
+                                                color: '#727272',
                                                 ...(invoiceOwner === InvoiceOwner.another && {
-                                                    bgcolor: '#FFF'
+                                                    color: '#000',
+                                                    bgcolor: '#FFF',
+                                                    border: '1px solid #D1D1D1',
+                                                    boxShadow: '0px 0.8px 1.8px 0px #0000001C, 0px 0.15px 0.5px 0px #0000001C',
                                                 })
                                             }}
                                         >
-                                            فرد دیگر
+                                            به نام فرد دیگر
                                         </Box>
                                     </Stack>
                                     <Stack
@@ -241,14 +250,14 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
                                             xs: 'repeat(1, 1fr)',
                                             md: 'repeat(2, 1fr)',
                                         }}
-                                        sx={{ mt: 3 }}
-                                        spacing={2}
+                                        sx={{ mt: '24px' }}
+                                        spacing={'16px'}
                                     >
                                         <RHFTitleTextField name='invoice_owner.first_name' custom_label='نام' placeholder='افزودن محتوا' />
                                         <RHFTitleTextField name='invoice_owner.last_name' custom_label='نام خانوادگی' placeholder='افزودن محتوا' />
                                         <RHFTitleTextField name='invoice_owner.id_code' custom_label='کد ملی' placeholder='افزودن محتوا' />
                                     </Stack>
-                                </Box>
+                                </InputCard>
                             </FormProvider>
                         )}
                     </Stack>

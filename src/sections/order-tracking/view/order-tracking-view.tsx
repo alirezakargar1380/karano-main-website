@@ -8,8 +8,8 @@ import OrderTrackingListView from "../order-tracking-list-view";
 export default function OrderTrackingView() {
 
     return (
-        <Stack spacing={4} pb={10} mt={4}>
-            <BlueNotification title='مهلت پرداخت'>
+        <Stack spacing={'24px'} pb={10} mt={4}>
+            <BlueNotification title='مهلت پرداخت' closeBtn>
                 ما تنها برای ۴۸ ساعت می‌توانیم پیش‌فاکتورتان را فعال نگه داریم. در صورت عدم‌پرداخت، ناچار به بررسی مجدد سفارش‌تان هستیم.
             </BlueNotification>
             <TextField
@@ -22,7 +22,9 @@ export default function OrderTrackingView() {
                         </InputAdornment>
                     ),
                     sx: {
-                        borderRadius: '24px'
+                        '& fieldset': {
+                            borderRadius: '24px!important'
+                        }
                     }
                 }}
             />

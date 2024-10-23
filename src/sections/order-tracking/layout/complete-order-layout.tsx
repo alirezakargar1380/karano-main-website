@@ -6,7 +6,7 @@ interface Props {
 
 export default function CompleteOrderLayout({ children }: Props) {
     return (
-        <Box px={4}>
+        <Box px={'40px'}>
             {children}
         </Box>
     )

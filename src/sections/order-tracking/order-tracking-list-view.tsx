@@ -95,7 +95,6 @@ export default function OrderTrackingListView() {
 
     return (
         <Box>
-
             <SuccessDialog
                 title={prePayment ? "ثبت موفق" : "پرداخت موفق"}
                 content={hasCustomMade ?
@@ -186,7 +185,7 @@ export default function OrderTrackingListView() {
                 />
             </DialogWithButton>
 
-            <Stack spacing={4} pb={10}>
+            <Stack spacing={'20px'} pb={10}>
                 {orders.map((order) => (
                     <TrackingOrderItem
                         key={order.id}

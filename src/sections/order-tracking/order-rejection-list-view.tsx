@@ -191,10 +191,10 @@ export default function OrderRejectionListView({
             </DialogContent>
             <DialogActions sx={{ px: '40px', pb: '30px', pt: 0 }}>
                 <Stack direction={'row'} spacing={'12px'} justifyContent={'end'} borderTop={'1px solid #D1D1D1'} pt={'24px'} width={1}>
-                    <StyledRoundedWhiteButton onClick={cancel.onTrue}>
+                    <StyledRoundedWhiteButton size={'medium'} onClick={cancel.onTrue}>
                         <Typography variant='button1'>انصراف</Typography>
                     </StyledRoundedWhiteButton>
-                    <PrimaryButton onClick={handleUpdateOrder}>
+                    <PrimaryButton size={'medium'} onClick={handleUpdateOrder}>
                         <Typography variant='button1'>ثبت نهایی اصلاحات</Typography>
                     </PrimaryButton>
                     {/* <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: '20px', py: '4px' }} onClick={handleUpdateOrder}>
