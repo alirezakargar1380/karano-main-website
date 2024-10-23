@@ -172,7 +172,7 @@ export const typography = {
     fontWeight: 500,
     fontSize: pxToRem(16),
     lineHeight: '40px',
-    fontFamily: 'peyda-regular',
+    fontFamily: 'peyda-medium',
     letterSpacing: '0.03em',
   },
 } as const;
