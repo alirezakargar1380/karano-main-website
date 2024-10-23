@@ -12,7 +12,7 @@ export default function CompleteOrderDialogContent({ children }: Props) {
     return (
         <DialogContent sx={{ px: 0 }}>
             <Scrollbar>
-                <Box sx={{ pt: 2, bgcolor: 'white', borderRadius: '16px' }}>
+                <Box sx={{ bgcolor: 'white', borderRadius: '16px' }}>
                     {children}
                 </Box>
             </Scrollbar>
