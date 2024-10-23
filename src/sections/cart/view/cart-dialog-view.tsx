@@ -246,7 +246,7 @@ export default function CartDialogView({
     };
 
     return (
-        <Box>
+        <Box  sx={{ px: '40px' }}>
             {(!show) && (
                 <Joyride
                     callback={handleJoyrideCallback}
@@ -277,18 +277,15 @@ export default function CartDialogView({
                     }}
                 />
             )}
-
-            <Box sx={{ pl: 3, pt: 3 }}>
-                <Grid container spacing={4} sx={{ width: 1 }}>
-                    <Grid item xs={12} md={4}>
-                        <Box sx={{ borderBottom: '1px solid #D1D1D1', pb: 2 }}>
-                            <Typography sx={{ pb: 2 }} variant='h6' color={'#727272'}>
+            <Box>
+                <Stack direction={'row'} spacing={'24px'}>
+                    <Box width={'400px'}>
+                        <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography sx={{ py: '12px' }} variant='title2' color={'#727272'} display={'block'}>
                                 ویژگی های مورد نظر را انتخاب کنید
                             </Typography>
-                            <Box width={1}>
-                                <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                    width: 1, pb: 1
-                                }}>
+                            <Box width={1} pb={'24px'}>
+                                <Typography variant="title3" fontFamily={'peyda-bold'} sx={{ width: 1, pb: '16px' }}>
                                     نوع پروفیل
                                 </Typography>
 
@@ -317,10 +314,15 @@ export default function CartDialogView({
                         </Box>
 
                         {formOptions.cover_type && (
-                            <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                                <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                    width: 1, pb: 1
-                                }}>
+                            <Box sx={{ py: '24px', borderBottom: '1px solid #D1D1D1' }}>
+                                <Typography
+                                    variant="title3"
+                                    fontFamily={'peyda-bold'}
+                                    sx={{
+                                        width: 1,
+                                        pb: '16px'
+                                    }}
+                                >
                                     پوشش نهایی
                                 </Typography>
                                 <RHFRadioGroupWithImage
@@ -350,9 +352,9 @@ export default function CartDialogView({
                             </Box>
                         )}
 
-                        <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                            <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                width: 1, pb: 1
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
                             }}>
                                 نوع قاب
                             </Typography>
@@ -361,7 +363,6 @@ export default function CartDialogView({
                                 disabled={disable.frame_type}
                                 row
                                 sx={{
-                                    mt: 2,
                                     width: 1,
                                     display: 'grid',
                                     rowGap: 1,
@@ -381,10 +382,9 @@ export default function CartDialogView({
                                 })}
                             />
                         </Box>
-
-                        <Box sx={{ py: 2, borderBottom: '1px solid #D1D1D1' }}>
-                            <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                width: 1, pb: 3, pt: 1
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
                             }}>
                                 نوع روکش گیری
                             </Typography>
@@ -403,6 +403,7 @@ export default function CartDialogView({
                                 FormControlSx={{
                                     width: 1
                                 }}
+                                helperText={'روکش‌گیری جناقی به صورت هشتی انجام می‌شود.'}
                                 options={[
                                     {
                                         label: 'جناقی',
@@ -416,14 +417,17 @@ export default function CartDialogView({
                             />
                         </Box>
 
-                        <Box sx={{ py: 2 }}>
-                            <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-                                width: 1, pb: 3, pt: 1
-                            }}>
+                        <Box sx={{ py: "24px", }}>
+                            <Typography
+                                variant="title3"
+                                fontFamily={'peyda-bold'}
+                                sx={{
+                                    width: 1, pb: '16px'
+                                }}
+                            >
                                 ابعاد
                             </Typography>
                             <Stack direction={'row'}
-                                sx={{ pb: 2 }}
                                 spacing={2}
                                 columnGap={2}
                                 rowGap={3}
@@ -435,8 +439,8 @@ export default function CartDialogView({
                                 <RHFTitleTextField name='dimension.height' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
                                 <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                             </Stack>
-                            <Typography variant="subtitle1" fontFamily={'peyda-bold'} sx={{
-                                width: 1, pb: 1, pt: 1
+                            <Typography variant="body3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '8px', pt: '24px'
                             }}>
                                 تعداد
                             </Typography>
@@ -450,55 +454,52 @@ export default function CartDialogView({
                                 }}
                             />
                         </Box>
-                    </Grid>
-                    <Grid item xs={12} md={8}>
-                        <Scrollbar>
-                            {data.length ? (
-                                <Table size={'medium'}>
-                                    <TableHeadCustom
-                                        sx={{
-                                            backgroundColor: '#F2F2F2'
-                                        }}
-                                        cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                        headLabel={CartTableHead}
-                                    />
-                                    <TableBody>
+                    </Box>
+                    <Scrollbar>
+                        {data.length ? (
+                            <Table size={'medium'}>
+                                <TableHeadCustom
+                                    sx={{
+                                        backgroundColor: '#F2F2F2'
+                                    }}
+                                    cellSx={{ fontFamily: 'peyda-medium!important' }}
+                                    headLabel={CartTableHead}
+                                />
+                                <TableBody>
 
-                                        {data.map((item, index: number) => (
-                                            <CartTableRow
-                                                key={index}
-                                                index={index}
-                                                indexEqual={ind}
-                                                onDeleteRow={() => onDelete(item.id || index)}
-                                                onEditRow={() => onUpdate(index)}
-                                                selected={(listId === index)}
-                                                type={type}
-                                                row={{
-                                                    ...item,
-                                                    status: item.status,
-                                                    quality: item.quantity,
-                                                    coating: item?.coating_type,
-                                                    dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
-                                                    final_coating: item.cover_type?.name,
-                                                    frame_type: item.frame_type?.name,
-                                                    profile_type: item.profile_type?.name,
-                                                }}
-                                            />
-                                        ))}
+                                    {data.map((item, index: number) => (
+                                        <CartTableRow
+                                            key={index}
+                                            index={index}
+                                            indexEqual={ind}
+                                            onDeleteRow={() => onDelete(item.id || index)}
+                                            onEditRow={() => onUpdate(index)}
+                                            selected={(listId === index)}
+                                            type={type}
+                                            row={{
+                                                ...item,
+                                                status: item.status,
+                                                quality: item.quantity,
+                                                coating: item?.coating_type,
+                                                dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
+                                                final_coating: item.cover_type?.name,
+                                                frame_type: item.frame_type?.name,
+                                                profile_type: item.profile_type?.name,
+                                            }}
+                                        />
+                                    ))}
 
-                                    </TableBody>
-                                </Table>
+                                </TableBody>
+                            </Table>
 
-                            ) : (
-                                <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
-                                    <Image src='/assets/images/cart/Empty State.png' />
-                                </Box>
-                            )}
-                        </Scrollbar>
-                    </Grid>
-                </Grid>
+                        ) : (
+                            <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
+                                <Image src='/assets/images/cart/Empty State.png' />
+                            </Box>
+                        )}
+                    </Scrollbar>
+                </Stack>
             </Box>
-
         </Box>
     );
 }

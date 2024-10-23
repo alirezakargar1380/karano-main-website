@@ -1,27 +1,23 @@
-import { useRef, useState, useEffect, useCallback, use } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import * as Yup from 'yup';
 
 import DialogContent from '@mui/material/DialogContent';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Dialog from '@mui/material/Dialog';
 
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { DialogActions, DialogTitle, Grid, IconButton, Stack, TableBody, Typography } from '@mui/material';
-import { Box, height } from '@mui/system';
-import RHFTitleTextField from '../hook-form/rhf-title-text-field';
+import { DialogActions, DialogTitle,IconButton, Stack,  Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/hook-form';
 import { CartDialogView } from 'src/sections/cart/view';
 import { LoadingButton } from '@mui/lab';
 import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
 import { useGetOrderForm } from 'src/api/order-form';
-import { ICheckoutAddCustomMadeProductData, ICheckoutItemPropertyPrice } from 'src/types/checkout';
+import { ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'src/components/snackbar';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
-import { useCheckoutContext } from 'src/sections/checkout/context';
-import Scrollbar from '../scrollbar';
-import { DefaultDialog, WarningDialog } from '../custom-dialog';
+import { DefaultDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 
@@ -54,6 +50,8 @@ export default function CartDialog({
     type = 'cart'
 }: Props) {
     const { show, update } = useShowOneTime('edit-product-dialog');
+
+    dialog.onTrue();
 
     const infoDialog = useBoolean();
 
@@ -247,24 +245,20 @@ export default function CartDialog({
             />
 
             <Dialog open={dialog.value} onClose={dialog.onFalse} fullWidth={true} maxWidth={'xl'}>
-                <DialogTitle sx={{ pb: 0 }}>
-                    <Grid container spacing={4} sx={{ width: 1 }}>
-                        <Grid item xs={12} md={4}>
-                            <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5 }} variant='h4'>
-                                {product_name}
+                <DialogTitle sx={{ p: 0, px: '40px', pt: '40px' }}>
+                    <Stack spacing={'24px'} direction={'row'}>
+                        <Typography sx={{ borderBottom: '1px solid #D1D1D1', pb: 1.5, minWidth: '400px' }} variant='title1'>
+                            {product_name}
+                        </Typography>
+                        <Stack direction={'row'} width={1} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
+                            <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='title2'>
+                                لیست سفارش های ثبت شده
                             </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={8}>
-                            <Stack direction={'row'} borderBottom={'1px solid #D1D1D1'} justifyContent={'space-between'}>
-                                <Typography sx={{ pb: 2, fontFamily: 'peyda-bold' }} variant='h5'>
-                                    لیست سفارش های ثبت شده
-                                </Typography>
-                                <IconButton sx={{ mb: 1 }} onClick={dialog.onFalse}>
-                                    <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
-                                </IconButton>
-                            </Stack>
-                        </Grid>
-                    </Grid>
+                            <IconButton sx={{ mb: 1 }} onClick={dialog.onFalse}>
+                                <SvgColor src='/assets/icons/navbar/x-close.svg' sx={{ width: 16, height: 16 }} />
+                            </IconButton>
+                        </Stack>
+                    </Stack>
                 </DialogTitle>
                 <DialogContent sx={{
                     px: 0,
@@ -289,7 +283,7 @@ export default function CartDialog({
                     </FormProvider>
                 </DialogContent>
                 <DialogActions sx={{
-                    p: 4,
+                    p: '40px',
                     width: 1,
                     backgroundColor: '#F8F8F8',
                     overflow: 'hidden',
@@ -298,7 +292,7 @@ export default function CartDialog({
                 }}>
                     <Stack direction={'row'} justifyContent={'space-between'} width={1}>
                         <FormProvider methods={methods} onSubmit={onSubmit}>
-                            <Stack direction={'row'} spacing={2}>
+                            <Stack direction={'row'} spacing={2} width={'400px'}>
                                 {(id !== null && id >= 0) && (
                                     <>
                                         <StyledRoundedWhiteButton

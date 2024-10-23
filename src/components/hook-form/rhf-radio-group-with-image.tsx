@@ -86,7 +86,7 @@ export default function RHFRadioGroup({
                   }}
                 />
                 <Typography variant="body2" sx={{
-                  textTransform: 'capitalize',
+                  fontFamily: 'peyda-regular',
                   pt: 1,
                   pl: 1,
                   ...(disabled && {

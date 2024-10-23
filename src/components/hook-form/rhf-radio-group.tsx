@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { SxProps } from '@mui/system';
 import { Box } from '@mui/material';
+import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +47,7 @@ export default function RHFRadioGroup({
       render={({ field, fieldState: { error } }) => (
         <FormControl component="fieldset" sx={{ ...FormControlSx }}>
           {label && (
-            <FormLabel component="legend" id={labelledby} sx={{ typography: 'body2' }}>
+            <FormLabel component="legend" id={labelledby} sx={{ typography: 'title3' }}>
               {label}
             </FormLabel>
           )}
@@ -60,6 +61,10 @@ export default function RHFRadioGroup({
                   control={<Radio disabled={disabled} />}
                   label={option.label}
                   sx={{
+                    '& .MuiFormControlLabel-label': {
+                      typography: 'body2',
+                      fontFamily: 'peyda-regular',
+                    },
                     '&:not(:last-of-type)': {
                       mb: spacing || 0,
                     },
@@ -77,7 +82,8 @@ export default function RHFRadioGroup({
           </RadioGroup>
 
           {(!!error || helperText) && (
-            <FormHelperText error={!!error} sx={{ mx: 0 }}>
+            <FormHelperText error={!!error} sx={{ mx: 0, typography: 'caption2', mt: '25.5px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <SvgColor src="/assets/icons/notification/alert-circle.svg" sx={{ width: '16px' }} />
               {error ? error?.message : helperText}
             </FormHelperText>
           )}
