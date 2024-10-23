@@ -5,23 +5,35 @@ import { pxToRem } from "src/theme/typography";
 import { m } from 'framer-motion';
 import SvgColor from "src/components/svg-color";
 
-export const PrimaryButtonStyle = styled(Button)<ButtonProps>(({ theme }) => ({
-    backgroundColor: '#000',
-    color: '#fff',
-    borderRadius: '24px',
-    padding: `${pxToRem(4)} ${pxToRem(20)}`,
-    lineHeight: '0px',
-    '&:hover': {
-        backgroundColor: '#555555',
-    },
-    '&:active': {
-        outline: '2px solid #D1D1D1',
-    },
-    '&.Mui-disabled': {
-        backgroundColor: '#E0E0E0',
-        color: '#F8F8F8'
-    }
-}));
+export const PrimaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size }) => {
+    const sizeSm = size === 'small';
+    const sizeMd = size === 'medium';
+    return {
+        backgroundColor: '#000',
+        color: '#fff',
+        borderRadius: '24px',
+        padding: `${pxToRem(4)} ${pxToRem(20)}`,
+        lineHeight: '0px',
+        ...(sizeSm && {
+            minWidth: '102px',
+            padding: `${pxToRem(4)} ${pxToRem(12)}`,
+        }),
+        ...(sizeMd && {
+            minWidth: '122px',
+            padding: `${pxToRem(4)} ${pxToRem(24)}`,
+        }),
+        '&:hover': {
+            backgroundColor: '#555555',
+        },
+        '&:active': {
+            outline: '2px solid #D1D1D1',
+        },
+        '&.Mui-disabled': {
+            backgroundColor: '#E0E0E0',
+            color: '#F8F8F8'
+        }
+    };
+});
 
 type Props = ButtonProps & {
     onClick?: () => void;

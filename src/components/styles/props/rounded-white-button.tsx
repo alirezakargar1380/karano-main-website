@@ -24,13 +24,23 @@ import { pxToRem } from 'src/theme/typography';
 //     }
 // }))
 
-export const StyledRoundedWhiteButton = styled(Button)<ButtonProps>(({ theme }) => {
+export const StyledRoundedWhiteButton = styled(Button)<ButtonProps>(({ theme, size }) => {
+    const sizeSm = size === 'small';
+    const sizeMd = size === 'medium';
     return {
         backgroundColor: '#fff',
         borderRadius: '24px',
         padding: `${pxToRem(4)} ${pxToRem(20)}`,
         border: 'none',
         outline: '1px solid #D1D1D1',
+        ...(sizeSm && {
+            minWidth: '102px',
+            padding: `${pxToRem(4)} ${pxToRem(12)}`,
+        }),
+        ...(sizeMd && {
+            minWidth: '122px',
+            padding: `${pxToRem(4)} ${pxToRem(24)}`,
+        }),
         '&:hover': {
             outline: "1px solid #727272",
             backgroundColor: "#fff"
