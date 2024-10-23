@@ -1,8 +1,7 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField, Box, InputAdornment, Typography } from '@mui/material';
+import { TextField, Box, Typography } from '@mui/material';
 import FormHelperText from '@mui/material/FormHelperText';
-import { toFarsiNumber } from 'src/utils/change-case';
 
 type RHFPhoneInputProps = {
   name: string;
@@ -51,6 +50,13 @@ export default function RHFPhoneInput({ name, helperText }: RHFPhoneInputProps) 
                 placeholder="xx"
                 value={field.value.split(' ')[0] || ''}
                 onChange={(e) => handleChange(0, e.target.value, field.onChange, field.value)}
+                InputProps={{
+                  sx: {
+                    '& input': {
+                      px: 0
+                    }
+                  }
+                }}
                 sx={{
                   width: '40px',
                   '& fieldset': {
