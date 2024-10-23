@@ -4,12 +4,27 @@ import { BoxProps } from '@mui/material/Box';
 
 export type LabelColor =
   | 'default'
-  | 'primary'
-  | 'secondary'
-  | 'info'
-  | 'success'
-  | 'warning'
-  | 'error';
+  | 'blue'
+  | 'green'
+  | 'red'
+  | 'yellow'
+  // | 'info'
+  // | 'success'
+  // | 'warning'
+  // | 'error';
+
+export type ILabelColor = {
+  // default: string;
+  blue: string;
+  green: string;
+  red: string;
+  yellow: string;
+  // secondary: string;
+  // info: string;
+  // success: string;
+  // warning: string;
+  // error: string;
+}
 
 export type LabelVariant = 'filled' | 'outlined' | 'soft';
 

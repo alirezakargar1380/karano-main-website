@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import { alpha, Theme, styled } from '@mui/material/styles';
 
-import { LabelColor, LabelVariant } from './types';
+import { ILabelColor, LabelColor, LabelVariant } from './types';
+import { pxToRem } from 'src/theme/typography';
 
 // ----------------------------------------------------------------------
 
@@ -14,22 +15,36 @@ const outlinedColor = {
   "error": "#A4190F"
 }
 
-const outlinedBgColor = {
-  "primary": "",
-  "secondary": "",
-  "info": "#DCF9FF",
-  "success": "#E0FFEB",
-  "warning": "#FFF6DD",
-  "error": "#FFE5E4"
+const outlinedBgColor: ILabelColor = {
+  // "secondary": "",
+  "blue": "#DCF9FF",
+  // "success": "#E0FFEB",
+  // "warning": "#FFF6DD",
+  // "error": "#FFE5E4"
 }
 
-const outlinedBorderColor = {
-  "primary": "",
-  "secondary": "",
-  "info": "#86D8F8",
-  "success": "#8EEFB4",
-  "warning": "#F8D185",
-  "error": "#FDBCB7"
+
+
+const outlinedBorderColor: ILabelColor = {
+  "blue": "#86D8F8",
+  // "success": "#8EEFB4",
+  // "warning": "#F8D185",
+  // "error": "#FDBCB7"
+}
+
+// Filled
+const filledColor: ILabelColor = {
+  blue: "#005878",
+  green: "#096E35",
+  red: "#A4190F",
+  yellow: "#795105"
+}
+
+const filledBgColor: ILabelColor = {
+  blue: "#DCF9FF",
+  green: "#E0FFEB",
+  yellow: "#FFF6DD",
+  red: "#FFE5E4"
 }
 
 export const StyledLabel = styled(Box)(({
@@ -67,6 +82,7 @@ export const StyledLabel = styled(Box)(({
       ...(softVariant && {
         color: theme.palette.text.secondary,
         backgroundColor: alpha(theme.palette.grey[500], 0.16),
+        borderRadius: '8px'
       }),
     }),
   };
@@ -75,26 +91,26 @@ export const StyledLabel = styled(Box)(({
     ...(ownerState.color !== 'default' && {
       // FILLED
       ...(filledVariant && {
-        color: theme.palette[ownerState.color].contrastText,
-        backgroundColor: theme.palette[ownerState.color].main,
+        color: filledColor[ownerState.color],
+        backgroundColor: filledBgColor[ownerState.color],
       }),
       // OUTLINED
       ...(outlinedVariant && {
         borderRadius: '16px',
         backgroundColor: outlinedBgColor[ownerState.color],
-        color: outlinedColor[ownerState.color],
+        // color: outlinedColor[ownerState.color],
         border: `2px solid ${outlinedBorderColor[ownerState.color]}`,
       }),
       // SOFT
       ...(softVariant && {
-        color: theme.palette[ownerState.color][lightMode ? 'dark' : 'light'],
-        backgroundColor: alpha(theme.palette[ownerState.color].main, 0.16),
+        // color: theme.palette[ownerState.color][lightMode ? 'dark' : 'light'],
+        // backgroundColor: alpha(theme.palette[ownerState.color].main, 0.16),
       }),
     }),
   };
 
   return {
-    height: 24,
+    height: 29,
     minWidth: 24,
     lineHeight: 0,
     borderRadius: 6,
@@ -104,7 +120,7 @@ export const StyledLabel = styled(Box)(({
     display: 'inline-flex',
     justifyContent: 'center',
     textTransform: 'capitalize',
-    padding: theme.spacing(1.5, 1.25),
+    padding: `${pxToRem(2)} ${pxToRem(8)}`,
     fontSize: theme.typography.pxToRem(12),
     fontWeight: theme.typography.fontWeightBold,
     transition: theme.transitions.create('all', {
