@@ -14,6 +14,7 @@ import { Stack, Tooltip, Typography } from '@mui/material';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { LoadingButton } from '@mui/lab';
 import { pxToRem } from 'src/theme/typography';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 
 // ----------------------------------------------------------------------
 
@@ -71,17 +72,17 @@ export default function CartTableRow({
           <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant='body4'>{profile_type}</Typography>
             {(type === 'edit') && (
-              <Typography variant='caption1' fontFamily={'peyda-medium'}>
+              <>
                 {(status === IOrderProductPropertyStatus.denied) && (
-                  <Label color='error' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: pxToRem(8), py: pxToRem(2), borderRadius: '8px' }}>رد شده</Label>
+                  <Label size='medium' variant='filled' color='red' className={index === indexEqual ? 'my-first-step' : ''} sx={{ ml: 1, px: pxToRem(8), py: pxToRem(2), borderRadius: '8px' }}>رد شده</Label>
                 )}
                 {(status === IOrderProductPropertyStatus.edited) && (
-                  <Label color='warning' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
+                  <Label size='medium' variant='filled' color='yellow' sx={{ ml: 1, px: 1 }}>اصلاح شده</Label>
                 )}
                 {(status === IOrderProductPropertyStatus.approve) && (
-                  <Label color='success' sx={{ ml: 1, px: 1 }}>تایید شده</Label>
+                  <Label size='medium' variant='filled' color='green' sx={{ ml: 1, px: 1 }}>تایید شده</Label>
                 )}
-              </Typography>
+              </>
             )}
           </TableCell>
         )}
@@ -109,31 +110,18 @@ export default function CartTableRow({
         </TableCell>
 
         <TableCell sx={{}}>
-          <Box sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium', gap: '8px' }}>
             <Typography variant='body4'>{quality}</Typography>
             {(rejection_reason) && (
-              <Box
-                sx={{
-                  ml: 1,
-                  borderRadius: '50px',
-                  border: '1px solid #D1D1D1',
-                  fontSize: '0.75rem',
-                  textWrap: 'nowrap',
-                  pl: 1.5,
-                  pr: 1.5,
-                  display: 'flex',
-                  alignItems: 'center',
-                  py: 0.5,
-                  cursor: 'pointer'
-                }}
+              <SecondaryButton
+                size='small'
+                startIcon={(<SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mb: 1 }} />)}
+                sx={{ typography: 'caption2!important', py: 0, textWrap: 'nowrap', pl: 0.5, height: '24px' }}
                 className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'reason' : ''}
                 onClick={rejectionDialog.onTrue}
               >
-                <SvgColor src='/assets/icons/admin-panel/info-circle.svg' sx={{ width: 16, height: 16, mr: 0.5 }} />
-                <Box pt={0.25}>
-                  مشاهده علت
-                </Box>
-              </Box>
+                مشاهده علت
+              </SecondaryButton>
             )}
           </Box>
         </TableCell>
@@ -171,12 +159,12 @@ export default function CartTableRow({
         title={(status === IOrderProductPropertyStatus.denied) ? "حذف کالا" : "حذف کالای ردشده"}
         content={(status === IOrderProductPropertyStatus.denied || status === IOrderProductPropertyStatus.edited) ? `آیا از حذف ${product_name} اطمینان دارید؟` : "آیا از حذف کالای مورد نظر اطمینان دارید؟"}
         action={
-          <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
+          <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
             if (onDeleteRow) onDeleteRow();
             confirm.onFalse();
           }}>
             حذف
-          </Button>
+          </SecondaryButton>
         }
       />
 
@@ -186,12 +174,12 @@ export default function CartTableRow({
         title="حذف آخرین کالای ردشده"
         content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟\n با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
         action={
-          <Button variant="outlined" color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
+          <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
             if (onDeleteRow) onDeleteRow();
             confirmLast.onFalse();
           }}>
             حذف
-          </Button>
+          </SecondaryButton>
         }
       />
 
