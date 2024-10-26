@@ -79,7 +79,7 @@ export default function CarouselBasic1({ sx }: Props) {
               text={categories.find((category) => category.id === Number(selectedCategoryId))?.name || ''}
               sx={{
                 color: '#000',
-                fontFamily: "peyda-bold"
+                typography: 'heading1'
               }}
               variants={varFade().in}
               px={.45}
@@ -102,11 +102,11 @@ export default function CarouselBasic1({ sx }: Props) {
             </IconButton>
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
-          <Stack sx={{ p: 2, fontFamily: 'peyda-black' }}>
-            <Typography variant='body2' sx={{ p: 1, listStyleType: 'initial' }} fontFamily={'peyda-black'} display={'list-item'}>
+          <Stack sx={{ p: 2, pl: 0 }}>
+            <Typography variant='title2' sx={{ p: 1, listStyleType: 'initial' }} display={'list-item'}>
               مونتاژ شده
             </Typography>
-            <Typography variant='body2' sx={{ p: 1, listStyleType: 'initial' }} fontFamily={'peyda-black'} display={'list-item'}>
+            <Typography variant='title2' sx={{ p: 1, listStyleType: 'initial' }} display={'list-item'}>
               قابلیت ثبت ابعاد سفارشی
             </Typography>
           </Stack>

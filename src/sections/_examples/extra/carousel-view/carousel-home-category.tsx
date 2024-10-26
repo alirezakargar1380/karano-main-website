@@ -150,31 +150,30 @@ export default function CarouselHomeCategory() {
               categories.map((v: any, index: number) => (
                 <Box key={index}>
                   <TiltCard halt_rotation_range={20} rotation_range={20}>
-                    <Button sx={{
-                      border: '2px solid #f2f2f2',
-                      color: '#000',
-                      backgroundColor: '#F8F8F8',
-                      borderRadius: '24px',
-                      width: '90%!important',
-                      textWrap: 'nowrap',
-                      my: 1,
-                      '&: hover': {
-                        border: '2px solid #000',
-                        color: '#000'
-                      },
-                      ...(v.id == Number(selectedCategoryId) && {
-                        border: '2px solid #000',
-                        color: '#000'
-                      })
-                    }}
-
+                    <Button
+                      sx={{
+                        border: '2px solid #f2f2f2',
+                        color: '#000',
+                        backgroundColor: '#F8F8F8',
+                        borderRadius: '24px',
+                        width: '90%!important',
+                        textWrap: 'nowrap',
+                        my: 1,
+                        typography: 'body3',
+                        '&: hover': {
+                          border: '2px solid #000',
+                          color: '#000'
+                        },
+                        ...(v.id == Number(selectedCategoryId) && {
+                          border: '2px solid #000',
+                          color: '#000'
+                        })
+                      }}
                       onClick={() => {
                         router.push("?category=" + v.id);
                       }}
                     >
-
                       {v.name}
-
                     </Button>
                   </TiltCard>
                 </Box>
