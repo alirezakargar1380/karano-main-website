@@ -6,7 +6,7 @@ import { Button, Container, IconButton, Paper, Radio, Slide, Stack, Typography }
 import { Box, maxWidth, SxProps } from '@mui/system';
 import Scrollbar from '../scrollbar';
 import SvgColor from '../svg-color';
-import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { LoadingButton } from '@mui/lab';
 import { TransitionProps } from 'notistack';
 

@@ -3,7 +3,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import Label from "src/components/label";
 import ProductionPDF from "./production-pdf";
 import { _invoices } from "src/_mock";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useCallback, useEffect, useState } from "react";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { endpoints, server_axios } from "src/utils/axios";
@@ -93,13 +93,13 @@ export function ProductionTableRow({ row }: Props) {
                             style={{ textDecoration: 'none' }}
                         >
                             {({ loading }) => (
-                                <StyledRoundedWhiteButton
+                                <SecondaryButton
                                     variant="outlined"
                                     sx={{ borderRadius: '28px', color: "black" }}
                                 >
                                     <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
                                     دانلود فرم سفارش ساخت
-                                </StyledRoundedWhiteButton>
+                                </SecondaryButton>
                             )}
                             {/* {({ loading }) => (
                             <Tooltip title="Download">

@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import FormProvider, { RHFRadioGroupCard } from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import { DialogWithButton } from 'src/components/custom-dialog';
-import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -93,9 +93,9 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
 
 
                     <Stack direction={'row'} spacing={1} justifyContent={'end'}>
-                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>
+                        <SecondaryButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>
                             بستن
-                        </StyledRoundedWhiteButton>
+                        </SecondaryButton>
                         <LoadingButton variant='contained' type='submit' sx={{ borderRadius: '24px', px: 4 }}>
                             تایید
                         </LoadingButton>

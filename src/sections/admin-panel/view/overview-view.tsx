@@ -4,7 +4,7 @@ import { Container, Grid, Stack, Typography, Box } from "@mui/material";
 import { PageTitle } from "../page-title";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import AccessLevel from "../access-level";
 
 export default function AdminPanelOverview() {
@@ -39,7 +39,7 @@ export default function AdminPanelOverview() {
                     >
                         <Typography variant="h4" fontFamily={'peyda-bold'}>سطح دسترسی ها</Typography>
 
-                        <StyledRoundedWhiteButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</StyledRoundedWhiteButton>
+                        <SecondaryButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</SecondaryButton>
                     </Stack>
                     <AccessLevel />
                 </Box>

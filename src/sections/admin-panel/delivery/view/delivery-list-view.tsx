@@ -13,7 +13,7 @@ import FormProvider, { RHFMultiSelect } from "src/components/hook-form";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useGetDeliveryOrders, useGetOrder } from "src/api/orders";
 import { IOrderDeliveryType, OrderStatus } from "src/types/order";
 import { DialogWithButton } from "src/components/custom-dialog";
@@ -78,10 +78,10 @@ export default function DeliveryListView() {
                             <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }} mt={1}>
                                 آماده ارسال
                             </Label>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2 }}>
+                            <SecondaryButton variant='outlined' sx={{ px: 2 }}>
                                 مشاهده فاکتور
                                 <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
-                            </StyledRoundedWhiteButton>
+                            </SecondaryButton>
                         </Stack>
 
                         <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
@@ -186,14 +186,14 @@ export default function DeliveryListView() {
                             </Typography>
                             <Stack direction={'row'}>
                                 <Typography variant="body1" fontFamily={'peyda-regular'} pt={0.5}>نحوه ارسال</Typography>
-                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 2, ml: 1 }}>
+                                <SecondaryButton variant='outlined' sx={{ px: 2, ml: 1 }}>
                                     <SvgColor src={'/assets/icons/orders/delivery/flag-01.svg'} color={"#727272"} sx={{ mr: 1, width: 16 }} />
                                     {
                                         (order.delivery_type === IOrderDeliveryType.tehran && "تحویل در تهران") ||
                                         (order.delivery_type === IOrderDeliveryType.factory && "تحویل درب کارخانه") ||
                                         (order.delivery_type === IOrderDeliveryType.city && `تحویل در شهرستان، استان ${order.provice}، شهر ${order.city}`) || ""
                                     }
-                                </StyledRoundedWhiteButton>
+                                </SecondaryButton>
                             </Stack>
                         </Box>
 

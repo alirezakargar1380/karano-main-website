@@ -1,6 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import { DialogActions, Typography } from "@mui/material";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import CompleteOrderLayout from "./layout/complete-order-layout";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
 
@@ -14,11 +14,11 @@ export function Actions({ onCancel, onSubmit, title = 'ثبت و ادامه' }: 
     return (
         <DialogActions sx={{ px: 0, pb: '40px', pt: '24px' }}>
             <CompleteOrderLayout>
-                <StyledRoundedWhiteButton size={'medium'} variant='outlined' sx={{ mr: '12px' }}
+                <SecondaryButton size={'medium'} variant='outlined' sx={{ mr: '12px' }}
                     onClick={onCancel}
                 >
                     <Typography variant="button1">انصراف</Typography>
-                </StyledRoundedWhiteButton>
+                </SecondaryButton>
                 <PrimaryButton
                     size="medium"
                     onClick={onSubmit}

@@ -2,7 +2,7 @@ import { Grid, Stack, Table, TableBody, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Image from "src/components/image";
 import Scrollbar from "src/components/scrollbar";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { TableHeadCustom } from "src/components/table";
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 import { ProductOrderType } from "src/types/product";
@@ -209,9 +209,9 @@ export default function ShoppingCartList({ items, type, afterUpdate, orderId, on
                         </Grid>
                     </Grid>
                     {(type === 'edit') && (
-                        <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 2 }} onClick={() => handleEdit(item)}>
+                        <SecondaryButton variant="outlined" sx={{ mt: 2 }} onClick={() => handleEdit(item)}>
                             <Typography variant="button1" fontFamily={'peyda-regular'}>اصلاح / حذف کالا</Typography>
-                        </StyledRoundedWhiteButton>
+                        </SecondaryButton>
                     )}
                 </Box>
             ))}

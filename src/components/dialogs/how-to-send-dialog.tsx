@@ -6,7 +6,7 @@ import { Box } from '@mui/system';
 import { useForm } from 'react-hook-form';
 import FormProvider, { RHFRadioGroupCard } from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
-import { StyledRoundedWhiteButton } from '../styles/props/rounded-white-button';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import DialogWithButton from '../custom-dialog/dialog-with-button';
 import { useCheckoutContext } from 'src/sections/checkout/context';
 import { endpoints, server_axios } from 'src/utils/axios';
@@ -117,7 +117,7 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
                         />
                     </Box>
                     <Stack sx={{ mt: 0 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                        <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }}>انصراف</StyledRoundedWhiteButton>
+                        <SecondaryButton variant='outlined' sx={{ px: 4 }}>انصراف</SecondaryButton>
                         <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} type='submit'>تایید</LoadingButton>
                     </Stack>
                 </Box>

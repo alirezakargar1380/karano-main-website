@@ -13,7 +13,7 @@ import FormProvider, { RHFMultiSelect } from "src/components/hook-form";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import ProductionPDF from "../production-pdf";
 import { _invoices } from "src/_mock";

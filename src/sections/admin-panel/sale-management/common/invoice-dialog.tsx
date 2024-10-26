@@ -1,7 +1,7 @@
 import { LoadingButton } from "@mui/lab";
 import { DialogActions } from "@mui/material";
 import { DialogWithButton } from "src/components/custom-dialog";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import InvoiceView from "src/sections/order-tracking/invoice-view";
 import { IOrderProductItem } from "src/types/order-products";
@@ -25,13 +25,13 @@ export default function InvoiceDialog({ dialog, orderProducts, title, production
                 production_date={production_date}
             />
             <DialogActions>
-                <StyledRoundedWhiteButton
+                <SecondaryButton
                     variant='outlined'
                     sx={{ px: 4 }}
                     // onClick={onPrev}
                 >
                     مرحله قبل
-                </StyledRoundedWhiteButton>
+                </SecondaryButton>
                 <LoadingButton
                     variant='contained'
                     sx={{ borderRadius: '24px', px: 4 }}

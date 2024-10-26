@@ -4,7 +4,7 @@ import { Container, Grid, Stack, Typography, Box, TableContainer, Table, TableHe
 import { PageTitle } from "../../page-title";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import AccessLevel from "../../access-level";
 import Scrollbar from "src/components/scrollbar";
 import Label from "src/components/label";
@@ -139,9 +139,9 @@ export default function AccessLevelview() {
 
                         <Stack direction={'row'} justifyContent={'end'} mt={2}>
                             <Stack direction={'row'} spacing={2}>
-                                <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={adminDialog.onFalse}>
+                                <SecondaryButton variant='outlined' sx={{ px: 4 }} onClick={adminDialog.onFalse}>
                                     انصراف
-                                </StyledRoundedWhiteButton>
+                                </SecondaryButton>
                                 <LoadingButton
                                     variant='contained'
                                     sx={{ borderRadius: '24px', px: 4 }}
@@ -179,17 +179,17 @@ export default function AccessLevelview() {
                         >
                             <Typography variant="h4" fontFamily={'peyda-bold'}>سطح دسترسی ها</Typography>
 
-                            <StyledRoundedWhiteButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</StyledRoundedWhiteButton>
+                            <SecondaryButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</SecondaryButton>
                         </Stack>
                         <AccessLevel />
                     </Box>
                 </Box>
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="h5" fontFamily={'peyda-bold'}>لیست ادمین ها</Typography>
-                    <StyledRoundedWhiteButton variant="outlined" sx={{ py: 0, px: 1, pr: 1.5 }} onClick={() => adminDialog.onTrue()}>
+                    <SecondaryButton variant="outlined" sx={{ py: 0, px: 1, pr: 1.5 }} onClick={() => adminDialog.onTrue()}>
                         <Iconify icon="eva:plus-fill" width={14} height={14} sx={{ mr: 0.75 }} />
                         ادمین جدید
-                    </StyledRoundedWhiteButton>
+                    </SecondaryButton>
                 </Box>
                 <Box sx={{ borderRadius: 16 }}>
                     <TableContainer sx={{ overflow: 'unset', mt: 2 }}>

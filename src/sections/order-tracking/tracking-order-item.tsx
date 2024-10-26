@@ -2,7 +2,7 @@ import { Box, Button, Stack, SvgIcon, Typography } from "@mui/material"
 import { useCallback } from "react"
 import Iconify from "src/components/iconify"
 import Label from "src/components/label"
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button"
+import { SecondaryButton } from "src/components/styles/buttons/secondary"
 import SvgColor from "src/components/svg-color"
 import { IOrderItem, OrderStatus } from "src/types/order"
 import { fDateTime, fToJamali } from "src/utils/format-time"
@@ -81,7 +81,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                             دانلود فاکتور نهایی
                         </Button>
                     )}
-                    <StyledRoundedWhiteButton
+                    <SecondaryButton
                         variant="outlined"
                         disabled={order.status === OrderStatus.removed}
                         onClick={() => {
@@ -107,7 +107,7 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                             }
                         </Typography>
                         <SvgColor src="/assets/icons/orders/arrow-left.svg" sx={{ ml: pxToRem(8) }} />
-                    </StyledRoundedWhiteButton>
+                    </SecondaryButton>
                 </Stack>
             </Stack>
             <Stack direction={'row'} justifyContent={'space-between'} sx={{ py: pxToRem(24) }}>

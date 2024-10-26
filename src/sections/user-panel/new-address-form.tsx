@@ -17,7 +17,7 @@ import FormProvider, {
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IAddressItem } from "src/types/address";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
@@ -93,7 +93,7 @@ export default function NewUserForm({ currentAddress, dialog, onNewAddress }: { 
                     </Stack>
                 </Box>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' onClick={dialog.onFalse} sx={{ px: 2 }}>انصراف</StyledRoundedWhiteButton>
+                    <SecondaryButton variant='outlined' onClick={dialog.onFalse} sx={{ px: 2 }}>انصراف</SecondaryButton>
                     <LoadingButton
                         variant='contained'
                         sx={{ borderRadius: '24px', px: 3 }}

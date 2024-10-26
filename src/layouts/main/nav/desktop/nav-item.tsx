@@ -15,10 +15,10 @@ import { NavItemProps, NavItemStateProps } from '../types';
 import { Badge, Typography } from '@mui/material';
 import { OrderTrackingPopover } from 'src/components/custom-popover';
 import { usePopover } from 'src/components/custom-popover';
-import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
 import { useGetRejectedOrdersReport } from 'src/api/orders';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { useOrderContext } from 'src/sections/order/context/order-context';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 
 // ----------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
               {order.text}
             </Typography>
             <Box textAlign={'right'}>
-              <StyledRoundedWhiteButton variant='contained'
+              <SecondaryButton variant='contained'
                 sx={{
                   color: "#000", mt: 2,
                   "&:hover": {
@@ -112,7 +112,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
                 }}
               >
                 متوجه شدم
-              </StyledRoundedWhiteButton>
+              </SecondaryButton>
             </Box>
           </Box>
         </OrderTrackingPopover>
@@ -143,12 +143,11 @@ const StyledNavItem = styled(ListItemButton, {
   return {
     // Root item
     ...(!subItem && {
-      ...theme.typography.body2,
+      ...theme.typography.caption1,
       px: 12,
       py: 6,
       height: '30px',
       borderRadius: '12px',
-      fontWeight: theme.typography.fontWeightMedium,
       transition: theme.transitions.create(['all'], {
         duration: theme.transitions.duration.shorter,
       }),
@@ -160,7 +159,6 @@ const StyledNavItem = styled(ListItemButton, {
       ...(active && {
         // color: theme.palette.primary.main,
         color: "#000",
-        fontWeight: theme.typography.fontWeightSemiBold,
         backgroundColor: '#F2F2F2',
         border: '2px solid #000'
       }),

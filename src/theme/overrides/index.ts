@@ -46,6 +46,7 @@ import { buttonGroup } from './components/button-group';
 import { autocomplete } from './components/autocomplete';
 import { toggleButton } from './components/toggle-button';
 import { loadingButton } from './components/loading-button';
+import { iconButton } from './components/icon-button';
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +67,7 @@ export function componentsOverrides(theme: Theme) {
     radio(theme),
     select(theme),
     button(theme),
+    iconButton(theme),
     rating(theme),
     dialog(theme),
     appBar(theme),

@@ -19,11 +19,13 @@ import IncrementerButton from 'src/sections/product/common/incrementer-button';
 import { ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import Joyride, { TooltipRenderProps } from 'react-joyride';
 import Iconify from 'src/components/iconify';
-import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import Image from 'src/components/image';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { LoadingButton } from '@mui/lab';
+import { PrimaryButton } from '../../../components/styles/buttons/primary';
+import { toFarsiNumber } from '../../../utils/change-case';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -95,60 +97,44 @@ const Tooltip = ({
     <Card sx={{ p: 2.5, direction: 'rtl', borderRadius: '24px', minWidth: 320, maxWidth: 320 }} {...tooltipProps}>
 
         <Stack direction={'row-reverse'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
-            {step.title && <Typography mt={1} fontFamily={'peyda-bold'}>{step.title}</Typography>}
-            <Stack direction={'row'}>
+            {step.title && <Typography mt={1} variant={'title2'}>{step.title}</Typography>}
+            <Stack direction={'row'} alignItems={'center'}>
                 <IconButton  {...primaryProps}>
                     <Iconify id="next" icon={'icon-park-outline:left'} />
                 </IconButton>
                 <Stack direction={'row'} mt={1} spacing={1}>
-                    <Typography>{(index + 1)}</Typography>
+                    <Typography>{toFarsiNumber(index + 1)}</Typography>
                     <Box>/</Box>
-                    <Typography border={'1px solid #D1D1D1'} borderRadius={'8px'} px={0.5}>{steps.length}</Typography>
+                    <Typography border={'1px solid #D1D1D1'} borderRadius={'8px'} px={0.5}>
+                      {toFarsiNumber(steps.length)}
+                    </Typography>
                 </Stack>
                 <IconButton {...backProps}>
                     <Iconify id="back" icon={'icon-park-outline:right'} />
                 </IconButton>
             </Stack>
         </Stack>
-        <CardContent sx={{ direction: 'ltr', textAlign: 'left', px: 0, fontFamily: 'peyda-regular' }}>{step.content}</CardContent>
+        <CardContent sx={{ direction: 'ltr', textAlign: 'left', px: 0, typography: 'body4' }}>{step.content}</CardContent>
         <Box sx={{ direction: 'rtl' }}>
-            {/* {index > 0 && (
-                <Button {...backProps}>
-                    <Typography id="back">back</Typography>
-                </Button>
-            )} */}
-            {/* {continuous && ( */}
-            {/* <Button {...primaryProps}>
-                <Typography id="next">next</Typography>
-            </Button> */}
-            {/* )} */}
-            {/* {!continuous && ( */}
             {(steps.length === (index + 1)) ? (
                 <>
-                    <LoadingButton variant='contained' sx={{ mt: 0, ml: 1, borderRadius: 50, fontFamily: 'peyda-bold' }} {...closeProps}>
+                    <PrimaryButton size={'small'} sx={{ml:1, height: '36px'}} {...closeProps}>
                         <Box id="close">متوجه شدم</Box>
-                    </LoadingButton>
-                    <StyledRoundedWhiteButton sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...backProps}>
+                    </PrimaryButton>
+                    <SecondaryButton size={'small'} sx={{height: '36px'}} {...backProps}>
                         <Box id="back">مرحله قبل</Box>
-                    </StyledRoundedWhiteButton>
+                    </SecondaryButton>
                 </>
             ) : (
                 <>
-                    <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...primaryProps}>
+                    <SecondaryButton size={'small'} sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...primaryProps}>
                         <Box id="next">مرحله بعد</Box>
-                    </StyledRoundedWhiteButton>
-                    <StyledRoundedWhiteButton sx={{ mt: 0, fontFamily: 'peyda-bold' }} {...closeProps}>
+                    </SecondaryButton>
+                    <Button color={"inherit"} sx={{ mt: 0, fontFamily: 'peyda-bold' }} {...closeProps}>
                         <Box id="close">بستن راهنما</Box>
-                    </StyledRoundedWhiteButton>
+                    </Button>
                 </>
             )}
-            {/* <StyledRoundedWhiteButton variant="outlined" sx={{ mt: 0, ml: 1, fontFamily: 'peyda-bold' }} {...primaryProps}>
-                <Box id="next">مرحله بعد</Box>
-            </StyledRoundedWhiteButton>
-            <StyledRoundedWhiteButton sx={{ mt: 0, fontFamily: 'peyda-bold' }} {...closeProps}>
-                <Box id="close">بستن راهنما</Box>
-            </StyledRoundedWhiteButton> */}
-            {/* )} */}
         </Box>
     </Card>
 );
@@ -246,7 +232,7 @@ export default function CartDialogView({
     };
 
     return (
-        <Box  sx={{ px: '40px' }}>
+        <Box sx={{ px: '40px' }}>
             {(!show) && (
                 <Joyride
                     callback={handleJoyrideCallback}
@@ -277,9 +263,11 @@ export default function CartDialogView({
                     }}
                 />
             )}
-            <Box>
-                <Stack direction={'row'} spacing={'24px'}>
-                    <Box width={'400px'}>
+
+            <Stack direction={'row'} spacing={'24px'}>
+
+                <Box width={'400px'}>
+                    <Scrollbar sx={{ maxHeight: 720, width: 1 }}>
                         <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
                             <Typography sx={{ py: '12px' }} variant='title2' color={'#727272'} display={'block'}>
                                 ویژگی های مورد نظر را انتخاب کنید
@@ -454,52 +442,51 @@ export default function CartDialogView({
                                 }}
                             />
                         </Box>
-                    </Box>
-                    <Scrollbar>
-                        {data.length ? (
-                            <Table size={'medium'}>
-                                <TableHeadCustom
-                                    sx={{
-                                        backgroundColor: '#F2F2F2'
-                                    }}
-                                    cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                    headLabel={CartTableHead}
-                                />
-                                <TableBody>
-
-                                    {data.map((item, index: number) => (
-                                        <CartTableRow
-                                            key={index}
-                                            index={index}
-                                            indexEqual={ind}
-                                            onDeleteRow={() => onDelete(item.id || index)}
-                                            onEditRow={() => onUpdate(index)}
-                                            selected={(listId === index)}
-                                            type={type}
-                                            row={{
-                                                ...item,
-                                                status: item.status,
-                                                quality: item.quantity,
-                                                coating: item?.coating_type,
-                                                dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
-                                                final_coating: item.cover_type?.name,
-                                                frame_type: item.frame_type?.name,
-                                                profile_type: item.profile_type?.name,
-                                            }}
-                                        />
-                                    ))}
-
-                                </TableBody>
-                            </Table>
-
-                        ) : (
-                            <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
-                                <Image src='/assets/images/cart/Empty State.png' />
-                            </Box>
-                        )}
                     </Scrollbar>
-                </Stack>
-            </Box>
+                </Box>
+                <Scrollbar sx={{ maxHeight: 400 }}>
+                    {data.length ? (
+                        <Table size={'medium'}>
+                            <TableHeadCustom
+                                sx={{
+                                    backgroundColor: '#F2F2F2'
+                                }}
+                                cellSx={{ fontFamily: 'peyda-medium!important' }}
+                                headLabel={CartTableHead}
+                            />
+                            <TableBody>
+                                {data.map((item, index: number) => (
+                                    <CartTableRow
+                                        key={index}
+                                        index={index}
+                                        indexEqual={ind}
+                                        onDeleteRow={() => onDelete(item.id || index)}
+                                        onEditRow={() => onUpdate(index)}
+                                        selected={(listId === index)}
+                                        type={type}
+                                        row={{
+                                            ...item,
+                                            status: item.status,
+                                            quality: item.quantity,
+                                            coating: item?.coating_type,
+                                            dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
+                                            final_coating: item.cover_type?.name,
+                                            frame_type: item.frame_type?.name,
+                                            profile_type: item.profile_type?.name,
+                                        }}
+                                    />
+                                ))}
+                            </TableBody>
+                        </Table>
+
+                    ) : (
+                        <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
+                            <Image src='/assets/images/cart/Empty State.png' />
+                        </Box>
+                    )}
+                </Scrollbar>
+            </Stack>
+
         </Box>
     );
 }

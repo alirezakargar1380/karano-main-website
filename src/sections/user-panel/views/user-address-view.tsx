@@ -2,7 +2,7 @@ import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { useGetAddresses } from "src/api/address";
 import { DialogWithButton } from "src/components/custom-dialog";
 import Image from "src/components/image";
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import SvgColor from "src/components/svg-color";
 import { useBoolean } from "src/hooks/use-boolean";
 import NewUserForm from "../new-address-form";
@@ -61,13 +61,13 @@ export default function UserAddressView() {
                 <Typography variant="subtitle1" sx={{ fontFamily: 'peyda-bold', pt: 1 }}>
                     آدرس های ثبت شده
                 </Typography>
-                <StyledRoundedWhiteButton onClick={() => {
+                <SecondaryButton onClick={() => {
                     setAddress(undefined)
                     dialog.onTrue();
                 }} variant="outlined" sx={{ mb: 2, color: '#0B7BA7', borderColor: "#0B7BA7!important" }}>
                     <SvgColor src="/assets/icons/user-panel/plus.svg" sx={{ mr: 0.75, width: 20 }} />
                     آدرس جدید
-                </StyledRoundedWhiteButton>
+                </SecondaryButton>
             </Stack>
             {(addressesEmpty || !data.length) ?
                 <Box sx={{ textAlign: 'center' }}>

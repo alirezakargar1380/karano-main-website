@@ -15,7 +15,7 @@ import FormProvider, {
     RHFTitleTextField,
     RHFRadioAddress,
 } from 'src/components/hook-form';
-import { StyledRoundedWhiteButton } from 'src/components/styles/props/rounded-white-button';
+import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { useSnackbar } from 'src/components/snackbar';
 
@@ -85,7 +85,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                 <Typography variant="h6" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>
                     آدرس تحویل گیرنده
                 </Typography>
-                <StyledRoundedWhiteButton
+                <SecondaryButton
                     variant='outlined'
                     size='small'
                     disabled={!!newAddress}
@@ -99,7 +99,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                 >
                     <Iconify icon={'ic:outline-plus'} mr={0.5} />
                     آدرس جدید
-                </StyledRoundedWhiteButton>
+                </SecondaryButton>
             </Stack>
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box py={2}>
@@ -108,9 +108,9 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                             <Typography variant='body2' textAlign={'center'} py={2}>
                                 در حال حاضر آدرس ثبت‌شده‌ای ندارید. برای ثبت آدرس جدید بر روی دکمه «افزودن آدرس» کلیک کنید.
                             </Typography>
-                            <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4, mt: 4 }} onClick={() => setNewAddress(true)}>
+                            <SecondaryButton variant='outlined' sx={{ px: 4, mt: 4 }} onClick={() => setNewAddress(true)}>
                                 افزودن آدرس
-                            </StyledRoundedWhiteButton>
+                            </SecondaryButton>
                         </Box>
                     )}
 

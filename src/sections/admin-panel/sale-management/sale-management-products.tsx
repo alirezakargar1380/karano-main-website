@@ -15,7 +15,7 @@ import { fToJamali } from "src/utils/format-time";
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useGetOrderProducts } from "src/api/order-products";
 
 interface Props {
@@ -371,14 +371,14 @@ function SaleManagementProductItem({
                                 placeholder="متن محتوا"
                             />
                             {/* <Box sx={{ width: 1, textAlign: 'right' }}>
-                                <StyledRoundedWhiteButton
+                                <SecondaryButton
                                     type="submit"
                                     variant="outlined"
                                     size="small"
                                     sx={{ mt: '12px', fontFamily: 'peyda-medium', py: '2px' }}
                                 >
                                     ثبت
-                                </StyledRoundedWhiteButton>
+                                </SecondaryButton>
                             </Box> */}
                         </Box>
                     </FormProvider>

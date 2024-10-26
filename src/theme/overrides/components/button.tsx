@@ -35,7 +35,7 @@ export function button(theme: Theme) {
     const largeSize = ownerState.size === 'large';
 
     const defaultStyle = {
-      transition: theme.transitions.create(['outline', 'background']),
+      transition: theme.transitions.create(['all']),
       ...(inheritColor && {
         // CONTAINED
         ...(containedVariant && {
@@ -88,7 +88,7 @@ export function button(theme: Theme) {
           color: theme.palette[color][lightMode ? 'dark' : 'light'],
           backgroundColor: alpha(theme.palette[color].main, 0.16),
           '&:hover': {
-            backgroundColor: alpha(theme.palette[color].main, 0.32),
+            // backgroundColor: alpha(theme.palette[color].main, 0.32),
           },
         }),
       }),

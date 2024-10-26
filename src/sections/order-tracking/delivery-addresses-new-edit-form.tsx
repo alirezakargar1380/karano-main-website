@@ -6,7 +6,7 @@ import FormProvider, {
     RHFTitleTextField,
 } from 'src/components/hook-form';
 import { useSnackbar } from 'src/components/snackbar';
-import { StyledRoundedWhiteButton } from "src/components/styles/props/rounded-white-button";
+import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import { endpoints, server_axios } from "src/utils/axios";
 
@@ -165,7 +165,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                     <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='افزودن محتوا' sx={{ bgcolor: '#fff' }} />
                 </Stack>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                    <StyledRoundedWhiteButton variant='outlined' sx={{ px: 4 }} onClick={exit}>انصراف</StyledRoundedWhiteButton>
+                    <SecondaryButton variant='outlined' sx={{ px: 4 }} onClick={exit}>انصراف</SecondaryButton>
                     <LoadingButton
                         variant='contained'
                         sx={{ borderRadius: '24px', px: 4 }}
