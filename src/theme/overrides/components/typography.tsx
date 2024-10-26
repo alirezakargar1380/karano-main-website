@@ -5,10 +5,9 @@ import { Theme } from '@mui/material/styles';
 export function typography(theme: Theme) {
   return {
     MuiTypography: {
-
       styleOverrides: {
         root: {
-          display: 'block!important'
+          display: 'block'
         },
         paragraph: {
           marginBottom: theme.spacing(2),
