@@ -25,20 +25,24 @@ export default function RHFCode({ name, helperText, ...other }: RHFCodesProps) {
               <MuiOtpInput
                 {...field}
                 autoFocus
-                gap={1}
+                gap={0}
                 length={6}
                 TextFieldsProps={{
                   error: !!error,
                   placeholder: '-',
-                  sx: {
-                    "& input": {
+                  InputProps: {
+                    sx: {
+                      "& input": {
+                        px: 0,
+                        textAlign: 'center',
+                        width: 1
+                      },
                       px: 0,
-                    },
-                    px: 0,
-                    "& fieldset": {
-                      border: 'none'
+                      "& fieldset": {
+                        border: 'none'
+                      }
                     }
-                  }
+                  },
                 }}
                 {...other}
               />
