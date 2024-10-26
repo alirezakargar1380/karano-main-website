@@ -24,7 +24,6 @@ export default function LoginButton({ sx }: Props) {
   const popover = usePopover();
 
   const handleLogout = () => {
-    console.log('logout')
     logout();
     popover.onClose()
   };
@@ -45,6 +44,7 @@ export default function LoginButton({ sx }: Props) {
               border: '1px solid #000',
               backgroundColor: '#F2F2F2'
             }),
+            typography: 'button2',
             ...sx
           }}
         >
@@ -77,6 +77,7 @@ export default function LoginButton({ sx }: Props) {
                 border: '1px solid #000',
                 backgroundColor: '#F2F2F2'
               }),
+              typography: 'button2',
               ...sx
             }}
           >
@@ -96,7 +97,7 @@ export default function LoginButton({ sx }: Props) {
                   src={`/assets/icons/auth/user-check-01.svg`}
                   sx={{ width: 20, height: 20, mr: 1 }}
                 />
-                <Typography variant="subtitle2" noWrap>
+                <Typography variant="body4" noWrap>
                   اطلاعات حساب کاربری
                 </Typography>
               </Box>
@@ -106,7 +107,7 @@ export default function LoginButton({ sx }: Props) {
                 src={`/assets/icons/auth/leading.svg`}
                 sx={{ width: 20, height: 20, mr: 1 }}
               />
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="body4" noWrap>
                 خروج از حساب کاربری
               </Typography>
             </Box>
