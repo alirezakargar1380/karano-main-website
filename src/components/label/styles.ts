@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { alpha, Theme, styled } from '@mui/material/styles';
 
-import { ILabelColor, LabelColor, LabelVariant } from './types';
+import { ILabelColor, LabelColor, LabelSize, LabelVariant } from './types';
 import { pxToRem } from 'src/theme/typography';
 
 // ----------------------------------------------------------------------
@@ -55,8 +55,13 @@ export const StyledLabel = styled(Box)(({
   ownerState: {
     color: LabelColor;
     variant: LabelVariant;
+    size: LabelSize;
   };
 }) => {
+  const smallSize = ownerState.size === 'small';
+  const mediumSize = ownerState.size === 'medium';
+  const largeSize = ownerState.size === 'large';
+
   const lightMode = theme.palette.mode === 'light';
 
   const filledVariant = ownerState.variant === 'filled';
@@ -76,7 +81,7 @@ export const StyledLabel = styled(Box)(({
       ...(outlinedVariant && {
         backgroundColor: 'transparent',
         color: theme.palette.text.primary,
-        border: `2px solid ${theme.palette.text.primary}`,
+        border: `1px solid ${theme.palette.text.primary}`,
       }),
       // SOFT
       ...(softVariant && {
@@ -85,6 +90,17 @@ export const StyledLabel = styled(Box)(({
         borderRadius: '8px'
       }),
     }),
+  };
+
+  const sizeStyle = {
+    ...(smallSize && {
+      ...theme.typography.caption2,
+      height: 18,
+    }),
+    ...(mediumSize && {
+      ...theme.typography.caption2,
+      height: 24,
+    })
   };
 
   const colorStyle = {
@@ -113,7 +129,7 @@ export const StyledLabel = styled(Box)(({
     height: 29,
     minWidth: 24,
     lineHeight: 0,
-    borderRadius: 6,
+    borderRadius: 8,
     cursor: 'default',
     alignItems: 'center',
     whiteSpace: 'nowrap',
@@ -121,12 +137,11 @@ export const StyledLabel = styled(Box)(({
     justifyContent: 'center',
     textTransform: 'capitalize',
     padding: `${pxToRem(2)} ${pxToRem(8)}`,
-    fontSize: theme.typography.pxToRem(12),
-    fontWeight: theme.typography.fontWeightBold,
     transition: theme.transitions.create('all', {
       duration: theme.transitions.duration.shorter,
     }),
     ...defaultStyle,
     ...colorStyle,
+    ...sizeStyle,
   };
 });

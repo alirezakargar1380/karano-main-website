@@ -2,6 +2,8 @@ import { BoxProps } from '@mui/material/Box';
 
 // ----------------------------------------------------------------------
 
+export type LabelSize ='small' |'medium' | 'large'
+
 export type LabelColor =
   | 'default'
   | 'blue'
@@ -33,4 +35,5 @@ export interface LabelProps extends BoxProps {
   endIcon?: React.ReactElement | null;
   color?: LabelColor;
   variant?: LabelVariant;
+  size?: LabelSize;
 }

@@ -9,7 +9,7 @@ import { StyledLabel } from './styles';
 // ----------------------------------------------------------------------
 
 const Label = forwardRef<HTMLSpanElement, LabelProps>(
-  ({ children, color = 'default', variant = 'soft', startIcon, endIcon, sx, ...other }, ref) => {
+  ({ children, color = 'default', variant = 'soft', size = 'medium', startIcon, endIcon, sx, ...other }, ref) => {
     const theme = useTheme();
 
     const iconStyles = {
@@ -22,7 +22,7 @@ const Label = forwardRef<HTMLSpanElement, LabelProps>(
       <StyledLabel
         ref={ref}
         component="span"
-        ownerState={{ color, variant }}
+        ownerState={{ color, variant, size }}
         sx={{
           ...(startIcon && { pl: 0.75 }),
           ...(endIcon && { pr: 0.75 }),
