@@ -22,7 +22,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
     const [isFavorite, setFavorite] = useState<boolean>(favorite);
 
     const mainImageUrl = endpoints.image.url(product?.images?.find((img) => img.main)?.name || '');
-    const hoverImageUrl = endpoints.image.url(product?.images?.find((img) => !img.main)?.name || '');
+    const hoverImageUrl = endpoints.image.url(product?.images?.find((img) => !img.main)?.name || product?.images?.find((img) => img.main)?.name || '');
 
     const [img, setImg] = useState(mainImageUrl)
     const [hover, setHover] = useState(false)
@@ -59,22 +59,34 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
 
     const Img = () => {
         return (
-            <Image
-                sx={{
-                    opacity: (hover) ? 0 : 1,
-                    transition: '0.6s ease-in!important',
-                    '&:hover': {
-                        opacity: 1,
-                        transition: '0.6s ease-out!important',
-                    }
-                }}
-                src={img}
-                ratio="1/1"
-                border={'1px solid #E0E0E0'}
-                borderRadius={'8px'}
-                onMouseOver={onHoverHandler}
-                onMouseOut={onHoverOutHandler}
-            />
+            <Box position={'relative'} width={1}>
+                {favorite && (
+                    <Box sx={{
+                        position: 'absolute',
+                        top: 16,
+                        left: 16,
+                    }}>
+                        <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
+                    </Box>
+                )}
+                <Image
+                    sx={{
+                        opacity: (hover) ? 0 : 1,
+                        transition: '0.6s ease-in!important',
+                        '&:hover': {
+                            opacity: 1,
+                            transition: '0.6s ease-out!important',
+                        }
+                    }}
+                    src={img}
+                    ratio="1/1"
+                    border={'1px solid #E0E0E0'}
+                    borderRadius={'8px'}
+                    onMouseOver={onHoverHandler}
+                    onMouseOut={onHoverOutHandler}
+                />
+            </Box>
+
         )
     }
 
@@ -84,11 +96,11 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
             transition: '0.3s ease-in-out'
         }}
         >
-            <Link href={`/product/${product?.id}/`} color={'inherit'} underline="none">
+            <Link href={`/product/${product?.id}/`} display={'block'} color={'inherit'} underline="none">
                 <Stack sx={{ textAlign: 'right', alignItems: 'start' }} spacing={1}>
                     {hover ? <Img /> : <Img />}
 
-                    <Typography variant='h5' sx={{
+                    <Typography variant='body1' sx={{
                         mt: 1, '&:hover': {
                             cursor: 'pointer'
                         },
@@ -100,19 +112,15 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                 </Stack>
             </Link>
             <Stack direction={'row'} sx={{ textAlign: 'left', alignItems: 'end' }}>
-                <IconButton size='small' sx={{ 
+                <IconButton size='small' sx={{
                     bgcolor: "#D1D1D1",
                     "&.Mui-disabled": {
                         backgroundColor: "#f0f0f0!important"
                     }
-                 }} disabled={!authenticated} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
-                    {isFavorite ?
-                        <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
-                        :
-                        <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
-                    }
+                }} disabled={!authenticated} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
+                    <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
                 </IconButton>
-                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} fontFamily={'peyda-regular'}>کد {product?.code}</Typography>
+                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} variant="body2">کد {product?.code}</Typography>
             </Stack>
         </Box>
     )
