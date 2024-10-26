@@ -65,12 +65,14 @@ export default function RHFRadioGroup({
                 <FormControlLabel
                   value={option.value}
                   disabled={disabled}
-                  control={<Radio disabled={disabled} />}
+                  control={<Radio disabled={disabled} sx={{ ml: 0 }}/>}
                   label={''}
                   sx={{
                     '&:not(:last-of-type)': {
                       mb: spacing || 0,
                     },
+                    mr: 0,
+                    ml: 0,
                     ...(row && {
                       mr: 0,
                       ml: 0,

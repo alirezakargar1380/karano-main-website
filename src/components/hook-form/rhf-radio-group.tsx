@@ -58,7 +58,7 @@ export default function RHFRadioGroup({
                 <FormControlLabel
                   value={option.value}
                   disabled={disabled}
-                  control={<Radio disabled={disabled} />}
+                  control={<Radio disabled={disabled} sx={{ ml: 0 }} />}
                   label={option.label}
                   sx={{
                     '& .MuiFormControlLabel-label': {
@@ -70,8 +70,9 @@ export default function RHFRadioGroup({
                     },
                     ...(row && {
                       mr: 0,
+                      ml: 0,
                       '&:not(:last-of-type)': {
-                        mr: spacing || 2,
+                        // mr: spacing || 2,
                       },
                     }),
                     ...FSx
