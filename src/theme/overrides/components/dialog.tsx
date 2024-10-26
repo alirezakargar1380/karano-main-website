@@ -13,6 +13,9 @@ export function dialog(theme: Theme) {
           ...(!ownerState.fullScreen && {
             margin: theme.spacing(2),
           }),
+          ...(ownerState.maxWidth === 'lg' && {
+            width: '640px',
+          }),
         }),
         paperFullScreen: {
           borderRadius: 0,
