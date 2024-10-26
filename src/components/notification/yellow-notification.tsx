@@ -20,7 +20,7 @@ export default function YellowNotification({ children, title, sx }: Props) {
                     </Box>
                     <Box>
                         <Typography variant="title3" fontFamily={'peyda-bold'} display={'block'} width={1}>{title}</Typography>
-                        <Typography variant="body4" sx={{ pt: 2, color: '#2B2B2B', mt: '4px' }}>{children}</Typography>
+                        <Typography variant="body4" sx={{ pt: '4px', color: '#2B2B2B', mt: '4px' }}>{children}</Typography>
                     </Box>
                 </Stack>
                 <Box>
