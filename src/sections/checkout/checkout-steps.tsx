@@ -56,7 +56,7 @@ export default function CheckoutSteps({ steps, activeStep, sx, ...other }: Props
             StepIconComponent={(props) => <StepIcon {...props} step={index + 1} />}
             sx={{
               [`& .${stepLabelClasses.label}`]: {
-                fontWeight: 'fontWeightSemiBold',
+                // fontWeight: 'fontWeightSemiBold',
               },
               [`& .Mui-completed`]: {
                 // color: "#fff",
@@ -131,9 +131,10 @@ function StepIcon({ active, completed, step }: StepIconProps) {
       ) : (
         <Box
           sx={{
-            pt: 0.8,
-            pr: 0.5
+            pt: 0.5,
+            pr: 0.5,
             // borderRadius: '50%',
+            typography: 'body4',
           }}
         >
           {step === 1 && '۱'}
