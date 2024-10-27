@@ -1,14 +1,16 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField, Box, Typography } from '@mui/material';
+import { TextField, Box, Typography, Stack } from '@mui/material';
 import FormHelperText from '@mui/material/FormHelperText';
+import SvgColor from '../svg-color';
 
 type RHFPhoneInputProps = {
   name: string;
+  custom_label: string;
   helperText?: string;
 };
 
-export default function RHFPhoneInput({ name, helperText }: RHFPhoneInputProps) {
+export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPhoneInputProps) {
   const { control } = useFormContext();
 
   const handleChange = (index: number, value: string, onChange: (value: string) => void, currentValue: string) => {
@@ -40,8 +42,9 @@ export default function RHFPhoneInput({ name, helperText }: RHFPhoneInputProps) 
         }
       }}
       render={({ field, fieldState: { error } }) => (
-        <Typography variant='body2' fontFamily={'peyda-regular'}>
-          <Box display="flex" gap={1} sx={{ direction: 'rtl' }} alignItems={'center'} border={'1px solid #D1D1D1'} borderRadius={'8px'} px={'12px'} py={'8px'}>
+        <Box>
+          <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
+          <Box display="flex" gap={1} sx={{ direction: 'rtl' }} alignItems={'center'} border={!error ? '1px solid #D1D1D1' : '1px solid #FF5630'} borderRadius={'8px'} px={'12px'}>
             <Box display={'flex'} alignItems={'center'}>
               +
               <TextField
@@ -50,6 +53,9 @@ export default function RHFPhoneInput({ name, helperText }: RHFPhoneInputProps) 
                 placeholder="xx"
                 value={field.value.split(' ')[0] || ''}
                 onChange={(e) => handleChange(0, e.target.value, field.onChange, field.value)}
+                onKeyDown={(e) => {
+
+                }}
                 InputProps={{
                   sx: {
                     '& input': {
@@ -118,12 +124,13 @@ export default function RHFPhoneInput({ name, helperText }: RHFPhoneInputProps) 
             />
           </Box>
 
-          {(error || helperText) && (
-            <FormHelperText error={!!error}>
-              {helperText || error?.message}
-            </FormHelperText>
+          {error && (
+            <Stack direction={'row'} alignItems={'center'}>
+              <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} />
+              <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5} mt={1}>{error?.message}</Typography>
+            </Stack>
           )}
-        </Typography>
+        </Box>
       )}
     />
   );
