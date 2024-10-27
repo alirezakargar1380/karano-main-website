@@ -25,14 +25,13 @@ import CountUp from 'react-countup';
 import { useResponsive } from 'src/hooks/use-responsive';
 import { LoadingButton } from '@mui/lab';
 
-import { useSnackbar } from 'src/components/snackbar';
 import { useOrderContext } from 'src/sections/order/context/order-context';
 import { ReminderDialog } from 'src/components/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
-import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 

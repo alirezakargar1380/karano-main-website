@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 
 import { useBooleanReturnType } from 'src/hooks/use-boolean';
 import { Button, Container, IconButton, Paper, Radio, Slide, Stack, Typography } from '@mui/material';
-import { Box, maxWidth, SxProps } from '@mui/system';
+import { Box, Breakpoint, maxWidth, SxProps } from '@mui/system';
 import Scrollbar from '../scrollbar';
 import SvgColor from '../svg-color';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
@@ -16,6 +16,7 @@ interface Props {
     children: React.ReactNode,
     fullWith: boolean
     width?: number
+    maxWidth?: Breakpoint 
     sx?: SxProps
 }
 
@@ -30,7 +31,7 @@ const Transition = forwardRef(
 
 
 
-export default function DialogWithButton({ dialog, children, fullWith, width = 480, sx }: Props) {
+export default function DialogWithButton({ dialog, children, fullWith, width = 480, maxWidth = 'lg', sx }: Props) {
 
     const default_sx = fullWith ? {} : { maxWidth: `${width}px!important` }
 
@@ -87,7 +88,7 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             onClose={dialog.onFalse}
             // scroll={'body'}
             TransitionComponent={Transition}
-            maxWidth={'lg'}
+            maxWidth={maxWidth}
             PaperProps={{
                 style: {
                     // backgroundColor: 'transparent',
