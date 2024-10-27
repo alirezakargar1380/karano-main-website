@@ -1,18 +1,7 @@
-import { LoadingButton } from '@mui/lab';
 import { Box, Stack, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import FormProvider, {
-    RHFSelect,
-    RHFEditor,
-    RHFUpload,
-    RHFSwitch,
-    RHFTextField,
-    RHFMultiSelect,
-    RHFAutocomplete,
-    RHFMultiCheckbox,
-    RHFRadioGroup,
-    RHFTitleTextField,
     RHFRadioAddress,
 } from 'src/components/hook-form';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
@@ -22,13 +11,16 @@ import { useSnackbar } from 'src/components/snackbar';
 import { useGetAddresses } from 'src/api/address';
 import { DeliveryAdressesNewEditForm } from './delivery-addresses-new-edit-form';
 import Iconify from 'src/components/iconify';
+import AddressEditDialog from './address-edit-dialog';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     const [newAddress, setNewAddress] = useState<boolean>(false);
+    const [addressId, setAddId] = useState<number>();
 
-    const { addresses, addressesEmpty, addressesLoading } = useGetAddresses();
+    const dialog = useBoolean();
 
-    const { enqueueSnackbar } = useSnackbar();
+    const { addresses, addressesEmpty } = useGetAddresses();
 
     const methods = useForm({
         // resolver: yupResolver(NewProductSchema),
@@ -115,28 +107,32 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                     )}
 
                     {(!addressesEmpty) && (
-                        <>
-                            <RHFRadioAddress
-                                name='address.id'
-                                sx={{
-                                    mt: 3
-                                }}
-                                FormControlSx={{
-                                    width: 1
-                                }}
-                                row
-                                options={addresses.map((add) => {
-                                    return {
-                                        label: add?.province?.name + ", " + add?.city?.name+ ", " + add.address,
-                                        value: add.id,
-                                        icon: '/assets/icons/address/marker-pin-01.svg'
+                        <RHFRadioAddress
+                            name='address.id'
+                            sx={{
+                                mt: 3
+                            }}
+                            FormControlSx={{
+                                width: 1
+                            }}
+                            row
+                            options={addresses.map((add) => {
+                                return {
+                                    label: add?.province?.name + ", " + add?.city?.name + ", " + add.address,
+                                    value: add.id,
+                                    icon: '/assets/icons/address/marker-pin-01.svg',
+                                    onClick: () => {
+                                        setAddId(add.id)
+                                        dialog.onTrue();
                                     }
-                                })}
-                            />
-                        </>
+                                }
+                            })}
+                        />
                     )}
                 </Box>
             </FormProvider>
+
+            <AddressEditDialog dialog={dialog} id={addressId} />
 
             {(newAddress === true) && (
                 <DeliveryAdressesNewEditForm
