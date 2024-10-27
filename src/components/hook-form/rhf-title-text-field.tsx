@@ -39,8 +39,8 @@ export default function RHFTitleTextField({ name, custom_label, helperText, type
               {...other}
             />
             {error && (
-              <Stack direction={'row'}>
-                <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} mt={1} />
+              <Stack direction={'row'} alignItems={'center'}>
+                <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'}/>
                 <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5} mt={1}>{error?.message}</Typography>
               </Stack>
             )}
