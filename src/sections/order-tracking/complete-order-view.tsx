@@ -46,6 +46,8 @@ export default function CompleteOrderView({
 
     useEffect(() => {
         if (checkout.activeStep === -1) finalOrderDialog.onFalse()
+        if (!finalOrderDialog.value) return;
+        
         if (checkout.activeStep === 2 && order.need_prepayment) handle();
         if (checkout.activeStep === 3) handle();
     }, [checkout.activeStep]);
@@ -120,10 +122,7 @@ export default function CompleteOrderView({
             {checkout.activeStep === 2 && (
                 <Payment
                     finalOrderDialog={finalOrderDialog}
-                    orderId={orderId}
                     hasCustomMade={hasCustomMade}
-                    need_prepayment={order.need_prepayment}
-                    production_days={order.production_days}
                 />
             )}
         </DialogWithButton>

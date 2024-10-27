@@ -19,40 +19,17 @@ import InputCard from './components/input-card';
 import { PrimaryButton } from '../../components/styles/buttons/primary';
 
 interface Props {
-  orderId: number;
   finalOrderDialog: useBooleanReturnType;
   hasCustomMade: boolean;
-  need_prepayment: boolean;
-  production_days: number;
-  // submitHandler: (need_prepayment: boolean) => void
 }
 
 export default function Payment({
   finalOrderDialog,
   hasCustomMade,
-  orderId,
-  need_prepayment,
-  production_days,
-  // submitHandler
 }: Props) {
   const checkout = useCheckoutContext();
 
   const cancelDialog = useBoolean();
-
-  // useEffect(() => {
-  //     if (need_prepayment) {
-  //         // submitHandler(need_prepayment);
-  //         handle();
-  //     }
-  // }, [need_prepayment])
-
-  const handle = async () => {
-    // await server_axios.patch(endpoints.orders.update(orderId), {
-    //     status: (hasCustomMade) ? OrderStatus.production : (production_days <= 1) ? OrderStatus.ready_to_send : OrderStatus.preparing
-    // })
-    // finalOrderDialog.onFalse();
-    // submitHandler(need_prepayment)
-  };
 
   const methods = useForm({
     // resolver: yupResolver(NewProductSchema),
@@ -60,10 +37,6 @@ export default function Payment({
   });
 
   const {
-    reset,
-    watch,
-    setValue,
-    handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
@@ -75,7 +48,6 @@ export default function Payment({
         onClose={() => {
           finalOrderDialog.onFalse();
           cancelDialog.onFalse();
-          checkout.onGotoStep(0);
         }}
         title={cancelDialogTitle}
         content={cancelDialogContent}
