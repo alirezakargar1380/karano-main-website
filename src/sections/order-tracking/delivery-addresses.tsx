@@ -111,7 +111,7 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                 </SecondaryButton>
             </Stack> */}
             <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Box py={2}>
+                <Box>
                     {(addressesEmpty) && (
                         <Box textAlign={'center'}>
                             <Typography variant='body2' textAlign={'center'} py={2}>
@@ -126,9 +126,6 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                     {(!addressesEmpty) && (
                         <RHFRadioAddress
                             name='address.id'
-                            sx={{
-                                mt: 3
-                            }}
                             FormControlSx={{
                                 width: 1
                             }}
