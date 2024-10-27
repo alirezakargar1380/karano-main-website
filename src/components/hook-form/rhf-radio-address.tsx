@@ -7,7 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { SxProps } from '@mui/system';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Typography } from '@mui/material';
 import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
@@ -18,6 +18,7 @@ type Props = RadioGroupProps & {
     label: string;
     value: any;
     icon: any;
+    onClick?: () => void;
   }[];
   label?: string;
   spacing?: number;
@@ -85,7 +86,9 @@ export default function RHFRadioAddress({
                   <Typography variant='body2' sx={{ mt: 1, ml: 1 }}>{option.label}</Typography>
                 </Stack>
                 {(option.icon) && (
-                  <SvgColor src={'/assets/icons/user-panel/edit-02.svg'} sx={{ mt: 1.5, ml: 1, width: 16, height: 16 }} color={"#727272"} />
+                  <IconButton onClick={option.onClick}>
+                    <SvgColor src={'/assets/icons/user-panel/edit-02.svg'} sx={{ width: 16, height: 16 }} color={"#727272"} />
+                  </IconButton>
                 )}
               </Stack>
             ))}
