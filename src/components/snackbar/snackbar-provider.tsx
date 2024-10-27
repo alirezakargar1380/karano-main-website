@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { closeSnackbar, CustomContentProps, SnackbarProvider as NotistackProvider, SnackbarContent } from 'notistack';
+import {
+  closeSnackbar,
+  CustomContentProps,
+  SnackbarProvider as NotistackProvider,
+  SnackbarContent,
+} from 'notistack';
 
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -17,35 +22,35 @@ import { Box, Button, CircularProgress, Typography } from '@mui/material';
 declare module 'notistack' {
   interface VariantOverrides {
     // removes the `warning` variant
-    // warning: false;     
-    // adds `myCustomVariant` variant      
+    // warning: false;
+    // adds `myCustomVariant` variant
     myCustomVariant: {
-      onClick?: () => void
-      showButton?: boolean
-      showTimer?: boolean
-      color: 'error' | 'info'
-    }
+      onClick?: () => void;
+      showButton?: boolean;
+      showTimer?: boolean;
+      color: 'error' | 'info';
+    };
     multiline: {
-      onClick?: () => void
-      showButton?: boolean
-      showTimer?: boolean
-      color: 'error' | 'info'
-    }
+      onClick?: () => void;
+      showButton?: boolean;
+      showTimer?: boolean;
+      color: 'error' | 'info';
+    };
     // // adds `reportComplete` variant and specifies the
     // // "extra" props it takes in options of `enqueueSnackbar`
-    // reportComplete: {         
-    //   allowDownload: boolean  
+    // reportComplete: {
+    //   allowDownload: boolean
     // }
   }
 }
 
 const bgColor: any = {
-  error: "#D12215",
-  info: "#2B2B2B"
-}
+  error: '#D12215',
+  info: '#2B2B2B',
+};
 
 interface myCustomVariantProps extends CustomContentProps {
-  allowDownload: boolean
+  allowDownload: boolean;
 }
 
 type Props = {
@@ -89,12 +94,8 @@ export default function SnackbarProvider({ children }: Props) {
             <SvgColor src="/assets/icons/notification/alert-circle.svg" />
           </StyledIcon>
         ),
-        myCustomVariant: (
-          <></>
-        ),
-        multiline: (
-          <></>
-        ),
+        myCustomVariant: <></>,
+        multiline: <></>,
       }}
       Components={{
         default: StyledNotistack,
@@ -129,17 +130,24 @@ export default function SnackbarProvider({ children }: Props) {
                   display: 'flex',
                 }}
               >
-                <Box sx={{
-                  py: 2,
-                  px: 2,
-                  display: 'flex',
-                  alignItems: 'center',
-                  // justifyContent: 'space-around',
-                  maxWidth: '800px',
-                }}>
-                  {(props.showTimer) ? (
+                <Box
+                  sx={{
+                    py: 2,
+                    px: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    // justifyContent: 'space-around',
+                    maxWidth: '800px',
+                  }}
+                >
+                  {props.showTimer ? (
                     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                      <CircularProgress variant="determinate" value={count * 10} size={"lg"} sx={{ color: "#D1D1D1", width: 24 }} />
+                      <CircularProgress
+                        variant="determinate"
+                        value={count * 10}
+                        size={'lg'}
+                        sx={{ color: '#D1D1D1', width: 24 }}
+                      />
                       <Box
                         sx={{
                           top: 0,
@@ -165,26 +173,31 @@ export default function SnackbarProvider({ children }: Props) {
                     </Box>
                   ) : (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <SvgColor src="/assets/icons/notification/info-circle.svg" sx={{ width: 24, height: 24 }} />
+                      <SvgColor
+                        src="/assets/icons/notification/info-circle.svg"
+                        sx={{ width: 24, height: 24 }}
+                      />
                     </Box>
                   )}
 
                   <Box sx={{ maxWidth: 574, ml: '16px' }}>
-                    <Typography fontSize={14} mr={'16px'} whiteSpace={'pre-line'}>{props.message}</Typography>
+                    <Typography mr={'16px'} variant={'body4'} whiteSpace={'pre-line'}>
+                      {props.message}
+                    </Typography>
                   </Box>
 
-                  {(props.showButton) && (
+                  {props.showButton && (
                     <Button
-                      variant='outlined'
+                      variant="outlined"
                       sx={{
                         borderRadius: '24px',
                         borderColor: '#F8F8F8',
                         textWrap: 'nowrap',
-                        px: 2
+                        px: 2,
                       }}
                       onClick={() => {
-                        props.onClick()
-                        closeSnackbar(props.id)
+                        props.onClick();
+                        closeSnackbar(props.id);
                       }}
                     >
                       خنثی کردن
@@ -192,16 +205,23 @@ export default function SnackbarProvider({ children }: Props) {
                   )}
                 </Box>
 
-                {(!props.showTimer) && (
-                  <Box borderLeft={'1px solid #fff'} sx={{ display: 'flex', px: 2 }}>
-                    <IconButton size="small" onClick={() => closeSnackbar(props.id)} sx={{ p: 0.5 }}>
+                {!props.showTimer && (
+                  <Box
+                    borderLeft={'1px solid #fff'}
+                    sx={{ display: 'flex', alignItems: 'center', px: 2 }}
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={() => closeSnackbar(props.id)}
+                      sx={{ p: 0.5 }}
+                    >
                       <Iconify width={16} icon="mingcute:close-line" color={'#fff'} />
                     </IconButton>
                   </Box>
                 )}
               </Box>
             </SnackbarContent>
-          )
+          );
         },
         myCustomVariant: (props: myCustomVariantProps | any) => {
           const [count, setCount] = useState(10);
@@ -222,23 +242,32 @@ export default function SnackbarProvider({ children }: Props) {
 
           return (
             <SnackbarContent>
-              <Box sx={{
-                bgcolor: bgColor[props.color],
-                display: 'flex',
-                color: 'white',
-                borderRadius: '16px',
-                width: 1
-              }}>
-                <Box sx={{
-                  py: 2,
-                  px: 2,
+              <Box
+                sx={{
+                  bgcolor: bgColor[props.color],
                   display: 'flex',
-                  alignItems: 'center',
-                  gap: 2
-                }}>
-                  {(props.showTimer) ? (
+                  color: 'white',
+                  borderRadius: '16px',
+                  width: 1,
+                }}
+              >
+                <Box
+                  sx={{
+                    py: 2,
+                    px: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}
+                >
+                  {props.showTimer ? (
                     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-                      <CircularProgress variant="determinate" value={count * 10} size={"lg"} sx={{ color: "#D1D1D1", width: 24 }} />
+                      <CircularProgress
+                        variant="determinate"
+                        value={count * 10}
+                        size={'lg'}
+                        sx={{ color: '#D1D1D1', width: 24 }}
+                      />
                       <Box
                         sx={{
                           top: 0,
@@ -268,18 +297,20 @@ export default function SnackbarProvider({ children }: Props) {
                     </Box>
                   )}
 
-                  <Typography fontSize={14} mr={'16px'}>{props.message}</Typography>
+                  <Typography mr={'16px'} variant={'body4'}>
+                    {props.message}
+                  </Typography>
 
-                  {(props.showButton) && (
+                  {props.showButton && (
                     <Button
-                      variant='outlined'
+                      variant="outlined"
                       sx={{
                         borderRadius: '24px',
                         borderColor: '#F8F8F8',
                       }}
                       onClick={() => {
-                        props.onClick()
-                        closeSnackbar(props.id)
+                        props.onClick();
+                        closeSnackbar(props.id);
                       }}
                     >
                       خنثی کردن
@@ -287,17 +318,24 @@ export default function SnackbarProvider({ children }: Props) {
                   )}
                 </Box>
 
-                {(!props.showTimer) && (
-                  <Box borderLeft={'1px solid #fff'} sx={{ display: 'flex', px: 2 }}>
-                    <IconButton size="small" onClick={() => closeSnackbar(props.id)} sx={{ p: 0.5 }}>
+                {!props.showTimer && (
+                  <Box
+                    borderLeft={'1px solid #fff'}
+                    sx={{ display: 'flex', alignItems: 'center', px: 2 }}
+                  >
+                    <IconButton
+                      size="small"
+                      onClick={() => closeSnackbar(props.id)}
+                      sx={{ p: 0.5 }}
+                    >
                       <Iconify width={16} icon="mingcute:close-line" color={'#fff'} />
                     </IconButton>
                   </Box>
                 )}
               </Box>
             </SnackbarContent>
-          )
-        }
+          );
+        },
       }}
       // with close as default
       action={(snackbarId) => (
@@ -306,9 +344,7 @@ export default function SnackbarProvider({ children }: Props) {
         </IconButton>
       )}
     >
-      <Box>
-        {children}
-      </Box>
+      <Box>{children}</Box>
     </NotistackProvider>
   );
 }
