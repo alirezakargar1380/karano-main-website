@@ -83,13 +83,15 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                     )}
                     <SecondaryButton
                         variant="outlined"
-                        disabled={order.status === OrderStatus.removed}
                         onClick={() => {
                             handleMoreBtn(+order.id, order.status)
                         }}
                         sx={{
                             py: pxToRem(4),
                             px: pxToRem(16),
+                            ...(order.status === OrderStatus.removed && {
+                                display: 'none'
+                            })
                         }}
                     >
                         <Typography variant="button1" sx={{ fontFamily: "peyda-bold" }}>
