@@ -15,6 +15,7 @@ import Scrollbar from 'src/components/scrollbar';
 import { OrderStatus } from 'src/types/order';
 import { useGetOrderProducts } from 'src/api/order-products';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { ProductOrderType } from 'src/types/product';
 
 interface Props {
   dialog: useBooleanReturnType;
@@ -192,7 +193,9 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
 
             <ShoppingCartList
               type="edit"
-              items={orderProducts}
+              items={orderProducts
+                .filter((op) => op.product.order_type === ProductOrderType.custom_made)
+              }
               orderId={orderId}
               onRefresh={() => refreshOrderProducts()}
               afterUpdate={async (wasLastOne?: boolean) => {
