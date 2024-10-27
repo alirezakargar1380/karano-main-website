@@ -28,7 +28,11 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     fontSecondaryFamily: React.CSSProperties['fontFamily'];
     fontWeightSemiBold: React.CSSProperties['fontWeight'];
-    // body3: React.CSSProperties;
+    caption1: React.CSSProperties;
+    caption2: React.CSSProperties;
+    caption3: React.CSSProperties;
+    button1: React.CSSProperties;
+    button2: React.CSSProperties;
   }
 }
 
@@ -38,8 +42,13 @@ declare module "@mui/material/Typography" {
     body3: true;
     body4: true;
     button1: true;
+    button2: true;
     caption1: true;
     caption2: true;
+    caption3: true;
+    heading1: true;
+    heading2: true;
+    heading3: true;
     title1: true;
     title2: true;
     title3: true;
@@ -98,19 +107,43 @@ export const typography = {
     fontSize: pxToRem(16),
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
   },
+  heading1: {
+    fontFamily: 'peyda-black',
+    fontWeight: 900,
+    lineHeight: '67.2px',
+    fontSize: pxToRem(48),
+    letterSpacing: '0.03em',
+  },
+  heading2: {
+    fontFamily: 'peyda-extra-bold',
+    fontWeight: 800,
+    lineHeight: '56px',
+    fontSize: pxToRem(40),
+    letterSpacing: '0.03em',
+  },
+  heading3: {
+    fontFamily: 'peyda-bold',
+    fontWeight: 700,
+    lineHeight: '44.8px',
+    fontSize: pxToRem(32),
+    letterSpacing: '0.03em',
+  },
   title1: {
+    fontFamily: 'peyda-bold',
     fontWeight: 700,
     lineHeight: '30.8px',
     fontSize: pxToRem(22),
     letterSpacing: '0.03em',
   },
   title2: {
+    fontFamily: 'peyda-bold',
     fontWeight: 700,
     lineHeight: '36px',
     fontSize: pxToRem(18),
     letterSpacing: '0.03em',
   },
   title3: {
+    fontFamily: 'peyda-bold',
     fontWeight: 700,
     lineHeight: '32px',
     fontSize: pxToRem(16),
@@ -127,22 +160,28 @@ export const typography = {
     fontSize: pxToRem(14),
   },
   body1: {
-    lineHeight: 1.5,
+    fontFamily: 'peyda-semi-bold',
+    fontWeight: 600,
+    lineHeight: '32px',
     fontSize: pxToRem(16),
+    letterSpacing: '0.03em',
   },
   body2: {
-    lineHeight: '32px',
+    fontFamily: 'peyda-regular',
     fontWeight: 400,
+    lineHeight: '32px',
     fontSize: pxToRem(16),
     letterSpacing: '0.03em',
   },
   body3: {
+    fontFamily: 'peyda-semi-bold',
     lineHeight: '25px',
     fontWeight: 600,
     fontSize: pxToRem(14),
     letterSpacing: '0.03em',
   },
   body4: {
+    fontFamily: 'peyda-regular',
     lineHeight: '25px',
     fontWeight: 400,
     fontSize: pxToRem(14),
@@ -153,15 +192,24 @@ export const typography = {
     fontSize: pxToRem(12),
   },
   caption1: {
+    fontFamily: 'peyda-regular',
     fontWeight: 400,
     lineHeight: '18.2px',
     fontSize: pxToRem(13),
     letterSpacing: '0.03em',
   },
   caption2: {
+    fontFamily: 'peyda-regular',
     fontWeight: 400,
     lineHeight: '16.8px',
     fontSize: pxToRem(12),
+    letterSpacing: '0.03em',
+  },
+  caption3: {
+    fontFamily: 'peyda-medium',
+    fontWeight: 500,
+    lineHeight: '14px',
+    fontSize: pxToRem(10),
     letterSpacing: '0.03em',
   },
   overline: {
@@ -176,10 +224,17 @@ export const typography = {
     textTransform: 'unset',
   },
   button1: {
+    fontFamily: 'peyda-medium',
     fontWeight: 500,
     fontSize: pxToRem(16),
     lineHeight: '40px',
+    letterSpacing: '0.03em',
+  },
+  button2: {
     fontFamily: 'peyda-medium',
+    fontWeight: 500,
+    fontSize: pxToRem(14),
+    lineHeight: '28px',
     letterSpacing: '0.03em',
   },
 } as const;
