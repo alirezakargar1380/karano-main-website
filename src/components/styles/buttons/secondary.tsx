@@ -14,10 +14,10 @@ const SecondaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size, color }
     borderRadius: '24px',
     padding: `${pxToRem(4)} ${pxToRem(20)}`,
     border: 'none',
-    outline: '1px solid #D1D1D1',
     display: 'inline-flex',
     alignItems: 'center',
     ...(!color && {
+      outline: '1px solid #D1D1D1',
       '&:hover': {
         outline: '1px solid #727272',
         backgroundColor: '#fff!important',
@@ -32,6 +32,15 @@ const SecondaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size, color }
         backgroundColor: '#fff!important',
       },
     }),
+    ...(color === 'info' && {
+      color: '#0B7BA7',
+      outline: '1px solid #0B7BA7',
+      '&:hover': {
+        color: '#00364B',
+        outline: '1px solid #00364B',
+        backgroundColor: '#fff!important',
+      }
+    }),
     ...(sizeSm && {
       minWidth: '102px',
       padding: `${pxToRem(4)} ${pxToRem(12)}`,
@@ -43,6 +52,15 @@ const SecondaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size, color }
       padding: `${pxToRem(4)} ${pxToRem(24)}`,
       ...theme.typography.button1,
     }),
+    '&.Mui-disabled': {
+      backgroundColor: 'transparent',
+      color: '#E0E0E0',
+      outline: '1px solid #E0E0E0'
+    },
+    '&:active': {
+      color: '#005878',
+      outline: '1px solid #005878',
+    },
   };
 });
 

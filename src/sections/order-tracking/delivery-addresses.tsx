@@ -13,6 +13,7 @@ import { DeliveryAdressesNewEditForm } from './delivery-addresses-new-edit-form'
 import Iconify from 'src/components/iconify';
 import AddressEditDialog from './address-edit-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
+import InputCard from './components/input-card';
 
 export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     const [newAddress, setNewAddress] = useState<boolean>(false);
@@ -71,14 +72,10 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
     }, [setNewAddress]);
 
     return (
-
-        <Box sx={{ border: '2px solid #A9A9A9', borderRadius: '16px', p: 4 }}>
-            <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'}>
-                <Typography variant="h6" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>
-                    آدرس تحویل گیرنده
-                </Typography>
+        <InputCard title='آدرس تحویل گیرنده'
+            action={
                 <SecondaryButton
-                    variant='outlined'
+                    color='info'
                     size='small'
                     disabled={!!newAddress}
                     sx={{
@@ -92,7 +89,27 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                     <Iconify icon={'ic:outline-plus'} mr={0.5} />
                     آدرس جدید
                 </SecondaryButton>
-            </Stack>
+            }>
+            {/* <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'}>
+                <Typography variant="h6" sx={{ pb: 2, fontFamily: 'peyda-bold' }}>
+                    آدرس تحویل گیرنده
+                </Typography>
+                <SecondaryButton
+                    color='info'
+                    size='small'
+                    disabled={!!newAddress}
+                    sx={{
+                        pr: 1.5,
+                        borderColor: '#0B7BA7',
+                        color: '#0B7BA7',
+                        width: 'fit-content'
+                    }}
+                    onClick={() => setNewAddress(true)}
+                >
+                    <Iconify icon={'ic:outline-plus'} mr={0.5} />
+                    آدرس جدید
+                </SecondaryButton>
+            </Stack> */}
             <FormProvider methods={methods} onSubmit={onSubmit}>
                 <Box py={2}>
                     {(addressesEmpty) && (
@@ -140,7 +157,6 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                     exit={() => setNewAddress(false)}
                 />
             )}
-
-        </Box>
+        </InputCard>
     )
 }
