@@ -32,6 +32,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { endpoints, server_axios } from 'src/utils/axios';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 
@@ -90,14 +91,16 @@ export default function HomeView() {
           closeTitle="الان نه؛ بعداً"
           content={text}
           action={
-            <LoadingButton variant='contained' sx={{ borderRadius: 50, px: 2 }}
+            <PrimaryButton
+              size='medium'
+              sx={{ borderRadius: 50, px: 2 }}
               onClick={async () => {
                 await handleSeenNotification();
                 router.push(paths.orderTracking)
               }}
             >
               پیگیری سفارش
-            </LoadingButton>
+            </PrimaryButton>
           }
         />
 

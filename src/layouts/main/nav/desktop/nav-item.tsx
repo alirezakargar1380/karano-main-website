@@ -50,7 +50,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           {...other}
         >
           <Box ref={refPop}>
-            {(badge && !active)? (
+            {(badge && !active) ? (
               <Badge
                 sx={{
                   "& .MuiBadge-badge": {
@@ -92,14 +92,15 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           }}
         >
           <Box sx={{ p: 2, width: 1 }}>
-            <Typography fontFamily={'peyda-bold'} fontSize={16} borderBottom={'1px solid #f8f8f8'} pb={'16px'}>
+            <Typography variant='title3' borderBottom={'1px solid #f8f8f8'} pb={'16px'}>
               {order.title}
             </Typography>
-            <Typography fontFamily={'peyda-regular'} mt={'16px'} fontSize={12}>
+            <Typography variant='caption2' mt={'16px'}>
               {order.text}
             </Typography>
             <Box textAlign={'right'}>
-              <SecondaryButton variant='contained'
+              <SecondaryButton
+                size='small'
                 sx={{
                   color: "#000", mt: 2,
                   "&:hover": {

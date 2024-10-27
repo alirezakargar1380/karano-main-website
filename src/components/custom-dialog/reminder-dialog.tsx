@@ -61,14 +61,13 @@ export default function ReminderDialog({
               color: '#727272',
             }}
           >
-            {' '}
-            {content}{' '}
+            {content}
           </DialogContent>
         )}
 
         <DialogActions sx={{ pr: 0 }}>
           {onClose && (
-            <Button color="inherit" sx={{ mr: 2, borderRadius: 50 }} onClick={onClose}>
+            <Button color="inherit" size='large' sx={{ mr: 2, borderRadius: 50, height: 1, typography:'button2' }} onClick={onClose}>
               {closeTitle}
             </Button>
           )}
