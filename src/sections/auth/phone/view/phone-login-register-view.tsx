@@ -43,7 +43,7 @@ export default function PhoneLoginView() {
     phone: Yup.string()
       .matches(numberRegex, phoneFormatErrorMessage)
       .transform((value) => toEnglishNumber(value))
-      .length(13, phoneLengthErrorMessage)
+      .length(12, phoneLengthErrorMessage)
       .required(phoneLengthErrorMessage),
   });
 
