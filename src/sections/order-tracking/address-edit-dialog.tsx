@@ -13,7 +13,7 @@ export default function AddressEditDialog({ dialog, id }: Props) {
         <DialogWithButton dialog={dialog} fullWith maxWidth="md">
             <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
                 <Typography variant="title1" sx={{ width: 1, pb: '16px', borderBottom: '1px solid #D1D1D1' }}>
-                    ویرایش آدرس تحویل
+                    ویرایش آدرس
                 </Typography>
             </Box>
         </DialogWithButton>

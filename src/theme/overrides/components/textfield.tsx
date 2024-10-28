@@ -96,7 +96,6 @@ export function textField(theme: Theme) {
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          
           '& input': {
             padding: '8px 12px',
             fontSize: '16px',
