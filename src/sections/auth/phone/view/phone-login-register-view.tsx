@@ -63,7 +63,7 @@ export default function PhoneLoginView() {
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       data.phone = data.phone.split(" ").join("");
-      
+
       const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
 
       if (!res.phone_verified) {
@@ -113,8 +113,7 @@ export default function PhoneLoginView() {
     <Stack spacing={4} width={1} mt={7}>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'} mb={0.5}>شماره تلفن همراه</Typography>
-        <RHFPhoneInput name="phone" />
+        <RHFPhoneInput name="phone" custom_label='شماره تلفن همراه' />
       </Box>
 
 
@@ -122,15 +121,15 @@ export default function PhoneLoginView() {
         Forgot password?
       </Link> */}
 
-      
-        <PrimaryButton
-          sx={{ width: 1 }}
-          type="submit"
-          isLoading={isSubmitting}
-          disabled={!isValid}
-        >
-          <Typography variant="button1">ادامه</Typography>
-        </PrimaryButton>
+
+      <PrimaryButton
+        sx={{ width: 1 }}
+        type="submit"
+        isLoading={isSubmitting}
+        disabled={!isValid}
+      >
+        <Typography variant="button1">ادامه</Typography>
+      </PrimaryButton>
     </Stack>
   );
 

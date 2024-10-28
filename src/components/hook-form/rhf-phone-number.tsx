@@ -38,7 +38,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
       const prevInput = document.getElementById(`phone-input-${index - 1}`);
       prevInput?.focus();
     } else {
-      if (currentValue.length === maxLength) {
+      if (currentValue?.length === maxLength) {
         const prevInput = document.getElementById(`phone-input-${index + 1}`);
         prevInput?.focus();
       }
@@ -76,7 +76,6 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
                     '& input': {
                       px: 0
                     },
-
                   }
                 }}
                 sx={{
@@ -101,13 +100,15 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               value={field.value.split(' ')[1] || ''}
               onKeyDown={(e) => handleOnKeyDown(e, 1, field.value, 3)}
               onChange={(e) => handleChange(1, e.target.value, field.onChange, field.value)}
+              InputProps={{
+                sx: {
+                  '& input': { px: 0 },
+                }
+              }}
               sx={{
                 width: '40px',
                 '& fieldset': {
                   border: 'none',
-                },
-                '& input': {
-                  px: 0
                 }
               }}
             />
@@ -118,13 +119,15 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               value={field.value.split(' ')[2] || ''}
               onKeyDown={(e) => handleOnKeyDown(e, 2, field.value, 3)}
               onChange={(e) => handleChange(2, e.target.value, field.onChange, field.value)}
+              InputProps={{
+                sx: {
+                  '& input': { px: 0 },
+                }
+              }}
               sx={{
                 width: '40px',
                 '& fieldset': {
                   border: 'none',
-                },
-                '& input': {
-                  px: 0
                 }
               }}
             />
@@ -135,13 +138,15 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               value={field.value.split(' ')[3] || ''}
               onKeyDown={(e) => handleOnKeyDown(e, 3, field.value, 4)}
               onChange={(e) => handleChange(3, e.target.value, field.onChange, field.value)}
+              InputProps={{
+                sx: {
+                  '& input': { px: 0 },
+                }
+              }}
               sx={{
                 width: '50px',
                 '& fieldset': {
                   border: 'none',
-                },
-                '& input': {
-                  padding: 0
                 }
               }}
             />
