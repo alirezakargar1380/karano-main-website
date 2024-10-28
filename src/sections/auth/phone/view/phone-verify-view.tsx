@@ -18,9 +18,12 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useAuthContext } from 'src/auth/hooks';
 
-import FormProvider, { RHFCode,  } from 'src/components/hook-form';
+import FormProvider, { RHFCode, } from 'src/components/hook-form';
 import { Box } from '@mui/material';
 import RegisterLoginHead from '../register-login-head';
+import { numberRegex } from 'src/constants/regex/number';
+import { toEnglishNumber } from 'src/utils/change-case';
+import { codeErrorMessage } from 'src/constants/messages/phone-verify';
 
 // ----------------------------------------------------------------------
 
@@ -35,12 +38,12 @@ export default function PhoneVerifyView() {
 
   const phone = searchParams.get('phone');
 
-  const password = useBoolean();
-
   const LoginSchema = Yup.object().shape({
-    // email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    // password: Yup.string().required('کد را وارد کنید').min(6, 'کد باید حداقل 6 کرکتر باشد'),
-    code: Yup.string().required('کد را وارد کنید').length(6, 'کد باید حداقل 6 کرکتر باشد'),
+    code: Yup.string()
+      .matches(numberRegex, codeErrorMessage)
+      .transform((value) => toEnglishNumber(value))
+      .required('کد را وارد کنید')
+      .length(6, 'کد باید حداقل 6 کرکتر باشد'),
   });
 
   const defaultValues = {

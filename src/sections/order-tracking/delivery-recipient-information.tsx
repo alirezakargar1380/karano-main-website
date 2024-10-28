@@ -36,6 +36,9 @@ import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
 import CompleteOrderLayout from './layout/complete-order-layout';
 import InputCard from './components/input-card';
 import { PrimaryButton } from '../../components/styles/buttons/primary';
+import { toEnglishNumber, toPhoneNumberInputFormat } from 'src/utils/change-case';
+import { phoneFormatErrorMessage, phoneLengthErrorMessage } from 'src/constants/messages/phone-error-messages';
+import { numberRegex } from 'src/constants/regex/number';
 
 interface Props {
   orderId: number;
@@ -62,7 +65,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
 
   const defaultValues = {
     reciver_name: order?.reciver_name || '',
-    reciver_phone: order?.reciver_phone || '98',
+    reciver_phone: toPhoneNumberInputFormat(order?.reciver_phone) || '۹۸',
     invoice_owner: {
       first_name: order?.invoice_owner?.first_name || '',
       last_name: order?.invoice_owner?.last_name || '',
@@ -72,7 +75,10 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
 
   const Schema = Yup.object().shape({
     reciver_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
-    reciver_phone: Yup.string().min(13, 'پرکردن این فیلد اجباری‌ست.'),
+    reciver_phone: Yup.string().matches(numberRegex, phoneFormatErrorMessage)
+      .transform((value) => toEnglishNumber(value))
+      .length(12, phoneLengthErrorMessage)
+      .required(phoneLengthErrorMessage),
     invoice_owner: Yup.object().shape({
       first_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
       last_name: Yup.string().required('پرکردن این فیلد اجباری‌ست.'),
@@ -191,7 +197,6 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
           <Stack spacing={'24px'}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
               <InputCard title="اطلاعات تحویل گیرنده">
-                {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={'16px'}> */}
                 <Box
                   columnGap={2}
                   rowGap={3}
@@ -209,12 +214,6 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
                   <RHFPhoneInput
                     name="reciver_phone"
                     custom_label={'شماره تماس'}
-                    // sx={{
-                    //     '.MuiInputBase-input': {
-                    //         textAlign: 'right!important',
-                    //         direction: 'rtl!important'
-                    //     }
-                    // }}
                   />
                 </Box>
                 {/* </Stack> */}

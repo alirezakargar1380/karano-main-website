@@ -1,0 +1,1 @@
+export const codeErrorMessage: string = "کد وارد شده صحیح نمی باشد."

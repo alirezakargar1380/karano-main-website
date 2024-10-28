@@ -25,6 +25,9 @@ import { paths } from 'src/routes/paths';
 import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
 import RegisterLoginHead from '../register-login-head';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { toEnglishNumber } from 'src/utils/change-case';
+import { numberRegex } from 'src/constants/regex/number';
+import { phoneFormatErrorMessage, phoneLengthErrorMessage } from 'src/constants/messages/phone-error-messages';
 
 // ----------------------------------------------------------------------
 
@@ -36,17 +39,16 @@ export default function PhoneLoginView() {
 
   const searchParams = useSearchParams();
 
-  const returnTo = searchParams.get('returnTo');
-
-  const password = useBoolean();
-
   const LoginSchema = Yup.object().shape({
-    phone: Yup.string().length(15, 'شماره تلفن باید 15 کلمه باشد').required('شماره تماس مورد نیاز است'),
+    phone: Yup.string()
+      .matches(numberRegex, phoneFormatErrorMessage)
+      .transform((value) => toEnglishNumber(value))
+      .length(13, phoneLengthErrorMessage)
+      .required(phoneLengthErrorMessage),
   });
 
   const defaultValues = {
-    // phone: '۹۸',
-    phone: '98',
+    phone: '۹۸',
   };
 
   const methods = useForm({
@@ -62,8 +64,6 @@ export default function PhoneLoginView() {
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
-      data.phone = data.phone.split(" ").join("");
-
       const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
 
       if (!res.phone_verified) {
@@ -92,22 +92,6 @@ export default function PhoneLoginView() {
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
-
-  const renderHead = (
-    <Stack spacing={2} sx={{ mb: 4 }}>
-      <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
-        <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
-      </Box>
-
-      {/* <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">New user?</Typography>
-
-        <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
-          Create an account
-        </Link>
-      </Stack> */}
-    </Stack>
-  );
 
   const renderForm = (
     <Stack spacing={4} width={1} mt={7}>

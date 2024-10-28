@@ -3,6 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { TextField, Box, Typography, Stack } from '@mui/material';
 import FormHelperText from '@mui/material/FormHelperText';
 import SvgColor from '../svg-color';
+import { toFarsiNumber } from 'src/utils/change-case';
 
 type RHFPhoneInputProps = {
   name: string;
@@ -15,7 +16,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
 
   const handleChange = (index: number, value: string, onChange: (value: string) => void, currentValue: string) => {
     const newValue = currentValue.split(' ');
-    newValue[index] = value.replace(/\D/g, '');
+    newValue[index] = toFarsiNumber(value)//.replace(/\D/g, '');
     onChange(newValue.join(' '));
 
     // Auto-focus next input

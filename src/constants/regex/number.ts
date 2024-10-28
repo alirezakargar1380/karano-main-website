@@ -1,0 +1,1 @@
+export const numberRegex: RegExp = /^[\u0660-\u0669\u06F0-\u06F90-9]+$/;
