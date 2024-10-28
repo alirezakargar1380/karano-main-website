@@ -136,7 +136,9 @@ export default function Header({ toggleBanner }: any) {
             {mdUp && <ShoppingCartButton />}
             {mdUp && <LikeButton />}
             {mdUp && <SearchButton />}
-            {mdUp && <LoginButton />}
+            {/* {mdUp && */}
+              <LoginButton />
+            {/* } */}
             {mdUp && <PriceListButton />}
 
             {/* <SettingsButton
