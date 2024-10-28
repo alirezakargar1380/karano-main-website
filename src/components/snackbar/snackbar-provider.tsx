@@ -194,6 +194,7 @@ export default function SnackbarProvider({ children }: Props) {
                         borderColor: '#F8F8F8',
                         textWrap: 'nowrap',
                         px: 2,
+                        typography: 'button2'
                       }}
                       onClick={() => {
                         props.onClick();
@@ -307,6 +308,7 @@ export default function SnackbarProvider({ children }: Props) {
                       sx={{
                         borderRadius: '24px',
                         borderColor: '#F8F8F8',
+                        typography: 'button2'
                       }}
                       onClick={() => {
                         props.onClick();

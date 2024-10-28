@@ -108,16 +108,13 @@ export default function ShoppingCartList({ items, type, afterUpdate, orderId, on
 
         await server_axios.delete(endpoints.orderProductProperties.delete(ppid) + (orderId ? `?order_id=${orderId}` : ''));
         if (isLastOne) {
-            enqueueSnackbar(`تمامی کالاهای پروفیل ${item.product.name} از لیست کالاهای شما با موفقیت حذف شدند.`, {
-                color: 'info',
-                variant: 'multiline',
-                showTimer: true,
-                // showButton: true,
-                autoHideDuration: 10 * 1000,
-                // onClick: async () => {
-                //     server_axios.patch(endpoints.orderProductProperties.cancel_delete(ppid))
-                // }
-            })
+            enqueueSnackbar(
+                `تمامی کالاهای پروفیل ${item.product.name} با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
+                {
+                    variant: 'multiline',
+                    color: 'info',
+                }
+            );
         } else {
             enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
                 color: 'info',

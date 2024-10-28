@@ -205,13 +205,6 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
                 if (wasLastOne === true) {
                   dialog.onFalse();
                   onUpdate();
-                  enqueueSnackbar(
-                    `تمامی کالاهای پروفیل درب کابینتی P60  با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
-                    {
-                      variant: 'multiline',
-                      color: 'info',
-                    }
-                  );
                 }
               }}
             />
