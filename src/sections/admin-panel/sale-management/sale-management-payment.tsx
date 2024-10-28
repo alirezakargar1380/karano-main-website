@@ -21,7 +21,7 @@ import { IOrderItem, OrderStatus } from "src/types/order";
 import { IOrderProductItem } from "src/types/order-products";
 import InvoiceDialog from "./common/invoice-dialog";
 import { useSnackbar } from 'src/components/snackbar';
-import { ReminderDialog, WarningDialog } from "src/components/custom-dialog";
+import { ConfirmDialog, WarningDialog } from "src/components/custom-dialog";
 import IncrementerButton from "src/sections/product/common/incrementer-button";
 
 import { useRouter } from 'src/routes/hooks';
@@ -32,6 +32,7 @@ import { ProductOrderType } from "src/types/product";
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { PrimaryButton } from "src/components/styles/buttons/primary";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
@@ -123,18 +124,15 @@ export default function SaleManagementPayment({
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
 
-            <WarningDialog
+            <ConfirmDialog
                 open={timeReminder.value}
                 onClose={timeReminder.onFalse}
                 title="اطمینان از تایید سفارش"
                 content="آیا از تایید تمام کالاهای این سفارش مطمئن هستید؟"
                 action={
-                    <LoadingButton variant="contained" onClick={() => handleFinalApprove()} sx={{
-                        borderRadius: '50px',
-                        px: 4
-                    }}>
+                    <PrimaryButton size="medium" onClick={() => handleFinalApprove()}>
                         بله
-                    </LoadingButton>
+                    </PrimaryButton>
                 }
             />
 

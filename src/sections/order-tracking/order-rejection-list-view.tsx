@@ -10,7 +10,7 @@ import { IOrderProductItem } from 'src/types/order-products';
 import { useSnackbar } from 'src/components/snackbar';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
-import { DefaultDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import Scrollbar from 'src/components/scrollbar';
 import { OrderStatus } from 'src/types/order';
 import { useGetOrderProducts } from 'src/api/order-products';
@@ -120,8 +120,9 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
 
   return (
     <React.Fragment>
-      <DefaultDialog
+      <ConfirmDialog
         onClose={cancel.onFalse}
+        color='#727272'
         title={'انصراف از ثبت نهایی اصلاحات'}
         open={cancel.value}
         content={
@@ -152,8 +153,9 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
         }
       />
 
-      <DefaultDialog
+      <ConfirmDialog
         onClose={confirm.onFalse}
+        color='#727272'
         title="ثبت نهایی اصلاحات"
         open={confirm.value}
         content={'آیا از ثبت نهایی تمامی تغییرات و اصلاحات کالاهای ردشده اطمینان دارید؟'}

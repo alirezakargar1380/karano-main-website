@@ -14,7 +14,6 @@ import FormProvider, {
   RHFTitleTextField,
 } from 'src/components/hook-form';
 import { BlueNotification } from 'src/components/notification';
-import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { useCheckoutContext } from '../checkout/context';
 import { useForm } from 'react-hook-form';
 import { endpoints, server_axios } from 'src/utils/axios';
@@ -31,7 +30,7 @@ import { IUserTypes } from 'src/types/user';
 import { useSnackbar } from 'src/components/snackbar';
 import _ from 'lodash';
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { ReminderDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
 import CompleteOrderLayout from './layout/complete-order-layout';
 import InputCard from './components/input-card';
@@ -169,7 +168,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
 
   return (
     <>
-      <ReminderDialog
+      <ConfirmDialog
         color="#C80303"
         open={cancelDialog.value}
         onClose={() => {
@@ -178,6 +177,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
         }}
         title={cancelDialogTitle}
         content={cancelDialogContent}
+        closeTitle='خیر'
         action={
           <PrimaryButton
             size={'medium'}

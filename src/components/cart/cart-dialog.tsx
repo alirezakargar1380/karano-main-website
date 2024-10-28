@@ -17,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSnackbar } from 'src/components/snackbar';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
-import { DefaultDialog } from '../custom-dialog';
+import { ConfirmDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
@@ -138,7 +138,7 @@ export default function CartDialog({
               ...list[iid],
               is_approved: null,
             })
-            .then(({ data }) => {});
+            .then(({ data }) => { });
       }
     } catch (error) {
       console.error(error);
@@ -244,13 +244,14 @@ export default function CartDialog({
 
   return (
     <>
-      <DefaultDialog
+      <ConfirmDialog
         open={infoDialog.value}
+        color='#727272'
         title="اصلاح کالا"
         content="شما می‌توانید با اصلاح ویژگی‌های کالا، تغییرات مورد نظر خود را اعمال کنید."
         action={
-          <LoadingButton
-            variant="contained"
+          <PrimaryButton
+            size='medium'
             onClick={infoDialog.onFalse}
             sx={{
               borderRadius: '50px',
@@ -258,10 +259,24 @@ export default function CartDialog({
             }}
           >
             متوجه شدم
-          </LoadingButton>
+          </PrimaryButton>
         }
       />
-      <Dialog open={dialog.value} onClose={dialog.onFalse} fullWidth={true} maxWidth={'xl'}>
+      <Dialog
+        open={dialog.value}
+        onClose={dialog.onFalse}
+        fullWidth={true}
+        // maxWidth={'lg'}
+        PaperProps={{
+          style: {
+            margin: 0,
+            width: 'calc(100% - 24px)',
+            height: 'calc(100% - 24px)',
+            maxWidth: 'none',
+            maxHeight: 'none',
+          },
+        }}
+      >
         <DialogTitle sx={{ p: 0, px: '40px', pt: '40px', display: 'block' }}>
           <Stack spacing={'24px'} direction={'row'}>
             <Typography

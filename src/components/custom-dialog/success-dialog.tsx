@@ -25,7 +25,7 @@ export default function SuccessDialog({
         },
       }}
     >
-      <Box p={'24px'} pb={'56px'} textAlign={'center'}>
+      <Box p={'24px'} textAlign={'center'}>
         <Image src="/assets/images/order-tracking/success.png" />
         {title && (
           <Typography variant="title1" color={'#000'} mt={'32px'}>

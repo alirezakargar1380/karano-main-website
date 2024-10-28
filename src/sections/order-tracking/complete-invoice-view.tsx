@@ -1,10 +1,9 @@
-import { Box, DialogActions, DialogTitle } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
 import { Actions } from './dialog-action';
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { ReminderDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
-import { LoadingButton } from '@mui/lab';
 import { useCheckoutContext } from '../checkout/context';
 import CompleteOrderDialogContent from './dialog-content';
 import CompleteOrderLayout from './layout/complete-order-layout';
@@ -22,7 +21,8 @@ export default function CompleteInvoiceView({ children, dialog }: Props) {
 
   return (
     <>
-      <ReminderDialog
+      <ConfirmDialog
+        closeTitle='خیر'
         color="#C80303"
         open={cancelDialog.value}
         onClose={() => {

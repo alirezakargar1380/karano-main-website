@@ -1,17 +1,10 @@
 import { Box, Button, Typography } from '@mui/material';
 import { useCheckoutContext } from '../checkout/context';
-import { Stack } from '@mui/system';
-import { SecondaryButton } from 'src/components/styles/buttons/secondary';
-import { LoadingButton } from '@mui/lab';
-import { IInvoice } from 'src/types/invoice';
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
-import { endpoints, server_axios } from 'src/utils/axios';
-import { OrderStatus } from 'src/types/order';
-import { useEffect } from 'react';
 import FormProvider, { RHFTitleTextField } from 'src/components/hook-form';
 import { useForm } from 'react-hook-form';
 import { Actions } from './dialog-action';
-import { ReminderDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
 import CompleteOrderLayout from './layout/complete-order-layout';
 import CompleteOrderDialogContent from './dialog-content';
@@ -42,7 +35,8 @@ export default function Payment({
 
   return (
     <>
-      <ReminderDialog
+      <ConfirmDialog
+        closeTitle='خیر'
         color="#C80303"
         open={cancelDialog.value}
         onClose={() => {

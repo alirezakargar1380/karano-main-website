@@ -37,5 +37,6 @@ export function toEnglishNumber(value: string) {
 }
 
 export function toPhoneNumberInputFormat(value: string) {
+  if (!value) return ''
   return toFarsiNumber(value.slice(0, 2)) + " " + toFarsiNumber(value.slice(2, 5)) + " " + toFarsiNumber(value.slice(5, 8)) + " " + toFarsiNumber(value.slice(8, 12));
 }

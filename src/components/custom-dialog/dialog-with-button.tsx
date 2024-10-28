@@ -16,7 +16,7 @@ interface Props {
     children: React.ReactNode,
     fullWith: boolean
     width?: number
-    maxWidth?: Breakpoint 
+    maxWidth?: Breakpoint
     sx?: SxProps
 }
 
@@ -29,7 +29,9 @@ const Transition = forwardRef(
     ) => <Slide direction="up" ref={ref} {...props} />
 );
 
-
+// should be 40px padding
+// padding y 20px
+// width noe profile
 
 export default function DialogWithButton({ dialog, children, fullWith, width = 480, maxWidth = 'lg', sx }: Props) {
 
@@ -55,13 +57,9 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             {...props}
             sx={{
                 position: 'fixed!important',
-                // display: 'flex!important',
-                // position: 'relative',
-                // mx: 'auto',
                 flexDirection: 'row!important',
                 overflowY: 'unset!important',
                 boxShadow: 'none!important'
-                // verticalAlign: 'center'
             }}>
             <Paper {...props} sx={{ ...default_sx }} />
             <Box mt={2}>
@@ -91,56 +89,30 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             maxWidth={maxWidth}
             PaperProps={{
                 style: {
+                    // marginTop: '24px',
+                    // marginBottom: '24px',
+                    // margin: '0px',
                     // backgroundColor: 'transparent',
                     // boxShadow: 'none',
                     // margin: 0,
                     // marginTop: 20,
                     // marginBottom: 20,
-                    width: '100%',
+                    width: 'calc(100% - 16px)',
                     // zIndex: 99
                     // maxWidth: 'calc(100% - 14px)',
                     // minHeight: '90vh',
                     // maxHeight: '90vh',
                 },
             }}
-            // fullWidth={fullWith}
             sx={{
                 '& .MuiBackdrop-root': {
                     backgroundColor: 'rgba(0,0,0,0.8)'
                 }
             }}
         >
-            {children}
-            {/* <Container maxWidth={'lg'} sx={{ px: '8px!important' }}>
-                <Box sx={{
-                    display: 'flex',
-                    mx: 'auto',
-                    ...default_sx,
-                    // ...sx
-                }}>
-                    <Scrollbar>
-                        <Box sx={{ p: 2, bgcolor: 'white', borderRadius: '16px' }}>
-                            {children}
-                        </Box>
-                    </Scrollbar>
-                    <IconButton onClick={() => { dialog.onFalse() }} sx={{ bgcolor: 'white', height: 'fit-content', ml: 2, borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
-                        <SvgColor src='/assets/icons/navbar/x-close.svg' />
-                    </IconButton>
-                </Box>
-            </Container> */}
-            {/* <IconButton onClick={() => { dialog.onFalse() }} sx={{
-                    position: 'fixed',
-                    left: 0,
-                    zIndex: 1000,
-                    bgcolor: 'white',
-                    height: 'fit-content',
-                    ml: 2,
-                    borderRadius: '50%',
-                    border: '1px solid #D1D1D1',
-                    '&:hover': { background: '#F2F2F2' }
-                }}>
-                    <SvgColor src='/assets/icons/navbar/x-close.svg' />
-                </IconButton> */}
+            {/* <Box padding={'0px'}> */}
+                {children}
+            {/* </Box> */}
         </Dialog>
     );
 }
