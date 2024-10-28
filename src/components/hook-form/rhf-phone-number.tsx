@@ -31,6 +31,23 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
     }
   };
 
+  const handleOnKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, index: number, value: string) => {
+    const currentValue = value.split(' ')[index];
+    if ((event.key === 'Backspace' || event.keyCode === 8)) {
+      if (currentValue !== '') return
+      const prevInput = document.getElementById(`phone-input-${index - 1}`);
+      prevInput?.focus();
+    } else {
+      console.log('...')
+      // get event max length
+      const maxLength = (event.target as HTMLInputElement).maxLength;
+      if (maxLength && currentValue.length >= maxLength) {
+        const prevInput = document.getElementById(`phone-input-${index + 1}`);
+        prevInput?.focus();
+      }
+    }
+  };
+
   return (
     <Controller
       name={name}
@@ -45,26 +62,28 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
         <Box>
           <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
           <Box display="flex" gap={1} sx={{ direction: 'rtl' }} alignItems={'center'} border={!error ? '1px solid #D1D1D1' : '1px solid #FF5630'} borderRadius={'8px'} px={'12px'}>
-            <Box display={'flex'} alignItems={'center'}>
+            <Box display={'flex'} alignItems={'center'} sx={{ color: '#919EAB' }}>
               +
               <TextField
                 id="phone-input-0"
                 inputProps={{ maxLength: 2 }}
+                disabled
                 placeholder="xx"
                 value={field.value.split(' ')[0] || ''}
                 onChange={(e) => handleChange(0, e.target.value, field.onChange, field.value)}
-                onKeyDown={(e) => {
-
-                }}
                 InputProps={{
                   sx: {
                     '& input': {
                       px: 0
-                    }
+                    },
+                    
                   }
                 }}
                 sx={{
                   width: '40px',
+                  '& .Mui-disabled': {
+                      background: 'transparent'
+                    },
                   '& fieldset': {
                     border: 'none',
                   },
@@ -73,12 +92,14 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
                   }
                 }}
               />
+
             </Box>
             <TextField
               id="phone-input-1"
               inputProps={{ maxLength: 3 }}
               placeholder="xxx"
               value={field.value.split(' ')[1] || ''}
+              onKeyDown={(e) => handleOnKeyDown(e, 1, field.value)}
               onChange={(e) => handleChange(1, e.target.value, field.onChange, field.value)}
               sx={{
                 width: '60px',
@@ -95,6 +116,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               inputProps={{ maxLength: 3 }}
               placeholder="xxx"
               value={field.value.split(' ')[2] || ''}
+              onKeyDown={(e) => handleOnKeyDown(e, 2, field.value)}
               onChange={(e) => handleChange(2, e.target.value, field.onChange, field.value)}
               sx={{
                 width: '60px',
@@ -111,6 +133,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               inputProps={{ maxLength: 4 }}
               placeholder="xxxx"
               value={field.value.split(' ')[3] || ''}
+              onKeyDown={(e) => handleOnKeyDown(e, 3, field.value)}
               onChange={(e) => handleChange(3, e.target.value, field.onChange, field.value)}
               sx={{
                 width: '70px',
