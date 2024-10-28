@@ -12,7 +12,7 @@ import Image from 'src/components/image';
 import { Button, Container, Grid, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
-import { use, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CarouselHomeCategory from 'src/sections/_examples/extra/carousel-view/carousel-home-category';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import CarouselBasic2 from 'src/sections/_examples/extra/carousel-view/carousel-basic-2';
@@ -26,7 +26,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { LoadingButton } from '@mui/lab';
 
 import { useOrderContext } from 'src/sections/order/context/order-context';
-import { ReminderDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog } from 'src/components/custom-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { useRouter } from 'src/routes/hooks';
@@ -78,7 +78,7 @@ export default function HomeView() {
     <>
       <MainLayout>
 
-        <ReminderDialog
+        <ConfirmDialog
           open={confirm.value}
           onClose={async () => {
             await handleSeenNotification();

@@ -15,6 +15,7 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { LoadingButton } from '@mui/lab';
 import { pxToRem } from 'src/theme/typography';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 
@@ -69,7 +70,7 @@ export default function CartTableRow({
       >
 
         {(!!profile_type) && (
-          <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
+          <TableCell sx={{ display: 'flex', alignItems: 'center', width: 180 }}>
             <Typography variant='body4'>{profile_type}</Typography>
             {(type === 'edit') && (
               <>
@@ -126,8 +127,8 @@ export default function CartTableRow({
           </Box>
         </TableCell>
 
-        <TableCell align="right">
-          <Stack direction={'row'}>
+        <TableCell align="right" sx={{ pr: 0 }}>
+          <Stack direction={'row'} width={'fit-content'}>
             {(onEditRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <Tooltip title="اصلاح کالا" arrow>
                 <IconButton color={'default'} onClick={onEditRow} className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'edit' : ''}>
@@ -155,6 +156,7 @@ export default function CartTableRow({
 
       <ConfirmDialog
         open={confirm.value}
+        color='#D12215'
         onClose={confirm.onFalse}
         title={(status === IOrderProductPropertyStatus.denied) ? "حذف کالا" : "حذف کالای ردشده"}
         content={(status === IOrderProductPropertyStatus.denied || status === IOrderProductPropertyStatus.edited) ? `آیا از حذف ${product_name} اطمینان دارید؟` : "آیا از حذف کالای مورد نظر اطمینان دارید؟"}
@@ -170,6 +172,7 @@ export default function CartTableRow({
 
       <ConfirmDialog
         open={confirmLast.value}
+        color='#D12215'
         onClose={confirmLast.onFalse}
         title="حذف آخرین کالای ردشده"
         content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟\n با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
@@ -184,21 +187,21 @@ export default function CartTableRow({
       />
 
       <DialogWithButton fullWith={true} dialog={rejectionDialog}>
-        <Box p={3}>
-          <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
+        <Box p={'40px'}>
+          <Typography variant="title1" sx={{ width: 1, pb: 2, borderBottom: '1px solid #D1D1D1' }}>
             علت رد ‌سفارش
           </Typography>
           <Typography variant='body2' py={3} color={"#727272"}>دلایل رد سفارش شما به همراه راه‌حل‌های احتمالی برای اصلاح سفارش را در متن زیر بیان شده است.</Typography>
-          <Typography variant='body2' pt={3} fontFamily={'peyda-bold'}>
+          <Typography variant='body4' pt={3} fontFamily={'peyda-bold'}>
             توضیحات ادمین
           </Typography>
           <Box mt={2} bgcolor={"#F8F8F8"} border={'1px solid #E0E0E0'} borderRadius={'12px'} p={2}>
-            <Typography variant='body2' color={"#727272"}>
+            <Typography variant='body3' color={"#727272"}>
               {rejection_reason}
             </Typography>
           </Box>
-          <Box sx={{ textAlign: 'right', mt: 2 }}>
-            <LoadingButton variant='contained' onClick={rejectionDialog.onFalse} sx={{ borderRadius: '50px' }}>متوجه شدم</LoadingButton>
+          <Box sx={{ textAlign: 'right', mt: '24px' }}>
+            <PrimaryButton size='medium' onClick={rejectionDialog.onFalse}>متوجه شدم</PrimaryButton>
           </Box>
         </Box>
       </DialogWithButton>
