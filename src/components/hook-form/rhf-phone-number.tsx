@@ -73,17 +73,20 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
                 onChange={(e) => handleChange(0, e.target.value, field.onChange, field.value)}
                 InputProps={{
                   sx: {
+                    '&.Mui-disabled': {
+                    background: 'transparent!important'
+                  },
                     '& input': {
                       px: 0
                     },
-                    
+
                   }
                 }}
                 sx={{
                   width: '40px',
-                  '& .Mui-disabled': {
-                      background: 'transparent'
-                    },
+                  '&.Mui-disabled': {
+                    background: 'transparent!important'
+                  },
                   '& fieldset': {
                     border: 'none',
                   },
