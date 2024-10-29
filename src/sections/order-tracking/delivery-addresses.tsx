@@ -83,7 +83,10 @@ export default function DeliveryAdresses({ orderId }: { orderId: number }) {
                         width: 'fit-content'
                     }}
                     // onClick={() => setNewAddress(true)}
-                    onClick={() => dialog.onTrue()}
+                    onClick={() => {
+                        setAddId(undefined)
+                        dialog.onTrue()
+                    }}
                 >
                     <Iconify icon={'ic:outline-plus'} mr={0.5} />
                     آدرس جدید

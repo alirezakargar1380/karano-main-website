@@ -37,14 +37,16 @@ export function DeliveryAdressesNewEditForm({ id, handleAfterAddingAddress, exit
         city: Yup.number().required('پرکردن این فیلد اجباری‌ست.').notOneOf([0], 'پرکردن این فیلد اجباری‌ست.'),
     });
 
+    const defaultValues = {
+        address: '',
+        postal_code: '',
+        province: 0,
+        city: 0
+    }
+
     const methods = useForm({
         resolver: yupResolver(NewAddressSchema),
-        defaultValues: {
-            address: '',
-            postal_code: '',
-            province: 0,
-            city: 0
-        },
+        defaultValues,
     });
 
     const {
@@ -71,9 +73,14 @@ export function DeliveryAdressesNewEditForm({ id, handleAfterAddingAddress, exit
         })
     }, [addressEmpty, id, address])
 
+    useEffect(() => {
+        if (id) return
+
+        reset(defaultValues)
+    }, [id])
+
     const onSubmit = handleSubmit(async (data) => {
         try {
-            console.info('DATA', data);
             if (id) {
                 await server_axios.patch(endpoints.addresses.one(id), data)
             } else {
