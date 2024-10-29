@@ -69,7 +69,7 @@ export function DeliveryAdressesNewEditForm({ id, handleAfterAddingAddress, exit
             province: address?.province?.id || 0,
             city: address?.city?.id || 0
         })
-    }, [addressEmpty])
+    }, [addressEmpty, id, address])
 
     const onSubmit = handleSubmit(async (data) => {
         try {
