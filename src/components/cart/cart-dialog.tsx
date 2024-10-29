@@ -357,7 +357,6 @@ export default function CartDialog({
                   </>
                 )}
                 {
-                  // (listId === undefined && id === null && !listData?.length)
                   id === null && type === 'cart' && (
                     <SecondaryButton size="medium" type="submit" sx={{ width: '400px' }}>
                       افزودن به لیست
@@ -367,7 +366,7 @@ export default function CartDialog({
               </Stack>
             </FormProvider>
             <Stack direction={'row'} spacing={2}>
-              {id === null && (
+              {(id === null && list.length > 0) && (
                 <>
                   <SecondaryButton
                     size="medium"

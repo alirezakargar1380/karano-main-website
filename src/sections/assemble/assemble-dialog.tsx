@@ -10,6 +10,7 @@ import FormProvider, { RHFRadioGroupCard } from 'src/components/hook-form';
 import { LoadingButton } from '@mui/lab';
 import { DialogWithButton } from 'src/components/custom-dialog';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -43,12 +44,12 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
     return (
         <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Box sx={{ p: 3, bgcolor: 'white', borderRadius: '16px' }}>
-                    <Typography fontFamily={'peyda-bold'} pt={2} variant='h4' borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
+                <Box sx={{ p: '40px', bgcolor: 'white', borderRadius: '16px' }}>
+                    <Typography variant='title1' borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={'16px'}>
                         تاییدیه هزینه مونتاژ
                     </Typography>
 
-                    <Typography fontFamily={'peyda-bold'} pb={2} color={"#727272"} pt={3}>
+                    <Typography variant={'body2'} pb={2} color={"#727272"} pt={3}>
                         آیا می‌خواهیدسفارش شما توسط کارانو مونتاژ ‌شود؟
                     </Typography>
 
@@ -74,31 +75,18 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                             RadioSx={{
                                 ml: 0.5,
                                 mr: 0.25
-                                // p: '4px',
-                                // '&::after': {
-                                //     content: '""',
-                                //     position: 'absolute',
-                                //     left: '4px',
-                                //     // right: '1px',
-                                //     top: '4px',
-                                //     // bottom: '6px',
-                                //     background: 'white',
-                                //     borderRadius: '50%',
-                                //     width: '6px',
-                                //     height: '6px'
-                                // },
                             }}
                         />
                     </Stack>
 
 
                     <Stack direction={'row'} spacing={1} justifyContent={'end'}>
-                        <SecondaryButton variant='outlined' sx={{ px: 4 }} onClick={dialog.onFalse}>
-                            بستن
+                        <SecondaryButton size='medium' sx={{ px: 4 }} onClick={dialog.onFalse}>
+                            انصراف
                         </SecondaryButton>
-                        <LoadingButton variant='contained' type='submit' sx={{ borderRadius: '24px', px: 4 }}>
+                        <PrimaryButton size='medium' type='submit' sx={{ borderRadius: '24px', px: 4 }}>
                             تایید
-                        </LoadingButton>
+                        </PrimaryButton>
                     </Stack>
                 </Box>
             </FormProvider>
