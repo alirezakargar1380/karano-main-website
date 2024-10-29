@@ -10,6 +10,7 @@ export function menu(theme: Theme) {
       styleOverrides: {
         root: {
           ...menuItem(theme),
+          ...theme.typography.body3
         },
       },
     },

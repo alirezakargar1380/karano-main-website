@@ -33,6 +33,7 @@ declare module '@mui/material/styles' {
     caption3: React.CSSProperties;
     button1: React.CSSProperties;
     button2: React.CSSProperties;
+    body3: React.CSSProperties;
   }
 }
 

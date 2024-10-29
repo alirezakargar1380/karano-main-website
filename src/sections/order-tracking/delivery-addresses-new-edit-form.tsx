@@ -16,13 +16,16 @@ import { useGetProvinceCities, useGetProvinces } from "src/api/province";
 import { useEffect, useState } from "react";
 import Iconify from "src/components/iconify";
 import Scrollbar from "src/components/scrollbar";
+import { PrimaryButton } from "src/components/styles/buttons/primary";
+import { useGetAddress } from "src/api/address";
 
 interface Props {
-    handleAfterAddingAddress: () => void
-    exit: () => void
+    id: number | undefined
+    handleAfterAddingAddress?: () => void
+    exit?: () => void
 }
 
-export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: Props) {
+export function DeliveryAdressesNewEditForm({ id, handleAfterAddingAddress, exit }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
 
     const { enqueueSnackbar } = useSnackbar();
@@ -46,6 +49,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
 
     const {
         handleSubmit,
+        reset,
         watch,
         formState: { isValid }
     } = methods;
@@ -54,16 +58,28 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
 
     const { provinces } = useGetProvinces();
     const { cities } = useGetProvinceCities(values.province);
+    const { address, addressEmpty, refresh } = useGetAddress(id);
 
+    useEffect(() => {
+        if (addressEmpty) return
+
+        reset({
+            address: address?.address || '',
+            postal_code: address?.postal_code || '',
+            province: address?.province?.id || 0,
+            city: address?.city?.id || 0
+        })
+    }, [addressEmpty])
 
     const onSubmit = handleSubmit(async (data) => {
         try {
             console.info('DATA', data);
-            await server_axios.post(endpoints.addresses.create, data)
-            handleAfterAddingAddress();
-            enqueueSnackbar('آدرس جدید اضافه شد', {
-                variant: 'info'
-            })
+            if (id) {
+                await server_axios.patch(endpoints.addresses.one(id), data)
+            } else {
+                await server_axios.post(endpoints.addresses.create, data)
+            }
+            handleAfterAddingAddress?.();
         } catch (error) {
             console.error(error);
         }
@@ -75,17 +91,16 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
         )
         : provinces;
 
+    useEffect(() => refresh(), [id])
+
     useEffect(() => {
-        if (values.province === 0) return
+        if (values.province === 0 || id) return
         methods.setValue('city', 0)
     }, [values.province])
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
-            <Box sx={{ border: '2px solid #D1D1D1', borderRadius: '16px', p: 4, mt: 3, bgcolor: '#F8F8F8' }}>
-                <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
-                    اطلاعات آدرس جدید
-                </Typography>
+            <Box sx={{ mt: 3 }}>
                 <Box sx={{ mt: 2 }}>
                     <RHFTitleTextField name='address' custom_label='آدرس پستی' placeholder='افزودن محتوا' sx={{ bgcolor: '#fff' }} />
                 </Box>
@@ -107,7 +122,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                             sx={{ bgcolor: '#fff' }}
                         >
                             {/* <MenuItem sx={{ '&:hover': { bgcolor: 'transparent', cursor: 'default' }, position: 'sticky' }}> */}
-                            <TextField
+                            {/* <TextField
                                 sx={{
                                     bgcolor: '#F8F8F8',
                                     width: 1,
@@ -128,15 +143,15 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                                 onClick={(e) => e.stopPropagation()}
                                 onKeyDown={(e) => e.stopPropagation()}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                            {/* </MenuItem> */}
-
+                            /> */}
                             <MenuItem
                                 value={0}
-                                sx={{ fontStyle: 'italic', color: 'text.secondary' }}
+                                sx={{ fontStyle: 'italic', color: 'text.secondary', typography: 'caption1' }}
+                                disabled
                             >
                                 انتخاب محتوا
                             </MenuItem>
+                            <Divider sx={{ borderStyle: 'dashed' }} />
                             {filteredProvinces.map((item, index) => (
                                 <MenuItem value={item.id} key={index}>{item.name}</MenuItem>
                             ))}
@@ -151,7 +166,7 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                         >
                             <MenuItem
                                 value={0}
-                                sx={{ fontStyle: 'italic', color: 'text.secondary' }}
+                                sx={{ fontStyle: 'italic', color: 'text.secondary', typography: 'caption1' }}
                                 disabled
                             >
                                 انتخاب محتوا
@@ -165,10 +180,9 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                     <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='افزودن محتوا' sx={{ bgcolor: '#fff' }} />
                 </Stack>
                 <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                    <SecondaryButton variant='outlined' sx={{ px: 4 }} onClick={exit}>انصراف</SecondaryButton>
-                    <LoadingButton
-                        variant='contained'
-                        sx={{ borderRadius: '24px', px: 4 }}
+                    <SecondaryButton size='medium' sx={{ px: 4 }} onClick={exit}>انصراف</SecondaryButton>
+                    <PrimaryButton
+                        size="medium"
                         onClick={() => {
                             if (!isValid)
                                 enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات آدرس جدید»، الزامی‌ست.', {
@@ -179,8 +193,8 @@ export function DeliveryAdressesNewEditForm({ handleAfterAddingAddress, exit }: 
                             onSubmit();
                         }}
                     >
-                        ثبت آدرس
-                    </LoadingButton>
+                        {id ? 'اعمال تغییرات' : 'ثبت آدرس'}
+                    </PrimaryButton>
                 </Stack>
             </Box>
         </FormProvider>

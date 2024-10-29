@@ -7,7 +7,7 @@ export function select(theme: Theme) {
     MuiSelect: {
       styleOverrides: {
         select: {
-          // padding: "8px 35px 8px 14px!important",
+          padding: "8px 12px!important",
           border: 0
         },
         icon: {

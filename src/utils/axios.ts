@@ -69,6 +69,7 @@ export const endpoints = {
     create: '/api/addresses',
     list: '/api/addresses',
     update: (id: any) => '/api/addresses/' + id,
+    one: (id: any) => `/api/addresses/${id}`,
     delete: (id: any) => '/api/addresses/' + id,
   },
   cover_type: {
