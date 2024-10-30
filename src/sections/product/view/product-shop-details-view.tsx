@@ -123,10 +123,10 @@ export default function ProductShopDetailsView({ id }: Props) {
       </Grid>
 
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5, mb: 5 }}>
-        <CarouselProducts data={_carouselsExample.slice(0, 8)} label='!پرفروش ها' />
+        <CarouselProducts data={_carouselsExample.slice(0, 8)} label='سایر درب‌های کابینتی' />
       </Box>
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5 }}>
-        <CarouselProducts data={_carouselsExample.slice(0, 8)} />
+        <CarouselProducts data={_carouselsExample.slice(0, 8)} label='محصولات مرتبط با درب‌های کابینتی' />
       </Box>
 
       {/* <Card>

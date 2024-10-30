@@ -82,8 +82,8 @@ export default function ProductDetailsCarousel({ product }: Props) {
 
   const carouselLarge = useCarousel({
     rtl: true,
-    draggable: false,
-    adaptiveHeight: true,
+    // draggable: false,
+    // adaptiveHeight: true,
   });
 
   const carouselThumb = useCarousel({
@@ -117,10 +117,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
         borderRadius: 2,
         overflow: 'hidden',
         position: 'relative',
-        width: {
-          md: 680,
-          xs: 1
-        },
+        height: 1,
         textAlign: 'left'
       }}
     >
@@ -189,7 +186,8 @@ export default function ProductDetailsCarousel({ product }: Props) {
                 cursor: 'zoom-in',
                 border: '1px solid #E0E0E0',
                 borderRadius: '18px',
-                width: 1
+                width: 1,
+                height: 1
               }}
             />
           ))}
@@ -241,6 +239,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
     >
       <Box
         sx={{
+          height: 1,
           width: {
             md: 680,
             xs: 1

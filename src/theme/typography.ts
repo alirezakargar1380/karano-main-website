@@ -28,6 +28,7 @@ declare module '@mui/material/styles' {
   interface TypographyVariants {
     fontSecondaryFamily: React.CSSProperties['fontFamily'];
     fontWeightSemiBold: React.CSSProperties['fontWeight'];
+    title1: React.CSSProperties;
     caption1: React.CSSProperties;
     caption2: React.CSSProperties;
     caption3: React.CSSProperties;

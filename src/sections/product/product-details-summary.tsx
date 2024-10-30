@@ -185,9 +185,6 @@ export default function ProductDetailsSummary({
 
   const renderActions = (
     <PrimaryButton
-      sx={{
-        mt: '24px'
-      }}
       fullWidth
       size="medium"
       type={"submit"}
@@ -210,7 +207,7 @@ export default function ProductDetailsSummary({
     <Box>
       <Typography variant="subtitle1" fontFamily={'peyda-bold'}
         sx={{
-          pb: 1, width: 1
+          width: 1, pb: '16px'
         }}>
         ابعاد
       </Typography>
@@ -230,7 +227,7 @@ export default function ProductDetailsSummary({
   const renderCovertype = (!!order_form_options?.cover_type.length) && (
     <Box sx={{ width: 1 }}>
       <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-        width: 1, pb: 1
+        width: 1, pb: '16px'
       }}>
         نوع پوشش
       </Typography>
@@ -260,9 +257,11 @@ export default function ProductDetailsSummary({
 
   const renderQuantity = (
     <Box sx={{ width: 1 }}>
-      <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
-        width: 1, pb: 1
-      }}>
+      <Typography
+        variant="body3"
+        sx={{
+          width: 1, pb: 1
+        }}>
         تعداد
       </Typography>
 
@@ -303,7 +302,7 @@ export default function ProductDetailsSummary({
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <Stack spacing={3} {...other}>
-          <Stack spacing={2} alignItems="flex-start">
+          <Stack spacing={'24px'} alignItems="flex-start">
             {/* {renderLabels} */}
 
             {/* {renderInventoryType} */}

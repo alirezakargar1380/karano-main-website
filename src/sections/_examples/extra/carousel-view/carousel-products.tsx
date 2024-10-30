@@ -34,6 +34,7 @@ export default function CarouselProducts({ data, label }: Props) {
     ...CarouselDots({
       rounded: true,
       label: label,
+      tVariant: 'title1',
       sx: {
         top: 10,
         // right: 20,

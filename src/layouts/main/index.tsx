@@ -87,9 +87,9 @@ export default function MainLayout({ children, header = true }: Props) {
               {children}
             </Box>
 
-            {/* <Container maxWidth={'xl'}>
+            <Container maxWidth={'xl'}>
                 <Footer />
-              </Container> */}
+              </Container>
           </Grid>
         </Grid>
       </Container>

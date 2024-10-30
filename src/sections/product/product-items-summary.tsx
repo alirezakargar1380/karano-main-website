@@ -1,5 +1,7 @@
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react"
 import { IProductCoverType, IProductDimension } from "src/types/product";
+import { toFarsiNumber } from "src/utils/change-case";
 
 interface Props {
     values: any;
@@ -17,12 +19,12 @@ export const ProductItemsSummary = ({ values, cover_type, dimension }: Props) =>
         if (ct) newText = newText + ct.name + ", "
 
         const d = dimension?.find((dimension) => dimension.id == values?.dimension_id)
-        if (d) newText = newText + d.width + 'x' + d.height + 'x' + d.length + ", "
+        if (d) newText = newText + toFarsiNumber(d.width) + 'x' + toFarsiNumber(d.height) + 'x' + toFarsiNumber(d.length) + ", "
 
         setText(newText)
     }, [values])
 
     return (
-        <>{text}</>
+        <Typography variant="title3">{text}</Typography>
     )
 }

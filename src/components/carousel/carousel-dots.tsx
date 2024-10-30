@@ -2,7 +2,8 @@
 import Stack from '@mui/material/Stack';
 import Box, { BoxProps } from '@mui/material/Box';
 import { Theme, styled, SxProps } from '@mui/material/styles';
-import { Typography } from '@mui/material';
+import { Typography, TypographyVariants } from '@mui/material';
+import { TypographyOwnProps, TypographyProps, TypographyPropsVariantOverrides } from '@mui/material/Typography/Typography';
 
 // ----------------------------------------------------------------------
 
@@ -58,6 +59,7 @@ const StyledDot = styled('span')(({ theme }) => ({
 export interface Props extends BoxProps {
   rounded?: boolean;
   label?: string;
+  tVariant?: any;
   sx?: SxProps<Theme>;
 }
 
@@ -74,7 +76,7 @@ export default function CarouselDots(props?: Props) {
             <Stack direction={'row'}>
               {dots}
             </Stack>
-            <Typography variant='heading3'>
+            <Typography variant={props?.tVariant ? props.tVariant : 'heading3'}>
               {props?.label}
             </Typography>
           </Stack>
