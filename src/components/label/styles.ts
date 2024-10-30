@@ -100,7 +100,11 @@ export const StyledLabel = styled(Box)(({
     ...(mediumSize && {
       ...theme.typography.caption2,
       height: 24,
-    })
+    }),
+    ...(largeSize && {
+      ...theme.typography.caption1,
+      height: 36,
+    }),
   };
 
   const colorStyle = {

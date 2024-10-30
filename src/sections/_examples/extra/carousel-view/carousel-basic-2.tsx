@@ -29,14 +29,14 @@ export default function CarouselBasic2({ data }: Props) {
   const carousel = useCarousel({
     // fade: true,
     autoplay: false,
-    slidesToShow: 3,
+    slidesToShow: 2.5,
     draggable: true,
-    centerMode: true,
+    // centerPadding: '50px',
     className: 'carousel-basic-2',
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2.5 },
+        settings: { slidesToShow: 2.5, centerPadding: '50px' },
       },
       {
         breakpoint: 800,
@@ -62,62 +62,6 @@ export default function CarouselBasic2({ data }: Props) {
   );
 }
 
-function CarouselItem({ item }: { item: any }) {
-  const [show, setShow] = useState(false)
-  const theme = useTheme();
-  const systemShadows = theme.shadows.slice(1, theme.shadows.length);
-
-  return (
-    <Box sx={{
-      display: 'flex'
-      // position: 'absolute',
-      // height: 1,
-      // width: 1,
-      // top: 0,
-      // left: 0
-    }}>
-      <Image alt={item.title} src={item.coverUrl} ratio="4/3" borderRadius={'12px'}
-        onMouseOver={() => {
-          setShow(true)
-        }}
-      />
-      <Box
-        display={show ? 'flex' : 'none'}
-        // onClick={() => setShow(false)}
-        sx={{
-          position: 'absolute',
-          top: -30, zIndex: 100
-        }}
-      >
-        <Box
-          bgcolor={'white'}
-          sx={{
-            width: '300px', height: '500px',
-            borderRadius: '12px',
-            boxShadow: theme.customShadows.z20,
-          }}
-        >
-          <Image src={'/img/product/product.png'} ratio="4/3" borderRadius={'12px'} />
-          <Stack direction={'row'}>
-            <Box width={1} textAlign={'left'}>
-              <Typography variant='h6'>
-                درب کابینتی p-60
-              </Typography>
-            </Box>
-            <Box width={120} height={120} bgcolor={'white'} border={'1px solid #D1D1D1'} borderRadius={'12px'}>
-              <Image src={'/img/product/product.png'} ratio="4/3" borderRadius={'12px'} />
-            </Box>
-          </Stack>
-        </Box>
-
-        <IconButton onClick={() => { setShow(false) }} sx={{ bgcolor: 'white', height: 'fit-content', boxShadow: theme.customShadows.z16, mr: 2, borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
-          <SvgColor src='/assets/icons/navbar/x-close.svg' />
-        </IconButton>
-
-      </Box>
-    </Box>
-  )
-}
 function CarouselItem2({ item }: { item: any }) {
   const [show, setShow] = useState(false)
   const theme = useTheme();
@@ -126,13 +70,7 @@ function CarouselItem2({ item }: { item: any }) {
   const customizedPopover = usePopover();
 
   return (
-    <Box sx={{
-      // position: 'absolute',
-      // height: 1,
-      // width: 1,
-      // top: 0,
-      // left: 0
-    }}>
+    <Box>
       <CustomPopover
         open={customizedPopover.open}
         anchorOrigin={{
@@ -165,9 +103,7 @@ function CarouselItem2({ item }: { item: any }) {
       </CustomPopover>
       <Image alt={item.title} src={item.coverUrl} ratio="4/3" borderRadius={'12px'}
         onClick={customizedPopover.onOpen}
-        // onMouseOut={customizedPopover.onClose}
       />
-
     </Box>
   )
 }

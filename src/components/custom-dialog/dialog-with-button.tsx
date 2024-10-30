@@ -2,7 +2,7 @@ import React, { useRef, useEffect, forwardRef } from 'react';
 import Dialog from '@mui/material/Dialog';
 
 import { useBooleanReturnType } from 'src/hooks/use-boolean';
-import { Button, Container, IconButton, Paper, Radio, Slide, Stack, Typography } from '@mui/material';
+import { Button, Container, Fade, IconButton, Paper, Radio, Slide, Stack, Typography } from '@mui/material';
 import { Box, Breakpoint, maxWidth, SxProps } from '@mui/system';
 import Scrollbar from '../scrollbar';
 import SvgColor from '../svg-color';
@@ -26,7 +26,7 @@ const Transition = forwardRef(
             children: React.ReactElement;
         },
         ref: React.Ref<unknown>
-    ) => <Slide direction="up" ref={ref} {...props} />
+    ) => <Fade ref={ref} {...props} />
 );
 
 // should be 40px padding
@@ -84,8 +84,8 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             open={dialog.value}
             PaperComponent={CustomPaperComponent}
             onClose={dialog.onFalse}
-            // scroll={'body'}
             TransitionComponent={Transition}
+            transitionDuration={750}
             maxWidth={maxWidth}
             PaperProps={{
                 style: {

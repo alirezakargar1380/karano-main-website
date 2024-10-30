@@ -26,9 +26,10 @@ export default function HomeOrderWithKarano() {
             <Box sx={{
                 borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
                 borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-                pt: 6
+                pt: '64px',
+                pb: '47px'
             }}>
-                <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
+                <Typography variant='heading3' sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
                 <Image alt={'karano'} src={'/assets/images/landing/how to order.jpg'} sx={{ width: 1, height: 1 }} />
             </Box>
         </m.div>

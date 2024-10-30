@@ -78,7 +78,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                             transition: '0.6s ease-out!important',
                         }
                     }}
-                    src={img}
+                    src={product?.coverUrl || img}
                     ratio="1/1"
                     border={'1px solid #E0E0E0'}
                     borderRadius={'8px'}
@@ -92,8 +92,9 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
 
     return (
         <Box sx={{
+            width: 1,
             transform: !hover ? 'scale(0.98)' : 'scale(1)',
-            transition: '0.3s ease-in-out'
+            transition: '0.3s ease-in-out',
         }}
         >
             <Link href={`/product/${product?.id}/`} display={'block'} color={'inherit'} underline="none">
@@ -111,13 +112,17 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
 
                 </Stack>
             </Link>
-            <Stack direction={'row'} sx={{ textAlign: 'left', alignItems: 'end' }}>
-                <IconButton size='small' sx={{
-                    bgcolor: "#D1D1D1",
-                    "&.Mui-disabled": {
-                        backgroundColor: "#f0f0f0!important"
-                    }
-                }} disabled={!authenticated} onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}>
+            <Stack direction={'row'} sx={{ textAlign: 'right', alignItems: 'center' }}>
+                <IconButton
+                    size='small' sx={{
+                        bgcolor: "#D1D1D1",
+                        "&.Mui-disabled": {
+                            backgroundColor: "#f0f0f0!important"
+                        }
+                    }}
+                    disabled={!authenticated}
+                    onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}
+                >
                     <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
                 </IconButton>
                 <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} variant="body2">کد {product?.code}</Typography>

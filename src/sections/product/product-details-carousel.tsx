@@ -24,22 +24,22 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
   '& .slick-slide': {
     lineHeight: 0,
   },
+  maxWidth: '140px',
+  // ...(length === 1 && {
+  //   maxWidth: THUMB_SIZE * 1 + 16,
+  // }),
 
-  ...(length === 1 && {
-    maxWidth: THUMB_SIZE * 1 + 16,
-  }),
+  // ...(length === 2 && {
+  //   maxWidth: THUMB_SIZE * 1,
+  // }),
 
-  ...(length === 2 && {
-    maxWidth: THUMB_SIZE * 1,
-  }),
+  // ...((length === 3 || length === 4) && {
+  //   maxWidth: THUMB_SIZE * 2 + 48,
+  // }),
 
-  ...((length === 3 || length === 4) && {
-    maxWidth: THUMB_SIZE * 2 + 48,
-  }),
-
-  ...(length >= 5 && {
-    maxWidth: THUMB_SIZE * 6,
-  }),
+  // ...(length >= 5 && {
+  //   maxWidth: THUMB_SIZE * 6,
+  // }),
 
   width: '100%',
 
@@ -117,6 +117,11 @@ export default function ProductDetailsCarousel({ product }: Props) {
         borderRadius: 2,
         overflow: 'hidden',
         position: 'relative',
+        width: {
+          md: 680,
+          xs: 1
+        },
+        textAlign: 'left'
       }}
     >
       <CarouselArrowsCustom
@@ -128,6 +133,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
           sx: {
             width: '80px',
             height: 1,
+            left: -20,
             position: 'absolute',
             zIndex: 100,
           }
@@ -150,7 +156,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
             width: '80px',
             height: 1,
             position: 'absolute',
-            right: 0,
+            right: 20,
             zIndex: 100
           }
         }}
@@ -177,9 +183,14 @@ export default function ProductDetailsCarousel({ product }: Props) {
               key={slide.src}
               alt={slide.src}
               src={slide.src}
-              ratio="1/1"
+              // ratio="1/1"
               onClick={() => lightbox.onOpen(slide.src)}
-              sx={{ cursor: 'zoom-in' }}
+              sx={{
+                cursor: 'zoom-in',
+                border: '1px solid #E0E0E0',
+                borderRadius: '18px',
+                width: 1
+              }}
             />
           ))}
         </Carousel>
@@ -228,9 +239,19 @@ export default function ProductDetailsCarousel({ product }: Props) {
         },
       }}
     >
-      {renderLargeImg}
+      <Box
+        sx={{
+          width: {
+            md: 680,
+            xs: 1
+          },
+        }}
+      >
+        {renderLargeImg}
 
-      {renderThumbnails}
+        {renderThumbnails}
+      </Box>
+
 
       <Lightbox
         index={lightbox.selected}

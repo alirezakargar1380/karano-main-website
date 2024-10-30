@@ -2,6 +2,8 @@ import { Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
 import { IProductPropertyValues } from "src/types/product";
+import { toFarsiNumber } from "src/utils/change-case";
+import { fCurrency } from "src/utils/format-number";
 
 interface Props {
     price: number
@@ -43,15 +45,14 @@ export default function ProductDetailsPrice({
     }, [newPrice])
 
     return (
-        <Stack sx={{ typography: 'h4!important' }} direction={'row'} spacing={1.5}>
-            <Typography fontFamily={'peyda-bold'} variant="h4">قیمت:</Typography>
+        <Stack alignItems={'center'} direction={'row'} spacing={1.5}>
+            <Typography variant="title3">قیمت:</Typography>
 
-
-            <Typography fontFamily={'peyda-medium'} variant="h4">
-                <CountUp useEasing start={price} end={newPrice} />
+            <Typography variant="body2">
+                {toFarsiNumber(fCurrency(newPrice))}
             </Typography>
 
-            <Typography fontFamily={'peyda-light'} variant="h4">ریال</Typography>
+            <Typography variant="caption2">ریال</Typography>
         </Stack>
     )
 }

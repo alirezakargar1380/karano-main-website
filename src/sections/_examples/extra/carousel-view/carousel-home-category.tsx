@@ -24,6 +24,7 @@ export default function CarouselHomeCategory() {
     // slidesToShow: 10,
     swipeToSlide: true,
     // centerMode: true,
+    rows: 1,
     responsive: [
       {
         breakpoint: 1366,

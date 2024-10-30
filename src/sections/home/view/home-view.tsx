@@ -9,7 +9,7 @@ import MainLayout from 'src/layouts/main';
 import ScrollProgress from 'src/components/scroll-progress';
 
 import Image from 'src/components/image';
-import { Button, Container, Grid, Stack, Typography } from '@mui/material';
+import { Button, Container, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
 import { useCallback, useEffect, useState } from 'react';
@@ -33,6 +33,10 @@ import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { toFarsiNumber } from 'src/utils/change-case';
+import { Counter } from './counter';
+import SvgColor from 'src/components/svg-color';
+import Label from 'src/components/label';
 
 // ----------------------------------------------------------------------
 
@@ -146,48 +150,43 @@ export default function HomeView() {
           color: '#fff', textAlign: 'center'
         }}>
           <Container maxWidth={'xl'}>
-            <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='h3'>
+            <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='heading3'>
               کارانو، راه‌حل‌های کارامد در صنعت چوب
             </Typography>
             <Grid
               container
-              sx={{ py: 8, fontFamily: 'peyda-bold', fontSize: '4rem' }}
+              sx={{ py: 8, height: 1 }}
               spacing={!mdUp ? 6 : 0}
             >
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
-                <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-
-                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                <Box width={!mdUp ? 'fit-content' : 1} height={1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
+                  <Counter end={88} /> +
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
-
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Counter end={88} /> +
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
-
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Counter end={88} /> +
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
-
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
 
-                  <CountUp duration={3} end={99} redraw={true} delay={1} /> +
+                  <Counter end={88} /> +
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
-
                 </Box>
               </Grid>
 
@@ -201,13 +200,19 @@ export default function HomeView() {
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
             <Box>
-              <Typography variant='h2' fontFamily={'peyda-bold'} sx={{
-                pb: 2, textAlign: {
-                  xs: 'center',
-                  sm: 'center',
-                  md: 'left'
-                }
-              }}>ایده ها و محصولات قابل اجرا با کارانو</Typography>
+              <Typography
+                variant='heading3'
+                sx={{
+                  pb: 2,
+                  textAlign: {
+                    xs: 'center',
+                    sm: 'center',
+                    md: 'left'
+                  }
+                }}
+              >
+                ایده ها و محصولات قابل اجرا با کارانو
+              </Typography>
               <Grid container spacing={2}>
                 <Grid xs={6} sm={6} md={3} item>
                   <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
@@ -234,20 +239,52 @@ export default function HomeView() {
                     ml: '100px',
                     mt: '100px'
                   }}>
-                    <Button variant="contained" onClick={customizedPopover.onOpen} sx={{ mr: 5 }}>
-                      Open
-                    </Button>
+                    <IconButton onClick={customizedPopover.onOpen}
+                      sx={{
+                        color: '#fff',
+                        bgcolor: '#0a0a0a70',
+                        '& :hover': {
+                          bgcolor: '#A9A9A9'
+                        },
+                        '.svg-color': {
+                          '&:hover': {
+                            bgcolor: '#fff',
+                            outline: '1px solid #727272',
+                          }
+                        }
+                      }}
+                    >
+                      <SvgColor src='/assets/icons/home/point.svg'
+                        color={'#fff'}
+                      />
+                    </IconButton>
                     <CustomPopover
                       open={customizedPopover.open}
                       onClose={customizedPopover.onClose}
-                      arrow={'bottom-center'}
+                      arrow={'bottom-left'}
+                      hiddenArrow
+                      sx={{
+                        bgcolor: '#fff'
+                      }}
                     >
-                      <Box sx={{ p: 2, maxWidth: 280 }}>
-                        <Typography variant="subtitle1" gutterBottom>
-                          Etiam feugiat lorem non metus
+                      <Box sx={{ p: '16px', minWidth: 306 }}>
+                        <Stack direction={'row'} justifyContent={'space-between'}>
+                          <Label variant='filled' color='red' size='large'>جدید</Label>
+                          <IconButton>
+                            <SvgColor src='/assets/icons/home/arrow-narrow-left.svg' />
+                          </IconButton>
+                        </Stack>
+                        <Typography variant="title3" sx={{ color: '#2B2B2B' }} mt={'8px'} gutterBottom>
+                          نام محصول
                         </Typography>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          Fusce vulputate eleifend sapien. Curabitur at lacus ac velit ornare lobortis.
+                        <Typography variant="title3" sx={{ color: '#2B2B2B' }}>
+                          کد محصول
+                        </Typography>
+                        <Typography variant="body4" sx={{ color: '#2B2B2B' }} mt={'4px'} pb={'2px'} borderBottom={'1px solid #E0E0E0'}>
+                          کتگوری اصلی محصول
+                        </Typography>
+                        <Typography variant="title3" sx={{ color: '#2B2B2B' }} mt={'16px'}>
+                          قابل ثبت به صورت سفارشی
                         </Typography>
                       </Box>
                     </CustomPopover>
@@ -260,21 +297,22 @@ export default function HomeView() {
 
             <HomeOrderWithKarano />
 
-            <CarouselProducts data={_carouselsExample.slice(0, 8)} label='پرفروش ها!' />
+            <Box>
+              <CarouselProducts data={_carouselsExample.slice(0, 8)} label='!پرفروش ها' />
+            </Box>
 
             <Grid container spacing={5}>
               <Grid item sm={12} md={3}>
-                <Typography fontFamily={'peyda-bold'} variant='h5'>
+                <Typography variant='heading3'>
                   آنچه شما ساخته اید
                 </Typography>
-                <Typography fontFamily={''} sx={{ pb: 3 }} variant='h6'>
+                <Typography sx={{ pt: '8px' }} variant='body2'>
                   مشاهده محصولات ساخته  شده به وسیله پروفیل‌های کارنو!
                   برای دیده‌ شدن آنچه شما مشتریان عزیز کارانو ساخته‌اید، می‌توانید تصاویر خود را برای ما در این بخش بارگذاری کنید.
                 </Typography>
-                <LoadingButton variant='contained' sx={{ borderRadius: '16px' }}>باگذاری تصاویر</LoadingButton>
               </Grid>
               <Grid item xs={12} sm={12} md={9}>
-                <Box>
+                <Box sx={{ direction: 'ltr' }}>
                   <CarouselBasic2 data={_carouselsExample.slice(4, 8)} />
                 </Box>
               </Grid>
@@ -283,8 +321,8 @@ export default function HomeView() {
             <Box>
               <Grid container spacing={5}>
                 <Grid item md={5}>
-                  <Typography variant='h3' fontFamily={'peyda-bold'} sx={{ pb: 2 }}>سفارش به سبک کارانو</Typography>
-                  <Typography variant='h6' fontFamily={'peyda-medium'} sx={{ pb: 2 }}>
+                  <Typography variant='heading3' sx={{ pb: 2 }}>داستان کارانو</Typography>
+                  <Typography variant='body3' sx={{ pb: 2 }}>
                     کارانو در سال ۱۳۹۶  فعالیت خود را در زمینه تولید محصولات چوبی آغاز نمود. این موسسه با اتکا بر توان اجرایی خود و بهره‌گیری از تجربه پیشگامان جهانی صنعت چوب، همواره به ارتقا سطح اجرا در صنعت ساختمان کشور یاری رسانده است.
                     هم اکنون کارانو، با عرضه قطعات پیش ساخته دکوراسیون داخلی، سال‌ها تجربه خود را در اختیار همکاران این صنعت قرار داده است.
                     صنایع چوبی چنوب و گروه صنعتی تهران فرم، نام‌های تجاری سابق کارانو می‌باشد.

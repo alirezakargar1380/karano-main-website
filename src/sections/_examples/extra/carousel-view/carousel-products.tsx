@@ -25,17 +25,20 @@ type Props = {
 
 export default function CarouselProducts({ data, label }: Props) {
   const carousel = useCarousel({
-    fade: true,
+    fade: false,
     autoplay: false,
     slidesToShow: 4,
-    draggable: true,
+    // draggable: true,
+    // rtl: true,
     // initialSlide: 2,
     ...CarouselDots({
       rounded: true,
+      label: label,
       sx: {
         top: 10,
-        right: 15,
+        // right: 20,
         zIndex: 101,
+        px: '10px',
         position: 'absolute',
         color: '#000!important',
       },
@@ -57,10 +60,7 @@ export default function CarouselProducts({ data, label }: Props) {
   });
 
   return (
-    <Box sx={{
-      position: 'relative'
-    }}>
-      {label && (<Typography variant='h3' fontFamily={'peyda-bold'}>{label}</Typography>)}
+    <Box sx={{ position: 'relative' }}>
       <CarouselArrowsCustom
         filled
         icon="icon-park-outline:right"
@@ -70,15 +70,9 @@ export default function CarouselProducts({ data, label }: Props) {
           sx: {
             display: (!carousel.currentIndex) ? 'none' : '',
             width: '80px',
-            // border: '1px solid #D1D1D1',
             height: 1,
             position: 'absolute',
             zIndex: 100,
-            // ...bgGradient({
-            //   direction: 'to right',
-            //   startColor: `#fff 50%`,
-            //   endColor: `${alpha("#fff", 0)} 100%`,
-            // }),
           }
         }}
         leftButtonProps={{
@@ -88,26 +82,15 @@ export default function CarouselProducts({ data, label }: Props) {
             width: 'fit-content',
             right: 0,
             backgroundColor: "#fff",
-            // ...bgGradient({
-            //   direction: 'to right',
-            //   startColor: `#fff 25%`,
-            //   endColor: `${alpha("#fff", 0)} 200%`,
-            // }),
           }
         }}
         rightButtonBoxProps={{
           sx: {
             width: '80px',
-            // border: '1px solid #D1D1D1',
             height: 1,
             position: 'absolute',
             right: 0,
             zIndex: 100,
-            // ...bgGradient({
-            //   direction: 'to left',
-            //   startColor: `#fff 50%`,
-            //   endColor: `${alpha("#fff", 0)} 100%`,
-            // }),
           }
         }}
         rightButtonProps={{
@@ -116,30 +99,21 @@ export default function CarouselProducts({ data, label }: Props) {
             borderRadius: '26px',
             width: 'fit-content',
             backgroundColor: "#fff",
-            // ...bgGradient({
-            //   direction: 'to left',
-            //   startColor: `#fff 25%`,
-            //   endColor: `${alpha("#fff", 0)} 100%`,
-            // }),
           }
         }}
       >
         <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
           {data.map((item, index) => (
-            <Stack key={item.id} sx={{ mt: 10, px: 2 }}>
-              <ProductItemSlider product={item} />
-              {/* <Image alt={item.title} src={item.coverUrl} ratio="4/3" />
-
-            <CardContent sx={{ textAlign: 'left' }}>
-              <Typography variant="h6" noWrap gutterBottom>
-                {item.title}
-              </Typography>
-
-              <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                {item.description}
-              </Typography>
-            </CardContent> */}
-            </Stack>
+            <Box key={index} sx={{ mt: 10, px: '8px', direction: 'ltr' }}>
+              <ProductItemSlider
+                product={{
+                  id: 1,
+                  coverUrl: 'http://localhost:4998/api/images/Fri Oct 11 2024_0d00f3ff-dd47-48fd-989f-cacccb156afa.jpg',
+                  name: 'درب کابینتی',
+                  code: '65',
+                }}
+              />
+            </Box>
           ))}
         </Carousel>
       </CarouselArrowsCustom>

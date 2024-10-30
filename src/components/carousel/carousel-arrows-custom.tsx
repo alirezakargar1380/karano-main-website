@@ -95,7 +95,7 @@ export default function CarouselArrowsCustom({
               onClick={onPrev}
               {...leftButtonProps}
               sx={{
-                left: 0,
+                left: -10,
                 ...leftButtonProps?.sx,
               }}
             >
@@ -115,7 +115,7 @@ export default function CarouselArrowsCustom({
               onClick={onNext}
               {...rightButtonProps}
               sx={{
-                right: 0,
+                right: -10,
                 ...rightButtonProps?.sx,
               }}
             >

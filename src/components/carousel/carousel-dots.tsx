@@ -2,6 +2,7 @@
 import Stack from '@mui/material/Stack';
 import Box, { BoxProps } from '@mui/material/Box';
 import { Theme, styled, SxProps } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -12,6 +13,7 @@ type StyledRootProps = {
 const StyledRoot = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'rounded',
 })<StyledRootProps>(({ rounded, theme }) => ({
+  width: '100%',
   zIndex: 9,
   padding: 0,
   display: 'flex',
@@ -55,6 +57,7 @@ const StyledDot = styled('span')(({ theme }) => ({
 
 export interface Props extends BoxProps {
   rounded?: boolean;
+  label?: string;
   sx?: SxProps<Theme>;
 }
 
@@ -67,7 +70,14 @@ export default function CarouselDots(props?: Props) {
     appendDots: (dots: React.ReactNode) => (
       <>
         <StyledRoot component="ul" rounded={rounded} sx={{ ...sx }} {...props}>
-          {dots}
+          <Stack direction={'row'} width={1} alignItems={'center'} justifyContent={'space-between'}>
+            <Stack direction={'row'}>
+              {dots}
+            </Stack>
+            <Typography variant='heading3'>
+              {props?.label}
+            </Typography>
+          </Stack>
         </StyledRoot>
       </>
     ),

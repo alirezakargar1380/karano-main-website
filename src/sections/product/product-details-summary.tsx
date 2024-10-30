@@ -21,6 +21,8 @@ import ProductDetailsDescription from './product-details-description';
 import { AssembleDialog } from '../assemble/assemble-dialog';
 import { useSnackbar } from 'src/components/snackbar';
 import { useCheckoutContext } from '../checkout/context';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { ProductItemsSummary } from './product-items-summary';
 
 // ----------------------------------------------------------------------
 
@@ -29,13 +31,11 @@ type Props = {
   items?: ICheckoutItem[];
   disabledActions?: boolean;
   onGotoStep?: (step: number) => void;
-  onAddCart?: (cartItem: Partial<ICheckoutNewItem>) => void;
 };
 
 export default function ProductDetailsSummary({
   items,
   product,
-  onAddCart,
   onGotoStep,
   disabledActions,
   ...other
@@ -132,28 +132,10 @@ export default function ProductDetailsSummary({
       })
 
       checkout.onGetCart();
-
-      return
-
-      if (product.order_type !== ProductOrderType.ready_to_use) return
-
-      onAddCart?.({
-        ...values,
-        coverUrl: endpoints.image.url(product.images.find((item) => item.main)?.name || ''),
-        order_form_id: product.order_form_options.id,
-        properties: [
-          {
-            quantity: values.quantity,
-            dimension: dimension,
-            cover_type
-          }
-        ],
-        subTotal: values.price * values.quantity,
-      });
     } catch (error) {
       console.error(error);
     }
-  }, [onAddCart, values, product]);
+  }, [values, product]);
 
   const handleAddCartCustomMadeProduct = useCallback(async (data: ICheckoutItemPropertyPrice[]) => {
     try {
@@ -169,7 +151,7 @@ export default function ProductDetailsSummary({
     } catch (error) {
       console.error(error);
     }
-  }, [onAddCart, values, product]);
+  }, [values, product]);
 
   const updateAssemble = useCallback(async (is_need: boolean) => {
     setValue('need_to_assemble', is_need);
@@ -177,7 +159,7 @@ export default function ProductDetailsSummary({
       need_to_assemble: is_need
     })
     cartDialog.onFalse();
-  }, [setValue, values, onAddCart, product]);
+  }, [setValue, values, product]);
 
   const updatePrice = useCallback((price: number) => {
     setValue('price', price);
@@ -202,26 +184,24 @@ export default function ProductDetailsSummary({
   }, [product]);
 
   const renderActions = (
-    <LoadingButton
+    <PrimaryButton
       sx={{
-        borderRadius: '24px',
-        fontFamily: 'peyda-bold',
-        mt: 4
+        mt: '24px'
       }}
       fullWidth
-      color="inherit"
-      size="large"
+      size="medium"
       type={"submit"}
-      variant="contained"
     >
       {(product.order_type !== ProductOrderType.custom_made) ? "افزودن به سبد خرید" : "ثبت سفارش"}
-    </LoadingButton>
+    </PrimaryButton>
   );
 
   const renderSubDescription = (
     <Box sx={{ width: 1, mt: 2 }}>
       <Typography variant="body1" sx={{ pb: 2 }} fontFamily={'peyda-bold'} borderBottom={'1px solid #D1D1D1'}>
-        قرنیز لب گرد، ابعاد 300*100*100، روکش خام
+        {/* قرنیز لب گرد، ابعاد 300*100*100، روکش خام */}
+        <ProductItemsSummary values={values} cover_type={product.order_form_options?.cover_type} dimension={product.product_dimension} />
+        {/* {product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)?.name || '' + ","} */}
       </Typography>
     </Box>
   );
@@ -258,7 +238,15 @@ export default function ProductDetailsSummary({
       <RHFRadioGroupWithImage
         name="cover_type_id"
         row
-        sx={{ width: 1 }}
+        sx={{
+          width: 1,
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            md: 'repeat(2, 1fr)',
+          },
+          gridGap: 18,
+        }}
         options={order_form_options.cover_type.map((cover_type, index: number) => {
           return {
             label: cover_type.name,
@@ -297,7 +285,10 @@ export default function ProductDetailsSummary({
   )
 
   return (
-    <>
+    <Box width={{
+      md: 400,
+      xs: 1
+    }}>
       <AssembleDialog
         dialog={assmbleDialog}
         onUpdateAssemble={updateAssemble}
@@ -330,7 +321,6 @@ export default function ProductDetailsSummary({
                   :
                   <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
                 }
-                {/*  */}
               </IconButton>
               <Typography variant="h4" fontFamily={'peyda-bold'}>
                 {name}
@@ -370,20 +360,8 @@ export default function ProductDetailsSummary({
             {renderActions}
 
           </Stack>
-
-          {/* {renderColorOptions}
-
-        {renderSizeOptions}
-
-        {renderQuantityy}
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {renderActions}
-
-        {renderShare} */}
         </Stack>
       </FormProvider>
-    </>
+    </Box>
   );
 }
