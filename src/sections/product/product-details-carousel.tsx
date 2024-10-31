@@ -137,13 +137,6 @@ export default function ProductDetailsCarousel({ product }: Props) {
         }}
         leftButtonProps={{
           sx: {
-            border: '1px solid #D1D1D1',
-            borderRadius: '26px',
-            width: 'fit-content',
-            '&:hover': {
-              backgroundColor: '#fff'
-            },
-            backgroundColor: "#fff",
             right: 0,
             ml: 1,
           }
@@ -159,13 +152,6 @@ export default function ProductDetailsCarousel({ product }: Props) {
         }}
         rightButtonProps={{
           sx: {
-            border: '1px solid #D1D1D1',
-            borderRadius: '26px',
-            width: 'fit-content',
-            backgroundColor: "#fff",
-            '&:hover': {
-              backgroundColor: '#fff'
-            },
             mr: 1
           }
         }}

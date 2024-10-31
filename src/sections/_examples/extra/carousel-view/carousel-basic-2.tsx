@@ -75,11 +75,11 @@ function CarouselItem2({ item }: { item: any }) {
         open={customizedPopover.open}
         anchorOrigin={{
           horizontal: 'center',
-          vertical: 'top'
+          vertical: 'bottom'
         }}
         onClose={customizedPopover.onClose}
-        // arrow={''}
-        hiddenArrow={true}
+        arrow={'bottom-left'}
+        hiddenArrow
       >
         <Box sx={{
           p: 2,

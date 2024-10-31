@@ -29,7 +29,7 @@ export default function CarouselProducts({ data, label }: Props) {
     autoplay: false,
     slidesToShow: 4,
     // draggable: true,
-    rtl: false,
+    rtl: true,
     ...CarouselDots({
       rounded: true,
       label: label,

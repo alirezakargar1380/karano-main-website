@@ -80,7 +80,7 @@ export default function HomeView() {
 
   return (
     <>
-      <MainLayout>
+      <MainLayout footer={false}>
 
         <ConfirmDialog
           open={confirm.value}
@@ -195,7 +195,7 @@ export default function HomeView() {
         </Box>
       </m.div>
 
-      <MainLayout header={false} footer>
+      <MainLayout header={false}>
         <Container maxWidth={'xl'} sx={{ mt: 8 }}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
