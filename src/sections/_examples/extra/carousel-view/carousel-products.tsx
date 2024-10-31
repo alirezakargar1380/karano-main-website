@@ -29,8 +29,7 @@ export default function CarouselProducts({ data, label }: Props) {
     autoplay: false,
     slidesToShow: 4,
     // draggable: true,
-    // rtl: true,
-    // initialSlide: 2,
+    rtl: false,
     ...CarouselDots({
       rounded: true,
       label: label,
@@ -60,6 +59,8 @@ export default function CarouselProducts({ data, label }: Props) {
     ],
   });
 
+  console.log("currentIndex", carousel.currentIndex)
+
   return (
     <Box sx={{ position: 'relative' }}>
       <CarouselArrowsCustom
@@ -76,15 +77,6 @@ export default function CarouselProducts({ data, label }: Props) {
             zIndex: 100,
           }
         }}
-        leftButtonProps={{
-          sx: {
-            border: '1px solid #D1D1D1',
-            borderRadius: '26px',
-            width: 'fit-content',
-            right: 0,
-            backgroundColor: "#fff",
-          }
-        }}
         rightButtonBoxProps={{
           sx: {
             width: '80px',
@@ -92,14 +84,6 @@ export default function CarouselProducts({ data, label }: Props) {
             position: 'absolute',
             right: 0,
             zIndex: 100,
-          }
-        }}
-        rightButtonProps={{
-          sx: {
-            border: '1px solid #D1D1D1',
-            borderRadius: '26px',
-            width: 'fit-content',
-            backgroundColor: "#fff",
           }
         }}
       >

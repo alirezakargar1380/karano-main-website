@@ -18,9 +18,10 @@ import { useBoolean } from 'src/hooks/use-boolean';
 type Props = {
   children: React.ReactNode;
   header?: boolean;
+  footer?: boolean;
 };
 
-export default function MainLayout({ children, header = true }: Props) {
+export default function MainLayout({ children, header = true, footer = false }: Props) {
   const [showBanner, setShowBanner] = useState(false);
   const pathname = usePathname();
   const homePage = pathname === '/';
@@ -87,9 +88,11 @@ export default function MainLayout({ children, header = true }: Props) {
               {children}
             </Box>
 
-            <Container maxWidth={'xl'}>
+            {(footer) && (
+              <Container maxWidth={'xl'}>
                 <Footer />
               </Container>
+            )}
           </Grid>
         </Grid>
       </Container>

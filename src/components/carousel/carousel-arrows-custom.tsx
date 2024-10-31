@@ -25,10 +25,11 @@ const StyledIconButton = styled(IconButton, {
     borderRadius: theme.shape.borderRadius * 1.5,
   }),
   ...(!filled && {
-    opacity: 0.48,
-    '&:hover': {
-      opacity: 1,
-    },
+    // opacity: 0.48,
+    // '&:hover': {
+    //   opacity: 1,
+    // },
+    boxShadow: '0px 1.6px 3.6px 0px #0000001C, 0px 0.3px 0.9px 0px #00000012',
   }),
   ...(filled && {
     color: alpha(theme.palette.common.white, 0.8),
@@ -96,6 +97,14 @@ export default function CarouselArrowsCustom({
               {...leftButtonProps}
               sx={{
                 left: -10,
+                border: '2px solid #D1D1D1',
+                borderRadius: '26px',
+                width: 'fit-content',
+                backgroundColor: "#fff",
+                '&:hover': {
+                  border: '2px solid #727272',
+                  backgroundColor: "#fff",
+                },
                 ...leftButtonProps?.sx,
               }}
             >
@@ -116,6 +125,14 @@ export default function CarouselArrowsCustom({
               {...rightButtonProps}
               sx={{
                 right: -10,
+                border: '2px solid #D1D1D1',
+                borderRadius: '26px',
+                width: 'fit-content',
+                backgroundColor: "#fff",
+                '&:hover': {
+                  border: '2px solid #727272',
+                  backgroundColor: "#fff",
+                },
                 ...rightButtonProps?.sx,
               }}
             >

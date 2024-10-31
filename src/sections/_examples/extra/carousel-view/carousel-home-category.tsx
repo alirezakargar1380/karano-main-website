@@ -22,14 +22,15 @@ export default function CarouselHomeCategory() {
     rtl: false,
     slidesToShow: categories.length > 3 ? 10 : 7,
     // slidesToShow: 10,
-    swipeToSlide: true,
+    // swipeToSlide: true,
+    draggable: true,
     // centerMode: true,
     rows: 1,
     responsive: [
       {
         breakpoint: 1366,
         settings: {
-          slidesToShow: 6
+          slidesToShow: 8
         },
       },
       {
@@ -72,71 +73,46 @@ export default function CarouselHomeCategory() {
         }}
       >
         <CarouselArrowsCustom
-          filled
           icon="icon-park-outline:right"
           onNext={carousel.onPrev}
           onPrev={carousel.onNext}
           leftButtonBoxProps={{
             sx: {
               display: (!carousel.currentIndex) ? 'none' : '',
-              width: '80px',
-              // border: '1px solid #D1D1D1',
+              width: '120px',
               height: 1,
+              left: 0,
               position: 'absolute',
-              zIndex: 100,
+              zIndex: 1,
               ...bgGradient({
                 direction: 'to right',
-                startColor: `#fff 50%`,
+                startColor: `#fff 100%`,
                 endColor: `${alpha("#fff", 0)} 100%`,
               }),
             }
           }}
           leftButtonProps={{
             sx: {
-              border: '1px solid #D1D1D1',
-              borderRadius: '26px',
-              width: 'fit-content',
-              '&:hover': {
-                backgroundColor: 'transparent'
-              },
-              right: 0,
-              backgroundColor: "#fff",
-              ...bgGradient({
-                direction: 'to right',
-                startColor: `#fff 25%`,
-                endColor: `${alpha("#fff", 0)} 200%`,
-              }),
+              left: 0,
             }
           }}
           rightButtonBoxProps={{
             sx: {
-              width: '80px',
-              // border: '1px solid #D1D1D1',
+              width: '120px',
               height: 1,
-              position: 'absolute',
               right: 0,
-              zIndex: 100,
+              position: 'absolute',
               ...bgGradient({
                 direction: 'to left',
-                startColor: `#fff 50%`,
+                startColor: `#fff 100%`,
                 endColor: `${alpha("#fff", 0)} 100%`,
               }),
             }
           }}
           rightButtonProps={{
             sx: {
-              border: '1px solid #D1D1D1',
-              borderRadius: '26px',
-              width: 'fit-content',
-              '&:hover': {
-                backgroundColor: 'transparent'
-              },
-              backgroundColor: "#fff",
-              ...bgGradient({
-                direction: 'to left',
-                startColor: `#fff 25%`,
-                endColor: `${alpha("#fff", 0)} 100%`,
-              }),
+              right: 0,
+
             }
           }}
         >
