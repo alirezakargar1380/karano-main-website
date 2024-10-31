@@ -21,7 +21,7 @@ type Props = {
   footer?: boolean;
 };
 
-export default function MainLayout({ children, header = true, footer = false }: Props) {
+export default function MainLayout({ children, header = true, footer = true }: Props) {
   const [showBanner, setShowBanner] = useState(false);
   const pathname = usePathname();
   const homePage = pathname === '/';

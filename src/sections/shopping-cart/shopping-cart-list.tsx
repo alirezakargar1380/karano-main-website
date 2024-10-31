@@ -1,4 +1,4 @@
-import { Grid, Stack, Table, TableBody, Typography } from "@mui/material";
+import { Grid, IconButton, Stack, Table, TableBody, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import Image from "src/components/image";
 import Scrollbar from "src/components/scrollbar";
@@ -17,16 +17,18 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
 import { useSnackbar } from "src/components/snackbar";
+import SvgColor from "src/components/svg-color";
 
 interface Props {
     orderId?: number;
     items: ICheckoutItem[]
     type: 'cart' | 'edit' | 'view'
+    isMini?: boolean
     afterUpdate?: (wasLastOne?: boolean) => void
     onRefresh?: () => void
 }
 
-export default function ShoppingCartList({ items, type, afterUpdate, orderId, onRefresh }: Props) {
+export default function ShoppingCartList({ items, type, isMini, afterUpdate, orderId, onRefresh }: Props) {
     const checkout = useCheckoutContext();
 
     const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
@@ -132,6 +134,38 @@ export default function ShoppingCartList({ items, type, afterUpdate, orderId, on
         if (afterUpdate) afterUpdate((newItems.length === 0));
 
     }, [checkoutItems, setCheckoutItems, orderId]);
+
+    if (isMini) {
+        return (
+            <Box>
+                {checkoutItems.map((item, index: number) => (
+                    <Box display={'flex'} gap={'12px'} mt={'12px'}>
+                        <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                        <Box>
+                            <Typography variant="body3">{item.product.name}</Typography>
+                            <Typography variant="caption2">{'نوع پروفیل: ' + 'درب کمدی'}</Typography>
+                            <Stack width={1} mt={'8px'} direction={'row'}>
+                                <IconButton
+                                    sx={{ width: 'fit-content' }}
+                                    color={'default'}
+                                    onClick={() => { }}
+                                >
+                                    <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
+                                </IconButton>
+                                <IconButton
+                                    sx={{ width: 'fit-content' }}
+                                    color={'default'}
+                                    onClick={() => { }}
+                                >
+                                    <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
+                                </IconButton>
+                            </Stack>
+                        </Box>
+                    </Box>
+                ))}
+            </Box>
+        )
+    }
 
     return (
         <Box>
