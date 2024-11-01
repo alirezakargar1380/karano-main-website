@@ -25,6 +25,8 @@ import axios from 'axios';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { useSnackbar } from 'src/components/snackbar';
 import { paths } from 'src/routes/paths';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { CustomLink } from 'src/components/styles/link/custom-link';
 
 // ----------------------------------------------------------------------
 
@@ -61,11 +63,11 @@ export default function PhoneRegisterView() {
         return schema
       return schema.required('کد ملی خود را وارد کنید').length(10, 'معتبر نیست!')
     }),
-    company_name: Yup.string().when('user_type', (type: any, schema) => {
-      if (type[0] === IUserTypes.legal)
-        return schema.required("نام شرکت را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
-      return schema
-    }),
+    // company_name: Yup.string().when('user_type', (type: any, schema) => {
+    //   if (type[0] === IUserTypes.legal)
+    //     return schema.required("نام شرکت را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
+    //   return schema
+    // }),
     national_id: Yup.string().when('user_type', (type: any, schema) => {
       if (type[0] === IUserTypes.legal)
         return schema.required("کد را وارد کنید").min(3, 'باید حداقل 3 کرکتر باشد')
@@ -101,17 +103,17 @@ export default function PhoneRegisterView() {
 
   const onSubmit = handleSubmit(async (data: IUser) => {
     try {
-      await server_axios.post(endpoints.auth.register + `/${user_id}`, data)
+      await register?.(data, user_id || '');
+      // return
+      // await server_axios.post(endpoints.auth.register + `/${user_id}`, data);
 
-      enqueueSnackbar('ثبت نام با موفقیت انجام شد', { variant: 'success' });
+      // // router.push(returnTo || PATH_AFTER_LOGIN);
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      // router.push(paths.auth.phone.address + `?user_id=${user_id}`);
 
-      return
-      
-      // await register?.(data.email, data.password, data.firstName, data.lastName);
+      // return
 
-      router.push(returnTo || PATH_AFTER_LOGIN);
+      // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
       // reset();
@@ -120,7 +122,7 @@ export default function PhoneRegisterView() {
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 2, position: 'relative' }}>
-      <Typography variant="h3" fontFamily={'peyda-bold'}>
+      <Typography variant="title1">
         اطلاعات کاربری خود را وارد کنید
       </Typography>
 
@@ -137,24 +139,26 @@ export default function PhoneRegisterView() {
   const renderTerms = (
     <Typography
       component="div"
-      fontFamily={'peyda-bold'}
-      variant='body2'
+      variant='caption2'
       sx={{
-        color: 'text.secondary',
+        borderTop: '1px solid #D1D1D1',
+        pt: 2,
         mt: 1,
-        // typography: 'caption',
         textAlign: 'left',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px'
       }}
     >
-      <Checkbox onChange={() => setTerms(!terms)} />
+      <Checkbox size='small' onChange={() => setTerms(!terms)} />
       {' با '}
-      <Link color="#0B7BA7">
+      <CustomLink variant='hyperlink3' sx={{ width: 'fit-content' }}>
         شرایط کارانو
-      </Link>
+      </CustomLink>
       {' و '}
-      <Link color="#0B7BA7">
+      <CustomLink variant='hyperlink3' sx={{ width: 'fit-content' }}>
         قوانین حریم خصوصی
-      </Link>
+      </CustomLink>
       {' موافق هستم '}
       .
     </Typography>
@@ -165,10 +169,12 @@ export default function PhoneRegisterView() {
       <Stack spacing={2.5}>
 
         <Box>
-          <Typography variant="subtitle1" fontFamily={'peyda-bold'}
+          <Typography
+            variant="body3"
             sx={{
               pb: 1, width: 1
-            }}>
+            }}
+          >
             انتخاب نوع مشتری
           </Typography>
 
@@ -180,54 +186,49 @@ export default function PhoneRegisterView() {
           />
         </Box>
 
-        {(values.user_type !== IUserTypes.legal) && (
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
-            <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
-          </Stack>
-        )}
 
+        <Box
+          columnGap={2}
+          rowGap={3}
+          display="grid"
+          gridTemplateColumns={{
+            xs: 'repeat(1, 1fr)',
+            md: 'repeat(2, 1fr)',
+          }}
+        >
+          <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
+          <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
+          {(values.user_type === IUserTypes.genuine) && (<RHFTitleTextField name='id_code' custom_label={'کد ملی'} placeholder='مثلا 3540200000' />)}
+          {(values.user_type === IUserTypes.legal) && (<RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='9968741' />)}
+          <RHFTitleTextField name='email' custom_label='ایمیل' lable_caption={'اختیاری'} placeholder='email@example.com' />
+          <RHFTitleTextField lable_caption={'اختیاری'} name='landline_number' custom_label='شماره تلفن ثابت' placeholder='021-234567' />
+        </Box>
 
-        {(values.user_type === IUserTypes.legal) && (
-          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <RHFTitleTextField name='company_name' custom_label='نام شرکت' placeholder='نام' />
-            <RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='9968741' />
-          </Stack>
-        )}
+        <Box width={1} textAlign={'right'} pt={6} borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
+          {/* {renderTerms} */}
 
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          {(values.user_type !== IUserTypes.legal) && (
-            <RHFTitleTextField name='id_code' custom_label={'کد ملی'}
-              placeholder='مثلا 3540200000'
-            />
-          )}
-          <RHFTitleTextField name='email' custom_label='ایمیل (اختیاری)' placeholder='email@example.com' />
-          {(values.user_type === IUserTypes.legal) && (
-            <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت (اختیاری)' placeholder='021-234567' />
-          )}
-        </Stack>
-
-        {renderTerms}
-
-        <Stack direction={'row'} justifyContent={'space-between'}>
-          <Box>
-            {' حساب کاربری دارید؟ '}
-            <Link color="#0B7BA7" fontFamily={'peyda-bold'} href={paths.auth.phone.login}>
-              ورود
-            </Link>
-          </Box>
-          <LoadingButton
-            fullWidth
+          <PrimaryButton
             color="inherit"
             size="medium"
             type="submit"
             variant="contained"
-            loading={isSubmitting}
-            disabled={!terms}
-            sx={{ width: 'fit-content', borderRadius: '28px', px: 5, py: 0.5 }}
+            isLoading={isSubmitting}
+            // disabled={!terms}
+            sx={{ width: 'fit-content', ml: 'auto' }}
           >
-            تایید
-          </LoadingButton>
+            ثبت و ادامه
+          </PrimaryButton>
+        </Box>
+
+
+        <Stack direction={'row'} justifyContent={'space-between'}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            {' حساب کاربری دارید؟ '}
+            <CustomLink sx={{ width: 'fit-content' }} href={paths.auth.phone.login}>
+              ورود
+            </CustomLink>
+          </Box>
+
         </Stack>
 
 

@@ -15,16 +15,15 @@ import { useRouter, useSearchParams } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { useAuthContext } from 'src/auth/hooks';
-import { PATH_AFTER_LOGIN } from 'src/config-global';
-
 import Iconify from 'src/components/iconify';
-import FormProvider, { RHFAutocomplete, RHFTextField } from 'src/components/hook-form';
+import FormProvider, { RHFTextField } from 'src/components/hook-form';
 import { Box, IconButton, InputAdornment } from '@mui/material';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { useSnackbar } from 'notistack';
 import { paths } from 'src/routes/paths';
 import RegisterLoginHead from '../register-login-head';
+import SvgColor from 'src/components/svg-color';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 
@@ -66,41 +65,24 @@ export default function NewPasswordView() {
   const onSubmit = handleSubmit(async (data) => {
     try {
       if (data.password !== data.re_password) {
-        setErrorMsg('Passwords do not match');
+        enqueueSnackbar('رمز ورود واردشده مطابقت ندارد.', {
+          variant: 'myCustomVariant',
+          color: 'error'
+        })
         return;
       }
-      // await login?.(data.email, data.password);
 
       const response = await server_axios.post(endpoints.auth.user.add_password(user_id), data).then(({ data }) => data)
-
-      enqueueSnackbar('عملیات انجام شد!', { variant: 'success' });
 
       if (!response.complete_information) {
         router.push(paths.auth.phone.register + '?user_id=' + user_id);
       }
-      // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
       reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
-
-  const renderHead = (
-    <Stack spacing={2} sx={{ mb: 8 }}>
-      <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
-        <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
-      </Box>
-
-      {/* <Stack direction="row" spacing={0.5}>
-        <Typography variant="body2">New user?</Typography>
-
-        <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
-          Create an account
-        </Link>
-      </Stack> */}
-    </Stack>
-  );
 
   const renderForm = (
     <Stack spacing={2.5}>
@@ -111,7 +93,7 @@ export default function NewPasswordView() {
       </Typography>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'}>رمز ورود</Typography>
+        <Typography variant="body3" textAlign={'left'}>رمز ورود</Typography>
         <RHFTextField
           name="password"
           type={password.value ? 'password' : 'text'}
@@ -121,7 +103,7 @@ export default function NewPasswordView() {
 
                 <IconButton onClick={password.onToggle} edge="end">
 
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                  <SvgColor src={password.value ? '/assets/icons/eye/eye.svg' : '/assets/icons/eye/eye-off.svg'} />
 
                 </IconButton>
 
@@ -132,7 +114,7 @@ export default function NewPasswordView() {
       </Box>
 
       <Box>
-        <Typography variant="h6" textAlign={'left'}>تکرار رمز ورود</Typography>
+        <Typography variant="body3" textAlign={'left'}>تکرار رمز ورود</Typography>
         <RHFTextField
           name="re_password"
           type={password.value ? 'password' : 'text'}
@@ -142,7 +124,7 @@ export default function NewPasswordView() {
 
                 <IconButton onClick={password.onToggle} edge="end">
 
-                  <Iconify icon={password.value ? 'solar:eye-bold' : 'solar:eye-closed-bold'} />
+                  <SvgColor src={password.value ? '/assets/icons/eye/eye.svg' : '/assets/icons/eye/eye-off.svg'} />
 
                 </IconButton>
 
@@ -152,23 +134,15 @@ export default function NewPasswordView() {
         />
       </Box>
 
-
-      {/* <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-        Forgot password?
-      </Link> */}
-
-      <LoadingButton
-        sx={{ borderRadius: '24px', fontFamily: 'peyda-bold' }}
+      <PrimaryButton
         fullWidth
-        color="inherit"
-        size="large"
-        // disabled={true}
+        size="medium"
         type="submit"
-        variant="contained"
-        loading={isSubmitting}
+        sx={{ mt: 2 }}
+        isLoading={isSubmitting}
       >
         ثبت نام
-      </LoadingButton>
+      </PrimaryButton>
     </Stack>
   );
 

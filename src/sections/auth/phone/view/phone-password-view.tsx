@@ -24,6 +24,8 @@ import { Box, IconButton, InputAdornment } from '@mui/material';
 import RegisterLoginHead from '../register-login-head';
 import SvgColor from 'src/components/svg-color';
 import { paths } from 'src/routes/paths';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -38,14 +40,16 @@ export default function PhonePasswordView() {
 
   const phone = searchParams.get('phone');
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    password: Yup.string().min(8).required('Password is required'),
+    password: Yup.string().min(8, 'پسورد باید بیشتر از 8 کرکتر باشد').required('Password is required'),
   });
 
   const defaultValues = {
-    password: 'demo1234',
+    password: '',
   };
 
   const methods = useForm({
@@ -64,13 +68,16 @@ export default function PhonePasswordView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await userLogin?.(`+${phone}`, data.password);
+      await userLogin?.(`${phone}`, data.password);
 
       // router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
       console.error(error);
       reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
+      enqueueSnackbar(error.message, {
+        variant: 'myCustomVariant',
+        color: 'error'
+      })
     }
   });
 
@@ -84,7 +91,7 @@ export default function PhonePasswordView() {
         <Typography variant="body2" fontFamily={'peyda-bold'} mb={1} textAlign={'left'}>رمز عبور</Typography>
         <RHFTextField
           name="password"
-          type={'text'}
+          type={!password.value ? 'password' : 'text'}
           placeholder='رمز ورود'
           InputProps={{
             endAdornment: (
@@ -100,11 +107,11 @@ export default function PhonePasswordView() {
             ),
           }}
         />
-        <Stack spacing={1} textAlign={'left'} mt={1} width={1}>
-          <Link fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ cursor: 'pointer', fontSize: 12 }}>
+        <Stack spacing={2} textAlign={'left'} mt={2} width={1}>
+          <Link variant='hyperlink3' href={paths.auth.phone.verify + '?phone=' + phone} underline="none" sx={{ width: 'fit-content' }}>
             ورود با رمز یکبار مصرف
           </Link>
-          <Link fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ cursor: 'pointer', fontSize: 12 }}>
+          <Link variant='hyperlink3' underline="none" sx={{ width: 'fit-content' }}>
             بازیابی رمز ورود
           </Link>
         </Stack>
@@ -115,18 +122,16 @@ export default function PhonePasswordView() {
         Forgot password?
       </Link> */}
 
-      <LoadingButton
-        sx={{ borderRadius: '24px', fontFamily: 'peyda-bold', mt: 1 }}
+      <PrimaryButton
+        sx={{ mt: 1 }}
         fullWidth
-        color="inherit"
-        size="large"
+        size="medium"
         disabled={values.password?.length < 8}
         type="submit"
-        variant="contained"
-        loading={isSubmitting}
+        isLoading={isSubmitting}
       >
         ورود
-      </LoadingButton>
+      </PrimaryButton>
     </Stack>
   );
 

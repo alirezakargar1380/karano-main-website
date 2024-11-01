@@ -24,6 +24,7 @@ import RegisterLoginHead from '../register-login-head';
 import { numberRegex } from 'src/constants/regex/number';
 import { toEnglishNumber } from 'src/utils/change-case';
 import { codeErrorMessage } from 'src/constants/messages/phone-verify';
+import { CustomLink } from 'src/components/styles/link/custom-link';
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ export default function PhoneVerifyView() {
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
-      await verify?.(`+${phone}`, data.code);
+      await verify?.(`${phone}`, data.code);
 
       // const response = await server_axios.post(endpoints.auth.user.verify, { phone: `+${phone}`, code: data.code })
       //   .then((res) => {
@@ -93,13 +94,16 @@ export default function PhoneVerifyView() {
 
       <Typography variant="body1" fontFamily={'peyda-bold'} mt={3} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
 
-      <Link variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
+      <CustomLink variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
         تغییر شماره
-      </Link>
+      </CustomLink>
 
       <Box sx={{ mb: 2 }}>
         <Typography variant="body2" mb={1} fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید</Typography>
         <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={'دریافت مجدد کد پس از ۰۲:۵۹ '} />
+        <CustomLink variant='hyperlink3' underline="none" sx={{ width: 'fit-content' }}>
+          دریافت مجدد کد
+        </CustomLink>
       </Box>
 
       <LoadingButton

@@ -280,15 +280,9 @@ export function AuthProvider({ children }: Props) {
 
   // REGISTER
   const register = useCallback(
-    async (email: string, password: string, firstName: string, lastName: string) => {
-      const data = {
-        email,
-        password,
-        firstName,
-        lastName,
-      };
+    async (data: any, user_id: string) => {
 
-      const res = await axios.post(endpoints.auth.register, data);
+      const res = await server_axios.post(endpoints.auth.register + `/${user_id}`, data);
 
       const { accessToken, user } = res.data;
 
@@ -304,6 +298,8 @@ export function AuthProvider({ children }: Props) {
           admin: state.admin,
         },
       });
+
+      router.replace(paths.auth.phone.address + `?user_id=${user_id}`);
     },
     []
   );
