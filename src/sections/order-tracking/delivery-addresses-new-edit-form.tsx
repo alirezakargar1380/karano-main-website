@@ -20,7 +20,7 @@ import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { useGetAddress } from "src/api/address";
 
 interface Props {
-    id: number | undefined
+    id?: number | undefined
     handleAfterAddingAddress?: () => void
     exit?: () => void
 }

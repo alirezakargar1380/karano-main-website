@@ -9,14 +9,20 @@ import SvgColor from '../svg-color';
 type Props = TextFieldProps & {
   name: string;
   custom_label: string;
+  lable_caption?: string
 };
 
-export default function RHFTitleTextField({ name, custom_label, helperText, type, ...other }: Props) {
+export default function RHFTitleTextField({ name, custom_label, lable_caption, helperText, type, ...other }: Props) {
   const { control } = useFormContext();
 
   return (
     <Box sx={{ width: 1 }}>
-      <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
+      <Box display={'flex'} gap={'4px'}>
+        <Typography sx={{ mb: '8px', display: 'block' }} variant='body3'>
+          {custom_label}
+        </Typography>
+        {lable_caption && (<Typography variant='body3' color={"#727272"}>{`(${lable_caption})`}</Typography>)}
+      </Box>
       <Controller
         name={name}
         control={control}
@@ -40,7 +46,7 @@ export default function RHFTitleTextField({ name, custom_label, helperText, type
             />
             {error && (
               <Stack direction={'row'} alignItems={'center'}>
-                <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'}/>
+                <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} />
                 <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5} mt={1}>{error?.message}</Typography>
               </Stack>
             )}

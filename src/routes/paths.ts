@@ -85,6 +85,7 @@ export const paths = {
       verify: `${ROOTS.AUTH}/phone/verify`,
       register: `${ROOTS.AUTH}/phone/register`,
       newPassword: `${ROOTS.AUTH}/phone/new-password`,
+      address: `${ROOTS.AUTH}/phone/address`,
       // verify: `${ROOTS.AUTH}/firebase/verify`,
       // register: `${ROOTS.AUTH}/firebase/register`,
       // forgotPassword: `${ROOTS.AUTH}/firebase/forgot-password`,

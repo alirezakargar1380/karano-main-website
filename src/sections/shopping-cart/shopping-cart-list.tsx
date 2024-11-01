@@ -217,7 +217,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                                         isLastOne={(item.properties.length === 1)}
                                                         product_name={item?.product?.name || ''}
                                                         onDeleteRow={() => deleteRow(item, property_price.id, (item.properties.length === 1))}
-                                                        onEditRow={(item.product.order_type === ProductOrderType.custom_made && property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
+                                                        onEditRow={(property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                         type={type}
                                                         row={{
                                                             rejection_reason: property_price?.rejection_reason,

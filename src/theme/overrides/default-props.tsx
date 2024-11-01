@@ -129,11 +129,11 @@ export function defaultProps(theme: Theme) {
         color: 'primary',
       },
     },
-    MuiLink: {
-      defaultProps: {
-        underline: 'hover',
-      },
-    },
+    // MuiLink: {
+    //   defaultProps: {
+    //     underline: 'hover',
+    //   },
+    // },
     MuiListItemText: {
       defaultProps: {
         primaryTypographyProps: {

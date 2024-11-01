@@ -127,7 +127,10 @@ export default function CartTableRow({
           </Box>
         </TableCell>
 
-        <TableCell align="right" sx={{ pr: 0 }}>
+        <TableCell align="right" sx={{ 
+          // pr: '16px',
+          pr: 0, 
+          textAlign: '-webkit-right' }}>
           <Stack direction={'row'} width={'fit-content'}>
             {(onEditRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <Tooltip title="اصلاح کالا" arrow>

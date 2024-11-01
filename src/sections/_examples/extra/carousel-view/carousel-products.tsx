@@ -33,7 +33,7 @@ export default function CarouselProducts({ data, label }: Props) {
     ...CarouselDots({
       rounded: true,
       label: label,
-      tVariant: 'title1',
+      tvariant: 'title1',
       sx: {
         top: 10,
         // right: 20,
@@ -58,8 +58,6 @@ export default function CarouselProducts({ data, label }: Props) {
       },
     ],
   });
-
-  console.log("currentIndex", carousel.currentIndex)
 
   return (
     <Box sx={{ position: 'relative' }}>

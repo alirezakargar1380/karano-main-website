@@ -149,9 +149,9 @@ export default function CartDialog({
     (item: ICheckoutItemPropertyPrice) => {
       return {
         ...item,
-        cover_type: item.cover_type.id,
-        profile_type: item.profile_type.id,
-        frame_type: item.frame_type.id,
+        cover_type: item?.cover_type?.id || 0,
+        profile_type: item?.profile_type?.id || 0,
+        frame_type: item?.frame_type?.id || 0,
         dimension: {
           width: item.dimension?.width || 0,
           height: item.dimension?.height || 0,

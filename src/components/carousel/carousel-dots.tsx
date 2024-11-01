@@ -59,7 +59,7 @@ const StyledDot = styled('span')(({ theme }) => ({
 export interface Props extends BoxProps {
   rounded?: boolean;
   label?: string;
-  tVariant?: any;
+  tvariant?: any;
   sx?: SxProps<Theme>;
 }
 
@@ -76,7 +76,7 @@ export default function CarouselDots(props?: Props) {
             <Stack direction={'row'}>
               {dots}
             </Stack>
-            <Typography variant={props?.tVariant ? props.tVariant : 'heading3'}>
+            <Typography variant={props?.tvariant ? props.tvariant : 'heading3'}>
               {props?.label}
             </Typography>
           </Stack>

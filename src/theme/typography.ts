@@ -54,6 +54,7 @@ declare module "@mui/material/Typography" {
     title1: true;
     title2: true;
     title3: true;
+    hyperlink3: true;
   }
 }
 
@@ -238,5 +239,13 @@ export const typography = {
     fontSize: pxToRem(14),
     lineHeight: '28px',
     letterSpacing: '0.03em',
+  },
+  hyperlink3: {
+    fontFamily: 'peyda-semi-bold',
+    fontWeight: 600,
+    fontSize: pxToRem(12),
+    lineHeight: '16.8px',
+    letterSpacing: '0.03em',
+    textDecoration: 'underline',
   },
 } as const;
