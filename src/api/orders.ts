@@ -99,7 +99,7 @@ export function useGetTrackingOrders() {
     () => ({
       orders: (data as IOrderItem[]) || [],
       ordersLoading: isLoading,
-      ordersEmpty: !isLoading && !data.length,
+      ordersEmpty: !isLoading && !data?.length,
       refreshOrders
     }),
     [data, error, isLoading, isValidating]
