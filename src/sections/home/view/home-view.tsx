@@ -161,31 +161,36 @@ export default function HomeView() {
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} height={1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-                  <Counter end={88} /> +
+                  <Typography variant='heading1'>
+                    <Counter end={88} /> +
+                  </Typography>
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-
-                  <Counter end={88} /> +
+                  <Typography variant='heading1'>
+                    <Counter end={88} /> +
+                  </Typography>
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-
-                  <Counter end={88} /> +
+                  <Typography variant='heading1'>
+                    <Counter end={88} /> +
+                  </Typography>
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-
-                  <Counter end={88} /> +
+                  <Typography variant='heading1'>
+                    <Counter end={88} /> +
+                  </Typography>
                   <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
