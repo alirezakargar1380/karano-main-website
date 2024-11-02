@@ -8,7 +8,9 @@ import { AuthContext } from './auth-context';
 import { setSession, isValidToken, setAdminSession } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
 import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
+
+import querystring from "querystring";
 
 // ----------------------------------------------------------------------
 
@@ -89,6 +91,9 @@ export function AuthProvider({ children }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
 
   const initialize = useCallback(async () => {
     try {
@@ -252,13 +257,20 @@ export function AuthProvider({ children }: Props) {
       return res.data
     });
 
+    const query = querystring.stringify({
+      user_id: res.user_id,
+      ...(returnTo && {
+        returnTo
+      })
+    })
+
     if (!res.set_password) {
-      router.push(paths.auth.phone.newPassword + '?user_id=' + res.user_id);
+      router.push(paths.auth.phone.newPassword + `?${query}`);
       return
     }
 
     if (!res.complete_information) {
-      router.push(paths.auth.phone.register + '?user_id=' + res.user_id);
+      router.push(paths.auth.phone.register + `?${query}`);
       return
     }
 
@@ -276,7 +288,7 @@ export function AuthProvider({ children }: Props) {
         admin: state.admin,
       },
     });
-  }, []);
+  }, [returnTo]);
 
   // REGISTER
   const register = useCallback(
@@ -298,8 +310,6 @@ export function AuthProvider({ children }: Props) {
           admin: state.admin,
         },
       });
-
-      router.replace(paths.auth.phone.address + `?user_id=${user_id}`);
     },
     []
   );
