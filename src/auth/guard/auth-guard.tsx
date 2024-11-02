@@ -9,7 +9,7 @@ import { useAuthContext } from '../hooks';
 
 // ----------------------------------------------------------------------
 
-const loginPaths: Record<string, string> = {
+export const loginPaths: Record<string, string> = {
   // jwt: paths.auth.jwt.login,
   jwt: paths.auth.phone.login,
   auth0: paths.auth.auth0.login,
@@ -31,24 +31,39 @@ export default function AuthGuard({ children }: Props) {
 
 // ----------------------------------------------------------------------
 
-function Container({ children }: Props) {
+export function useAuthRedirect() {
   const router = useRouter();
-
   const { authenticated, method } = useAuthContext();
 
-  const [checked, setChecked] = useState(false);
-
-  const check = useCallback(() => {
+  const checkAndRedirect = useCallback(() => {
     if (!authenticated) {
       const searchParams = new URLSearchParams({
         returnTo: window.location.pathname,
       }).toString();
 
       const loginPath = loginPaths[method];
-
       const href = `${loginPath}?${searchParams}`;
 
-      router.replace(href);
+      router.push(href);
+      return false;
+    }
+    return true;
+  }, [authenticated, method, router]);
+
+  return checkAndRedirect;
+}
+
+function Container({ children }: Props) {
+  const router = useRouter();
+
+  const { authenticated, method } = useAuthContext();
+  const checkAndRedirect = useAuthRedirect();
+
+  const [checked, setChecked] = useState(false);
+
+  const check = useCallback(() => {
+    if (!authenticated) {
+      checkAndRedirect();
     } else {
       setChecked(true);
     }
