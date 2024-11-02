@@ -247,7 +247,7 @@ export function AuthProvider({ children }: Props) {
   }, []);
 
   // Veify
-  const verify = useCallback(async (phone: string, code: string) => {
+  const verify = useCallback(async (phone: string, code: string, returnTo: string | null) => {
     const data = {
       phone,
       code,
@@ -259,9 +259,9 @@ export function AuthProvider({ children }: Props) {
 
     const query = querystring.stringify({
       user_id: res.user_id,
-      // ...(returnTo && {
-      //   returnTo
-      // })
+      ...(returnTo && {
+        returnTo
+      })
     })
 
     if (!res.set_password) {

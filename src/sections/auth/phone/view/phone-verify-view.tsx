@@ -36,8 +36,8 @@ export default function PhoneVerifyView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const searchParams = useSearchParams();
-
   const phone = searchParams.get('phone');
+  const returnTo = searchParams.get('returnTo');
 
   const LoginSchema = Yup.object().shape({
     code: Yup.string()
@@ -67,7 +67,7 @@ export default function PhoneVerifyView() {
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
-      await verify?.(`${phone}`, data.code);
+      await verify?.(`${phone}`, data.code, returnTo);
 
       // const response = await server_axios.post(endpoints.auth.user.verify, { phone: `+${phone}`, code: data.code })
       //   .then((res) => {

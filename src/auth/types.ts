@@ -56,7 +56,7 @@ export type JWTContextType = CanRemove & {
   adminUnauthenticated: boolean;
   adminLogin: (username: string, password: string) => Promise<void>;
   userLogin: (phone: string, password: string) => Promise<void>;
-  verify: (phone: string, code: string) => Promise<void>;
+  verify: (phone: string, code: string, returnTo: string | null) => Promise<void>;
   register: (data: any, user_id: string) => Promise<void>;
   logout: () => Promise<void>;
 };

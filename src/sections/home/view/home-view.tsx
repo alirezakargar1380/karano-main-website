@@ -9,7 +9,7 @@ import MainLayout from 'src/layouts/main';
 import ScrollProgress from 'src/components/scroll-progress';
 
 import Image from 'src/components/image';
-import { Button, Container, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Container, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
 import { useCallback, useEffect, useState } from 'react';
@@ -21,9 +21,7 @@ import { varFade, MotionViewport } from 'src/components/animate';
 
 import { m } from 'framer-motion';
 import HomeOrderWithKarano from '../home-order-with-karano';
-import CountUp from 'react-countup';
 import { useResponsive } from 'src/hooks/use-responsive';
-import { LoadingButton } from '@mui/lab';
 
 import { useOrderContext } from 'src/sections/order/context/order-context';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -33,7 +31,6 @@ import { useRouter } from 'src/routes/hooks';
 import { paths } from 'src/routes/paths';
 import { endpoints, server_axios } from 'src/utils/axios';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
-import { toFarsiNumber } from 'src/utils/change-case';
 import { Counter } from './counter';
 import SvgColor from 'src/components/svg-color';
 import Label from 'src/components/label';
