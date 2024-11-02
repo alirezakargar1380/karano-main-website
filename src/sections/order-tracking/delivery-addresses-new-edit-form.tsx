@@ -13,7 +13,7 @@ import { endpoints, server_axios } from "src/utils/axios";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useGetProvinceCities, useGetProvinces } from "src/api/province";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Iconify from "src/components/iconify";
 import Scrollbar from "src/components/scrollbar";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
@@ -21,11 +21,12 @@ import { useGetAddress } from "src/api/address";
 
 interface Props {
     id?: number | undefined
+    actions?: ReactNode | undefined
     handleAfterAddingAddress?: () => void
     exit?: () => void
 }
 
-export function DeliveryAdressesNewEditForm({ id, handleAfterAddingAddress, exit }: Props) {
+export function DeliveryAdressesNewEditForm({ id, actions, handleAfterAddingAddress, exit }: Props) {
     const [searchTerm, setSearchTerm] = useState('');
 
     const { enqueueSnackbar } = useSnackbar();
@@ -186,23 +187,25 @@ export function DeliveryAdressesNewEditForm({ id, handleAfterAddingAddress, exit
                     </Box>
                     <RHFTitleTextField name='postal_code' custom_label='کد پستی' placeholder='افزودن محتوا' sx={{ bgcolor: '#fff' }} />
                 </Stack>
-                <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
-                    <SecondaryButton size='medium' sx={{ px: 4 }} onClick={exit}>انصراف</SecondaryButton>
-                    <PrimaryButton
-                        size="medium"
-                        onClick={() => {
-                            if (!isValid)
-                                enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات آدرس جدید»، الزامی‌ست.', {
-                                    variant: 'myCustomVariant',
-                                    color: 'error'
-                                })
+                {(actions === undefined) ? (
+                    <Stack sx={{ mt: 6 }} spacing={1} direction={'row'} justifyContent={'end'}>
+                        <SecondaryButton size='medium' sx={{ px: 4 }} onClick={exit}>انصراف</SecondaryButton>
+                        <PrimaryButton
+                            size="medium"
+                            onClick={() => {
+                                if (!isValid)
+                                    enqueueSnackbar('پرکردن فیلدهای اجباری «اطلاعات آدرس جدید»، الزامی‌ست.', {
+                                        variant: 'myCustomVariant',
+                                        color: 'error'
+                                    })
 
-                            onSubmit();
-                        }}
-                    >
-                        {id ? 'اعمال تغییرات' : 'ثبت آدرس'}
-                    </PrimaryButton>
-                </Stack>
+                                onSubmit();
+                            }}
+                        >
+                            {id ? 'اعمال تغییرات' : 'ثبت آدرس'}
+                        </PrimaryButton>
+                    </Stack>
+                ) : actions}
             </Box>
         </FormProvider>
     )
