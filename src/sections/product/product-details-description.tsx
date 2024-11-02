@@ -11,7 +11,7 @@ export default function ProductDetailsDescription({ description, attributes }: P
   return (
     <Box>
       {(!!description) && (
-        <Box sx={{ pt: '48px' }}>
+        <Box sx={{ pt: '48px', textAlign: 'left' }}>
           <Typography variant='title3' pb={'16px'}>درباره محصول</Typography>
           <Typography variant='body2'>
             {description}
@@ -21,12 +21,12 @@ export default function ProductDetailsDescription({ description, attributes }: P
 
 
       {(!!attributes) && (
-        <Box sx={{ pt: { xs: 3, md: 3, lg: 5 } }}>
+        <Box sx={{ pt: { xs: 3, md: 3, lg: 5 }, textAlign: 'left', direction: 'ltr' }}>
           <Typography variant='title3' pb={'16px'}>ویژگی های کلی محصول</Typography>
           <Markdown
             children={attributes}
             sx={{
-              typography: 'body2',
+              typography: 'body2', textAlign: 'left',
               '& ul': {
                 pl: 2
               }
