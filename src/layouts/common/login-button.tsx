@@ -85,8 +85,7 @@ export default function LoginButton({ sx }: Props) {
               src={`/assets/icons/auth/user-check-01.svg`}
               sx={{ width: 24, height: 24, mr: 1 }}
             />
-            {(user?.user_type !== IUserTypes.legal) ?
-              user?.first_name + " " + user?.last_name : user?.company_name}
+            {user?.first_name + " " + user?.last_name}
             <Iconify icon="icon-park-outline:down" color="#000" width={24} height={24} pl={1} />
           </Button>
 
