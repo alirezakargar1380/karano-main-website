@@ -33,7 +33,7 @@ export default function PhoneAddressView() {
     const renderHead = (
         <Stack spacing={2} sx={{ mb: 2, position: 'relative' }}>
             <Typography variant="title1">
-                اطلاعات کاربری خود را وارد کنید
+                اطلاعات آدرس خود را وارد کنید
             </Typography>
 
             {/* <Stack direction="row" spacing={0.5}>

@@ -16,7 +16,6 @@ import FormProvider, { RHFRadioGroup } from 'src/components/hook-form';
 import { Box, Container } from '@mui/material';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IUser, IUserTypes } from 'src/types/user';
-import axios from 'axios';
 import { paths } from 'src/routes/paths';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { CustomLink } from 'src/components/styles/link/custom-link';
@@ -70,12 +69,6 @@ export default function PhoneRegisterView() {
     user_type: IUserTypes.genuine,
   };
 
-  useEffect(() => {
-    axios.get('http://localhost:4998/api/users').then(({ data }: any) => {
-      console.log(data)
-    })
-  }, []);
-
   const methods = useForm({
     resolver: yupResolver<any>(RegisterSchema),
     defaultValues,
@@ -93,23 +86,15 @@ export default function PhoneRegisterView() {
   const onSubmit = handleSubmit(async (data: IUser) => {
     try {
       await register?.(data, user_id || '');
-      // return
-      // await server_axios.post(endpoints.auth.register + `/${user_id}`, data);
-
-      // // router.push(returnTo || PATH_AFTER_LOGIN);
 
       const query = querystring.stringify({
         user_id,
-        ...(returnTo &&{
+        ...(returnTo && {
           returnTo
         })
       })
 
-      router.push(paths.auth.phone.address + `?${query}`);
-
-      // return
-
-      // router.push(returnTo || PATH_AFTER_LOGIN);
+      router.replace(paths.auth.phone.address + `?${query}`);
     } catch (error) {
       console.error(error);
       // reset();

@@ -299,10 +299,10 @@ export function AuthProvider({ children }: Props) {
 
       const { accessToken, user } = res.data;
 
-      localStorage.setItem(STORAGE_KEY, accessToken);
+      setSession(accessToken);
 
       dispatch({
-        type: Types.REGISTER,
+        type: Types.LOGIN,
         payload: {
           user: {
             ...user,
