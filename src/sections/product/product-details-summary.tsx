@@ -7,11 +7,10 @@ import Typography from '@mui/material/Typography';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 
 import { IProductItem, ProductOrderType } from 'src/types/product';
-import { ICheckoutItem, ICheckoutItemPropertyPrice, ICheckoutNewItem } from 'src/types/checkout';
+import { ICheckoutItem, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
 import { IconButton } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import CartDialog from 'src/components/cart/cart-dialog';
 import { useBoolean } from 'src/hooks/use-boolean';
 import SvgColor from 'src/components/svg-color';
@@ -23,6 +22,10 @@ import { useSnackbar } from 'src/components/snackbar';
 import { useCheckoutContext } from '../checkout/context';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { ProductItemsSummary } from './product-items-summary';
+import { useAuthContext } from 'src/auth/hooks';
+
+import { useRouter } from 'src/routes/hooks';
+import { useAuthRedirect } from 'src/auth/guard/auth-guard';
 
 // ----------------------------------------------------------------------
 
@@ -41,6 +44,8 @@ export default function ProductDetailsSummary({
   ...other
 }: Props) {
   const checkout = useCheckoutContext();
+
+  const checkAndRedirect = useAuthRedirect();
 
   const cartDialog = useBoolean();
   const assmbleDialog = useBoolean();
@@ -62,10 +67,6 @@ export default function ProductDetailsSummary({
 
   const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
 
-  // const isMaxQuantity =
-  //   !!items?.length &&
-  //   items.filter((item) => item.id === id).map((item) => item.quantity)[0] >= available;
-
   const defaultValues = {
     id,
     name,
@@ -82,7 +83,7 @@ export default function ProductDetailsSummary({
     defaultValues,
   });
 
-  const { reset, watch, control, setValue, handleSubmit } = methods;
+  const { reset, watch, setValue, handleSubmit } = methods;
 
   const values = watch();
 
@@ -95,6 +96,7 @@ export default function ProductDetailsSummary({
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      if (!checkAndRedirect()) return
 
       if (product.order_type === ProductOrderType.custom_made) {
         cartDialog.onTrue();

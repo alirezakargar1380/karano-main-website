@@ -27,6 +27,8 @@ import { paths } from 'src/routes/paths';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { useSnackbar } from 'notistack';
 
+import querystring from "querystring";
+
 // ----------------------------------------------------------------------
 
 export default function PhonePasswordView() {
@@ -39,6 +41,14 @@ export default function PhonePasswordView() {
   const searchParams = useSearchParams();
 
   const phone = searchParams.get('phone');
+  const returnTo = searchParams.get('returnTo');
+
+  const query = querystring.stringify({
+    phone,
+    ...(returnTo &&{
+      returnTo
+    })
+  })
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -108,7 +118,7 @@ export default function PhonePasswordView() {
           }}
         />
         <Stack spacing={2} textAlign={'left'} mt={2} width={1}>
-          <Link variant='hyperlink3' href={paths.auth.phone.verify + '?phone=' + phone} underline="none" sx={{ width: 'fit-content' }}>
+          <Link variant='hyperlink3' href={paths.auth.phone.verify + `?${query}`} underline="none" sx={{ width: 'fit-content' }}>
             ورود با رمز یکبار مصرف
           </Link>
           <Link variant='hyperlink3' underline="none" sx={{ width: 'fit-content' }}>

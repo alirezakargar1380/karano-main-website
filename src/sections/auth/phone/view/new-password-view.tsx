@@ -25,6 +25,8 @@ import RegisterLoginHead from '../register-login-head';
 import SvgColor from 'src/components/svg-color';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
+import querystring from "querystring";
+
 // ----------------------------------------------------------------------
 
 export default function NewPasswordView() {
@@ -34,6 +36,7 @@ export default function NewPasswordView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
 
   const user_id = searchParams.get('user_id');
 
@@ -72,10 +75,17 @@ export default function NewPasswordView() {
         return;
       }
 
+      const query = querystring.stringify({
+        user_id,
+        ...(returnTo &&{
+          returnTo
+        })
+      })
+
       const response = await server_axios.post(endpoints.auth.user.add_password(user_id), data).then(({ data }) => data)
 
       if (!response.complete_information) {
-        router.push(paths.auth.phone.register + '?user_id=' + user_id);
+        router.push(paths.auth.phone.register + '?' + query);
       }
     } catch (error) {
       console.error(error);

@@ -1,50 +1,39 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import { useRouter, useSearchParams } from 'src/routes/hooks';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { useAuthContext } from 'src/auth/hooks';
-import { PATH_AFTER_LOGIN } from 'src/config-global';
 
 import FormProvider, { RHFRadioGroup } from 'src/components/hook-form';
-import { Box, Checkbox, Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { IUser, IUserTypes } from 'src/types/user';
 import axios from 'axios';
-import { endpoints, server_axios } from 'src/utils/axios';
-import { useSnackbar } from 'src/components/snackbar';
 import { paths } from 'src/routes/paths';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { CustomLink } from 'src/components/styles/link/custom-link';
 
+import querystring from "querystring";
+
 // ----------------------------------------------------------------------
 
 export default function PhoneRegisterView() {
-  const [terms, setTerms] = useState<boolean>(false);
 
   const { register } = useAuthContext();
 
   const router = useRouter();
 
-  const { enqueueSnackbar } = useSnackbar();
-
   const searchParams = useSearchParams();
-
-  const returnTo = searchParams.get('returnTo');
   const user_id = searchParams.get('user_id');
-
-  const password = useBoolean();
+  const returnTo = searchParams.get('returnTo');
 
   const RegisterSchema = Yup.object().shape({
     user_type: Yup.string().required('نوع کاربری مورد نیاز است'),
@@ -109,7 +98,14 @@ export default function PhoneRegisterView() {
 
       // // router.push(returnTo || PATH_AFTER_LOGIN);
 
-      // router.push(paths.auth.phone.address + `?user_id=${user_id}`);
+      const query = querystring.stringify({
+        user_id,
+        ...(returnTo &&{
+          returnTo
+        })
+      })
+
+      router.push(paths.auth.phone.address + `?${query}`);
 
       // return
 
@@ -134,34 +130,6 @@ export default function PhoneRegisterView() {
         </Link>
       </Stack> */}
     </Stack>
-  );
-
-  const renderTerms = (
-    <Typography
-      component="div"
-      variant='caption2'
-      sx={{
-        borderTop: '1px solid #D1D1D1',
-        pt: 2,
-        mt: 1,
-        textAlign: 'left',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '4px'
-      }}
-    >
-      <Checkbox size='small' onChange={() => setTerms(!terms)} />
-      {' با '}
-      <CustomLink variant='hyperlink3' sx={{ width: 'fit-content' }}>
-        شرایط کارانو
-      </CustomLink>
-      {' و '}
-      <CustomLink variant='hyperlink3' sx={{ width: 'fit-content' }}>
-        قوانین حریم خصوصی
-      </CustomLink>
-      {' موافق هستم '}
-      .
-    </Typography>
   );
 
   const renderForm = (
@@ -228,7 +196,6 @@ export default function PhoneRegisterView() {
               ورود
             </CustomLink>
           </Box>
-
         </Stack>
 
 

@@ -20,15 +20,16 @@ import { toEnglishNumber } from 'src/utils/change-case';
 import { numberRegex } from 'src/constants/regex/number';
 import { phoneFormatErrorMessage, phoneLengthErrorMessage } from 'src/constants/messages/phone-error-messages';
 
+import querystring from "querystring";
+
 // ----------------------------------------------------------------------
 
 export default function PhoneLoginView() {
 
   const router = useRouter();
 
-  const [errorMsg, setErrorMsg] = useState('');
-
   const searchParams = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
 
   const LoginSchema = Yup.object().shape({
     phone: Yup.string()
@@ -57,18 +58,32 @@ export default function PhoneLoginView() {
     try {
       const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
 
+      let phoneQuery = querystring.stringify({
+        phone: data.phone,
+        ...(returnTo &&{
+          returnTo
+        })
+      })
+
+      let userIdQuery = querystring.stringify({
+        user_id: res.user_id,
+        ...(returnTo &&{
+          returnTo
+        })
+      })
+
       if (!res.phone_verified) {
-        router.push(paths.auth.phone.verify + '?phone=' + data.phone);
+        router.push(paths.auth.phone.verify + `?${phoneQuery}`);
         return
       }
 
       if (!res.set_password) {
-        router.push(paths.auth.phone.newPassword + '?user_id=' + res.user_id);
+        router.push(paths.auth.phone.newPassword + `?${userIdQuery}`);
         return
       }
 
       if (!res.complete_information) {
-        router.push(paths.auth.phone.register + '?user_id=' + res.user_id);
+        router.push(paths.auth.phone.register + `?${userIdQuery}`);
         return
       }
 
@@ -77,12 +92,11 @@ export default function PhoneLoginView() {
       // } else {
       //   router.push(paths.auth.phone.verify + '?phone=' + data.phone);
       // }
-      router.push(paths.auth.phone.password + '?phone=' + data.phone);
+      router.push(paths.auth.phone.password + `?${phoneQuery}`);
 
     } catch (error) {
       console.error(error);
       reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
 
