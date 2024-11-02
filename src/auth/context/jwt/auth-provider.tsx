@@ -5,7 +5,7 @@ import { useMemo, useEffect, useReducer, useCallback } from 'react';
 import axios, { endpoints, server_axios } from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
-import { setSession, isValidToken, setAdminSession } from './utils';
+import { setSession, setAdminSession } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
 import { paths } from 'src/routes/paths';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
@@ -92,8 +92,8 @@ export function AuthProvider({ children }: Props) {
 
   const router = useRouter();
 
-  const searchParams = useSearchParams();
-  const returnTo = searchParams.get('returnTo');
+  // const searchParams = useSearchParams();
+  // const returnTo = searchParams.get('returnTo');
 
   const initialize = useCallback(async () => {
     try {
@@ -259,9 +259,9 @@ export function AuthProvider({ children }: Props) {
 
     const query = querystring.stringify({
       user_id: res.user_id,
-      ...(returnTo && {
-        returnTo
-      })
+      // ...(returnTo && {
+      //   returnTo
+      // })
     })
 
     if (!res.set_password) {
@@ -288,7 +288,8 @@ export function AuthProvider({ children }: Props) {
         admin: state.admin,
       },
     });
-  }, [returnTo]);
+  // }, [returnTo]);
+  }, []);
 
   // REGISTER
   const register = useCallback(
