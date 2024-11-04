@@ -4,10 +4,11 @@ import SvgColor from "src/components/svg-color";
 import { useRouter } from 'src/routes/hooks';
 
 interface Props {
+    title?: string
     back?: boolean | undefined
 }
 
-export default function RegisterLoginHead({ back }: Props) {
+export default function RegisterLoginHead({ back, title = "ثبت نام | ورود" }: Props) {
     const router = useRouter();
     return (
         <Stack spacing={2} sx={{ mb: 4 }}>
@@ -22,7 +23,9 @@ export default function RegisterLoginHead({ back }: Props) {
                             </IconButton>
                         </Box>
                     )}
-                    <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>ثبت نام | ورود</Typography>
+                    <Typography variant="h4" textAlign={'center'} fontFamily={'peyda-bold'} sx={{ pb: 3 }}>
+                        {title}
+                    </Typography>
                 </Stack>
             </Box>
         </Stack>

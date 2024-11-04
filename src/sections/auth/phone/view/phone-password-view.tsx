@@ -28,6 +28,7 @@ import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { useSnackbar } from 'notistack';
 
 import querystring from "querystring";
+import { CustomLink } from 'src/components/styles/link/custom-link';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ export default function PhonePasswordView() {
 
   const query = querystring.stringify({
     phone,
-    ...(returnTo &&{
+    ...(returnTo && {
       returnTo
     })
   })
@@ -118,12 +119,12 @@ export default function PhonePasswordView() {
           }}
         />
         <Stack spacing={2} textAlign={'left'} mt={2} width={1}>
-          <Link variant='hyperlink3' href={paths.auth.phone.verify + `?${query}`} underline="none" sx={{ width: 'fit-content' }}>
+          <CustomLink variant='hyperlink3' href={paths.auth.phone.verify + `?${query}`} underline="none" sx={{ width: 'fit-content' }}>
             ورود با رمز یکبار مصرف
-          </Link>
-          <Link variant='hyperlink3' underline="none" sx={{ width: 'fit-content' }}>
+          </CustomLink>
+          <CustomLink variant='hyperlink3' href={paths.auth.phone.resetPassword.root} underline="none" sx={{ width: 'fit-content' }}>
             بازیابی رمز ورود
-          </Link>
+          </CustomLink>
         </Stack>
       </Box>
 

@@ -29,7 +29,11 @@ import querystring from "querystring";
 
 // ----------------------------------------------------------------------
 
-export default function NewPasswordView() {
+interface Props {
+  type?: 'default' | 'reset';
+}
+
+export default function NewPasswordView({ type = 'default' }: Props) {
 
   const router = useRouter();
 
@@ -37,7 +41,7 @@ export default function NewPasswordView() {
 
   const searchParams = useSearchParams();
   const returnTo = searchParams.get('returnTo');
-
+  const token = searchParams.get('token');
   const user_id = searchParams.get('user_id');
 
   const password = useBoolean(true);
@@ -75,22 +79,32 @@ export default function NewPasswordView() {
         return;
       }
 
-      const query = querystring.stringify({
-        user_id,
-        ...(returnTo &&{
-          returnTo
+
+
+      if (type === 'default') {
+        const query = querystring.stringify({
+          user_id,
+          ...(returnTo && {
+            returnTo
+          })
         })
-      })
 
-      const response = await server_axios.post(endpoints.auth.user.add_password(user_id), data).then(({ data }) => data)
+        const response = await server_axios.post(endpoints.auth.user.add_password(user_id), data).then(({ data }) => data)
 
-      if (!response.complete_information) {
-        router.push(paths.auth.phone.register + '?' + query);
+        if (!response.complete_information) {
+          router.push(paths.auth.phone.register + '?' + query);
+        }
+      } else {
+        await server_axios.post(endpoints.auth.user.resetPasswordSetPassword + '?token=' + token, data).then(({ data }) => data)
       }
+
     } catch (error) {
-      console.error(error);
+      if (error?.message)
+        enqueueSnackbar(error.message, {
+            variant: 'myCustomVariant',
+            color: 'error'
+        });
       reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
     }
   });
 
@@ -98,7 +112,7 @@ export default function NewPasswordView() {
     <Stack spacing={2.5}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>
+      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'} my={2}>
         یک رمز عبور مناسب برای خود انتخاب کنید.
       </Typography>
 
@@ -151,14 +165,14 @@ export default function NewPasswordView() {
         sx={{ mt: 2 }}
         isLoading={isSubmitting}
       >
-        ثبت نام
+        {(type === 'default') ? 'ثبت نام' : 'ثبت'}
       </PrimaryButton>
     </Stack>
   );
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
-      <RegisterLoginHead back />
+      <RegisterLoginHead back title={(type === 'default') ? 'ثبت نام | ورود' : 'بازیابی  رمز ورود'} />
 
       {renderForm}
     </FormProvider>
