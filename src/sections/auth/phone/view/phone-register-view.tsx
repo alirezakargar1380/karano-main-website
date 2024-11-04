@@ -152,7 +152,7 @@ export default function PhoneRegisterView() {
           <RHFTitleTextField name='first_name' custom_label='نام' placeholder='نام' />
           <RHFTitleTextField name='last_name' custom_label='نام خانوادگی' placeholder='نام خانوادگی' />
           {(values.user_type === IUserTypes.genuine) && (<RHFTitleTextField name='id_code' custom_label={'کد ملی'} placeholder='مثلا 3540200000' />)}
-          {(values.user_type === IUserTypes.legal) && (<RHFTitleTextField name='national_id' custom_label='شناسه ملی / کد اقتصادی' placeholder='9968741' />)}
+          {(values.user_type === IUserTypes.legal) && (<RHFTitleTextField name='national_id' custom_label='کد ملی / کد اقتصادی' placeholder='9968741' />)}
           <RHFTitleTextField name='email' custom_label='ایمیل' lable_caption={'اختیاری'} placeholder='email@example.com' />
           <RHFTitleTextField lable_caption={'اختیاری'} name='landline_number' custom_label='شماره تلفن ثابت' placeholder='021-234567' />
         </Box>
