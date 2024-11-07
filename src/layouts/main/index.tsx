@@ -71,7 +71,7 @@ export default function MainLayout({ children, header = true, footer = true }: P
               component="main"
               sx={{
                 flexGrow: 1,
-                pt: 5,
+                pt: 14,
                 ...(!homePage && {
                   // pt: 1,
                 }),
