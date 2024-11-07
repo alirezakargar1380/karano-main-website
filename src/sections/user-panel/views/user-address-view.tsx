@@ -78,6 +78,7 @@ export default function UserAddressView() {
             <Box px={2}>
                 {data.map((address, index) => (
                     <AddressItem
+                        key={index}
                         row={address}
                         onEditRow={() => handleEditRow(address.id)}
                         onDeleteRow={() => handleDeleteRow(address.id)}

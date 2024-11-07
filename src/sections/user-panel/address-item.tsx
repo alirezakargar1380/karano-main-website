@@ -56,11 +56,11 @@ export default function AddressItem({
                     </Stack>
                     <Stack direction={'row'} spacing={1}>
                         <Typography color={'text.secondary'}>استان:</Typography>
-                        <Typography>{row.provice}</Typography>
+                        <Typography>{row?.province?.name}</Typography>
                     </Stack>
                     <Stack direction={'row'} spacing={1}>
                         <Typography color={'text.secondary'}>شهر:</Typography>
-                        <Typography>{row.city}</Typography>
+                        <Typography>{row.city?.name}</Typography>
                     </Stack>
                     <Stack direction={'row'} spacing={1}>
                         <Typography color={'text.secondary'}>کد پستی:</Typography>
