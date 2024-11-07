@@ -36,7 +36,7 @@ export const navConfig = [
   },
 ];
 
-export const navDesktopConfig = [
+export let navDesktopConfig = [
   {
     title: 'دسته بندی محصولات',
     icon: <Iconify icon="solar:home-2-bold-duotone" />,

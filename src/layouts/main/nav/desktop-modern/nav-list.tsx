@@ -39,6 +39,7 @@ export default function NavList({ data }: NavListProps) {
         //
         active={active}
         sx={{
+          my: '26px', 
           '&:hover': {
             bgcolor: 'transparent',
           },
@@ -81,6 +82,7 @@ export default function NavList({ data }: NavListProps) {
           slotProps={{
             rootItem: {
               minHeight: 36,
+              padding: '0px',
             },
           }}
           sx={{

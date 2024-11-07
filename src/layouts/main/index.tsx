@@ -12,6 +12,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 import { useHandleBanner } from 'src/api/banner';
 import { useEffect, useState } from 'react';
 import { useBoolean } from 'src/hooks/use-boolean';
+import { useGetCategories } from 'src/api/category';
 
 // ----------------------------------------------------------------------
 
@@ -27,16 +28,26 @@ export default function MainLayout({ children, header = true, footer = true }: P
   const homePage = pathname === '/';
   const mdUp = useResponsive('up', 'md');
 
+  const { categories, categoryLoading } = useGetCategories();
+
+  navDesktopConfig[0].children[0].items = categories.map((category) => {
+    return {
+      id: category.id,
+      title: category.name,
+      path: ''
+    }
+  }) 
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
 
       {(header) && (
-        <Box sx={{ bgcolor: '#454545', py: 2 }}>
-          <Stack justifyContent={'center'} direction={'row'}>
-            <Typography fontFamily={'peyda-regular'} color={'#F8F8F8'} sx={{ pt: 0.25 }}>
+        <Box sx={{ bgcolor: '#454545', py: '10px' }}>
+          <Stack justifyContent={'center'} direction={'row'} alignItems={'center'}>
+            <Typography variant={'caption2'} color={'#F8F8F8'} sx={{ pt: 0.5 }}>
               متن بنر مورد نظر اینجا قرار می‌گیرد
             </Typography>
-            <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '50%' }}>
+            <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '22.5px', display: 'flex', alignItems: 'center' }}>
               <IconButton sx={{ p: 0 }}
               // onClick={() => toggle()}
               >
@@ -59,6 +70,7 @@ export default function MainLayout({ children, header = true, footer = true }: P
                   pt: 1,
                   // pr: 3,
                   // right: 0,
+                  alignItems: 'center',
                   mx: 'auto',
                   width: '100%',
                   // ...(showBanner && {

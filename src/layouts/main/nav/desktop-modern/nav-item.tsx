@@ -21,10 +21,8 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           {icon}
         </Box>
 
-        <Box component="span" sx={{ flexGrow: 1 }} fontFamily={'peyda-bold'}>
-          <h2>
-            {title}
-          </h2>
+        <Box component="span" sx={{ flexGrow: 1, typography: 'heading3' }}>
+          {title}
         </Box>
 
         {/* {hasChild && (
@@ -64,9 +62,10 @@ const NewStyledNavItem = styled(ListItemButton, {
 
   return {
     ...theme.typography.body2,
-    color: theme.palette.text.secondary,
+    color: "#000",
     fontWeight: theme.typography.fontWeightMedium,
     height: 48,
+    padding: '0px',
     // ...(active && {
     //   color: theme.palette.primary.main,
     //   fontWeight: theme.typography.fontWeightSemiBold,

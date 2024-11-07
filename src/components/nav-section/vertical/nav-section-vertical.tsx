@@ -2,7 +2,7 @@ import { memo, useState, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 
-import NavList from './nav-list';
+import NavList, { CustomNavList } from './nav-list';
 import { NavProps, NavGroupProps } from '../types';
 
 // ----------------------------------------------------------------------
@@ -33,12 +33,16 @@ function Group({ subheader, items, slotProps }: NavGroupProps) {
     setOpen((prev) => !prev);
   }, []);
 
-  const renderContent = items.map((list) => (
-    <NavList key={list.title} data={list} depth={1} slotProps={slotProps} />
+  const renderContent = items.map((list, index) => (
+    <CustomNavList key={index} data={list} depth={1} slotProps={slotProps} />
   ));
 
+  // const renderContent = items.map((list) => (
+  //   <NavList key={list.title} data={list} depth={1} slotProps={slotProps} />
+  // ));
+
   return (
-    <Stack sx={{ px: 2 }}>
+    <Stack>
       {(
         renderContent
       )}

@@ -51,13 +51,14 @@ export default function NavDesktopModern({ data }: NavProps) {
         onClose={handleCloseMenu}
         PaperProps={{
           sx: {
-            width: {
-              xl: '30%',
-              lg: '40%',
-              md: '50%',
-              sm: '60%',
-              xs: '90%',
-            },
+            // width: 544,
+            // width: {
+            //   xl: '30%',
+            //   lg: '40%',
+            //   md: '50%',
+            //   sm: '60%',
+            //   xs: '90%',
+            // },
             // width: mdUp ? '30%' : '80%',
 
             // height: '100%',
@@ -80,25 +81,27 @@ export default function NavDesktopModern({ data }: NavProps) {
         }}
         hideBackdrop={true}
       >
-        <Scrollbar>
-          <Stack sx={{ width: 1 }} direction={'row'}>
-            <Box sx={{ width: '80%', height: '100vh', pr: 2, bgcolor: 'white', boxShadow: '-2px 0px 20px 0px #00000040' }}>
+
+        <Stack sx={{ width: 1 }} direction={'row'}>
+          <Box sx={{ width: 544, height: '100vh', pr: '40px', bgcolor: 'white', boxShadow: '-2px 0px 20px 0px #00000040' }}>
+            <Scrollbar>
               <Box sx={{ width: mdUp ? '80%' : '100%', ml: 'auto' }}>
                 <Box sx={{ borderBottom: '1px solid #D1D1D1' }}>
-                  <Logo sx={{ mx: 2.5, my: 3 }} />
+                  <Logo sx={{ my: 3 }} />
                 </Box>
                 {data.map((list, index) => (
                   <NavList key={index} data={list} />
                 ))}
               </Box>
-            </Box>
-            <Box sx={{ ml: 3, mt: 2, backdropFilter: 'none', background: 'transparent' }}>
-              <IconButton onClick={handleCloseMenu} sx={{ bgcolor: 'white', borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
-                <SvgColor src="/assets/icons/navbar/x-close.svg" />
-              </IconButton>
-            </Box>
-          </Stack>
-        </Scrollbar>
+            </Scrollbar>
+          </Box>
+          <Box sx={{ ml: '16px', mt: '20px', backdropFilter: 'none', background: 'transparent' }}>
+            <IconButton onClick={handleCloseMenu} sx={{ width: 36, height: 36, bgcolor: 'white', borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
+              <SvgColor src="/assets/icons/navbar/x-close.svg" />
+            </IconButton>
+          </Box>
+        </Stack>
+
       </Drawer>
     </>
   );
