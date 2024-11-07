@@ -220,9 +220,13 @@ export default function HomeView() {
                   <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
                 </Grid>
                 <Grid xs={6} sm={6} md={3} item>
-                  <Stack spacing={2}>
-                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ width: 1, height: 0.7 }} />
-                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ width: 1, height: 0.3 }} />
+                  <Stack justifyContent={'space-between'} spacing={2} height={1} width={1}>
+                    <Box sx={{ height: "30%", borderRadius: '12px' }}>
+                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ objectFit: 'cover', borderRadius: '12px', height: 1, width: 1 }} />
+                    </Box>
+                    <Box sx={{ height: "70%", borderRadius: '12px' }}>
+                      <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ objectFit: 'cover', height: 1, borderRadius: '12px' }} />
+                    </Box>
                   </Stack>
                 </Grid>
                 <Grid xs={12} sm={12} md={6} item sx={{
