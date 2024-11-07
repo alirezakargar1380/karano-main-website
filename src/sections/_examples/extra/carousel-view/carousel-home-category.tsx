@@ -65,7 +65,7 @@ export default function CarouselHomeCategory() {
   }, [categoryLoading, authenticated])
 
   return (
-    <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', py: 3 }}>
+    <Box component={MotionContainer} sx={{ borderBottom: '1px solid #D1D1D1', py: '26px' }}>
       <Box
         sx={{
           overflow: 'hidden',
@@ -126,33 +126,30 @@ export default function CarouselHomeCategory() {
               :
               categories.map((v: any, index: number) => (
                 <Box key={index}>
-                  <TiltCard halt_rotation_range={20} rotation_range={20}>
-                    <Button
-                      sx={{
-                        border: '2px solid #f2f2f2',
-                        color: '#000',
-                        backgroundColor: '#F8F8F8',
-                        borderRadius: '24px',
-                        width: '90%!important',
-                        textWrap: 'nowrap',
-                        my: 1,
-                        typography: 'body3',
-                        '&: hover': {
-                          border: '2px solid #000',
-                          color: '#000'
-                        },
-                        ...(v.id == Number(selectedCategoryId) && {
-                          border: '2px solid #000',
-                          color: '#000'
-                        })
-                      }}
-                      onClick={() => {
-                        router.push("?category=" + v.id);
-                      }}
-                    >
-                      {v.name}
-                    </Button>
-                  </TiltCard>
+                  <Button
+                    sx={{
+                      border: '2px solid #f2f2f2',
+                      color: '#000',
+                      backgroundColor: '#F8F8F8',
+                      borderRadius: '24px',
+                      width: '90%!important',
+                      textWrap: 'nowrap',
+                      typography: 'body4',
+                      '&: hover': {
+                        border: '2px solid #000',
+                        color: '#000'
+                      },
+                      ...(v.id == Number(selectedCategoryId) && {
+                        border: '2px solid #000',
+                        color: '#000'
+                      })
+                    }}
+                    onClick={() => {
+                      router.push("?category=" + v.id);
+                    }}
+                  >
+                    {v.name}
+                  </Button>
                 </Box>
               ))}
           </Carousel>

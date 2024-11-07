@@ -60,49 +60,52 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
     const Img = () => {
         return (
             <Box position={'relative'} width={1}>
-                {favorite && (
+                {(isFavorite) && (
                     <Box sx={{
                         position: 'absolute',
                         top: 16,
                         left: 16,
+                        zIndex: 1
                     }}>
                         <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
                     </Box>
                 )}
-                <Image
+                <Box
                     sx={{
-                        opacity: (hover) ? 0 : 1,
-                        transition: '0.6s ease-in!important',
-                        '&:hover': {
-                            opacity: 1,
-                            transition: '0.6s ease-out!important',
+                        width: 1,
+                        transform: 'scale(0.98)',
+                        transition: '0.3s ease-in-out',
+                        "&:hover": {
+                            transform: 'scale(1)',
+                            transition: '0.3s ease-in-out',
                         }
                     }}
-                    src={product?.coverUrl || img}
-                    ratio="1/1"
-                    border={'1px solid #E0E0E0'}
-                    borderRadius={'8px'}
-                    onMouseOver={onHoverHandler}
-                    onMouseOut={onHoverOutHandler}
-                />
+                >
+                    <Image
+                        sx={{}}
+                        disabledEffect
+                        src={product?.coverUrl || img}
+                        ratio="1/1"
+                        border={'1px solid #E0E0E0'}
+                        borderRadius={'8px'}
+                        onMouseOver={onHoverHandler}
+                        onMouseOut={onHoverOutHandler}
+                    />
+                </Box>
             </Box>
 
         )
     }
 
     return (
-        <Box sx={{
-            width: 1,
-            transform: !hover ? 'scale(0.98)' : 'scale(1)',
-            transition: '0.3s ease-in-out',
-        }}
-        >
+        <Box sx={{ width: 1 }}>
             <Link href={`/product/${product?.id}/`} display={'block'} color={'inherit'} underline="none">
-                <Stack sx={{ textAlign: 'right', alignItems: 'start' }} spacing={1}>
-                    {hover ? <Img /> : <Img />}
+                <Stack sx={{ textAlign: 'right', alignItems: 'start' }} spacing={'16px'}>
+                    <Img />
 
                     <Typography variant='body1' sx={{
-                        mt: 1, '&:hover': {
+                        mt: 0, 
+                        '&:hover': {
                             cursor: 'pointer'
                         },
                         textAlign: 'left'
@@ -121,7 +124,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                         }
                     }}
                     disabled={!authenticated}
-                    onClick={isFavorite ? handleRemoveToFavorites : handleAddToFavorites}
+                    onClick={(isFavorite || favorite) ? handleRemoveToFavorites : handleAddToFavorites}
                 >
                     <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
                 </IconButton>

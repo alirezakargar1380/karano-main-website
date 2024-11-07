@@ -72,7 +72,7 @@ export default function CarouselBasic1({ sx }: Props) {
 
   return (
     <Box sx={{ ...sx }} component={MotionContainer}>
-      <Grid container spacing={2}>
+      <Grid container spacing={'40px'}>
         <Grid sx={{ pb: 5 }} md={3} xs={12} item>
           <Typography variant='h2' fontFamily={'peyda-bold'}>
             <TextAnimate
@@ -102,16 +102,16 @@ export default function CarouselBasic1({ sx }: Props) {
             </IconButton>
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
-          <Stack sx={{ p: 2, pl: 0 }}>
-            <Typography variant='title2' sx={{ p: 1, listStyleType: 'initial' }} display={'list-item'}>
+          <Stack sx={{ py: '16px', pl: 0 }} spacing={'16px'}>
+            <Typography variant='title2' sx={{ listStyleType: 'initial' }} display={'list-item'}>
               مونتاژ شده
             </Typography>
-            <Typography variant='title2' sx={{ p: 1, listStyleType: 'initial' }} display={'list-item'}>
+            <Typography variant='title2' sx={{ listStyleType: 'initial' }} display={'list-item'}>
               قابلیت ثبت ابعاد سفارشی
             </Typography>
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
-          <Typography variant='body2' sx={{ p: 2 }}>
+          <Typography variant='body2' sx={{ pt: '16px' }}>
             <m.span {...varFade().in}>
               یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند کالاهایی متنوع، باکیفیت و دارای قیمت مناسب را در مدت زمانی کوتاه به دست مشتریان خود برساند و ضمانت بازگشت کالا هم داشته باشد؛ ویژگی‌هایی که فروشگاه اینترنتی کارانو مدت‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق مشتریان ثابت خود را داشته باشد.
             </m.span>
@@ -120,8 +120,8 @@ export default function CarouselBasic1({ sx }: Props) {
         <Grid md={9} xs={12} item>
           <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
             <Stack
-              columnGap={2}
-              rowGap={3}
+              columnGap={'20px'}
+              rowGap={'32px'}
               display="grid!important"
               gridTemplateColumns={{
                 xs: 'repeat(2, 1fr)',
