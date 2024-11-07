@@ -40,7 +40,7 @@ export default function NavDesktopModern({ data }: NavProps) {
 
   return (
     <>
-      <IconButton onClick={handleOpenMenu} sx={{ '&:hover': { background: 'transparent' } }}>
+      <IconButton onClick={handleOpenMenu} sx={{ position: 'fixed', '&:hover': { background: 'transparent' } }}>
         <Stack direction={'column'} justifyContent={'center'} textAlign={'center'} alignItems={'center'}>
           <SvgColor src="/assets/icons/navbar/dots-grid.svg" sx={{ mx: 'auto', width: 24, height: 24 }} />
           <Typography variant='caption2' sx={{ pt: '4px' }}>محصولات</Typography>
