@@ -36,12 +36,14 @@ export default function MainLayout({ children, header = true, footer = true }: P
       title: category.name,
       path: ''
     }
-  }) 
+  })
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
 
-      {(header) && (
+      {(header) && (<Header toggleBanner={(v: boolean) => setShowBanner(v)} />)}
+
+      {/* {(header) && (
         <Box sx={{ bgcolor: '#454545', height: '45px' }}>
           <Stack justifyContent={'center'} direction={'row'} alignItems={'center'} height={1}>
             <Typography variant={'caption2'} color={'#F8F8F8'} pr={'20px'}>
@@ -56,39 +58,20 @@ export default function MainLayout({ children, header = true, footer = true }: P
             </Box>
           </Stack>
         </Box>
-      )}
+      )} */}
 
-      <Container maxWidth={'xl'} sx={{
-        // pl: !mdUp ? 12 : '0px!important'
-      }}>
+      <Container maxWidth={'xl'} sx={{}}>
         <Grid container>
           {(mdUp) ? (
-            <Grid item xs={2} sm={1} md={1}>
-              {(header) && (
-                <AppBar position='sticky' sx={{
-                  // pt: 8,
-                  pt: 1,
-                  // pr: 3,
-                  // right: 0,
-                  alignItems: 'center',
-                  mx: 'auto',
-                  width: '100%',
-                  // ...(showBanner && {
-                  //   pt: 16,
-                  // })
-                }}>
-                  <NavDesktopModern data={navDesktopConfig} />
-                </AppBar>
-              )}
-            </Grid>
+            <Grid item xs={2} sm={1} md={1} />
           ) : null}
 
           <Grid item xs={!mdUp ? 12 : 10} sm={!mdUp ? 12 : 11} md={11} sx={{ px: '0px!important' }}>
-            {(header) && (<Header toggleBanner={(v: boolean) => setShowBanner(v)} />)}
             <Box
               component="main"
               sx={{
                 flexGrow: 1,
+                pt: 5,
                 ...(!homePage && {
                   // pt: 1,
                 }),
