@@ -9,7 +9,7 @@ import MainLayout from 'src/layouts/main';
 import ScrollProgress from 'src/components/scroll-progress';
 
 import Image from 'src/components/image';
-import { Container, Grid, IconButton, Popover, Stack, Typography } from '@mui/material';
+import { Container, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
 import { useCallback, useEffect, useState } from 'react';
@@ -51,7 +51,6 @@ export default function HomeView() {
   const [percent, setPercent] = useState(0);
 
   const customizedPopover = usePopover();
-  const hoverPopover = usePopover();
 
   const getScroll = useCallback(() => {
     let heroHeight = 0;
@@ -242,12 +241,7 @@ export default function HomeView() {
                     ml: '100px',
                     mt: '100px'
                   }}>
-                    <IconButton
-                      // onClick={customizedPopover.onOpen}
-                      aria-owns={customizedPopover.open ? 'mouse-over-popover' : undefined}
-                      aria-haspopup="true"
-                      onMouseEnter={customizedPopover.onOpen}
-                      onMouseLeave={customizedPopover.onClose}
+                    <IconButton onClick={customizedPopover.onOpen}
                       sx={{
                         color: '#fff',
                         bgcolor: '#0a0a0a70',
@@ -266,28 +260,16 @@ export default function HomeView() {
                         color={'#fff'}
                       />
                     </IconButton>
-                    <Popover
-                      id="mouse-over-popover"
-                      open={Boolean(customizedPopover.open)}
-                      anchorEl={customizedPopover.open}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'left',
-                      }}
+                    <CustomPopover
+                      open={customizedPopover.open}
                       onClose={customizedPopover.onClose}
-                      // arrow={'bottom-left'}
-                      // hiddenArrow
-                      disableRestoreFocus
+                      arrow={'bottom-left'}
+                      hiddenArrow
                       sx={{
-                        pointerEvents: 'none',
-                        // bgcolor: '#fff'
+                        bgcolor: '#fff'
                       }}
                     >
-                      <Box sx={{ p: '16px', minWidth: 306 }} onMouseEnter={customizedPopover.onOpen}>
+                      <Box sx={{ p: '16px', minWidth: 306 }}>
                         <Stack direction={'row'} justifyContent={'space-between'}>
                           <Label variant='filled' color='red' size='large'>جدید</Label>
                           <IconButton>
@@ -307,7 +289,7 @@ export default function HomeView() {
                           قابل ثبت به صورت سفارشی
                         </Typography>
                       </Box>
-                    </Popover>
+                    </CustomPopover>
                   </Box>
                   <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
                 </Grid>
