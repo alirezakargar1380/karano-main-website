@@ -42,12 +42,12 @@ export default function MainLayout({ children, header = true, footer = true }: P
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
 
       {(header) && (
-        <Box sx={{ bgcolor: '#454545', py: '10px' }}>
-          <Stack justifyContent={'center'} direction={'row'} alignItems={'center'}>
-            <Typography variant={'caption2'} color={'#F8F8F8'} sx={{ pt: 0.5 }}>
+        <Box sx={{ bgcolor: '#454545', height: '45px' }}>
+          <Stack justifyContent={'center'} direction={'row'} alignItems={'center'} height={1}>
+            <Typography variant={'caption2'} color={'#F8F8F8'} pr={'20px'}>
               متن بنر مورد نظر اینجا قرار می‌گیرد
             </Typography>
-            <Box sx={{ borderLeft: '1px solid #F8F8F8', ml: 2, pl: 2, height: '22.5px', display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ borderLeft: '1px solid #F8F8F8', pl: '20px', height: '22.5px', display: 'flex', alignItems: 'center' }}>
               <IconButton sx={{ p: 0 }}
               // onClick={() => toggle()}
               >
