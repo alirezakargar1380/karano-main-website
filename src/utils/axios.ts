@@ -80,7 +80,7 @@ export const endpoints = {
     create: '/api/products-cover-types',
     one: (id: string) => `/api/products-cover-types/${id}`,
     update: (id: any) => `/api/products-cover-types/${id}`,
-    get_image: (name: string) => `${BACKEND_API}/api/products-cover-types/icons/${name}`,
+    get_image: (name: string) => `${BACKEND_API}/api/products-cover-types/${name}/icon`,
     upload_icon: (id: any) => `/api/products-cover-types/${id}/icon`
   },
   mail: {

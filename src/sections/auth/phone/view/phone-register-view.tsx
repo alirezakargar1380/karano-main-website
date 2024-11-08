@@ -133,6 +133,9 @@ export default function PhoneRegisterView() {
 
           <RHFRadioGroup
             name="user_type"
+            FSx={{
+              // width: 1
+            }}
             options={Object.values(IUserTypes).map((value: string) => {
               return { label: value, value: value };
             })}
@@ -189,11 +192,11 @@ export default function PhoneRegisterView() {
   );
 
   return (
-    <Container>
+    <Box>
       {renderHead}
 
       {renderForm}
 
-    </Container>
+    </Box>
   );
 }

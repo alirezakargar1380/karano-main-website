@@ -59,7 +59,14 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
 
     const Img = () => {
         return (
-            <Box position={'relative'} width={1}>
+            <Box position={'relative'} sx={{
+                transform: 'scale(1)',
+                transition: 'transform 0.5s ease-in-out',
+                "&:hover": {
+                    transform: 'scale(0.98)',
+                    // transition: 'transform 0.5s ease-in-out',
+                }
+            }} width={1}>
                 {(isFavorite) && (
                     <Box sx={{
                         position: 'absolute',
@@ -70,17 +77,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                         <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
                     </Box>
                 )}
-                <Box
-                    sx={{
-                        width: 1,
-                        transform: 'scale(0.98)',
-                        transition: '0.3s ease-in-out',
-                        "&:hover": {
-                            transform: 'scale(1)',
-                            transition: '0.3s ease-in-out',
-                        }
-                    }}
-                >
+                <Box width={1}>
                     <Image
                         sx={{}}
                         disabledEffect
@@ -104,7 +101,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                     <Img />
 
                     <Typography variant='body1' sx={{
-                        mt: 0, 
+                        mt: 0,
                         '&:hover': {
                             cursor: 'pointer'
                         },

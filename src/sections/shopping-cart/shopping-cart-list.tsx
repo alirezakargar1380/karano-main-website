@@ -139,7 +139,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         return (
             <Box>
                 {checkoutItems.map((item, index: number) => (
-                    <Box display={'flex'} gap={'12px'} mt={'12px'}>
+                    <Box display={'flex'} gap={'12px'} mt={'12px'} key={index}>
                         <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
                         <Box>
                             <Typography variant="body3">{item.product.name}</Typography>
