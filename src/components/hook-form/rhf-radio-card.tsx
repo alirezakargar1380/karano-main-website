@@ -65,32 +65,38 @@ export default function RHFRadioGroupCard({
                         </FormLabel>
                     )}
                     <RadioGroup {...field} aria-labelledby={labelledby} row={row} {...other}>
-                        <Stack direction={row ? 'row' : 'column'} spacing={2}>
+                        <Stack direction={row ? 'row' : 'column'}>
                             {options.map((option, index) => (
                                 <Box
                                     key={index}
                                     sx={{
                                         border: '1px solid #D1D1D1',
                                         borderRadius: '16px',
-                                        mb: 2, py: 0.5, pl: 2, pr: 2,
+                                        mb: 2, 
+                                        py: 0.5, 
+                                        pl: 2, 
+                                        pr: 2,
                                         ...BSx,
                                         ...(field.value === option.value) && {
                                             border: '1px solid #D1D1D1',
-                                        },
-                                        ...(field.value === option.value && option.children?.length) && {
-                                            border: '1px solid #D1D1D1',
                                             bgcolor: '#F8F8F8'
-                                        }
+                                        },
+                                        // ...(field.value === option.value && option.children?.length) && {
+                                        //     border: '1px solid #D1D1D1',
+                                        //     bgcolor: '#F8F8F8'
+                                        // }
                                     }}
                                 >
-                                    <Stack direction={'row'}>
+                                    <Stack direction={'row'} alignItems={'center'}>
                                         <FormControlLabel
                                             key={option.value}
                                             value={option.value}
                                             control={
                                                 <Radio
                                                     sx={{
-                                                        ...RadioSx
+                                                        ...RadioSx,
+                                                        width: 'fit-content',
+                                                        ml: 0
                                                     }}
                                                     size='small'
                                                 />
@@ -106,13 +112,14 @@ export default function RHFRadioGroupCard({
                                                         mr: spacing || 2,
                                                     },
                                                 }),
-                                                mr: 0.5
+                                                mr: 0,
+                                                display: 'contents'
                                             }}
                                         />
                                         {(option.icon) && (
-                                            <SvgColor src={option.icon} sx={{ mt: 0.7, mr: 1, color: "#727272" }} />
+                                            <SvgColor src={option.icon} sx={{ mr: 1, color: "#727272" }} />
                                         )}
-                                        <Typography sx={{ pt: 0.5, color: "#2B2B2B" }} variant={variant} fontFamily={'peyda-bold'}>{option.label}</Typography>
+                                        <Typography sx={{ color: "#2B2B2B", width: 'fit-content' }} variant={variant}>{option.label}</Typography>
                                     </Stack>
 
                                     {(field.value === option.value && option.children?.length) && (
@@ -122,12 +129,12 @@ export default function RHFRadioGroupCard({
                                             <Stack direction={'row'} sx={{ width: 1, mb: 2 }} justifyContent={'space-between'} spacing={1}>
                                                 {option.children.map((option, index) => (
                                                     <Box sx={{ width: 0.5 }} key={index}>
-                                                        <Typography variant='h6'>{option.lable}</Typography>
+                                                        <Typography variant='body3'>{option.lable}</Typography>
                                                         <RHFSelect name={option.name} sx={{
                                                             width: 1,
                                                             bgcolor: 'white',
                                                             borderRadius: 1,
-                                                        }} variant='outlined' size='small' placeholder='انتخاب کنید'>
+                                                        }} size='small' placeholder='انتخاب کنید'>
                                                             {option.options.map((item, ind) => (
                                                                 <MenuItem value={item.value} key={ind}>{item.label}</MenuItem>
                                                             ))}
