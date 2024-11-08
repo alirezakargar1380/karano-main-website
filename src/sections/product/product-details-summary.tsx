@@ -216,6 +216,16 @@ export default function ProductDetailsSummary({
 
       <RHFRadioGroup
         name="dimension_id"
+        row
+        sx={{
+          width: 1,
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            md: 'repeat(2, 1fr)',
+          },
+          gridGap: 18,
+        }}
         options={product_dimension.map((dimension, index: number) => {
           return {
             label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',

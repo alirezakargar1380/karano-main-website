@@ -16,7 +16,7 @@ export const navConfig = [
   {
     title: 'نحوه سفارش',
     icon: <Iconify icon="solar:atom-bold-duotone" />,
-    path: '/how-order',
+    path: '#how-to-order',
     // path: paths.components,
   },
   {
