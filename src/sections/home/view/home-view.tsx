@@ -197,15 +197,15 @@ export default function HomeView() {
         </Box>
       </m.div>
 
-      <MainLayout header={false}>
-        <Container maxWidth={'xl'} sx={{ mt: 8 }}>
+      {/* <MainLayout header={false}> */}
+        <Container maxWidth={'xl'} sx={{ mt: '120px' }}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
             <Box>
               <Typography
                 variant='heading3'
                 sx={{
-                  pb: 2,
+                  pb: '44px',
                   textAlign: {
                     xs: 'center',
                     sm: 'center',
@@ -217,7 +217,7 @@ export default function HomeView() {
               </Typography>
               <Grid container spacing={2}>
                 <Grid xs={6} sm={6} md={3} item>
-                  <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ width: 1, height: 1 }} />
+                  <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
                 </Grid>
                 <Grid xs={6} sm={6} md={3} item>
                   <Stack justifyContent={'space-between'} spacing={2} height={1} width={1}>
@@ -295,7 +295,7 @@ export default function HomeView() {
                       </Box>
                     </CustomPopover>
                   </Box>
-                  <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ width: 1, height: 1 }} />
+                  <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
                 </Grid>
               </Grid>
             </Box>
@@ -343,7 +343,7 @@ export default function HomeView() {
 
           </Stack>
         </Container>
-      </MainLayout>
+      {/* </MainLayout> */}
     </>
   );
 }

@@ -10,6 +10,8 @@ import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import DialogWithButton from '../custom-dialog/dialog-with-button';
 import { useCheckoutContext } from 'src/sections/checkout/context';
 import { endpoints, server_axios } from 'src/utils/axios';
+import { PrimaryButton } from '../styles/buttons/primary';
+import { useGetProvinceCities, useGetProvinces } from 'src/api/province';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -23,15 +25,21 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
 
     const defaultValues = {
         delivery_type: 'tehran',
-        provice: '',
-        city: ''
+        province: {
+            id: 0
+        },
+        city: {
+            id: 0
+        }
     };
 
     const methods = useForm({
         defaultValues,
     });
 
-    const { handleSubmit } = methods;
+    const { watch, handleSubmit } = methods;
+
+    const values = watch();
 
     const descriptionElementRef = useRef<HTMLElement>(null);
 
@@ -43,6 +51,9 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
             }
         }
     }, [dialog.value]);
+
+    const { provinces } = useGetProvinces();
+    const { cities } = useGetProvinceCities(values.province?.id);
 
     const onSubmit = handleSubmit(async (data) => {
         try {
@@ -60,13 +71,14 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
     return (
         <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Box sx={{ p: 4, bgcolor: 'white', borderRadius: '16px' }}>
+                <Box sx={{ bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant="h4" sx={{ width: 1, pb: 2, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}>
                         جزئیات نحوه ارسال
                     </Typography>
-                    <Box sx={{ mt: 4 }}>
+                    <Box sx={{ mt: '24px' }}>
                         <RHFRadioGroupCard
                             name='delivery_type'
+                            variant='body2'
                             options={[
                                 {
                                     label: 'تحویل در تهران',
@@ -85,40 +97,42 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
                                     children: [
                                         {
                                             lable: "استان",
-                                            name: "provice",
-                                            options: [
-                                                {
-                                                    label: "بوشهر",
-                                                    value: "بوشهر"
+                                            name: "province.id",
+                                            options: provinces.map((p) => {
+                                                return {
+                                                    label: p.name,
+                                                    value: p.id
                                                 }
-                                            ]
+                                            })
                                         },
                                         {
                                             lable: "شهر",
-                                            name: "city",
-                                            options: [
-                                                {
-                                                    label: "برازجان",
-                                                    value: "برازجان"
+                                            name: "city.id",
+                                            options: cities?.map((p) => {
+                                                return {
+                                                    label: p.name,
+                                                    value: p.id
                                                 }
-                                            ]
+                                            })
                                         }
                                     ]
                                 },
                             ]}
                             BSx={{
-                                borderRadius: '8px',
+                                borderRadius: '16px',
                                 '&:hover': {
                                     cursor: 'pointer',
-                                    border: '1px solid #000'
+                                    border: '1.5px solid #D1D1D1'
                                 },
-                                py: 1
+                                py: '20px',
+                                ml: 0,
+                                mb: '24px'
                             }}
                         />
                     </Box>
                     <Stack sx={{ mt: 0 }} direction={'row'} spacing={1} justifyContent={'end'}>
-                        <SecondaryButton variant='outlined' sx={{ px: 4 }}>انصراف</SecondaryButton>
-                        <LoadingButton variant='contained' sx={{ borderRadius: '24px', px: 4 }} type='submit'>تایید</LoadingButton>
+                        <SecondaryButton size='medium'>انصراف</SecondaryButton>
+                        <PrimaryButton size='medium' type='submit'>تایید</PrimaryButton>
                     </Stack>
                 </Box>
             </FormProvider>
