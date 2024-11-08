@@ -192,14 +192,14 @@ export default function OrderTrackingListView() {
         </Box>
       </DialogWithButton>
 
-      <DialogWithButton dialog={orderRejectingDialog} fullWith={true}>
+      {/* <DialogWithButton dialog={orderRejectingDialog} fullWith={true}> */}
         <OrderRejectionListView
           dialog={orderRejectingDialog}
           orderId={orderId}
           order_number={order?.order_number}
           onUpdate={() => refreshOrders()}
         />
-      </DialogWithButton>
+      {/* </DialogWithButton> */}
 
       <Stack spacing={'20px'} pb={10}>
         {orders.map((order) => (

@@ -10,7 +10,7 @@ import { IOrderProductItem } from 'src/types/order-products';
 import { useSnackbar } from 'src/components/snackbar';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { endpoints, server_axios } from 'src/utils/axios';
-import { ConfirmDialog } from 'src/components/custom-dialog';
+import { ConfirmDialog, DialogWithButton } from 'src/components/custom-dialog';
 import Scrollbar from 'src/components/scrollbar';
 import { OrderStatus } from 'src/types/order';
 import { useGetOrderProducts } from 'src/api/order-products';
@@ -119,7 +119,7 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
   };
 
   return (
-    <React.Fragment>
+    <DialogWithButton dialog={dialog} fullWith={true}>
       <ConfirmDialog
         onClose={cancel.onFalse}
         color='#727272'
@@ -167,17 +167,15 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
         }
       />
 
-      <Box sx={{ px: '40px', bgcolor: 'white', borderRadius: '16px' }}>
-        <DialogTitle
-          variant="title1"
-          sx={{ width: 1, px: 0, fontFamily: 'peyda-bold', borderBottom: '1px solid #D1D1D1' }}
-        >
-          جزییات رد ‌سفارش
-        </DialogTitle>
-      </Box>
+      <DialogTitle
+        variant="title1"
+        sx={{ width: 1, px: 0, pt: 0, borderBottom: '1px solid #D1D1D1' }}
+      >
+        جزییات رد ‌سفارش
+      </DialogTitle>
       <DialogContent sx={{ px: 0 }}>
         <Scrollbar>
-          <Box sx={{ px: '40px', bgcolor: 'white', borderRadius: '16px', mb: '36px' }}>
+          <Box sx={{ bgcolor: 'white', borderRadius: '16px', mb: '36px' }}>
             <Box pt={'24px'}>
               <YellowNotification title="لیست کالاهای «سفارشی» ناموجود" sx={{ mb: 3 }}>
                 ادمین فروش تعدادی / تمامی کالاهای شما را رد کرده و علت‌های کالاهای ردشده را ثبت کرده
@@ -213,7 +211,7 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
           </Box>
         </Scrollbar>
       </DialogContent>
-      <DialogActions sx={{ px: '40px', pb: '30px', pt: 0 }}>
+      <DialogActions sx={{ px: 0, pt: 0, pb: 0 }}>
         <Stack
           direction={'row'}
           spacing={'12px'}
@@ -233,6 +231,6 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
                     </LoadingButton> */}
         </Stack>
       </DialogActions>
-    </React.Fragment>
+    </DialogWithButton>
   );
 }

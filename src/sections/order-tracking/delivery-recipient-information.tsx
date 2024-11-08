@@ -32,7 +32,6 @@ import _ from 'lodash';
 import { useBoolean, useBooleanReturnType } from 'src/hooks/use-boolean';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
-import CompleteOrderLayout from './layout/complete-order-layout';
 import InputCard from './components/input-card';
 import { PrimaryButton } from '../../components/styles/buttons/primary';
 import { toEnglishNumber, toPhoneNumberInputFormat } from 'src/utils/change-case';
@@ -193,7 +192,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
       />
 
       <CompleteOrderDialogContent>
-        <CompleteOrderLayout>
+        {/* <CompleteOrderLayout> */}
           <Stack spacing={'24px'}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
               <InputCard title="اطلاعات تحویل گیرنده">
@@ -310,7 +309,7 @@ export function DeliveryRecipientInformation({ orderId, delivery_type, dialog, o
               </FormProvider>
             )}
           </Stack>
-        </CompleteOrderLayout>
+        {/* </CompleteOrderLayout> */}
       </CompleteOrderDialogContent>
       {/* <FormProvider methods={methods} onSubmit={onSubmit}> */}
       <Actions

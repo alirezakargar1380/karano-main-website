@@ -15,7 +15,6 @@ import { OrderStatus } from "src/types/order";
 import { DialogWithButton } from "src/components/custom-dialog";
 import CompleteInvoiceView from "./complete-invoice-view";
 import SvgColor from "src/components/svg-color";
-import CompleteOrderLayout from "./layout/complete-order-layout";
 
 interface Props {
     orderId: number
@@ -47,7 +46,7 @@ export default function CompleteOrderView({
     useEffect(() => {
         if (checkout.activeStep === -1) finalOrderDialog.onFalse()
         if (!finalOrderDialog.value) return;
-        
+
         if (checkout.activeStep === 2 && order.need_prepayment) handle();
         if (checkout.activeStep === 3) handle();
     }, [checkout.activeStep]);
@@ -62,8 +61,7 @@ export default function CompleteOrderView({
 
     return (
         <DialogWithButton dialog={finalOrderDialog} fullWith={true}>
-            <DialogTitle sx={{ p: 0, pt: '40px', height: 'fit-content' }}>
-                <CompleteOrderLayout>
+            <DialogTitle sx={{ px: 0, pt: 0, height: 'fit-content' }}>
                     <Stack direction={'row'} justifyContent={'space-between'} spacing={2} sx={{ px: 0 }} borderBottom={'1px solid #D1D1D1'}>
                         <Stack direction={'row'} spacing={2}>
                             <Typography variant="title1" sx={{ pb: 2, fontFamily: 'peyda-bold', }}>
@@ -98,7 +96,6 @@ export default function CompleteOrderView({
                             }
                         />
                     </Box>
-                </CompleteOrderLayout>
             </DialogTitle>
 
             {checkout.activeStep === 0 && (

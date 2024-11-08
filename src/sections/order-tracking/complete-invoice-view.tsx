@@ -6,7 +6,6 @@ import { ConfirmDialog } from 'src/components/custom-dialog';
 import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
 import { useCheckoutContext } from '../checkout/context';
 import CompleteOrderDialogContent from './dialog-content';
-import CompleteOrderLayout from './layout/complete-order-layout';
 import { PrimaryButton } from '../../components/styles/buttons/primary';
 
 type Props = {
@@ -44,15 +43,14 @@ export default function CompleteInvoiceView({ children, dialog }: Props) {
         }
       />
       <CompleteOrderDialogContent>
-        <CompleteOrderLayout>{children}</CompleteOrderLayout>
+        {children}
       </CompleteOrderDialogContent>
-      <Box>
-        <Actions
-          onCancel={cancelDialog.onTrue}
-          onSubmit={checkout.onNextStep}
-          title="تایید و ادامه"
-        />
-      </Box>
+
+      <Actions
+        onCancel={cancelDialog.onTrue}
+        onSubmit={checkout.onNextStep}
+        title="تایید و ادامه"
+      />
     </>
   );
 }

@@ -29,10 +29,6 @@ const Transition = forwardRef(
     ) => <Fade ref={ref} {...props} />
 );
 
-// should be 40px padding
-// padding y 20px
-// width noe profile
-
 export default function DialogWithButton({ dialog, children, fullWith, width = 480, maxWidth = 'lg', sx }: Props) {
 
     const default_sx = fullWith ? {} : { maxWidth: `${width}px!important` }
@@ -61,8 +57,8 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                 overflowY: 'unset!important',
                 boxShadow: 'none!important'
             }}>
-            <Paper {...props} sx={{ ...default_sx }} />
-            <Box mt={2}>
+            <Paper {...props} sx={{ ...default_sx, p: '40px' }} />
+            <Box>
                 <IconButton
                     onClick={dialog.onFalse}
                     sx={{
@@ -89,6 +85,8 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
             maxWidth={maxWidth}
             PaperProps={{
                 style: {
+                    marginTop: 0,
+                    marginBottom: 0,
                     // marginTop: '24px',
                     // marginBottom: '24px',
                     // margin: '0px',
@@ -98,10 +96,11 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                     // marginTop: 20,
                     // marginBottom: 20,
                     width: 'calc(100% - 16px)',
+                    // height: '100%',
                     // zIndex: 99
                     // maxWidth: 'calc(100% - 14px)',
                     // minHeight: '90vh',
-                    // maxHeight: '90vh',
+                    maxHeight: 'calc(100vh - 40px)',
                 },
             }}
             sx={{
@@ -110,9 +109,7 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                 }
             }}
         >
-            {/* <Box padding={'0px'}> */}
-                {children}
-            {/* </Box> */}
+            {children}
         </Dialog>
     );
 }

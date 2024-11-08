@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { Actions } from './dialog-action';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 import { cancelDialogContent, cancelDialogTitle } from './contants/dialog';
-import CompleteOrderLayout from './layout/complete-order-layout';
 import CompleteOrderDialogContent from './dialog-content';
 import InputCard from './components/input-card';
 import { PrimaryButton } from '../../components/styles/buttons/primary';
@@ -59,7 +58,6 @@ export default function Payment({
         }
       />
       <CompleteOrderDialogContent>
-        <CompleteOrderLayout>
           <FormProvider methods={methods}>
             <InputCard title={hasCustomMade ? 'پیش پرداخت' : 'پرداخت'}>
               <Typography variant="body2" sx={{ width: 1, pb: 4 }}>
@@ -81,7 +79,6 @@ export default function Payment({
               </Box>
             </InputCard>
           </FormProvider>
-        </CompleteOrderLayout>
       </CompleteOrderDialogContent>
       <Actions onCancel={cancelDialog.onTrue} onSubmit={checkout.onNextStep} title="پرداخت" />
     </>
