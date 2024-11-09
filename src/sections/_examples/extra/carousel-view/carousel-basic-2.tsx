@@ -127,14 +127,35 @@ function CarouselItem2({ item }: { item: any }) {
       >
         <Box sx={{
           p: '16px',
-          maxWidth: 380,
+          minWidth: 528,
         }}>
+
           <Image src={'/img/product/product.png'} ratio="1/1" borderRadius={'12px'} border={'1px solid #D1D1D1'} />
           <Stack direction={'row'} spacing={2} mt={'20px'}>
-            <Box width={180} height={'fit-content'} bgcolor={'white'} border={'1px solid #D1D1D1'} borderRadius={'12px'}>
-              <Image src={'/img/product/product.png'} sx={{ width: 1 }} />
+            <Box height={'fit-content'} bgcolor={'white'} border={'1px solid #D1D1D1'} borderRadius={'12px'}>
+              <Box width={1} position={'relative'}>
+                <Box sx={{
+                  position: 'absolute',
+                  top: 8,
+                  left: 8,
+                  zIndex: 1
+                }}>
+                  <IconButton
+                    size='small' sx={{
+                      bgcolor: "#D1D1D1",
+                      "&.Mui-disabled": {
+                        backgroundColor: "#f0f0f0!important"
+                      }
+                    }}
+                  >
+                    <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 16, height: 16 }} />
+                  </IconButton>
+                </Box>
+              </Box>
+
+              <Image src={'/img/product/product.png'} ratio='1/1' sx={{ width: 140 }} />
             </Box>
-            <Box width={1} textAlign={'left'}>
+            <Box width={1} textAlign={'left'} height={'fit-content'}>
               <Typography variant='title3'>
                 درب کابینتی p-60
               </Typography>
