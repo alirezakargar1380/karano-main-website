@@ -62,8 +62,6 @@ export default function CarouselBasic2({ data }: Props) {
     ],
   });
 
-  console.log(carousel.currentIndex)
-
   return (
     <Box sx={{ position: 'relative' }}>
       <CarouselArrowsCustom
