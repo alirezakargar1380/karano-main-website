@@ -128,10 +128,11 @@ export default function CarouselHomeCategory() {
                 <Box key={index}>
                   <Button
                     sx={{
+                      height: 48,
                       border: '2px solid #f2f2f2',
                       color: '#000',
                       backgroundColor: '#F8F8F8',
-                      borderRadius: '24px',
+                      borderRadius: '60px',
                       width: '90%!important',
                       textWrap: 'nowrap',
                       typography: 'body4',

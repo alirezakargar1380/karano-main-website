@@ -117,7 +117,7 @@ export default function RHFRadioGroupCard({
                                             }}
                                         />
                                         {(option.icon) && (
-                                            <SvgColor src={option.icon} sx={{ mr: 1, color: "#727272" }} />
+                                            <SvgColor src={option.icon} sx={{ color: "#727272" }} />
                                         )}
                                         <Typography sx={{ color: "#2B2B2B", width: 'fit-content', pl: '8px' }} variant={variant}>{option.label}</Typography>
                                     </Stack>
