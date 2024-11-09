@@ -100,7 +100,7 @@ export default function DialogWithButton({ dialog, children, fullWith, width = 4
                     // zIndex: 99
                     // maxWidth: 'calc(100% - 14px)',
                     // minHeight: '90vh',
-                    maxHeight: 'calc(100vh - 40px)',
+                    maxHeight: 'calc(100vh - 80px)',
                 },
             }}
             sx={{
