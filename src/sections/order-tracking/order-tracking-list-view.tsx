@@ -110,7 +110,7 @@ export default function OrderTrackingListView() {
       />
 
       <DialogWithButton dialog={finalPaymentDialog} fullWith={false} width={800}>
-        <Box p={4}>
+        <Box>
           <Stack
             direction={'row'}
             borderBottom={'1px solid #D1D1D1'}
@@ -161,7 +161,7 @@ export default function OrderTrackingListView() {
       />
 
       <DialogWithButton dialog={cartDialog} fullWith={true}>
-        <Box p={4}>
+        <Box>
           <Stack
             direction={'row'}
             justifyContent={'space-between'}

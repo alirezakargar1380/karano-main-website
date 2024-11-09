@@ -185,7 +185,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                 />
             )}
             {checkoutItems.map((item, index: number) => (
-                <Box textAlign={'right'} key={index}>
+                <Box textAlign={'right'} key={index} mt={'40px'}>
                     <Grid container spacing={2}>
                         {(type !== 'edit') ? <Grid item sm={2} /> : null}
                         <Grid item sm={10}>

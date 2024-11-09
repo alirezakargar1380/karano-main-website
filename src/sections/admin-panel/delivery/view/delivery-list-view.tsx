@@ -70,7 +70,7 @@ export default function DeliveryListView() {
         <Container maxWidth={settings.themeStretch ? false : 'lg'}>
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
                 {(!orderLoading) && (
-                    <Box sx={{ p: 4 }}>
+                    <Box>
                         <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2} mb={2}>
                             <Typography variant="h4" fontFamily={'peyda-bold'}>جزییات ارسال</Typography>
                         </Stack>

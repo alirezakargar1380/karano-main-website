@@ -44,7 +44,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
     return (
         <DialogWithButton dialog={dialog} fullWith={false} width={640}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Box sx={{ p: '40px', bgcolor: 'white', borderRadius: '16px' }}>
+                <Box sx={{ bgcolor: 'white', borderRadius: '16px' }}>
                     <Typography variant='title1' borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={'16px'}>
                         تاییدیه هزینه مونتاژ
                     </Typography>
