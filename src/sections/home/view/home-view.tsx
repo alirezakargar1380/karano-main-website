@@ -147,7 +147,7 @@ export default function HomeView() {
           color: '#fff', textAlign: 'center'
         }}>
           <Container maxWidth={'xl'}>
-            <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='heading3'>
+            <Typography sx={{ width: 1, color: "#fff", py: 5 }} variant='heading2'>
               کارانو، راه‌حل‌های کارامد در صنعت چوب
             </Typography>
             <Grid
@@ -158,37 +158,57 @@ export default function HomeView() {
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} height={1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-                  <Typography variant='heading1'>
-                    <Counter end={88} /> +
-                  </Typography>
-                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+                  <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+                    <Typography variant='superHeading2'>
+                      <Counter end={88} />
+                    </Typography>
+                    <Typography variant='superHeading1'>
+                      +
+                    </Typography>
+                  </Stack>
+                  <Typography sx={{ pb: 3 }} variant='title1'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-                  <Typography variant='heading1'>
-                    <Counter end={88} /> +
-                  </Typography>
-                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+                  <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+                    <Typography variant='superHeading2'>
+                      <Counter end={88} />
+                    </Typography>
+                    <Typography variant='superHeading1'>
+                      +
+                    </Typography>
+                  </Stack>
+                  <Typography sx={{ pb: 3 }} variant='title1'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12} borderRight={mdUp ? '1px solid #fff' : ''}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-                  <Typography variant='heading1'>
-                    <Counter end={88} /> +
-                  </Typography>
-                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+                  <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+                    <Typography variant='superHeading2'>
+                      <Counter end={88} />
+                    </Typography>
+                    <Typography variant='superHeading1'>
+                      +
+                    </Typography>
+                  </Stack>
+                  <Typography sx={{ pb: 3 }} variant='title1'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
               <Grid item md={3} sm={12} xs={12}>
                 <Box width={!mdUp ? 'fit-content' : 1} sx={{ mx: 'auto' }} borderBottom={!mdUp ? '1px solid #fff' : ''}>
-                  <Typography variant='heading1'>
-                    <Counter end={88} /> +
-                  </Typography>
-                  <Typography fontFamily={'peyda-regular'} sx={{ pb: 3 }} variant='h5'>سال تجربه و قدمت</Typography>
+                  <Stack direction={'row'} alignItems={'center'} justifyContent={'center'}>
+                    <Typography variant='superHeading2'>
+                      <Counter end={88} />
+                    </Typography>
+                    <Typography variant='superHeading1'>
+                      +
+                    </Typography>
+                  </Stack>
+                  <Typography sx={{ pb: 3 }} variant='title1'>سال تجربه و قدمت</Typography>
                 </Box>
               </Grid>
 
@@ -198,7 +218,7 @@ export default function HomeView() {
       </m.div>
 
       <MainLayout header={false}>
-        <Container maxWidth={'xl'} sx={{ }}>
+        <Container maxWidth={'xl'} sx={{}}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
             <Box>
