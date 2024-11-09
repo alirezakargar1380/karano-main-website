@@ -29,14 +29,27 @@ export default function CarouselBasic2({ data }: Props) {
   const carousel = useCarousel({
     // fade: true,
     autoplay: false,
-    slidesToShow: 2.5,
+    slidesToShow: 3,
     draggable: true,
+    initialSlide: 0,
     // centerPadding: '50px',
     className: 'carousel-basic-2',
+    ...CarouselDots({
+      rounded: true,
+      // tvariant: 'title1',
+      sx: {
+        top: -46,
+        // right: 20,
+        zIndex: 101,
+        px: '10px',
+        position: 'absolute',
+        color: '#000!important',
+      },
+    }),
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 2.5, centerPadding: '50px' },
+        settings: { slidesToShow: 3, centerPadding: '50px' },
       },
       {
         breakpoint: 800,
@@ -49,16 +62,46 @@ export default function CarouselBasic2({ data }: Props) {
     ],
   });
 
+  console.log(carousel.currentIndex)
+
   return (
-    <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-      {data.map((item) => (
-        <Stack key={item.id} p={0.5}>
-          {/* <CarouselItem item={item} /> */}
-          <CarouselItem2 item={item} />
-          {/* <Image alt={item.title} src={item.coverUrl} ratio="4/3" borderRadius={'12px'} key={item.id} /> */}
-        </Stack>
-      ))}
-    </Carousel>
+    <Box sx={{ position: 'relative' }}>
+      <CarouselArrowsCustom
+        filled
+        icon="icon-park-outline:right"
+        onNext={carousel.onPrev}
+        onPrev={carousel.onNext}
+        leftButtonBoxProps={{
+          sx: {
+            display: (!carousel.currentIndex) ? 'none' : '',
+            width: '80px',
+            height: 1,
+            position: 'absolute',
+            zIndex: 100,
+          }
+        }}
+        rightButtonBoxProps={{
+          sx: {
+            width: '80px',
+            height: 1,
+            position: 'absolute',
+            right: 0,
+            zIndex: 100,
+          }
+        }}
+      >
+        <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
+          {data.map((item) => (
+
+
+            <Stack key={item.id} p={1}>
+              <CarouselItem2 item={item} />
+            </Stack>
+
+          ))}
+        </Carousel>
+      </CarouselArrowsCustom>
+    </Box>
   );
 }
 
@@ -80,23 +123,33 @@ function CarouselItem2({ item }: { item: any }) {
         onClose={customizedPopover.onClose}
         arrow={'bottom-left'}
         hiddenArrow
+        sx={{ bgcolor: "#fff" }}
       >
         <Box sx={{
-          p: 2,
+          p: '16px',
           maxWidth: 380,
         }}>
-          <Image src={'/img/product/product.png'} ratio="4/3" borderRadius={'12px'} />
-          <Stack direction={'row'} spacing={2} mt={3}>
+          <Image src={'/img/product/product.png'} ratio="1/1" borderRadius={'12px'} border={'1px solid #D1D1D1'} />
+          <Stack direction={'row'} spacing={2} mt={'20px'}>
             <Box width={180} height={'fit-content'} bgcolor={'white'} border={'1px solid #D1D1D1'} borderRadius={'12px'}>
               <Image src={'/img/product/product.png'} sx={{ width: 1 }} />
             </Box>
             <Box width={1} textAlign={'left'}>
-              <Typography variant='h6'>
+              <Typography variant='title3'>
                 درب کابینتی p-60
               </Typography>
-              <Typography variant='body2' color={'text.secondary'}>
+              <Typography variant='body4' color={'#727272'}>
                 دسته بندی محصول
               </Typography>
+              <Typography variant='body4' color={'#121212'}>
+                ابعاد:
+              </Typography>
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <Typography variant='body4' color={'#2B2B2B'}>
+                  قابل ثبت به صورت سفارشی
+                </Typography>
+                <SvgColor src='/assets/icons/home/help-circle.svg' />
+              </Stack>
             </Box>
           </Stack>
         </Box>

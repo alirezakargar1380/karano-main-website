@@ -21,6 +21,7 @@ import { navConfig } from './config-navigation';
 import ShoppingCartButton from '../common/shopping-cart-button';
 import LoginButton from '../common/login-button';
 import Image from 'src/components/image';
+import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -79,12 +80,12 @@ export default function Footer() {
     <Stack direction={"row"} sx={{ border: '1px solid #D1D1D1', borderRadius: '36px', px: 4, my: 6 }}>
       <Logo sx={{ my: 3 }} />
       <Stack direction={'row'} justifyItems={'center'}>
-        <NavDesktop data={navConfig} />
+        {/* <NavDesktop data={navConfig} /> */}
       </Stack>
       <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }} sx={{ ml: 'auto', }} spacing={0.7}>
-        <Box sx={{ borderLeft: '2px solid #000000' }} display={'flex'}>
-          <Typography fontFamily={'peyda-bold'} sx={{ pt: 0.5, pl: 2 }}>karanowood</Typography>
-          <Image src='/assets/icons/footer/instagram.png' sx={{ ml: 1, width: 36 }} />
+        <Box sx={{ borderLeft: '2px solid #000000' }} display={'flex'} alignItems={'center'} gap={'8px'}>
+          <Typography variant='body3' sx={{ pt: 0.5, pl: 2 }}>karanowood</Typography>
+          <SvgColor src='/assets/icons/home/instagram.svg' sx={{ width: 24, height: 24 }} />
         </Box>
         <LoginButton />
       </Stack>

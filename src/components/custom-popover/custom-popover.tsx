@@ -29,8 +29,10 @@ export default function CustomPopover({
       slotProps={{
         paper: {
           sx: {
+            p:0,
             width: 'auto',
             overflow: 'inherit',
+            boxShadow: '3px 0px 15px 0px #00000045',
             ...style,
             [`& .${menuItemClasses.root}`]: {
               '& svg': {

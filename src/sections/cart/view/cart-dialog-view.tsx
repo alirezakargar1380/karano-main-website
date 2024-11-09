@@ -383,6 +383,35 @@ export default function CartDialogView({
                                 </Box>
                             )}
 
+                            {/* {(formOptions.dimentions?.length > 0) && (
+                                <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                                    <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                        width: 1, pb: '16px'
+                                    }}>
+                                        نوع قاب
+                                    </Typography>
+                                    <RHFRadioGroup
+                                        name="dimension_id"
+                                        row
+                                        sx={{
+                                            width: 1,
+                                            display: 'grid',
+                                            gridTemplateColumns: {
+                                                xs: 'repeat(1, 1fr)',
+                                                md: 'repeat(2, 1fr)',
+                                            },
+                                            gridGap: 18,
+                                        }}
+                                        options={product_dimension.map((dimension, index: number) => {
+                                            return {
+                                                label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',
+                                                value: dimension.id
+                                            };
+                                        })}
+                                    />
+                                </Box>
+                            )} */}
+
                             {(formOptions.coating_type) && (
                                 <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                                     <Typography variant="title3" fontFamily={'peyda-bold'} sx={{

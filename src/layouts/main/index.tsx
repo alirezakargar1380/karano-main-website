@@ -41,7 +41,9 @@ export default function MainLayout({ children, header = true, footer = true }: P
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', height: 1 }}>
 
-      {(header) && (<Header toggleBanner={(v: boolean) => setShowBanner(v)} />)}
+      {(header) && (
+        <Header toggleBanner={(v: boolean) => setShowBanner(v)} />
+      )}
 
       {/* {(header) && (
         <Box sx={{ bgcolor: '#454545', height: '45px' }}>

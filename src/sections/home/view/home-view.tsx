@@ -197,8 +197,8 @@ export default function HomeView() {
         </Box>
       </m.div>
 
-      {/* <MainLayout header={false}> */}
-        <Container maxWidth={'xl'} sx={{ mt: '120px' }}>
+      <MainLayout header={false}>
+        <Container maxWidth={'xl'} sx={{ }}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
             <Box>
@@ -307,24 +307,27 @@ export default function HomeView() {
               <CarouselProducts data={_carouselsExample.slice(0, 8)} label='!پرفروش ها' />
             </Box>
 
-            <Grid container spacing={5}>
-              <Grid item sm={12} md={3}>
-                <Typography variant='heading3'>
-                  آنچه شما ساخته اید
-                </Typography>
-                <Typography sx={{ pt: '8px' }} variant='body2'>
-                  مشاهده محصولات ساخته  شده به وسیله پروفیل‌های کارنو!
-                  برای دیده‌ شدن آنچه شما مشتریان عزیز کارانو ساخته‌اید، می‌توانید تصاویر خود را برای ما در این بخش بارگذاری کنید.
-                </Typography>
+            <Box borderTop={'1px solid #D1D1D1'} pt={14}>
+              <Grid container spacing={5}>
+                <Grid item sm={12} md={3}>
+                  <Typography variant='heading3'>
+                    آنچه شما ساخته اید
+                  </Typography>
+                  <Typography sx={{ pt: '8px' }} variant='body2'>
+                    مشاهده محصولات ساخته  شده به وسیله پروفیل‌های کارنو!
+                    برای دیده‌ شدن آنچه شما مشتریان عزیز کارانو ساخته‌اید، می‌توانید تصاویر خود را برای ما در این بخش بارگذاری کنید.
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={12} md={9}>
+                  <Box sx={{ direction: 'ltr' }}>
+                    <CarouselBasic2 data={_carouselsExample.slice(4, 8)} />
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={12} md={9}>
-                <Box sx={{ direction: 'ltr' }}>
-                  <CarouselBasic2 data={_carouselsExample.slice(4, 8)} />
-                </Box>
-              </Grid>
-            </Grid>
+            </Box>
 
-            <Box>
+
+            <Box borderTop={'1px solid #D1D1D1'} pt={14}>
               <Grid container spacing={5}>
                 <Grid item md={5}>
                   <Typography variant='heading3' sx={{ pb: 2 }}>داستان کارانو</Typography>
@@ -343,7 +346,7 @@ export default function HomeView() {
 
           </Stack>
         </Container>
-      {/* </MainLayout> */}
+      </MainLayout>
     </>
   );
 }
