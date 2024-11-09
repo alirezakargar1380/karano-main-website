@@ -74,8 +74,8 @@ export default function CarouselHomeCategory() {
       >
         <CarouselArrowsCustom
           icon="icon-park-outline:right"
-          onNext={carousel.onPrev}
-          onPrev={carousel.onNext}
+          onNext={carousel.onNext}
+          onPrev={carousel.onPrev}
           leftButtonBoxProps={{
             sx: {
               display: (!carousel.currentIndex) ? 'none' : '',
