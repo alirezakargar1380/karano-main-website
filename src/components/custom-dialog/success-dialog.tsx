@@ -33,7 +33,7 @@ export default function SuccessDialog({
           </Typography>
         )}
         {content && (
-          <Typography variant="body2" color={'#000'} mt={1}>
+          <Typography variant="body2" color={'#000'} mt={'32px'} whiteSpace={'pre-line'}>
             {content}
           </Typography>
         )}
