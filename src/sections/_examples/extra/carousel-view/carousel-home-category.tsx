@@ -128,7 +128,9 @@ export default function CarouselHomeCategory() {
                 <Box key={index}>
                   <Button
                     sx={{
+                      m: 0,
                       height: 48,
+                      py: 0,
                       border: '2px solid #f2f2f2',
                       color: '#000',
                       backgroundColor: '#F8F8F8',
