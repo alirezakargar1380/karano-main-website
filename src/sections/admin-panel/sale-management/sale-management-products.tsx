@@ -333,21 +333,21 @@ function SaleManagementProductItem({
                                         mb: 1
                                     }}
                                     variant="body1"
-                                    RadioSx={{
-                                        p: '4px',
-                                        '&::after': {
-                                            content: '""',
-                                            position: 'absolute',
-                                            left: '3px',
-                                            // right: '1px',
-                                            top: '3px',
-                                            // bottom: '6px',
-                                            background: 'white',
-                                            borderRadius: '50%',
-                                            width: '6px',
-                                            height: '6px'
-                                        },
-                                    }}
+                                    // RadioSx={{
+                                    //     p: '4px',
+                                    //     '&::after': {
+                                    //         content: '""',
+                                    //         position: 'absolute',
+                                    //         left: '3px',
+                                    //         // right: '1px',
+                                    //         top: '3px',
+                                    //         // bottom: '6px',
+                                    //         background: 'white',
+                                    //         borderRadius: '50%',
+                                    //         width: '6px',
+                                    //         height: '6px'
+                                    //     },
+                                    // }}
                                     onChange={handleApprove}
                                 />
                             </Box>
