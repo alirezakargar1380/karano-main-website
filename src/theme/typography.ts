@@ -48,6 +48,8 @@ declare module "@mui/material/Typography" {
     caption1: true;
     caption2: true;
     caption3: true;
+    superHeading1: true;
+    superHeading2: true;
     heading1: true;
     heading2: true;
     heading3: true;
@@ -109,6 +111,20 @@ export const typography = {
     lineHeight: 28 / 18,
     fontSize: pxToRem(16),
     ...responsiveFontSizes({ sm: 18, md: 18, lg: 18 }),
+  },
+  superHeading1: {
+    fontFamily: 'peyda-black',
+    fontWeight: 600,
+    lineHeight: '100.8px',
+    fontSize: pxToRem(72),
+    letterSpacing: '0.03em',
+  },
+  superHeading2: {
+    fontFamily: 'peyda-black',
+    fontWeight: 900,
+    lineHeight: '78.4px',
+    fontSize: pxToRem(48),
+    letterSpacing: '0.03em',
   },
   heading1: {
     fontFamily: 'peyda-black',
