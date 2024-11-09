@@ -9,10 +9,10 @@ import MainLayout from 'src/layouts/main';
 import ScrollProgress from 'src/components/scroll-progress';
 
 import Image from 'src/components/image';
-import { Container, Grid, IconButton, Stack, Typography } from '@mui/material';
+import { Container, Grid, IconButton, makeStyles, Popover, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import CarouselHomeCategory from 'src/sections/_examples/extra/carousel-view/carousel-home-category';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import CarouselBasic2 from 'src/sections/_examples/extra/carousel-view/carousel-basic-2';
@@ -34,6 +34,7 @@ import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { Counter } from './counter';
 import SvgColor from 'src/components/svg-color';
 import Label from 'src/components/label';
+import { Theme } from '@mui/material/styles';
 
 // ----------------------------------------------------------------------
 
@@ -51,6 +52,25 @@ export default function HomeView() {
   const [percent, setPercent] = useState(0);
 
   const customizedPopover = usePopover();
+  const hover = useBoolean();
+  const [openedPopover, setOpenedPopover] = useState(false)
+  const popoverAnchor = useRef(null);
+
+  const popoverEnter = () => {
+    setOpenedPopover(true)
+  };
+
+  const popoverLeave = () => {
+    setOpenedPopover(false)
+  };
+
+  const handleLeaveMouse = useCallback(() => {
+    // setTimeout(() => {
+    console.log(hover.value)
+    if (!hover.value)
+      customizedPopover.onClose()
+    // }, 250)
+  }, [hover.value])
 
   const getScroll = useCallback(() => {
     let heroHeight = 0;
@@ -265,7 +285,15 @@ export default function HomeView() {
                     ml: '100px',
                     mt: '100px'
                   }}>
-                    <IconButton onClick={customizedPopover.onOpen}
+                    <IconButton
+                      ref={popoverAnchor}
+                      // onClick={customizedPopover.onOpen}
+                      // aria-owns={customizedPopover.open ? 'mouse-over-popover' : undefined}
+                      // onMouseEnter={customizedPopover.onOpen}
+                      // onMouseLeave={handleLeaveMouse}
+                      onMouseEnter={popoverEnter}
+                      onMouseLeave={popoverLeave}
+                      aria-haspopup="true"
                       sx={{
                         color: '#fff',
                         bgcolor: '#0a0a0a70',
@@ -284,16 +312,47 @@ export default function HomeView() {
                         color={'#fff'}
                       />
                     </IconButton>
-                    <CustomPopover
-                      open={customizedPopover.open}
-                      onClose={customizedPopover.onClose}
-                      arrow={'bottom-left'}
-                      hiddenArrow
+                    <Popover
+                      // id="mouse-over-popover"
+                      open={openedPopover}
+                      // onClose={customizedPopover.onClose}
+                      // arrow={'bottom-left'}
+                      // hiddenArrow
+                      // anchorEl={customizedPopover.open}
+                      anchorEl={popoverAnchor.current}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      slotProps={{
+                        paper: {
+                          onMouseEnter: popoverEnter,
+                          onMouseLeave: popoverLeave,
+                          sx: {
+                            // mt: 0.5,
+                            mr: 1,
+                            p: 0,
+                            pointerEvents: 'auto',
+                          }
+                        }
+                      }}
+                      disableRestoreFocus
                       sx={{
-                        bgcolor: '#fff'
+                        pointerEvents: 'none',
+                        // bgcolor: '#fff'
                       }}
                     >
-                      <Box sx={{ p: '16px', minWidth: 306 }}>
+                      <Box sx={{ p: '16px', minWidth: 306, bgcolor: '#fff' }}
+                      // onMouseEnter={() => {
+                      //   console.log('mouse enter')
+                      //   hover.onTrue()
+                      // }}
+                      // onMouseLeave={hover.onFalse}
+                      >
                         <Stack direction={'row'} justifyContent={'space-between'}>
                           <Label variant='filled' color='red' size='large'>جدید</Label>
                           <IconButton>
@@ -313,7 +372,7 @@ export default function HomeView() {
                           قابل ثبت به صورت سفارشی
                         </Typography>
                       </Box>
-                    </CustomPopover>
+                    </Popover>
                   </Box>
                   <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
                 </Grid>
