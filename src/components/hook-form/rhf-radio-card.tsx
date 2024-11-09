@@ -34,7 +34,7 @@ type Props = RadioGroupProps & {
     helperText?: React.ReactNode;
     BSx?: SxProps
     RadioSx?: SxProps
-    variant?: TypographyVariant
+    variant?: any
 };
 
 export default function RHFRadioGroupCard({
@@ -119,7 +119,7 @@ export default function RHFRadioGroupCard({
                                         {(option.icon) && (
                                             <SvgColor src={option.icon} sx={{ mr: 1, color: "#727272" }} />
                                         )}
-                                        <Typography sx={{ color: "#2B2B2B", width: 'fit-content' }} variant={variant}>{option.label}</Typography>
+                                        <Typography sx={{ color: "#2B2B2B", width: 'fit-content', pl: '8px' }} variant={variant}>{option.label}</Typography>
                                     </Stack>
 
                                     {(field.value === option.value && option.children?.length) && (

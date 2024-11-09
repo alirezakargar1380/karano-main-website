@@ -56,6 +56,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                     <Stack direction={'row'} spacing={2} py={2}>
                         <RHFRadioGroupCard
                             name='assemble'
+                            variant='body4'
                             row
                             options={[
                                 {
@@ -69,6 +70,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                             ]}
                             BSx={{
                                 pr: 5,
+                                pl: '8px',
                                 py: 0,
                                 borderRadius: '8px',
                             }}
@@ -80,7 +82,7 @@ export function AssembleDialog({ dialog, onUpdateAssemble }: Props) {
                     </Stack>
 
 
-                    <Stack direction={'row'} spacing={1} justifyContent={'end'}>
+                    <Stack direction={'row'} spacing={'12px'} justifyContent={'end'}>
                         <SecondaryButton size='medium' sx={{ px: 4 }} onClick={dialog.onFalse}>
                             انصراف
                         </SecondaryButton>
