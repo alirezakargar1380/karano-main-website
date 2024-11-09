@@ -96,10 +96,10 @@ export default function PhonePasswordView() {
     <Stack spacing={3}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
-      <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'}>رمز ورود خود را وارد کنید.</Typography>
+      <Typography variant="body1" textAlign={'left'}>رمز ورود خود را وارد کنید.</Typography>
 
       <Box mt={1}>
-        <Typography variant="body2" fontFamily={'peyda-bold'} mb={1} textAlign={'left'}>رمز عبور</Typography>
+        <Typography variant="body2" mb={1} textAlign={'left'}>رمز ورود</Typography>
         <RHFTextField
           name="password"
           type={!password.value ? 'password' : 'text'}

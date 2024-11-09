@@ -49,8 +49,8 @@ export default function NewPasswordView({ type = 'default' }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
-    password: Yup.string().min(8, "رمز عبور حداقل باید 8 کرکتر باشد").required('Password is required'),
-    re_password: Yup.string().min(8, "رمز عبور حداقل باید 8 کرکتر باشد").required('Password is required'),
+    password: Yup.string().min(8, "رمز ورود حداقل باید 8 کرکتر باشد").required('Password is required'),
+    re_password: Yup.string().min(8, "رمز ورود حداقل باید 8 کرکتر باشد").required('Password is required'),
   });
 
   const defaultValues = {
@@ -113,7 +113,7 @@ export default function NewPasswordView({ type = 'default' }: Props) {
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
 
       <Typography variant="body1" textAlign={'left'} fontFamily={'peyda-bold'} my={2}>
-        یک رمز عبور مناسب برای خود انتخاب کنید.
+        یک رمز ورود مناسب برای خود انتخاب کنید.
       </Typography>
 
       <Box>

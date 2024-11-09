@@ -39,17 +39,17 @@ export default function PhoneRegisterView() {
     first_name: Yup.string().when('user_type', (type: any, schema) => {
       if (type[0] === IUserTypes.legal)
         return schema
-      return schema.required('نام خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد')
+      return schema.required('پر کردن این فیلد اجباری‌ست.').min(3, 'نام باید حداقل 3 کرکتر باشد')
     }),
     last_name: Yup.string().when('user_type', (type: any, schema) => {
       if (type[0] === IUserTypes.legal)
         return schema
-      return schema.required('نام خانوادگی خود را وارد کنید').min(3, 'نام باید حداقل 3 کرکتر باشد')
+      return schema.required('پر کردن این فیلد اجباری‌ست.').min(3, 'نام باید حداقل 3 کرکتر باشد')
     }),
     id_code: Yup.string().when('user_type', (type: any, schema) => {
       if (type[0] === IUserTypes.legal)
         return schema
-      return schema.required('کد ملی خود را وارد کنید').length(10, 'معتبر نیست!')
+      return schema.required('پر کردن این فیلد اجباری‌ست.').length(10, 'معتبر نیست!')
     }),
     // company_name: Yup.string().when('user_type', (type: any, schema) => {
     //   if (type[0] === IUserTypes.legal)
@@ -62,6 +62,7 @@ export default function PhoneRegisterView() {
       return schema
     }),
     email: Yup.string().email('لطفا یک آدرس ایمیل معتبر را ثبت نمایید'),
+    landline_number: Yup.number().required('پر کردن این فیلد اجباری‌ست.'),
     // password: Yup.string().required('Password is required'),
   });
 
@@ -137,7 +138,7 @@ export default function PhoneRegisterView() {
               // width: 1
             }}
             options={Object.values(IUserTypes).map((value: string) => {
-              return { label: value, value: value };
+              return { label: "شخص " + value, value: value };
             })}
           />
         </Box>
@@ -157,7 +158,7 @@ export default function PhoneRegisterView() {
           {(values.user_type === IUserTypes.genuine) && (<RHFTitleTextField name='id_code' custom_label={'کد ملی'} placeholder='مثلا 3540200000' />)}
           {(values.user_type === IUserTypes.legal) && (<RHFTitleTextField name='national_id' custom_label='کد ملی / کد اقتصادی' placeholder='9968741' />)}
           <RHFTitleTextField name='email' custom_label='ایمیل' lable_caption={'اختیاری'} placeholder='email@example.com' />
-          <RHFTitleTextField lable_caption={'اختیاری'} name='landline_number' custom_label='شماره تلفن ثابت' placeholder='021-234567' />
+          <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت' placeholder='021-234567' />
         </Box>
 
         <Box width={1} textAlign={'right'} pt={6} borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>

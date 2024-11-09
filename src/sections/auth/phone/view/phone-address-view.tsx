@@ -86,7 +86,7 @@ export default function PhoneAddressView() {
                         {renderTerms}
                         <Box textAlign={'right'} mt={1} mb={'24px'}>
                             <PrimaryButton size='medium' type='submit' disabled={!terms}>
-                                ثبت و ادامه
+                                ثبت
                             </PrimaryButton>
                         </Box>
                     </>

@@ -106,10 +106,6 @@ export default function PhoneVerifyView() {
 
             <Typography variant="body1" fontFamily={'peyda-bold'} mt={3} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
 
-            <CustomLink variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
-                تغییر شماره
-            </CustomLink>
-
             <Box sx={{ mb: 2 }}>
                 <Typography variant="body2" mb={1} fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید</Typography>
                 <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={'دریافت مجدد کد پس از ۰۲:۵۹ '} />

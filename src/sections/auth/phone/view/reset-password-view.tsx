@@ -111,7 +111,7 @@ export default function PhoneResetPasswordView() {
 
     return (
         <FormProvider methods={methods} onSubmit={onSubmit}>
-            <RegisterLoginHead />
+            <RegisterLoginHead title='بازیابی  رمز ورود' back />
 
             {renderForm}
 
