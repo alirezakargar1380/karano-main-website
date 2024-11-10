@@ -270,8 +270,8 @@ export default function CartDialog({
         PaperProps={{
           style: {
             margin: 0,
-            width: 'calc(100% - 24px)',
-            height: 'calc(100% - 24px)',
+            width: 'calc(100% - 48px)',
+            height: 'calc(100% - 48px)',
             maxWidth: 'none',
             maxHeight: 'none',
           },
