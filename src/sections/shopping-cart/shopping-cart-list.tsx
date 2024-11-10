@@ -37,6 +37,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
     const [property, setProperty] = useState<ICheckoutItemPropertyPrice>();
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>();
     const [snackbar, setSnackbar] = useState<any[]>([]);
+    const [is, setId] = useState<boolean>(false);
 
     const cartDialog = useBoolean();
 
@@ -98,7 +99,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         }
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
 
-    const deleteRow = useCallback(async (item: ICheckoutItem, ppid: number, isLastOne?: boolean) => {
+    const deleteRow = useCallback(async (item: ICheckoutItem, ppid: number, isLastOne = false) => {
         let newItems = [...checkoutItems];
         newItems = newItems.map(((item) => {
             item.properties = item.properties.filter((property) => property.id !== ppid);
@@ -111,7 +112,6 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
 
         await server_axios.delete(endpoints.orderProductProperties.delete(ppid) + (orderId ? `?order_id=${orderId}` : ''));
         if (isLastOne && type === 'edit') {
-            console.log(snackbar)
             enqueueSnackbar(
                 `تمامی کالاهای پروفیل ${item.product.name} با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
                 {
@@ -134,16 +134,22 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                     if (onRefresh) onRefresh();
                 }
             })
-            console.log(esId)
-            let newSnackbar = [...snackbar];
-            newSnackbar.push(esId)
-            setSnackbar(newSnackbar)
-            console.log(snackbar, newSnackbar)
+            setSnackbar((prevSnackbar) => [...prevSnackbar, esId]);
         }
 
         if (afterUpdate) afterUpdate((newItems.length === 0));
 
-    }, [checkoutItems, setCheckoutItems, orderId, type, snackbar, closeSnackbar]);
+        setId(isLastOne)
+
+    }, [checkoutItems, setCheckoutItems, orderId, type, closeSnackbar, setId, snackbar]);
+
+    useEffect(() => {
+        if (is) {
+            snackbar.forEach((id) => {
+                closeSnackbar(id)
+            })
+        }
+    }, [is, snackbar.length, snackbar]);
 
     if (isMini) {
         return (
