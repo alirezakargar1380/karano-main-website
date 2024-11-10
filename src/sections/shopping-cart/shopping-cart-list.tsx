@@ -36,10 +36,11 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
     const [propertyId, setPropertyId] = useState<number>();
     const [property, setProperty] = useState<ICheckoutItemPropertyPrice>();
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>();
+    const [snackbar, setSnackbar] = useState<any[]>([]);
 
     const cartDialog = useBoolean();
 
-    const { enqueueSnackbar } = useSnackbar();
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const handleEdit = useCallback((item: ICheckoutItem, property_ind?: number) => {
         setCheckoutItem(item);
@@ -67,12 +68,12 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
              */
             if (type === 'edit') {
             } else {
-                if (!checkoutItem) return
+                // if (!checkoutItem) return
 
-                checkout.onAddToCart({
-                    id: checkoutItem.id,
-                    properties: data
-                }, false)
+                // checkout.onAddToCart({
+                //     id: checkoutItem.id,
+                //     properties: data
+                // }, false)
             }
             cartDialog.onFalse();
             if (afterUpdate) afterUpdate();
@@ -109,7 +110,10 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         setCheckoutItems(newItems);
 
         await server_axios.delete(endpoints.orderProductProperties.delete(ppid) + (orderId ? `?order_id=${orderId}` : ''));
-        if (isLastOne) {
+        if (isLastOne && type === 'edit') {
+            snackbar.forEach((id) => {
+                closeSnackbar(id)
+            })
             enqueueSnackbar(
                 `تمامی کالاهای پروفیل ${item.product.name} با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
                 {
@@ -117,8 +121,8 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                     color: 'info',
                 }
             );
-        } else {
-            enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
+        } else if (!isLastOne) {
+            const esId = enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
                 color: 'info',
                 variant: 'myCustomVariant',
                 showTimer: true,
@@ -129,11 +133,14 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                     if (onRefresh) onRefresh();
                 }
             })
+            let newSnackbar = [...snackbar];
+            newSnackbar.push(esId)
+            setSnackbar(newSnackbar)
         }
 
         if (afterUpdate) afterUpdate((newItems.length === 0));
 
-    }, [checkoutItems, setCheckoutItems, orderId]);
+    }, [checkoutItems, setCheckoutItems, orderId, type, snackbar, closeSnackbar]);
 
     if (isMini) {
         return (
