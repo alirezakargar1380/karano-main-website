@@ -74,7 +74,7 @@ export default function CarouselBasic2({ data }: Props) {
           clipPath: 'inset(0 100% 0 0)',
           // right: -1000,
           gap: '16px',
-          transition: '1s ease-in-out',
+          transition: '0.5s ease-in-out',
           ...(open && {
             clipPath: 'inset(0 0 0 0)',
             opacity: 1,
