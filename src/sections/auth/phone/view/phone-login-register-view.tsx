@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -21,6 +21,7 @@ import { numberRegex } from 'src/constants/regex/number';
 import { phoneFormatErrorMessage, phoneLengthErrorMessage } from 'src/constants/messages/phone-error-messages';
 
 import querystring from "querystring";
+import { useSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +31,8 @@ export default function PhoneLoginView() {
 
   const searchParams = useSearchParams();
   const returnTo = searchParams.get('returnTo');
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const LoginSchema = Yup.object().shape({
     phone: Yup.string()
@@ -100,6 +103,13 @@ export default function PhoneLoginView() {
     }
   });
 
+  const handleBeforeSubmit = useCallback(() => {
+    if (!isValid) return enqueueSnackbar('پرکردن فیلدها اجباری است.', {
+      variant: 'myCustomVariant',
+      color: 'error'
+    })
+  }, [isValid])
+
   const renderForm = (
     <Stack spacing={4} width={1} mt={7}>
 
@@ -117,7 +127,7 @@ export default function PhoneLoginView() {
         sx={{ width: 1 }}
         type="submit"
         isLoading={isSubmitting}
-        disabled={!isValid}
+        onClick={handleBeforeSubmit}
       >
         <Typography variant="button1">ادامه</Typography>
       </PrimaryButton>
