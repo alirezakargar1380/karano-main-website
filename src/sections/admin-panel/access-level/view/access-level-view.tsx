@@ -205,7 +205,7 @@ export default function AccessLevelview() {
 
                                         <TableCell>نام کاربری</TableCell>
 
-                                        <TableCell>رمز عبور</TableCell>
+                                        <TableCell>رمز ورود</TableCell>
 
                                         <TableCell>شماره موبایل</TableCell>
 
