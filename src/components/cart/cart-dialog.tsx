@@ -384,7 +384,7 @@ export default function CartDialog({
                     onClick={handleAddToList}
                     disabled={type === 'edit' ? (hasRejected ? !isSubmitted : false) : false}
                   >
-                    {type === 'cart' ? 'افزودن به سبد خرید' : 'ثبت تغییرات'}
+                    {(type === 'cart' && !listData?.length) ? 'افزودن به سبد خرید' : 'اعمال تغییرات'}
                   </PrimaryButton>
                 </>
               )}
