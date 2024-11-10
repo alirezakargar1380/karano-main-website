@@ -15,9 +15,8 @@ export default function CheckCartCard({ children, dialog }: Props) {
     return (
         <Box sx={{ width: '100%', height: '100%', backgroundColor: '#F8F8F8', border: '1px solid #D1D1D1', borderRadius: '20px', py: 2, px: 2 }}>
             <Stack direction={'row'} justifyContent={'space-between'}>
-                <Typography variant="body1" sx={{ width: '80%', pr: 2 }}>
-                    نتیجه بررسی سفارش شما بعد  از ارسال به کارشناسان کارانو، از طریق «پیام کوتاه» اعلام و پیش‌فاکتور صادر می‌شود.
-                    همچنین همواره می‌توانید برای پیگیری وضعیت سفارش خود، به صفحه «پیگیری سفارش» در بالای صفحه مراجعه کنید.
+                <Typography variant="body2" sx={{ width: '80%', pr: 2, display: 'flex' }}>
+                    {children}
                 </Typography>
                 <Box sx={{ width: '20%', borderLeft: '1px solid #D1D1D1', pl: 3, py: 2 }}>
                     <PrimaryButton size="medium" sx={{ borderRadius: '24px', width: 1 }} onClick={() => dialog.onTrue()}>
