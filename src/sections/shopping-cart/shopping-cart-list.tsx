@@ -145,6 +145,21 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
     if (isMini) {
         return (
             <Box>
+                {checkoutItem && (
+                    <CartDialog
+                        dialog={cartDialog}
+                        order_form_id={checkoutItem.product.order_form_options.id}
+                        product_name={checkoutItem.product.name}
+                        pId={checkoutItem.id}
+                        listId={propertyId}
+                        listData={list}
+                        onAddCart={handleAddCart}
+                        onDelete={(ppid: number) => deleteRow(checkoutItem, ppid)}
+                        handleUpdateRow={handleUpdateRow}
+                        currentData={property}
+                        type={type}
+                    />
+                )}
                 {checkoutItems.map((item, index: number) => (
                     <Box display={'flex'} gap={'12px'} mt={'12px'} key={index}>
                         <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
@@ -155,17 +170,17 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                 <IconButton
                                     sx={{ width: 'fit-content' }}
                                     color={'default'}
-                                    onClick={() => { }}
+                                    onClick={() => handleEdit(item)}
                                 >
                                     <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
                                 </IconButton>
-                                <IconButton
+                                {/* <IconButton
                                     sx={{ width: 'fit-content' }}
                                     color={'default'}
                                     onClick={() => { }}
                                 >
                                     <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
-                                </IconButton>
+                                </IconButton> */}
                             </Stack>
                         </Box>
                     </Box>

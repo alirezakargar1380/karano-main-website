@@ -127,10 +127,11 @@ export default function CartTableRow({
           </Box>
         </TableCell>
 
-        <TableCell align="right" sx={{ 
+        <TableCell align="right" sx={{
           // pr: '16px',
-          pr: 0, 
-          textAlign: '-webkit-right' }}>
+          pr: 0,
+          textAlign: '-webkit-right'
+        }}>
           <Stack direction={'row'} width={'fit-content'}>
             {(onEditRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <Tooltip title="اصلاح کالا" arrow>
@@ -161,7 +162,7 @@ export default function CartTableRow({
         open={confirm.value}
         color='#D12215'
         onClose={confirm.onFalse}
-        title={(status === IOrderProductPropertyStatus.denied) ? "حذف کالا" : "حذف کالای ردشده"}
+        title={(status === IOrderProductPropertyStatus.denied) ? "حذف کالای ردشده" : "حذف کالا"}
         content={(status === IOrderProductPropertyStatus.denied || status === IOrderProductPropertyStatus.edited) ? `آیا از حذف ${product_name} اطمینان دارید؟` : "آیا از حذف کالای مورد نظر اطمینان دارید؟"}
         action={
           <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
@@ -177,7 +178,7 @@ export default function CartTableRow({
         open={confirmLast.value}
         color='#D12215'
         onClose={confirmLast.onFalse}
-        title="حذف آخرین کالای ردشده"
+        title={(status === IOrderProductPropertyStatus.denied) ? "حذف آخرین کالای ردشده" : "حذف آخرین کالا"}
         content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟\n با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
         action={
           <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
@@ -190,7 +191,7 @@ export default function CartTableRow({
       />
 
       <DialogWithButton fullWith={true} dialog={rejectionDialog}>
-        <Box p={'40px'}>
+        <Box>
           <Typography variant="title1" sx={{ width: 1, pb: 2, borderBottom: '1px solid #D1D1D1' }}>
             علت رد ‌سفارش
           </Typography>

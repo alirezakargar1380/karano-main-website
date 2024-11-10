@@ -73,9 +73,10 @@ export default function CarouselBasic1({ sx }: Props) {
   return (
     <Box sx={{ ...sx }} component={MotionContainer}>
       <Grid container spacing={'40px'}>
-        <Grid sx={{ pb: 5 }} md={3} xs={12} item>
-          <Typography variant='h2' fontFamily={'peyda-bold'}>
-            <TextAnimate
+        <Grid sx={{ pb: 5, pr: '24px' }} md={3} xs={12} item>
+          <Typography variant='heading1'>
+            {categories.find((category) => category.id === Number(selectedCategoryId))?.name || ''}
+            {/* <TextAnimate
               text={categories.find((category) => category.id === Number(selectedCategoryId))?.name || ''}
               sx={{
                 color: '#000',
@@ -83,7 +84,7 @@ export default function CarouselBasic1({ sx }: Props) {
               }}
               variants={varFade().in}
               px={.45}
-            />
+            /> */}
           </Typography>
           <Stack direction={'row'}>
             <IconButton size='large' onClick={onPrev}>
