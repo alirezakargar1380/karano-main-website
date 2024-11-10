@@ -25,7 +25,6 @@ type Props = LinkProps & {
 };
 
 export const CustomLink = ({
-    onClick,
     children,
     isSubmiting = false,
     startIcon,

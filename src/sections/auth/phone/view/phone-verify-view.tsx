@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -25,6 +25,7 @@ import { numberRegex } from 'src/constants/regex/number';
 import { toEnglishNumber } from 'src/utils/change-case';
 import { codeErrorMessage } from 'src/constants/messages/phone-verify';
 import { CustomLink } from 'src/components/styles/link/custom-link';
+import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ export default function PhoneVerifyView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const searchParams = useSearchParams();
+  const login = searchParams.get('login');
   const phone = searchParams.get('phone');
   const returnTo = searchParams.get('returnTo');
 
@@ -44,7 +46,7 @@ export default function PhoneVerifyView() {
       .matches(numberRegex, codeErrorMessage)
       .transform((value) => toEnglishNumber(value))
       .required('کد را وارد کنید')
-      .length(6, 'کد باید حداقل 6 کرکتر باشد'),
+      .length(6, 'کد را کامل وارد کنید'),
   });
 
   const defaultValues = {
@@ -89,13 +91,23 @@ export default function PhoneVerifyView() {
       }
   }, [values.code])
 
+  const onBeforeSubmit = useCallback(() => {
+
+  }, [])
+
   const renderForm = (
     <Stack spacing={2.5}>
 
       <Typography variant="body1" fontFamily={'peyda-bold'} mt={3} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
 
-      <CustomLink variant="body2" href={paths.auth.phone.login} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
-        تغییر شماره
+      <CustomLink variant="hyperlink3" onClick={() => {
+        console.log('resend code');
+        if (login)
+          router.back()
+        else
+          router.push(paths.auth.phone.login)
+      }} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
+        {login ? 'ورود با رمز عبور' : 'تغییر شماره'}
       </CustomLink>
 
       <Box sx={{ mb: 2 }}>
@@ -106,18 +118,16 @@ export default function PhoneVerifyView() {
         </CustomLink>
       </Box>
 
-      <LoadingButton
+      <PrimaryButton
         sx={{ borderRadius: '24px', fontFamily: 'peyda-bold' }}
-        disabled={values.code?.length !== 6}
         fullWidth
-        color="inherit"
-        size="large"
+        size="medium"
         type="submit"
-        variant="contained"
-        loading={isSubmitting}
+        isLoading={isSubmitting}
+        onClick={onBeforeSubmit}
       >
         {isSubmitting ? '' : 'ادامه'}
-      </LoadingButton>
+      </PrimaryButton>
     </Stack>
   );
 

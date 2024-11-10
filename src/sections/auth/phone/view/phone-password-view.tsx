@@ -46,6 +46,7 @@ export default function PhonePasswordView() {
 
   const query = querystring.stringify({
     phone,
+    login: "1",
     ...(returnTo && {
       returnTo
     })
