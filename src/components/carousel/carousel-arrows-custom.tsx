@@ -93,7 +93,7 @@ export default function CarouselArrowsCustom({
               filled={filled}
               shape={shape}
               hasChild={!!children}
-              onClick={onPrev}
+              onClick={onNext}
               {...leftButtonProps}
               sx={{
                 left: -10,
@@ -121,7 +121,7 @@ export default function CarouselArrowsCustom({
               filled={filled}
               shape={shape}
               hasChild={!!children}
-              onClick={onNext}
+              onClick={onPrev}
               {...rightButtonProps}
               sx={{
                 right: -10,
