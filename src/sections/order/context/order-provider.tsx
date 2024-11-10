@@ -28,8 +28,6 @@ export function OrderProvider({ children }: Props) {
     const { state, update } = useLocalStorage(STORAGE_KEY, initialState);
     const { report } = useGetRejectedOrdersReport();
 
-    console.log(report);
-
     useEffect(() => {
         update('title', report.title)
         update('text', report.text)
