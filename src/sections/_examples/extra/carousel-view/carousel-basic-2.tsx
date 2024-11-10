@@ -62,8 +62,78 @@ export default function CarouselBasic2({ data }: Props) {
     ],
   });
 
+  const [open, setOpen] = useState(false);
+
   return (
     <Box sx={{ position: 'relative' }}>
+      <Box position={'absolute'} zIndex={1001} top={"-100%"}
+        sx={{
+          display: 'flex',
+          p: 3,
+          right: -16,
+          clipPath: 'inset(0 100% 0 0)',
+          // right: -1000,
+          gap: '16px',
+          transition: '1s ease-in-out',
+          ...(open && {
+            clipPath: 'inset(0 0 0 0)',
+            opacity: 1,
+          })
+        }}>
+        <IconButton onClick={() => setOpen(false)} sx={{ width: 36, height: 36, mt: '20px', boxShadow: '3px 0px 15px 0px #00000045', bgcolor: 'white', borderRadius: '50%', border: '1px solid #D1D1D1', '&:hover': { background: '#F2F2F2' } }}>
+          <SvgColor src="/assets/icons/navbar/x-close.svg" color={"#000"} />
+        </IconButton>
+        <Box borderRadius={'12px'} sx={{
+          p: '16px',
+          minWidth: 528,
+          bgcolor: "white",
+          boxShadow: '3px 0px 15px 0px #00000045'
+        }}>
+          <Image src={'/img/product/product.png'} ratio="1/1" borderRadius={'8px'} border={'1px solid #D1D1D1'} />
+          <Stack direction={'row'} spacing={2} mt={'20px'}>
+            <Box height={'fit-content'} bgcolor={'white'} border={'1px solid #D1D1D1'} borderRadius={'12px'}>
+              <Box width={1} position={'relative'}>
+                <Box sx={{
+                  position: 'absolute',
+                  top: 8,
+                  left: 8,
+                  zIndex: 1
+                }}>
+                  <IconButton
+                    size='small' sx={{
+                      bgcolor: "#D1D1D1",
+                      "&.Mui-disabled": {
+                        backgroundColor: "#f0f0f0!important"
+                      }
+                    }}
+                  >
+                    <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 16, height: 16 }} />
+                  </IconButton>
+                </Box>
+              </Box>
+
+              <Image src={'/img/product/product.png'} ratio='1/1' sx={{ width: 140 }} />
+            </Box>
+            <Box width={1} textAlign={'left'} height={'fit-content'}>
+              <Typography variant='title3'>
+                درب کابینتی p-60
+              </Typography>
+              <Typography variant='body4' color={'#727272'}>
+                دسته بندی محصول
+              </Typography>
+              <Typography variant='body4' color={'#121212'}>
+                ابعاد:
+              </Typography>
+              <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                <Typography variant='body4' color={'#2B2B2B'}>
+                  قابل ثبت به صورت سفارشی
+                </Typography>
+                <SvgColor src='/assets/icons/home/help-circle.svg' />
+              </Stack>
+            </Box>
+          </Stack>
+        </Box>
+      </Box>
       <CarouselArrowsCustom
         filled
         icon="icon-park-outline:right"
@@ -92,7 +162,7 @@ export default function CarouselBasic2({ data }: Props) {
           {data.map((item) => (
 
 
-            <Stack key={item.id} p={1}>
+            <Stack key={item.id} p={1} onClick={() => setOpen(true)}>
               <CarouselItem2 item={item} />
             </Stack>
 
@@ -174,7 +244,7 @@ function CarouselItem2({ item }: { item: any }) {
         </Box>
       </CustomPopover>
       <Image alt={item.title} src={item.coverUrl} ratio="4/3" borderRadius={'12px'}
-        onClick={customizedPopover.onOpen}
+      // onClick={customizedPopover.onOpen}
       />
     </Box>
   )
