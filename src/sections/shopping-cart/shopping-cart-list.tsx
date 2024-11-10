@@ -111,9 +111,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
 
         await server_axios.delete(endpoints.orderProductProperties.delete(ppid) + (orderId ? `?order_id=${orderId}` : ''));
         if (isLastOne && type === 'edit') {
-            snackbar.forEach((id) => {
-                closeSnackbar(id)
-            })
+            console.log(snackbar)
             enqueueSnackbar(
                 `تمامی کالاهای پروفیل ${item.product.name} با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
                 {
@@ -121,6 +119,9 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                     color: 'info',
                 }
             );
+            snackbar.forEach((id) => {
+                closeSnackbar(id)
+            })
         } else if (!isLastOne) {
             const esId = enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
                 color: 'info',
@@ -133,9 +134,11 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                     if (onRefresh) onRefresh();
                 }
             })
+            console.log(esId)
             let newSnackbar = [...snackbar];
             newSnackbar.push(esId)
             setSnackbar(newSnackbar)
+            console.log(snackbar, newSnackbar)
         }
 
         if (afterUpdate) afterUpdate((newItems.length === 0));
