@@ -32,7 +32,6 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();
     const [propertyId, setPropertyId] = useState<number>();
     const [property, setProperty] = useState<ICheckoutItemPropertyPrice>();
-    const [list, setList] = useState<ICheckoutItemPropertyPrice[]>();
     const [snackbar, setSnackbar] = useState<SnackbarKey[]>([]);
 
     const cartDialog = useBoolean();
@@ -41,7 +40,6 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
 
     const handleEdit = useCallback((item: ICheckoutItem, property_ind?: number) => {
         setCheckoutItem(item);
-        setList(item.properties);
 
         if (property_ind !== undefined) {
             const property = item.properties[property_ind];
@@ -165,7 +163,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
             product_name={checkoutItem.product.name}
             pId={checkoutItem.id}
             listId={propertyId}
-            listData={list}
+            listData={checkoutItem.properties}
             onAddCart={handleAddCart}
             onDelete={(ppid: number) => deleteHandler(checkoutItem, ppid, checkoutItem.properties.length)}
             handleUpdateRow={handleUpdateRow}
