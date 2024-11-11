@@ -7,16 +7,15 @@ import { TableHeadCustom } from "src/components/table";
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 import { ProductOrderType } from "src/types/product";
 import CartTableRow from "../cart/cart-table-row";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import CartDialog from "src/components/cart/cart-dialog";
-import { useCheckoutContext } from "../checkout/context";
 import { useBoolean } from "src/hooks/use-boolean";
 
 import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
-import { useSnackbar } from "src/components/snackbar";
+import { SnackbarKey, useSnackbar } from "src/components/snackbar";
 import SvgColor from "src/components/svg-color";
 
 interface Props {
@@ -29,15 +28,12 @@ interface Props {
 }
 
 export default function ShoppingCartList({ items, type, isMini, afterUpdate, orderId, onRefresh }: Props) {
-    const checkout = useCheckoutContext();
-
     const [checkoutItems, setCheckoutItems] = useState<ICheckoutItem[]>(items);
     const [checkoutItem, setCheckoutItem] = useState<ICheckoutItem>();
     const [propertyId, setPropertyId] = useState<number>();
     const [property, setProperty] = useState<ICheckoutItemPropertyPrice>();
     const [list, setList] = useState<ICheckoutItemPropertyPrice[]>();
-    const [snackbar, setSnackbar] = useState<any[]>([]);
-    const [is, setId] = useState<boolean>(false);
+    const [snackbar, setSnackbar] = useState<SnackbarKey[]>([]);
 
     const cartDialog = useBoolean();
 
@@ -56,11 +52,11 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
 
         cartDialog.onTrue();
         if (afterUpdate) afterUpdate();
-    }, [setCheckoutItem, setPropertyId, setPropertyId]);
+    }, []);
 
-    useEffect(() => {
-        setCheckoutItems(items);
-    }, [items, setList]);
+    // useEffect(() => {
+    //     setCheckoutItems(items);
+    // }, [items, setList]);
 
     const handleAddCart = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
@@ -99,31 +95,46 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         }
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
 
-    const deleteRow = useCallback(async (item: ICheckoutItem, ppid: number, isLastOne = false) => {
-        let newItems = [...checkoutItems];
-        newItems = newItems.map(((item) => {
-            item.properties = item.properties.filter((property) => property.id !== ppid);
-            return item;
-        }));
+    const deleteRow = useCallback((ppid: number, isLastOne = false) => {
+        // ====================== OLD VERSION =====================
+        // let newItems = [...checkoutItems];
+        // newItems = newItems.map(((item) => {
+        //     item.properties = item.properties.filter((property) => property.id !== ppid);
+        //     return item;
+        // }));
+        // newItems = newItems.filter((item) => item.properties.length > 0);
+        // setCheckoutItems(newItems);
+        // ====================== OLD VERSION =====================
 
-        newItems = newItems.filter((item) => item.properties.length > 0);
+        setCheckoutItems(prevItems => {
+            const newItems = prevItems.map(currentItem => {
+                currentItem.properties = currentItem.properties.filter(property => property.id !== ppid);
+                return currentItem;
+            }).filter(updatedItem => updatedItem.properties.length > 0);
 
-        setCheckoutItems(newItems);
+            return newItems;
+        });
 
-        await server_axios.delete(endpoints.orderProductProperties.delete(ppid) + (orderId ? `?order_id=${orderId}` : ''));
+        // if (afterUpdate) afterUpdate((newItems.length === 0));
+        if (afterUpdate) afterUpdate(isLastOne);
+
+    }, [orderId, type]);
+
+    const handleDeleteSnackbar = useCallback((name: string, ppid: number, isLastOne = false) => {
         if (isLastOne && type === 'edit') {
             enqueueSnackbar(
-                `تمامی کالاهای پروفیل ${item.product.name} با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
+                `تمامی کالاهای پروفیل ${name} با موفقیت حذف شدند.\nهمچنین وضعیت سفارش شما به «حذف‌شده» تغییر داده شد.`,
                 {
                     variant: 'multiline',
                     color: 'info',
                 }
             );
-            snackbar.forEach((id) => {
-                closeSnackbar(id)
-            })
+            setSnackbar(prevSnackbar => {
+                prevSnackbar?.forEach((id) => closeSnackbar(id))
+                return []
+            });
         } else if (!isLastOne) {
-            const esId = enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
+            const esId: SnackbarKey = enqueueSnackbar('کالای مورد نظر با موفقیت حذف شد.', {
                 color: 'info',
                 variant: 'myCustomVariant',
                 showTimer: true,
@@ -134,41 +145,39 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                     if (onRefresh) onRefresh();
                 }
             })
-            setSnackbar((prevSnackbar) => [...prevSnackbar, esId]);
+
+            setSnackbar(prevSnackbar => [...prevSnackbar, esId]);
         }
+    }, [])
 
-        if (afterUpdate) afterUpdate((newItems.length === 0));
-
-        setId(isLastOne)
-
-    }, [checkoutItems, setCheckoutItems, orderId, type, closeSnackbar, setId, snackbar]);
-
-    useEffect(() => {
-        if (is) {
-            snackbar.forEach((id) => {
-                closeSnackbar(id)
+    const deleteHandler = (item: ICheckoutItem, ppid: number, ppLength: number) => {
+        server_axios.delete(endpoints.orderProductProperties.delete(ppid) + (orderId ? `?order_id=${orderId}` : ''))
+            .then(() => {
+                deleteRow(ppid, (ppLength === 1))
+                handleDeleteSnackbar(item?.product?.name, ppid, (ppLength === 1))
             })
-        }
-    }, [is, snackbar.length, snackbar]);
+    }
+
+    const Cart = (checkoutItem) && (
+        <CartDialog
+            dialog={cartDialog}
+            order_form_id={checkoutItem.product.order_form_options.id}
+            product_name={checkoutItem.product.name}
+            pId={checkoutItem.id}
+            listId={propertyId}
+            listData={list}
+            onAddCart={handleAddCart}
+            onDelete={(ppid: number) => deleteHandler(checkoutItem, ppid, checkoutItem.properties.length)}
+            handleUpdateRow={handleUpdateRow}
+            currentData={property}
+            type={type}
+        />
+    )
 
     if (isMini) {
         return (
             <Box>
-                {checkoutItem && (
-                    <CartDialog
-                        dialog={cartDialog}
-                        order_form_id={checkoutItem.product.order_form_options.id}
-                        product_name={checkoutItem.product.name}
-                        pId={checkoutItem.id}
-                        listId={propertyId}
-                        listData={list}
-                        onAddCart={handleAddCart}
-                        onDelete={(ppid: number) => deleteRow(checkoutItem, ppid)}
-                        handleUpdateRow={handleUpdateRow}
-                        currentData={property}
-                        type={type}
-                    />
-                )}
+                {Cart}
                 {checkoutItems.map((item, index: number) => (
                     <Box display={'flex'} gap={'12px'} mt={'12px'} key={index}>
                         <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
@@ -200,21 +209,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
 
     return (
         <Box>
-            {checkoutItem && (
-                <CartDialog
-                    dialog={cartDialog}
-                    order_form_id={checkoutItem.product.order_form_options.id}
-                    product_name={checkoutItem.product.name}
-                    pId={checkoutItem.id}
-                    listId={propertyId}
-                    listData={list}
-                    onAddCart={handleAddCart}
-                    onDelete={(ppid: number) => deleteRow(checkoutItem, ppid)}
-                    handleUpdateRow={handleUpdateRow}
-                    currentData={property}
-                    type={type}
-                />
-            )}
+            {Cart}
             {checkoutItems.map((item, index: number) => (
                 <Box textAlign={'right'} key={index} mt={'40px'}>
                     <Grid container spacing={2}>
@@ -247,7 +242,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                                         key={ind}
                                                         isLastOne={(item.properties.length === 1)}
                                                         product_name={item?.product?.name || ''}
-                                                        onDeleteRow={() => deleteRow(item, property_price.id, (item.properties.length === 1))}
+                                                        onDeleteRow={() => deleteHandler(item, property_price.id, item.properties.length)}
                                                         onEditRow={(property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                         type={type}
                                                         row={{

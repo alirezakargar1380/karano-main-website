@@ -80,13 +80,13 @@ export default function ShoppingCartView() {
                     حدف همه
                 </MenuItem>
             </CustomPopover>
-            {(checkout.items.length > 0) && (
+            {/* {(checkout.items.length > 0) && (
                 <Box sx={{ pt: 4 }}>
                     <BlueNotification title='مشاهده پیش فاکتور'>
                         بعد از بررسی محصولاتی که به صورت سفارشی ثبت شده‌اند، می‌توانید پیش‌فاکتور خود را مشاهده کنید.
                     </BlueNotification>
                 </Box>
-            )}
+            )} */}
 
             {(!checkout.items.length) && (
                 <Box sx={{ textAlign: 'center', border: '1px solid #D1D1D1', borderRadius: '8px', py: 2, px: 2, mt: 8 }}>
@@ -99,8 +99,10 @@ export default function ShoppingCartView() {
             {(checkout.items.length > 0) && (
                 <Box sx={{ py: 4 }}>
                     <CheckCartCard dialog={howToSendDialog}>
-                    نتیجه بررسی سفارش شما بعد  از ارسال به کارشناسان کارانو، از طریق «پیام کوتاه» اعلام و پیش‌فاکتور صادر می‌شود.
-                    همچنین همواره می‌توانید برای پیگیری وضعیت سفارش خود، به صفحه «پیگیری سفارش» در بالای صفحه مراجعه کنید.                    </CheckCartCard>
+                        نتیجه بررسی سفارش شما بعد  از ارسال به کارشناسان کارانو، از طریق «پیام کوتاه» اعلام و پیش‌فاکتور صادر می‌شود.
+                        <br />
+                        همچنین همواره می‌توانید برای پیگیری وضعیت سفارش خود، به صفحه «پیگیری سفارش» در بالای صفحه مراجعه کنید.
+                    </CheckCartCard>
                 </Box>
             )}
         </Box>
