@@ -107,7 +107,7 @@ export default function PhoneVerifyView() {
         else
           router.push(paths.auth.phone.login)
       }} fontFamily={'peyda-bold'} color="#0B7BA7" underline="none" sx={{ alignSelf: 'flex-end', cursor: 'pointer' }}>
-        {login ? 'ورود با رمز عبور' : 'تغییر شماره'}
+        {login ? 'ورود با رمز ورود' : 'تغییر شماره'}
       </CustomLink>
 
       <Box sx={{ mb: 2 }}>
