@@ -181,7 +181,8 @@ export default function CartTableRow({
         title={(status === IOrderProductPropertyStatus.denied) ? "حذف آخرین کالای ردشده" : "حذف آخرین کالا"}
         content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟\n با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
         action={
-          <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} onClick={() => {
+          <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} 
+          onClick={ () => {
             if (onDeleteRow) onDeleteRow();
             confirmLast.onFalse();
           }}>
