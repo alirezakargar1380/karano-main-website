@@ -26,7 +26,6 @@ import { PrimaryButton } from '../styles/buttons/primary';
 interface Props {
   dialog: useBooleanReturnType;
   order_form_id: number;
-  pId?: number;
   product_name: string;
   type?: 'cart' | 'edit' | 'view';
   currentData?: ICheckoutItemPropertyPrice | undefined;
@@ -40,7 +39,6 @@ interface Props {
 export default function CartDialog({
   dialog,
   order_form_id,
-  pId,
   product_name,
   currentData,
   listId,
@@ -56,7 +54,9 @@ export default function CartDialog({
 
   const [hasRejected, setHasRejected] = useState<boolean>(false);
   const [list, setList] = useState<ICheckoutItemPropertyPrice[]>([]);
-  const [id, setId] = useState<null | number>(null);
+  const [index, setId] = useState<null | number>(null);
+
+  // API
   const { form, formLoading } = useGetOrderForm(order_form_id);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -77,6 +77,9 @@ export default function CartDialog({
   });
 
   const defaultValues: any = {
+    ...(currentData?.id && {
+      id: currentData.id
+    }),
     quantity: 1,
     dimension: {
       width: 0,
@@ -88,7 +91,7 @@ export default function CartDialog({
     coating_type: '',
   };
 
-  if (currentData?.id) defaultValues.id = currentData.id;
+  // if (currentData?.id) defaultValues.id = currentData.id;
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -116,7 +119,7 @@ export default function CartDialog({
       if (form.frame_type)
         custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
 
-      if (id === null) {
+      if (index === null) {
         setList([
           ...list,
           {
@@ -124,12 +127,14 @@ export default function CartDialog({
           },
         ]);
       } else {
-        let iid = id;
+        let iid = index;
         setId(null); // felan khali bashe
 
         list[iid] = custom;
+        
         if (handleUpdateRow && type === 'edit')
           list[iid].status = IOrderProductPropertyStatus.edited;
+
         setList([...list]);
 
         if (handleUpdateRow)
@@ -161,12 +166,13 @@ export default function CartDialog({
     [form]
   );
 
+  // show info dialog
   useEffect(() => {
-    if ((id || id === 0) && type === 'edit' && !show) {
+    if ((index || index === 0) && type === 'edit' && !show) {
       infoDialog.onTrue();
       update('1');
     }
-  }, [id]);
+  }, [index]);
 
   useEffect(() => {
     if (listId === undefined || listId === null) return;
@@ -174,14 +180,14 @@ export default function CartDialog({
   }, [listId]);
 
   useEffect(() => {
-    if (id === null) reset(defaultValues);
-  }, [id]);
+    if (index === null) reset(defaultValues);
+  }, [index]);
 
   useEffect(() => {
-    if (id === null || !list.length) return;
-    const item = list[id];
+    if (index === null || !list.length) return;
+    const item = list[index];
     reset(customizeData(item));
-  }, [id, list]);
+  }, [index, list]);
 
   useEffect(() => {
     if (!currentData) return;
@@ -218,7 +224,7 @@ export default function CartDialog({
   }, [list, type]);
 
   const onDeleteRow = (propertyIndex: number) => {
-    if (propertyIndex === id)
+    if (propertyIndex === index)
       return enqueueSnackbar('آیتم انتخاب شده قابل حذف نیست', {
         variant: 'error',
       });
@@ -234,13 +240,13 @@ export default function CartDialog({
 
   useEffect(() => {
     if (!listData?.length) {
-      if (!listData?.length && id === null && !list.length) return setList([]);
+      if (!listData?.length && index === null && !list.length) return setList([]);
       return;
     }
     setList(listData);
     const findRjected = listData.find((item) => item.status === IOrderProductPropertyStatus.denied);
     if (findRjected) setHasRejected(true);
-  }, [listData, id]);
+  }, [listData, index]);
 
   return (
     <>
@@ -313,7 +319,7 @@ export default function CartDialog({
               <CartDialogView
                 formOptions={form}
                 data={list}
-                listId={id}
+                listIndex={index}
                 values={values}
                 type={type}
                 setValue={(name: string, value: any) => setValue(name, value)}
@@ -338,7 +344,7 @@ export default function CartDialog({
           <Stack direction={'row'} justifyContent={'space-between'} width={1}>
             <FormProvider methods={methods} onSubmit={onSubmit}>
               <Stack direction={'row'} spacing={2} justifyContent={'space-between'} width={'400px'}>
-                {id !== null && id >= 0 && (
+                {index !== null && index >= 0 && (
                   <>
                     <SecondaryButton
                       size={'medium'}
@@ -357,7 +363,7 @@ export default function CartDialog({
                   </>
                 )}
                 {
-                  id === null && type === 'cart' && (
+                  index === null && type === 'cart' && (
                     <SecondaryButton size="medium" type="submit" sx={{ width: '400px' }}>
                       افزودن به لیست
                     </SecondaryButton>
@@ -366,7 +372,7 @@ export default function CartDialog({
               </Stack>
             </FormProvider>
             <Stack direction={'row'} spacing={2}>
-              {(id === null && list.length > 0) && (
+              {(index === null && list.length > 0) && (
                 <>
                   <SecondaryButton
                     size="medium"

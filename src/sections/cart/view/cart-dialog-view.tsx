@@ -46,7 +46,7 @@ export const ReadyProductCartTableHead = [
 ]
 
 interface Props {
-    listId: number | null
+    listIndex: number | null
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
     type?: 'cart' | 'edit' | 'view';
@@ -142,7 +142,7 @@ const Tooltip = ({
 export default function CartDialogView({
     formOptions,
     data,
-    listId,
+    listIndex,
     type,
     onUpdate,
     onDelete,
@@ -203,7 +203,7 @@ export default function CartDialogView({
     }, [values, formOptions]);
 
     useEffect(() => {
-        if (listId || listId === 0) {
+        if (listIndex || listIndex === 0) {
             setDisable({
                 profile_type: false,
                 cover_type: false,
@@ -220,7 +220,7 @@ export default function CartDialogView({
                 dimension: true
             })
         }
-    }, [listId])
+    }, [listIndex])
 
     const handleJoyrideCallback = (data: any) => {
         const { action } = data;
@@ -503,7 +503,7 @@ export default function CartDialogView({
                                         indexEqual={ind}
                                         onDeleteRow={() => onDelete(item.id || index)}
                                         onEditRow={() => onUpdate(index)}
-                                        selected={(listId === index)}
+                                        selected={(listIndex === index)}
                                         type={type}
                                         row={{
                                             ...item,
