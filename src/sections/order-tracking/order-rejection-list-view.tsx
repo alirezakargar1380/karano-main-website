@@ -25,26 +25,22 @@ interface Props {
 }
 
 export default function OrderRejectionListView({ dialog, orderId, order_number, onUpdate }: Props) {
-  const [edited, setEdited] = useState<boolean>(false);
+  // const [edited, setEdited] = useState<boolean>(false);
 
   const confirm = useBoolean();
   const cancel = useBoolean();
+  let edited: boolean = false
 
   const { enqueueSnackbar } = useSnackbar();
 
   const { orderProducts, refreshOrderProducts } = useGetOrderProducts(orderId);
 
   const handleUpdateOrder = async () => {
-    const op: IOrderProductItem[] = await server_axios
-      .get(endpoints.orderProducts.one(orderId))
+    console.log(edited)
+    const op: IOrderProductItem[] = await server_axios.get(endpoints.orderProducts.one(orderId))
       .then(({ data }) => data);
 
-    if (
-      !edited &&
-      op.find((item) =>
-        item.properties.find((p) => p.status === IOrderProductPropertyStatus.denied)
-      )
-    )
+    if (!edited && op.find((item) => item.properties.find((p) => p.status === IOrderProductPropertyStatus.denied)))
       return enqueueSnackbar(
         'تعدادی از سفارش‌های شما توسط مدیریت فروش،در وضعیت «ردشده» قرار گرفته‌اند.\n ابتدا تغییرات مورد نظر را اعمال کنید و سپس بر روی دکمه «ثبت نهایی اصلاحات» کلیک کنید.',
         {
@@ -102,7 +98,7 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
     }
 
     confirm.onTrue();
-  };
+  }
 
   const confirmOrder = async () => {
     await server_axios.patch(endpoints.orders.update(orderId), {
@@ -199,9 +195,9 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
               orderId={orderId}
               onRefresh={() => refreshOrderProducts()}
               afterUpdate={async (wasLastOne?: boolean) => {
-                setEdited(true);
+                edited = true
                 // sleep
-                await new Promise((resolve) => setTimeout(resolve, 250));
+                await new Promise((resolve) => setTimeout(resolve, 500));
                 if (wasLastOne === true) {
                   dialog.onFalse();
                   onUpdate();
