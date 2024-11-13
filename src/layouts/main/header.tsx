@@ -97,6 +97,7 @@ export default function Header({ toggleBanner }: any) {
   return (
     <AppBar sx={{
       bgcolor: '#fff',
+      zIndex: 1333,
       // transition: theme.transitions.create(['all'], {
       //   easing: theme.transitions.easing.easeInOut,
       //   duration: theme.transitions.duration.shorter,
@@ -135,6 +136,7 @@ export default function Header({ toggleBanner }: any) {
                 display: 'flex',
                 alignItems: 'center',
                 opacity: 1,
+                visibility: 'visible',
                 transition: theme.transitions.create(['border', 'opacity'], {
                   easing: theme.transitions.easing.easeInOut,
                   duration: theme.transitions.duration.shorter,
@@ -142,7 +144,8 @@ export default function Header({ toggleBanner }: any) {
                 ...(!(scrollDir === 'down') ? {
                   borderBottom: '1px solid #D1D1D1',
                 } : {
-                  opacity: 0
+                  opacity: 0,
+                  visibility: 'hidden',
                 }),
                 width: 1
               }}>

@@ -86,9 +86,15 @@ export default function MainLayout({ children, header = true, footer = true }: P
             </Box>
 
             {(footer) && (
-              <Container maxWidth={'xl'}>
-                <Footer />
-              </Container>
+              <>
+                {homePage ? (
+                  <Container maxWidth={'xl'}>
+                    <Footer />
+                  </Container>
+                ) : (
+                  <Footer />
+                )}
+              </>
             )}
           </Grid>
         </Grid>

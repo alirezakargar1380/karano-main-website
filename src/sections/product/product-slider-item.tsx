@@ -60,14 +60,14 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
     const Img = () => {
         return (
             <Box position={'relative'} sx={{
-                transform: 'scale(1)',
-                transition: 'transform 0.5s ease-in-out',
-                "&:hover": {
-                    transform: 'scale(0.98)',
-                    // transition: 'transform 0.5s ease-in-out',
-                }
+                // transform: 'scale(1)',
+                // transition: 'transform 0.5s ease-in-out',
+                // "&:hover": {
+                //     transform: 'scale(0.98)',
+                //     // transition: 'transform 0.5s ease-in-out',
+                // }
             }} width={1}>
-                {(isFavorite) && (
+                {/* {(isFavorite) && (
                     <Box sx={{
                         position: 'absolute',
                         top: 16,
@@ -76,10 +76,10 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                     }}>
                         <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
                     </Box>
-                )}
+                )} */}
                 <Box width={1}>
                     <Image
-                        sx={{}}
+                        visibleByDefault
                         disabledEffect
                         src={product?.coverUrl || img}
                         ratio="1/1"
@@ -96,23 +96,31 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
 
     return (
         <Box sx={{ width: 1 }}>
-            <Link href={`/product/${product?.id}/`} display={'block'} color={'inherit'} underline="none">
-                <Stack sx={{ textAlign: 'right', alignItems: 'start' }} spacing={'16px'}>
-                    <Img />
-
-                    <Typography variant='body1' sx={{
-                        mt: 0,
-                        '&:hover': {
-                            cursor: 'pointer'
-                        },
-                        textAlign: 'left'
-                    }}>
-                        {product?.name}
-                    </Typography>
-
-                </Stack>
+            <Link
+                href={`/product/${product?.id}/`}
+                display={'block'} color={'inherit'}
+                underline="none"
+                sx={{
+                    transform: 'scale(1)',
+                    transition: 'transform 0.3s ease-in-out',
+                    "&:hover": {
+                        transform: 'scale(0.98)',
+                        // transition: 'transform 0.5s ease-in-out',
+                    }
+                }}
+            >
+                <Img />
             </Link>
-            <Stack direction={'row'} sx={{ textAlign: 'right', alignItems: 'center' }}>
+            <Typography variant='body1' sx={{
+                mt: '16px',
+                '&:hover': {
+                    cursor: 'pointer'
+                },
+                textAlign: 'left'
+            }}>
+                {product?.name}
+            </Typography>
+            <Stack direction={'row'} mt={'4px'} sx={{ textAlign: 'right', alignItems: 'center' }}>
                 <IconButton
                     size='small' sx={{
                         bgcolor: "#D1D1D1",
@@ -123,7 +131,11 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                     disabled={!authenticated}
                     onClick={(isFavorite || favorite) ? handleRemoveToFavorites : handleAddToFavorites}
                 >
-                    <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
+                    {isFavorite ?
+                        <SvgColor src="/assets/icons/product/saved-icon-products.svg" color={"#000"} sx={{ width: 20, height: 20 }} />
+                        :
+                        <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
+                    }
                 </IconButton>
                 <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} variant="body2">کد {product?.code}</Typography>
             </Stack>

@@ -1,4 +1,4 @@
-import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows } from 'src/components/carousel';
+import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows, CarouselDots } from 'src/components/carousel';
 import { Box, Button, Divider, Grid, IconButton, Skeleton, Typography } from '@mui/material';
 import { varFade, MotionContainer } from 'src/components/animate';
 import { bgGradient } from 'src/theme/css';
@@ -48,26 +48,80 @@ export default function CarouselHomeCategory() {
             ))}
           </Box>
         ) :
-          <CarouselComponent categories={categories} selectedCategoryId={selectedCategoryId} />
+          <CarouselComponent length={categories.length} slidesToShow={10}>
+            {categories
+              .map((v: any, index: number) => (
+                <Box key={index}>
+                  <Button
+                    sx={{
+                      m: 0,
+                      height: 48,
+                      py: 0,
+                      border: '2px solid #f2f2f2',
+                      color: '#000',
+                      backgroundColor: '#F8F8F8',
+                      borderRadius: '60px',
+                      width: '90%!important',
+                      textWrap: 'nowrap',
+                      typography: 'body4',
+                      '&: hover': {
+                        border: '2px solid #000',
+                        color: '#000'
+                      },
+                      ...(v.id == Number(selectedCategoryId) && {
+                        border: '2px solid #000',
+                        color: '#000'
+                      })
+                    }}
+                    onClick={() => {
+                      router.push("?category=" + v.id);
+                    }}
+                  >
+                    {v.name}
+                  </Button>
+                </Box>
+              ))}
+          </CarouselComponent>
         }
       </Box>
     </Box>
   );
 }
 
+interface CarouselComponentProps {
+  children: React.ReactNode;
+  length: number;
+  slidesToShow?: number;
+  dots?: boolean | undefined;
+  label?: string;
+}
 
-function CarouselComponent({ categories, selectedCategoryId }: any) {
-  console.log(categories.length)
+
+export function CarouselComponent({ children, length, slidesToShow = 4, dots, label }: CarouselComponentProps) {
+
   const carousel = useCarousel({
     autoplay: false,
     rtl: false,
-    slidesToShow: 10,
+    slidesToShow: slidesToShow,
     infinite: false,
-    initialSlide: categories.length - 10,
+    initialSlide: length - slidesToShow,
     // slidesToShow: 10,
     swipeToSlide: true,
     // draggable: true,
     centerMode: false,
+    ...(dots && CarouselDots({
+      rounded: true,
+      label: label,
+      tvariant: 'title1',
+      sx: {
+        top: 10,
+        // right: 20,
+        zIndex: 101,
+        px: '10px',
+        position: 'absolute',
+        color: '#000!important',
+      },
+    }))
     // rows: 1,
     // responsive: [
     //   {
@@ -97,8 +151,6 @@ function CarouselComponent({ categories, selectedCategoryId }: any) {
 
   const router = useRouter();
 
-  console.log(carousel.carouselSettings.initialSlide, carousel.currentIndex)
-
   return (
     <CarouselArrowsCustom
       icon="icon-park-outline:right"
@@ -114,21 +166,16 @@ function CarouselComponent({ categories, selectedCategoryId }: any) {
           zIndex: 1,
           visibility: 'visible',
           transition: 'opacity 0.3s ease-in-out',
-          ...((carousel.currentIndex === categories.length - 10) && {
+          ...((carousel.currentIndex === length - slidesToShow) && {
             // display: 'none',
             visibility: 'hidden',
             opacity: 0,
           }),
-          ...bgGradient({
+          ...(!dots && bgGradient({
             direction: 'to right',
             startColor: `#fff 100%`,
             endColor: `${alpha("#fff", 0)} 100%`,
-          }),
-        }
-      }}
-      leftButtonProps={{
-        sx: {
-          left: 0,
+          }))
         }
       }}
       rightButtonBoxProps={{
@@ -144,21 +191,31 @@ function CarouselComponent({ categories, selectedCategoryId }: any) {
             visibility: 'hidden',
             opacity: 0,
           }),
-          ...bgGradient({
+          ...(!dots && bgGradient({
             direction: 'to left',
             startColor: `#fff 100%`,
             endColor: `${alpha("#fff", 0)} 100%`,
-          }),
+          }))
+        }
+      }}
+      leftButtonProps={{
+        sx: {
+          ...(!dots && {
+            left: 0,
+          })
         }
       }}
       rightButtonProps={{
         sx: {
-          right: 0,
+          ...(!dots && {
+            right: 0,
+          })
         }
       }}
     >
       <Carousel ref={carousel.carouselRef} {...carousel.carouselSettings}>
-        {categories
+        {children}
+        {/* {categories
           .map((v: any, index: number) => (
             <Box key={index}>
               <Button
@@ -189,7 +246,7 @@ function CarouselComponent({ categories, selectedCategoryId }: any) {
                 {v.name}
               </Button>
             </Box>
-          ))}
+          ))} */}
       </Carousel>
     </CarouselArrowsCustom>
   )

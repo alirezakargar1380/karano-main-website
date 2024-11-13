@@ -10,6 +10,7 @@ import { Box } from '@mui/system';
 import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';
 import { bgGradient } from 'src/theme/css';
 import { alpha, useTheme } from '@mui/material/styles';
+import { CarouselComponent } from './carousel-home-category';
 
 // ----------------------------------------------------------------------
 
@@ -61,7 +62,21 @@ export default function CarouselProducts({ data, label }: Props) {
 
   return (
     <Box sx={{ position: 'relative' }}>
-      <CarouselArrowsCustom
+      <CarouselComponent length={data.length} dots label='!پرفروش ها'>
+        {data.map((item, index) => (
+          <Box key={index} sx={{ mt: 10, px: '8px', direction: 'ltr' }}>
+            <ProductItemSlider
+              product={{
+                id: 1,
+                coverUrl: 'http://localhost:4998/api/images/Fri Oct 11 2024_0d00f3ff-dd47-48fd-989f-cacccb156afa.jpg',
+                name: 'درب کابینتی',
+                code: '65',
+              }}
+            />
+          </Box>
+        ))}
+      </CarouselComponent>
+      {/* <CarouselArrowsCustom
         filled
         icon="icon-park-outline:right"
         onNext={carousel.onNext}
@@ -99,7 +114,7 @@ export default function CarouselProducts({ data, label }: Props) {
             </Box>
           ))}
         </Carousel>
-      </CarouselArrowsCustom>
+      </CarouselArrowsCustom> */}
     </Box>
   );
 }

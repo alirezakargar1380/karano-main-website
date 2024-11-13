@@ -29,9 +29,11 @@ export default function CarouselBasic2({ data }: Props) {
   const carousel = useCarousel({
     // fade: true,
     autoplay: false,
+    infinite: false,
+    rtl: false,
     slidesToShow: 3,
     draggable: true,
-    initialSlide: 0,
+    initialSlide: data.length - 3,
     // centerPadding: '50px',
     className: 'carousel-basic-2',
     ...CarouselDots({
@@ -71,12 +73,16 @@ export default function CarouselBasic2({ data }: Props) {
           display: 'flex',
           p: 3,
           right: -16,
-          clipPath: 'inset(0 100% 0 0)',
-          // right: -1000,
+          opacity: 0,
+          visibility: 'hidden',
+          transform: 'scale(0.95)',
+          // clipPath: 'inset(0 100% 0 0)',
           gap: '16px',
-          transition: '0.5s ease-in-out',
+          transition: 'opacity 0.5s ease-in-out, transform 0.75s ease-in-out',
           ...(open && {
-            clipPath: 'inset(0 0 0 0)',
+            visibility: 'visible',
+            // clipPath: 'inset(0 0 0 0)',
+            transform: 'scale(1)',
             opacity: 1,
           })
         }}>
@@ -141,7 +147,13 @@ export default function CarouselBasic2({ data }: Props) {
         onPrev={carousel.onPrev}
         leftButtonBoxProps={{
           sx: {
-            display: (!carousel.currentIndex) ? 'none' : '',
+            visibility: 'visible',
+            opacity: 1,
+            ...((carousel.currentIndex === data.length - 3) && {
+              // display: 'none',
+              visibility: 'hidden',
+              opacity: 0,
+            }),
             width: '80px',
             height: 1,
             position: 'absolute',
@@ -150,6 +162,13 @@ export default function CarouselBasic2({ data }: Props) {
         }}
         rightButtonBoxProps={{
           sx: {
+            visibility: 'visible',
+            opacity: 1,
+            ...((carousel.currentIndex === 0) && {
+              // display: 'none',
+              visibility: 'hidden',
+              opacity: 0,
+            }),
             width: '80px',
             height: 1,
             position: 'absolute',
@@ -173,7 +192,7 @@ export default function CarouselBasic2({ data }: Props) {
   );
 }
 
-function CarouselItem2({ item }: { item: any }) {
+export function CarouselItem2({ item }: { item: any }) {
   const [show, setShow] = useState(false)
   const theme = useTheme();
   const systemShadows = theme.shadows.slice(1, theme.shadows.length);
