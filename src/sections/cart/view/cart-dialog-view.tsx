@@ -153,6 +153,23 @@ export default function CartDialogView({
 }: Props) {
     const [ind, setInd] = useState<number | undefined>();
     const { show, update } = useShowOneTime("spot-light");
+    const [maxHeight, setMaxHeight] = useState(400);
+
+    useEffect(() => {
+        const updateMaxHeight = () => {
+            const dialogContent = document.querySelector('.MuiDialogContent-root');
+            if (dialogContent) {
+                setMaxHeight(dialogContent.clientHeight);
+            }
+        };
+
+        updateMaxHeight();
+        window.addEventListener('resize', updateMaxHeight);
+
+        return () => {
+            window.removeEventListener('resize', updateMaxHeight);
+        };
+    }, []);
 
     const [disable, setDisable] = useState({
         profile_type: false,
@@ -270,7 +287,7 @@ export default function CartDialogView({
                 <Scrollbar
                     sx={{
                         width: '400px',
-                        maxHeight: 1200,
+                        maxHeight,
                     }}
                 >
                     <Box>
@@ -485,7 +502,7 @@ export default function CartDialogView({
                         />
                     </Box>
                 </Scrollbar>
-                <Scrollbar sx={{ maxHeight: 780 }}>
+                <Scrollbar sx={{ maxHeight }}>
                     {data.length ? (
                         <Table size={'medium'}>
                             <TableHeadCustom
@@ -521,7 +538,7 @@ export default function CartDialogView({
                         </Table>
 
                     ) : (
-                        <Box sx={{ width: 1, textAlign: 'center', my: 24 }}>
+                        <Box sx={{ width: 1, textAlign: 'center', my: 14 }}>
                             <Image src='/assets/images/cart/Empty State.png' />
                         </Box>
                     )}
