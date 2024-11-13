@@ -113,7 +113,6 @@ export default function ProductDetailsCarousel({ product }: Props) {
   const renderLargeImg = (
     <Box
       sx={{
-        mb: 3,
         borderRadius: 2,
         overflow: 'hidden',
         position: 'relative',
@@ -128,11 +127,26 @@ export default function ProductDetailsCarousel({ product }: Props) {
         onPrev={carouselThumb.onPrev}
         leftButtonBoxProps={{
           sx: {
+            ...(product.images.length === 1) && {
+              display: 'none',
+            },
             width: '80px',
             height: 1,
-            left: -20,
+            left: 20,
             position: 'absolute',
             zIndex: 100,
+          }
+        }}
+        rightButtonBoxProps={{
+          sx: {
+            ...(product.images.length === 1) && {
+              display: 'none',
+            },
+            width: '80px',
+            height: 1,
+            position: 'absolute',
+            right: 20,
+            zIndex: 100
           }
         }}
         leftButtonProps={{
@@ -141,15 +155,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
             ml: 1,
           }
         }}
-        rightButtonBoxProps={{
-          sx: {
-            width: '80px',
-            height: 1,
-            position: 'absolute',
-            right: 20,
-            zIndex: 100
-          }
-        }}
+        
         rightButtonProps={{
           sx: {
             mr: 1
@@ -226,15 +232,12 @@ export default function ProductDetailsCarousel({ product }: Props) {
       <Box
         sx={{
           height: 1,
-          width: {
-            md: 680,
-            xs: 1
-          },
+          width: 1,
         }}
       >
         {renderLargeImg}
 
-        {renderThumbnails}
+        {(product.images.length > 1) && renderThumbnails}
       </Box>
 
 

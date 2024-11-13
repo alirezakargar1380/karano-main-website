@@ -24,6 +24,7 @@ import ProductDetailsDescription from '../product-details-description';
 import CarouselProducts from 'src/sections/_examples/extra/carousel-view/carousel-products';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import { ProductOrderType } from 'src/types/product';
+import { Stack } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -88,39 +89,34 @@ export default function ProductShopDetailsView({ id }: Props) {
 
   const renderProduct = product && (
     <Box width={1}>
-
-      <Grid
-        container
-        spacing={{
-          xs: 3,
-        }}
-        // alignContent={'space-between'}
-        // justifyContent={'space-between'}
-        sx={{ mb: 5 }}
-        direction={{
-          lg: 'row',
-          md: 'column-reverse',
-          sm: 'column-reverse',
-          xs: 'column-reverse'
-        }}
-      >
-        <Grid xs={12} sm={12} md={12} lg={5} item>
+      <Stack direction={'row'} justifyContent={'space-between'} mb={(product.order_type === ProductOrderType.custom_made) ? '96px' : 0}>
+        <Box
+          width={{
+            md: 400,
+            xs: 1
+          }}
+        >
           <ProductDetailsSummary
             product={product}
             items={checkout.items}
             onGotoStep={checkout.onGotoStep}
           />
-        </Grid>
+        </Box>
 
-        <Grid xs={12} sm={12} md={12} lg={7} sx={{ direction: 'rtl' }} item>
+        <Box
+          width={{
+            md: 680,
+            xs: 1
+          }}
+        >
           <ProductDetailsCarousel product={product} />
 
           {product.order_type === ProductOrderType.ready_to_use ?
             <ProductDetailsDescription description={product.description} attributes={product.attributes} />
             : null}
 
-        </Grid>
-      </Grid>
+        </Box>
+      </Stack>
 
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5, mb: 5 }}>
         <CarouselProducts data={_carouselsExample.slice(0, 8)} label='سایر درب‌های کابینتی' />

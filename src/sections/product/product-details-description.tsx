@@ -9,9 +9,9 @@ type Props = {
 };
 export default function ProductDetailsDescription({ description, attributes }: Props) {
   return (
-    <Box>
+    <Box py={'48px'}>
       {(!!description) && (
-        <Box sx={{ pt: '48px', textAlign: 'left' }}>
+        <Box sx={{ textAlign: 'left' }}>
           <Typography variant='title3' pb={'16px'}>درباره محصول</Typography>
           <Typography variant='body2'>
             {description}

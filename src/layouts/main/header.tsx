@@ -97,16 +97,20 @@ export default function Header({ toggleBanner }: any) {
   return (
     <AppBar sx={{
       bgcolor: '#fff',
-      zIndex: 1333,
       // transition: theme.transitions.create(['all'], {
       //   easing: theme.transitions.easing.easeInOut,
       //   duration: theme.transitions.duration.shorter,
       // }),
+      ...((scrollDir === 'down') ? {
+        visibility: 'hidden',
+      } : {
+        visibility: 'visible',
+      }),
       ...((scrollDir === 'down') && {
         bgcolor: '#ffffff00',
       }),
     }}>
-      <Box sx={{ bgcolor: '#454545', height: '45px', width: 1 }}>
+      <Box sx={{ bgcolor: '#454545', height: '45px', width: 1, visibility: 'visible' }}>
         <Stack justifyContent={'center'} direction={'row'} alignItems={'center'} height={1}>
           <Typography variant={'caption2'} color={'#F8F8F8'} pr={'20px'}>
             متن بنر مورد نظر اینجا قرار می‌گیرد
@@ -122,21 +126,18 @@ export default function Header({ toggleBanner }: any) {
       </Box>
       <Container maxWidth={'xl'}>
         <Grid container>
-          <Grid item md={1}>
+          <Grid item md={1} sx={{ visibility: 'visible' }}>
             <Box width={1} textAlign={'center'} pt={1}>
               <NavDesktopModern data={navDesktopConfig} />
             </Box>
           </Grid>
-          <Grid item md={11} sx={{
-            // px: '0px!important'
-          }}>
+          <Grid item md={11}>
             <StyledToolbar>
               <Box sx={{
                 height: 1,
                 display: 'flex',
                 alignItems: 'center',
                 opacity: 1,
-                visibility: 'visible',
                 transition: theme.transitions.create(['border', 'opacity'], {
                   easing: theme.transitions.easing.easeInOut,
                   duration: theme.transitions.duration.shorter,
@@ -145,7 +146,6 @@ export default function Header({ toggleBanner }: any) {
                   borderBottom: '1px solid #D1D1D1',
                 } : {
                   opacity: 0,
-                  visibility: 'hidden',
                 }),
                 width: 1
               }}>

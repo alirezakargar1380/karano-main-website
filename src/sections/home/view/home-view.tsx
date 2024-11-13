@@ -320,10 +320,10 @@ export default function HomeView() {
                       // hiddenArrow
                       // anchorEl={customizedPopover.open}
                       anchorEl={popoverAnchor.current}
-                      // anchorOrigin={{
-                      //   vertical: 'top',
-                      //   horizontal: 'left',
-                      // }}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
                       transformOrigin={{
                         vertical: 'bottom',
                         horizontal: 'left',
@@ -342,6 +342,9 @@ export default function HomeView() {
                       }}
                       disableRestoreFocus
                       sx={{
+                        '&.MuiModal-root': {
+                          zIndex: 100
+                        },
                         pointerEvents: 'none',
                         // bgcolor: '#fff'
                       }}
