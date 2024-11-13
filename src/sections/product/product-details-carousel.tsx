@@ -25,6 +25,7 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
     lineHeight: 0,
   },
   maxWidth: '140px',
+  // maxHeight: '140px',
   // ...(length === 1 && {
   //   maxWidth: THUMB_SIZE * 1 + 16,
   // }),
@@ -113,6 +114,9 @@ export default function ProductDetailsCarousel({ product }: Props) {
   const renderLargeImg = (
     <Box
       sx={{
+        ...(product.images.length > 1) && {
+          mb: '40px',
+        },
         borderRadius: 2,
         overflow: 'hidden',
         position: 'relative',
@@ -155,7 +159,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
             ml: 1,
           }
         }}
-        
+
         rightButtonProps={{
           sx: {
             mr: 1
@@ -196,29 +200,28 @@ export default function ProductDetailsCarousel({ product }: Props) {
         ref={carouselThumb.carouselRef}
       >
         {slides.map((item, index) => (
-          <Box key={item.src} sx={{ px: 0.5 }}>
-            <Avatar
+          <Box key={item.src} sx={{ width: 140, height: 140 }}>
+            <Image
               key={item.src}
               alt={item.src}
               src={item.src}
-              variant="rounded"
+              ratio='1/1'
               onClick={() => carouselLarge.onTogo(index)}
               sx={{
-                width: '100%',
-                height: '100%',
                 mx: 'auto',
                 opacity: 0.48,
                 cursor: 'pointer',
+                borderRadius: '8px',
                 ...(carouselLarge.currentIndex === index && {
                   opacity: 1,
-                  border: `solid 2.5px #000`,
+                  border: `solid 1px #727272`,
                 }),
               }}
             />
           </Box>
         ))}
       </Carousel>
-    </StyledThumbnailsContainer>
+    </StyledThumbnailsContainer >
   );
 
   return (
@@ -238,6 +241,7 @@ export default function ProductDetailsCarousel({ product }: Props) {
         {renderLargeImg}
 
         {(product.images.length > 1) && renderThumbnails}
+        {/* {renderThumbnails} */}
       </Box>
 
 
