@@ -11,15 +11,13 @@ export function useGetFavoriteProducts() {
 
     const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
-    console.log(data)
-
     const memoizedValue = useMemo(
         () => ({
             categoryLoading: isLoading,
             // productsError: error,
             favorites: (data as any[]) || [],
             // productsValidating: isValidating,
-            // productsEmpty: !isLoading && !data?.products.length,
+            isEmpty: !isLoading && !data?.length,
         }),
         [data]
     );
