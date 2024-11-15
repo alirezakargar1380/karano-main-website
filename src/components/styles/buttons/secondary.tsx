@@ -21,6 +21,7 @@ const SecondaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size, color }
       '&:hover': {
         outline: '1px solid #727272',
         backgroundColor: '#fff!important',
+        border: 'none'
       },
     }),
     ...(color === 'error' && {
@@ -30,6 +31,7 @@ const SecondaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size, color }
         color: '#780202',
         outline: '1px solid #780202',
         backgroundColor: '#fff!important',
+        border: 'none'
       },
     }),
     ...(color === 'info' && {
@@ -39,6 +41,7 @@ const SecondaryButtonStyle = styled(Button)<ButtonProps>(({ theme, size, color }
         color: '#00364B',
         outline: '1px solid #00364B',
         backgroundColor: '#fff!important',
+        border: 'none'
       }
     }),
     ...(sizeSm && {
