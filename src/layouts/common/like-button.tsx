@@ -6,6 +6,7 @@ import { RouterLink } from 'src/routes/components';
 import { PATH_AFTER_LOGIN } from 'src/config-global';
 import { IconButton } from '@mui/material';
 import SvgColor from 'src/components/svg-color';
+import { paths } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ type Props = {
 
 export default function LikeButton({ sx }: Props) {
     return (
-        <Button component={RouterLink} href={PATH_AFTER_LOGIN}
+        <Button component={RouterLink} href={paths.user_dashboard.root + `?tab=favorites`}
             sx={{
                 ml: 1.7,
                 p: 0,
