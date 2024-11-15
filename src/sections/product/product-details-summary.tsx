@@ -103,6 +103,8 @@ export default function ProductDetailsSummary({
       } else {
         handleAddCartReadyProduct();
       }
+
+      
       if (!existProduct) {
         // onAddCart?.({
         //   ...data,

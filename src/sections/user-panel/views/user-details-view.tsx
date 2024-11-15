@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import UserDetailsRow from "../user-details-row";
 import { useAuthContext } from "src/auth/hooks";
 import { IUserTypes } from "src/types/user";
+import { toPhoneNumberInputFormat } from "src/utils/change-case";
 
 export default function UserDetailsView() {
     const { user, authenticated } = useAuthContext();
@@ -34,6 +35,12 @@ export default function UserDetailsView() {
                         name="phone"
                         title="شماره موبایل"
                         value={user.phone}
+                        defaultValue={toPhoneNumberInputFormat(user.phone)}
+                    />
+                    <UserDetailsRow
+                        name="landline_number"
+                        title="شماره تلفن ثابت"
+                        value={user.landline_number}
                     />
                     <UserDetailsRow
                         name="email"

@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -22,10 +22,12 @@ import { phoneFormatErrorMessage, phoneLengthErrorMessage } from 'src/constants/
 
 import querystring from "querystring";
 import { useSnackbar } from 'notistack';
+import { inputFormError } from 'src/constants/messages/form/errors';
 
 // ----------------------------------------------------------------------
 
 export default function PhoneLoginView() {
+  let showSnackbar = false;
 
   const router = useRouter();
 
@@ -56,6 +58,16 @@ export default function PhoneLoginView() {
     handleSubmit,
     formState: { isSubmitting, isValid },
   } = methods;
+
+  useEffect(() => {
+    if (returnTo && !showSnackbar) {
+      showSnackbar = true;
+      enqueueSnackbar('لطفا ابتدا وارد حساب کاربری خود شوید', {
+        variant: 'myCustomVariant',
+        color: 'error'
+      })
+    }
+  }, [returnTo])
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
@@ -104,7 +116,7 @@ export default function PhoneLoginView() {
   });
 
   const handleBeforeSubmit = useCallback(() => {
-    if (!isValid) return enqueueSnackbar('پرکردن فیلدها اجباری است.', {
+    if (!isValid) return enqueueSnackbar(inputFormError, {
       variant: 'myCustomVariant',
       color: 'error'
     })

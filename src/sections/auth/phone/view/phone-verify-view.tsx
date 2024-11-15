@@ -27,12 +27,17 @@ import { codeErrorMessage } from 'src/constants/messages/phone-verify';
 import { CustomLink } from 'src/components/styles/link/custom-link';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
+import { useSnackbar } from 'notistack';
+import { inputFormError } from 'src/constants/messages/form/errors';
+
 // ----------------------------------------------------------------------
 
 export default function PhoneVerifyView() {
   const { verify } = useAuthContext();
 
   const router = useRouter();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -62,7 +67,7 @@ export default function PhoneVerifyView() {
     reset,
     handleSubmit,
     watch,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
 
   const values = watch();
@@ -91,9 +96,12 @@ export default function PhoneVerifyView() {
       }
   }, [values.code])
 
-  const onBeforeSubmit = useCallback(() => {
-
-  }, [])
+  const handleBeforeSubmit = useCallback(() => {
+    if (!isValid) return enqueueSnackbar(inputFormError, {
+      variant: 'myCustomVariant',
+      color: 'error'
+    })
+  }, [isValid])
 
   const renderForm = (
     <Stack spacing={2.5}>
@@ -124,7 +132,7 @@ export default function PhoneVerifyView() {
         size="medium"
         type="submit"
         isLoading={isSubmitting}
-        onClick={onBeforeSubmit}
+        onClick={handleBeforeSubmit}
       >
         {isSubmitting ? '' : 'ادامه'}
       </PrimaryButton>

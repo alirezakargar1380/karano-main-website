@@ -110,7 +110,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                 }}
             >
                 <Img />
-            </Link>
+            
             <Typography variant='body1' sx={{
                 mt: '16px',
                 '&:hover': {
@@ -139,6 +139,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                 </IconButton>
                 <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} variant="body2">کد {product?.code}</Typography>
             </Stack>
+            </Link>
         </Box>
     )
 }

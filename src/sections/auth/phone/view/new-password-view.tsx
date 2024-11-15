@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -26,6 +26,7 @@ import SvgColor from 'src/components/svg-color';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 import querystring from "querystring";
+import { inputFormError } from 'src/constants/messages/form/errors';
 
 // ----------------------------------------------------------------------
 
@@ -66,7 +67,7 @@ export default function NewPasswordView({ type = 'default' }: Props) {
   const {
     reset,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
@@ -107,6 +108,13 @@ export default function NewPasswordView({ type = 'default' }: Props) {
       reset();
     }
   });
+
+  const handleBeforeSubmit = useCallback(() => {
+    if (!isValid) return enqueueSnackbar(inputFormError, {
+      variant: 'myCustomVariant',
+      color: 'error'
+    })
+  }, [isValid])
 
   const renderForm = (
     <Stack spacing={2.5}>
@@ -164,6 +172,7 @@ export default function NewPasswordView({ type = 'default' }: Props) {
         type="submit"
         sx={{ mt: 2 }}
         isLoading={isSubmitting}
+        onClick={handleBeforeSubmit}
       >
         {(type === 'default') ? 'ثبت نام' : 'ثبت'}
       </PrimaryButton>

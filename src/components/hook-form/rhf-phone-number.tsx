@@ -1,17 +1,20 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { TextField, Box, Typography, Stack } from '@mui/material';
+import { TextField, Box, Typography, Stack, SxProps, InputProps, TextFieldProps } from '@mui/material';
 import FormHelperText from '@mui/material/FormHelperText';
 import SvgColor from '../svg-color';
 import { toFarsiNumber } from 'src/utils/change-case';
 
 type RHFPhoneInputProps = {
   name: string;
-  custom_label: string;
+  custom_label?: string;
   helperText?: string;
+  ISx?: SxProps
+  sx?: SxProps
+  inProps?: TextFieldProps;
 };
 
-export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPhoneInputProps) {
+export default function RHFPhoneInput({ name, custom_label, helperText, ISx, sx, inProps }: RHFPhoneInputProps) {
   const { control } = useFormContext();
 
   const handleChange = (index: number, value: string, onChange: (value: string) => void, currentValue: string) => {
@@ -57,8 +60,10 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
         }
       }}
       render={({ field, fieldState: { error } }) => (
-        <Box>
-          <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
+        <Box sx={sx}>
+          {(custom_label) && (
+            <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
+          )}
           <Box display="flex" sx={{ direction: 'rtl' }} alignItems={'center'} border={!error ? '1px solid #D1D1D1' : '1px solid #FF5630'} borderRadius={'8px'} px={'12px'}>
             <Box display={'flex'} alignItems={'center'} sx={{ color: '#919EAB' }}>
               +
@@ -77,6 +82,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
                     '& input': {
                       px: 0
                     },
+                    ...ISx
                   }
                 }}
                 sx={{
@@ -89,8 +95,9 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
                   },
                   '& input': {
                     padding: 0
-                  }
+                  },
                 }}
+                {...inProps}
               />
 
             </Box>
@@ -104,6 +111,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               InputProps={{
                 sx: {
                   '& input': { px: 0 },
+                  ...ISx
                 }
               }}
               sx={{
@@ -112,6 +120,7 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
                   border: 'none',
                 }
               }}
+              {...inProps}
             />
             <TextField
               id="phone-input-2"
@@ -123,14 +132,16 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               InputProps={{
                 sx: {
                   '& input': { px: 0 },
+                  ...ISx
                 }
               }}
               sx={{
                 width: '40px',
                 '& fieldset': {
                   border: 'none',
-                }
+                },
               }}
+              {...inProps}
             />
             <TextField
               id="phone-input-3"
@@ -142,14 +153,16 @@ export default function RHFPhoneInput({ name, custom_label, helperText }: RHFPho
               InputProps={{
                 sx: {
                   '& input': { px: 0 },
+                  ...ISx
                 }
               }}
               sx={{
                 width: '50px',
                 '& fieldset': {
                   border: 'none',
-                }
+                },
               }}
+              {...inProps}
             />
           </Box>
 

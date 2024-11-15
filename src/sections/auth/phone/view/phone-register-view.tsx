@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -21,12 +21,16 @@ import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { CustomLink } from 'src/components/styles/link/custom-link';
 
 import querystring from "querystring";
+import { useSnackbar } from 'notistack';
+import { inputFormError } from 'src/constants/messages/form/errors';
 
 // ----------------------------------------------------------------------
 
 export default function PhoneRegisterView() {
 
   const { register } = useAuthContext();
+
+  const { enqueueSnackbar } = useSnackbar();
 
   const router = useRouter();
 
@@ -79,7 +83,7 @@ export default function PhoneRegisterView() {
     reset,
     handleSubmit,
     watch,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = methods;
 
   const values = watch();
@@ -101,6 +105,13 @@ export default function PhoneRegisterView() {
       // reset();
     }
   });
+
+  const handleBeforeSubmit = useCallback(() => {
+    if (!isValid) return enqueueSnackbar(inputFormError, {
+      variant: 'myCustomVariant',
+      color: 'error'
+    })
+  }, [isValid])
 
   const renderHead = (
     <Stack spacing={2} sx={{ mb: 2, position: 'relative' }}>
@@ -172,6 +183,7 @@ export default function PhoneRegisterView() {
             isLoading={isSubmitting}
             // disabled={!terms}
             sx={{ width: 'fit-content', ml: 'auto' }}
+            onClick={handleBeforeSubmit}
           >
             ثبت و ادامه
           </PrimaryButton>
