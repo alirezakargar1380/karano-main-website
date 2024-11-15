@@ -20,7 +20,7 @@ import { DeliveryAdressesNewEditForm } from 'src/sections/order-tracking/deliver
 // ----------------------------------------------------------------------
 
 export default function PhoneAddressView() {
-    const [terms, setTerms] = useState<boolean>(false);
+    const [terms, setTerms] = useState<boolean>(true);
 
     const dialog = useBoolean();
 
