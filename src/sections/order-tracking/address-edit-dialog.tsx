@@ -6,12 +6,13 @@ import { DeliveryAdressesNewEditForm } from "./delivery-addresses-new-edit-form"
 interface Props {
     id: number | undefined
     dialog: useBooleanReturnType
+    afterAdd?: () => void
 }
 
-export default function AddressEditDialog({ dialog, id }: Props) {
+export default function AddressEditDialog({ dialog, id, afterAdd }: Props) {
     return (
         <DialogWithButton dialog={dialog} fullWith maxWidth="md">
-            <Box sx={{ p: '24px', bgcolor: 'white', borderRadius: '16px' }}>
+            <Box sx={{ bgcolor: 'white', borderRadius: '16px' }}>
                 <Typography variant="title1" sx={{ width: 1, pb: '16px', borderBottom: '1px solid #D1D1D1' }}>
                     {id ? 'ویرایش آدرس' : 'اطلاعات آدرس جدید'}
                 </Typography>
@@ -19,6 +20,7 @@ export default function AddressEditDialog({ dialog, id }: Props) {
                     id={id}
                     handleAfterAddingAddress={() => {
                         dialog.onFalse();
+                        afterAdd?.()
                     }}
                     exit={() => dialog.onFalse()}
                 />

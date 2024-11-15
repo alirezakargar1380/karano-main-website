@@ -14,6 +14,7 @@ import { LoadingButton } from "@mui/lab";
 import { endpoints, server_axios } from "src/utils/axios";
 
 import { useSnackbar } from 'src/components/snackbar';
+import { PrimaryButton } from "src/components/styles/buttons/primary";
 
 interface Props {
     name: string
@@ -72,9 +73,9 @@ export default function UserDetailsRow({
                 <FormProvider methods={methods} onSubmit={onSubmit}>
                     <RHFTextField name={name} label={title} variant="filled" />
                     <Box sx={{ mt: 4 }}>
-                        <LoadingButton loading={isSubmitting} type="submit" variant="contained" fullWidth>
+                        <PrimaryButton isLoading={isSubmitting} type="submit" size="medium" fullWidth>
                             ذخیره
-                        </LoadingButton>
+                        </PrimaryButton>
                     </Box>
                 </FormProvider>
             </DialogWithButton>

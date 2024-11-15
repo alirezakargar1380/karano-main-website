@@ -18,8 +18,13 @@ import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import SvgColor from 'src/components/svg-color';
 
 import { useSnackbar } from 'src/components/snackbar';
+import Image from 'src/components/image';
 
-export default function OrderTrackingListView() {
+interface Props {
+  status?: OrderStatus;
+}
+
+export default function OrderTrackingListView({ status }: Props) {
   const [orderId, setOrderId] = useState<number>(0);
   const [order, setOrder] = useState<IOrderItem>();
   const [hasCustomMade, setHasCustomMade] = useState(false);
@@ -193,18 +198,20 @@ export default function OrderTrackingListView() {
       </DialogWithButton>
 
       {/* <DialogWithButton dialog={orderRejectingDialog} fullWith={true}> */}
-        <OrderRejectionListView
-          dialog={orderRejectingDialog}
-          orderId={orderId}
-          order_number={order?.order_number}
-          onUpdate={() => refreshOrders()}
-        />
+      <OrderRejectionListView
+        dialog={orderRejectingDialog}
+        orderId={orderId}
+        order_number={order?.order_number}
+        onUpdate={() => refreshOrders()}
+      />
       {/* </DialogWithButton> */}
 
       <Stack spacing={'20px'} pb={10}>
-        {orders.map((order) => (
-          <TrackingOrderItem key={order.id} order={order} handleMoreBtn={handleMore} />
-        ))}
+        {orders
+          .filter((order) => (status ? order.status === status : true))
+          .map((order) => (
+            <TrackingOrderItem key={order.id} order={order} handleMoreBtn={handleMore} />
+          ))}
       </Stack>
     </Box>
   );
