@@ -50,7 +50,7 @@ export const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           {...other}
         >
           <Box ref={refPop}>
-            {(badge && !active) ? (
+            {(badge && !active && order.notification_id) ? (
               <Badge
                 sx={{
                   "& .MuiBadge-badge": {
