@@ -23,12 +23,11 @@ import { phoneFormatErrorMessage, phoneLengthErrorMessage } from 'src/constants/
 import querystring from "querystring";
 import { useSnackbar } from 'notistack';
 import { inputFormError } from 'src/constants/messages/form/errors';
+import { BlueNotification } from 'src/components/notification';
 
 // ----------------------------------------------------------------------
 
 export default function PhoneLoginView() {
-  let showSnackbar = false;
-
   const router = useRouter();
 
   const searchParams = useSearchParams();
@@ -59,30 +58,20 @@ export default function PhoneLoginView() {
     formState: { isSubmitting, isValid },
   } = methods;
 
-  useEffect(() => {
-    if (returnTo && !showSnackbar) {
-      showSnackbar = true;
-      enqueueSnackbar('لطفا ابتدا وارد حساب کاربری خود شوید', {
-        variant: 'myCustomVariant',
-        color: 'error'
-      })
-    }
-  }, [returnTo])
-
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       const res = await server_axios.post(endpoints.auth.user.loginSignUp, data).then(({ data }) => data)
 
       let phoneQuery = querystring.stringify({
         phone: data.phone,
-        ...(returnTo &&{
+        ...(returnTo && {
           returnTo
         })
       })
 
       let userIdQuery = querystring.stringify({
         user_id: res.user_id,
-        ...(returnTo &&{
+        ...(returnTo && {
           returnTo
         })
       })
@@ -148,6 +137,14 @@ export default function PhoneLoginView() {
 
   return (
     <FormProvider methods={methods} onSubmit={onSubmit}>
+
+      {returnTo && (
+        <BlueNotification title='به کارانو خوش آمدید؛' sx={{ mb: '40px' }}>
+          برای ثبت شفارش، می‌بایست ابتدا در سایت کارانو ثبت‌نام | ورود کنید.
+        </BlueNotification>
+      )}
+
+
       <RegisterLoginHead />
 
       {renderForm}

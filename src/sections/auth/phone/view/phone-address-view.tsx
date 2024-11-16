@@ -60,7 +60,7 @@ export default function PhoneAddressView() {
                 gap: '4px'
             }}
         >
-            <Checkbox size='small' onChange={() => setTerms(!terms)} />
+            <Checkbox size='small'  onChange={() => setTerms(!terms)} />
             {' با '}
             <CustomLink variant='hyperlink3' sx={{ width: 'fit-content' }}>
                 شرایط کارانو

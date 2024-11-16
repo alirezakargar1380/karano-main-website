@@ -97,7 +97,7 @@ export default function LoginButton({ sx }: Props) {
                   sx={{ width: 20, height: 20, mr: 1 }}
                 />
                 <Typography variant="body4" noWrap>
-                  اطلاعات حساب کاربری
+                  مشاهده پروفایل
                 </Typography>
               </Box>
             </Link>

@@ -1,1 +1,1 @@
-export const inputFormError: string = "پرکردن فیلدها اجباری است.";
+export const inputFormError: string = "پرکردن تمامی فیلدها اجباری است.";

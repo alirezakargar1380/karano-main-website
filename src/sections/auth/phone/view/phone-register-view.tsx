@@ -169,7 +169,7 @@ export default function PhoneRegisterView() {
           {(values.user_type === IUserTypes.genuine) && (<RHFTitleTextField name='id_code' custom_label={'کد ملی'} placeholder='مثلا 3540200000' />)}
           {(values.user_type === IUserTypes.legal) && (<RHFTitleTextField name='national_id' custom_label='کد ملی / کد اقتصادی' placeholder='9968741' />)}
           <RHFTitleTextField name='email' custom_label='ایمیل' lable_caption={'اختیاری'} placeholder='email@example.com' />
-          <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت' placeholder='021-234567' />
+          <RHFTitleTextField name='landline_number' custom_label='شماره تلفن ثابت' placeholder='021-234567' helperText='شماره تلفن ثابت را با کد شهر مورد نظر وارد کنید.' />
         </Box>
 
         <Box width={1} textAlign={'right'} pt={6} borderBottom={(theme) => `1px solid ${theme.palette.divider}`} pb={2}>
