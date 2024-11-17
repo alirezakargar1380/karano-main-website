@@ -238,7 +238,6 @@ export default function HomeView() {
       </m.div>
 
       <MainLayout header={false}>
-        <Container maxWidth={'xl'} sx={{}}>
           <Stack spacing={10}>
             {/* <m.div variants={varFade().inUp}> */}
             <Box>
@@ -427,7 +426,6 @@ export default function HomeView() {
 
 
           </Stack>
-        </Container>
       </MainLayout>
     </>
   );

@@ -16,6 +16,8 @@ import { paths } from 'src/routes/paths';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import { CustomLink } from 'src/components/styles/link/custom-link';
 import { DeliveryAdressesNewEditForm } from 'src/sections/order-tracking/delivery-addresses-new-edit-form';
+import { useSnackbar } from 'notistack';
+import { inputFormError } from 'src/constants/messages/form/errors';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +27,8 @@ export default function PhoneAddressView() {
     const dialog = useBoolean();
 
     const router = useRouter();
+
+    const { enqueueSnackbar } = useSnackbar();
 
     const searchParams = useSearchParams();
 
@@ -60,7 +64,7 @@ export default function PhoneAddressView() {
                 gap: '4px'
             }}
         >
-            <Checkbox size='small'  onChange={() => setTerms(!terms)} />
+            <Checkbox size='small' sx={{ pt: 0.5 }} defaultChecked={terms} onChange={() => setTerms(!terms)} />
             {' با '}
             <CustomLink variant='hyperlink3' sx={{ width: 'fit-content' }}>
                 شرایط کارانو
@@ -74,6 +78,13 @@ export default function PhoneAddressView() {
         </Typography>
     );
 
+    const handleBeforeSubmit = (isValid: boolean) => {
+        if (!isValid) return enqueueSnackbar(inputFormError, {
+            variant: 'myCustomVariant',
+            color: 'error'
+        })
+    }
+
     const renderForm = (
         <Box>
             <DeliveryAdressesNewEditForm
@@ -81,16 +92,19 @@ export default function PhoneAddressView() {
                     router.push(returnTo || PATH_AFTER_LOGIN);
                 }}
                 exit={() => dialog.onFalse()}
-                actions={(
-                    <>
-                        {renderTerms}
-                        <Box textAlign={'right'} mt={1} mb={'24px'}>
-                            <PrimaryButton size='medium' type='submit' disabled={!terms}>
-                                ثبت
-                            </PrimaryButton>
-                        </Box>
-                    </>
-                )}
+                actions={(isValid: boolean) => {
+
+                    return (
+                        <>
+                            {renderTerms}
+                            <Box textAlign={'right'} mt={1} mb={'24px'}>
+                                <PrimaryButton size='medium' type='submit' onClick={() => handleBeforeSubmit(isValid)} disabled={!terms}>
+                                    ثبت
+                                </PrimaryButton>
+                            </Box>
+                        </>
+                    );
+                }}
             />
 
             <Stack direction={'row'} justifyContent={'space-between'} borderTop={(theme) => `1px solid ${theme.palette.divider}`}>

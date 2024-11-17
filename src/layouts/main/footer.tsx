@@ -22,6 +22,7 @@ import ShoppingCartButton from '../common/shopping-cart-button';
 import LoginButton from '../common/login-button';
 import Image from 'src/components/image';
 import SvgColor from 'src/components/svg-color';
+import Layout from './layout';
 
 // ----------------------------------------------------------------------
 
@@ -77,19 +78,32 @@ export default function Footer() {
   );
 
   const mainFooter = (
-    <Stack direction={"row"} sx={{ border: '1px solid #D1D1D1', borderRadius: '36px', px: 4, my: 6 }}>
-      <Logo sx={{ my: 3 }} />
-      <Stack direction={'row'} justifyItems={'center'}>
-        {/* <NavDesktop data={navConfig} /> */}
-      </Stack>
-      <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }} sx={{ ml: 'auto', }} spacing={0.7}>
-        <Box sx={{ borderLeft: '2px solid #000000' }} display={'flex'} alignItems={'center'} gap={'8px'}>
-          <Typography variant='body3' sx={{ pt: 0.5, pl: 2 }}>karanowood</Typography>
-          <SvgColor src='/assets/icons/home/instagram.svg' sx={{ width: 24, height: 24 }} />
-        </Box>
-        <LoginButton />
-      </Stack>
-    </Stack>
+    <Box
+      // position={'fixed'} 
+      sx={{
+        // bottom: '40px', 
+        left: 0,
+        right: 0,
+        mb: '40px',
+        zIndex: 999
+      }}
+    >
+      <Layout>
+        <Stack direction={"row"} sx={{ border: '1px solid #D1D1D1', borderRadius: '36px', px: 4, bgcolor: '#FFFFFF' }}>
+          <Logo sx={{ my: 3 }} />
+          <Stack direction={'row'} justifyItems={'center'}>
+            {/* <NavDesktop data={navConfig} /> */}
+          </Stack>
+          <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }} sx={{ ml: 'auto', }} spacing={0.7}>
+            <Box sx={{ borderLeft: '2px solid #000000' }} display={'flex'} alignItems={'center'} gap={'8px'}>
+              <Typography variant='body3' sx={{ pt: 0.5, pl: 2 }}>karanowood</Typography>
+              <SvgColor src='/assets/icons/home/instagram.svg' sx={{ width: 24, height: 24 }} />
+            </Box>
+            <LoginButton />
+          </Stack>
+        </Stack>
+      </Layout>
+    </Box>
   );
 
   return mainFooter;

@@ -13,6 +13,7 @@ import { useHandleBanner } from 'src/api/banner';
 import { useEffect, useState } from 'react';
 import { useBoolean } from 'src/hooks/use-boolean';
 import { useGetCategories } from 'src/api/category';
+import Layout from './layout';
 
 // ----------------------------------------------------------------------
 
@@ -62,43 +63,32 @@ export default function MainLayout({ children, header = true, footer = true }: P
         </Box>
       )} */}
 
-      <Container maxWidth={'xl'} sx={{}}>
-        <Grid container>
-          {(mdUp) ? (
-            <Grid item xs={2} sm={1} md={1} />
-          ) : null}
-
-          <Grid item xs={!mdUp ? 12 : 10} sm={!mdUp ? 12 : 11} md={11} sx={{ px: '0px!important' }}>
-            <Box
-              component="main"
-              sx={{
-                flexGrow: 1,
-                pt: 15,
-                ...(!homePage && {
-                  // pt: 1,
-                }),
-                // ...(showBanner && {
-                //   mt: { xs: 8, md: 6 },
-                // })
-              }}
-            >
-              {children}
-            </Box>
-
-            {(footer) && (
-              <>
-                {homePage ? (
-                  <Container maxWidth={'xl'}>
-                    <Footer />
-                  </Container>
-                ) : (
-                  <Footer />
-                )}
-              </>
-            )}
-          </Grid>
-        </Grid>
-      </Container>
+      {/* <Container maxWidth={'xl'}> */}
+        <Layout>
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              pt: 15,
+              pb: 10,
+              // height: 'calc(100vh - 108px)',
+              minHeight: 'calc(100vh - 120px)',
+              ...(!homePage && {
+                // height: 'calc(100vh - 108px)',
+                // pt: 1,
+              }),
+              // ...(showBanner && {
+              //   mt: { xs: 8, md: 6 },
+              // })
+            }}
+          >
+            {children}
+          </Box>
+        </Layout>
+        {(footer) && (
+          <Footer />
+        )}
+      {/* </Container> */}
     </Box>
   );
 }

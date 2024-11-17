@@ -21,7 +21,7 @@ import { useGetAddress } from "src/api/address";
 
 interface Props {
     id?: number | undefined
-    actions?: ReactNode | undefined
+    actions?: (isValid: boolean) => JSX.Element
     handleAfterAddingAddress?: () => void
     exit?: () => void
 }
@@ -205,7 +205,7 @@ export function DeliveryAdressesNewEditForm({ id, actions, handleAfterAddingAddr
                             {id ? 'اعمال تغییرات' : 'ثبت آدرس'}
                         </PrimaryButton>
                     </Stack>
-                ) : actions}
+                ) : actions(isValid)}
             </Box>
         </FormProvider>
     )
