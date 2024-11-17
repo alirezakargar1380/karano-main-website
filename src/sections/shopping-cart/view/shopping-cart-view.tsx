@@ -80,19 +80,6 @@ export default function ShoppingCartView() {
                     حدف همه
                 </MenuItem>
             </CustomPopover>
-            {/* {(checkout.items.length > 0) && (
-                <Box sx={{ pt: 4 }}>
-                    <BlueNotification title='مشاهده پیش فاکتور'>
-                        بعد از بررسی محصولاتی که به صورت سفارشی ثبت شده‌اند، می‌توانید پیش‌فاکتور خود را مشاهده کنید.
-                    </BlueNotification>
-                </Box>
-            )} */}
-
-            {(!checkout.items.length) && (
-                <Box sx={{ textAlign: 'center', border: '1px solid #D1D1D1', borderRadius: '8px', py: 2, px: 2, mt: 8 }}>
-                    <Image src="/assets/images/user-panel/Empty-State-address.png" />
-                </Box>
-            )}
 
             <ShoppingCartList type="cart" items={checkout.items} />
 

@@ -103,16 +103,19 @@ export default function UserOrdersView() {
                 </Box>
             </Grid>
             <Grid item sm={9}>
-                {(status) && <OrderTrackingListView status={status} />}
-                {(!status) && (
+                {/* {(status) && <OrderTrackingListView status={status} />} */}
+                {(!status || !(orders.filter((item) => item.status === OrderStatus[status]).length)) ? (
                     <Box sx={{
                         border: (theme) => `1px solid #A9A9A9`,
                         borderRadius: '16px',
+                        height: 1
                     }}>
                         <Box sx={{ textAlign: 'center' }}>
                             <Image src="/assets/images/user-panel/Empty-State-orders.png" />
                         </Box>
                     </Box>
+                ) : (
+                    <OrderTrackingListView status={status} />
                 )}
             </Grid>
 
