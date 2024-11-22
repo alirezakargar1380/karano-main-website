@@ -9,7 +9,7 @@ import { Theme, SxProps } from '@mui/material/styles';
 import FormHelperText from '@mui/material/FormHelperText';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import FormControl, { FormControlProps } from '@mui/material/FormControl';
-import { Stack, Typography } from '@mui/material';
+import { InputLabel, Stack, Typography } from '@mui/material';
 import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
@@ -97,7 +97,7 @@ export function RHFSelect({
 
 // ----------------------------------------------------------------------
 
-type RHFMultiSelectProps = FormControlProps & {
+type RHFMultiSelectProps = FormControlProps & SelectProps &{
   name: string;
   label?: string;
   chip?: boolean;
@@ -129,8 +129,8 @@ export function RHFMultiSelect({
   const renderValues = (selectedIds: string[]) => {
     if (icon) {
       return (
-        <Box sx={{ display: "flex", gap: 1 }}>
-          <SvgColor src={icon} sx={{ width: 16, height: 16, mt: 0.25 }} />
+        <Box sx={{ display: "flex", gap: 1, alignItems: 'center', typography: 'body3' }}>
+          <SvgColor src={icon} sx={{ width: 16, height: 16 }} />
           {label}
         </Box>
       )
@@ -162,8 +162,6 @@ export function RHFMultiSelect({
       render={({ field, fieldState: { error } }) => (
         <FormControl error={!!error} {...other}>
 
-          {/* {label && <InputLabel id={name}> {label} </InputLabel>} */}
-
           <Select
             {...field}
             multiple
@@ -173,7 +171,8 @@ export function RHFMultiSelect({
             labelId={name}
             // label={label}
             renderValue={renderValues}
-            variant='outlined'
+            // variant='outlined'
+            {...other}
           >
             {options.map((option) => {
               const selected = field?.value?.includes(option.value);

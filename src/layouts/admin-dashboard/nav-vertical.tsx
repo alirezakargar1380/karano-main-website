@@ -49,7 +49,6 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
     <Scrollbar
       sx={{
         height: 1,
-        // width: 320,
         '& .simplebar-content': {
           height: 1,
           display: 'flex',
@@ -57,11 +56,17 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
         },
       }}
     >
-      <Box sx={{ mx: 2, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
-        <Logo sx={{ mt: 3, ml: 0, mb: 3 }} />
+      <Box
+        sx={{
+          borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
+          // height: 'fit-content'
+          display: 'flex'
+        }}
+      >
+        <Logo sx={{ ml: '20px', my: '24px' }} />
       </Box>
 
-      <Box sx={{ mx: 2, py: 4, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
+      <Box sx={{ py: 4, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
         <Stack direction="row" spacing={0} sx={{}}>
           <Box sx={{}}>
             <Avatar sx={{ mx: 2, border: `solid 8px #F8F8F8`, width: 80, height: 80 }} src={''} />
@@ -90,7 +95,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box sx={{ mx: 2, borderTop: (theme) => `solid 1px ${theme.palette.divider}`, pt: 4 }}>
         {/* <Logo sx={{ mt: 3, ml: 0, mb: 3 }} /> */}
-        <Typography  variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>تنظیمات پروفایل</Typography>
+        <Typography variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>تنظیمات پروفایل</Typography>
         {/* <br /> */}
         <Typography onClick={() => logout()} variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>خروج از حساب کاربری</Typography>
       </Box>

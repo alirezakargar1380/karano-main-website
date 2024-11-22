@@ -51,7 +51,6 @@ export default function Main({ children, sx, ...other }: BoxProps) {
         bgcolor: '#FFF',
         py: `${HEADER.H_MOBILE + SPACING}px`,
         ...(lgUp && {
-          px: 2,
           py: `${HEADER.H_DESKTOP + SPACING}px`,
           width: `calc(100% - ${NAV.W_VERTICAL}px)`,
           ...(isNavMini && {
