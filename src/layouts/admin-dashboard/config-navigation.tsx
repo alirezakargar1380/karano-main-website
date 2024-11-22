@@ -83,7 +83,9 @@ export function useNavData() {
           },
           {
             title: t('مدیریت انبار'),
-            roles: [EAdminRole.adminstrator],
+            roles: [
+              // EAdminRole.adminstrator
+            ],
             path: paths.admin_dashboard.storage.root,
             icon: <SvgColor src="/assets/icons/admin-panel/archive.svg" />,
           },

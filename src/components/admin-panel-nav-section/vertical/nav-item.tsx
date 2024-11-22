@@ -11,6 +11,7 @@ import { RouterLink } from 'src/routes/components';
 import Iconify from '../../iconify';
 import { NavItemProps, NavItemStateProps } from '../types';
 import SvgColor from 'src/components/svg-color';
+import { Fade } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         open={open}
         depth={depth}
         active={active}
-        disabled={disabled}
+        disabled={(roles && !roles.includes(`${currentRole}`))}
         {...other}
       >
         {!subItem && icon && (
@@ -131,12 +132,18 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
           display={'flex'} gap={'8px'} alignItems={'center'}
           >
             <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#FFF'} sx={{ width: '16px', height: '16px' }} />
-            دسترسی به پنل مدیریت تولید فعال نیست. 
+            دسترسی به پنل {title} فعال نیست. 
           </Box>
         )}
         // title={'sdf'}
         arrow
         placement="bottom-start"
+        slots={{
+          transition: Fade,
+        }}
+        slotProps={{
+          transition: { timeout: 500 },
+        }}
       >
         <Link
           component={RouterLink}

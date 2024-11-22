@@ -1,5 +1,4 @@
 import { JwtLoginView } from 'src/sections/auth/jwt';
-import { PhoneLoginOrRegisterView } from 'src/sections/auth/phone';
 
 // ----------------------------------------------------------------------
 
