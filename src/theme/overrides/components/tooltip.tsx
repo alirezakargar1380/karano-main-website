@@ -9,10 +9,16 @@ export function tooltip(theme: Theme) {
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: theme.palette.grey[lightMode ? 800 : 700],
+          ...theme.typography.caption2,
+          padding: '8px',
+          borderRadius: '8px',
+          backgroundColor: "#2B2B2B",
         },
         arrow: {
-          color: theme.palette.grey[lightMode ? 800 : 700],
+          color: "#2B2B2B",
+          left: '16px',
+          transform: 'none!important',
+          marginTop: '0px',
         },
       },
     },

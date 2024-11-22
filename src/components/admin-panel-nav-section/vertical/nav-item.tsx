@@ -10,6 +10,7 @@ import { RouterLink } from 'src/routes/components';
 
 import Iconify from '../../iconify';
 import { NavItemProps, NavItemStateProps } from '../types';
+import SvgColor from 'src/components/svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     },
     ref
   ) => {
-    
+
     const subItem = depth !== 1;
 
     const renderContent = (
@@ -94,9 +95,9 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
     );
 
     // Hidden item by role
-    if (roles && !roles.includes(`${currentRole}`)) {
-      return null;
-    }
+    // if (roles && !roles.includes(`${currentRole}`)) {
+    //   return null;
+    // }
 
     if (hasChild) {
       return renderContent;
@@ -120,20 +121,37 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         </Link>
       );
 
+    console.log(currentRole)
+
     return (
-      <Link
-        component={RouterLink}
-        href={path}
-        color="inherit"
-        underline="none"
-        sx={{
-          ...(disabled && {
-            cursor: 'default',
-          }),
-        }}
+      <Tooltip
+        disableHoverListener={!(roles && !roles.includes(`${currentRole}`))}
+        title={(
+          <Box 
+          display={'flex'} gap={'8px'} alignItems={'center'}
+          >
+            <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#FFF'} sx={{ width: '16px', height: '16px' }} />
+            دسترسی به پنل مدیریت تولید فعال نیست. 
+          </Box>
+        )}
+        // title={'sdf'}
+        arrow
+        placement="bottom-start"
       >
-        {renderContent}
-      </Link>
+        <Link
+          component={RouterLink}
+          href={path}
+          color="inherit"
+          underline="none"
+          sx={{
+            ...(disabled && {
+              cursor: 'default',
+            }),
+          }}
+        >
+          {renderContent}
+        </Link>
+      </Tooltip>
     );
   }
 );
@@ -220,8 +238,8 @@ const StyledNavItem = styled(ListItemButton, {
       },
       ...(active && {
         color: '#2B2B2B',
-        border: 'solid 1px #2B2B2B',
-        backgroundColor: '#F2F2F2',
+        border: 'solid 2px #2B2B2B',
+        backgroundColor: '#FFF',
         '&:hover': {
           // backgroundColor: '#000',
         },

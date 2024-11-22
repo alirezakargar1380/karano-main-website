@@ -60,6 +60,7 @@ export function useNavData() {
           {
             title: t('خانه'),
             path: paths.admin_dashboard.root,
+            roles: [],
             icon: <SvgColor src="/assets/icons/admin-panel/home-01.svg" />,
           },
           {
@@ -82,6 +83,7 @@ export function useNavData() {
           },
           {
             title: t('مدیریت انبار'),
+            roles: [EAdminRole.adminstrator],
             path: paths.admin_dashboard.storage.root,
             icon: <SvgColor src="/assets/icons/admin-panel/archive.svg" />,
           },

@@ -48,7 +48,7 @@ export default function Main({ children, sx, ...other }: BoxProps) {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        bgcolor: '#F8F8F8',
+        bgcolor: '#FFF',
         py: `${HEADER.H_MOBILE + SPACING}px`,
         ...(lgUp && {
           px: 2,
