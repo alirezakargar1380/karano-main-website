@@ -1,20 +1,21 @@
 import Box from '@mui/material/Box';
 import { alpha, Theme, styled } from '@mui/material/styles';
 
-import { ILabelColor, LabelColor, LabelSize, LabelVariant } from './types';
+import { ITagColor, TagColor, TagSize, TagVariant } from './types';
 import { pxToRem } from 'src/theme/typography';
 
 // ----------------------------------------------------------------------
 
 // Outlined
-const outlinedColor: ILabelColor = {
-  "blue": "#005878",
+const outlinedColor: ITagColor = {
+  "blue": "#0B7BA7",
   "red": "#A4190F",
   "green": "#096E35",
   "yellow": "#795105"
 }
 
-const outlinedBgColor: ILabelColor = {
+
+const outlinedBgColor: ITagColor = {
   // "secondary": "",
   "blue": "#DCF9FF",
   "yellow": "#FFF6DD",
@@ -25,37 +26,43 @@ const outlinedBgColor: ILabelColor = {
   // "error": "#FFE5E4"
 }
 
-const outlinedBorderColor: ILabelColor = {
+const outlinedBorderColor: ITagColor = {
   "blue": "#86D8F8",
   "green": "#8EEFB4",
   "red": "#FDBCB7",
   "yellow": "#F8D185"
 }
+const hoverOutlinedBorderColor: ITagColor = {
+  "blue": "#0B7BA7",
+  "red": "#751009",
+  "green": "#149B4A",
+  "yellow": "#795105"
+}
 
 // Filled
-const filledColor: ILabelColor = {
+const filledColor: ITagColor = {
   blue: "#005878",
   green: "#096E35",
   red: "#A4190F",
   yellow: "#795105"
 }
 
-const filledBgColor: ILabelColor = {
+const filledBgColor: ITagColor = {
   blue: "#DCF9FF",
   green: "#E0FFEB",
   yellow: "#FFF6DD",
   red: "#FFE5E4"
 }
 
-export const StyledLabel = styled(Box)(({
+export const StyledTag = styled(Box)(({
   theme,
   ownerState,
 }: {
   theme: Theme;
   ownerState: {
-    color: LabelColor;
-    variant: LabelVariant;
-    size: LabelSize;
+    color: TagColor;
+    variant: TagVariant;
+    size: TagSize;
   };
 }) => {
   const smallSize = ownerState.size === 'small';
@@ -82,9 +89,6 @@ export const StyledLabel = styled(Box)(({
         backgroundColor: 'transparent',
         color: theme.palette.text.primary,
         border: `1px solid ${theme.palette.text.primary}`,
-        '&:hover': {
-          backgroundColor: theme.palette.action.hover,
-        }
       }),
       // SOFT
       ...(softVariant && {
@@ -102,7 +106,8 @@ export const StyledLabel = styled(Box)(({
     }),
     ...(mediumSize && {
       ...theme.typography.caption2,
-      height: 24,
+      height: 32,
+      padding: '4px 12px',
     }),
     ...(largeSize && {
       ...theme.typography.caption1,
@@ -122,7 +127,10 @@ export const StyledLabel = styled(Box)(({
         borderRadius: '16px',
         backgroundColor: outlinedBgColor[ownerState.color],
         color: outlinedColor[ownerState.color],
-        border: `2px solid ${outlinedBorderColor[ownerState.color]}`,
+        border: `1px solid ${outlinedBorderColor[ownerState.color]}`,
+        '&:hover': {
+          borderColor: hoverOutlinedBorderColor[ownerState.color],
+        }
       }),
       // SOFT
       ...(softVariant && {

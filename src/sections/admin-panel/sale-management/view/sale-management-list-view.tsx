@@ -19,6 +19,7 @@ import { fDateTime, fToJamali } from "src/utils/format-time";
 import { IUserTypes } from "src/types/user";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { toFarsiNumber } from "src/utils/change-case";
+import Tag from "src/components/tag";
 
 export default function SaleManagementListView() {
     const settings = useSettingsContext();
@@ -55,16 +56,7 @@ export default function SaleManagementListView() {
     });
 
     return (
-        <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pl: '0px!important', ml: '0px!important' }}>
-            {/* <AdminBreadcrumbs
-                links={[
-                    { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
-                    { name: 'مدیریت فروش' },
-                ]}
-                sx={{
-                    mb: { xs: 3, md: 5 },
-                }}
-            /> */}
+        <Box>
             <Box>
                 <PageTitle title="مدیریت فروش" icon="/assets/icons/shop/shopping-cart-01.svg" />
             </Box>
@@ -219,41 +211,41 @@ export default function SaleManagementListView() {
                                             <TableCell>
                                                 {
                                                     (row.status === OrderStatus.pending) && (
-                                                        <Label variant="filled" color="blue">
+                                                        <Tag variant="outlined" size="medium" color="blue">
                                                             در انتظار بررسی
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.failed) && (
-                                                        <Label variant="filled" color="red">
+                                                        <Tag variant="outlined" size="medium" color="red">
                                                             رد شده
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.edited) && (
-                                                        <Label variant="filled" color="yellow">
+                                                        <Tag variant="outlined" size="medium" color="yellow">
                                                             اصلاح شده
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.produced) && (
-                                                        <Label variant="filled" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
+                                                        <Tag variant="outlined" size="medium" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
                                                             در انتظار پرداخت نهایی
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.posted) && (
-                                                        <Label variant="filled" color="green">
+                                                        <Tag variant="outlined" size="medium" color="green">
                                                             ارسال شده
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.accepted) && (
-                                                        <Label variant="filled" color="green">
+                                                        <Tag variant="outlined" size="medium" color="green">
                                                             تایید شده
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.production) && (
-                                                        <Label variant="filled" color="green">
+                                                        <Tag variant="outlined" size="medium" color="green">
                                                             در حال تولید
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.preparing) && (
-                                                        <Label variant="filled" color="green">
+                                                        <Tag variant="outlined" size="medium" color="green">
                                                             در حال آماده سازی
-                                                        </Label>
+                                                        </Tag>
                                                     ) || (row.status === OrderStatus.ready_to_send) && (
-                                                        <Label variant="filled" color="green">
+                                                        <Tag variant="outlined" size="medium" color="green">
                                                             آماده ارسال
-                                                        </Label>
+                                                        </Tag>
                                                     ) ||
                                                     ''
                                                 }
@@ -282,6 +274,6 @@ export default function SaleManagementListView() {
                     </TableContainer>
                 </Box>
             </Box>
-        </Container>
+        </Box>
     )
 }
