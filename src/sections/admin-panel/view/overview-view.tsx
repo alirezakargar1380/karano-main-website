@@ -6,45 +6,49 @@ import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import AccessLevel from "../access-level";
+import { useSettingsContext } from "src/components/settings";
+import { toFarsiNumber } from "src/utils/change-case";
+import Iconify from "src/components/iconify";
+import SvgColor from "src/components/svg-color";
 
 export default function AdminPanelOverview() {
-    return (
-        <Container>
-            <AdminBreadcrumbs
-                links={[
-                    { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
-                    { name: 'خانه' },
-                ]}
-                sx={{
-                    mb: { xs: 3, md: 5 },
-                }}
-            />
-            <PageTitle icon="/assets/icons/admin-panel/home-01.svg" title="خانه" />
-            <Box>
-                <Grid container spacing={2}>
-                    <ReportCard title="کل سفارش های ماه اخیر" number={178} />
-                    <ReportCard title="کل سفارش های ماه اخیر" number={178} />
-                    <ReportCard title="کل سفارش های ماه اخیر" number={178} />
-                    <ReportCard title="کل سفارش های ماه اخیر" number={178} />
-                </Grid>
-                <Box sx={{ mt: 3, bgcolor: 'white', borderRadius: '16px', border: '1px solid #E0E0E0', p: 2 }}>
-                    <Stack
-                        direction={'row'}
-                        sx={{
-                            mb: 3,
-                            py: 2,
-                            borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
-                        }}
-                        justifyContent={"space-between"}
-                    >
-                        <Typography variant="h4" fontFamily={'peyda-bold'}>سطح دسترسی ها</Typography>
+    const settings = useSettingsContext();
 
-                        <SecondaryButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</SecondaryButton>
-                    </Stack>
-                    <AccessLevel />
+    return (
+        <Box>
+            <PageTitle icon="/assets/icons/admin-panel/home-01.svg" title="خانه" />
+            <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pl: '20px!important', ml: '0px!important' }}>
+
+                <Box>
+                    <Grid container spacing={2}>
+                        <ReportCard title="کل سفارش های ماه اخیر" number={178} />
+                        <ReportCard title="سفارش‌های در دست تولید" number={178} />
+                        <ReportCard title="سفارش‌های تایید شده" number={178} />
+                        <ReportCard title="سفارش‌های در صف بررسی" number={178} />
+                    </Grid>
+                    <Box sx={{ mt: '20px', bgcolor: 'white', borderRadius: '16px', border: '1px solid #E0E0E0', p: '24px' }}>
+                        <Stack
+                            direction={'row'}
+                            sx={{
+                                mb: '24px',
+                                pb: '12px',
+                                borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
+                            }}
+                            justifyContent={"space-between"}
+                        >
+                            <Typography variant="h4" fontFamily={'peyda-bold'}>سطح دسترسی ها</Typography>
+
+                            <SecondaryButton size="small" variant="outlined">
+                                جزئیات بیشتر
+                                <SvgColor src="/assets/icons/arrow/arrow-narrow-left.svg"  sx={{ width: 16, height: 16, ml: 1 }} />
+                            </SecondaryButton>
+                        </Stack>
+                        <AccessLevel />
+                    </Box>
                 </Box>
-            </Box>
-        </Container>
+            </Container>
+        </Box>
+
     )
 }
 
@@ -56,10 +60,10 @@ interface ReportCardProp {
 function ReportCard({ title, number }: ReportCardProp) {
     return (
         <Grid md={6} xl={3} item>
-            <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', bgcolor: 'white', px: 2, py: 4 }} direction={'row'} justifyContent={'space-between'}>
-                <Typography variant="h6">{title}</Typography>
-                <Typography variant="h6">
-                    {number}
+            <Stack sx={{ border: '1px solid #E0E0E0', borderRadius: '12px', bgcolor: 'white', px: '16px', py: '28px' }} direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+                <Typography variant="body3">{title}</Typography>
+                <Typography variant="body2">
+                    {toFarsiNumber(number)}
                 </Typography>
             </Stack>
         </Grid>

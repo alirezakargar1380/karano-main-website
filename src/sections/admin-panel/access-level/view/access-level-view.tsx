@@ -155,51 +155,51 @@ export default function AccessLevelview() {
                     </FormProvider>
                 </Box>
             </DialogWithButton>
-            <Container>
-                <AdminBreadcrumbs
-                    links={[
-                        { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
-                        { name: 'مدیریت دسترسی ها' },
-                    ]}
-                    sx={{
-                        mb: { xs: 3, md: 5 },
-                    }}
-                />
-                <PageTitle icon="/assets/icons/admin-panel/home-01.svg" title="مدیریت دسترسی ها" />
+            <PageTitle icon="/assets/icons/admin-panel/home-01.svg" title="مدیریت دسترسی ها" />
+            <Container sx={{ pl: '20px!important', ml: '0px!important' }}>
                 <Box>
-                    <Box sx={{ mt: 3, bgcolor: 'white', borderRadius: '16px', border: '1px solid #E0E0E0', p: 2 }}>
+                    <Box sx={{
+                        bgcolor: 'white',
+                        borderRadius: '16px',
+                        border: '1px solid #E0E0E0',
+                        p: '24px',
+                        boxShadow: '2px 2px 8px 0px #0000001A'
+                    }}>
                         <Stack
                             direction={'row'}
                             sx={{
                                 mb: 3,
-                                py: 2,
+                                pb: 2,
                                 borderBottom: (theme) => `solid 1px ${theme.palette.divider}`
                             }}
                             justifyContent={"space-between"}
                         >
                             <Typography variant="h4" fontFamily={'peyda-bold'}>سطح دسترسی ها</Typography>
 
-                            <SecondaryButton variant="outlined" sx={{ py: 0, px: 3 }}>جزئیات بیشتر</SecondaryButton>
+                            <SecondaryButton size="small" variant="outlined">
+                                جزئیات بیشتر
+                                <SvgColor src="/assets/icons/arrow/arrow-narrow-left.svg" sx={{ width: 16, height: 16, ml: 1 }} />
+                            </SecondaryButton>
                         </Stack>
                         <AccessLevel />
                     </Box>
                 </Box>
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="h5" fontFamily={'peyda-bold'}>لیست ادمین ها</Typography>
-                    <SecondaryButton variant="outlined" sx={{ py: 0, px: 1, pr: 1.5 }} onClick={() => adminDialog.onTrue()}>
-                        <Iconify icon="eva:plus-fill" width={14} height={14} sx={{ mr: 0.75 }} />
+                    <SecondaryButton size="small" variant="outlined" sx={{ py: 0, px: 1, pr: 1.5 }} onClick={() => adminDialog.onTrue()}>
+                        <Iconify icon="eva:plus-fill" width={16} height={16} sx={{ mr: 0.75 }} />
                         ادمین جدید
                     </SecondaryButton>
                 </Box>
-                <Box sx={{ borderRadius: 16 }}>
-                    <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
+                <Box>
+                    <TableContainer sx={{ overflow: 'unset', mt: 2, boxShadow: '2px 2px 8px 0px #0000001A', borderRadius: '12px', }}>
                         <Scrollbar>
-                            <Table sx={{ minWidth: 960, bgcolor: 'white' }}>
+                            <Table sx={{ minWidth: 960 }}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell width={40}></TableCell>
+                                        <TableCell width={40} sx={{ borderTopLeftRadius: '12px' }}></TableCell>
 
-                                        <TableCell sx={{ typography: 'subtitle2' }}>نام و نام خانوادگی</TableCell>
+                                        <TableCell>نام و نام خانوادگی</TableCell>
 
                                         <TableCell>سطح دسترسی</TableCell>
 
@@ -209,19 +209,26 @@ export default function AccessLevelview() {
 
                                         <TableCell>شماره موبایل</TableCell>
 
-                                        <TableCell></TableCell>
+                                        <TableCell sx={{ borderTopRightRadius: '12px' }}></TableCell>
                                     </TableRow>
                                 </TableHead>
 
                                 <TableBody>
                                     {admins.map((row, index) => (
-                                        <TableRow key={index}>
+                                        <TableRow
+                                            key={index}
+                                            sx={{
+                                                ...((index === admins.length - 1) && {
+                                                    borderBottom: 'none'
+                                                }),
+                                            }}
+                                        >
                                             <TableCell>{index + 1}</TableCell>
 
                                             <TableCell>{row.fullName}</TableCell>
 
                                             <TableCell>
-                                                <Label variant="filled" color="info">
+                                                <Label variant="filled" color="blue">
                                                     {adminRoleTranslate(row.role)}
                                                 </Label>
                                             </TableCell>
@@ -231,7 +238,7 @@ export default function AccessLevelview() {
                                             <TableCell>{row.phone}</TableCell>
 
                                             <TableCell>
-                                                <Stack direction={'row'}>
+                                                <Stack direction={'row'} justifyContent={'flex-end'}>
                                                     <IconButton color={'default'} onClick={() => { }}>
                                                         <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
                                                     </IconButton>

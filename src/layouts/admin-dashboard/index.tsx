@@ -10,6 +10,7 @@ import Header from './header';
 import NavMini from './nav-mini';
 import NavVertical from './nav-vertical';
 import NavHorizontal from './nav-horizontal';
+import { Container } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -81,7 +82,9 @@ export default function DashboardLayout({ children }: Props) {
         }}
       >
         {renderNavVertical}
-        <Main>{children}</Main>
+        <Main>
+          {children}
+        </Main>
       </Box>
     </>
   );
