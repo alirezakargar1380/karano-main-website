@@ -19,6 +19,7 @@ export default function BreadcrumbsLink({ link, activeLast, disabled }: Props) {
     alignItems: 'center',
     color: 'text.primary',
     display: 'inline-flex',
+    // textDecoration: 'none',
     ...(disabled &&
       !activeLast && {
         cursor: 'default',

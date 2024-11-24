@@ -1,18 +1,12 @@
-import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import CardContent from '@mui/material/CardContent';
 
 import Image from 'src/components/image';
 import Carousel, { useCarousel, CarouselArrowIndex, CarouselDots } from 'src/components/carousel';
 import { Box, Drawer, IconButton, Popover, useTheme } from '@mui/material';
 import { useState } from 'react';
 import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';
-import { bgGradient } from 'src/theme/css';
-import { alpha } from '@mui/material/styles';
 import SvgColor from 'src/components/svg-color';
-import CustomPopover from 'src/components/custom-popover/custom-popover';
-import { usePopover } from 'src/components/custom-popover';
 
 // ----------------------------------------------------------------------
 
@@ -64,9 +58,7 @@ export default function CarouselBasic2({ data }: Props) {
     ],
   });
 
-  const [open, setOpen] = useState(true);
-
-  const customizedPopover = usePopover();
+  const [open, setOpen] = useState(false);
 
   return (
     <Box sx={{ position: 'relative' }}>

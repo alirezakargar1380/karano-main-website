@@ -122,17 +122,15 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
         </Link>
       );
 
-    console.log(currentRole)
-
     return (
       <Tooltip
         disableHoverListener={!(roles && !roles.includes(`${currentRole}`))}
         title={(
-          <Box 
-          display={'flex'} gap={'8px'} alignItems={'center'}
+          <Box
+            display={'flex'} gap={'8px'} alignItems={'center'}
           >
             <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#FFF'} sx={{ width: '16px', height: '16px' }} />
-            دسترسی به پنل {title} فعال نیست. 
+            دسترسی به پنل {title} فعال نیست.
           </Box>
         )}
         // title={'sdf'}
@@ -147,7 +145,7 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
       >
         <Link
           component={RouterLink}
-          href={path}
+          href={(roles && !roles.includes(`${currentRole}`)) ? '' : path}
           color="inherit"
           underline="none"
           sx={{
