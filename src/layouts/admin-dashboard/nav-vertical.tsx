@@ -20,15 +20,18 @@ import { useAuthContext } from 'src/auth/hooks';
 import { EAdminRole } from 'src/types/admin';
 import { adminRoleTranslate } from 'src/utils/admin-role';
 import NavToggleButton from '../common/nav-toggle-button';
+import SvgColor from 'src/components/svg-color';
+import { useBooleanReturnType } from 'src/hooks/use-boolean';
 
 // ----------------------------------------------------------------------
 
 type Props = {
+  dialog: useBooleanReturnType;
   openNav: boolean;
   onCloseNav: VoidFunction;
 };
 
-export default function NavVertical({ openNav, onCloseNav }: Props) {
+export default function NavVertical({ dialog, openNav, onCloseNav }: Props) {
   const { admin, logout } = useAuthContext();
 
   const pathname = usePathname();
@@ -93,11 +96,22 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ mx: 2, borderTop: (theme) => `solid 1px ${theme.palette.divider}`, pt: 4 }}>
-        {/* <Logo sx={{ mt: 3, ml: 0, mb: 3 }} /> */}
-        <Typography variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>تنظیمات پروفایل</Typography>
-        {/* <br /> */}
-        <Typography onClick={() => logout()} variant='body1' fontFamily={'peyda-bold'} mb={3} color={"#727272"} sx={{ cursor: "pointer" }}>خروج از حساب کاربری</Typography>
+      <Box sx={{ px: 2, mb: '24px', borderTop: (theme) => `solid 1px ${theme.palette.divider}`, pt: 4 }}>
+
+        <Stack direction="row" spacing={0} mb={3} alignItems={'center'} onClick={() => dialog.onTrue()}>
+          <SvgColor src='/assets/icons/admin-panel/settings-02.svg' color={"#727272"} sx={{ mr: 1 }} />
+          <Typography variant='body3' color={"#727272"} sx={{ cursor: "pointer" }}>
+            تنظیمات پروفایل
+          </Typography>
+        </Stack>
+
+        <Stack direction="row" spacing={0} alignItems={'center'}>
+          <SvgColor src='/assets/icons/admin-panel/log-out-01.svg' color={"#727272"} sx={{ mr: 1 }} />
+          <Typography onClick={() => logout()} variant='body3' color={"#727272"} sx={{ cursor: "pointer" }}>
+            خروج از حساب کاربری
+          </Typography>
+        </Stack>
+
       </Box>
 
     </Scrollbar>

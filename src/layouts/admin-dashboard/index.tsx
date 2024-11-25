@@ -10,7 +10,7 @@ import Header from './header';
 import NavMini from './nav-mini';
 import NavVertical from './nav-vertical';
 import NavHorizontal from './nav-horizontal';
-import { Container } from '@mui/material';
+import SettingsDialog from '../common/settings-dialog';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +25,8 @@ export default function DashboardLayout({ children }: Props) {
 
   const nav = useBoolean();
 
+  const settingDialog = useBoolean();
+
   const isHorizontal = settings.themeLayout === 'horizontal';
 
   const isMini = settings.themeLayout === 'mini';
@@ -33,7 +35,7 @@ export default function DashboardLayout({ children }: Props) {
 
   const renderHorizontal = <NavHorizontal />;
 
-  const renderNavVertical = <NavVertical openNav={nav.value} onCloseNav={nav.onFalse} />;
+  const renderNavVertical = <NavVertical dialog={settingDialog} openNav={nav.value} onCloseNav={nav.onFalse} />;
 
   if (isHorizontal) {
     return (
@@ -72,6 +74,8 @@ export default function DashboardLayout({ children }: Props) {
     <>
       {/* ADMIN HEADER */}
       {/* <Header onOpenNav={nav.onTrue} /> */}
+
+      <SettingsDialog  dialog={settingDialog} />
 
       <Box
         sx={{
