@@ -3,11 +3,13 @@ import Scrollbar from "src/components/scrollbar";
 import { styled } from '@mui/material/styles';
 import { fCurrency } from "src/utils/format-number";
 import { IOrderProductItem } from "src/types/order-products";
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import { ProductOrderType } from "src/types/product";
 import Label from "src/components/label";
 import { fToJamali } from "src/utils/format-time";
 import SvgColor from "src/components/svg-color";
+import axiosInstance, { endpoints, server_axios } from "src/utils/axios";
+import { toFarsiNumber } from "src/utils/change-case";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '& td': {
@@ -19,122 +21,47 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 type Props = {
-    orderProducts: IOrderProductItem[];
+    orderId: number;
     title?: string
     production_date?: string
     downloadable?: boolean | undefined
 };
 
+interface Iinvoice {
+    total_price: number;
+    products: {
+        name: string;
+        quantity: number;
+        unit_price: number;
+        price: number;
+    }[]
+    assemble_wage: {
+        name: string
+        code: string
+        quantity: number
+        price: number
+    }[]
+}
+
 export default function InvoiceView({
-    orderProducts,
+    orderId,
     title = 'مشاهده فاکتور',
     production_date,
     downloadable
 }: Props) {
-    // const checkout = useCheckoutContext();
 
-    // const renderTotal = (
-    //     <>
-    //         <StyledTableRow>
-    //             <TableCell colSpan={3} />
-    //             <TableCell sx={{ color: 'text.secondary' }}>
-    //                 <Box sx={{ mt: 2 }} />
-    //                 Subtotal
-    //             </TableCell>
-    //             <TableCell width={120} sx={{ typography: 'subtitle2' }}>
-    //                 <Box sx={{ mt: 2 }} />
-    //                 {fCurrency(invoice.subTotal)}
-    //             </TableCell>
-    //         </StyledTableRow>
+    const [invoice, setInvoice] = useState<Iinvoice>({
+        total_price: 0,
+        products: [],
+        assemble_wage: [],
+    })
 
-    //         <StyledTableRow>
-    //             <TableCell colSpan={3} />
-    //             <TableCell sx={{ color: 'text.secondary' }}>Shipping</TableCell>
-    //             <TableCell width={120} sx={{ color: 'error.main', typography: 'body2' }}>
-    //                 {fCurrency(-invoice.shipping)}
-    //             </TableCell>
-    //         </StyledTableRow>
-
-    //         <StyledTableRow>
-    //             <TableCell colSpan={3} />
-    //             <TableCell sx={{ color: 'text.secondary' }}>Discount</TableCell>
-    //             <TableCell width={120} sx={{ color: 'error.main', typography: 'body2' }}>
-    //                 {fCurrency(-invoice.discount)}
-    //             </TableCell>
-    //         </StyledTableRow>
-
-    //         <StyledTableRow>
-    //             <TableCell colSpan={3} />
-    //             <TableCell sx={{ color: 'text.secondary' }}>Taxes</TableCell>
-    //             <TableCell width={120}>{fCurrency(invoice.taxes)}</TableCell>
-    //         </StyledTableRow>
-
-    //         <StyledTableRow>
-    //             <TableCell colSpan={3} />
-    //             <TableCell sx={{ typography: 'subtitle1' }}>Total</TableCell>
-    //             <TableCell width={140} sx={{ typography: 'subtitle1' }}>
-    //                 {fCurrency(invoice.totalAmount)}
-    //             </TableCell>
-    //         </StyledTableRow>
-    //     </>
-    // );
-
-    function calculateProfileTotal(width: number, qty: number) {
-        let panels = {
-            length: 8,
-            width: 240,
-            quantity: 1000,
-        },
-            parts = {
-                length: 111,
-                width: width,
-                quantity: qty,
-            }
-        let count = 0
-        const allPanels = []
-        const itemShouldBuild = []
-
-        for (let i = 1; i <= panels.quantity; i++) {
-            allPanels.push({
-                length: panels.length,
-                width: panels.width
-            })
-        }
-
-        for (let i = 1; i <= parts.quantity * 2; i++) {
-            itemShouldBuild.push({
-                width: parts.width,
-                build: false
-            })
-            itemShouldBuild.push({
-                width: parts.length,
-                build: false
-            })
-        }
-
-        for (let i = 0; i < allPanels.length; i++) {
-            let panel = allPanels[i];
-            // let panel = {
-            //     width: 240
-            // }
-            for (let j = 0; j < itemShouldBuild.length; j++) {
-                let part = itemShouldBuild[j]
-                // if (part.width > panel.width && part.build) count++
-                if (part.width < panel.width && !part.build) {
-                    part.build = true
-                    panel.width -= part.width
-                } else {
-                    // count++
-                    // panel.width = 240
-                    continue;
-                }
-            }
-        }
-
-        allPanels.forEach((p) => p.width !== panels.width && count++)
-
-        return count
-    }
+    useEffect(() => {
+        server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
+            console.log(res.data)
+            setInvoice(res.data)
+        })
+    }, [])
 
     const renderList = (
         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
@@ -144,19 +71,17 @@ export default function InvoiceView({
                         <TableRow>
                             <TableCell width={40}>#</TableCell>
 
-                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>Description</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>شرح کالا/خدمات</TableCell>
 
                             <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>کد کالا</TableCell>
 
                             <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>تعداد / مقدار</TableCell>
 
-                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>ابعاد</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>واحد</TableCell>
 
-                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }}>تعداد پروفیل</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }} align="left">مبلغ واحد</TableCell>
 
-                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }} align="right">Unit price</TableCell>
-
-                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }} align="right">Total</TableCell>
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: '#000' }} align="left">مبلغ کل</TableCell>
                         </TableRow>
                     </TableHead>
 
@@ -172,62 +97,44 @@ export default function InvoiceView({
                             <TableCell></TableCell>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
-                            <TableCell></TableCell>
                         </TableRow>
 
-                        {orderProducts.map((orderProduct, ind) => (
-                            <React.Fragment key={ind}>
-                                {orderProduct.properties.map((property, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{index + 1}</TableCell>
+                        {invoice.products.map((product, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{index + 1}</TableCell>
 
-                                        <TableCell>
-                                            <Box sx={{ maxWidth: 560 }}>
-                                                <Typography variant="subtitle2">{orderProduct.product.name}</Typography>
+                                <TableCell sx={{ maxWidth: 210 }}>
+                                    <Typography variant="title3">{product.name}</Typography>
 
-                                                <Typography variant="body2" sx={{ color: 'text.secondary', direction: 'rtl' }} noWrap>
-                                                    {(property.profile_type?.name || ' * ')}
-                                                    {"-" + (property.coating_type || ' * ')}
-                                                    {"-" + (property.cover_type?.name || ' * ')}
-                                                    {"-" + (property.frame_type?.name || ' * ')}
-                                                </Typography>
-                                            </Box>
-                                        </TableCell>
+                                    {/* <Typography variant="body2" sx={{ color: 'text.secondary', direction: 'rtl' }} noWrap>
+                                            {(property.profile_type?.name || ' * ')}
+                                            {"-" + (property.coating_type || ' * ')}
+                                            {"-" + (property.cover_type?.name || ' * ')}
+                                            {"-" + (property.frame_type?.name || ' * ')}
+                                        </Typography> */}
+                                </TableCell>
 
-                                        <TableCell>
-                                            {orderProduct.product.code}
-                                        </TableCell>
+                                <TableCell>
+                                    {'P-80'}
+                                </TableCell>
 
-                                        <TableCell>
-                                            {property.quantity}
-                                        </TableCell>
+                                <TableCell>
+                                    {product.quantity}
+                                </TableCell>
 
-                                        <TableCell>
-                                            {/* {property.dimension} */}
-                                        </TableCell>
+                                <TableCell>
+                                    {'شاخه'}
+                                </TableCell>
 
-                                        <TableCell>
-                                            {calculateProfileTotal(Number(property?.dimension?.width), property.quantity)}
-                                        </TableCell>
+                                <TableCell align="left">
+                                    {fCurrency(product.unit_price)}
+                                </TableCell>
 
-                                        <TableCell align="right">
-                                            {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
-                                                fCurrency(orderProduct.product.price) :
-                                                fCurrency((calculateProfileTotal(Number(property?.dimension?.width), property.quantity) * property.profile_type.unit_price) / property.quantity)
-                                            }
-                                        </TableCell>
-
-                                        {/* <TableCell align="right">{fCurrency(589 * 99)}</TableCell> */}
-                                        <TableCell align="right">
-                                            {orderProduct.product.order_type === ProductOrderType.ready_to_use ?
-                                                fCurrency(property.quantity * orderProduct.product.price)
-                                                :
-                                                fCurrency(calculateProfileTotal(Number(property?.dimension?.width), property.quantity) * property.profile_type.unit_price)
-                                            }
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </React.Fragment>
+                                {/* <TableCell align="right">{fCurrency(589 * 99)}</TableCell> */}
+                                <TableCell align="left">
+                                    {fCurrency(product.price)}
+                                </TableCell>
+                            </TableRow>
                         ))}
 
                         <TableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
@@ -241,36 +148,23 @@ export default function InvoiceView({
                             <TableCell></TableCell>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
-                            <TableCell></TableCell>
                         </TableRow>
 
-                        {/* {invoice.items.map((row, index) => (
+                        {invoice.assemble_wage.map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell>{index + 1}</TableCell>
 
                                 <TableCell>
-                                    <Box sx={{ maxWidth: 560 }}>
-                                        <Typography variant="subtitle2">{row.title}</Typography>
-
-                                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                                            {row.description}
-                                        </Typography>
-                                    </Box>
+                                    <Typography variant="title3">{row.name}</Typography>
                                 </TableCell>
 
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-                                <TableCell></TableCell>
-
+                                <TableCell>{row.code}</TableCell>
                                 <TableCell>{row.quantity}</TableCell>
-
-                                <TableCell align="right">{fCurrency(row.price)}</TableCell>
-
-                                <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
+                                <TableCell>{"-"}</TableCell>
+                                <TableCell align="left">{fCurrency(row.price / row.quantity)}</TableCell>
+                                <TableCell align="left">{fCurrency(row.price)}</TableCell>
                             </TableRow>
-                        ))} */}
-
-                        {/* {renderTotal} */}
+                        ))}
                     </TableBody>
                 </Table>
             </Scrollbar>
@@ -285,7 +179,7 @@ export default function InvoiceView({
                         {title}
                     </Typography>
                     {production_date && (
-                        <Label color="info" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                        <Label color="blue" fontFamily={'peyda-bold'} px={4} mt={0.75}>
                             تاریخ تحویل:
                             <Box pl={0.5}>{fToJamali(production_date)}</Box>
                         </Label>
@@ -356,7 +250,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    2 %
+                                    0 %
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
@@ -365,11 +259,11 @@ export default function InvoiceView({
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell sx={{ fontFamily: 'peyda-regular' }}>
-                                    مبلغ پرداختی
+                                    مبلغ کل
                                 </TableCell>
 
                                 <TableCell>
-                                    157,000,000 تومان
+                                    {fCurrency(invoice.total_price) + " " + 'ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>

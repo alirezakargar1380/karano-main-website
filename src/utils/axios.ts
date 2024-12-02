@@ -125,7 +125,9 @@ export const endpoints = {
     storage_list: '/api/orders/storage',
     one: (id: any) => '/api/orders/' + id,
     update: (id: any) => '/api/orders/' + id,
-
+  },
+  invoice: {
+    calculate: (id: any) => `/api/invoice/${id}/calculate`,
   },
   favorite: {
     list: '/api/favorites',

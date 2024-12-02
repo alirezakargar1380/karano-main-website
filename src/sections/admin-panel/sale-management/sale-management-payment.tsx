@@ -140,7 +140,7 @@ export default function SaleManagementPayment({
                 title={hasCustomMade ? 'مشاهده پیش فاکتور' : 'مشاهده فاکتور'}
                 dialog={invoiceDialog}
                 production_date={order.production_date}
-                orderProducts={orderProducts}
+                orderId={orderId}
                 submitHandler={() => {
                     invoiceDialog.onFalse();
                     timeReminder.onTrue();
