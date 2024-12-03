@@ -174,12 +174,12 @@ export default function CartDialogView({
     }, []);
 
     const [disable, setDisable] = useState({
-        profile_type: false,
-        cover_type: false,
-        frame_type: false,
-        coating_type: false,
-        inlaid_flower: false,
-        dimension: false
+        profile_type: true,
+        cover_type: true,
+        frame_type: true,
+        coating_type: true,
+        inlaid_flower: true,
+        dimension: true
     });
 
     const [state, setState] = useState({
@@ -207,6 +207,8 @@ export default function CartDialogView({
             case EAlgorithm.cabinet_door:
                 if (values.profile_type)
                     newDisable.cover_type = false
+                else 
+                    newDisable.profile_type = true
 
                 if (values.cover_type)
                     newDisable.frame_type = false
@@ -239,16 +241,17 @@ export default function CartDialogView({
                 inlaid_flower: false,
                 dimension: false
             })
-        } else {
-            setDisable({
-                profile_type: false,
-                cover_type: true,
-                frame_type: true,
-                coating_type: true,
-                inlaid_flower: true,
-                dimension: true
-            })
-        }
+        } 
+        // else {
+        //     setDisable({
+        //         profile_type: false,
+        //         cover_type: true,
+        //         frame_type: true,
+        //         coating_type: true,
+        //         inlaid_flower: true,
+        //         dimension: true
+        //     })
+        // }
     }, [listIndex])
 
     const handleJoyrideCallback = (data: any) => {
@@ -553,7 +556,7 @@ export default function CartDialogView({
                                             status: item.status,
                                             quality: item.quantity,
                                             coating: item?.coating_type,
-                                            dimensions: item.dimension ? item.dimension.width + 'x' + item.dimension.height : '0*0',
+                                            dimensions: item.dimension ? item.dimension.length + 'x' + item.dimension.width : '0x0',
                                             final_coating: item.cover_type?.name,
                                             frame_type: item.frame_type?.name,
                                             profile_type: item.profile_type?.name,
