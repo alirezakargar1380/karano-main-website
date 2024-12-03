@@ -31,6 +31,8 @@ interface Iinvoice {
     total_price: number;
     products: {
         name: string;
+        unit: string;
+        code: string;
         quantity: number;
         unit_price: number;
         price: number;
@@ -115,7 +117,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {'P-80'}
+                                    {product.code}
                                 </TableCell>
 
                                 <TableCell>
@@ -123,7 +125,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {'شاخه'}
+                                    {product.unit}
                                 </TableCell>
 
                                 <TableCell align="left">
@@ -132,7 +134,7 @@ export default function InvoiceView({
 
                                 {/* <TableCell align="right">{fCurrency(589 * 99)}</TableCell> */}
                                 <TableCell align="left">
-                                    {fCurrency(product.price)}
+                                    {product.price ? fCurrency(product.price) : 0}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -160,7 +162,7 @@ export default function InvoiceView({
 
                                 <TableCell>{row.code}</TableCell>
                                 <TableCell>{row.quantity}</TableCell>
-                                <TableCell>{"-"}</TableCell>
+                                <TableCell>{'-'}</TableCell>
                                 <TableCell align="left">{fCurrency(row.price / row.quantity)}</TableCell>
                                 <TableCell align="left">{fCurrency(row.price)}</TableCell>
                             </TableRow>
