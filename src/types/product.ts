@@ -79,6 +79,7 @@ export type IProductProfileType = {
   unit_price: number
   createdAt: string
 }
+
 export type IProductFrameType = {
   id: number
   name: string
@@ -88,6 +89,7 @@ export type IProductDefaultDetails = {
   id: number;
   quantity: number
   coating_type: string | boolean
+  inlaid_flower: string | boolean
   type: ProductOrderType
   cover_type: IProductCoverType[]
   profile_type: IProductProfileType[]
@@ -102,6 +104,7 @@ export enum ProductOrderType {
 export type IProductItem = {
   id: number;
   sku: string;
+  algorithm: EAlgorithm;
   attributes: string;
   name: string;
   status: string;
@@ -132,3 +135,8 @@ export type IProductTableFilters = {
   stock: string[];
   publish: string[];
 };
+
+export enum EAlgorithm {
+  cabinet_cloumn = "cabinet_cloumn",
+  cabinet_door = "cabinet_door"
+}

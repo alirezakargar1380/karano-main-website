@@ -21,12 +21,14 @@ import { ConfirmDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
+import { EAlgorithm } from 'src/types/product';
 
 // ----------------------------------------------------------------------
 interface Props {
   dialog: useBooleanReturnType;
   order_form_id: number;
   product_name: string;
+  algorithm?: EAlgorithm;
   type?: 'cart' | 'edit' | 'view';
   currentData?: ICheckoutItemPropertyPrice | undefined;
   listId?: number | undefined;
@@ -40,6 +42,7 @@ export default function CartDialog({
   dialog,
   order_form_id,
   product_name,
+  algorithm =  EAlgorithm.cabinet_door,
   currentData,
   listId,
   listData,
@@ -71,8 +74,8 @@ export default function CartDialog({
     frame_type: Yup.number().required('نوع قاب الزامی است'),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: Yup.object().shape({
+      length: Yup.number().required('طول الزامی است').typeError('طول باید عدد باشد'),
       width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
-      height: Yup.number().required('ارتفاع الزامی است').typeError('ارتفاع باید عدد باشد'),
     }),
   });
 
@@ -82,13 +85,14 @@ export default function CartDialog({
     }),
     quantity: 1,
     dimension: {
+      length: 0,
       width: 0,
-      height: 0,
     },
     profile_type: 0,
     cover_type: 0,
     frame_type: 0,
     coating_type: '',
+    inlaid_flower_emty_space: 0
   };
 
   // if (currentData?.id) defaultValues.id = currentData.id;
@@ -145,6 +149,8 @@ export default function CartDialog({
             })
             .then(({ data }) => { });
       }
+
+      reset();
     } catch (error) {
       console.error(error);
     }
@@ -321,6 +327,7 @@ export default function CartDialog({
                 data={list}
                 listIndex={index}
                 values={values}
+                algorithm={algorithm}
                 type={type}
                 setValue={(name: string, value: any) => setValue(name, value)}
                 onUpdate={handleUpdate}

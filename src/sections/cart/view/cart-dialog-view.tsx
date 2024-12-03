@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
 import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
-import { IProductDefaultDetails } from 'src/types/product';
+import { EAlgorithm, IProductDefaultDetails } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
@@ -49,6 +49,7 @@ interface Props {
     listIndex: number | null
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
+    algorithm: EAlgorithm;
     type?: 'cart' | 'edit' | 'view';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
@@ -144,6 +145,7 @@ export default function CartDialogView({
     data,
     listIndex,
     type,
+    algorithm,
     onUpdate,
     onDelete,
     onClose,
@@ -176,6 +178,7 @@ export default function CartDialogView({
         cover_type: false,
         frame_type: false,
         coating_type: false,
+        inlaid_flower: false,
         dimension: false
     });
 
@@ -198,26 +201,33 @@ export default function CartDialogView({
     }, [infoDialog])
 
     useEffect(() => {
-        // check for wich one is the first
-        if (values.profile_type) {
-            if (formOptions.cover_type)
-                setDisable({ ...disable, cover_type: false })
+        let newDisable = { ...disable };
+
+        switch (algorithm) {
+            case EAlgorithm.cabinet_door:
+                if (values.profile_type)
+                    newDisable.cover_type = false
+
+                if (values.cover_type)
+                    newDisable.frame_type = false
+
+                if (values.frame_type)
+                    newDisable.coating_type = false
+
+                if (values.coating_type)
+                    newDisable.dimension = false
+
+                break;
         }
 
-        if (values.cover_type) {
-            if (formOptions.frame_type)
-                setDisable({ ...disable, frame_type: false })
-        }
-
-        if (values.frame_type) {
-            if (formOptions.coating_type)
-                setDisable({ ...disable, coating_type: false })
-        }
-
-        if (values.coating_type) {
-            setDisable({ ...disable, dimension: false })
-        }
+        setDisable(newDisable);
     }, [values, formOptions]);
+
+    // useEffect(() => {
+    //     if (values.inlaid_flower) {
+    //         setDisable({ ...disable, inlaid_flower: true })
+    //     }
+    // }, [values.inlaid_flower])
 
     useEffect(() => {
         if (listIndex || listIndex === 0) {
@@ -226,6 +236,7 @@ export default function CartDialogView({
                 cover_type: false,
                 frame_type: false,
                 coating_type: false,
+                inlaid_flower: false,
                 dimension: false
             })
         } else {
@@ -234,6 +245,7 @@ export default function CartDialogView({
                 cover_type: true,
                 frame_type: true,
                 coating_type: true,
+                inlaid_flower: true,
                 dimension: true
             })
         }
@@ -398,35 +410,6 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {/* {(formOptions.dimentions?.length > 0) && (
-                                <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
-                                    <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
-                                        width: 1, pb: '16px'
-                                    }}>
-                                        نوع قاب
-                                    </Typography>
-                                    <RHFRadioGroup
-                                        name="dimension_id"
-                                        row
-                                        sx={{
-                                            width: 1,
-                                            display: 'grid',
-                                            gridTemplateColumns: {
-                                                xs: 'repeat(1, 1fr)',
-                                                md: 'repeat(2, 1fr)',
-                                            },
-                                            gridGap: 18,
-                                        }}
-                                        options={product_dimension.map((dimension, index: number) => {
-                                            return {
-                                                label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',
-                                                value: dimension.id
-                                            };
-                                        })}
-                                    />
-                                </Box>
-                            )} */}
-
                     {(formOptions.coating_type) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
@@ -464,7 +447,50 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    <Box sx={{ py: "24px", }}>
+                    {(formOptions.inlaid_flower) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                گل منبت
+                            </Typography>
+                            <RHFRadioGroup
+                                name='inlaid_flower'
+                                row
+                                disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'دارد',
+                                        value: '1'
+                                    },
+                                    {
+                                        label: 'ندارد',
+                                        value: '0'
+                                    }
+                                ]}
+                            />
+                        </Box>
+                    )}
+
+
+                    {(values.inlaid_flower === "0") && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <RHFTitleTextField name='inlaid_flower_emty_space' custom_label='زمینه خالی جهت منبت' placeholder='26' />
+                        </Box>
+                    )}
+
+                    <Box sx={{ py: "24px" }}>
                         <Typography
                             variant="title3"
                             fontFamily={'peyda-bold'}
@@ -483,8 +509,8 @@ export default function CartDialogView({
                                 xs: 'repeat(1, 1fr)',
                                 md: 'repeat(2, 1fr)',
                             }}>
-                            <RHFTitleTextField name='dimension.height' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
-                            <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                            <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
+                            <RHFTitleTextField name='dimension.length' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
                         </Stack>
                         <Typography variant="body3" fontFamily={'peyda-bold'} sx={{
                             width: 1, pb: '8px', pt: '24px'

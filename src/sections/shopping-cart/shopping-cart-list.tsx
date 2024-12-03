@@ -161,6 +161,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
             dialog={cartDialog}
             order_form_id={checkoutItem.product.order_form_options.id}
             product_name={checkoutItem.product.name}
+            algorithm={checkoutItem.product.algorithm}
             listId={propertyId}
             listData={checkoutItem.properties}
             onAddCart={handleAddCart}
