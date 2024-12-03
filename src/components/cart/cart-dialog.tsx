@@ -68,8 +68,15 @@ export default function CartDialog({
     switch (algorithm) {
       case EAlgorithm.cabinet_door:
         return Yup.object().shape({
-          length: Yup.number().required('طول الزامی است').typeError('طول باید عدد باشد'),
-          width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
+          length: Yup.number()
+            .max(240, 'طول نمیتواند بیشتر از 240 سانتی متر باشد')
+            .notOneOf([0], 'طول نمیتواند صفر باشد')
+            .required('طول الزامی است')
+            .typeError('طول باید عدد باشد'),
+          width: Yup.number()
+            .required('عرض الزامی است')
+            .notOneOf([0], 'عرض نمیتواند صفر باشد')
+            .typeError('عرض باید عدد باشد'),
         });
       case EAlgorithm.cabinet_cloumn:
         return Yup.object().shape({
@@ -94,10 +101,6 @@ export default function CartDialog({
 
   const NewProductSchema = Yup.object().shape({
     profile_type: Yup.number().required('نوع پروفایل الزامی است'),
-    // profile_type: Yup.object().shape({
-    //     id: Yup.number(),
-    //     name: Yup.string(),
-    // }),
     cover_type: Yup.number().required('نوع پوشش الزامی است'),
     frame_type: Yup.number().required('نوع قاب الزامی است'),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
