@@ -235,6 +235,10 @@ export default function CartDialog({
     reset(customizeData(currentData));
   }, [currentData]);
 
+  useEffect(() => {
+    if (!dialog.value) setList([])
+  }, [dialog.value])
+
   const handleUpdate = useCallback(
     (itemId: number) => {
       setId(itemId);
@@ -259,10 +263,11 @@ export default function CartDialog({
     if (handleUpdateRow !== undefined) handleUpdateRow(list);
     else {
       onAddCart(list);
-      setList([]);
+      // setList([]);
       reset(defaultValues);
     }
   }, [list, type]);
+
 
   const onDeleteRow = (propertyIndex: number) => {
     if (propertyIndex === index)

@@ -249,7 +249,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                                             status: property_price?.status,
                                                             quality: property_price?.quantity,
                                                             coating: property_price?.coating_type || '',
-                                                            dimensions: (property_price?.dimension) ? property_price?.dimension?.width + 'x' + property_price?.dimension?.height : '-',
+                                                            dimensions: (property_price?.dimension) ? property_price?.dimension?.length + 'x' + property_price?.dimension?.width : '-',
                                                             final_coating: property_price?.cover_type?.name,
                                                             frame_type: property_price?.frame_type?.name,
                                                             profile_type: property_price?.profile_type?.name,
