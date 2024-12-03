@@ -42,7 +42,7 @@ export default function CartDialog({
   dialog,
   order_form_id,
   product_name,
-  algorithm =  EAlgorithm.cabinet_door,
+  algorithm = EAlgorithm.cabinet_door,
   currentData,
   listId,
   listData,
@@ -64,6 +64,34 @@ export default function CartDialog({
 
   const { enqueueSnackbar } = useSnackbar();
 
+  const getDimensionSchema = (algorithm: EAlgorithm) => {
+    switch (algorithm) {
+      case EAlgorithm.cabinet_door:
+        return Yup.object().shape({
+          length: Yup.number().required('طول الزامی است').typeError('طول باید عدد باشد'),
+          width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
+        });
+      case EAlgorithm.cabinet_cloumn:
+        return Yup.object().shape({
+          length: Yup.number()
+            .max(280, 'طول نمیتواند بیشتر از 280 سانتی متر باشد')
+            .notOneOf([0], 'طول نمیتواند صفر باشد')
+            .required('طول الزامی است')
+            .typeError('طول باید عدد باشد'),
+          width: Yup.number()
+            .min(8, 'عرض نمیتواند کمتر از 8 سانتی متر باشد')
+            .notOneOf([0], 'عرض نمیتواند صفر باشد')
+            .required('عرض الزامی است')
+            .typeError('عرض باید عدد باشد'),
+        });
+      default:
+        return Yup.object().shape({
+          length: Yup.number().required('طول الزامی است').typeError('طول باید عدد باشد'),
+          width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
+        });
+    }
+  };
+
   const NewProductSchema = Yup.object().shape({
     profile_type: Yup.number().required('نوع پروفایل الزامی است'),
     // profile_type: Yup.object().shape({
@@ -73,10 +101,13 @@ export default function CartDialog({
     cover_type: Yup.number().required('نوع پوشش الزامی است'),
     frame_type: Yup.number().required('نوع قاب الزامی است'),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
-    dimension: Yup.object().shape({
-      length: Yup.number().required('طول الزامی است').typeError('طول باید عدد باشد'),
-      width: Yup.number().required('عرض الزامی است').typeError('عرض باید عدد باشد'),
-    }),
+    dimension: getDimensionSchema(algorithm),
+    inlaid_flower_emty_space: Yup.number()
+      .when('inlaid_flower', {
+        is: '0',
+        then: (schema) => schema.notOneOf([0], 'فضای خالی جایگاه گل نمیتواند صفر باشد'),
+        otherwise: (schema) => schema
+      }),
   });
 
   const defaultValues: any = {
@@ -92,7 +123,8 @@ export default function CartDialog({
     cover_type: 0,
     frame_type: 0,
     coating_type: '',
-    inlaid_flower_emty_space: 0
+    inlaid_flower_emty_space: 0,
+    inlaid_flower: '',
   };
 
   // if (currentData?.id) defaultValues.id = currentData.id;
@@ -135,7 +167,7 @@ export default function CartDialog({
         setId(null); // felan khali bashe
 
         list[iid] = custom;
-        
+
         if (handleUpdateRow && type === 'edit')
           list[iid].status = IOrderProductPropertyStatus.edited;
 

@@ -207,7 +207,7 @@ export default function CartDialogView({
             case EAlgorithm.cabinet_door:
                 if (values.profile_type)
                     newDisable.cover_type = false
-                else 
+                else
                     newDisable.profile_type = true
 
                 if (values.cover_type)
@@ -217,6 +217,17 @@ export default function CartDialogView({
                     newDisable.coating_type = false
 
                 if (values.coating_type)
+                    newDisable.dimension = false
+
+                break;
+            case EAlgorithm.cabinet_cloumn:
+                
+                if (values.cover_type)
+                    newDisable.inlaid_flower = false
+                else
+                    newDisable.cover_type = false
+
+                if (values.cover_type)
                     newDisable.dimension = false
 
                 break;
@@ -241,7 +252,7 @@ export default function CartDialogView({
                 inlaid_flower: false,
                 dimension: false
             })
-        } 
+        }
         // else {
         //     setDisable({
         //         profile_type: false,
@@ -262,8 +273,6 @@ export default function CartDialogView({
             setState({ ...state, run: false })
         }
     };
-
-    console.log(formOptions)
 
     return (
         <Box sx={{ px: '40px' }}>
@@ -489,7 +498,7 @@ export default function CartDialogView({
 
                     {(values.inlaid_flower === "0") && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
-                            <RHFTitleTextField name='inlaid_flower_emty_space' custom_label='زمینه خالی جهت منبت' placeholder='26' />
+                            <RHFTitleTextField name='inlaid_flower_emty_space' custom_label='زمینه خالی جهت منبت (سانتی متر)' placeholder='26' />
                         </Box>
                     )}
 
