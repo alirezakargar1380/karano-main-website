@@ -45,6 +45,8 @@ export default function CartTableRow({
     coating,
     dimensions,
     final_coating,
+    inlaid_flower,
+    inlaid_flower_emty_space,
     cover_edge_tape,
     coating_texture,
     frame_type,
@@ -91,6 +93,24 @@ export default function CartTableRow({
         {(!!final_coating) && (
           <TableCell>
             <Typography variant='body4'>{final_coating}</Typography>
+          </TableCell>
+        )}
+
+        {(!!inlaid_flower) && (
+          <TableCell>
+            <Typography variant='body4'>{inlaid_flower === "1" ? 'دارد' : 'ندارد'}</Typography>
+          </TableCell>
+        )}
+
+        {(inlaid_flower === '0') && (
+          <TableCell>
+            <Typography variant='body4'>{inlaid_flower_emty_space + " سانتی متر"}</Typography>
+          </TableCell>
+        )}
+
+        {(inlaid_flower === '1') && (
+          <TableCell>
+            <Typography variant='body4'>-</Typography>
           </TableCell>
         )}
 
