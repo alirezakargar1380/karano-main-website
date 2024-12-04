@@ -108,7 +108,7 @@ export default function CartDialog({
     dimension: getDimensionSchema(algorithm),
     inlaid_flower_emty_space: Yup.number()
       .when('inlaid_flower', {
-        is: '0',
+        is: false,
         then: (schema) => schema.notOneOf([0], 'فضای خالی جایگاه گل نمیتواند صفر باشد'),
         otherwise: (schema) => schema
       }),
@@ -199,7 +199,7 @@ export default function CartDialog({
         cover_type: item?.cover_type?.id || 0,
         profile_type: item?.profile_type?.id || 0,
         frame_type: item?.frame_type?.id || 0,
-        inlaid_flower: item.inlaid_flower !== null && (item.inlaid_flower === true) ? '1' : '0',
+        // inlaid_flower: item?.inlaid_flower !== null ? (item.inlaid_flower === true) ? '1' : '0' : null,
         dimension: {
           length: item.dimension?.length || 0,
           width: item.dimension?.width || 0,
