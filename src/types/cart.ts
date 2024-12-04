@@ -24,6 +24,8 @@ export interface ICartItem {
     dimensions: string;
     quality: number;
     rejection_reason: string | null;
+    inlaid_flower_emty_space: number,
+    inlaid_flower: string | boolean,
     cover_edge_tape: ECoverEdgeTape,
     coating_texture: ECoatingTexture,
 }

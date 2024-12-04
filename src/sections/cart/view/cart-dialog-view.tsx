@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
 import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
-import { EAlgorithm, IProductDefaultDetails } from 'src/types/product';
+import { CoatingType, EAlgorithm, IProductDefaultDetails } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
@@ -28,6 +28,49 @@ import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../../../components/styles/buttons/primary';
 import { toFarsiNumber } from '../../../utils/change-case';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
+
+export function getHeadLabel(algorithm: EAlgorithm) {
+    const defult = [
+        { id: 'dimension', label: 'ابعاد', width: 110 },
+        { id: 'quntity', label: 'تعداد', width: 110 },
+        { id: 'zzz', width: 88 },
+    ]
+    switch (algorithm) {
+        case EAlgorithm.cabinet_door:
+            return [
+                { id: 'name', label: 'نوع پروفیل', width: 160 },
+                { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
+                { id: 'inventoryType', label: 'نوع قاب', width: 160 },
+                { id: 'price', label: 'روکش گیری', width: 140 },
+                ...defult
+            ];
+        case EAlgorithm.cover_sheet:
+            return [
+                { id: "cover_type", label: "نوار لبه روکش" },
+                { id: "inlaid_flower", label: "بافت روکش" },
+                ...defult
+            ];
+        case EAlgorithm.cabinet_cloumn:
+            return [
+                { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
+                { id: "inlaid_flower", label: "گل منبت" },
+                { id: "inlaid_flower_emty_space", label: "زمینه خالی جهت منبت" },
+                ...defult
+            ];
+        case EAlgorithm.room_door:
+            return [
+                { id: "cover_type", label: "نوار لبه روکش" },
+                { id: "inlaid_flower", label: "بافت روکش" },
+                ...defult
+            ];
+        case EAlgorithm.shutter_door:
+            return [
+                { id: "cover_type", label: "نوار لبه روکش" },
+                { id: "inlaid_flower", label: "بافت روکش" },
+                ...defult
+            ];
+    }
+}
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -204,6 +247,9 @@ export default function CartDialogView({
 
         switch (algorithm) {
             case EAlgorithm.cabinet_door:
+                const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+                const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
+
                 if (values.profile_type)
                     newDisable.cover_type = false
                 else
@@ -212,7 +258,7 @@ export default function CartDialogView({
                 if (values.cover_type)
                     newDisable.frame_type = false
 
-                if (values.frame_type)
+                if (values.frame_type && !findFrame?.is_glass && !findCover?.is_raw)
                     newDisable.coating_type = false
 
                 if (values.coating_type)
@@ -261,47 +307,22 @@ export default function CartDialogView({
         // }
     }, [listIndex])
 
-    function getHeadLabel(algorithm: EAlgorithm) {
-        const defult = [
-            { id: 'dimension', label: 'ابعاد', width: 110 },
-            { id: 'quntity', label: 'تعداد', width: 110 },
-            { id: 'zzz', width: 88 },
-        ]
-        switch (algorithm) {
-            case EAlgorithm.cabinet_door:
-                return [
-                    { id: 'name', label: 'نوع پروفیل', width: 160 },
-                    { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
-                    { id: 'inventoryType', label: 'نوع قاب', width: 160 },
-                    { id: 'price', label: 'روکش گیری', width: 140 },
-                    ...defult
-                ];
-            case EAlgorithm.cover_sheet:
-                return [
-                    { id: "cover_type", label: "نوار لبه روکش" },
-                    { id: "inlaid_flower", label: "بافت روکش" },
-                    ...defult
-                ];
-            case EAlgorithm.cabinet_cloumn:
-                return [
-                    { id: "cover_type", label: "نوار لبه روکش" },
-                    { id: "inlaid_flower", label: "بافت روکش" },
-                    ...defult
-                ];
-            case EAlgorithm.room_door:
-                return [
-                    { id: "cover_type", label: "نوار لبه روکش" },
-                    { id: "inlaid_flower", label: "بافت روکش" },
-                    ...defult
-                ];
-            case EAlgorithm.shutter_door:
-                return [
-                    { id: "cover_type", label: "نوار لبه روکش" },
-                    { id: "inlaid_flower", label: "بافت روکش" },
-                    ...defult
-                ];
+    useEffect(() => {
+        if (algorithm !== EAlgorithm.cabinet_door) return;
+
+        const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+        const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
+
+        if (findFrame?.is_glass || findCover?.is_raw) {
+            setDisable({
+                ...disable,
+                coating_type: true
+            })
+            setValue('coating_type', CoatingType.emty)
         }
-    }
+
+    }, [values.frame_type, values.cover_type])
+
     const handleJoyrideCallback = (data: any) => {
         const { action } = data;
 
@@ -310,6 +331,8 @@ export default function CartDialogView({
             setState({ ...state, run: false })
         }
     };
+
+
 
     return (
         <Box sx={{ px: '40px' }}>
@@ -688,7 +711,6 @@ export default function CartDialogView({
                                 ))}
                             </TableBody>
                         </Table>
-
                     ) : (
                         <Box sx={{ width: 1, textAlign: 'center', my: 14 }}>
                             <Image src='/assets/images/cart/Empty State.png' />

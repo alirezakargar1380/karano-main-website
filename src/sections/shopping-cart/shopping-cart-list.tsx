@@ -11,7 +11,7 @@ import { useCallback, useState } from "react";
 import CartDialog from "src/components/cart/cart-dialog";
 import { useBoolean } from "src/hooks/use-boolean";
 
-import { CartTableHead, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
+import { CartTableHead, getHeadLabel, ReadyProductCartTableHead } from "src/sections/cart/view/cart-dialog-view";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 
@@ -230,7 +230,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                             backgroundColor: '#F2F2F2'
                                         }}
                                         // call from func
-                                        headLabel={(item.product.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
+                                        headLabel={getHeadLabel(item.product.algorithm)}
                                     />
                                     <TableBody>
                                         {cartDialog.value === false && (

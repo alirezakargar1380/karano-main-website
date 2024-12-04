@@ -34,9 +34,17 @@ export type IProductDimension = {
   height: number;
 }
 
+export enum CoatingType {
+  jenagi = 'جناقی',
+  none_jenagi = 'غیر جناقی',
+  none = '',
+  emty = '-'
+}
+
 export type IProductCoverType = {
   icon_image_name: string;
   id: number
+  is_raw: boolean
   name: string
   createdAt: string
 }
@@ -83,6 +91,8 @@ export type IProductProfileType = {
 export type IProductFrameType = {
   id: number
   name: string
+  is_glass: boolean
+  need_lattice: boolean
   createdAt: string
 }
 export type IProductDefaultDetails = {

@@ -47,6 +47,8 @@ export interface ICheckoutItemPropertyPrice {
   profile_type: IProductProfileType;
   frame_type: IProductFrameType;
   rejection_reason: string | null;
+  inlaid_flower_emty_space: number
+  inlaid_flower: string | boolean;
   cover_edge_tape: ECoverEdgeTape
   coating_texture: ECoatingTexture
 }
