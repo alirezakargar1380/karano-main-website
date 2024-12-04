@@ -1,4 +1,5 @@
 import { IAddressItem } from './address';
+import { ECoatingTexture, ECoverEdgeTape } from './cart';
 import { IOrderProductPropertyStatus } from './order-products-property';
 import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType, IProductItem } from './product';
 
@@ -46,6 +47,8 @@ export interface ICheckoutItemPropertyPrice {
   profile_type: IProductProfileType;
   frame_type: IProductFrameType;
   rejection_reason: string | null;
+  cover_edge_tape: ECoverEdgeTape
+  coating_texture: ECoatingTexture
 }
 
 export type ICheckoutDeliveryOption = {
@@ -77,7 +80,7 @@ export type ICheckoutValue = {
 };
 
 export type CheckoutContextProps = ICheckoutValue & {
-// export type CheckoutContextProps = {
+  // export type CheckoutContextProps = {
   completed: boolean;
   //
   onGetCart: () => void;

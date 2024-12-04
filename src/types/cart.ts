@@ -1,5 +1,19 @@
 import { IOrderProductPropertyStatus } from "./order-products-property";
 
+export enum ECoverEdgeTape {
+    none = '',
+    does_not_have = 'does_not_have',
+    length_width = 'length_width',
+    sides = 'sides'
+}
+
+export enum ECoatingTexture {
+    none = '',
+    right_vein = 'right-vein',
+    wavy = 'wavy'
+}
+
+
 export interface ICartItem {
     id?: number
     status?: IOrderProductPropertyStatus;
@@ -10,4 +24,6 @@ export interface ICartItem {
     dimensions: string;
     quality: number;
     rejection_reason: string | null;
+    cover_edge_tape: ECoverEdgeTape,
+    coating_texture: ECoatingTexture,
 }

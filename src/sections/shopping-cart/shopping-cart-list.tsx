@@ -229,9 +229,9 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                         sx={{
                                             backgroundColor: '#F2F2F2'
                                         }}
+                                        // call from func
                                         headLabel={(item.product.order_type === ProductOrderType.custom_made) ? CartTableHead : ReadyProductCartTableHead}
                                     />
-
                                     <TableBody>
                                         {cartDialog.value === false && (
                                             <>
@@ -244,6 +244,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                                         onEditRow={(property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
                                                         type={type}
                                                         row={{
+                                                            ...property_price,
                                                             rejection_reason: property_price?.rejection_reason,
                                                             id: property_price?.id,
                                                             status: property_price?.status,

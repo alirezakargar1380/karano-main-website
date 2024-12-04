@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
@@ -8,11 +7,10 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import Label from 'src/components/label';
 import { ConfirmDialog, DialogWithButton } from 'src/components/custom-dialog';
 
-import { ICartItem } from 'src/types/cart';
+import { ECoatingTexture, ECoverEdgeTape, ICartItem } from 'src/types/cart';
 import SvgColor from '../../components/svg-color';
 import { Stack, Tooltip, Typography } from '@mui/material';
 import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
-import { LoadingButton } from '@mui/lab';
 import { pxToRem } from 'src/theme/typography';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
@@ -47,6 +45,8 @@ export default function CartTableRow({
     coating,
     dimensions,
     final_coating,
+    cover_edge_tape,
+    coating_texture,
     frame_type,
     profile_type,
     quality,
@@ -91,6 +91,32 @@ export default function CartTableRow({
         {(!!final_coating) && (
           <TableCell>
             <Typography variant='body4'>{final_coating}</Typography>
+          </TableCell>
+        )}
+
+        {(!!cover_edge_tape) && (
+          <TableCell>
+            <Typography variant='body4'>
+              {(
+                cover_edge_tape === ECoverEdgeTape.length_width && '1 طول و 1 عرض' ||
+                cover_edge_tape === ECoverEdgeTape.does_not_have && 'ندارد' ||
+                cover_edge_tape === ECoverEdgeTape.sides && '4 طرف' ||
+                ''
+              )}
+            </Typography>
+          </TableCell>
+        )}
+
+        {(!!coating_texture) && (
+          <TableCell>
+            <Typography variant='body4'>
+              {(
+                !coating_texture && '-' ||
+                coating_texture === ECoatingTexture.right_vein && 'بلوط رگه راست' ||
+                coating_texture === ECoatingTexture.wavy && 'بلوط موج دار' ||
+                ''
+              )}
+            </Typography>
           </TableCell>
         )}
 
@@ -181,11 +207,11 @@ export default function CartTableRow({
         title={(status === IOrderProductPropertyStatus.denied) ? "حذف آخرین کالای ردشده" : "حذف آخرین کالا"}
         content={`آیا از حذف  آخرین کالای ${product_name} اطمینان دارید؟\n با حذف آخرین کالا از پروفیل‌های ${product_name}، کل کالاهای این پروفیل حذف خواهند شد.`}
         action={
-          <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }} 
-          onClick={ () => {
-            if (onDeleteRow) onDeleteRow();
-            confirmLast.onFalse();
-          }}>
+          <SecondaryButton size={'medium'} color="error" sx={{ borderRadius: 20, px: 4 }}
+            onClick={() => {
+              if (onDeleteRow) onDeleteRow();
+              confirmLast.onFalse();
+            }}>
             حذف
           </SecondaryButton>
         }

@@ -22,6 +22,7 @@ import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
 import { EAlgorithm } from 'src/types/product';
+import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -128,6 +129,8 @@ export default function CartDialog({
     coating_type: '',
     inlaid_flower_emty_space: 0,
     inlaid_flower: '',
+    cover_edge_tape: ECoverEdgeTape.none,
+    coating_texture: ECoatingTexture.none,
   };
 
   // if (currentData?.id) defaultValues.id = currentData.id;
@@ -373,7 +376,6 @@ export default function CartDialog({
                 onUpdate={handleUpdate}
                 onDelete={onDelete || onDeleteRow}
                 infoDialog={infoDialog.value}
-                onClose={dialog.onFalse}
               />
             )}
           </FormProvider>

@@ -27,6 +27,7 @@ import Image from 'src/components/image';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../../../components/styles/buttons/primary';
 import { toFarsiNumber } from '../../../utils/change-case';
+import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
 export const CartTableHead = [
     { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -53,7 +54,6 @@ interface Props {
     type?: 'cart' | 'edit' | 'view';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
-    onClose: () => void
     setValue: (name: string, value: any) => void
     infoDialog: boolean
     values: any
@@ -148,7 +148,6 @@ export default function CartDialogView({
     algorithm,
     onUpdate,
     onDelete,
-    onClose,
     setValue,
     infoDialog,
     values,
@@ -221,7 +220,7 @@ export default function CartDialogView({
 
                 break;
             case EAlgorithm.cabinet_cloumn:
-                
+
                 if (values.cover_type)
                     newDisable.inlaid_flower = false
                 else
@@ -231,16 +230,13 @@ export default function CartDialogView({
                     newDisable.dimension = false
 
                 break;
+            case EAlgorithm.cover_sheet:
+                if (values.coating_texture)
+                    newDisable.dimension = false
         }
 
         setDisable(newDisable);
     }, [values, formOptions]);
-
-    // useEffect(() => {
-    //     if (values.inlaid_flower) {
-    //         setDisable({ ...disable, inlaid_flower: true })
-    //     }
-    // }, [values.inlaid_flower])
 
     useEffect(() => {
         if (listIndex || listIndex === 0) {
@@ -265,6 +261,47 @@ export default function CartDialogView({
         // }
     }, [listIndex])
 
+    function getHeadLabel(algorithm: EAlgorithm) {
+        const defult = [
+            { id: 'dimension', label: 'ابعاد', width: 110 },
+            { id: 'quntity', label: 'تعداد', width: 110 },
+            { id: 'zzz', width: 88 },
+        ]
+        switch (algorithm) {
+            case EAlgorithm.cabinet_door:
+                return [
+                    { id: 'name', label: 'نوع پروفیل', width: 160 },
+                    { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
+                    { id: 'inventoryType', label: 'نوع قاب', width: 160 },
+                    { id: 'price', label: 'روکش گیری', width: 140 },
+                    ...defult
+                ];
+            case EAlgorithm.cover_sheet:
+                return [
+                    { id: "cover_type", label: "نوار لبه روکش" },
+                    { id: "inlaid_flower", label: "بافت روکش" },
+                    ...defult
+                ];
+            case EAlgorithm.cabinet_cloumn:
+                return [
+                    { id: "cover_type", label: "نوار لبه روکش" },
+                    { id: "inlaid_flower", label: "بافت روکش" },
+                    ...defult
+                ];
+            case EAlgorithm.room_door:
+                return [
+                    { id: "cover_type", label: "نوار لبه روکش" },
+                    { id: "inlaid_flower", label: "بافت روکش" },
+                    ...defult
+                ];
+            case EAlgorithm.shutter_door:
+                return [
+                    { id: "cover_type", label: "نوار لبه روکش" },
+                    { id: "inlaid_flower", label: "بافت روکش" },
+                    ...defult
+                ];
+        }
+    }
     const handleJoyrideCallback = (data: any) => {
         const { action } = data;
 
@@ -350,7 +387,7 @@ export default function CartDialogView({
                         )}
                     </Box>
 
-                    {formOptions.cover_type && (
+                    {formOptions.cover_type?.length > 0 && (
                         <Box sx={{ py: '24px', borderBottom: '1px solid #D1D1D1' }}>
                             <Typography
                                 variant="title3"
@@ -459,6 +496,83 @@ export default function CartDialogView({
                         </Box>
                     )}
 
+                    {(algorithm === EAlgorithm.cover_sheet) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                نوار لبه روکش:
+                            </Typography>
+                            <RHFRadioGroup
+                                name='cover_edge_tape'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    rowGap: 1,
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'ندارد',
+                                        value: ECoverEdgeTape.does_not_have
+                                    },
+                                    {
+                                        label: '1 طول و 1 عرض',
+                                        value: ECoverEdgeTape.length_width
+                                    },
+                                    {
+                                        label: '4 طرف',
+                                        value: ECoverEdgeTape.sides
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
+
+                    {(algorithm === EAlgorithm.cover_sheet) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                نوع بافت روکش:
+                            </Typography>
+                            <RHFRadioGroup
+                                name='coating_texture'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'بلوط رگه راست',
+                                        value: ECoatingTexture.right_vein
+                                    },
+                                    {
+                                        label: 'بلوط موج دار',
+                                        value: ECoatingTexture.wavy
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
+
                     {(formOptions.inlaid_flower) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
@@ -548,7 +662,7 @@ export default function CartDialogView({
                                     backgroundColor: '#F2F2F2'
                                 }}
                                 cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                headLabel={CartTableHead}
+                                headLabel={getHeadLabel(algorithm)}
                             />
                             <TableBody>
                                 {data.map((item, index: number) => (

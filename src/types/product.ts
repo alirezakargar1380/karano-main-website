@@ -138,5 +138,8 @@ export type IProductTableFilters = {
 
 export enum EAlgorithm {
   cabinet_cloumn = "cabinet_cloumn",
-  cabinet_door = "cabinet_door"
+  cabinet_door = "cabinet_door",
+  cover_sheet = "cover_sheet",
+  room_door = "room_door",
+  shutter_door = "shutter_door",
 }
