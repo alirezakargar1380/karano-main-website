@@ -222,7 +222,7 @@ function SaleManagementProductItem({
                             <Label
                                 sx={{ ml: 1 }}
                                 color={
-                                    (property.status === IOrderProductPropertyStatus.edited) && 'warning' || 'default'
+                                    (property.status === IOrderProductPropertyStatus.edited) && 'yellow' || 'default'
                                 }
                             >
                                 {
@@ -284,7 +284,7 @@ function SaleManagementProductItem({
                                             {property.coating_type || '-'}
                                         </TableCell>
                                         <TableCell>
-                                            {property.dimension?.width + "x" + property.dimension?.height}
+                                            {property.dimension?.length + "x" + property.dimension?.width}
                                         </TableCell>
                                         <TableCell>
                                             {property.quantity}
@@ -293,11 +293,11 @@ function SaleManagementProductItem({
 
                                         <TableCell>
                                             {need_to_assemble ?
-                                                <Label variant="outlined" color="success">
+                                                <Label variant="outlined" color="green">
                                                     دارد
                                                 </Label>
                                                 :
-                                                <Label variant="outlined" color="error">
+                                                <Label variant="outlined" color="red">
                                                     ندارد
                                                 </Label>
                                             }

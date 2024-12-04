@@ -26,9 +26,10 @@ export default function SaleManagementDetailsView({ id }: Props) {
     const [hasCustomMade, setHasCustomMade] = useState(false);
 
     const { orderProducts } = useGetOrderProducts(+id);
-    const { order, orderLoading } = useGetOrder(id);
+    const { order, orderLoading, refreshOrder } = useGetOrder(id);
 
     useEffect(() => {
+        refreshOrder();
         if (orderProducts.length > 0) {
             if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
                 setHasCustomMade(true)
@@ -84,10 +85,10 @@ export default function SaleManagementDetailsView({ id }: Props) {
                         <SaleManagementPayment
                             invoiceDialog={invoiceDialog}
                             sendToUser={sendToUser}
-                            order={order}
+                            // order={order}
                             orderId={+id}
                             hasCustomMade={hasCustomMade}
-                            orderProducts={orderProducts}
+                            // orderProducts={orderProducts}
                         />
                     </Grid>
                 </Grid>

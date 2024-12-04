@@ -94,6 +94,7 @@ export type IOrderItem = {
   status: OrderStatus;
   need_prepayment: boolean;
   prepayment: number;
+  total: number;
   production_days: number;
   reciver_name: string;
   reciver_phone: string;

@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Button, Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import Iconify from "src/components/iconify";
 import { GrayNotification } from "src/components/notification";
@@ -26,21 +28,23 @@ import IncrementerButton from "src/sections/product/common/incrementer-button";
 
 import { useRouter } from 'src/routes/hooks';
 import { paths } from "src/routes/paths";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { IOrderProductPropertyStatus } from "src/types/order-products-property";
 import { ProductOrderType } from "src/types/product";
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PrimaryButton } from "src/components/styles/buttons/primary";
+import { fCurrency } from "src/utils/format-number";
+import { useGetOrder } from "src/api/orders";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
     sendToUser: boolean
     hasCustomMade: boolean
     orderId: number
-    order: IOrderItem
-    orderProducts: IOrderProductItem[]
+    // order: IOrderItem
+    // orderProducts: IOrderProductItem[]
 }
 
 export default function SaleManagementPayment({
@@ -48,10 +52,11 @@ export default function SaleManagementPayment({
     sendToUser,
     orderId,
     hasCustomMade,
-    order,
-    orderProducts
+    // order,
 }: Props) {
     const router = useRouter();
+
+    const { order } = useGetOrder(`${orderId}`);
 
     const timeReminder = useBoolean();
 
@@ -79,6 +84,10 @@ export default function SaleManagementPayment({
         handleSubmit,
         formState: { isSubmitting },
     } = methods;
+
+    useEffect(() => {
+        reset(defaultValues)
+    }, [order, orderId])
 
     const values = watch();
 
@@ -163,7 +172,7 @@ export default function SaleManagementPayment({
                     <Stack direction={'row'} spacing={1} sx={{ bgcolor: '#DCF9FF', borderRadius: '8px', p: 2, border: 'solid 1px #0B7BA7' }}>
                         <Typography variant="h6" fontFamily={'peyda-bold'}>مبلغ کل سفارش:</Typography>
                         <Typography variant="h6" fontFamily={''}>
-                            1455555555
+                            {order.total ? fCurrency(order.total) : 0}
                         </Typography>
                         <Typography variant="h6" fontFamily={''} pl={2}>
                             ریال
@@ -174,6 +183,7 @@ export default function SaleManagementPayment({
                         custom_label="مبلغ پیش‌پرداخت"
                         name="prepayment"
                         placeholder="افزودن محتوا"
+                        helperText={fCurrency(values.prepayment || 0)}
                         sx={{
                             '& input': { textAlign: 'center!important' }
                         }}

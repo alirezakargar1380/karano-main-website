@@ -72,15 +72,21 @@ export function useGetOrder(id: string) {
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
+  const refreshOrder = () => {
+    mutate(URL);
+  };
+
   const memoizedValue = useMemo(
     () => ({
       order: (data as IOrderItem) || {},
       orderLoading: isLoading,
+      orderEmpty: !isLoading && !data,
+      refreshOrder
       //   productsError: error,
       //   productsValidating: isValidating,
       //   productsEmpty: !isLoading && !data?.products.length,
     }),
-    [data]
+    [id, isLoading, isValidating]
   );
 
   return memoizedValue;
