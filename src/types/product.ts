@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 
+import { ICheckoutItemPropertyPrice } from "./checkout";
 import { IOrderProductPropertyStatus } from "./order-products-property";
 
 export type IProductFilterValue = string | string[] | number | number[];
@@ -67,7 +68,7 @@ export type IProductPropertyValues = {
   dimension: Partial<IProductDimension> | null
 }
 
-export type IProductProperties = {
+export interface IProductProperties extends ICheckoutItemPropertyPrice {
   id: number
   price: number,
   quantity: number,

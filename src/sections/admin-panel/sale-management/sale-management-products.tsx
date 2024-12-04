@@ -17,6 +17,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useGetOrderProducts } from "src/api/order-products";
+import { ECoatingTexture, ECoverEdgeTape } from "src/types/cart";
 
 interface Props {
     // orderProducts: IOrderProductItem[]
@@ -233,26 +234,57 @@ function SaleManagementProductItem({
                     </Typography>
                     <TableContainer sx={{ overflow: 'unset' }}>
                         <Scrollbar>
-                            <Table sx={{
-                            }}>
+                            <Table>
                                 <TableHead>
                                     <TableRow>
+                                        {property.profile_type?.name && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                نوع پروفیل
+                                            </TableCell>
+                                        )}
 
-                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                            نوع پروفیل
-                                        </TableCell>
+                                        {property.cover_type?.name && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                پوشش نهایی
+                                            </TableCell>
+                                        )}
 
-                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                            پوشش نهایی
-                                        </TableCell>
+                                        {property.frame_type?.name && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                نوع قاب
+                                            </TableCell>
+                                        )}
 
-                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                            نوع قاب
-                                        </TableCell>
+                                        {property.coating_type && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                روکش گیری
+                                            </TableCell>
+                                        )}
 
-                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                            روکش گیری
-                                        </TableCell>
+                                        {property.cover_edge_tape && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                نوار لبه روکش بلوط
+                                            </TableCell>
+                                        )}
+
+                                        {property.coating_texture && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                نوع بافت روکش
+                                            </TableCell>
+                                        )}
+
+                                        {property.inlaid_flower !== null && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                گل منبت
+                                            </TableCell>
+                                        )}
+
+                                        {property.inlaid_flower !== null && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                زمینه خالی جهت منبت
+                                            </TableCell>
+                                        )}
+
                                         <TableCell sx={{ fontFamily: 'peyda-bold' }}>
                                             ابعاد
                                         </TableCell>
@@ -270,26 +302,65 @@ function SaleManagementProductItem({
                                 <TableBody>
                                     <TableRow>
 
-                                        <TableCell>
-                                            {property.profile_type?.name || '-'}
-                                        </TableCell>
+                                        {property.profile_type?.name && (
+                                            <TableCell>
+                                                {property.profile_type?.name || '-'}
+                                            </TableCell>
+                                        )}
 
-                                        <TableCell>
-                                            {property.cover_type?.name || '-'}
-                                        </TableCell>
-                                        <TableCell>
-                                            {property.frame_type?.name || '-'}
-                                        </TableCell>
-                                        <TableCell>
-                                            {property.coating_type || '-'}
-                                        </TableCell>
-                                        <TableCell>
-                                            {property.dimension?.length + "x" + property.dimension?.width}
-                                        </TableCell>
-                                        <TableCell>
-                                            {property.quantity}
-                                        </TableCell>
+                                        {property.cover_type?.name && (
+                                            <TableCell>
+                                                {property.cover_type?.name || '-'}
+                                            </TableCell>
+                                        )}
 
+                                        {property.frame_type?.name && (
+                                            <TableCell>
+                                                {property.frame_type?.name || '-'}
+                                            </TableCell>
+                                        )}
+
+                                        {property.coating_type && (
+                                            <TableCell>
+                                                {property.coating_type || '-'}
+                                            </TableCell>
+                                        )}
+
+                                        {property.cover_edge_tape !== ECoverEdgeTape.none && (
+                                            <TableCell>
+                                                {property.cover_edge_tape}
+                                            </TableCell>
+                                        )}
+
+                                        {property.coating_texture !== ECoatingTexture.none && (
+                                            <TableCell>
+                                                {property.coating_texture}
+                                            </TableCell>
+                                        )}
+
+                                        {property.inlaid_flower !== null && (
+                                            <TableCell>
+                                                {property.inlaid_flower ? 'دارد' : 'ندارد'}
+                                            </TableCell>
+                                        )}
+
+                                        {property.inlaid_flower !== null && (
+                                            <TableCell >
+                                                {property.inlaid_flower === false ? property.inlaid_flower_emty_space + " سانتی متر" : '-'}
+                                            </TableCell>
+                                        )}
+
+                                        {property.dimension && (
+                                            <TableCell>
+                                                {property.dimension?.length + "x" + property.dimension?.width}
+                                            </TableCell>
+                                        )}
+
+                                        {property.quantity && (
+                                            <TableCell>
+                                                {property.quantity}
+                                            </TableCell>
+                                        )}
 
                                         <TableCell>
                                             {need_to_assemble ?
