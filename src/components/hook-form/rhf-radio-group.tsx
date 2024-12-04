@@ -6,8 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
-import { SxProps } from '@mui/system';
-import { Box } from '@mui/material';
+import { Stack, SxProps } from '@mui/system';
+import { Box, Typography } from '@mui/material';
 import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
@@ -83,7 +83,14 @@ export default function RHFRadioGroup({
             ))}
           </RadioGroup>
 
-          {(!!error || helperText) && (
+          {error && (
+            <Stack direction={'row'} alignItems={'center'} mt={1}>
+              <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} sx={{ width: 20, height: 20 }} />
+              <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5}>{error?.message}</Typography>
+            </Stack>
+          )}
+
+          {(helperText) && (
             <FormHelperText error={!!error} sx={{ mx: 0, typography: 'caption2', mt: '25.5px', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <SvgColor src="/assets/icons/notification/alert-circle.svg" sx={{ width: '16px' }} />
               {error ? error?.message : helperText}

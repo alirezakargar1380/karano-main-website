@@ -21,7 +21,7 @@ import { ConfirmDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
-import { EAlgorithm } from 'src/types/product';
+import { CoatingType, EAlgorithm } from 'src/types/product';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
 // ----------------------------------------------------------------------
@@ -101,9 +101,9 @@ export default function CartDialog({
   };
 
   const NewProductSchema = Yup.object().shape({
-    profile_type: Yup.number().required('نوع پروفایل الزامی است'),
-    cover_type: Yup.number().required('نوع پوشش الزامی است'),
-    frame_type: Yup.number().required('نوع قاب الزامی است'),
+    profile_type: (algorithm === EAlgorithm.cover_sheet) ? Yup.number() : Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است'),
+    cover_type: Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است'),
+    frame_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm),
     inlaid_flower_emty_space: Yup.number()
@@ -126,14 +126,12 @@ export default function CartDialog({
     profile_type: 0,
     cover_type: 0,
     frame_type: 0,
-    coating_type: '',
+    coating_type: CoatingType.none,
     inlaid_flower_emty_space: 0,
-    inlaid_flower: '',
+    inlaid_flower: null,
     cover_edge_tape: ECoverEdgeTape.none,
     coating_texture: ECoatingTexture.none,
   };
-
-  // if (currentData?.id) defaultValues.id = currentData.id;
 
   const methods = useForm({
     resolver: yupResolver(NewProductSchema),
@@ -202,8 +200,8 @@ export default function CartDialog({
         profile_type: item?.profile_type?.id || 0,
         frame_type: item?.frame_type?.id || 0,
         dimension: {
+          length: item.dimension?.length || 0,
           width: item.dimension?.width || 0,
-          height: item.dimension?.height || 0,
         },
       };
     },

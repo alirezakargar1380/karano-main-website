@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import RadioGroup, { RadioGroupProps } from '@mui/material/RadioGroup';
 import { SxProps } from '@mui/system';
 import { Avatar, Box, Stack, Typography } from '@mui/material';
+import SvgColor from '../svg-color';
 
 // ----------------------------------------------------------------------
 
@@ -103,7 +104,14 @@ export default function RHFRadioGroup({
 
           </RadioGroup>
 
-          {(!!error || helperText) && (
+          {error && (
+            <Stack direction={'row'} alignItems={'center'} mt={1}>
+              <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} sx={{ width: 20, height: 20 }} />
+              <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5}>{error?.message}</Typography>
+            </Stack>
+          )}
+
+          {(helperText) && (
             <FormHelperText error={!!error} sx={{ mx: 0 }}>
               {error ? error?.message : helperText}
             </FormHelperText>
