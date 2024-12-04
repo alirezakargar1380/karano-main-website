@@ -96,19 +96,19 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!inlaid_flower) && (
+        {(inlaid_flower !== null) && (
           <TableCell>
-            <Typography variant='body4'>{inlaid_flower === "1" ? 'دارد' : 'ندارد'}</Typography>
+            <Typography variant='body4'>{inlaid_flower ? 'دارد' : 'ندارد'}</Typography>
           </TableCell>
         )}
 
-        {(inlaid_flower === '0') && (
+        {(inlaid_flower === false) && (
           <TableCell>
             <Typography variant='body4'>{inlaid_flower_emty_space + " سانتی متر"}</Typography>
           </TableCell>
         )}
 
-        {(inlaid_flower === '1') && (
+        {(inlaid_flower === true) && (
           <TableCell>
             <Typography variant='body4'>-</Typography>
           </TableCell>

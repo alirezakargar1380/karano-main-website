@@ -101,8 +101,8 @@ export default function CartDialog({
   };
 
   const NewProductSchema = Yup.object().shape({
-    profile_type: (algorithm === EAlgorithm.cover_sheet) ? Yup.number() : Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است'),
-    cover_type: Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است'),
+    profile_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
+    cover_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
     frame_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm),
@@ -199,6 +199,7 @@ export default function CartDialog({
         cover_type: item?.cover_type?.id || 0,
         profile_type: item?.profile_type?.id || 0,
         frame_type: item?.frame_type?.id || 0,
+        inlaid_flower: item.inlaid_flower !== null && (item.inlaid_flower === true) ? '1' : '0',
         dimension: {
           length: item.dimension?.length || 0,
           width: item.dimension?.width || 0,
