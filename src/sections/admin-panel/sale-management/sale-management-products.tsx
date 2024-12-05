@@ -18,6 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useGetOrderProducts } from "src/api/order-products";
 import { ECoatingTexture, ECoverEdgeTape } from "src/types/cart";
+import { translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
 
 interface Props {
     // orderProducts: IOrderProductItem[]
@@ -328,7 +329,7 @@ function SaleManagementProductItem({
 
                                         {property.cover_edge_tape !== ECoverEdgeTape.none && (
                                             <TableCell>
-                                                {property.cover_edge_tape}
+                                                {translateCoverEdgeTape(property.cover_edge_tape)}
                                             </TableCell>
                                         )}
 

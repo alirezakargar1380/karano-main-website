@@ -17,6 +17,17 @@ import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 // ----------------------------------------------------------------------
 
+export function translateCoverEdgeTape(coverEdgeTape: ECoverEdgeTape) {
+  switch (coverEdgeTape) {
+    case ECoverEdgeTape.length_width:
+      return '1 طول و 1 عرض';
+    case ECoverEdgeTape.sides:
+      return '4 طرف';
+    default:
+      return '';
+  }
+}
+
 type Props = {
   row: ICartItem;
   index?: number;
@@ -117,12 +128,7 @@ export default function CartTableRow({
         {(!!cover_edge_tape) && (
           <TableCell>
             <Typography variant='body4'>
-              {(
-                cover_edge_tape === ECoverEdgeTape.length_width && '1 طول و 1 عرض' ||
-                cover_edge_tape === ECoverEdgeTape.does_not_have && 'ندارد' ||
-                cover_edge_tape === ECoverEdgeTape.sides && '4 طرف' ||
-                ''
-              )}
+              {translateCoverEdgeTape(cover_edge_tape)}
             </Typography>
           </TableCell>
         )}
