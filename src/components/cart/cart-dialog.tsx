@@ -120,8 +120,8 @@ export default function CartDialog({
     }),
     quantity: 1,
     dimension: {
-      length: 0,
-      width: 0,
+      length: '',
+      width: '',
     },
     profile_type: 0,
     cover_type: 0,
