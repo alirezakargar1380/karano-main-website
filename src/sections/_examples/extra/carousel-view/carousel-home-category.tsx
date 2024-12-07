@@ -105,9 +105,8 @@ export function CarouselComponent({ children, length, slidesToShow = 4, dots, la
     slidesToShow: slidesToShow,
     infinite: false,
     initialSlide: length - slidesToShow,
-    // slidesToShow: 10,
     swipeToSlide: true,
-    // draggable: true,
+    draggable: true,
     centerMode: false,
     ...(dots && CarouselDots({
       rounded: true,
@@ -148,8 +147,6 @@ export function CarouselComponent({ children, length, slidesToShow = 4, dots, la
     //   },
     // ],
   });
-
-  const router = useRouter();
 
   return (
     <CarouselArrowsCustom
