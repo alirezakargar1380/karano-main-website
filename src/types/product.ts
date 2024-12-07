@@ -138,6 +138,7 @@ export type IProductItem = {
   images: IProductImage[];
   quantity: number;
   category: ICategory;
+  related_category: ICategory;
   is_user_favorite: boolean;
   description: string;
   createdAt: Date;

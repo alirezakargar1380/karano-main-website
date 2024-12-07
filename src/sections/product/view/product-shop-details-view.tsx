@@ -65,6 +65,7 @@ export default function ProductShopDetailsView({ id }: Props) {
   const { product, productLoading, productError } = useGetProduct(id);
 
   const { products, favProductIds, isLoading } = useGetCategoryProducts(product?.category?.id);
+  const related_category = useGetCategoryProducts(product?.related_category?.id);
 
   const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -125,7 +126,7 @@ export default function ProductShopDetailsView({ id }: Props) {
         <CarouselProducts data={products} label={'سایر ' + product?.category?.name} />
       </Box>
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5 }}>
-        <CarouselProducts data={products} label={'محصولات مرتبط ' + product?.category?.name} />
+        <CarouselProducts data={related_category.products} label={'محصولات مرتبط ' + product?.category?.name} />
       </Box>
 
       {/* <Card>

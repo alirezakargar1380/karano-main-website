@@ -182,8 +182,8 @@ export default function ProductDetailsCarousel({ product }: Props) {
                 cursor: 'zoom-in',
                 border: '1px solid #E0E0E0',
                 borderRadius: '18px',
-                width: 1,
-                height: 1
+                width: 680,
+                height: 680
               }}
             />
           ))}
