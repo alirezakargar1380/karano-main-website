@@ -35,6 +35,17 @@ export default function RHFPhoneInput({ name, custom_label, helperText, ISx, sx,
     }
   };
 
+  const handleClick = (value: any) => {
+    const input = value.split(' ');
+    if (input[1]?.length !== 3) {
+      document.getElementById(`phone-input-${1}`)?.focus();
+    } else if (input[2]?.length !== 3) {
+      document.getElementById(`phone-input-${2}`)?.focus();
+    } else if (input[3]?.length !== 4) {
+      document.getElementById(`phone-input-${3}`)?.focus();
+    }
+  }
+
   const handleOnKeyDown = (event: React.KeyboardEvent<HTMLDivElement>, index: number, value: string, maxLength: number) => {
     const currentValue = value.split(' ')[index];
     if ((event.key === 'Backspace' || event.keyCode === 8)) {
@@ -64,7 +75,19 @@ export default function RHFPhoneInput({ name, custom_label, helperText, ISx, sx,
           {(custom_label) && (
             <Typography fontFamily={'peyda-bold'} sx={{ mb: '8px', display: 'block' }} variant='body3'>{custom_label}</Typography>
           )}
-          <Box display="flex" sx={{ direction: 'rtl' }} alignItems={'center'} border={!error ? '1px solid #D1D1D1' : '1px solid #FF5630'} borderRadius={'8px'} px={'12px'}>
+          <Box
+            display="flex"
+            sx={{ direction: 'rtl' }}
+            alignItems={'center'}
+            border={!error ? '1px solid #D1D1D1' : '1px solid #FF5630'}
+            borderRadius={'8px'}
+            px={'12px'}
+            onClick={(e) => {
+              // Stop event propagation
+              e.stopPropagation();
+              handleClick(field.value)
+            }}
+          >
             <Box display={'flex'} alignItems={'center'} sx={{ color: '#919EAB' }}>
               +
               <TextField
