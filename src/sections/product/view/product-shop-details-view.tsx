@@ -122,9 +122,7 @@ export default function ProductShopDetailsView({ id }: Props) {
       </Stack>
 
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5, mb: 5 }}>
-        {!isLoading && (
-          <CarouselProducts data={products} label={'سایر ' + product?.category?.name} />
-        )}
+        <CarouselProducts data={products} label={'سایر ' + product?.category?.name} />
       </Box>
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5 }}>
         <CarouselProducts data={products} label={'محصولات مرتبط ' + product?.category?.name} />
