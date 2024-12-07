@@ -1,6 +1,3 @@
-import Card from '@mui/material/Card';
-
-import Image from 'src/components/image';
 import Carousel, { useCarousel, CarouselArrowIndex } from 'src/components/carousel';
 import { Box, Button, Container, Divider, Grid, IconButton, Typography } from '@mui/material';
 import { Stack, SxProps, Theme } from '@mui/system';
@@ -11,8 +8,8 @@ import SvgColor from 'src/components/svg-color';
 import ProductItemSlider from 'src/sections/product/product-slider-item';
 import { useGetCategories, useGetCategoryProducts } from 'src/api/category';
 import { useRouter, useSearchParams } from 'src/routes/hooks';
-import { useCallback, useEffect } from 'react';
-import { TextAnimate } from 'src/components/animation/text-animation';
+import { useCallback, useEffect, useState } from 'react';
+import { ICategory } from 'src/types/category';
 // ----------------------------------------------------------------------
 
 type Props = {
@@ -20,6 +17,7 @@ type Props = {
 };
 
 export default function CarouselBasic1({ sx }: Props) {
+  const [category, setCategory] = useState<ICategory | undefined>();
 
   const router = useRouter();
 
@@ -35,6 +33,12 @@ export default function CarouselBasic1({ sx }: Props) {
   const selectedCategoryId = searchParams.get('category') || '';
 
   const { products, favProductIds } = useGetCategoryProducts(selectedCategoryId);
+
+  useEffect(() => {
+    setCategory(categories.find((category) => category.id === Number(selectedCategoryId)));
+  }, [selectedCategoryId, categories]);
+
+  console.log(category)
 
   const onNext = useCallback(() => {
     carousel.onPrev();
@@ -75,7 +79,7 @@ export default function CarouselBasic1({ sx }: Props) {
       <Grid container spacing={'40px'}>
         <Grid sx={{ pb: 5, pr: '24px' }} md={3} xs={12} item>
           <Typography variant='heading1'>
-            {categories.find((category) => category.id === Number(selectedCategoryId))?.name || ''}
+            {category?.name || ''}
             {/* <TextAnimate
               text={categories.find((category) => category.id === Number(selectedCategoryId))?.name || ''}
               sx={{
@@ -103,18 +107,17 @@ export default function CarouselBasic1({ sx }: Props) {
             </IconButton>
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
-          <Stack sx={{ py: '16px', pl: 0 }} spacing={'16px'}>
-            <Typography variant='title2' sx={{ listStyleType: 'initial' }} display={'list-item'}>
-              مونتاژ شده
-            </Typography>
-            <Typography variant='title2' sx={{ listStyleType: 'initial' }} display={'list-item'}>
-              قابلیت ثبت ابعاد سفارشی
-            </Typography>
+          <Stack sx={{ py: '16px', pl: 2.5 }} spacing={'16px'}>
+            {category?.attributes?.split('،').map((word: string, index: number) => (
+              <Typography key={index} variant='title2' sx={{ listStyleType: 'initial' }} display={'list-item'}>
+                {word}
+              </Typography>
+            ))}
           </Stack>
           <Divider sx={{ borderStyle: 'solid' }} />
           <Typography variant='body2' sx={{ pt: '16px' }}>
             <m.span {...varFade().in}>
-              یک خرید اینترنتی مطمئن، نیازمند فروشگاهی است که بتواند کالاهایی متنوع، باکیفیت و دارای قیمت مناسب را در مدت زمانی کوتاه به دست مشتریان خود برساند و ضمانت بازگشت کالا هم داشته باشد؛ ویژگی‌هایی که فروشگاه اینترنتی کارانو مدت‌هاست بر روی آن‌ها کار کرده و توانسته از این طریق مشتریان ثابت خود را داشته باشد.
+              {category?.description}
             </m.span>
           </Typography>
         </Grid>
