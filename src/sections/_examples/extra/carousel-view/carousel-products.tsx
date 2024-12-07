@@ -1,77 +1,25 @@
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import CardContent from '@mui/material/CardContent';
-
-import Image from 'src/components/image';
-import Carousel, { useCarousel, CarouselArrowIndex, CarouselArrows, CarouselDots } from 'src/components/carousel';
+import { useCarousel, CarouselDots } from 'src/components/carousel';
 import ProductItemSlider from 'src/sections/product/product-slider-item';
 import { Box } from '@mui/system';
-import CarouselArrowsCustom from 'src/components/carousel/carousel-arrows-custom';
-import { bgGradient } from 'src/theme/css';
-import { alpha, useTheme } from '@mui/material/styles';
 import { CarouselComponent } from './carousel-home-category';
+import { IProductItem } from 'src/types/product';
 
 // ----------------------------------------------------------------------
 
 type Props = {
   label?: string;
-  data: {
-    id: string;
-    title: string;
-    coverUrl: string;
-    description: string;
-  }[];
+  data: IProductItem[];
 };
 
-export default function CarouselProducts({ data, label }: Props) {
-  const carousel = useCarousel({
-    fade: false,
-    autoplay: false,
-    slidesToShow: 4,
-    // draggable: true,
-    rtl: true,
-    ...CarouselDots({
-      rounded: true,
-      label: label,
-      tvariant: 'title1',
-      sx: {
-        top: 10,
-        // right: 20,
-        zIndex: 101,
-        px: '10px',
-        position: 'absolute',
-        color: '#000!important',
-      },
-    }),
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 800,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1, centerPadding: '20' },
-      },
-    ],
-  });
+export default function CarouselProducts({ data, label = '!پرفروش ها' }: Props) {
 
   return (
     <Box sx={{ position: 'relative' }}>
-      <CarouselComponent length={data.length} dots label='!پرفروش ها'>
+      <CarouselComponent length={data.length} dots label={label}>
         {data.map((item, index) => (
           <Box key={index} sx={{ mt: 10, px: '8px', direction: 'ltr' }}>
             <ProductItemSlider
-              product={{
-                id: 1,
-                coverUrl: 'http://localhost:4998/api/images/Fri Oct 11 2024_0d00f3ff-dd47-48fd-989f-cacccb156afa.jpg',
-                name: 'درب کابینتی',
-                code: '65',
-              }}
+              product={item}
             />
           </Box>
         ))}

@@ -33,7 +33,7 @@ export function useGetCategoryProducts(id: any) {
 
     const memoizedValue = useMemo(
         () => ({
-            categoryLoading: isLoading,
+            isLoading,
             // productsError: error,
             favProductIds: (data?.favProductIds as number[]) || [],
             products: (data?.data as IProductItem[]) || []

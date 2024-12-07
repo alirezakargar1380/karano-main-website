@@ -25,6 +25,7 @@ import CarouselProducts from 'src/sections/_examples/extra/carousel-view/carouse
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import { ProductOrderType } from 'src/types/product';
 import { Stack } from '@mui/material';
+import { useGetCategoryProducts } from 'src/api/category';
 
 // ----------------------------------------------------------------------
 
@@ -62,6 +63,8 @@ export default function ProductShopDetailsView({ id }: Props) {
   const [currentTab, setCurrentTab] = useState('description');
 
   const { product, productLoading, productError } = useGetProduct(id);
+
+  const { products, favProductIds, isLoading } = useGetCategoryProducts(product?.category?.id);
 
   const handleChangeTab = useCallback((event: React.SyntheticEvent, newValue: string) => {
     setCurrentTab(newValue);
@@ -119,10 +122,12 @@ export default function ProductShopDetailsView({ id }: Props) {
       </Stack>
 
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5, mb: 5 }}>
-        <CarouselProducts data={_carouselsExample.slice(0, 8)} label='سایر درب‌های کابینتی' />
+        {!isLoading && (
+          <CarouselProducts data={products} label={'سایر ' + product?.category?.name} />
+        )}
       </Box>
       <Box sx={{ borderTop: '1px solid #D1D1D1', pt: 5 }}>
-        <CarouselProducts data={_carouselsExample.slice(0, 8)} label='محصولات مرتبط با درب‌های کابینتی' />
+        <CarouselProducts data={products} label={'محصولات مرتبط ' + product?.category?.name} />
       </Box>
 
       {/* <Card>

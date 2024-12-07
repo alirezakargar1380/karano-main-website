@@ -1,5 +1,6 @@
 // ----------------------------------------------------------------------
 
+import { ICategory } from "./category";
 import { ICheckoutItemPropertyPrice } from "./checkout";
 import { IOrderProductPropertyStatus } from "./order-products-property";
 
@@ -120,7 +121,10 @@ export type IProductItem = {
   name: string;
   status: string;
   product_dimension: IProductDimension[];
-  code: string;
+  code: {
+    id: number;
+    code: string;
+  };
   price: number;
   taxes: number;
   tags: string[];
@@ -133,7 +137,7 @@ export type IProductItem = {
   coverUrl: string;
   images: IProductImage[];
   quantity: number;
-  category: string;
+  category: ICategory;
   is_user_favorite: boolean;
   description: string;
   createdAt: Date;
