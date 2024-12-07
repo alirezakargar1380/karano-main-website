@@ -12,7 +12,7 @@ type Props = {
 
 export default function CarouselProducts({ data, label = '!پرفروش ها' }: Props) {
 
-  return (data.length) && (
+  return (data.length > 0) && (
     <Box sx={{ position: 'relative' }}>
       <CarouselComponent length={data.length} dots label={label}>
         {data.map((item, index) => (
