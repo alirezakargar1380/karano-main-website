@@ -24,7 +24,7 @@ const StyledThumbnailsContainer = styled('div')<{ length: number }>(({ length, t
   '& .slick-slide': {
     lineHeight: 0,
   },
-  maxWidth: '140px',
+  maxWidth: 140 * length + 16,
   // maxHeight: '140px',
   // ...(length === 1 && {
   //   maxWidth: THUMB_SIZE * 1 + 16,
@@ -200,21 +200,21 @@ export default function ProductDetailsCarousel({ product }: Props) {
         ref={carouselThumb.carouselRef}
       >
         {slides.map((item, index) => (
-          <Box key={item.src} sx={{ width: 140, height: 140 }}>
+          <Box key={item.src} sx={{ }}>
             <Image
               key={item.src}
               alt={item.src}
               src={item.src}
-              ratio='1/1'
               onClick={() => carouselLarge.onTogo(index)}
               sx={{
+                width: 140, height: 140,
                 mx: 'auto',
                 opacity: 0.48,
                 cursor: 'pointer',
                 borderRadius: '8px',
                 ...(carouselLarge.currentIndex === index && {
                   opacity: 1,
-                  border: `solid 1px #727272`,
+                  border: `solid 3px #727272`,
                 }),
               }}
             />
