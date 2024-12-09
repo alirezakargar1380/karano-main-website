@@ -484,7 +484,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(formOptions.coating_type) && (
+                    {(algorithm === EAlgorithm.cabinet_door) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'
@@ -598,7 +598,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(formOptions.inlaid_flower) && (
+                    {(algorithm === EAlgorithm.cabinet_cloumn) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'
