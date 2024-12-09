@@ -195,6 +195,8 @@ export default function CartDialogView({
     infoDialog,
     values,
 }: Props) {
+    console.log(values);
+
     const [ind, setInd] = useState<number | undefined>();
     const { show, update } = useShowOneTime("spot-light");
     const [maxHeight, setMaxHeight] = useState(400);
@@ -633,7 +635,7 @@ export default function CartDialogView({
                     )}
 
 
-                    {(values.inlaid_flower === false || values.inlaid_flower === "0") && (
+                    {(values.inlaid_flower == false || values.inlaid_flower === "0") && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <RHFTitleTextField name='inlaid_flower_emty_space' custom_label='زمینه خالی جهت منبت (سانتی متر)' placeholder='26' />
                         </Box>
