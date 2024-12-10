@@ -1,5 +1,5 @@
 import { Link, Stack } from "@mui/material";
-import { IProductItem } from "src/types/product";
+import { IProductItem, ProductOrderType } from "src/types/product";
 import Image from 'src/components/image';
 import { Box, Button, Divider, Grid, IconButton, Typography } from '@mui/material';
 import Iconify from 'src/components/iconify';
@@ -118,7 +118,8 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                 },
                 textAlign: 'left'
             }}>
-                {product?.name}
+                {product.order_type === ProductOrderType.ready_to_use
+                ? product?.code?.name + " کد " + product?.code?.code : product?.name}
             </Typography>
             <Stack direction={'row'} mt={'4px'} sx={{ textAlign: 'right', alignItems: 'center' }}>
                 <IconButton

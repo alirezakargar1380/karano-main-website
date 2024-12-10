@@ -123,6 +123,7 @@ export type IProductItem = {
   product_dimension: IProductDimension[];
   code: {
     id: number;
+    name: string;
     code: string;
   };
   price: number;
