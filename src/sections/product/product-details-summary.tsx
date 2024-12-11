@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 
-import { IProductItem, ProductOrderType } from 'src/types/product';
+import { EAlgorithm, IProductItem, ProductOrderType } from 'src/types/product';
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
@@ -76,7 +76,11 @@ export default function ProductDetailsSummary({
     dimension_id: 0,
     cover_type_id: 0,
     quantity: 1,
-    need_to_assemble: false
+    need_to_assemble: false,
+    order_form_options: {
+      profile_type: { id: 0 },
+      coating_type: ''
+    }
   };
 
   const methods = useForm<ICheckoutItem | any>({
@@ -101,10 +105,10 @@ export default function ProductDetailsSummary({
       if (product.order_type === ProductOrderType.custom_made) {
         cartDialog.onTrue();
       } else {
-        handleAddCartReadyProduct();
+        handleAddCartReadyProduct(data);
       }
 
-      
+
       if (!existProduct) {
         // onAddCart?.({
         //   ...data,
@@ -119,7 +123,7 @@ export default function ProductDetailsSummary({
     }
   });
 
-  const handleAddCartReadyProduct = useCallback(async () => {
+  const handleAddCartReadyProduct = useCallback(async (data: any) => {
     try {
       const dimension = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
       const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
@@ -130,7 +134,8 @@ export default function ProductDetailsSummary({
           {
             quantity: values.quantity,
             dimension: dimension,
-            cover_type
+            cover_type,
+            ...data.order_form_options
           }
         ]
       })
@@ -200,9 +205,7 @@ export default function ProductDetailsSummary({
   const renderSubDescription = (
     <Box sx={{ width: 1, mt: 2 }}>
       <Typography variant="body1" sx={{ pb: 2 }} fontFamily={'peyda-bold'} borderBottom={'1px solid #D1D1D1'}>
-        {/* قرنیز لب گرد، ابعاد 300*100*100، روکش خام */}
         <ProductItemsSummary values={values} cover_type={product.order_form_options?.cover_type} dimension={product.product_dimension} />
-        {/* {product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)?.name || '' + ","} */}
       </Typography>
     </Box>
   );
@@ -233,6 +236,74 @@ export default function ProductDetailsSummary({
             label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',
             value: dimension.id
           };
+        })}
+      />
+    </Box>
+  )
+
+  const renderCoatingType = (product.algorithm === EAlgorithm.cabinet_door) && (
+    <Box sx={{ width: 1 }}>
+      <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+        width: 1, pb: '16px'
+      }}>
+        نوع روکش گیری
+      </Typography>
+      <RHFRadioGroup
+        name='coating_type'
+        row
+        sx={{
+          width: 1,
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            md: 'repeat(2, 1fr)',
+          },
+        }}
+        FormControlSx={{
+          width: 1
+        }}
+        helperText={'روکش‌گیری جناقی به صورت هشتی انجام می‌شود.'}
+        options={[
+          {
+            label: 'جناقی',
+            value: 'جناقی'
+          },
+          {
+            label: 'غیر جناقی',
+            value: 'غیر جناقی'
+          }
+        ]}
+      />
+    </Box>
+  )
+
+  const renderProfiles = (!!order_form_options?.profile_type.length) && (
+    <Box sx={{ width: 1 }}>
+      <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
+        width: 1, pb: '16px'
+      }}>
+        نوع پروفیل
+      </Typography>
+
+      <RHFRadioGroup
+        name='order_form_options.profile_type.id'
+        row
+        sx={{
+          width: 1,
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            md: 'repeat(2, 1fr)',
+          },
+        }}
+        FormControlSx={{
+          width: 1
+        }}
+        options={order_form_options.profile_type.map((profile_type) => {
+          return {
+            label: profile_type.name,
+            value: profile_type.id,
+          }
         })}
       />
     </Box>
@@ -347,7 +418,11 @@ export default function ProductDetailsSummary({
                 {renderDimensions}
                 {/* {renderRating} */}
 
+                {renderProfiles}
+
                 {renderCovertype}
+
+                {renderCoatingType}
 
                 {renderQuantity}
 
