@@ -241,7 +241,7 @@ export default function ProductDetailsSummary({
     </Box>
   )
 
-  const renderCoatingType = (product.algorithm === EAlgorithm.cabinet_door) && (
+  const renderCoatingType = (order_form_options?.coating_type) && (
     <Box sx={{ width: 1 }}>
       <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
         width: 1, pb: '16px'
