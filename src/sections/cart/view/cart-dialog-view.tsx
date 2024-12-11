@@ -320,7 +320,7 @@ export default function CartDialogView({
                 ...disable,
                 coating_type: true
             })
-            setValue('coating_type', CoatingType.emty)
+            setValue('coating_type', CoatingType.none)
         }
 
     }, [values.frame_type, values.cover_type])

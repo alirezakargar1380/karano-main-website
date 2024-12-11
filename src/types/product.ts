@@ -39,8 +39,7 @@ export type IProductDimension = {
 export enum CoatingType {
   jenagi = 'جناقی',
   none_jenagi = 'غیر جناقی',
-  none = '',
-  emty = '-'
+  none = ''
 }
 
 export type IProductCoverType = {
