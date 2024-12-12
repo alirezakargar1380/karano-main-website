@@ -118,8 +118,11 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                 },
                 textAlign: 'left'
             }}>
-                {product.order_type === ProductOrderType.ready_to_use
-                ? product?.code?.name + " کد " + product?.code?.code : product?.name + " کد " + product?.code?.code}
+                {product?.name}
+
+                {/* {product.order_type === ProductOrderType.ready_to_use
+                ? product?.code?.name + " کد " + product?.code?.code : product?.name + " کد " + product?.code?.code} */}
+
                 {/* {product.order_type === ProductOrderType.ready_to_use
                 ? product?.code?.name + " کد " + product?.code?.code : product?.name} */}
             </Typography>
@@ -140,7 +143,7 @@ export default function ProductItemSlider({ product, favorite = false }: Props) 
                         <SvgColor src="/assets/icons/product/save-icon-products.svg" color={"#fff"} sx={{ width: 20, height: 20 }} />
                     }
                 </IconButton>
-                {/* <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} variant="body2">کد {product?.code?.code}</Typography> */}
+                <Typography sx={{ pt: 0.5, pl: 1, fontSize: '16px' }} variant="body2">کد {product?.code?.code}</Typography>
             </Stack>
             </Link>
         </Box>
