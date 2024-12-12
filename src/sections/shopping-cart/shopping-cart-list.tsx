@@ -238,6 +238,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                                 {item.properties?.map((property_price, ind: number) => (
                                                     <CartTableRow
                                                         key={ind}
+                                                        algorithm={item.product.algorithm}
                                                         isLastOne={(item.properties.length === 1)}
                                                         product_name={item?.product?.name || ''}
                                                         onDeleteRow={() => deleteHandler(item, property_price.id, item.properties.length)}

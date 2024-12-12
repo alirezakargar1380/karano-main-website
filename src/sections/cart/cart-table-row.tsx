@@ -14,6 +14,7 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { pxToRem } from 'src/theme/typography';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
+import { EAlgorithm } from 'src/types/product';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +34,7 @@ type Props = {
   index?: number;
   indexEqual?: number;
   selected?: boolean;
+  algorithm?: EAlgorithm;
   type?: 'cart' | 'edit' | 'view';
   isLastOne?: boolean;
   product_name?: string;
@@ -46,6 +48,7 @@ export default function CartTableRow({
   indexEqual,
   selected,
   type,
+  algorithm,
   isLastOne = false,
   product_name,
   onDeleteRow,
@@ -101,7 +104,7 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!final_coating) && (
+        {(!!final_coating ) && (
           <TableCell>
             <Typography variant='body4'>{final_coating}</Typography>
           </TableCell>
@@ -152,9 +155,9 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!coating) && (
+        {(algorithm === EAlgorithm.cabinet_door) && (
           <TableCell>
-            <Typography variant='body4'>{coating}</Typography>
+            <Typography variant='body4'>{coating || '-'}</Typography>
           </TableCell>
         )}
 

@@ -266,6 +266,9 @@ export default function CartDialogView({
                 if (values.coating_type)
                     newDisable.dimension = false
 
+                if (findFrame?.is_glass === true || findCover?.is_raw === true)
+                    newDisable.dimension = false
+
                 break;
             case EAlgorithm.cabinet_cloumn:
 
@@ -296,7 +299,7 @@ export default function CartDialogView({
                 inlaid_flower: false,
                 dimension: false
             })
-        }
+        } 
         // else {
         //     setDisable({
         //         profile_type: false,
@@ -697,6 +700,7 @@ export default function CartDialogView({
                                         indexEqual={ind}
                                         onDeleteRow={() => onDelete(item.id || index)}
                                         onEditRow={() => onUpdate(index)}
+                                        algorithm={algorithm}
                                         selected={(listIndex === index)}
                                         type={type}
                                         row={{
