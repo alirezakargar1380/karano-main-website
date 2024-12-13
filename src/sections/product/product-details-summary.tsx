@@ -400,6 +400,7 @@ export default function ProductDetailsSummary({
       <CartDialog
         dialog={cartDialog}
         algorithm={product.algorithm}
+        order_type={product.order_type}
         order_form_id={product.order_form_options.id}
         product_name={product.name}
         onAddCart={handleAddCartCustomMadeProduct}
