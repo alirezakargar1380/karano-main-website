@@ -87,9 +87,9 @@ export default function CartTableRow({
         }}
       >
 
-        {(!!profile_type) && (
+        {(!!profile_type || algorithm === EAlgorithm.cabinet_door) && (
           <TableCell sx={{ display: 'flex', alignItems: 'center', width: 180 }}>
-            <Typography variant='body4'>{profile_type}</Typography>
+            <Typography variant='body4'>{profile_type || '-'}</Typography>
             {(type === 'edit') && (
               <>
                 {(status === IOrderProductPropertyStatus.denied) && (
