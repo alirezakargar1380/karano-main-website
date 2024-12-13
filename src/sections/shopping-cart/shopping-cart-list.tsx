@@ -161,6 +161,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
             dialog={cartDialog}
             order_form_id={checkoutItem.product.order_form_options.id}
             product_name={checkoutItem.product.name}
+            order_type={checkoutItem.product.order_type}
             algorithm={checkoutItem.product.algorithm}
             listId={propertyId}
             listData={checkoutItem.properties}
@@ -243,6 +244,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                                         product_name={item?.product?.name || ''}
                                                         onDeleteRow={() => deleteHandler(item, property_price.id, item.properties.length)}
                                                         onEditRow={(property_price?.status !== IOrderProductPropertyStatus.approve) ? () => handleEdit(item, ind) : undefined}
+                                                        order_type={item.product.order_type}
                                                         type={type}
                                                         row={{
                                                             ...property_price,

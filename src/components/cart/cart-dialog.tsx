@@ -21,7 +21,7 @@ import { ConfirmDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
-import { CoatingType, EAlgorithm } from 'src/types/product';
+import { CoatingType, EAlgorithm, ProductOrderType } from 'src/types/product';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
 // ----------------------------------------------------------------------
@@ -29,6 +29,7 @@ interface Props {
   dialog: useBooleanReturnType;
   order_form_id: number;
   product_name: string;
+  order_type: ProductOrderType;
   algorithm?: EAlgorithm;
   type?: 'cart' | 'edit' | 'view';
   currentData?: ICheckoutItemPropertyPrice | undefined;
@@ -43,6 +44,7 @@ export default function CartDialog({
   dialog,
   order_form_id,
   product_name,
+  order_type,
   algorithm = EAlgorithm.cabinet_door,
   currentData,
   listId,
@@ -61,11 +63,18 @@ export default function CartDialog({
   const [index, setId] = useState<null | number>(null);
 
   // API
-  const { form, formLoading } = useGetOrderForm(order_form_id);
+  const { form, formLoading, formEmpty } = useGetOrderForm(order_form_id);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const getDimensionSchema = (algorithm: EAlgorithm) => {
+  const getDimensionSchema = (algorithm: EAlgorithm, order_type: ProductOrderType) => {
+    if (order_type === ProductOrderType.ready_to_use) {
+      return Yup.object().shape({
+        length: Yup.number(),
+        width: Yup.number(),
+      });
+    }
+
     switch (algorithm) {
       case EAlgorithm.cabinet_door:
         return Yup.object().shape({
@@ -101,11 +110,11 @@ export default function CartDialog({
   };
 
   const NewProductSchema = Yup.object().shape({
-    profile_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
-    cover_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
-    frame_type: (algorithm === EAlgorithm.cabinet_door) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
+    profile_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
+    cover_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
+    frame_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
-    dimension: getDimensionSchema(algorithm),
+    dimension: getDimensionSchema(algorithm, order_type),
     inlaid_flower_emty_space: Yup.number()
       .when('inlaid_flower', {
         is: false,
@@ -363,10 +372,11 @@ export default function CartDialog({
           }}
         >
           <FormProvider methods={methods} onSubmit={onSubmit}>
-            {!formLoading && (
+            {(!formEmpty && !formLoading) && (
               <CartDialogView
                 formOptions={form}
                 data={list}
+                order_type={order_type}
                 listIndex={index}
                 values={values}
                 algorithm={algorithm}

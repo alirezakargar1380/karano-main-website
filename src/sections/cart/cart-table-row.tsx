@@ -14,7 +14,7 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { pxToRem } from 'src/theme/typography';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
-import { EAlgorithm } from 'src/types/product';
+import { EAlgorithm, ProductOrderType } from 'src/types/product';
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +38,7 @@ type Props = {
   type?: 'cart' | 'edit' | 'view';
   isLastOne?: boolean;
   product_name?: string;
+  order_type: ProductOrderType;
   onEditRow?: VoidFunction | undefined;
   onDeleteRow?: VoidFunction | undefined;
 };
@@ -48,6 +49,7 @@ export default function CartTableRow({
   indexEqual,
   selected,
   type,
+  order_type,
   algorithm,
   isLastOne = false,
   product_name,
@@ -149,9 +151,9 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!frame_type) && (
+        {(!!frame_type || algorithm === EAlgorithm.cabinet_door) && (
           <TableCell>
-            <Typography variant='body4'>{frame_type}</Typography>
+            <Typography variant='body4'>{frame_type || '-'}</Typography>
           </TableCell>
         )}
 
@@ -161,11 +163,13 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        <TableCell>
-          <Typography variant='body4'>{dimensions}</Typography>
-        </TableCell>
+        {(order_type === ProductOrderType.custom_made) && (
+          <TableCell>
+            <Typography variant='body4'>{dimensions}</Typography>
+          </TableCell>
+        )}
 
-        <TableCell sx={{}}>
+        <TableCell>
           <Box sx={{ display: 'flex', alignItems: 'center', fontFamily: 'peyda-medium', gap: '8px' }}>
             <Typography variant='body4'>{quality}</Typography>
             {(rejection_reason) && (
@@ -197,16 +201,18 @@ export default function CartTableRow({
             )}
             {(onDeleteRow && status !== IOrderProductPropertyStatus.approve && type !== 'view') && (
               <Tooltip title="حذف کالا" arrow>
-                <IconButton
-                  color={'default'}
-                  onClick={() => {
-                    (isLastOne) ? confirmLast.onTrue() : confirm.onTrue()
-                  }}
-                  className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''}
-                  disabled={!!selected}
-                >
-                  <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
-                </IconButton>
+                <span>
+                  <IconButton
+                    color={'default'}
+                    onClick={() => {
+                      (isLastOne) ? confirmLast.onTrue() : confirm.onTrue()
+                    }}
+                    className={(index === indexEqual && status === IOrderProductPropertyStatus.denied) ? 'del' : ''}
+                    disabled={!!selected}
+                  >
+                    <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
+                  </IconButton>
+                </span>
               </Tooltip>
             )}
           </Stack>

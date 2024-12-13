@@ -82,7 +82,7 @@ export default function ProductDetailsPrice({
                 :
                 <>
                     <Typography variant="body2">
-                        {toFarsiNumber(fCurrency(newPrice?.price))}
+                        {toFarsiNumber(fCurrency(newPrice?.price * quantity))}
                     </Typography>
 
                     <Typography variant="caption2">ریال</Typography>

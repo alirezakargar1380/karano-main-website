@@ -97,6 +97,7 @@ interface Props {
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
     algorithm: EAlgorithm;
+    order_type: ProductOrderType;
     type?: 'cart' | 'edit' | 'view';
     onUpdate: (id: number) => void
     onDelete: (propertyId: number) => void
@@ -195,10 +196,10 @@ export default function CartDialogView({
     onUpdate,
     onDelete,
     setValue,
+    order_type,
     infoDialog,
     values,
 }: Props) {
-    console.log(values);
 
     const [ind, setInd] = useState<number | undefined>();
     const { show, update } = useShowOneTime("spot-light");
@@ -241,10 +242,10 @@ export default function CartDialogView({
     }, []);
 
     useEffect(() => {
-        if (!infoDialog && !show)
-            setTimeout(() => setState({ ...state, run: true }), 1000 / 2);
+        if (!infoDialog && !show && data.find((item) => item.status === IOrderProductPropertyStatus.denied) )
+            setTimeout(() => setState({ ...state, run: true }), 1000);
         else
-            setTimeout(() => setState({ ...state, run: false }), 1000 / 2);
+            setTimeout(() => setState({ ...state, run: false }), 1000);
     }, [infoDialog])
 
     useEffect(() => {
@@ -339,8 +340,6 @@ export default function CartDialogView({
             setState({ ...state, run: false })
         }
     };
-
-
 
     return (
         <Box sx={{ px: '40px' }}>
@@ -490,7 +489,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(algorithm === EAlgorithm.cabinet_door) && (
+                    {(formOptions.coating_type === true) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'
@@ -648,27 +647,31 @@ export default function CartDialogView({
                     )}
 
                     <Box sx={{ py: "24px" }}>
-                        <Typography
-                            variant="title3"
-                            fontFamily={'peyda-bold'}
-                            sx={{
-                                width: 1, pb: '16px'
-                            }}
-                        >
-                            ابعاد
-                        </Typography>
-                        <Stack direction={'row'}
-                            spacing={2}
-                            columnGap={2}
-                            rowGap={3}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}>
-                            <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
-                            <RHFTitleTextField name='dimension.length' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
-                        </Stack>
+                        {(order_type === ProductOrderType.custom_made) && (
+                            <>
+                                <Typography
+                                    variant="title3"
+                                    fontFamily={'peyda-bold'}
+                                    sx={{
+                                        width: 1, pb: '16px'
+                                    }}
+                                >
+                                    ابعاد
+                                </Typography>
+                                <Stack direction={'row'}
+                                    spacing={2}
+                                    columnGap={2}
+                                    rowGap={3}
+                                    display="grid"
+                                    gridTemplateColumns={{
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    }}>
+                                    <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
+                                    <RHFTitleTextField name='dimension.length' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                                </Stack>
+                            </>
+                        )}
                         <Typography variant="body3" fontFamily={'peyda-bold'} sx={{
                             width: 1, pb: '8px', pt: '24px'
                         }}>
@@ -693,7 +696,7 @@ export default function CartDialogView({
                                     backgroundColor: '#F2F2F2'
                                 }}
                                 cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                headLabel={getHeadLabel(algorithm, ProductOrderType.custom_made)}
+                                headLabel={getHeadLabel(algorithm, order_type)}
                             />
                             <TableBody>
                                 {data.map((item, index: number) => (
@@ -704,6 +707,7 @@ export default function CartDialogView({
                                         onDeleteRow={() => onDelete(item.id || index)}
                                         onEditRow={() => onUpdate(index)}
                                         algorithm={algorithm}
+                                        order_type={order_type}
                                         selected={(listIndex === index)}
                                         type={type}
                                         row={{

@@ -16,9 +16,9 @@ export function useGetOrderForm(id: number) {
     () => ({
       form: (data as IProductDefaultDetails) || {},
       formLoading: isLoading,
-    //   productsError: error,
-    //   productsValidating: isValidating,
-    //   productsEmpty: !isLoading && !data?.products.length,
+      //   productsError: error,
+      //   productsValidating: isValidating,
+      formEmpty: !isLoading && !Object.keys(data).length,
     }),
     // [data, error, isLoading, isValidating]
     [data]
