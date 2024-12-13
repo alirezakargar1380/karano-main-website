@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
 import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
-import { CoatingType, EAlgorithm, IProductDefaultDetails } from 'src/types/product';
+import { CoatingType, EAlgorithm, IProductDefaultDetails, ProductOrderType } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
@@ -29,9 +29,12 @@ import { PrimaryButton } from '../../../components/styles/buttons/primary';
 import { toFarsiNumber } from '../../../utils/change-case';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
-export function getHeadLabel(algorithm: EAlgorithm) {
-    const defult = [
+export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType) {
+    const defult = order_type === ProductOrderType.custom_made ? [
         { id: 'dimension', label: 'ابعاد', width: 110 },
+        { id: 'quntity', label: 'تعداد', width: 110 },
+        { id: 'zzz', width: 88 },
+    ] : [
         { id: 'quntity', label: 'تعداد', width: 110 },
         { id: 'zzz', width: 88 },
     ]
@@ -299,7 +302,7 @@ export default function CartDialogView({
                 inlaid_flower: false,
                 dimension: false
             })
-        } 
+        }
         // else {
         //     setDisable({
         //         profile_type: false,
@@ -690,7 +693,7 @@ export default function CartDialogView({
                                     backgroundColor: '#F2F2F2'
                                 }}
                                 cellSx={{ fontFamily: 'peyda-medium!important' }}
-                                headLabel={getHeadLabel(algorithm)}
+                                headLabel={getHeadLabel(algorithm, ProductOrderType.custom_made)}
                             />
                             <TableBody>
                                 {data.map((item, index: number) => (

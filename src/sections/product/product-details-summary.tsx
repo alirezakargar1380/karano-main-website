@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 
-import { CoatingType, EAlgorithm, IProductItem, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, IProductDefaultDetails, IProductItem, ProductOrderType } from 'src/types/product';
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
@@ -26,6 +26,8 @@ import { useAuthContext } from 'src/auth/hooks';
 
 import { useRouter } from 'src/routes/hooks';
 import { useAuthRedirect } from 'src/auth/guard/auth-guard';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
 // ----------------------------------------------------------------------
 
@@ -65,18 +67,28 @@ export default function ProductDetailsSummary({
     is_user_favorite
   } = product;
 
+  const getOrderFormOptionSchema = (order_form_options: IProductDefaultDetails) => {
+    return Yup.object().shape({
+      ...(order_form_options.cover_type.length && {
+        cover_type: Yup.object().shape({
+          id: Yup.number().notOneOf([0], 'نوع پوشش الزامی است')
+        })
+      }),
+      ...(order_form_options.profile_type.length && {
+        profile_type: Yup.object().shape({
+          id: Yup.number().notOneOf([0], 'نوع پروفیل الزامی است')
+        })
+      }),
+      
+    });
+  };
+
   const [isFavorite, setFavorite] = useState<boolean>(is_user_favorite);
 
   const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
 
   const defaultValues = {
     id,
-    name,
-    coverUrl,
-    price,
-    order_type,
-    dimension_id: 0,
-    cover_type_id: 0,
     quantity: 1,
     need_to_assemble: false,
     order_form_options: {
@@ -86,7 +98,12 @@ export default function ProductDetailsSummary({
     }
   };
 
+  const NewProductSchema = Yup.object().shape({
+    order_form_options: getOrderFormOptionSchema(order_form_options),
+  });
+
   const methods = useForm<ICheckoutItem | any>({
+    resolver: yupResolver(NewProductSchema),
     defaultValues,
   });
 
@@ -98,7 +115,6 @@ export default function ProductDetailsSummary({
     if (product) {
       reset(defaultValues);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -119,16 +135,16 @@ export default function ProductDetailsSummary({
 
   const handleAddCartReadyProduct = useCallback(async (data: any) => {
     try {
-      const dimension = product.product_dimension.find((dimention) => dimention.id == values.dimension_id)
-      const cover_type = product.order_form_options?.cover_type.find((cover_type) => cover_type.id == values.cover_type_id)
+      if (data.order_form_options.cover_type.id === 0) delete data.order_form_options.cover_type;
+      if (data.order_form_options.profile_type.id === 0) delete data.order_form_options.profile_type;
 
       await server_axios.post(endpoints.cart.add, {
-        product_id: values.id,
+        product_id: product.id,
         product_property: [
           {
             quantity: values.quantity,
-            dimension: dimension,
-            cover_type,
+            // dimension: dimension,
+            // cover_type,
             ...data.order_form_options
           }
         ]

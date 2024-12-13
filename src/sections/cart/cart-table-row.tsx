@@ -104,9 +104,9 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!final_coating ) && (
+        {(!!final_coating || algorithm === EAlgorithm.cabinet_door) && (
           <TableCell>
-            <Typography variant='body4'>{final_coating}</Typography>
+            <Typography variant='body4'>{final_coating || '-'}</Typography>
           </TableCell>
         )}
 

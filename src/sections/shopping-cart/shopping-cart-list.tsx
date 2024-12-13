@@ -230,7 +230,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                                             backgroundColor: '#F2F2F2'
                                         }}
                                         // call from func
-                                        headLabel={getHeadLabel(item.product.algorithm)}
+                                        headLabel={getHeadLabel(item.product.algorithm, item.product.order_type)}
                                     />
                                     <TableBody>
                                         {cartDialog.value === false && (
