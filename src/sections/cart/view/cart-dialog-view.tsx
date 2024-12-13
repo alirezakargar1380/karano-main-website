@@ -48,18 +48,32 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
                 ...defult
             ];
         case EAlgorithm.cover_sheet:
-            return [
-                { id: "cover_type", label: "نوار لبه روکش" },
-                { id: "inlaid_flower", label: "بافت روکش" },
-                ...defult
-            ];
+            if (order_type === ProductOrderType.custom_made) {
+                return [
+                    { id: "cover_type", label: "نوار لبه روکش" },
+                    { id: "inlaid_flower", label: "بافت روکش" },
+                    ...defult
+                ];
+            } else {
+                return [
+                    { id: "cover_type", label: "نوار لبه روکش" },
+                    ...defult
+                ];
+            }
         case EAlgorithm.cabinet_cloumn:
-            return [
-                { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
-                { id: "inlaid_flower", label: "گل منبت" },
-                { id: "inlaid_flower_emty_space", label: "زمینه خالی جهت منبت" },
-                ...defult
-            ];
+            if (order_type === ProductOrderType.custom_made) {
+                return [
+                    { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
+                    { id: "inlaid_flower", label: "گل منبت" },
+                    { id: "inlaid_flower_emty_space", label: "زمینه خالی جهت منبت" },
+                    ...defult
+                ];
+            } else {
+                return [
+                    { id: 'createdAt', label: 'پوشش نهایی' },
+                    ...defult
+                ];
+            }
         case EAlgorithm.room_door:
             return [
                 { id: "cover_type", label: "نوار لبه روکش" },
@@ -242,7 +256,7 @@ export default function CartDialogView({
     }, []);
 
     useEffect(() => {
-        if (!infoDialog && !show && data.find((item) => item.status === IOrderProductPropertyStatus.denied) )
+        if (!infoDialog && !show && data.find((item) => item.status === IOrderProductPropertyStatus.denied))
             setTimeout(() => setState({ ...state, run: true }), 1000);
         else
             setTimeout(() => setState({ ...state, run: false }), 1000);
@@ -526,7 +540,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(algorithm === EAlgorithm.cover_sheet) && (
+                    {(algorithm === EAlgorithm.cover_sheet && order_type === ProductOrderType.custom_made) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'
@@ -603,7 +617,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(algorithm === EAlgorithm.cabinet_cloumn) && (
+                    {(algorithm === EAlgorithm.cabinet_cloumn && order_type === ProductOrderType.custom_made) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'

@@ -421,7 +421,7 @@ export default function CartDialog({
                   </>
                 )}
                 {
-                  index === null && type === 'cart' && (
+                  index === null && type === 'cart' && order_type === ProductOrderType.custom_made && (
                     <SecondaryButton size="medium" type="submit" sx={{ width: '400px' }}>
                       افزودن به لیست
                     </SecondaryButton>

@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 
-import { CoatingType, EAlgorithm, IProductDefaultDetails, IProductItem, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, ECoatingTexture, IProductDefaultDetails, IProductItem, ProductOrderType } from 'src/types/product';
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
@@ -79,7 +79,7 @@ export default function ProductDetailsSummary({
           id: Yup.number().notOneOf([0], 'نوع پروفیل الزامی است')
         })
       }),
-      
+
     });
   };
 
@@ -94,7 +94,8 @@ export default function ProductDetailsSummary({
     order_form_options: {
       profile_type: { id: 0 },
       cover_type: { id: 0 },
-      coating_type: ''
+      coating_type: '',
+      coating_texture: ''
     }
   };
 
@@ -364,6 +365,42 @@ export default function ProductDetailsSummary({
     </Box>
   )
 
+  const renderCovertexture = (product.algorithm === EAlgorithm.cover_sheet) && (
+    <Box sx={{ width: 1 }}>
+      <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+        width: 1, pb: '16px'
+      }}>
+        نوع بافت روکش:
+      </Typography>
+      <RHFRadioGroup
+        name='order_form_options.coating_texture'
+        row
+        // disabled={disable.inlaid_flower}
+        sx={{
+          width: 1,
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: 'repeat(1, 1fr)',
+            md: 'repeat(2, 1fr)',
+          },
+        }}
+        FormControlSx={{
+          width: 1
+        }}
+        options={[
+          {
+            label: 'بلوط رگه راست',
+            value: ECoatingTexture.right_vein
+          },
+          {
+            label: 'بلوط موج دار',
+            value: ECoatingTexture.wavy
+          },
+        ]}
+      />
+    </Box>
+  )
+
   const renderQuantity = (
     <Box sx={{ width: 1 }}>
       <Typography
@@ -439,6 +476,8 @@ export default function ProductDetailsSummary({
                 {/* {renderRating} */}
 
                 {renderProfiles}
+
+                {renderCovertexture}
 
                 {renderCovertype}
 
