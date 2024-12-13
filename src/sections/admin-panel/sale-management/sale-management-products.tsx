@@ -286,9 +286,11 @@ function SaleManagementProductItem({
                                             </TableCell>
                                         )}
 
-                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                            ابعاد
-                                        </TableCell>
+                                        {property.dimension && (property.dimension.length != 0 && property.dimension.width != 0) && (
+                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                                ابعاد
+                                            </TableCell>
+                                        )}
 
                                         <TableCell sx={{ fontFamily: 'peyda-bold' }}>
                                             تعداد
@@ -351,7 +353,7 @@ function SaleManagementProductItem({
                                             </TableCell>
                                         )}
 
-                                        {property.dimension && (
+                                        {property.dimension  && (property.dimension.length != 0 && property.dimension.width != 0) && (
                                             <TableCell>
                                                 {property.dimension?.length + "x" + property.dimension?.width}
                                             </TableCell>
