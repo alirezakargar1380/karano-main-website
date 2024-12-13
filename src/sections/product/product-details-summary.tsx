@@ -69,12 +69,12 @@ export default function ProductDetailsSummary({
 
   const getOrderFormOptionSchema = (order_form_options: IProductDefaultDetails) => {
     return Yup.object().shape({
-      ...(order_form_options.cover_type.length && {
+      ...(order_form_options.cover_type.length && order_type === ProductOrderType.ready_to_use && {
         cover_type: Yup.object().shape({
           id: Yup.number().notOneOf([0], 'نوع پوشش الزامی است')
         })
       }),
-      ...(order_form_options.profile_type.length && {
+      ...(order_form_options.profile_type.length && order_type === ProductOrderType.ready_to_use && {
         profile_type: Yup.object().shape({
           id: Yup.number().notOneOf([0], 'نوع پروفیل الزامی است')
         })
