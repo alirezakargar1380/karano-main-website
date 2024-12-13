@@ -62,6 +62,9 @@ export const endpoints = {
   image: {
     url: (name: string) => `${BACKEND_API}/api/images/` + name,
   },
+  price_list: {
+    search: '/api/price-list/search',
+  },
   cart: {
     list: '/api/cart',
     emty: '/api/cart/emty',

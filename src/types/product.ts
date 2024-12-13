@@ -21,6 +21,12 @@ export type IProductImage = {
 };
 
 // ----------------------------------------------------------------------
+export type IProductCodes = {
+  id: number;
+  name: string;
+  code: string;
+  createdAt: string;
+}
 
 export type IProductReviewNewForm = {
   rating: number | null;
@@ -40,6 +46,19 @@ export enum CoatingType {
   jenagi = 'جناقی',
   none_jenagi = 'غیر جناقی',
   none = ''
+}
+
+export enum ECoverEdgeTape {
+  none = '',
+  does_not_have = 'does_not_have',
+  length_width = 'length_width',
+  sides = 'sides'
+}
+
+export enum ECoatingTexture {
+  none = '',
+  right_vein = 'right-vein',
+  wavy = 'wavy'
 }
 
 export type IProductCoverType = {
@@ -120,11 +139,7 @@ export type IProductItem = {
   name: string;
   status: string;
   product_dimension: IProductDimension[];
-  code: {
-    id: number;
-    name: string;
-    code: string;
-  };
+  code: IProductCodes;
   price: number;
   taxes: number;
   tags: string[];

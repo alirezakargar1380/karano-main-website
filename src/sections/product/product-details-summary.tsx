@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormProvider, { RHFRadioGroup, RHFRadioGroupWithImage } from 'src/components/hook-form';
 
-import { EAlgorithm, IProductItem, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, IProductItem, ProductOrderType } from 'src/types/product';
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from 'src/types/checkout';
 
 import IncrementerButton from './common/incrementer-button';
@@ -45,6 +45,8 @@ export default function ProductDetailsSummary({
 }: Props) {
   const checkout = useCheckoutContext();
 
+  const [disableCoatingType, setDisableCoatingType] = useState<boolean>(false);
+
   const checkAndRedirect = useAuthRedirect();
 
   const cartDialog = useBoolean();
@@ -79,6 +81,7 @@ export default function ProductDetailsSummary({
     need_to_assemble: false,
     order_form_options: {
       profile_type: { id: 0 },
+      cover_type: { id: 0 },
       coating_type: ''
     }
   };
@@ -108,16 +111,7 @@ export default function ProductDetailsSummary({
         handleAddCartReadyProduct(data);
       }
 
-
-      if (!existProduct) {
-        // onAddCart?.({
-        //   ...data,
-        //   colors: [values.colors],
-        //   subTotal: data.price * data.quantity,
-        // });
-      }
-      // onGotoStep?.(0);
-      // router.push(paths.product.checkout);
+      reset(defaultValues);
     } catch (error) {
       console.error(error);
     }
@@ -192,6 +186,19 @@ export default function ProductDetailsSummary({
     });
   }, [product]);
 
+  useEffect(() => {
+    const findCover = order_form_options.cover_type.find((p: any) => p.id == values.order_form_options.cover_type.id);
+
+    console.log(findCover);
+
+    if (findCover?.is_raw) {
+      setDisableCoatingType(true);
+      setValue('order_form_options.coating_type', CoatingType.none);
+    } else {
+      setDisableCoatingType(false);
+    }
+  }, [values.order_form_options.cover_type.id]);
+
   const renderActions = (
     <PrimaryButton
       fullWidth
@@ -243,14 +250,15 @@ export default function ProductDetailsSummary({
 
   const renderCoatingType = (order_form_options?.coating_type) && (
     <Box sx={{ width: 1 }}>
-      <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+      <Typography variant="subtitle2" fontFamily={'peyda-bold'} sx={{
         width: 1, pb: '16px'
       }}>
         نوع روکش گیری
       </Typography>
       <RHFRadioGroup
-        name='coating_type'
+        name='order_form_options.coating_type'
         row
+        disabled={disableCoatingType}
         sx={{
           width: 1,
           display: 'grid',
@@ -318,7 +326,7 @@ export default function ProductDetailsSummary({
       </Typography>
 
       <RHFRadioGroupWithImage
-        name="cover_type_id"
+        name="order_form_options.cover_type.id"
         row
         sx={{
           width: 1,
@@ -327,7 +335,7 @@ export default function ProductDetailsSummary({
             xs: 'repeat(1, 1fr)',
             md: 'repeat(2, 1fr)',
           },
-          gridGap: 18,
+          // gridGap: 18,
         }}
         options={order_form_options.cover_type.map((cover_type, index: number) => {
           return {
@@ -353,11 +361,6 @@ export default function ProductDetailsSummary({
       <Stack spacing={1}>
         <IncrementerButton
           name="quantity"
-          // quantity={values.quantity}
-          // disabledDecrease={values.quantity <= 1}
-          // disabledIncrease={values.quantity >= available}
-          // onIncrease={() => { }}
-          // onDecrease={() => { }}
           onDecrease={() => setValue('quantity', values.quantity ? values.quantity + 1 : 1)}
           onIncrease={() => {
             if (values.quantity != 1)
@@ -430,11 +433,13 @@ export default function ProductDetailsSummary({
 
                 <ProductDetailsPrice
                   price={product.price}
+                  values={values.order_form_options}
                   dimention_id={values.dimension_id || 0}
                   cover_type_id={values.cover_type_id || 0}
                   properties={product.property_prices}
                   quantity={values.quantity || 1}
                   updatePrice={updatePrice}
+                  product_code={product.code}
                 />
 
               </>
