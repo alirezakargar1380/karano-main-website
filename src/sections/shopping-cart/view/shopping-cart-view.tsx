@@ -16,6 +16,7 @@ import ShoppingCartList from "../shopping-cart-list";
 import { SuccessDialog } from "src/components/custom-dialog";
 
 import { useRouter } from 'src/routes/hooks';
+import { useGetCart } from "src/api/cart";
 
 export default function ShoppingCartView() {
     const howToSendDialog = useBoolean();
@@ -23,15 +24,11 @@ export default function ShoppingCartView() {
 
     const router = useRouter();
 
-    const [disable, setDisable] = useState<boolean>(false);
-
     const popover = usePopover();
 
     const checkout = useCheckoutContext();
 
-    useEffect(() => {
-        setDisable(!checkout.items.length)
-    }, [checkout.items])
+    const { cart, cartEmpty } = useGetCart();
 
     return (
         <Box sx={{ width: 1 }}>
@@ -81,9 +78,11 @@ export default function ShoppingCartView() {
                 </MenuItem>
             </CustomPopover>
 
-            <ShoppingCartList type="cart" items={checkout.items} />
+            {/* <ShoppingCartList type="cart" items={checkout.items} /> */}
+            <ShoppingCartList type="cart" items={cart} />
 
-            {(checkout.items.length > 0) && (
+            {/* {(checkout.items.length > 0) && ( */}
+            {(cart.length > 0) && (
                 <Box sx={{ py: 4 }}>
                     <CheckCartCard dialog={howToSendDialog}>
                         نتیجه بررسی سفارش شما بعد  از ارسال به کارشناسان کارانو، از طریق «پیام کوتاه» اعلام و پیش‌فاکتور صادر می‌شود.
