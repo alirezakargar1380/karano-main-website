@@ -56,7 +56,7 @@ export function CheckoutProvider({ children }: Props) {
 
   useEffect(() => {
     onGetCart(cart);
-  }, [cart, cartEmpty])
+  }, [cart, cartEmpty, cart?.length])
 
   const onGetCart = useCallback(async (cart?: any) => {
     if (!authenticated) return
@@ -67,36 +67,8 @@ export function CheckoutProvider({ children }: Props) {
     update('items', cart)
     update('totalItems', cart.length)
 
-    return
-
-    let quality: number = 0
-
-    state.items.map((product: ICheckoutItem) => {
-      quality += _.sumBy(product.properties, 'quantity');
-    })
-
-    const totalItems: number = quality;
-
-    const subTotal: number = state.items.reduce(
-      (total: number, item: ICheckoutItem) => (total + quality) * 25,
-      0
-    );
-
-    update('subTotal', subTotal);
-    update('totalItems', totalItems);
-    update('billing', state.activeStep === 1 ? null : state.billing);
-    update('discount', state.items.length ? state.discount : 0);
-    update('shipping', state.items.length ? state.shipping : 0);
-    update('total', state.subTotal - state.discount + state.shipping);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    state.items,
-    state.activeStep,
-    state.billing,
-    state.discount,
-    state.shipping,
-    state.subTotal,
-    state.totalItems,
     update,
     authenticated,
   ]);
