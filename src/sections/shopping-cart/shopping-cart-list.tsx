@@ -7,7 +7,7 @@ import { TableHeadCustom } from "src/components/table";
 import { ICheckoutItem, ICheckoutItemPropertyPrice } from "src/types/checkout";
 import { ProductOrderType } from "src/types/product";
 import CartTableRow from "../cart/cart-table-row";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CartDialog from "src/components/cart/cart-dialog";
 import { useBoolean } from "src/hooks/use-boolean";
 
@@ -52,9 +52,9 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         if (afterUpdate) afterUpdate();
     }, []);
 
-    // useEffect(() => {
-    //     setCheckoutItems(items);
-    // }, [items, setList]);
+    useEffect(() => {
+        setCheckoutItems(items);
+    }, [items, items.length]);
 
     const handleAddCart = useCallback((data: ICheckoutItemPropertyPrice[]) => {
         try {
