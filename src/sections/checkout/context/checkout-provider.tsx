@@ -65,6 +65,7 @@ export function CheckoutProvider({ children }: Props) {
       cart = await server_axios.get(endpoints.cart.list).then(({ data }) => data);
 
     update('items', cart)
+    if (!cart?.length) update('items', [])
     update('totalItems', cart.length)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
