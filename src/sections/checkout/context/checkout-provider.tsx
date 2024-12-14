@@ -46,17 +46,17 @@ export function CheckoutProvider({ children }: Props) {
   const { channel } = useChannel(STORAGE_KEY);
   const { cart, cartEmpty } = useGetCart();
 
-  useEffect(() => {
-    // channel.addEventListener('message', function (event) {
-    //   if (event.data.key === STORAGE_KEY) {
-    //     update('items', event.data.value)
-    //   }
-    // })
-  }, []);
+  // useEffect(() => {
+  //   channel.addEventListener('message', function (event) {
+  //     if (event.data.key === STORAGE_KEY) {
+  //       update('items', event.data.value)
+  //     }
+  //   })
+  // }, []);
 
   useEffect(() => {
     onGetCart(cart);
-  }, [cart, cartEmpty, cart?.length])
+  }, [cart, cartEmpty, cart?.length, authenticated])
 
   const onGetCart = useCallback(async (cart?: any) => {
     if (!authenticated) return
