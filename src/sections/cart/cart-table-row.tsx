@@ -118,13 +118,13 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(inlaid_flower === false) && (
+        {(inlaid_flower === false || inlaid_flower === "0") && (
           <TableCell>
             <Typography variant='body4'>{inlaid_flower_emty_space + " سانتی متر"}</Typography>
           </TableCell>
         )}
 
-        {(inlaid_flower === true) && (
+        {(inlaid_flower === true || inlaid_flower === "1") && (
           <TableCell>
             <Typography variant='body4'>-</Typography>
           </TableCell>

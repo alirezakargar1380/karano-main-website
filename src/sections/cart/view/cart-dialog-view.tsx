@@ -642,11 +642,11 @@ export default function CartDialogView({
                                 options={[
                                     {
                                         label: 'دارد',
-                                        value: true
+                                        value: "1"
                                     },
                                     {
                                         label: 'ندارد',
-                                        value: false
+                                        value: "0"
                                     }
                                 ]}
                             />
@@ -654,7 +654,7 @@ export default function CartDialogView({
                     )}
 
 
-                    {(values.inlaid_flower === false || values.inlaid_flower === "false") && (
+                    {(values.inlaid_flower === false || values.inlaid_flower === "0") && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <RHFTitleTextField name='inlaid_flower_emty_space' custom_label='زمینه خالی جهت منبت (سانتی متر)' placeholder='26' />
                         </Box>
