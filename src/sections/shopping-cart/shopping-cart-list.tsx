@@ -179,7 +179,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                 {Cart}
                 {checkoutItems.map((item, index: number) => (
                     <Box display={'flex'} gap={'12px'} mt={'12px'} key={index}>
-                        <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                        <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, height: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
                         <Box>
                             <Typography variant="body3">{item.product.name}</Typography>
                             <Typography variant="caption2">{'نوع پروفیل: ' + 'درب کمدی'}</Typography>
@@ -220,7 +220,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                         </Grid>
                         {((type !== 'edit')) && (
                             <Grid item sm={2} sx={{ pt: 2 }}>
-                                <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                                <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ height: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
                             </Grid>
                         )}
                         <Grid item sm={(type !== 'edit') ? 10 : 12} sx={{ pt: 2 }}>
