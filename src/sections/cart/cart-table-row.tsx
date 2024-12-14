@@ -114,7 +114,7 @@ export default function CartTableRow({
 
         {(inlaid_flower !== null) && (
           <TableCell>
-            <Typography variant='body4'>{inlaid_flower ? 'دارد' : 'ندارد'}</Typography>
+            <Typography variant='body4'>{(inlaid_flower === "1" || inlaid_flower === true) ? 'دارد' : 'ندارد'}</Typography>
           </TableCell>
         )}
 
