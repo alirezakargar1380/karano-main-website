@@ -58,6 +58,7 @@ export const endpoints = {
   },
   admin: {
     list: '/api/admin',
+    one: (id: any) => '/api/admin/' + id,
   },
   image: {
     url: (name: string) => `${BACKEND_API}/api/images/` + name,

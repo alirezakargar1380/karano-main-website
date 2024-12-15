@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import { useMemo } from 'react';
 
 import { fetcher, endpoints } from 'src/utils/axios';
+import { IAdmin } from 'src/types/admin';
 
 // ----------------------------------------------------------------------
 
@@ -12,11 +13,30 @@ export function useGetAdmins() {
 
   const memoizedValue = useMemo(
     () => ({
-      admins: (data as any[]) || [],
+      admins: (data as IAdmin[]) || [],
       productsLoading: isLoading,
       productsError: error,
       productsValidating: isValidating,
-      productsEmpty: !isLoading && !data.length,
+      productsEmpty: !isLoading && !data?.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetAdmin(id?: number) {
+  const URL = id ? endpoints.admin.one(id) : null;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      admin: (data as IAdmin) || {},
+      productsLoading: isLoading,
+      productsError: error,
+      productsValidating: isValidating,
+      productsEmpty: !isLoading && !data?.length,
     }),
     [data, error, isLoading, isValidating]
   );
