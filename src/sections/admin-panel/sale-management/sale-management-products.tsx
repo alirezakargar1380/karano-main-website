@@ -75,7 +75,7 @@ export default function SaleManagementProducts({
                             نام سفارش دهنده:
                         </Typography>
                         <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {(order.user.user_type === IUserTypes.genuine) ? order.user.first_name + " " + order.user.last_name : order.user.company_name}
+                            {(order?.user?.user_type === IUserTypes.genuine) ? order.user.first_name + " " + order.user.last_name : order?.user?.company_name}
                         </Typography>
                     </Box>
                 </Stack>
