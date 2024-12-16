@@ -36,7 +36,7 @@ export default function AdminGuard({ children }: Props) {
 function Container({ children }: Props) {
   const router = useRouter();
 
-  const { adminAuthenticated, method } = useAuthContext();
+  const { admin, adminAuthenticated, method } = useAuthContext();
 
   const [checked, setChecked] = useState(false);
 
@@ -53,8 +53,23 @@ function Container({ children }: Props) {
       router.replace(href);
     } else {
       setChecked(true);
+
+      switch (admin?.role) {
+        case EAdminRole.delivery:
+          router.replace(paths.admin_dashboard.delivery.root);
+          break;
+        case EAdminRole.production:
+          router.replace(paths.admin_dashboard.production.root);
+          break;
+        case EAdminRole.sale:
+          router.replace(paths.admin_dashboard.saleManagement.root);
+          break;
+        case EAdminRole.storage:
+          router.replace(paths.admin_dashboard.storage.root);
+          break;
+      }
     }
-  }, [adminAuthenticated, method, router]);
+  }, [adminAuthenticated, method, admin, router]);
 
   useEffect(() => {
     check();

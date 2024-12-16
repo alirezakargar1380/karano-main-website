@@ -23,6 +23,7 @@ import { Box, IconButton, MenuItem, MenuItemProps, Select, styled } from '@mui/m
 import { countries } from 'src/assets/data';
 import { paths } from 'src/routes/paths';
 import axiosInstance, { endpoints, server_axios } from 'src/utils/axios';
+import { enqueueSnackbar } from 'notistack';
 
 // ----------------------------------------------------------------------
 
@@ -68,7 +69,8 @@ export default function PhoneLoginView() {
 
       // router.push(returnTo || paths.admin_dashboard.root);
     } catch (error) {
-      console.error(error);
+      enqueueSnackbar('نام کاربری یا رمز عبور اشتباه است', { variant: 'myCustomVariant', color: 'error' });
+      // console.error(error.message);
       reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }

@@ -26,9 +26,7 @@ export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
     const FormSchema = Yup.object().shape({
         username: Yup.string()
             .required('نام کاربری مورد نیاز است')
-            .matches(/^[0-9aA-zZ]+$/, 'فقط از حروف انگلیسی و اعداد بدون فاصله استفاده کنید')
-            .min(6, 'Mininum 6 characters')
-            .max(32, 'Maximum 32 characters'),
+            .matches(/^[0-9aA-zZ]+$/, 'فقط از حروف انگلیسی و اعداد بدون فاصله استفاده کنید'),
         fullName: Yup.string().required('نام و نام خانوادگی مورد نیاز است'),
         password: Yup.string().required('پسورد مورد نیاز است'),
         phone: Yup.string().min(11, 'کامل وارد کنید').required('شماره تماس مورد نیاز است'),
@@ -66,7 +64,7 @@ export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
                 if (!warningDialog.value) return warningDialog.onTrue();
                 server_axios.post(endpoints.auth.admin.create, data);
             } else {
-
+                server_axios.patch(endpoints.auth.admin.update(currentData.id), data);
             }
 
             adminDialog.onFalse();

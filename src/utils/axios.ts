@@ -52,6 +52,7 @@ export const endpoints = {
     admin: {
       login: '/api/admin/login',
       create: '/api/admin',
+      update: (id: number) => '/api/admin/' + id,
       me: '/api/admin/me',
     },
     register: '/api/authentication/user/register',
