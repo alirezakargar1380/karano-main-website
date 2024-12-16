@@ -38,7 +38,7 @@ export default function WarningDialog({
 
                 <DialogActions sx={{ pr: 0 }}>
                     <Stack direction={'row'} spacing={2}>
-                        {onClose && <Button sx={{ px: 3, borderRadius: '50px' }} onClick={onClose}>{closeTitle}</Button>}
+                        {onClose && <Button sx={{ px: 3, borderRadius: '50px', typography: 'button2' }} onClick={onClose}>{closeTitle}</Button>}
                         {action}
                     </Stack>
                 </DialogActions>

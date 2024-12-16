@@ -33,7 +33,7 @@ export function useGetAdmin(id?: number) {
   const memoizedValue = useMemo(
     () => ({
       admin: (data as IAdmin) || {},
-      productsLoading: isLoading,
+      adminLoading: isLoading,
       productsError: error,
       productsValidating: isValidating,
       productsEmpty: !isLoading && !data?.length,

@@ -12,7 +12,8 @@ import _ from "lodash";
 import { EAdminRole, IAdmin } from "src/types/admin";
 import { endpoints, server_axios } from "src/utils/axios";
 import { adminRoleTranslate } from "src/utils/admin-role";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { PrimaryButton } from "src/components/styles/buttons/primary";
 
 interface Props {
     adminDialog: useBooleanReturnType
@@ -20,8 +21,6 @@ interface Props {
 }
 
 export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
-    console.log(currentData, currentData?.fullName)
-
     const warningDialog = useBoolean();
 
     const FormSchema = Yup.object().shape({
@@ -29,19 +28,23 @@ export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
             .required('نام کاربری مورد نیاز است')
             .matches(/^[0-9aA-zZ]+$/, 'فقط از حروف انگلیسی و اعداد بدون فاصله استفاده کنید')
             .min(6, 'Mininum 6 characters')
-            .max(32, 'Maximum 32 characters')
+            .max(32, 'Maximum 32 characters'),
+        fullName: Yup.string().required('نام و نام خانوادگی مورد نیاز است'),
+        password: Yup.string().required('پسورد مورد نیاز است'),
+        phone: Yup.string().min(11, 'کامل وارد کنید').required('شماره تماس مورد نیاز است'),
+        role: Yup.string().required('سطح دسترسی مورد نیاز است')
     });
 
-    const defaultValues = {
+    const defaultValues = useMemo(() => ({
         fullName: currentData?.fullName || '',
         username: currentData?.username || '',
         password: '',
         phone: currentData?.phone || '',
-        role: EAdminRole.delivery,
-    }
+        role: currentData?.role || EAdminRole.delivery,
+    }), [currentData]);
 
     const methods = useForm({
-        // resolver: yupResolver<any>(FormSchema),
+        resolver: yupResolver<any>(FormSchema),
         defaultValues,
     });
 
@@ -80,86 +83,78 @@ export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
                 open={warningDialog.value}
                 onClose={warningDialog.onFalse}
                 title="اطمینان از افزودن"
-                content="آیا از افزودن «پرهام بدر» به عنوان «مدیر فروش» اطمینان دارید؟"
+                content={`آیا از افزودن «${values.fullName}» به عنوان «${adminRoleTranslate(`${values.role}`)}» اطمینان دارید؟`}
                 closeTitle="لغو"
                 action={
-                    <LoadingButton variant="contained" onClick={() => onSubmit()} sx={{
-                        borderRadius: '50px',
-                        px: 4
-                    }}>
+                    <PrimaryButton size="medium" onClick={() => onSubmit()}>
                         تایید
-                    </LoadingButton>
+                    </PrimaryButton>
                 }
             />
-            <DialogWithButton dialog={adminDialog} fullWith={false} width={960}>
-                <Box>
-                    <FormProvider methods={methods} onSubmit={onSubmit}>
-                        <Typography variant="h4" fontFamily={'peyda-bold'} sx={{ borderBottom: (theme) => `solid 1px ${theme.palette.divider}`, pb: 2 }}>
-                            افزودن ادمین جدید
-                        </Typography>
+            <Box>
+                <FormProvider methods={methods} onSubmit={onSubmit}>
+                    <Typography variant="h4" fontFamily={'peyda-bold'} sx={{ borderBottom: (theme) => `solid 1px ${theme.palette.divider}`, pb: 2 }}>
+                        {currentData ? 'ویرایش ادمین' : 'افزودن ادمین جدید'}
+                    </Typography>
 
-                        <Typography variant="body2" fontFamily={'peyda-bold'} py={3} color={'text.secondary'}>
-                            اطلاعات ادمین مورد نظر خود را وارد کنید.
-                        </Typography>
+                    <Typography variant="body2" fontFamily={'peyda-bold'} py={3} color={'text.secondary'}>
+                        اطلاعات ادمین مورد نظر خود را وارد کنید.
+                    </Typography>
 
-                        <Box
-                            columnGap={2}
-                            rowGap={3}
-                            display="grid"
-                            gridTemplateColumns={{
-                                xs: 'repeat(1, 1fr)',
-                                md: 'repeat(2, 1fr)',
-                            }}
-                        >
-                            <RHFTitleTextField custom_label="نام و نام خانوادگی" name="fullName" placeholder="افزودن محتوا" />
-                            <Box>
-                                <Typography fontFamily={'peyda-bold'} sx={{ pb: 0.5, pl: 0.75 }}>
-                                    سطح دسترسی
-                                </Typography>
-                                <RHFSelect
-                                    name="role"
-                                    placeholder="افزودن محتوا"
-                                    SelectProps={{
-                                        renderValue: (value) => {
-                                            return <>{adminRoleTranslate(`${value}`)}</>
-                                        },
-                                    }}
-                                >
-                                    {_.values(EAdminRole).map((value, index) => (
-                                        <MenuItem value={value} key={index}>
-                                            <Checkbox
-                                                checked={(values.role === value)}
-                                            />
-                                            <ListItemText primary={adminRoleTranslate(value)} />
-                                        </MenuItem>
-                                    ))}
+                    <Box
+                        columnGap={2}
+                        rowGap={3}
+                        display="grid"
+                        gridTemplateColumns={{
+                            xs: 'repeat(1, 1fr)',
+                            md: 'repeat(2, 1fr)',
+                        }}
+                    >
+                        <RHFTitleTextField custom_label="نام و نام خانوادگی" name="fullName" placeholder="افزودن محتوا" />
+                        <Box>
+                            <Typography fontFamily={'peyda-bold'} sx={{ pb: 0.5, pl: 0.75 }}>
+                                سطح دسترسی
+                            </Typography>
+                            <RHFSelect
+                                name="role"
+                                placeholder="افزودن محتوا"
+                                SelectProps={{
+                                    renderValue: (value) => {
+                                        return <>{adminRoleTranslate(`${value}`)}</>
+                                    },
+                                }}
+                            >
+                                {_.values(EAdminRole).map((value, index) => (
+                                    <MenuItem value={value} key={index}>
+                                        <Checkbox
+                                            checked={(values.role === value)}
+                                        />
+                                        <ListItemText primary={adminRoleTranslate(value)} />
+                                    </MenuItem>
+                                ))}
 
-                                </RHFSelect>
-                            </Box>
-                            <RHFTitleTextField custom_label="نام کاربری" name="username" placeholder="افزودن محتوا" />
-                            <RHFTitleTextField custom_label="پسورد" name="password" placeholder="افزودن محتوا" />
-                            <RHFTitleTextField custom_label="شماره تماس" name="phone" placeholder="افزودن محتوا" />
+                            </RHFSelect>
                         </Box>
+                        <RHFTitleTextField custom_label="نام کاربری" name="username" placeholder="افزودن محتوا" />
+                        <RHFTitleTextField custom_label="پسورد" name="password" placeholder="افزودن محتوا" />
+                        <RHFTitleTextField custom_label="شماره تماس" name="phone" placeholder="افزودن محتوا" />
+                    </Box>
 
-                        <Stack direction={'row'} justifyContent={'end'} mt={2}>
-                            <Stack direction={'row'} spacing={2}>
-                                <SecondaryButton variant='outlined' sx={{ px: 4 }} onClick={adminDialog.onFalse}>
-                                    انصراف
-                                </SecondaryButton>
-                                <LoadingButton
-                                    variant='contained'
-                                    sx={{ borderRadius: '24px', px: 4 }}
-                                    type="submit"
-                                >
-                                    افزودن
-                                </LoadingButton>
-                            </Stack>
+                    <Stack direction={'row'} justifyContent={'end'} mt={2}>
+                        <Stack direction={'row'} spacing={2}>
+                            <SecondaryButton size="medium" variant='outlined' sx={{ px: 4 }} onClick={adminDialog.onFalse}>
+                                انصراف
+                            </SecondaryButton>
+                            <PrimaryButton
+                                size="medium"
+                                type="submit"
+                            >
+                                {currentData ? 'ویرایش ادمین' : 'افزودن ادمین'}
+                            </PrimaryButton>
                         </Stack>
-
-                    </FormProvider>
-                </Box>
-            </DialogWithButton>
-
+                    </Stack>
+                </FormProvider>
+            </Box>
         </Box>
     )
 }
