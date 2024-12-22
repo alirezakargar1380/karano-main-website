@@ -1,5 +1,3 @@
-// ----------------------------------------------------------------------
-
 import { ICategory } from "./category";
 import { ICheckoutItemPropertyPrice } from "./checkout";
 import { IOrderProductPropertyStatus } from "./order-products-property";
@@ -19,6 +17,12 @@ export type IProductImage = {
   main: boolean;
   name: string;
 };
+
+export enum EBackToBackDimension {
+  none = '',
+  lame = 'lame',
+  framework = 'framework',
+}
 
 // ----------------------------------------------------------------------
 export type IProductCodes = {

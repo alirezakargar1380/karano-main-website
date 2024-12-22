@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
 import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
-import { CoatingType, EAlgorithm, IProductDefaultDetails, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, EBackToBackDimension, IProductDefaultDetails, ProductOrderType } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
@@ -575,6 +575,42 @@ export default function CartDialogView({
                                     {
                                         label: '4 طرف',
                                         value: ECoverEdgeTape.sides
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
+
+                    {(algorithm === EAlgorithm.room_door) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                ابعاد پشت تا پشت:
+                            </Typography>
+                            <RHFRadioGroup
+                                name='back_to_back_dimension'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'لنگه',
+                                        value: EBackToBackDimension.lame
+                                    },
+                                    {
+                                        label: 'چهارچوب',
+                                        value: EBackToBackDimension.framework
                                     },
                                 ]}
                             />

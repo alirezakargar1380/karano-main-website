@@ -21,7 +21,7 @@ import { ConfirmDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
-import { CoatingType, EAlgorithm, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, EBackToBackDimension, ProductOrderType } from 'src/types/product';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
 // ----------------------------------------------------------------------
@@ -138,6 +138,7 @@ export default function CartDialog({
     coating_type: CoatingType.none,
     inlaid_flower_emty_space: 0,
     inlaid_flower: null,
+    back_to_back_dimension: EBackToBackDimension.none,
     cover_edge_tape: ECoverEdgeTape.none,
     coating_texture: ECoatingTexture.none,
   };
