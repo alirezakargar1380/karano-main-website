@@ -1,4 +1,5 @@
 import { IOrderProductPropertyStatus } from "./order-products-property";
+import { EFrameCore } from "./product";
 
 export enum ECoverEdgeTape {
     none = '',
@@ -23,6 +24,8 @@ export interface ICartItem {
     coating: string;
     dimensions: string;
     quality: number;
+    frame_core: EFrameCore;
+    frame_width: string
     rejection_reason: string | null;
     inlaid_flower_emty_space: number,
     inlaid_flower: string | boolean,

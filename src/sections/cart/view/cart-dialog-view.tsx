@@ -39,6 +39,15 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
         { id: 'zzz', width: 88 },
     ]
     switch (algorithm) {
+        case EAlgorithm.room_door:
+            return [
+                { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
+                { id: 'inventoryType', label: 'نوع قاب', width: 160 },
+                { id: 'price', label: 'روکش گیری', width: 140 },
+                { id: 'frame_width', label: 'پهنای چارچوب', width: 140 },
+                { id: 'frame_core', label: 'مغز چارچوب', width: 200 },
+                ...defult
+            ];
         case EAlgorithm.cabinet_door:
             return [
                 { id: 'name', label: 'نوع پروفیل', width: 160 },
@@ -265,10 +274,30 @@ export default function CartDialogView({
     useEffect(() => {
         let newDisable = { ...disable };
 
+        const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+        const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
+
         switch (algorithm) {
+            case EAlgorithm.room_door:
+                newDisable.cover_type = false
+
+                if (values.cover_type)
+                    newDisable.frame_type = false
+
+                if (values.frame_type)
+                    newDisable.coating_type = false
+
+                if (values.coating_type)
+                    newDisable.dimension = false
+
+                if (values.frame_type && !findFrame?.is_glass && !findCover?.is_raw)
+                    newDisable.coating_type = false
+                else
+                    newDisable.coating_type = true
+
+                break;
             case EAlgorithm.cabinet_door:
-                const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
-                const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
+
 
                 if (values.profile_type)
                     newDisable.cover_type = false
@@ -331,19 +360,18 @@ export default function CartDialogView({
     }, [listIndex])
 
     useEffect(() => {
-        if (algorithm !== EAlgorithm.cabinet_door) return;
+        if (algorithm === EAlgorithm.cabinet_door || algorithm === EAlgorithm.room_door) {
+            const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+            const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
 
-        const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
-        const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
-
-        if (findFrame?.is_glass || findCover?.is_raw) {
-            setDisable({
-                ...disable,
-                coating_type: true
-            })
-            setValue('coating_type', CoatingType.none)
+            if (findFrame?.is_glass || findCover?.is_raw) {
+                setDisable({
+                    ...disable,
+                    coating_type: true
+                })
+                setValue('coating_type', CoatingType.none)
+            }
         }
-
     }, [values.frame_type, values.cover_type])
 
     const handleJoyrideCallback = (data: any) => {
@@ -686,11 +714,11 @@ export default function CartDialogView({
                                 options={[
                                     {
                                         label: 'ترکیب چوب و ام دی اف',
-                                        value:  EFrameCore.mdf
+                                        value: EFrameCore.mdf
                                     },
                                     {
                                         label: 'پلای وود',
-                                        value:  EFrameCore.ply
+                                        value: EFrameCore.ply
                                     },
                                 ]}
                             />

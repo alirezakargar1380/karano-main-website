@@ -14,7 +14,7 @@ import { IOrderProductPropertyStatus } from 'src/types/order-products-property';
 import { pxToRem } from 'src/theme/typography';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
-import { EAlgorithm, ProductOrderType } from 'src/types/product';
+import { EAlgorithm, EFrameCore, ProductOrderType } from 'src/types/product';
 
 // ----------------------------------------------------------------------
 
@@ -66,6 +66,8 @@ export default function CartTableRow({
     cover_edge_tape,
     coating_texture,
     frame_type,
+    frame_width,
+    frame_core,
     profile_type,
     quality,
     rejection_reason
@@ -157,9 +159,25 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(algorithm === EAlgorithm.cabinet_door) && (
+        {(algorithm === EAlgorithm.cabinet_door || algorithm === EAlgorithm.room_door) && (
           <TableCell>
             <Typography variant='body4'>{coating || '-'}</Typography>
+          </TableCell>
+        )}
+
+        {(!!frame_width || algorithm === EAlgorithm.room_door) && (
+          <TableCell>
+            <Typography variant='body4'>{frame_width ? frame_width + " سانتی متر" : '-'}</Typography>
+          </TableCell>
+        )}
+
+        {(!!frame_core || algorithm === EAlgorithm.room_door) && (
+          <TableCell>
+            <Typography variant='body4'>
+              {(frame_core === EFrameCore.mdf && 'ترکیب چوب و ام دی اف'
+                || frame_core === EFrameCore.ply && 'پلای وود' || '-'
+              )}
+            </Typography>
           </TableCell>
         )}
 

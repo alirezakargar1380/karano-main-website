@@ -1,7 +1,7 @@
 import { IAddressItem } from './address';
 import { ECoatingTexture, ECoverEdgeTape } from './cart';
 import { IOrderProductPropertyStatus } from './order-products-property';
-import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType, IProductItem } from './product';
+import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType, IProductItem, EFrameCore } from './product';
 
 // ----------------------------------------------------------------------
 
@@ -39,6 +39,8 @@ export interface ICheckoutNewItem extends Omit<ICheckoutItem, 'properties'> {
 
 export interface ICheckoutItemPropertyPrice {
   id: number;
+  frame_core: EFrameCore;
+  frame_width: string
   status?: IOrderProductPropertyStatus;
   quantity: number;
   dimension: IProductDimension;
