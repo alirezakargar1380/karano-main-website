@@ -234,7 +234,7 @@ export default function ProductDetailsSummary({
     </Box>
   );
 
-  const renderDimensions = (!!product_dimension.length) && (
+  const renderDimensions = (!!product_dimension?.length) && (
     <Box>
       <Typography variant="subtitle1" fontFamily={'peyda-bold'}
         sx={{
