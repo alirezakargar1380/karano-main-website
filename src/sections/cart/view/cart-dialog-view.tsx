@@ -617,6 +617,50 @@ export default function CartDialogView({
                         </Box>
                     )}
 
+                    {(algorithm === EAlgorithm.room_door && values.back_to_back_dimension === EBackToBackDimension.framework) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                پهنای چارچوب:
+                            </Typography>
+                            <RHFRadioGroup
+                                name='frame_width'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: '10 سانتی متر',
+                                        value: '10'
+                                    },
+                                    {
+                                        label: '12 سانتی متر',
+                                        value: '12'
+                                    },
+                                    {
+                                        label: '14 سانتی متر',
+                                        value: '14'
+                                    },
+                                    {
+                                        label: '16 سانتی متر',
+                                        value: '16'
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
+
                     {(algorithm === EAlgorithm.cover_sheet) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{

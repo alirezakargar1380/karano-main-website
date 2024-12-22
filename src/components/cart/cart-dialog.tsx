@@ -121,6 +121,12 @@ export default function CartDialog({
         then: (schema) => schema.notOneOf([0], 'فضای خالی جایگاه گل نمیتواند صفر باشد'),
         otherwise: (schema) => schema
       }),
+    frame_width: Yup.string()
+      .when('back_to_back_dimension', {
+        is: EBackToBackDimension.framework,
+        then: (schema) => schema.required('پهنای چهارچوب را انتخاب کنید'),
+        otherwise: (schema) => schema
+      }),
   });
 
   const defaultValues: any = {
@@ -138,6 +144,7 @@ export default function CartDialog({
     coating_type: CoatingType.none,
     inlaid_flower_emty_space: 0,
     inlaid_flower: null,
+    frame_width: '', // پهنای چارچوب
     back_to_back_dimension: EBackToBackDimension.none,
     cover_edge_tape: ECoverEdgeTape.none,
     coating_texture: ECoatingTexture.none,
