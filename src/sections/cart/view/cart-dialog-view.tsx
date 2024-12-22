@@ -14,7 +14,7 @@ import Scrollbar from 'src/components/scrollbar';
 import CartTableRow from '../cart-table-row';
 import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
-import { CoatingType, EAlgorithm, EBackToBackDimension, IProductDefaultDetails, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, EBackToBackDimension, EFrameCore, IProductDefaultDetails, ProductOrderType } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
 import { useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
@@ -655,6 +655,42 @@ export default function CartDialogView({
                                     {
                                         label: '16 سانتی متر',
                                         value: '16'
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
+
+                    {(algorithm === EAlgorithm.room_door && values.back_to_back_dimension === EBackToBackDimension.lame) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                مغز چارچوب:
+                            </Typography>
+                            <RHFRadioGroup
+                                name='frame_core'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'ترکیب چوب و ام دی اف',
+                                        value:  EFrameCore.mdf
+                                    },
+                                    {
+                                        label: 'پلای وود',
+                                        value:  EFrameCore.ply
                                     },
                                 ]}
                             />

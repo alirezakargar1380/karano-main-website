@@ -24,6 +24,12 @@ export enum EBackToBackDimension {
   framework = 'framework',
 }
 
+export enum EFrameCore {
+  none = '',
+  mdf = 'mdf',
+  ply = 'ply',
+}
+
 // ----------------------------------------------------------------------
 export type IProductCodes = {
   id: number;

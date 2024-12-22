@@ -21,7 +21,7 @@ import { ConfirmDialog } from '../custom-dialog';
 import SvgColor from '../svg-color';
 import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
-import { CoatingType, EAlgorithm, EBackToBackDimension, ProductOrderType } from 'src/types/product';
+import { CoatingType, EAlgorithm, EBackToBackDimension, EFrameCore, ProductOrderType } from 'src/types/product';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 
 // ----------------------------------------------------------------------
@@ -127,6 +127,12 @@ export default function CartDialog({
         then: (schema) => schema.required('پهنای چهارچوب را انتخاب کنید'),
         otherwise: (schema) => schema
       }),
+      frame_core: Yup.string()
+      .when('back_to_back_dimension', {
+        is: EBackToBackDimension.lame,
+        then: (schema) => schema.required('مغز چهارچوب را انتخاب کنید'),
+        otherwise: (schema) => schema
+      }),
   });
 
   const defaultValues: any = {
@@ -146,6 +152,7 @@ export default function CartDialog({
     inlaid_flower: null,
     frame_width: '', // پهنای چارچوب
     back_to_back_dimension: EBackToBackDimension.none,
+    frame_core: EFrameCore.none,
     cover_edge_tape: ECoverEdgeTape.none,
     coating_texture: ECoatingTexture.none,
   };
