@@ -102,9 +102,12 @@ export default function NewPasswordView({ type = 'default' }: Props) {
     } catch (error) {
       if (error?.message)
         enqueueSnackbar(error.message, {
-            variant: 'myCustomVariant',
-            color: 'error'
+          variant: 'myCustomVariant',
+          color: 'error'
         });
+
+      if (type === 'reset')
+        router.push(paths.auth.phone.resetPassword.root);
       reset();
     }
   });

@@ -71,19 +71,13 @@ export default function PhoneVerifyView() {
 
     const onSubmit = handleSubmit(async (data: any) => {
         try {
-            const res = await server_axios.post(endpoints.auth.user.resetPasswordVerify, {
+            await server_axios.post(endpoints.auth.user.resetPasswordVerify, {
                 phone: `${phone}`,
                 code: data.code
-            }).then(({ data }) => data)
-
-            router.push(paths.auth.phone.resetPassword.setPassword + '?token=' + res.token);
-
-            // const response = await server_axios.post(endpoints.auth.user.verify, { phone: `+${phone}`, code: data.code })
-            //   .then((res) => {
-            //     return res.data
-            //   });
-
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
+            }).then(({ data }) => {
+                router.push(paths.auth.phone.resetPassword.setPassword + '?token=' + data.token);
+            })
+            
         } catch (error) {
             if (error?.message)
                 enqueueSnackbar(error.message, {
