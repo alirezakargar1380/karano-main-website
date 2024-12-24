@@ -66,7 +66,7 @@ export default function SaleManagementProducts({
                 </Stack>
                 <Stack direction={'row'}>
                     <Box display={'flex'} width={'50%'}>
-                        <Typography variant="body3" fontFamily={'peyda-bold'}>تاریخ ثب سفارش:</Typography>
+                        <Typography variant="body3" fontFamily={'peyda-bold'}>تاریخ ثبت سفارش:</Typography>
                         <Typography variant="body4" fontFamily={'peyda-extra-light'} sx={{ pl: 1, pt: 0.25 }}>
                             {fToJamali(order.createdAt)}
                         </Typography>
