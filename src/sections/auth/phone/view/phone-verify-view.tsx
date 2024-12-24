@@ -86,7 +86,10 @@ export default function PhoneVerifyView() {
 
       // await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      console.error(error);
+      enqueueSnackbar(error.message, {
+        variant: 'myCustomVariant',
+        color: 'error'
+      })
       reset();
       setErrorMsg(typeof error === 'string' ? error : error.message);
     }
@@ -149,7 +152,7 @@ export default function PhoneVerifyView() {
 
     server_axios.post(endpoints.auth_code.send_code(phone))
       .then(({ data }) => {
-        setCountdown('00:03')
+        setCountdown('00:10')
         enqueueSnackbar('کد احراز هویت بر روی شماره تلفن شما ارسال شد', {
           variant: 'myCustomVariant',
           color: 'info'
