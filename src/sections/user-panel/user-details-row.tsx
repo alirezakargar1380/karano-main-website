@@ -62,7 +62,6 @@ export default function UserDetailsRow({
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            console.log(data)
             return
             await server_axios.patch(endpoints.user.user_update, data)
             enqueueSnackbar('آپدیت شد!', {

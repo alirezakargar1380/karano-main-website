@@ -119,8 +119,6 @@ export function CheckoutProvider({ children }: Props) {
     // let item = restored.items.find((item: ICheckoutItem) => item.id === itemId);
     // let productIndex = restored.items.findIndex((item: ICheckoutItem) => item.id === itemId);
 
-    // console.log('-> productIndex', productIndex)
-    // console.log(item)
     // const index = propertyIndex;
     // if (index > -1)
     //   item.properties.splice(index, 1)
@@ -211,7 +209,6 @@ export function CheckoutProvider({ children }: Props) {
 
   // Reset
   const onReset = useCallback(async () => {
-    console.log('im resetting...')
     // if (completed) {
     reset();
     // channel.postMessage({ key: STORAGE_KEY, value: [] })

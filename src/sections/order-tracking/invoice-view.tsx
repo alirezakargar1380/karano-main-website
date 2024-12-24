@@ -60,7 +60,6 @@ export default function InvoiceView({
 
     useEffect(() => {
         server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
-            console.log(res.data)
             setInvoice(res.data)
         })
     }, [])

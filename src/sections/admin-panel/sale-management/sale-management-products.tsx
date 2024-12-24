@@ -207,7 +207,7 @@ function SaleManagementProductItem({
                 status: (v == "0") ? IOrderProductPropertyStatus.denied : IOrderProductPropertyStatus.approve,
                 is_approved: v,
                 rejection_reason: ''
-            }).then(() => console.log('done!'))
+            })
             updateHasAnydeapprove()
         } else {
             if (values.rejection_reason) onSubmit();

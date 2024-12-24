@@ -66,7 +66,6 @@ export default function HomeView() {
 
   const handleLeaveMouse = useCallback(() => {
     // setTimeout(() => {
-    console.log(hover.value)
     if (!hover.value)
       customizedPopover.onClose()
     // }, 250)
@@ -91,7 +90,6 @@ export default function HomeView() {
   }, [getScroll]);
 
   const handleSeenNotification = useCallback(async () => {
-    console.log(notification_id)
     await server_axios.patch(endpoints.notification.seen(notification_id))
   }, [notification_id]);
 
@@ -349,13 +347,7 @@ export default function HomeView() {
                     }}
                   >
                     <Link href={'/'} sx={{ textDecoration: 'none' }}>
-                      <Box sx={{ p: '16px', minWidth: 306, bgcolor: '#fff' }}
-                      // onMouseEnter={() => {
-                      //   console.log('mouse enter')
-                      //   hover.onTrue()
-                      // }}
-                      // onMouseLeave={hover.onFalse}
-                      >
+                      <Box sx={{ p: '16px', minWidth: 306, bgcolor: '#fff' }}>
                         <Stack direction={'row'} justifyContent={'space-between'}>
                           <Label variant='filled' color='red' size='large'>جدید</Label>
                           <IconButton>

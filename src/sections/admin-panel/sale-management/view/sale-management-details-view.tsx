@@ -44,8 +44,6 @@ export default function SaleManagementDetailsView({ id }: Props) {
         const op = await server_axios.get(endpoints.orderProducts.one(id))
             .then(({ data }) => data)
 
-        console.log("i was call")
-
         const find = op.find((item: any) => item.properties.find((op: any) => op.status === IOrderProductPropertyStatus.denied && item.product.order_type === ProductOrderType.custom_made))
         if (find)
             setSendToUser(true)

@@ -91,7 +91,6 @@ export default function HowToSendDialog({ dialog, afterSubmit }: Props) {
 
     const onSubmit = handleSubmit(async (data) => {
         try {
-            console.log(data)
             await server_axios.post(endpoints.orders.create, data)
                 .then(({ data }) => {
                     dialog.onFalse();

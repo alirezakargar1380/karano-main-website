@@ -117,8 +117,6 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
         subTotal,
     } = invoice;
 
-    console.log(items)
-
     const styles = useStyles();
 
     return (

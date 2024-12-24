@@ -28,14 +28,6 @@ export function CustomNavList({ data, depth, slotProps }: NavListProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const handleToggleMenu = useCallback(() => {
-    console.log('i clcc')
-    router.replace('/?category=2')
-    // if (data.children) {
-    //   setOpenMenu((prev) => !prev);
-    // }
-  }, [data.children, router]);
-
   const handleCloseMenu = useCallback(() => {
     setOpenMenu(false);
   }, []);

@@ -36,7 +36,6 @@ export default function OrderRejectionListView({ dialog, orderId, order_number, 
   const { orderProducts, refreshOrderProducts } = useGetOrderProducts(orderId);
 
   const handleUpdateOrder = async () => {
-    console.log(edited)
     const op: IOrderProductItem[] = await server_axios.get(endpoints.orderProducts.one(orderId))
       .then(({ data }) => data);
 

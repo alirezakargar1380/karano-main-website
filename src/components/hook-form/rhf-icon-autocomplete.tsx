@@ -42,23 +42,12 @@ export default function RHFIconAutocomplete<
           {...field}
           onChange={(event, newValue) => setValue(name, newValue, { shouldValidate: true })}
           renderInput={(params) => {
-            console.log(params.InputProps)
-            // return (
-            //   <Iconify icon={`circle-flags:${(typeof params.inputProps.value === 'string' && params.inputProps.value.toLowerCase())}`} />
-            // )
             return (
               <TextField
                 // label={label}
                 // placeholder={placeholder}
                 error={!!error}
                 helperText={error ? error?.message : helperText}
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position="start">
-
-                //     </InputAdornment>
-                //   ),
-                // }}
                 {...{
                   ...params,
                   InputProps: {

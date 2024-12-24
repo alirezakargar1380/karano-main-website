@@ -109,7 +109,6 @@ export default function PhoneVerifyView() {
       <Typography variant="body1" fontFamily={'peyda-bold'} mt={3} textAlign={'left'}>کد تایید به شماره {" " + phone + " "} ارسال شد.</Typography>
 
       <CustomLink variant="hyperlink3" onClick={() => {
-        console.log('resend code');
         if (login)
           router.back()
         else

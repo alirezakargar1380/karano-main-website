@@ -206,8 +206,6 @@ export default function ProductDetailsSummary({
   useEffect(() => {
     const findCover = order_form_options.cover_type.find((p: any) => p.id == values.order_form_options.cover_type.id);
 
-    console.log(findCover);
-
     if (findCover?.is_raw) {
       setDisableCoatingType(true);
       setValue('order_form_options.coating_type', CoatingType.none);

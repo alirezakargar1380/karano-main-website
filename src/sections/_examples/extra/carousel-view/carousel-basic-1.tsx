@@ -38,8 +38,6 @@ export default function CarouselBasic1({ sx }: Props) {
     setCategory(categories.find((category) => category.id === Number(selectedCategoryId)));
   }, [selectedCategoryId, categories]);
 
-  console.log(category)
-
   const onNext = useCallback(() => {
     carousel.onPrev();
 
