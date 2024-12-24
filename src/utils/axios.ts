@@ -57,6 +57,10 @@ export const endpoints = {
     },
     register: '/api/authentication/user/register',
   },
+  auth_code: {
+    send_code: (phone: string) => `/api/auth-code/${phone}`,
+    remaining_time: (phone: string) => `/api/auth-code/remainingTime/${phone}`
+  },
   admin: {
     list: '/api/admin',
     one: (id: any) => '/api/admin/' + id,

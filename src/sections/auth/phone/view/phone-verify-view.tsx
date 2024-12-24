@@ -22,17 +22,20 @@ import FormProvider, { RHFCode, } from 'src/components/hook-form';
 import { Box } from '@mui/material';
 import RegisterLoginHead from '../register-login-head';
 import { numberRegex } from 'src/constants/regex/number';
-import { toEnglishNumber } from 'src/utils/change-case';
+import { toEnglishNumber, toFarsiNumber } from 'src/utils/change-case';
 import { codeErrorMessage } from 'src/constants/messages/phone-verify';
 import { CustomLink } from 'src/components/styles/link/custom-link';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 
 import { useSnackbar } from 'notistack';
 import { inputFormError } from 'src/constants/messages/form/errors';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
 export default function PhoneVerifyView() {
+  const [countdown, setCountdown] = useState('00:00');
+
   const { verify } = useAuthContext();
 
   const router = useRouter();
@@ -96,12 +99,69 @@ export default function PhoneVerifyView() {
       }
   }, [values.code])
 
+  useEffect(() => {
+    if (login) getRemainingTime();
+  }, [login])
+
+  useEffect(() => {
+    if (!countdown || countdown === '00:00') return;
+
+    const [minutes, seconds] = countdown.split(':').map(Number);
+    const totalSeconds = minutes * 60 + seconds;
+
+    const timer = setInterval(() => {
+      const newTotalSeconds = totalSeconds - 1;
+
+      if (newTotalSeconds < 0) {
+        clearInterval(timer);
+        setCountdown('00:00');
+      } else {
+        const newMinutes = Math.floor(newTotalSeconds / 60);
+        const newSeconds = newTotalSeconds % 60;
+
+        const formattedTime = `${newMinutes.toString().padStart(2, '0')}:${newSeconds.toString().padStart(2, '0')}`;
+        setCountdown(formattedTime);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [countdown]);
+
   const handleBeforeSubmit = useCallback(() => {
     if (!isValid) return enqueueSnackbar(inputFormError, {
       variant: 'myCustomVariant',
       color: 'error'
     })
   }, [isValid])
+
+  const getRemainingTime = useCallback(() => {
+    if (!phone) return
+
+    server_axios.get(endpoints.auth_code.remaining_time(phone))
+      .then(({ data }) => {
+        if (data.remainingTime > 0)
+          setCountdown(`00:${data.remainingTime}`)
+      })
+  }, [])
+
+  const sendAuthCode = useCallback(() => {
+    if (!phone) return
+
+    server_axios.post(endpoints.auth_code.send_code(phone))
+      .then(({ data }) => {
+        setCountdown('00:03')
+        enqueueSnackbar('کد احراز هویت بر روی شماره تلفن شما ارسال شد', {
+          variant: 'myCustomVariant',
+          color: 'info'
+        })
+      }).catch((err) => {
+        getRemainingTime()
+        enqueueSnackbar(err, {
+          variant: 'myCustomVariant',
+          color: 'error'
+        })
+      })
+  }, [phone])
 
   const renderForm = (
     <Stack spacing={2.5}>
@@ -119,10 +179,13 @@ export default function PhoneVerifyView() {
 
       <Box sx={{ mb: 2 }}>
         <Typography variant="body2" mb={1} fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید</Typography>
-        <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={'دریافت مجدد کد پس از ۰۲:۵۹ '} />
-        <CustomLink variant='hyperlink3' underline="none" sx={{ width: 'fit-content' }}>
-          دریافت مجدد کد
-        </CustomLink>
+        <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={(countdown !== '00:00') ? `دریافت مجدد کد پس از ${toFarsiNumber(countdown)}` : undefined} />
+        {(countdown === '00:00') && (
+          <CustomLink variant='hyperlink3' underline="none" sx={{ width: 'fit-content', mt: 1 }} onClick={sendAuthCode}>
+            دریافت مجدد کد
+          </CustomLink>
+        )}
+
       </Box>
 
       <PrimaryButton

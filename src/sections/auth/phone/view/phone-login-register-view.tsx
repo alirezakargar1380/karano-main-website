@@ -118,12 +118,6 @@ export default function PhoneLoginView() {
         <RHFPhoneInput name="phone" custom_label='شماره تلفن همراه' />
       </Box>
 
-
-      {/* <Link variant="body2" color="inherit" underline="always" sx={{ alignSelf: 'flex-end' }}>
-        Forgot password?
-      </Link> */}
-
-
       <PrimaryButton
         sx={{ width: 1 }}
         type="submit"

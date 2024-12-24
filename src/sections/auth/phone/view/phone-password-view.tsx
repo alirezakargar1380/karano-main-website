@@ -1,7 +1,7 @@
 'use client';
 
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -29,6 +29,7 @@ import { useSnackbar } from 'notistack';
 
 import querystring from "querystring";
 import { CustomLink } from 'src/components/styles/link/custom-link';
+import { endpoints, server_axios } from 'src/utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -93,6 +94,26 @@ export default function PhonePasswordView() {
     }
   });
 
+  const sendAuthCode = useCallback(() => {
+    if (!phone) return
+
+    server_axios.post(endpoints.auth_code.send_code(phone))
+      .then(({ data }) => {
+        enqueueSnackbar('کد احراز هویت بر روی شماره تلفن شما ارسال شد', {
+          variant: 'myCustomVariant',
+          color: 'info'
+        })
+
+        router.replace(paths.auth.phone.verify + `?${query}`)
+      })
+      .catch((err) => {
+        enqueueSnackbar(err, {
+          variant: 'myCustomVariant',
+          color: 'error'
+        })
+      })
+  }, [phone, query])
+
   const renderForm = (
     <Stack spacing={3}>
       {!!errorMsg && <Alert severity="error">{errorMsg}</Alert>}
@@ -120,7 +141,13 @@ export default function PhonePasswordView() {
           }}
         />
         <Stack spacing={2} textAlign={'left'} mt={2} width={1}>
-          <CustomLink variant='hyperlink3' href={paths.auth.phone.verify + `?${query}`} underline="none" sx={{ width: 'fit-content' }}>
+          <CustomLink
+            variant='hyperlink3'
+            // href={paths.auth.phone.verify + `?${query}`} 
+            onClick={sendAuthCode}
+            underline="none"
+            sx={{ width: 'fit-content' }}
+          >
             ورود با رمز یکبار مصرف
           </CustomLink>
           <CustomLink variant='hyperlink3' href={paths.auth.phone.resetPassword.root} underline="none" sx={{ width: 'fit-content' }}>
