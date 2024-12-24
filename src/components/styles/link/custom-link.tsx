@@ -4,10 +4,13 @@ import { m } from 'framer-motion';
 import { MouseEventHandler, useCallback, useState } from 'react';
 import SvgColor from 'src/components/svg-color';
 
-const CustomLinkStyle = styled(Link)<LinkProps>(({ theme }) => {
+const CustomLinkStyle = styled(Link)<Props>(({ theme, disabled }) => {
 
     return {
         color: '#0B7BA7',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        pointerEvents: disabled ? 'none' : 'auto',
+        opacity: disabled ? 0.5 : 1,
         '&:hover': {
             backgroundColor: '#DCF9FF',
             borderRadius: '2px',
@@ -22,6 +25,7 @@ type Props = LinkProps & {
     isSubmiting?: boolean;
     startIcon?: React.ReactElement | null;
     endIcon?: React.ReactElement | null;
+    disabled?: boolean;
 };
 
 export const CustomLink = ({
@@ -29,11 +33,12 @@ export const CustomLink = ({
     isSubmiting = false,
     startIcon,
     endIcon,
+    disabled,
     ...other
 }: Props) => {
 
     return (
-        <CustomLinkStyle {...other}>
+        <CustomLinkStyle disabled={disabled} {...other}>
             {children}
         </CustomLinkStyle>
     );

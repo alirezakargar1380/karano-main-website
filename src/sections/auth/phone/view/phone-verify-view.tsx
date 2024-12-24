@@ -34,6 +34,8 @@ import { endpoints, server_axios } from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
 export default function PhoneVerifyView() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [countdown, setCountdown] = useState('00:00');
 
   const { verify } = useAuthContext();
@@ -150,14 +152,18 @@ export default function PhoneVerifyView() {
   const sendAuthCode = useCallback(() => {
     if (!phone) return
 
+    setLoading(true)
+    
     server_axios.post(endpoints.auth_code.send_code(phone))
       .then(({ data }) => {
+        setLoading(false)
         setCountdown('00:10')
         enqueueSnackbar('کد احراز هویت بر روی شماره تلفن شما ارسال شد', {
           variant: 'myCustomVariant',
           color: 'info'
         })
       }).catch((err) => {
+        setLoading(false)
         getRemainingTime()
         enqueueSnackbar(err, {
           variant: 'myCustomVariant',
@@ -184,7 +190,7 @@ export default function PhoneVerifyView() {
         <Typography variant="body2" mb={1} fontFamily={'peyda-bold'} textAlign={'left'}>کد تایید</Typography>
         <RHFCode name="code" sx={{ direction: 'rtl' }} helperText={(countdown !== '00:00') ? `دریافت مجدد کد پس از ${toFarsiNumber(countdown)}` : undefined} />
         {(countdown === '00:00') && (
-          <CustomLink variant='hyperlink3' underline="none" sx={{ width: 'fit-content', mt: 1 }} onClick={sendAuthCode}>
+          <CustomLink variant='hyperlink3' disabled={loading} underline="none" sx={{ width: 'fit-content', mt: 1 }} onClick={sendAuthCode}>
             دریافت مجدد کد
           </CustomLink>
         )}

@@ -34,6 +34,8 @@ import { endpoints, server_axios } from 'src/utils/axios';
 // ----------------------------------------------------------------------
 
 export default function PhonePasswordView() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const { userLogin } = useAuthContext();
 
   const router = useRouter();
@@ -97,8 +99,11 @@ export default function PhonePasswordView() {
   const sendAuthCode = useCallback(() => {
     if (!phone) return
 
+    setLoading(true)
+
     server_axios.post(endpoints.auth_code.send_code(phone))
       .then(({ data }) => {
+        setLoading(false)
         enqueueSnackbar('کد احراز هویت بر روی شماره تلفن شما ارسال شد', {
           variant: 'myCustomVariant',
           color: 'info'
@@ -107,6 +112,7 @@ export default function PhonePasswordView() {
         router.replace(paths.auth.phone.verify + `?${query}`)
       })
       .catch((err) => {
+        setLoading(false)
         enqueueSnackbar(err, {
           variant: 'myCustomVariant',
           color: 'error'
@@ -147,6 +153,7 @@ export default function PhonePasswordView() {
             onClick={sendAuthCode}
             underline="none"
             sx={{ width: 'fit-content' }}
+            disabled={loading}
           >
             ورود با رمز یکبار مصرف
           </CustomLink>
