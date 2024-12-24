@@ -37,6 +37,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { fCurrency } from "src/utils/format-number";
 import { useGetOrder } from "src/api/orders";
+import { toFarsiNumber } from "src/utils/change-case";
+import { el } from "date-fns/locale";
 
 interface Props {
     invoiceDialog: useBooleanReturnType
@@ -44,7 +46,7 @@ interface Props {
     hasCustomMade: boolean
     orderId: number
     // order: IOrderItem
-    // orderProducts: IOrderProductItem[]
+    orderProducts: IOrderProductItem[]
 }
 
 export default function SaleManagementPayment({
@@ -52,6 +54,7 @@ export default function SaleManagementPayment({
     sendToUser,
     orderId,
     hasCustomMade,
+    orderProducts,
     // order,
 }: Props) {
     const router = useRouter();
@@ -157,24 +160,43 @@ export default function SaleManagementPayment({
             />
 
             <Box sx={{
-                background: '#FFFFFF', border: 'solid 1px #D1D1D1', borderTopLeftRadius: '16px', borderTopRightRadius: '16px',
-                borderBottomLeftRadius: '36px', borderBottomRightRadius: '36px', pb: 2
+                background: '#FFFFFF',
+                border: 'solid 1px #D1D1D1',
+                borderTopLeftRadius: '16px',
+                borderTopRightRadius: '16px',
+                borderBottomLeftRadius: '36px',
+                borderBottomRightRadius: '36px',
+                pb: 2
             }}>
-                <Box sx={{ borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }} pb={2} p={2}>
-                    <Typography variant="h6" fontFamily={'peyda-bold'}>
-                        تعداد کارهای درحال تولید: 146
+                <Box sx={{
+                    borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
+                    py: '32px',
+                    pl: '24px',
+                }}>
+                    <Typography variant="title3">
+                        تعداد کارهای درحال تولید: {
+                            toFarsiNumber(
+                                orderProducts.reduce((acc, item) => {
+                                    if (item.product.order_type === ProductOrderType.custom_made) {
+                                        return acc + item.properties.reduce((ac, it) => ac + it.quantity, 0)
+                                    } else {
+                                        return 0
+                                    }
+                                }, 0)
+                            )
+                        }
                     </Typography>
                 </Box>
-                <Stack p={2} spacing={4}>
+                <Stack p={2} spacing={'20px'}>
                     <GrayNotification>
                         با توجه به اطلاعات واحد تولید، زمان حدودی تولید  را تعیین کنید.
                     </GrayNotification>
                     <Stack direction={'row'} spacing={1} sx={{ bgcolor: '#DCF9FF', borderRadius: '8px', p: 2, border: 'solid 1px #0B7BA7' }}>
-                        <Typography variant="h6" fontFamily={'peyda-bold'}>مبلغ کل سفارش:</Typography>
-                        <Typography variant="h6" fontFamily={''}>
-                            {order.total ? fCurrency(order.total) : 0}
+                        <Typography variant="body1">مبلغ کل سفارش:</Typography>
+                        <Typography variant="body1">
+                            {order.total ? toFarsiNumber(fCurrency(order.total)) : 0}
                         </Typography>
-                        <Typography variant="h6" fontFamily={''} pl={2}>
+                        <Typography variant="body1" pl={1}>
                             ریال
                         </Typography>
                     </Stack>
@@ -183,12 +205,12 @@ export default function SaleManagementPayment({
                         custom_label="مبلغ پیش‌پرداخت"
                         name="prepayment"
                         placeholder="افزودن محتوا"
-                        helperText={fCurrency(values.prepayment || 0)}
+                        helperText={toFarsiNumber(fCurrency(values.prepayment || 0))}
                         sx={{
                             '& input': { textAlign: 'center!important' }
                         }}
                         InputProps={{
-                            endAdornment: (<Typography variant="body1" color={"#727272"} fontFamily={'peyda-light'} pr={1.5}>ریال</Typography>)
+                            endAdornment: (<Typography variant="body1" color={"#727272"} px={1.5}>ریال</Typography>)
                         }}
                     />
                     <Box>
@@ -207,15 +229,15 @@ export default function SaleManagementPayment({
                         />
                     </Box>
                 </Stack>
-                <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ p: 2, mt: 1 }}>
+                <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ px: 2, pt: 2, mt: 1 }}>
                     {sendToUser ? (
-                        <LoadingButton type="submit" variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
+                        <PrimaryButton size="medium" type="submit" sx={{ width: 1 }}>
                             ارسال برای مشتری
-                        </LoadingButton>
+                        </PrimaryButton>
                     ) : (
-                        <LoadingButton type="submit" variant="contained" sx={{ width: 1, borderRadius: '24px', py: 1 }}>
+                        <PrimaryButton size="medium" type="submit" sx={{ width: 1 }}>
                             تایید نهایی
-                        </LoadingButton>
+                        </PrimaryButton>
                     )}
                 </Box>
             </Box>

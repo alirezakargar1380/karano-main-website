@@ -56,16 +56,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
 
     return (!orderLoading) && (
         <Box>
-
-            <AdminBreadcrumbs
-                links={[
-                    { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
-                    { name: 'مدیریت فروش' },
-                ]}
-                sx={{
-                    mb: { xs: 3, md: 5 },
-                }}
-            />
+            
             <Box>
                 <PageTitle title="مدیریت فروش" icon="/assets/icons/shop/shopping-cart-01.svg" />
             </Box>
@@ -86,7 +77,7 @@ export default function SaleManagementDetailsView({ id }: Props) {
                             // order={order}
                             orderId={+id}
                             hasCustomMade={hasCustomMade}
-                            // orderProducts={orderProducts}
+                            orderProducts={orderProducts}
                         />
                     </Grid>
                 </Grid>

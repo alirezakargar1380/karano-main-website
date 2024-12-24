@@ -19,6 +19,7 @@ import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useGetOrderProducts } from "src/api/order-products";
 import { ECoatingTexture, ECoverEdgeTape } from "src/types/cart";
 import { translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
+import { toFarsiNumber } from "src/utils/change-case";
 
 interface Props {
     // orderProducts: IOrderProductItem[]
@@ -51,30 +52,30 @@ export default function SaleManagementProducts({
                 borderBottom={(theme) => `1px solid ${theme.palette.divider}`}>
                 <Stack direction={'row'}>
                     <Box display={'flex'} width={'50%'}>
-                        <Typography variant="h6" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
-                        <Typography variant="subtitle1" noWrap fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {order.order_number}
+                        <Typography variant="body3" fontFamily={'peyda-bold'}>کد سفارش:</Typography>
+                        <Typography variant="body4" noWrap fontFamily={'peyda-light'} sx={{ pl: 1 }}>
+                            {toFarsiNumber(order.order_number)}
                         </Typography>
                     </Box>
                     <Box display={'flex'} width={'50%'}>
-                        <Typography variant="h6" fontFamily={'peyda-bold'}>تعداد کالا :</Typography>
-                        <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
-                            {150}
+                        <Typography variant="body3" fontFamily={'peyda-bold'}>تعداد کالا :</Typography>
+                        <Typography variant="body4" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
+                            {orderProducts.reduce((acc, item) => acc + item.properties.reduce((ac, it) => ac + it.quantity, 0), 0)}
                         </Typography>
                     </Box>
                 </Stack>
                 <Stack direction={'row'}>
                     <Box display={'flex'} width={'50%'}>
-                        <Typography variant="h6" fontFamily={'peyda-bold'}>تاریخ ثب سفارش:</Typography>
-                        <Typography variant="subtitle1" fontFamily={'peyda-extra-light'} sx={{ pl: 1, pt: 0.25 }}>
+                        <Typography variant="body3" fontFamily={'peyda-bold'}>تاریخ ثب سفارش:</Typography>
+                        <Typography variant="body4" fontFamily={'peyda-extra-light'} sx={{ pl: 1, pt: 0.25 }}>
                             {fToJamali(order.createdAt)}
                         </Typography>
                     </Box>
                     <Box display={'flex'} width={'50%'}>
-                        <Typography variant="h6" fontFamily={'peyda-bold'}>
+                        <Typography variant="body3" fontFamily={'peyda-bold'}>
                             نام سفارش دهنده:
                         </Typography>
-                        <Typography variant="h6" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
+                        <Typography variant="body4" fontFamily={'peyda-light'} sx={{ pl: 1 }}>
                             {(order?.user?.user_type === IUserTypes.genuine) ? order.user.first_name + " " + order.user.last_name : order?.user?.company_name}
                         </Typography>
                     </Box>
@@ -355,7 +356,7 @@ function SaleManagementProductItem({
 
                                         {property.dimension  && (property.dimension.length != 0 && property.dimension.width != 0) && (
                                             <TableCell>
-                                                {property.dimension?.length + "x" + property.dimension?.width}
+                                                {toFarsiNumber(property.dimension?.length) + "x" + toFarsiNumber(property.dimension?.width)}
                                             </TableCell>
                                         )}
 
