@@ -120,7 +120,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {product.quantity}
+                                    {toFarsiNumber(product.quantity)}
                                 </TableCell>
 
                                 <TableCell>
@@ -128,28 +128,32 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell align="left">
-                                    {fCurrency(product.unit_price)}
+                                    {toFarsiNumber(fCurrency(product.unit_price))}
                                 </TableCell>
 
                                 {/* <TableCell align="right">{fCurrency(589 * 99)}</TableCell> */}
                                 <TableCell align="left">
-                                    {product.price ? fCurrency(product.price) : 0}
+                                    {product.price ? toFarsiNumber(fCurrency(product.price)) : 0}
                                 </TableCell>
                             </TableRow>
                         ))}
 
-                        <TableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
-                            <TableCell></TableCell>
 
-                            <TableCell>
-                                دستمزد مونتاژ
-                            </TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
+                        {invoice.assemble_wage.length > 0 && (
+                            <TableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
+                                <TableCell></TableCell>
+
+                                <TableCell>
+                                    دستمزد مونتاژ
+                                </TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        )}
+
 
                         {invoice.assemble_wage.map((row, index) => (
                             <TableRow key={index}>
@@ -202,9 +206,8 @@ export default function InvoiceView({
                         ml: 'auto',
                     }}>
                         <TableBody>
-                            {/* <TableHead></TableHead> */}
 
-                            <StyledTableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
+                            {/* <StyledTableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
                                 <TableCell></TableCell>
                                 <TableCell></TableCell>
                                 <TableCell sx={{ fontFamily: 'peyda-regular' }}>
@@ -215,7 +218,7 @@ export default function InvoiceView({
                                     210*1235
                                 </TableCell>
                                 <TableCell></TableCell>
-                            </StyledTableRow>
+                            </StyledTableRow> */}
 
                             <StyledTableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
                                 <TableCell></TableCell>
@@ -225,7 +228,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    10,000 تومان
+                                    {toFarsiNumber(fCurrency(960000)) + ' ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
@@ -236,9 +239,8 @@ export default function InvoiceView({
                                 <TableCell sx={{ fontFamily: 'peyda-regular' }}>
                                     مالیات و عوارض
                                 </TableCell>
-
                                 <TableCell>
-                                    1,000,000 تومان
+                                    {toFarsiNumber(fCurrency(960000)) + ' ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
@@ -251,7 +253,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    0 %
+                                    % {toFarsiNumber(fCurrency(10))}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
@@ -264,7 +266,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {fCurrency(invoice.total_price) + " " + 'ریال'}
+                                    {toFarsiNumber(fCurrency(invoice.total_price)) + " " + 'ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>

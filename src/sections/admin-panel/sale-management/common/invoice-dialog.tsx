@@ -1,6 +1,8 @@
 import { LoadingButton } from "@mui/lab";
-import { DialogActions } from "@mui/material";
+import { DialogActions, DialogContent } from "@mui/material";
 import { DialogWithButton } from "src/components/custom-dialog";
+import Scrollbar from "src/components/scrollbar";
+import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useBooleanReturnType } from "src/hooks/use-boolean";
 import InvoiceView from "src/sections/order-tracking/invoice-view";
@@ -18,28 +20,32 @@ export default function InvoiceDialog({ dialog, orderId, title, production_date,
 
     return (
         <DialogWithButton dialog={dialog} fullWith={true}>
-            <InvoiceView
-                title={title}
-                orderId={orderId}
-                // submitHandler={() => submitHandler()}
-                production_date={production_date}
-            />
-            <DialogActions>
+            <DialogContent sx={{ p: 0 }}>
+                <Scrollbar>
+                    <InvoiceView
+                        title={title}
+                        orderId={orderId}
+                        // submitHandler={() => submitHandler()}
+                        production_date={production_date}
+                    />
+                </Scrollbar>
+            </DialogContent>
+            <DialogActions sx={{ px: 0, pb: 0 }}>
                 <SecondaryButton
                     variant='outlined'
-                    sx={{ px: 4 }}
-                    // onClick={onPrev}
+                    size="medium"
+                // onClick={onPrev}
                 >
-                    مرحله قبل
+                    انصراف
                 </SecondaryButton>
-                <LoadingButton
-                    variant='contained'
+                <PrimaryButton
+                    size="medium"
                     sx={{ borderRadius: '24px', px: 4 }}
                     // onClick={() => checkout.onNextStep()}
                     onClick={submitHandler}
                 >
                     ثبت و ادامه
-                </LoadingButton>
+                </PrimaryButton>
             </DialogActions>
         </DialogWithButton>
     )
