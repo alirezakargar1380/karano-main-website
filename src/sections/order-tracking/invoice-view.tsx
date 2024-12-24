@@ -28,6 +28,8 @@ type Props = {
 };
 
 interface Iinvoice {
+    prepayment: number;
+    discount_percentage: number;
     total_price: number;
     products: {
         name: string;
@@ -54,6 +56,8 @@ export default function InvoiceView({
 
     const [invoice, setInvoice] = useState<Iinvoice>({
         total_price: 0,
+        prepayment: 0,
+        discount_percentage: 0,
         products: [],
         assemble_wage: [],
     })
@@ -253,10 +257,25 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    % {toFarsiNumber(fCurrency(10))}
+                                    % {toFarsiNumber(invoice.discount_percentage)}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
+
+                            {invoice.prepayment > 0 && (
+                                <StyledTableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell sx={{ fontFamily: 'peyda-regular' }}>
+                                        مبلغ پیش پرداخت
+                                    </TableCell>
+
+                                    <TableCell>
+                                        {toFarsiNumber(fCurrency(invoice.prepayment)) + ' ریال'}
+                                    </TableCell>
+                                    <TableCell></TableCell>
+                                </StyledTableRow>
+                            )}
 
                             <StyledTableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
                                 <TableCell></TableCell>

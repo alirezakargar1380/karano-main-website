@@ -93,6 +93,7 @@ export type IOrderItem = {
   user: IUser;
   status: OrderStatus;
   need_prepayment: boolean;
+  discount_percentage: number;
   prepayment: number;
   total: number;
   production_days: number;

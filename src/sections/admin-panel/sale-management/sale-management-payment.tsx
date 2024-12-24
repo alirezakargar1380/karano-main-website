@@ -70,6 +70,7 @@ export default function SaleManagementPayment({
     const defaultValues = {
         need_prepayment: order.need_prepayment,
         prepayment: order.prepayment || '',
+        discount_percentage: order?.discount_percentage || 0,
         production_days: order.production_days || 1,
     }
 
@@ -109,6 +110,8 @@ export default function SaleManagementPayment({
                 if (find)
                     return enqueueSnackbar("ابتدا وضعیت «تایید»‌یا «عدم تایید» تمام سفارش‌ها را مشخص کنید. سپس بر روی دکمه «تایید نهایی» کلیک کنید.")
 
+                await handleUpdate();
+
                 invoiceDialog.onTrue();
             }
         } catch (error) {
@@ -116,10 +119,21 @@ export default function SaleManagementPayment({
         }
     });
 
+    const handleUpdate = () => {
+        try {
+            return server_axios.patch(endpoints.orders.update(orderId), {
+                ...values,
+                // status: OrderStatus.accepted
+            })
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const handleFinalApprove = useCallback(async () => {
         timeReminder.onFalse();
         await server_axios.patch(endpoints.orders.update(orderId), {
-            ...values,
+            // ...values,
             status: OrderStatus.accepted
         })
         router.push(paths.admin_dashboard.saleManagement.root)
@@ -210,7 +224,7 @@ export default function SaleManagementPayment({
                             '& input': { textAlign: 'center!important' }
                         }}
                         InputProps={{
-                            endAdornment: (<Typography variant="body1" color={"#727272"} px={1.5}>ریال</Typography>)
+                            endAdornment: (<Typography variant="body1" color={"#727272"} px={1}>ریال</Typography>)
                         }}
                     />
                     <Box>
@@ -228,6 +242,18 @@ export default function SaleManagementPayment({
                             }}
                         />
                     </Box>
+                    <RHFTitleTextField
+                        custom_label="تخفیف (اختیاری)"
+                        name="discount_percentage"
+                        placeholder="افزودن محتوا"
+                        // helperText={toFarsiNumber(fCurrency(values.prepayment || 0))}
+                        sx={{
+                            '& input': { textAlign: 'center!important' }
+                        }}
+                        InputProps={{
+                            endAdornment: (<Typography variant="body1" color={"#727272"} px={1}>درصد</Typography>)
+                        }}
+                    />
                 </Stack>
                 <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ px: 2, pt: 2, mt: 1 }}>
                     {sendToUser ? (
