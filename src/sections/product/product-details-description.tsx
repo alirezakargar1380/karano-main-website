@@ -13,7 +13,7 @@ export default function ProductDetailsDescription({ description, attributes }: P
       {(!!description) && (
         <Box sx={{ textAlign: 'left' }}>
           <Typography variant='title3' pb={'16px'}>درباره محصول</Typography>
-          <Typography variant='body2'>
+          <Typography variant='body2' whiteSpace={'break-spaces'}>
             {description}
           </Typography>
         </Box>
