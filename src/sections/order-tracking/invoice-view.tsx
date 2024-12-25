@@ -172,10 +172,10 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>{row.code}</TableCell>
-                                <TableCell>{row.quantity}</TableCell>
+                                <TableCell>{toFarsiNumber(row.quantity)}</TableCell>
                                 <TableCell>{'-'}</TableCell>
-                                <TableCell align="left">{fCurrency(row.price / row.quantity)}</TableCell>
-                                <TableCell align="left">{fCurrency(row.price)}</TableCell>
+                                <TableCell align="left">{toFarsiNumber(fCurrency(row.price / row.quantity))}</TableCell>
+                                <TableCell align="left">{toFarsiNumber(fCurrency(row.price))}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
