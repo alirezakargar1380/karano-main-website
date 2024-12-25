@@ -111,7 +111,7 @@ export default function CompleteOrderView({
                 <CompleteInvoiceView dialog={finalOrderDialog}>
                     <InvoiceView
                         title={hasCustomMade ? 'پیش‌فاکتور فروش کالا‌و‌خدمات' : 'فاکتور فروش کالا‌و‌خدمات'}
-                        orderProducts={orderProducts}
+                        orderId={orderId}
                     />
                 </CompleteInvoiceView>
             )}
