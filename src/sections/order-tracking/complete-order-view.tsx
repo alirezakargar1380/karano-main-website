@@ -36,7 +36,6 @@ export default function CompleteOrderView({
 }: Props) {
     const checkout = useCheckoutContext();
 
-    const { orderProducts } = useGetOrderProducts(orderId);
     const { order } = useGetOrder(`${orderId}`);
 
     useEffect(() => {
@@ -52,11 +51,17 @@ export default function CompleteOrderView({
     }, [checkout.activeStep]);
 
     const handle = async () => {
-        await server_axios.patch(endpoints.orders.update(orderId), {
-            status: (hasCustomMade) ? OrderStatus.production : OrderStatus.preparing
-        })
-        finalOrderDialog.onFalse();
-        handleAfterLastSection(order.need_prepayment);
+        // Payment
+        // redirect user to pay their invoice and update the order status
+        // by has custom made or not
+
+        // -------------------------- OLD CODE --------------------------
+        // await server_axios.patch(endpoints.orders.update(orderId), {
+        //     status: (hasCustomMade) ? OrderStatus.production : OrderStatus.preparing
+        // })
+        // finalOrderDialog.onFalse();
+        // handleAfterLastSection(order.need_prepayment);
+        // -------------------------- OLD CODE --------------------------
     }
 
     return (

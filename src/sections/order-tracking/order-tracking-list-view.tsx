@@ -43,6 +43,8 @@ export default function OrderTrackingListView({ status }: Props) {
   const { orders, refreshOrders } = useGetTrackingOrders();
   const { orderProducts } = useGetOrderProducts(orderId);
 
+  // get query params and if payment was succssful by need prepamt or not show user the succss dialog
+
   useEffect(() => {
     if (orderProducts.length) {
       if (orderProducts.some((op) => op.product.order_type === ProductOrderType.custom_made))
