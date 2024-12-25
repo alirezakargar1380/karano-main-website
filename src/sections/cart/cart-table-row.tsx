@@ -165,17 +165,19 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!frame_width || algorithm === EAlgorithm.room_door) && (
+        {((!!frame_width && +frame_width > 0)|| algorithm === EAlgorithm.room_door) && (
           <TableCell>
-            <Typography variant='body4'>{+frame_width > 0 ? frame_width + " سانتی متر" : '-'}</Typography>
+            <Typography variant='body4'>{frame_width + " سانتی متر"}</Typography>
           </TableCell>
         )}
 
         {(!!frame_core || algorithm === EAlgorithm.room_door) && (
           <TableCell>
             <Typography variant='body4'>
-              {(frame_core === EFrameCore.mdf && 'ترکیب چوب و ام دی اف'
-                || frame_core === EFrameCore.ply && 'پلای وود' || '-'
+              {(
+                frame_core === EFrameCore.mdf && 'ترکیب چوب و ام دی اف'
+                || frame_core === EFrameCore.ply && 'پلای وود'
+                || '-'
               )}
             </Typography>
           </TableCell>
