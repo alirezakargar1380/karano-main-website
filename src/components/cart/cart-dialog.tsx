@@ -278,6 +278,7 @@ export default function CartDialog({
         color: 'info',
         variant: 'myCustomVariant',
       });
+      
     if (!list.length)
       return enqueueSnackbar(
         'ابتدا دکمه «افزودن به لیست» و سپس دکمه «افزودن به سبد خرید» را کلیک کنید.',
@@ -291,6 +292,7 @@ export default function CartDialog({
       onAddCart(list);
       // setList([]);
       reset(defaultValues);
+      // dialog.onFalse();
     }
   }, [list, type]);
 

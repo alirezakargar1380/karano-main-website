@@ -94,15 +94,6 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
     }, [setCheckoutItems, checkoutItems, checkoutItem]);
 
     const deleteRow = useCallback((ppid: number, isLastOne = false) => {
-        // ====================== OLD VERSION =====================
-        // let newItems = [...checkoutItems];
-        // newItems = newItems.map(((item) => {
-        //     item.properties = item.properties.filter((property) => property.id !== ppid);
-        //     return item;
-        // }));
-        // newItems = newItems.filter((item) => item.properties.length > 0);
-        // setCheckoutItems(newItems);
-        // ====================== OLD VERSION =====================
 
         setCheckoutItems(prevItems => {
             const newItems = prevItems.map(currentItem => {

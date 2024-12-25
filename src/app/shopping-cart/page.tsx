@@ -2,7 +2,7 @@ import { ShoppingCartView } from 'src/sections/shopping-cart/view';
 
 // ----------------------------------------------------------------------
 export const metadata = {
-  title: 'cart',
+  title: 'سبد خرید',
 };
 
 export default function ShoppingCardPage() {
