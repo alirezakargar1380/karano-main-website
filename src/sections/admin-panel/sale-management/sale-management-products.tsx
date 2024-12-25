@@ -41,7 +41,7 @@ export default function SaleManagementProducts({
     }, []);
 
     return (
-        <Box border={(theme) => `1px solid ${theme.palette.divider}`} bgcolor={'#FFF'} width={1} borderRadius={'16px'}>
+        <Box border={(theme) => `1px solid ${theme.palette.divider}`} bgcolor={'#FFF'} width={1} borderRadius={'12px'} boxShadow={'2px 2px 8px 0px #0000001A'}>
             <Stack
                 sx={{
                     width: 1

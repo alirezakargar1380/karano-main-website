@@ -176,11 +176,8 @@ export default function SaleManagementPayment({
             <Box sx={{
                 background: '#FFFFFF',
                 border: 'solid 1px #D1D1D1',
-                borderTopLeftRadius: '16px',
-                borderTopRightRadius: '16px',
-                borderBottomLeftRadius: '36px',
-                borderBottomRightRadius: '36px',
-                pb: 2
+                borderRadius: '12px',
+                boxShadow: '2px 2px 8px 0px #0000001A'
             }}>
                 <Box sx={{
                     borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
@@ -201,7 +198,7 @@ export default function SaleManagementPayment({
                         }
                     </Typography>
                 </Box>
-                <Stack p={2} spacing={'20px'}>
+                <Stack p={'24px'} spacing={'16px'}>
                     <GrayNotification>
                         با توجه به اطلاعات واحد تولید، زمان حدودی تولید  را تعیین کنید.
                     </GrayNotification>
@@ -246,6 +243,8 @@ export default function SaleManagementPayment({
                         custom_label="تخفیف (اختیاری)"
                         name="discount_percentage"
                         placeholder="افزودن محتوا"
+                        helperText={'تخفیف مورد نظر از کل مبلغ ‌فاکتور کسر می‌شود.'}
+                        helperTextIconColor="#1A9FD6"
                         // helperText={toFarsiNumber(fCurrency(values.prepayment || 0))}
                         sx={{
                             '& input': { textAlign: 'center!important' }
@@ -255,7 +254,7 @@ export default function SaleManagementPayment({
                         }}
                     />
                 </Stack>
-                <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ px: 2, pt: 2, mt: 1 }}>
+                <Box borderTop={(theme) => `solid 1px ${theme.palette.divider}`} sx={{ p: '24px', mt: 1 }}>
                     {sendToUser ? (
                         <PrimaryButton size="medium" type="submit" sx={{ width: 1 }}>
                             ارسال برای مشتری

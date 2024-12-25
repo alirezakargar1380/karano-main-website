@@ -10,9 +10,10 @@ type Props = TextFieldProps & {
   name: string;
   custom_label: string;
   lable_caption?: string
+  helperTextIconColor?: string
 };
 
-export default function RHFTitleTextField({ name, custom_label, lable_caption, helperText, type, ...other }: Props) {
+export default function RHFTitleTextField({ name, custom_label, lable_caption, helperText, type, helperTextIconColor = "#727272", ...other }: Props) {
   const { control } = useFormContext();
 
   return (
@@ -47,12 +48,12 @@ export default function RHFTitleTextField({ name, custom_label, lable_caption, h
             {error && (
               <Stack direction={'row'} alignItems={'center'}>
                 <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#C80303'} sx={{ width: 20, height: 20 }} />
-                <Typography fontFamily={'peyda-regular'} variant='body2' ml={0.5} mt={1}>{error?.message}</Typography>
+                <Typography variant='body2' ml={0.5} mt={1}>{error?.message}</Typography>
               </Stack>
             )}
             {helperText && (
               <Stack direction={'row'} alignItems={'center'}>
-                <SvgColor src='/assets/icons/input/alert-circle.svg' color={'#727272'} sx={{ width: 20, height: 20, mt: 0.5 }} />
+                <SvgColor src='/assets/icons/input/alert-circle.svg' color={helperTextIconColor} sx={{ width: 20, height: 20, mt: 0.5 }} />
                 <Typography variant='caption2' ml={0.5} mt={1}>{helperText}</Typography>
               </Stack>
             )}
