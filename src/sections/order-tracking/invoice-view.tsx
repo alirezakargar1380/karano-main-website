@@ -31,6 +31,8 @@ interface Iinvoice {
     prepayment: number;
     discount_percentage: number;
     total_price: number;
+    tax: number;
+    shipping: number;
     products: {
         name: string;
         unit: string;
@@ -57,6 +59,8 @@ export default function InvoiceView({
     const [invoice, setInvoice] = useState<Iinvoice>({
         total_price: 0,
         prepayment: 0,
+        shipping: 0,
+        tax: 0,
         discount_percentage: 0,
         products: [],
         assemble_wage: [],
@@ -232,7 +236,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {toFarsiNumber(fCurrency(960000)) + ' ریال'}
+                                    {invoice.shipping > 0 ? toFarsiNumber(fCurrency(invoice.shipping || 0)) + ' ریال' : '0 ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
@@ -244,7 +248,7 @@ export default function InvoiceView({
                                     مالیات و عوارض
                                 </TableCell>
                                 <TableCell>
-                                    {toFarsiNumber(fCurrency(960000)) + ' ریال'}
+                                    {toFarsiNumber(fCurrency(invoice.tax)) + ' ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
