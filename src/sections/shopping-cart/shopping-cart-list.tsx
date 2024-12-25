@@ -220,7 +220,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                         </Grid>
                         {((type !== 'edit')) && (
                             <Grid item sm={2} sx={{ pt: 2 }}>
-                                <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ height: 80, width: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                                <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ height: 120, width: 120, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
                             </Grid>
                         )}
                         <Grid item sm={(type !== 'edit') ? 10 : 12} sx={{ pt: 2 }}>
