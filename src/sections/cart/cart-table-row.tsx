@@ -167,7 +167,7 @@ export default function CartTableRow({
 
         {((!!frame_width && +frame_width > 0)|| algorithm === EAlgorithm.room_door) && (
           <TableCell>
-            <Typography variant='body4'>{frame_width + " سانتی متر"}</Typography>
+            <Typography variant='body4'>{+frame_width > 0 ? frame_width + " سانتی متر" : '-'}</Typography>
           </TableCell>
         )}
 
