@@ -148,7 +148,7 @@ export type IProductItem = {
   attributes: string;
   name: string;
   status: string;
-  product_dimension: IProductDimension[];
+  // product_dimension: IProductDimension[];
   code: IProductCodes;
   price: number;
   taxes: number;
@@ -175,6 +175,12 @@ export type IProductTableFilters = {
   name: string;
   stock: string[];
   publish: string[];
+};
+
+export type IProductMetaTags = {
+  title: string,
+  description: string,
+  meta_tags: string
 };
 
 export enum EAlgorithm {
