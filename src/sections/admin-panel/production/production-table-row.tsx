@@ -9,7 +9,6 @@ import { IOrderItem, OrderStatus } from "src/types/order";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IUserTypes } from "src/types/user";
 import SvgColor from "src/components/svg-color";
-import { useGetProductionProducts } from "src/api/order-products";
 import { EFrameCore } from "src/types/product";
 import { ECoatingTexture } from "src/types/cart";
 import { translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
