@@ -6,7 +6,7 @@ import { toFarsiNumber } from "src/utils/change-case";
 interface Props {
     values: any;
     cover_type: IProductCoverType[]
-    dimension: IProductDimension[]
+    dimension?: IProductDimension[]
 }
 
 export const ProductItemsSummary = ({ values, cover_type, dimension }: Props) => {

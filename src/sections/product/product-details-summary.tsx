@@ -60,7 +60,7 @@ export default function ProductDetailsSummary({
     id,
     name,
     price,
-    product_dimension,
+    // product_dimension,
     order_form_options,
     coverUrl,
     order_type,
@@ -227,41 +227,43 @@ export default function ProductDetailsSummary({
   const renderSubDescription = (
     <Box sx={{ width: 1, mt: 2 }}>
       <Typography variant="body1" sx={{ pb: 2 }} fontFamily={'peyda-bold'} borderBottom={'1px solid #D1D1D1'}>
-        <ProductItemsSummary values={values} cover_type={product.order_form_options?.cover_type} dimension={product.product_dimension} />
+        <ProductItemsSummary values={values} cover_type={product.order_form_options?.cover_type} 
+        // dimension={product.product_dimension} 
+        />
       </Typography>
     </Box>
   );
 
-  const renderDimensions = (!!product_dimension?.length) && (
-    <Box>
-      <Typography variant="subtitle1" fontFamily={'peyda-bold'}
-        sx={{
-          width: 1, pb: '16px'
-        }}>
-        ابعاد
-      </Typography>
+  // const renderDimensions = (!!product_dimension?.length) && (
+  //   <Box>
+  //     <Typography variant="subtitle1" fontFamily={'peyda-bold'}
+  //       sx={{
+  //         width: 1, pb: '16px'
+  //       }}>
+  //       ابعاد
+  //     </Typography>
 
-      <RHFRadioGroup
-        name="dimension_id"
-        row
-        sx={{
-          width: 1,
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: 'repeat(1, 1fr)',
-            md: 'repeat(2, 1fr)',
-          },
-          gridGap: 18,
-        }}
-        options={product_dimension.map((dimension, index: number) => {
-          return {
-            label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',
-            value: dimension.id
-          };
-        })}
-      />
-    </Box>
-  )
+  //     <RHFRadioGroup
+  //       name="dimension_id"
+  //       row
+  //       sx={{
+  //         width: 1,
+  //         display: 'grid',
+  //         gridTemplateColumns: {
+  //           xs: 'repeat(1, 1fr)',
+  //           md: 'repeat(2, 1fr)',
+  //         },
+  //         gridGap: 18,
+  //       }}
+  //       options={product_dimension.map((dimension, index: number) => {
+  //         return {
+  //           label: dimension.width + '*' + dimension.height + '*' + dimension.length + '\n' + 'سانتی متر',
+  //           value: dimension.id
+  //         };
+  //       })}
+  //     />
+  //   </Box>
+  // )
 
   const renderCoatingType = (order_form_options?.coating_type) && (
     <Box sx={{ width: 1 }}>
@@ -470,7 +472,7 @@ export default function ProductDetailsSummary({
 
             {product.order_type === ProductOrderType.ready_to_use ?
               <>
-                {renderDimensions}
+                {/* {renderDimensions} */}
                 {/* {renderRating} */}
 
                 {renderProfiles}
