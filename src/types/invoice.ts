@@ -17,6 +17,7 @@ export type IInvoiceTableFilters = {
 export type IInvoiceItem = {
   id: string;
   title: string;
+  code: string;
   price: number;
   total: number;
   service: string;

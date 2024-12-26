@@ -85,8 +85,6 @@ export default function ProductDetailsSummary({
 
   const [isFavorite, setFavorite] = useState<boolean>(is_user_favorite);
 
-  const existProduct = !!items?.length && items.map((item) => item.id).includes(id);
-
   const defaultValues = {
     id,
     quantity: 1,

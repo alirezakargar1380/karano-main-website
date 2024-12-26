@@ -26,40 +26,34 @@ import Filter from "../../filter";
 export default function ProductionListView() {
     const settings = useSettingsContext();
 
-    const router = useRouter();
+    // const router = useRouter();
 
     const { orders } = useGetProductionOrders()
 
-    const schema = Yup.object().shape({
-    });
+    // const schema = Yup.object().shape({
+    // });
 
-    const methods = useForm({
-        resolver: yupResolver<any>(schema),
-        defaultValues: {},
-    });
+    // const methods = useForm({
+    //     resolver: yupResolver<any>(schema),
+    //     defaultValues: {},
+    // });
 
-    const {
-        reset,
-        handleSubmit,
-        watch,
-        formState: { isSubmitting },
-    } = methods;
+    // const {
+    //     reset,
+    //     handleSubmit,
+    //     watch,
+    //     formState: { isSubmitting },
+    // } = methods;
 
-    const values = watch();
+    // const values = watch();
 
-    const onSubmit = handleSubmit(async () => {
-        try {
-        } catch (error) {
-            console.error(error);
-            reset();
-        }
-    });
-
-    const [isClient, setIsClient] = useState(false)
-
-    useEffect(() => {
-        setIsClient(true)
-    }, [])
+    // const onSubmit = handleSubmit(async () => {
+    //     try {
+    //     } catch (error) {
+    //         console.error(error);
+    //         reset();
+    //     }
+    // });
 
     return (
         <Box>
@@ -95,12 +89,6 @@ export default function ProductionListView() {
                     </TableContainer>
 
                 </Box>
-
-                {/* {isClient && (
-                <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
-                    <ProductionPDF invoice={_invoices[0]} currentStatus={'production'} />
-                </PDFViewer>
-            )} */}
             </Container>
         </Box>
     )

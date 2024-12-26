@@ -1,5 +1,5 @@
-import { MenuItem, Select, TableBody, TableCell, TableRow, TextField } from "@mui/material";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { Button, MenuItem, Select, TableBody, TableCell, TableRow, TextField } from "@mui/material";
+import { BlobProvider, PDFDownloadLink } from "@react-pdf/renderer";
 import Label from "src/components/label";
 import ProductionPDF from "./production-pdf";
 import { _invoices } from "src/_mock";
@@ -9,6 +9,10 @@ import { IOrderItem, OrderStatus } from "src/types/order";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IUserTypes } from "src/types/user";
 import SvgColor from "src/components/svg-color";
+import { useGetProductionProducts } from "src/api/order-products";
+import { EFrameCore } from "src/types/product";
+import { ECoatingTexture } from "src/types/cart";
+import { translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
 
 interface Props {
     row: IOrderItem
@@ -71,49 +75,57 @@ export function ProductionTableRow({ row }: Props) {
                 <TableCell>1409/01/01</TableCell>
 
                 <TableCell>
-                    {isClient ?
+                    {(isClient) && (
                         <PDFDownloadLink
-                            document={<ProductionPDF invoice={{
-                                ..._invoices[0],
-                                items: row.order_products.map((op) => {
-                                    return op.properties.map((opp) => {
-                                        return {
-                                            id: op.id,
-                                            title: op.product.name,
-                                            price: op.product.price,
-                                            total: op.product.price * opp.quantity,
-                                            service: '*** - ***',
-                                            quantity: opp.quantity,
-                                            description: opp.dimension ? opp.dimension.width + "*" + opp.dimension.height : '***'
-                                        }
-                                    })
-                                }).reduce((acc, current) => acc.concat(current), [])
-                            }} currentStatus={'production'} />}
+                            document={
+                                <ProductionPDF
+                                    invoice={{
+                                        ..._invoices[0],
+                                        items: row.order_products.map((op) => {
+                                            const data = op.properties.map((p) => {
+                                                return {
+                                                    id: p.id,
+                                                    title: op.product.name,
+                                                    code: op.product.code.code,
+                                                    cover_type: p?.cover_type?.name || '-',
+                                                    coating_type: p?.coating_type || '-',
+                                                    frame_type: p?.frame_type?.name || '-',
+                                                    profile_type: p?.profile_type?.name || '-',
+                                                    raised_rim: p?.raised_rim?.name + p?.raised_rim?.code || '-',
+                                                    cover_edge_tape: translateCoverEdgeTape(p?.cover_edge_tape) || '-',
+                                                    frame_width: p?.frame_width ? p.frame_width + " سانتی متر" : '-',
+                                                    frame_core: p?.frame_core === EFrameCore.mdf && 'ترکیب چوب و ام دی اف'
+                                                        || p?.frame_core === EFrameCore.ply && 'پلای وود'
+                                                        || '-',
+                                                    coating_texture: p?.coating_texture === ECoatingTexture.right_vein && 'بلوط رگه راست' ||
+                                                        p?.coating_texture === ECoatingTexture.wavy && 'بلوط موج دار' ||
+                                                        '-',
+                                                    price: "111",
+                                                    total: "598",
+                                                    service: "",
+                                                    quantity: "69",
+                                                    description: p.dimension && p.dimension.length + "x" + p.dimension.width
+                                                }
+                                            })
+                                            return data
+                                        })[0]
+                                    }}
+                                    currentStatus={row.order_number}
+                                />
+                            }
                             fileName={`${row.order_number}.pdf`}
                             style={{ textDecoration: 'none' }}
                         >
-                            {({ loading }) => (
-                                <SecondaryButton
-                                    variant="outlined"
-                                    sx={{ borderRadius: '28px', color: "black" }}
-                                >
+                            {({ blob, url, loading, error }) => url && (
+                                <SecondaryButton size="small" sx={{ color: "black" }} onClick={() => {
+                                    window.open(url, "_blank")
+                                }}>
                                     <SvgColor src="/assets/icons/orders/download-01.svg" sx={{ mr: 0.5 }} />
                                     دانلود فرم سفارش ساخت
                                 </SecondaryButton>
                             )}
-                            {/* {({ loading }) => (
-                            <Tooltip title="Download">
-                                <IconButton>
-                                    {loading ? (
-                                        <CircularProgress size={24} color="inherit" />
-                                    ) : (
-                                        <Iconify icon="eva:cloud-download-fill" />
-                                    )}
-                                </IconButton>
-                            </Tooltip>
-                        )} */}
                         </PDFDownloadLink>
-                        : null}
+                    )}
                 </TableCell>
             </TableRow>
         </TableBody>

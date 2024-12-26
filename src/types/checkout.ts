@@ -1,7 +1,7 @@
 import { IAddressItem } from './address';
 import { ECoatingTexture, ECoverEdgeTape } from './cart';
 import { IOrderProductPropertyStatus } from './order-products-property';
-import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType, IProductItem, EFrameCore } from './product';
+import { IProductCoverType, IProductFrameType, IProductProfileType, IProductDimension, ProductOrderType, IProductItem, EFrameCore, IProductCodes } from './product';
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +53,7 @@ export interface ICheckoutItemPropertyPrice {
   inlaid_flower: string | boolean;
   cover_edge_tape: ECoverEdgeTape
   coating_texture: ECoatingTexture
+  raised_rim: IProductCodes
 }
 
 export type ICheckoutDeliveryOption = {

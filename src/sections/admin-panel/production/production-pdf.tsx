@@ -175,7 +175,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                             <View style={styles.tableCell_40}>
                                 <Text style={[styles.alignRight, styles.subtitle2]}>نوع بافت روکش</Text>
                             </View>
- 
+
                             <View style={styles.tableCell_40}>
                                 <Text style={[styles.alignRight, styles.subtitle2]}>مغز چارچوب</Text>
                             </View>
@@ -197,6 +197,10 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                             </View>
 
                             <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش گیری</Text>
+                            </View>
+
+                            <View style={styles.tableCell_40}>
                                 <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
                             </View>
 
@@ -207,7 +211,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
 
                             <View style={[styles.tableCell_1, styles.alignRight]}>
                                 <Text style={styles.subtitle2}>کد</Text>
-                            </View> 
+                            </View>
 
                             <View style={[styles.tableCell_2, styles.alignRight]}>
                                 <Text style={styles.subtitle2}>نام محصول</Text>
@@ -226,12 +230,12 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                 <View style={styles.tableCell_1}>
                                     <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
                                 </View>
-                                
+
                                 <View style={styles.tableCell_40}>
                                     <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture}</Text>
                                 </View>
 
-                                 <View style={styles.tableCell_40}>
+                                <View style={styles.tableCell_40}>
                                     <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame_core}</Text>
                                 </View>
 
@@ -247,9 +251,12 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                     <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture}</Text>
                                 </View>
 
-
                                 <View style={styles.tableCell_40}>
                                     <Text style={[styles.alignRight, styles.subtitle2]}>{item.profile_type}</Text>
+                                </View>
+
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_type}</Text>
                                 </View>
 
                                 <View style={styles.tableCell_40}>
@@ -263,7 +270,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                 <View style={[styles.tableCell_1, styles.alignRight]}>
                                     <Text style={styles.subtitle2}>{item.code}</Text>
                                 </View>
-                                
+
 
                                 <View style={styles.tableCell_2}>
                                     <Text style={[styles.subtitle2, styles.alignRight, styles.directionRight]}>{item.title}</Text>

@@ -162,6 +162,7 @@ export default function OrderTrackingListView({ status }: Props) {
 
       <CompleteOrderView
         orderId={orderId}
+        orderNumber={order?.order_number}
         finalOrderDialog={finalOrderDialog}
         hasCustomMade={hasCustomMade}
         handleAfterLastSection={(n) => handleConfirmSubmitDialog(n)}

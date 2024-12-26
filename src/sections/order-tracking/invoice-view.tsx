@@ -21,13 +21,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 type Props = {
-    orderId: number;
-    title?: string
+    orderId?: number;
+    title?: string;
+    invoice_data?: Iinvoice;
     production_date?: string
     downloadable?: boolean | undefined
 };
 
-interface Iinvoice {
+export interface Iinvoice {
     prepayment: number;
     discount_percentage: number;
     total_price: number;
@@ -52,11 +53,12 @@ interface Iinvoice {
 export default function InvoiceView({
     orderId,
     title = 'مشاهده فاکتور',
+    invoice_data,
     production_date,
     downloadable
 }: Props) {
 
-    const [invoice, setInvoice] = useState<Iinvoice>({
+    const [invoice, setInvoice] = useState<Iinvoice>(invoice_data || {
         total_price: 0,
         prepayment: 0,
         shipping: 0,
@@ -67,9 +69,10 @@ export default function InvoiceView({
     })
 
     useEffect(() => {
-        server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
-            setInvoice(res.data)
-        })
+        if (orderId)
+            server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
+                setInvoice(res.data)
+            })
     }, [])
 
     const renderList = (
