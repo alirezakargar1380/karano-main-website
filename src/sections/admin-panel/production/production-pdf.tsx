@@ -35,9 +35,10 @@ const useStyles = () =>
                 subtitle1: { fontSize: 10, fontWeight: 700 },
                 subtitle2: { fontSize: 9, fontWeight: 700 },
                 alignRight: { textAlign: 'right' },
+                alignLeft: { textAlign: 'left' },
                 alignCenter: { textAlign: 'center' },
                 directionRight: {
-                    
+
                 },
                 page: {
                     fontSize: 9,
@@ -82,14 +83,17 @@ const useStyles = () =>
                     borderBottomWidth: 0,
                 },
                 tableCell_1: {
-                    width: '5%',
+                    width: '50px',
                 },
                 tableCell_2: {
-                    width: '50%',
+                    width: '140px',
                     paddingRight: 16,
                 },
                 tableCell_3: {
                     width: '15%',
+                },
+                tableCell_40: {
+                    width: '120px',
                 },
             }),
         []
@@ -121,14 +125,14 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
 
     return (
         <Document>
-            <Page size="A4" style={styles.page}>
+            <Page size="A3" style={styles.page} orientation='landscape'>
                 <View style={[styles.gridContainer, styles.mb40]}>
-                    <Image source="/logo/logo_single.png" style={{ width: 48, height: 48 }} />
-
                     <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
-                        <Text style={styles.h3}>{currentStatus}</Text>
+                        <Text style={styles.h3}>{currentStatus + " شماره فاکتور"}</Text>
                         <Text> {invoiceNumber} </Text>
                     </View>
+
+                    <Image source="/logo/logo_single.png" style={{ width: 48, height: 48 }} />
                 </View>
 
                 {/* <View style={[styles.gridContainer, styles.mb40]}>
@@ -164,17 +168,46 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     <View>
                         <View style={[styles.tableRow, styles.tableRowColor]}>
 
-                            <View style={styles.tableCell_3}>
-                                <Text style={styles.subtitle2}>Description</Text>
+                            <View style={styles.tableCell_1}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
                             </View>
 
-                            <View style={styles.tableCell_3}>
-                                <Text style={styles.subtitle2}>Qty</Text>
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوع بافت روکش</Text>
+                            </View>
+ 
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>مغز چارچوب</Text>
                             </View>
 
-                            <View style={styles.tableCell_3}>
-                                <Text style={styles.subtitle2}>Unit price</Text>
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>پهنای چارچوب</Text>
                             </View>
+
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوار لبه روکش</Text>
+                            </View>
+
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوار برجسته</Text>
+                            </View>
+
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوع پروفیل</Text>
+                            </View>
+
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                            </View>
+
+                            <View style={styles.tableCell_40}>
+                                <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش</Text>
+                            </View>
+
+
+                            <View style={[styles.tableCell_1, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>کد</Text>
+                            </View> 
 
                             <View style={[styles.tableCell_2, styles.alignRight]}>
                                 <Text style={styles.subtitle2}>نام محصول</Text>
@@ -190,17 +223,47 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                         {items.map((item: any, index: number) => (
                             <View style={styles.tableRow} key={item.id}>
 
-                                <View style={styles.tableCell_3}>
-                                    <Text>{item.quantity}</Text>
+                                <View style={styles.tableCell_1}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
+                                </View>
+                                
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture}</Text>
                                 </View>
 
-                                <View style={styles.tableCell_3}>
-                                    <Text>{item.price}</Text>
+                                 <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame_core}</Text>
                                 </View>
 
-                                <View style={styles.tableCell_3}>
-                                    <Text>{fCurrency(item.price * item.quantity)}</Text>
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame_width}</Text>
                                 </View>
+
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.cover_edge_tape}</Text>
+                                </View>
+
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture}</Text>
+                                </View>
+
+
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.profile_type}</Text>
+                                </View>
+
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame_type}</Text>
+                                </View>
+
+                                <View style={styles.tableCell_40}>
+                                    <Text style={[styles.alignRight, styles.subtitle2]}>{item.cover_type}</Text>
+                                </View>
+
+                                <View style={[styles.tableCell_1, styles.alignRight]}>
+                                    <Text style={styles.subtitle2}>{item.code}</Text>
+                                </View>
+                                
 
                                 <View style={styles.tableCell_2}>
                                     <Text style={[styles.subtitle2, styles.alignRight, styles.directionRight]}>{item.title}</Text>
@@ -208,7 +271,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                 </View>
 
                                 <View style={styles.tableCell_1}>
-                                    <Text>{index + 1}</Text>
+                                    <Text style={styles.subtitle2}>{index + 1}</Text>
                                 </View>
                             </View>
                         ))}
@@ -273,7 +336,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                             </View>
                         </View>
                         */}
-                    </View> 
+                    </View>
                 </View>
 
                 {/* <View style={[styles.gridContainer, styles.footer]} fixed>
