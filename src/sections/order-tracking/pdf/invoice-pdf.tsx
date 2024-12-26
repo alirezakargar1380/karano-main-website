@@ -86,6 +86,9 @@ const useStyles = () =>
                     paddingBottom: 0,
                     borderBottomWidth: 0,
                 },
+                view50: {
+                    width: '50%',
+                },
                 tableCell_1: {
                     width: '50px',
                     paddingRight: 16,
@@ -166,6 +169,7 @@ export default function InvoicePDF({ invoice, title, currentStatus }: Props) {
                             </View>
                         </View>
                     </View>
+
                     <View>
                         <View style={[styles.tableRow, styles.tableRow2Color]}>
 
@@ -233,6 +237,96 @@ export default function InvoicePDF({ invoice, title, currentStatus }: Props) {
                             </View>
                         ))}
                     </View>
+
+                    <View>
+                        <View style={[styles.tableRow, styles.tableRow2Color]}>
+
+                            <View style={[styles.tableCell_40, styles.alignRight]}>
+                                <Text style={styles.subtitle2}></Text>
+                            </View>
+
+                            <View style={[styles.tableCell_40, styles.alignRight]}>
+                                <Text style={styles.subtitle2}></Text>
+                            </View>
+
+                            <View style={[styles.tableCell_40, styles.alignRight]}>
+                                <Text style={styles.subtitle2}></Text>
+                            </View>
+
+                            <View style={[styles.tableCell_40, styles.alignRight]}>
+                                <Text style={styles.subtitle2}></Text>
+                            </View>
+
+                            <View style={[styles.tableCell_40, styles.alignRight]}>
+                                <Text style={styles.subtitle2}></Text>
+                            </View>
+
+                            <View style={[styles.tableCell_40, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>دستمزد مونتاژ</Text>
+                            </View>
+
+                            <View style={[styles.tableCell_1, styles.alignRight]}>
+                                <Text style={styles.subtitle2}></Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View>
+                        <View style={[styles.tableRow, styles.tableRow2Color, styles.view50]}>
+                            <View style={[styles.view50, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>{fCurrency(invoice.shipping)}</Text>
+                            </View>
+                            
+                            <View style={[styles.view50, styles.alignCenter]}>
+                                <Text style={styles.subtitle2}>هزینه ارسال</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View>
+                        <View style={[styles.tableRow, styles.tableRow2Color, styles.view50]}>
+                            <View style={[styles.view50, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>{fCurrency(invoice.tax)}</Text>
+                            </View>
+                            
+                            <View style={[styles.view50, styles.alignCenter]}>
+                                <Text style={styles.subtitle2}>مالیات و عوارض</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View>
+                        <View style={[styles.tableRow, styles.tableRow2Color, styles.view50]}>
+                            <View style={[styles.view50, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>{invoice.discount_percentage + "%"}</Text>
+                            </View>
+                            
+                            <View style={[styles.view50, styles.alignCenter]}>
+                                <Text style={styles.subtitle2}>تخفیف</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View>
+                        <View style={[styles.tableRow, styles.tableRow2Color, styles.view50]}>
+                            <View style={[styles.view50, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>{fCurrency(invoice.prepayment)}</Text>
+                            </View>
+                            
+                            <View style={[styles.view50, styles.alignCenter]}>
+                                <Text style={styles.subtitle2}>مبلغ پیش‌ پرداخت</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View>
+                        <View style={[styles.tableRow, styles.tableRow2Color, styles.view50]}>
+                            <View style={[styles.view50, styles.alignRight]}>
+                                <Text style={styles.subtitle2}>{fCurrency(invoice.total_price)}</Text>
+                            </View>
+                            
+                            <View style={[styles.view50, styles.alignCenter]}>
+                                <Text style={styles.subtitle2}>مبلغ کل</Text>
+                            </View>
+                        </View>
+                    </View>
+
                 </View>
             </Page>
         </Document>
