@@ -220,7 +220,7 @@ function SaleManagementProductItem({
             <Box sx={{ mb: 2, px: 2, py: 3 }}>
                 <Stack p={0} spacing={1} mb={2}>
                     <Typography fontFamily={'peyda-bold'} variant="h5" mt={1}>
-                        {product.name}
+                        {product.name + " (" + product?.code?.code + ")"}
                         {(product.order_type === ProductOrderType.custom_made && property.status === IOrderProductPropertyStatus.edited) && (
                             <Label
                                 sx={{ ml: 1 }}
