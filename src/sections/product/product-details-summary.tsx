@@ -165,7 +165,10 @@ export default function ProductDetailsSummary({
 
       checkout.onGetCart();
 
-      assmbleDialog.onTrue();
+      if (product.order_type === ProductOrderType.custom_made)
+        if (product.algorithm === EAlgorithm.cabinet_door || product.algorithm === EAlgorithm.room_door)
+          assmbleDialog.onTrue();
+        
     } catch (error) {
       console.error(error);
     }
@@ -225,7 +228,7 @@ export default function ProductDetailsSummary({
   const renderSubDescription = (
     <Box sx={{ width: 1, mt: 2 }}>
       <Typography variant="body1" sx={{ pb: 2 }} fontFamily={'peyda-bold'} borderBottom={'1px solid #D1D1D1'}>
-        <ProductItemsSummary values={values} cover_type={product.order_form_options?.cover_type} 
+        <ProductItemsSummary values={values} cover_type={product.order_form_options?.cover_type}
         // dimension={product.product_dimension} 
         />
       </Typography>
