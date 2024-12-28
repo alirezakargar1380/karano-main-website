@@ -122,6 +122,7 @@ export type IProductFrameType = {
   id: number
   name: string
   is_glass: boolean
+  frame_code: IProductCodes
   need_lattice: boolean
   createdAt: string
 }

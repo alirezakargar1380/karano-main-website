@@ -320,7 +320,7 @@ function SaleManagementProductItem({
 
                                         {property.frame_type?.name && (
                                             <TableCell>
-                                                {property.frame_type?.name || '-'}
+                                                {property.frame_type?.name + " " + property.frame_type.frame_code.code || '-'}
                                             </TableCell>
                                         )}
 
