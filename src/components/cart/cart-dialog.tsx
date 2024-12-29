@@ -315,7 +315,7 @@ export default function CartDialog({
     if (handleUpdateRow !== undefined) handleUpdateRow(list);
     else {
       onAddCart(list);
-      // setList([]);
+      setList([]);
       reset(defaultValues);
       // dialog.onFalse();
     }
