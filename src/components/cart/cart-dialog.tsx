@@ -80,24 +80,49 @@ export default function CartDialog({
         return Yup.object().shape({
           length: Yup.number()
             .max(240, 'طول نمیتواند بیشتر از 240 سانتی متر باشد')
-            .notOneOf([0], 'طول نمیتواند صفر باشد')
+            .min(20, 'طول نمیتواند کمتر از 20 سانتی متر باشد')
             .required('طول الزامی است')
             .typeError('طول باید عدد باشد'),
           width: Yup.number()
+            .max(240, 'عرض نمیتواند بیشتر از 240 سانتی متر باشد')
+            .min(20, 'عرض نمیتواند کمتر از 20 سانتی متر باشد')
             .required('عرض الزامی است')
-            .notOneOf([0], 'عرض نمیتواند صفر باشد')
             .typeError('عرض باید عدد باشد'),
         });
       case EAlgorithm.cabinet_cloumn:
         return Yup.object().shape({
           length: Yup.number()
             .max(280, 'طول نمیتواند بیشتر از 280 سانتی متر باشد')
-            .notOneOf([0], 'طول نمیتواند صفر باشد')
             .required('طول الزامی است')
             .typeError('طول باید عدد باشد'),
           width: Yup.number()
             .min(8, 'عرض نمیتواند کمتر از 8 سانتی متر باشد')
-            .notOneOf([0], 'عرض نمیتواند صفر باشد')
+            .required('عرض الزامی است')
+            .typeError('عرض باید عدد باشد'),
+        });
+      case EAlgorithm.room_door:
+        return Yup.object().shape({
+          length: Yup.number()
+            .max(235, 'طول نمیتواند بیشتر از 235 سانتی متر باشد')
+            .min(40, 'طول نمیتواند کمتر از 40 سانتی متر باشد')
+            .required('طول الزامی است')
+            .typeError('طول باید عدد باشد'),
+          width: Yup.number()
+            .max(130, 'عرض نمیتواند بیشتر از 130 سانتی متر باشد')
+            .min(40, 'عرض نمیتواند کمتر از 40 سانتی متر باشد')
+            .required('عرض الزامی است')
+            .typeError('عرض باید عدد باشد'),
+        });
+      case EAlgorithm.cover_sheet:
+        return Yup.object().shape({
+          length: Yup.number()
+            .max(280, 'طول نمیتواند بیشتر از 280 سانتی متر باشد')
+            .min(8, 'طول نمیتواند کمتر از 8 سانتی متر باشد')
+            .required('طول الزامی است')
+            .typeError('طول باید عدد باشد'),
+          width: Yup.number()
+            .max(122, 'عرض نمیتواند بیشتر از 122 سانتی متر باشد')
+            .min(8, 'عرض نمیتواند کمتر از 8 سانتی متر باشد')
             .required('عرض الزامی است')
             .typeError('عرض باید عدد باشد'),
         });
@@ -127,7 +152,7 @@ export default function CartDialog({
         then: (schema) => schema.required('پهنای چهارچوب را انتخاب کنید'),
         otherwise: (schema) => schema
       }),
-      frame_core: Yup.string()
+    frame_core: Yup.string()
       .when('back_to_back_dimension', {
         is: EBackToBackDimension.lame,
         then: (schema) => schema.required('مغز چهارچوب را انتخاب کنید'),
@@ -278,7 +303,7 @@ export default function CartDialog({
         color: 'info',
         variant: 'myCustomVariant',
       });
-      
+
     if (!list.length)
       return enqueueSnackbar(
         'ابتدا دکمه «افزودن به لیست» و سپس دکمه «افزودن به سبد خرید» را کلیک کنید.',
