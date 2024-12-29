@@ -50,9 +50,10 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
             ];
         case EAlgorithm.cabinet_door:
             return [
-                { id: 'name', label: 'نوع پروفیل', width: 160 },
-                { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
-                { id: 'inventoryType', label: 'نوع قاب', width: 160 },
+                { id: 'name', label: 'نوع پروفیل', width: 140 },
+                { id: 'createdAt', label: 'پوشش نهایی', width: 120 },
+                { id: 'inventoryType', label: 'نوع قاب', width: 140 },
+                { id: 'coating_texture', label: 'نوع بافت روکش', width: 140 },
                 { id: 'price', label: 'روکش گیری', width: 140 },
                 ...defult
             ];

@@ -132,6 +132,12 @@ export default function CartTableRow({
           </TableCell>
         )}
 
+        {(!!frame_type || algorithm === EAlgorithm.cabinet_door) && (
+          <TableCell>
+            <Typography variant='body4'>{frame_type || '-'}</Typography>
+          </TableCell>
+        )}
+        
         {(!!cover_edge_tape) && (
           <TableCell>
             <Typography variant='body4'>
@@ -140,7 +146,8 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!coating_texture) && (
+        {/* {(!!coating_texture) && ( */}
+        {(algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) && (
           <TableCell>
             <Typography variant='body4'>
               {(
@@ -150,12 +157,6 @@ export default function CartTableRow({
                 ''
               )}
             </Typography>
-          </TableCell>
-        )}
-
-        {(!!frame_type || algorithm === EAlgorithm.cabinet_door) && (
-          <TableCell>
-            <Typography variant='body4'>{frame_type || '-'}</Typography>
           </TableCell>
         )}
 
