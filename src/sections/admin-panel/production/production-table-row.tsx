@@ -11,7 +11,7 @@ import { IUserTypes } from "src/types/user";
 import SvgColor from "src/components/svg-color";
 import { EFrameCore } from "src/types/product";
 import { ECoatingTexture } from "src/types/cart";
-import { translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
+import { translateCoatingTexture, translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
 
 interface Props {
     row: IOrderItem
@@ -96,9 +96,7 @@ export function ProductionTableRow({ row }: Props) {
                                                     frame_core: p?.frame_core === EFrameCore.mdf && 'ترکیب چوب و ام دی اف'
                                                         || p?.frame_core === EFrameCore.ply && 'پلای وود'
                                                         || '-',
-                                                    coating_texture: p?.coating_texture === ECoatingTexture.right_vein && 'بلوط رگه راست' ||
-                                                        p?.coating_texture === ECoatingTexture.wavy && 'بلوط موج دار' ||
-                                                        '-',
+                                                    coating_texture: translateCoatingTexture(p?.coating_texture) || '-',
                                                     price: "111",
                                                     total: "598",
                                                     service: "",

@@ -18,7 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useGetOrderProducts } from "src/api/order-products";
 import { ECoatingTexture, ECoverEdgeTape } from "src/types/cart";
-import { translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
+import { translateCoatingTexture, translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
 import { toFarsiNumber } from "src/utils/change-case";
 
 interface Props {
@@ -338,7 +338,7 @@ function SaleManagementProductItem({
 
                                         {property.coating_texture !== ECoatingTexture.none && (
                                             <TableCell>
-                                                {property.coating_texture}
+                                                {translateCoatingTexture(property.coating_texture)}
                                             </TableCell>
                                         )}
 

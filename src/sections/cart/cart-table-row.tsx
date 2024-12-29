@@ -29,6 +29,17 @@ export function translateCoverEdgeTape(coverEdgeTape: ECoverEdgeTape) {
   }
 }
 
+export function translateCoatingTexture(coatingTexture: ECoatingTexture) {
+  switch (coatingTexture) {
+    case ECoatingTexture.right_vein:
+      return 'رگه راست';
+    case ECoatingTexture.wavy:
+      return 'موج دار';
+    default:
+      return '-';
+  }
+}
+
 type Props = {
   row: ICartItem;
   index?: number;
@@ -150,12 +161,7 @@ export default function CartTableRow({
         {(algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) && (
           <TableCell>
             <Typography variant='body4'>
-              {(
-                !coating_texture && '-' ||
-                coating_texture === ECoatingTexture.right_vein && 'بلوط رگه راست' ||
-                coating_texture === ECoatingTexture.wavy && 'بلوط موج دار' ||
-                ''
-              )}
+              {translateCoatingTexture(coating_texture)}
             </Typography>
           </TableCell>
         )}
