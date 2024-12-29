@@ -427,7 +427,7 @@ function SaleManagementProductItem({
                         <Box mt={3}>
                             <Stack direction={'row'}>
                                 <Typography fontFamily={'peyda-bold'} sx={{ pb: 1, fontSize: 14 }}>توضیحات برای مشتری</Typography>
-                                <Typography fontFamily={'peyda-bold'} sx={{ pb: 1, color: "#727272", fontSize: 12, ml: 0.5, pt: 0.25 }}>(حداقل ۲۰ و حداکثر ۱۰۰ کلمه)</Typography>
+                                <Typography fontFamily={'peyda-bold'} sx={{ pb: 1, color: "#727272", fontSize: 12, ml: 0.5, pt: 0.25 }}>(حداقل ۱۰ و حداکثر ۱۰۰ کلمه)</Typography>
                             </Stack>
                             <RHFTextField
                                 name="rejection_reason"
