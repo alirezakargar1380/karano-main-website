@@ -67,7 +67,7 @@ export default function SaleManagementPayment({
         need_prepayment: Yup.boolean(),
         prepayment: Yup.number().when('need_prepayment', {
             is: true,
-            then: (schema) => schema.required('پر کردن این فیلد اجباری‌ست.').typeError('پر کردن این فیلد اجباری‌ست.'),
+            then: (schema) => schema.required('پر کردن این فیلد اجباری‌ست.').min(10000, 'مبلغ باید بیشتر از 10000 باشد').typeError('پر کردن این فیلد اجباری‌ست.'),
             otherwise: (schema) => schema.typeError('پر کردن این فیلد اجباری‌ست.')
         }),
     });

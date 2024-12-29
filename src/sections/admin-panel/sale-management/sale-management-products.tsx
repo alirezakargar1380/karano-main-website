@@ -122,11 +122,8 @@ function SaleManagementProductItem({
                 return schema
             return schema
                 .required('پرکردن این فیلد اجباری‌ست.')
-                .test('rejection_reason', 'تعداد کاراکتر واردشده کمتر از ۲۰ کلمه است.', (val: any) => val.split(" ").length > 20)
+                .test('rejection_reason', 'تعداد کاراکتر واردشده کمتر از ۱۰ کلمه است.', (val: any) => val.split(" ").length > 10)
                 .test('rejection_reason', 'تعداد کاراکتر واردشده بیشتر از ۱۰۰ کلمه است.', (val: any) => val.split(" ").length <= 100)
-
-            // .min(20, 'علت باید حداقل 20 کلمه باشد')
-
         }),
     });
 
