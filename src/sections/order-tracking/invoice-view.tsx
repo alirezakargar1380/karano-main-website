@@ -28,27 +28,24 @@ type Props = {
     downloadable?: boolean | undefined
 };
 
+interface IinvoiceCloumn {
+    name: string;
+    unit: string;
+    code: string;
+    quantity: number;
+    unit_price: number;
+    price: number;
+}
+
 export interface Iinvoice {
     prepayment: number;
     discount_percentage: number;
     total_price: number;
     tax: number;
     shipping: number;
-    products: {
-        name: string;
-        unit: string;
-        code: string;
-        quantity: number;
-        unit_price: number;
-        price: number;
-    }[]
-    assemble_wage: {
-        name: string
-        code: string
-        unit: string;
-        quantity: number
-        price: number
-    }[]
+    products: IinvoiceCloumn[]
+    assemble_wage: IinvoiceCloumn[]
+    packaging: IinvoiceCloumn[]
 }
 
 export default function InvoiceView({
@@ -67,6 +64,7 @@ export default function InvoiceView({
         discount_percentage: 0,
         products: [],
         assemble_wage: [],
+        packaging: [],
     })
 
     useEffect(() => {
@@ -178,7 +176,39 @@ export default function InvoiceView({
                                 <TableCell>{row.code}</TableCell>
                                 <TableCell>{toFarsiNumber(row.quantity)}</TableCell>
                                 <TableCell>{row.unit}</TableCell>
-                                <TableCell align="left">{toFarsiNumber(fCurrency(row.price / row.quantity))}</TableCell>
+                                <TableCell align="left">{toFarsiNumber(fCurrency(row.unit_price))}</TableCell>
+                                <TableCell align="left">{toFarsiNumber(fCurrency(row.price))}</TableCell>
+                            </TableRow>
+                        ))}
+
+                        {invoice.assemble_wage.length > 0 && (
+                            <TableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
+                                <TableCell></TableCell>
+
+                                <TableCell>
+                                    بسته بندی
+                                </TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableRow>
+                        )}
+
+
+                        {invoice.packaging.map((row, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{index + 1}</TableCell>
+
+                                <TableCell>
+                                    <Typography variant="title3">{row.name}</Typography>
+                                </TableCell>
+
+                                <TableCell>{row.code}</TableCell>
+                                <TableCell>{toFarsiNumber(row.quantity)}</TableCell>
+                                <TableCell>{row.unit}</TableCell>
+                                <TableCell align="left">{toFarsiNumber(fCurrency(row.unit_price))}</TableCell>
                                 <TableCell align="left">{toFarsiNumber(fCurrency(row.price))}</TableCell>
                             </TableRow>
                         ))}

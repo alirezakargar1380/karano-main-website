@@ -25,7 +25,7 @@ export function translateCoverEdgeTape(coverEdgeTape: ECoverEdgeTape) {
     case ECoverEdgeTape.sides:
       return '4 طرف';
     default:
-      return '';
+      return 'ندارد';
   }
 }
 

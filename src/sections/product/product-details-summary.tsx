@@ -157,7 +157,7 @@ export default function ProductDetailsSummary({
 
   const handleAddCartCustomMadeProduct = useCallback(async (data: ICheckoutItemPropertyPrice[]) => {
     try {
-
+      console.log('im hree')
       await server_axios.post(endpoints.cart.add, {
         product_id: values.id,
         product_property: data
@@ -165,14 +165,15 @@ export default function ProductDetailsSummary({
 
       checkout.onGetCart();
 
-      if (product.order_type === ProductOrderType.custom_made)
-        if (product.algorithm === EAlgorithm.cabinet_door || product.algorithm === EAlgorithm.room_door)
-          assmbleDialog.onTrue();
-        
+      if (product.order_type === ProductOrderType.custom_made && (product.algorithm === EAlgorithm.cabinet_door || product.algorithm === EAlgorithm.room_door))
+        assmbleDialog.onTrue();
+      else
+        cartDialog.onFalse();
+
     } catch (error) {
       console.error(error);
     }
-  }, [values, product]);
+  }, [values, product, cartDialog]);
 
   const updateAssemble = useCallback(async (is_need: boolean) => {
     setValue('need_to_assemble', is_need);
