@@ -440,6 +440,7 @@ export default function CartDialogView({
                                     sx={{
                                         width: 1,
                                         display: 'grid',
+                                        rowGap: 1,
                                         gridTemplateColumns: {
                                             xs: 'repeat(1, 1fr)',
                                             md: 'repeat(2, 1fr)',
@@ -477,6 +478,7 @@ export default function CartDialogView({
                                 sx={{
                                     width: 1,
                                     display: 'grid',
+                                    rowGap: 1,
                                     gridTemplateColumns: {
                                         xs: 'repeat(1, 1fr)',
                                         md: 'repeat(2, 1fr)',
