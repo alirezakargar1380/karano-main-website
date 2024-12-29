@@ -226,6 +226,7 @@ export default function SaleManagementPayment({
                     <RHFTitleTextField
                         custom_label="مبلغ پیش‌پرداخت"
                         name="prepayment"
+                        disabled={!!values.need_prepayment}
                         placeholder="افزودن محتوا"
                         helperText={toFarsiNumber(fCurrency(values.prepayment || 0))}
                         sx={{
