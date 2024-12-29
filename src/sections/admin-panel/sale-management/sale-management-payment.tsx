@@ -74,7 +74,7 @@ export default function SaleManagementPayment({
 
     const defaultValues = {
         need_prepayment: order.need_prepayment,
-        prepayment: order.prepayment || '',
+        prepayment: order.prepayment || 0,
         discount_percentage: order?.discount_percentage || 0,
         production_days: order.production_days || 1,
     }
@@ -102,7 +102,7 @@ export default function SaleManagementPayment({
 
     useEffect(() => {
         if (values.need_prepayment) {
-            setValue('prepayment', '')
+            setValue('prepayment', 0)
         }
     }, [values.need_prepayment])
 
