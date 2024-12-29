@@ -250,6 +250,7 @@ export default function CartDialogView({
         frame_type: true,
         coating_type: true,
         inlaid_flower: true,
+        coating_texture: true,
         dimension: true
     });
 
@@ -308,6 +309,9 @@ export default function CartDialogView({
                     newDisable.frame_type = false
 
                 if (values.frame_type && !findFrame?.is_glass && !findCover?.is_raw)
+                    newDisable.coating_texture = false
+
+                if (values.coating_texture && !findFrame?.is_glass && !findCover?.is_raw)
                     newDisable.coating_type = false
 
                 if (values.coating_type)
@@ -329,8 +333,10 @@ export default function CartDialogView({
 
                 break;
             case EAlgorithm.cover_sheet:
+                newDisable.coating_texture = false
                 if (values.coating_texture)
                     newDisable.dimension = false
+                
         }
 
         setDisable(newDisable);
@@ -344,6 +350,7 @@ export default function CartDialogView({
                 frame_type: false,
                 coating_type: false,
                 inlaid_flower: false,
+                coating_texture: false,
                 dimension: false
             })
         }
@@ -367,9 +374,11 @@ export default function CartDialogView({
             if (findFrame?.is_glass || findCover?.is_raw) {
                 setDisable({
                     ...disable,
-                    coating_type: true
+                    coating_type: true,
+                    coating_texture: true,
                 })
                 setValue('coating_type', CoatingType.none)
+                setValue('coating_texture', ECoatingTexture.none)
             }
         }
     }, [values.frame_type, values.cover_type])
@@ -529,6 +538,42 @@ export default function CartDialogView({
                                         value: frame_type.id,
                                     }
                                 })}
+                            />
+                        </Box>
+                    )}
+
+                    {(algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                نوع بافت روکش:
+                            </Typography>
+                            <RHFRadioGroup
+                                name='coating_texture'
+                                row
+                                disabled={disable.coating_texture}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'بلوط رگه راست',
+                                        value: ECoatingTexture.right_vein
+                                    },
+                                    {
+                                        label: 'بلوط موج دار',
+                                        value: ECoatingTexture.wavy
+                                    },
+                                ]}
                             />
                         </Box>
                     )}
@@ -721,42 +766,6 @@ export default function CartDialogView({
                                     {
                                         label: 'پلای وود',
                                         value: EFrameCore.ply
-                                    },
-                                ]}
-                            />
-                        </Box>
-                    )}
-
-                    {(algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) && (
-                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
-                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
-                                width: 1, pb: '16px'
-                            }}>
-                                نوع بافت روکش:
-                            </Typography>
-                            <RHFRadioGroup
-                                name='coating_texture'
-                                row
-                                // disabled={disable.inlaid_flower}
-                                sx={{
-                                    width: 1,
-                                    display: 'grid',
-                                    gridTemplateColumns: {
-                                        xs: 'repeat(1, 1fr)',
-                                        md: 'repeat(2, 1fr)',
-                                    },
-                                }}
-                                FormControlSx={{
-                                    width: 1
-                                }}
-                                options={[
-                                    {
-                                        label: 'بلوط رگه راست',
-                                        value: ECoatingTexture.right_vein
-                                    },
-                                    {
-                                        label: 'بلوط موج دار',
-                                        value: ECoatingTexture.wavy
                                     },
                                 ]}
                             />
