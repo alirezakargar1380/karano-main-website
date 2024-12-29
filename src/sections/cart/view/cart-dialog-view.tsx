@@ -727,7 +727,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(algorithm === EAlgorithm.cover_sheet) && (
+                    {(algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'
