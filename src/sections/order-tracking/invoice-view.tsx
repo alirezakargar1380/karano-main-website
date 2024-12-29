@@ -141,7 +141,6 @@ export default function InvoiceView({
                                     {toFarsiNumber(fCurrency(product.unit_price))}
                                 </TableCell>
 
-                                {/* <TableCell align="right">{fCurrency(589 * 99)}</TableCell> */}
                                 <TableCell align="left">
                                     {product.price ? toFarsiNumber(fCurrency(product.price)) : 0}
                                 </TableCell>

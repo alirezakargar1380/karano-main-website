@@ -64,7 +64,12 @@ export default function SaleManagementPayment({
     const timeReminder = useBoolean();
 
     const schema = Yup.object().shape({
-        prepayment: Yup.number().required('پر کردن این فیلد اجباری‌ست.').typeError('پر کردن این فیلد اجباری‌ست.'),
+        need_prepayment: Yup.boolean(),
+        prepayment: Yup.number().when('need_prepayment', {
+            is: "",
+            then: (schema) => schema.required('پر کردن این فیلد اجباری‌ست.').typeError('پر کردن این فیلد اجباری‌ست.'),
+            otherwise: (schema) => schema
+        }),
     });
 
     const defaultValues = {
@@ -89,11 +94,17 @@ export default function SaleManagementPayment({
         formState: { isSubmitting },
     } = methods;
 
+    const values = watch();
+
     useEffect(() => {
         reset(defaultValues)
     }, [order, orderId])
 
-    const values = watch();
+    useEffect(() => {
+        if (values.need_prepayment) {
+            setValue('prepayment', '')
+        }
+    }, [values.need_prepayment])
 
     const onSubmit = handleSubmit(async (data) => {
         try {
