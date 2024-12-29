@@ -45,6 +45,7 @@ export interface Iinvoice {
     assemble_wage: {
         name: string
         code: string
+        unit: string;
         quantity: number
         price: number
     }[]
@@ -176,7 +177,7 @@ export default function InvoiceView({
 
                                 <TableCell>{row.code}</TableCell>
                                 <TableCell>{toFarsiNumber(row.quantity)}</TableCell>
-                                <TableCell>{'-'}</TableCell>
+                                <TableCell>{row.unit}</TableCell>
                                 <TableCell align="left">{toFarsiNumber(fCurrency(row.price / row.quantity))}</TableCell>
                                 <TableCell align="left">{toFarsiNumber(fCurrency(row.price))}</TableCell>
                             </TableRow>
