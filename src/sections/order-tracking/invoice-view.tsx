@@ -180,7 +180,7 @@ export default function InvoiceView({
                             </TableRow>
                         ))}
 
-                        {invoice.assemble_wage.length > 0 && (
+                        {invoice.packaging.length > 0 && (
                             <TableRow sx={{ bgcolor: '#F8F8F8', width: 1 }}>
                                 <TableCell></TableCell>
 
@@ -225,7 +225,7 @@ export default function InvoiceView({
                         {title}
                     </Typography>
                     {production_date && (
-                        <Label color="blue" fontFamily={'peyda-bold'} px={4} mt={0.75}>
+                        <Label color="blue" variant="filled" fontFamily={'peyda-bold'} px={4} mt={0.75}>
                             تاریخ تحویل:
                             <Box pl={0.5}>{fToJamali(production_date)}</Box>
                         </Label>
