@@ -259,6 +259,7 @@ export default function SnackbarProvider({ children }: Props) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 2,
+                    width: 'inherit',
                   }}
                 >
                   {props.showTimer ? (
