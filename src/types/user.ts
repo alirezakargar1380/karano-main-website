@@ -25,6 +25,7 @@ export interface IUser {
   id_code: string
   user_type: IUserTypes
   landline_number: string
+  national_id: string
 }
 
 // ----------------------------------------------------------------------
