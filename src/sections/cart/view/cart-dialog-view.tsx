@@ -16,7 +16,7 @@ import { TableHeadCustom } from 'src/components/table';
 import RHFTitleTextField from 'src/components/hook-form/rhf-title-text-field';
 import { CoatingType, EAlgorithm, EBackToBackDimension, EFrameCore, IProductDefaultDetails, ProductOrderType } from 'src/types/product';
 import { endpoints } from 'src/utils/axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import IncrementerButton from 'src/sections/product/common/incrementer-button';
 import { ICheckoutItemPropertyPrice } from 'src/types/checkout';
 import Joyride, { TooltipRenderProps } from 'react-joyride';
@@ -130,7 +130,6 @@ interface Props {
     values: any
 }
 
-
 const steps = [
     {
         target: '.my-first-step',
@@ -226,8 +225,10 @@ export default function CartDialogView({
 }: Props) {
 
     const [ind, setInd] = useState<number | undefined>();
-    const { show, update } = useShowOneTime("spot-light");
+
     const [maxHeight, setMaxHeight] = useState(400);
+
+    const { show, update } = useShowOneTime("spot-light");
 
     useEffect(() => {
         const updateMaxHeight = () => {
@@ -299,12 +300,19 @@ export default function CartDialogView({
 
                 break;
             case EAlgorithm.cabinet_door:
-
+                newDisable.profile_type = false
 
                 if (values.profile_type)
                     newDisable.cover_type = false
-                else
+                // else
+                //     newDisable.profile_type = true
+
+                if (
+                    (values.dimension?.length <= 21 || values.dimension?.width <= 21) &&
+                    values.dimension?.length !== '' && values.dimension?.width !== ''
+                ) {
                     newDisable.profile_type = true
+                }
 
                 if (values.cover_type)
                     newDisable.frame_type = false
@@ -338,7 +346,7 @@ export default function CartDialogView({
                 newDisable.coating_texture = false
                 if (values.coating_texture)
                     newDisable.dimension = false
-                
+
         }
 
         setDisable(newDisable);
@@ -393,6 +401,81 @@ export default function CartDialogView({
             setState({ ...state, run: false })
         }
     };
+
+    const frame_types = useCallback(() => {
+        let frame_types = [...formOptions.frame_type.map((frame_type) => {
+            return {
+                label: frame_type.name,
+                value: frame_type.id,
+            }
+        })]
+
+        if (
+            algorithm === EAlgorithm.cabinet_door
+            && (values.dimension?.length <= 29 || values.dimension?.width <= 29)
+            && values.dimension?.length !== ''
+            && values.dimension?.width !== ''
+        ) {
+            console.log(values.frame_type)
+
+            frame_types = frame_types.filter((frame_type) => {
+                return frame_type.label.includes('شیشه') === false
+            })
+
+            const find = frame_types.find((ft) => ft.value == values.frame_type)
+            if (!find && values.frame_type != 0) setValue('frame_type', 0)
+        }
+
+        const profile_type = formOptions.profile_type.find((type) => type.id == values.profile_type)
+
+        if (
+            algorithm === EAlgorithm.cabinet_door
+            && (values.dimension?.length <= 29 || values.dimension?.width <= 29)
+            && values.dimension?.length !== ''
+            && values.dimension?.width !== ''
+            && profile_type?.name.includes('کابینتی')
+        ) {
+            console.log(values.frame_type)
+
+            frame_types = frame_types.filter((frame_type) => {
+                return frame_type.label.includes('تخت') === true
+            })
+
+            const find = frame_types.find((ft) => ft.value == values.frame_type)
+            if (!find && values.frame_type != 0) setValue('frame_type', 0)
+        }
+
+
+
+        if (
+            algorithm === EAlgorithm.cabinet_door
+            && (values.dimension?.length <= 21 || values.dimension?.width <= 21)
+            && values.dimension?.length !== ''
+            && values.dimension?.width !== ''
+        ) {
+            frame_types = frame_types.filter((frame_type) => {
+                return frame_type.label.includes('تخت') === true
+            })
+
+            const findFrame = formOptions.frame_type.find((p) => p.name.includes('تخت'))
+            if (findFrame && values.frame_type != findFrame?.id)
+                setValue('frame_type', findFrame.id)
+        }
+
+        return frame_types
+    }, [values.dimension, values.profile_type, values.frame_type])
+
+    useEffect(() => {
+        if (
+            algorithm === EAlgorithm.cabinet_door
+            && (values.dimension?.length <= 21 || values.dimension?.width <= 21)
+            && values.dimension?.length !== ''
+            && values.dimension?.width !== ''
+        ) {
+            const findKesho = formOptions.profile_type.find((p) => p.name.includes('کشو'))
+            if (findKesho) setValue('profile_type', findKesho.id)
+        }
+    }, [values.dimension.length, values.dimension.width])
 
     return (
         <Box sx={{ px: '40px' }}>
@@ -457,6 +540,7 @@ export default function CartDialogView({
                                             md: 'repeat(2, 1fr)',
                                         },
                                     }}
+                                    disabled={disable.profile_type}
                                     FormControlSx={{
                                         width: 1
                                     }}
@@ -534,12 +618,7 @@ export default function CartDialogView({
                                 FormControlSx={{
                                     width: 1
                                 }}
-                                options={formOptions.frame_type.map((frame_type) => {
-                                    return {
-                                        label: frame_type.name,
-                                        value: frame_type.id,
-                                    }
-                                })}
+                                options={frame_types()}
                             />
                         </Box>
                     )}

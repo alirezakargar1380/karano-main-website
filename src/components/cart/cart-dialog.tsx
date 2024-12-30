@@ -137,7 +137,11 @@ export default function CartDialog({
   const NewProductSchema = Yup.object().shape({
     profile_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
     cover_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
-    frame_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
+    frame_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup
+    .number()
+    .notOneOf([0], 'نوع قاب الزامی است')
+    .required('نوع قاب الزامی است') 
+    : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm, order_type),
     inlaid_flower_emty_space: Yup.number()
