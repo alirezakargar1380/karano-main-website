@@ -334,6 +334,7 @@ export default function CartDialogView({
 
                 break;
             case EAlgorithm.cover_sheet:
+                newDisable.cover_type = false;
                 newDisable.coating_texture = false
                 if (values.coating_texture)
                     newDisable.dimension = false
