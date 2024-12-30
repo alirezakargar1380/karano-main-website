@@ -206,7 +206,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
                         {(type !== 'edit') ? <Grid item sm={2} /> : null}
                         <Grid item sm={10}>
                             <Stack direction={'row'} spacing={2}>
-                                <Typography fontFamily={'peyda-bold'} variant="title2" sx={{ pt: 1 }}>{item.product.name}</Typography>
+                                <Typography fontFamily={'peyda-bold'} variant="title2" sx={{ pt: 1 }}>{item.product.name + " (" + item.product?.code?.code + ")"}</Typography>
                             </Stack>
                         </Grid>
                         {((type !== 'edit')) && (
