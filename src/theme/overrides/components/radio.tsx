@@ -48,6 +48,9 @@ export function radio(theme: Theme) {
           '&.Mui-checked': {
             borderColor: "#2B2B2B!important",
             background: '#2B2B2B!important',
+            '&.Mui-disabled': {
+              background: '#2b2b2b6b!important',
+            },
           },
           '&.Mui-disabled': {
             borderColor: "#E0E0E0!important",
