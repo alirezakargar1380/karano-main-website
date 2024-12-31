@@ -228,6 +228,8 @@ export default function CartDialogView({
 
     const [maxHeight, setMaxHeight] = useState(400);
 
+    const [editDimention, setEditDimension] = useState<boolean>(false);
+
     const { show, update } = useShowOneTime("spot-light");
 
     useEffect(() => {
@@ -309,7 +311,7 @@ export default function CartDialogView({
 
                 if (
                     (values.dimension?.length <= 21 || values.dimension?.width <= 21) &&
-                    values.dimension?.length !== '' && values.dimension?.width !== ''
+                    values.dimension?.length !== '' && values.dimension?.width !== '' && !editDimention
                 ) {
                     newDisable.profile_type = true
                 }
@@ -403,6 +405,7 @@ export default function CartDialogView({
     };
 
     const frame_types = useCallback(() => {
+
         let frame_types = [...formOptions.frame_type.map((frame_type) => {
             return {
                 label: frame_type.name,
@@ -410,72 +413,63 @@ export default function CartDialogView({
             }
         })]
 
-        if (
-            algorithm === EAlgorithm.cabinet_door
-            && (values.dimension?.length <= 29 || values.dimension?.width <= 29)
-            && values.dimension?.length !== ''
-            && values.dimension?.width !== ''
-        ) {
-            console.log(values.frame_type)
+        if (algorithm !== EAlgorithm.cabinet_door || values.dimension?.length === '' || values.dimension?.width === '')
+            return frame_types
 
+        const profile_type = formOptions.profile_type.find((type) => type.id == values.profile_type)
+
+        if (values.dimension?.length <= 29 || values.dimension?.width <= 29) {
             frame_types = frame_types.filter((frame_type) => {
                 return frame_type.label.includes('شیشه') === false
             })
 
-            const find = frame_types.find((ft) => ft.value == values.frame_type)
-            if (!find && values.frame_type != 0) setValue('frame_type', 0)
+            if (profile_type?.name.includes('کابینتی')) {
+                frame_types = frame_types.filter((frame_type) => {
+                    return frame_type.label.includes('تخت') === true
+                })
+            }
+
+            // const find = frame_types.find((ft) => ft.value == values.frame_type)
+            // if (!find && values.frame_type != 0) setValue('frame_type', 0)
         }
 
-        const profile_type = formOptions.profile_type.find((type) => type.id == values.profile_type)
-
-        if (
-            algorithm === EAlgorithm.cabinet_door
-            && (values.dimension?.length <= 29 || values.dimension?.width <= 29)
-            && values.dimension?.length !== ''
-            && values.dimension?.width !== ''
-            && profile_type?.name.includes('کابینتی')
-        ) {
-            console.log(values.frame_type)
-
+        if (values.dimension?.length <= 21 || values.dimension?.width <= 21) {
             frame_types = frame_types.filter((frame_type) => {
                 return frame_type.label.includes('تخت') === true
             })
 
-            const find = frame_types.find((ft) => ft.value == values.frame_type)
-            if (!find && values.frame_type != 0) setValue('frame_type', 0)
+            // const findFrame = formOptions.frame_type.find((p) => p.name.includes('تخت'))
+            // if (findFrame && values.frame_type != findFrame?.id)
+            //     setValue('frame_type', findFrame.id)
+
+            // const findKesho = formOptions.profile_type.find((p) => p.name.includes('کشو'))
+            // if (findKesho && values.profile_type != findKesho?.id)
+            //     setValue('profile_type', findKesho.id)
         }
 
+        return frame_types
+    }, [values.dimension, values.profile_type, values.frame_type, editDimention])
 
+    useEffect(() => {
+        console.log('editDimention', editDimention)
+        if (editDimention === true || algorithm !== EAlgorithm.cabinet_door || values.dimension?.length === '' || values.dimension?.width === '')
+            return
 
-        if (
-            algorithm === EAlgorithm.cabinet_door
-            && (values.dimension?.length <= 21 || values.dimension?.width <= 21)
-            && values.dimension?.length !== ''
-            && values.dimension?.width !== ''
-        ) {
-            frame_types = frame_types.filter((frame_type) => {
-                return frame_type.label.includes('تخت') === true
-            })
+        if (values.dimension?.length <= 29 || values.dimension?.width <= 29) {
+            if (values.frame_type != 0) setValue('frame_type', 0)
+        }
+
+        if (values.dimension?.length <= 21 || values.dimension?.width <= 21) {
 
             const findFrame = formOptions.frame_type.find((p) => p.name.includes('تخت'))
             if (findFrame && values.frame_type != findFrame?.id)
                 setValue('frame_type', findFrame.id)
-        }
 
-        return frame_types
-    }, [values.dimension, values.profile_type, values.frame_type])
-
-    useEffect(() => {
-        if (
-            algorithm === EAlgorithm.cabinet_door
-            && (values.dimension?.length <= 21 || values.dimension?.width <= 21)
-            && values.dimension?.length !== ''
-            && values.dimension?.width !== ''
-        ) {
             const findKesho = formOptions.profile_type.find((p) => p.name.includes('کشو'))
-            if (findKesho) setValue('profile_type', findKesho.id)
+            if (findKesho && values.profile_type != findKesho?.id)
+                setValue('profile_type', findKesho.id)
         }
-    }, [values.dimension.length, values.dimension.width])
+    }, [values.dimension.length, values.dimension.width, editDimention])
 
     return (
         <Box sx={{ px: '40px' }}>
@@ -889,7 +883,6 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-
                     {(values.inlaid_flower === false || values.inlaid_flower === "0") && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <RHFTitleTextField name='inlaid_flower_emty_space' custom_label='زمینه خالی جهت منبت (سانتی متر)' placeholder='26' />
@@ -908,7 +901,8 @@ export default function CartDialogView({
                                 >
                                     ابعاد
                                 </Typography>
-                                <Stack direction={'row'}
+                                <Stack
+                                    direction={'row'}
                                     spacing={2}
                                     columnGap={2}
                                     rowGap={3}
@@ -917,8 +911,32 @@ export default function CartDialogView({
                                         xs: 'repeat(1, 1fr)',
                                         md: 'repeat(2, 1fr)',
                                     }}>
-                                    <RHFTitleTextField name='dimension.width' disabled={disable.dimension} custom_label='عرض (سانتی‌متر)' placeholder='26' />
-                                    <RHFTitleTextField name='dimension.length' disabled={disable.dimension} custom_label='طول - راه روکش (سانتی‌متر) ' placeholder='84' />
+                                    <RHFTitleTextField name='dimension.width'
+                                        onFocus={() => {
+                                            console.log('enter edit')
+                                            setEditDimension(true)
+                                        }}
+                                        onBlur={() => {
+                                            console.log('close edit')
+                                            setEditDimension(false)
+                                        }}
+                                        disabled={disable.dimension}
+                                        custom_label='عرض (سانتی‌متر)'
+                                        placeholder='26'
+                                    />
+                                    <RHFTitleTextField name='dimension.length'
+                                        onFocus={() => {
+                                            console.log('enter edit')
+                                            setEditDimension(true)
+                                        }}
+                                        onBlur={() => {
+                                            console.log('close edit')
+                                            setEditDimension(false)
+                                        }}
+                                        disabled={disable.dimension}
+                                        custom_label='طول - راه روکش (سانتی‌متر) '
+                                        placeholder='84'
+                                    />
                                 </Stack>
                             </>
                         )}
