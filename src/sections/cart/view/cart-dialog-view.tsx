@@ -284,7 +284,8 @@ export default function CartDialogView({
 
         switch (algorithm) {
             case EAlgorithm.room_door:
-                newDisable.cover_type = false
+                if (+values?.dimension?.length > 0 && +values.dimension?.width > 0)
+                    newDisable.cover_type = false
 
                 if (values.cover_type)
                     newDisable.frame_type = false
@@ -302,12 +303,12 @@ export default function CartDialogView({
 
                 break;
             case EAlgorithm.cabinet_door:
-                newDisable.profile_type = false
+
+                if (+values?.dimension?.length > 0 && +values.dimension?.width > 0)
+                    newDisable.profile_type = false
 
                 if (values.profile_type)
                     newDisable.cover_type = false
-                // else
-                //     newDisable.profile_type = true
 
                 if (
                     (values.dimension?.length <= 21 || values.dimension?.width <= 21) &&
@@ -333,23 +334,28 @@ export default function CartDialogView({
 
                 break;
             case EAlgorithm.cabinet_cloumn:
+                if (+values?.dimension?.length > 0 && +values.dimension?.width > 0)
+                    newDisable.cover_type = false
 
                 if (values.cover_type)
                     newDisable.inlaid_flower = false
-                else
-                    newDisable.cover_type = false
+
 
                 if (values.cover_type)
                     newDisable.dimension = false
 
                 break;
             case EAlgorithm.cover_sheet:
-                newDisable.cover_type = false;
+                // if (+values?.dimension?.length > 0 && +values.dimension?.width > 0)
+                //     newDisable.cover_type = false;
+
                 newDisable.coating_texture = false
-                if (values.coating_texture)
-                    newDisable.dimension = false
+                newDisable.dimension = false
+                break;
 
         }
+
+        console.log(newDisable)
 
         setDisable(newDisable);
     }, [values, formOptions]);
@@ -516,38 +522,90 @@ export default function CartDialogView({
                             ویژگی های مورد نظر را انتخاب کنید
                         </Typography>
 
-                        {(formOptions.profile_type?.length > 0) && (
+                        {(order_type === ProductOrderType.custom_made) && (
                             <Box width={1} pb={'24px'} sx={{ borderBottom: '1px solid #D1D1D1' }}>
-                                <Typography variant="title3" fontFamily={'peyda-bold'} sx={{ width: 1, pb: '16px' }}>
-                                    نوع پروفیل
-                                </Typography>
-
-                                <RHFRadioGroup
-                                    name='profile_type'
-                                    row
+                                <Typography
+                                    variant="title3"
+                                    fontFamily={'peyda-bold'}
                                     sx={{
-                                        width: 1,
-                                        display: 'grid',
-                                        rowGap: 1,
-                                        gridTemplateColumns: {
-                                            xs: 'repeat(1, 1fr)',
-                                            md: 'repeat(2, 1fr)',
-                                        },
+                                        width: 1, pb: '16px'
                                     }}
-                                    disabled={disable.profile_type}
-                                    FormControlSx={{
-                                        width: 1
-                                    }}
-                                    options={formOptions.profile_type.map((profile_type) => {
-                                        return {
-                                            label: profile_type.name,
-                                            value: profile_type.id,
-                                        }
-                                    })}
-                                />
+                                >
+                                    ابعاد
+                                </Typography>
+                                <Stack
+                                    direction={'row'}
+                                    spacing={2}
+                                    columnGap={2}
+                                    rowGap={3}
+                                    display="grid"
+                                    gridTemplateColumns={{
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    }}>
+                                    <RHFTitleTextField name='dimension.width'
+                                        onFocus={() => {
+                                            console.log('enter edit')
+                                            setEditDimension(true)
+                                        }}
+                                        onBlur={() => {
+                                            console.log('close edit')
+                                            setEditDimension(false)
+                                        }}
+                                        // disabled={disable.dimension}
+                                        custom_label='عرض (سانتی‌متر)'
+                                        placeholder='افزودن محتوا'
+                                    />
+                                    <RHFTitleTextField name='dimension.length'
+                                        onFocus={() => {
+                                            console.log('enter edit')
+                                            setEditDimension(true)
+                                        }}
+                                        onBlur={() => {
+                                            console.log('close edit')
+                                            setEditDimension(false)
+                                        }}
+                                        // disabled={disable.dimension}
+                                        custom_label='طول - راه روکش (سانتی‌متر) '
+                                        placeholder='افزودن محتوا'
+                                    />
+                                </Stack>
                             </Box>
                         )}
+
                     </Box>
+
+                    {(formOptions.profile_type?.length > 0) && (
+                        <Box width={1} sx={{ py: '24px', borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{ width: 1, pb: '16px' }}>
+                                نوع پروفیل
+                            </Typography>
+
+                            <RHFRadioGroup
+                                name='profile_type'
+                                row
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    rowGap: 1,
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                disabled={disable.profile_type}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={formOptions.profile_type.map((profile_type) => {
+                                    return {
+                                        label: profile_type.name,
+                                        value: profile_type.id,
+                                    }
+                                })}
+                            />
+                        </Box>
+                    )}
 
                     {formOptions.cover_type?.length > 0 && (
                         <Box sx={{ py: '24px', borderBottom: '1px solid #D1D1D1' }}>
@@ -890,56 +948,6 @@ export default function CartDialogView({
                     )}
 
                     <Box sx={{ py: "24px" }}>
-                        {(order_type === ProductOrderType.custom_made) && (
-                            <>
-                                <Typography
-                                    variant="title3"
-                                    fontFamily={'peyda-bold'}
-                                    sx={{
-                                        width: 1, pb: '16px'
-                                    }}
-                                >
-                                    ابعاد
-                                </Typography>
-                                <Stack
-                                    direction={'row'}
-                                    spacing={2}
-                                    columnGap={2}
-                                    rowGap={3}
-                                    display="grid"
-                                    gridTemplateColumns={{
-                                        xs: 'repeat(1, 1fr)',
-                                        md: 'repeat(2, 1fr)',
-                                    }}>
-                                    <RHFTitleTextField name='dimension.width'
-                                        onFocus={() => {
-                                            console.log('enter edit')
-                                            setEditDimension(true)
-                                        }}
-                                        onBlur={() => {
-                                            console.log('close edit')
-                                            setEditDimension(false)
-                                        }}
-                                        disabled={disable.dimension}
-                                        custom_label='عرض (سانتی‌متر)'
-                                        placeholder='26'
-                                    />
-                                    <RHFTitleTextField name='dimension.length'
-                                        onFocus={() => {
-                                            console.log('enter edit')
-                                            setEditDimension(true)
-                                        }}
-                                        onBlur={() => {
-                                            console.log('close edit')
-                                            setEditDimension(false)
-                                        }}
-                                        disabled={disable.dimension}
-                                        custom_label='طول - راه روکش (سانتی‌متر) '
-                                        placeholder='84'
-                                    />
-                                </Stack>
-                            </>
-                        )}
                         <Typography variant="body3" fontFamily={'peyda-bold'} sx={{
                             width: 1, pb: '8px', pt: '24px'
                         }}>
