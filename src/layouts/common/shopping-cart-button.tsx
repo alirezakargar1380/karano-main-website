@@ -47,12 +47,16 @@ export default function ShoppingCartButton({ sx }: Props) {
                     badgeContent={
                         <Label sx={{
                             p: 0,
-                            pt: 0.25,
+                            pt: 0.50,
+                            
                             backgroundColor: "#000",
                             color: 'white',
                             borderRadius: '100%',
                             minWidth: 20,
-                            height: 20
+                            height: 20,
+                            ...(checkout.totalItems == 0 && {
+                                display: 'none',
+                            })
                         }}>
                             {toFarsiNumber(checkout.totalItems)}
                         </Label>
