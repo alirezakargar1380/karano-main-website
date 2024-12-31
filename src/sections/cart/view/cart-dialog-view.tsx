@@ -310,12 +310,12 @@ export default function CartDialogView({
                 if (values.profile_type)
                     newDisable.cover_type = false
 
-                if (
-                    (values.dimension?.length <= 21 || values.dimension?.width <= 21) &&
-                    values.dimension?.length !== '' && values.dimension?.width !== '' && !editDimention
-                ) {
-                    newDisable.profile_type = true
-                }
+                // if (
+                //     (values.dimension?.length <= 21 || values.dimension?.width <= 21) &&
+                //     values.dimension?.length !== '' && values.dimension?.width !== '' && !editDimention
+                // ) {
+                //     newDisable.profile_type = true
+                // }
 
                 if (values.cover_type)
                     newDisable.frame_type = false
@@ -461,9 +461,19 @@ export default function CartDialogView({
         if (editDimention === true || algorithm !== EAlgorithm.cabinet_door || values.dimension?.length === '' || values.dimension?.width === '')
             return
 
+        const profile_type = formOptions.profile_type.find((type) => type.id == values.profile_type)
+
         if (values.dimension?.length <= 29 || values.dimension?.width <= 29) {
             if (values.frame_type != 0) setValue('frame_type', 0)
+
+            if (profile_type?.name.includes('کابینتی')) {
+                const findFrame = formOptions.frame_type.find((p) => p.name.includes('تخت'))
+                if (findFrame && values.frame_type != findFrame?.id)
+                    setValue('frame_type', findFrame.id)
+            }
         }
+
+
 
         if (values.dimension?.length <= 21 || values.dimension?.width <= 21) {
 
@@ -471,9 +481,10 @@ export default function CartDialogView({
             if (findFrame && values.frame_type != findFrame?.id)
                 setValue('frame_type', findFrame.id)
 
-            const findKesho = formOptions.profile_type.find((p) => p.name.includes('کشو'))
-            if (findKesho && values.profile_type != findKesho?.id)
-                setValue('profile_type', findKesho.id)
+
+            // const findKesho = formOptions.profile_type.find((p) => p.name.includes('کشو'))
+            // if (findKesho && values.profile_type != findKesho?.id)
+            //     setValue('profile_type', findKesho.id)
         }
     }, [values.dimension.length, values.dimension.width, editDimention])
 
