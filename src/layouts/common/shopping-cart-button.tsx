@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 import { PrimaryButton } from 'src/components/styles/buttons/primary';
 import ShoppingCartList from 'src/sections/shopping-cart/shopping-cart-list';
+import { toFarsiNumber } from 'src/utils/change-case';
 
 // ----------------------------------------------------------------------
 
@@ -53,7 +54,7 @@ export default function ShoppingCartButton({ sx }: Props) {
                             minWidth: 20,
                             height: 20
                         }}>
-                            {checkout.totalItems}
+                            {toFarsiNumber(checkout.totalItems)}
                         </Label>
                     }
                 >
