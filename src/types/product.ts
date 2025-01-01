@@ -135,6 +135,7 @@ export type IProductDefaultDetails = {
   cover_type: IProductCoverType[]
   profile_type: IProductProfileType[]
   frame_type: IProductFrameType[]
+  raised_rims: IProductCodes[]
 }
 
 export enum ProductOrderType {

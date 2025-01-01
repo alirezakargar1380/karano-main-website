@@ -255,7 +255,9 @@ export default function CartDialogView({
         coating_type: true,
         inlaid_flower: true,
         coating_texture: true,
-        dimension: true
+        dimension: true,
+        back_to_back_dimension: true,
+        raised_rim: true,
     });
 
     const [state, setState] = useState({
@@ -294,12 +296,18 @@ export default function CartDialogView({
                     newDisable.coating_type = false
 
                 if (values.coating_type)
-                    newDisable.dimension = false
+                    newDisable.back_to_back_dimension = false
 
                 if (values.frame_type && !findFrame?.is_glass && !findCover?.is_raw)
                     newDisable.coating_type = false
                 else
                     newDisable.coating_type = true
+
+                if (findCover?.is_raw == true)
+                    newDisable.back_to_back_dimension = true
+
+                if (values.back_to_back_dimension)
+                    newDisable.raised_rim = false
 
                 break;
             case EAlgorithm.cabinet_door:
@@ -369,7 +377,9 @@ export default function CartDialogView({
                 coating_type: false,
                 inlaid_flower: false,
                 coating_texture: false,
-                dimension: false
+                dimension: false,
+                back_to_back_dimension: false,
+                raised_rim: false,
             })
         }
         // else {
@@ -397,6 +407,17 @@ export default function CartDialogView({
                 })
                 setValue('coating_type', CoatingType.none)
                 setValue('coating_texture', ECoatingTexture.none)
+            }
+        }
+
+        if (algorithm === EAlgorithm.room_door) {
+            const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+            if (findCover?.is_raw) {
+                setDisable({
+                    ...disable,
+                    back_to_back_dimension: true,
+                })
+                setValue('back_to_back_dimension', EBackToBackDimension.none)
             }
         }
     }, [values.frame_type, values.cover_type])
@@ -457,7 +478,6 @@ export default function CartDialogView({
     }, [values.dimension, values.profile_type, values.frame_type, editDimention])
 
     useEffect(() => {
-        console.log('editDimention', editDimention)
         if (editDimention === true || algorithm !== EAlgorithm.cabinet_door || values.dimension?.length === '' || values.dimension?.width === '')
             return
 
@@ -810,7 +830,7 @@ export default function CartDialogView({
                             <RHFRadioGroup
                                 name='back_to_back_dimension'
                                 row
-                                // disabled={disable.inlaid_flower}
+                                disabled={disable.back_to_back_dimension}
                                 sx={{
                                     width: 1,
                                     display: 'grid',
@@ -912,6 +932,70 @@ export default function CartDialogView({
                                         value: EFrameCore.ply
                                     },
                                 ]}
+                            />
+                        </Box>
+                    )}
+
+                    <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                        <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                            width: 1, pb: '16px'
+                        }}>
+                            زهوار برجسته :
+                        </Typography>
+                        <RHFRadioGroup
+                            name='has_raised_rim'
+                            row
+                            disabled={disable.raised_rim}
+                            sx={{
+                                width: 1,
+                                display: 'grid',
+                                gridTemplateColumns: {
+                                    xs: 'repeat(1, 1fr)',
+                                    md: 'repeat(2, 1fr)',
+                                },
+                            }}
+                            FormControlSx={{
+                                width: 1
+                            }}
+                            options={[
+                                {
+                                    label: 'دارد',
+                                    value: 1
+                                },
+                                {
+                                    label: 'ندارد',
+                                    value: 0
+                                },
+                            ]}
+                        />
+                    </Box>
+
+                    {(values.has_raised_rim === true || values.has_raised_rim === "1") && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                نوع زهوار برجسته :
+                            </Typography>
+                            <RHFRadioGroup
+                                name='has_raised_rim'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={formOptions.raised_rims.map((item) => ({
+                                    label: "(" + item.code + ")" + " " + item.name,
+                                    value: item.id
+                                }))}
                             />
                         </Box>
                     )}

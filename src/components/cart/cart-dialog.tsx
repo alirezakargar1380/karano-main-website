@@ -179,6 +179,7 @@ export default function CartDialog({
     coating_type: CoatingType.none,
     inlaid_flower_emty_space: 0,
     inlaid_flower: null,
+    has_raised_rim: null,
     frame_width: '', // پهنای چارچوب
     back_to_back_dimension: EBackToBackDimension.none,
     frame_core: EFrameCore.none,
@@ -252,7 +253,6 @@ export default function CartDialog({
         cover_type: item?.cover_type?.id || 0,
         profile_type: item?.profile_type?.id || 0,
         frame_type: item?.frame_type?.id || 0,
-        // inlaid_flower: item?.inlaid_flower !== null ? (item.inlaid_flower === true) ? '1' : '0' : null,
         dimension: {
           length: item.dimension?.length || 0,
           width: item.dimension?.width || 0,
