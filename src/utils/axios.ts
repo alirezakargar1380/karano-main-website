@@ -110,6 +110,7 @@ export const endpoints = {
   product: {
     list: '/api/product/list',
     one: (id: any) => '/api/products/' + id,
+    room_dooor: (id: any) => '/api/products/' + id + '/room-door',
     details: '/api/product/details',
     search: '/api/product/search',
   },

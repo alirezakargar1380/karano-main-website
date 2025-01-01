@@ -27,6 +27,7 @@ import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 // ----------------------------------------------------------------------
 interface Props {
   dialog: useBooleanReturnType;
+  product_id: number;
   order_form_id: number;
   product_name: string;
   order_type: ProductOrderType;
@@ -42,6 +43,7 @@ interface Props {
 
 export default function CartDialog({
   dialog,
+  product_id,
   order_form_id,
   product_name,
   order_type,
@@ -421,6 +423,7 @@ export default function CartDialog({
             {(!formEmpty && !formLoading) && (
               <CartDialogView
                 formOptions={form}
+                product_id={product_id}
                 data={list}
                 order_type={order_type}
                 listIndex={index}

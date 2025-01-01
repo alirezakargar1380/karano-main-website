@@ -28,6 +28,7 @@ import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../../../components/styles/buttons/primary';
 import { toFarsiNumber } from '../../../utils/change-case';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
+import { useGetProductRoomDoor } from 'src/api/product';
 
 export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType) {
     const defult = order_type === ProductOrderType.custom_made ? [
@@ -118,6 +119,7 @@ export const ReadyProductCartTableHead = [
 
 interface Props {
     listIndex: number | null
+    product_id: number;
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
     algorithm: EAlgorithm;
@@ -212,6 +214,7 @@ const Tooltip = ({
 
 export default function CartDialogView({
     formOptions,
+    product_id,
     data,
     listIndex,
     type,
@@ -223,6 +226,8 @@ export default function CartDialogView({
     infoDialog,
     values,
 }: Props) {
+
+    const { door } = useGetProductRoomDoor(product_id, algorithm);
 
     const [ind, setInd] = useState<number | undefined>();
 
@@ -278,6 +283,7 @@ export default function CartDialogView({
             setTimeout(() => setState({ ...state, run: false }), 1000);
     }, [infoDialog])
 
+    // disable algorithm
     useEffect(() => {
         let newDisable = { ...disable };
 
@@ -363,11 +369,10 @@ export default function CartDialogView({
 
         }
 
-        console.log(newDisable)
-
         setDisable(newDisable);
     }, [values, formOptions]);
 
+    // if user has updating data, enable all form
     useEffect(() => {
         if (listIndex || listIndex === 0) {
             setDisable({
@@ -394,6 +399,7 @@ export default function CartDialogView({
         // }
     }, [listIndex])
 
+    // handle change value for raw profile and glass covers!
     useEffect(() => {
         if (algorithm === EAlgorithm.cabinet_door || algorithm === EAlgorithm.room_door) {
             const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
@@ -431,6 +437,7 @@ export default function CartDialogView({
         }
     };
 
+    // build frame types options based on dimension
     const frame_types = useCallback(() => {
 
         let frame_types = [...formOptions.frame_type.map((frame_type) => {
@@ -477,6 +484,7 @@ export default function CartDialogView({
         return frame_types
     }, [values.dimension, values.profile_type, values.frame_type, editDimention])
 
+    // set value for frame types options based on dimension
     useEffect(() => {
         if (editDimention === true || algorithm !== EAlgorithm.cabinet_door || values.dimension?.length === '' || values.dimension?.width === '')
             return
@@ -492,8 +500,6 @@ export default function CartDialogView({
                     setValue('frame_type', findFrame.id)
             }
         }
-
-
 
         if (values.dimension?.length <= 21 || values.dimension?.width <= 21) {
 
@@ -936,39 +942,41 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
-                        <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
-                            width: 1, pb: '16px'
-                        }}>
-                            زهوار برجسته :
-                        </Typography>
-                        <RHFRadioGroup
-                            name='has_raised_rim'
-                            row
-                            disabled={disable.raised_rim}
-                            sx={{
-                                width: 1,
-                                display: 'grid',
-                                gridTemplateColumns: {
-                                    xs: 'repeat(1, 1fr)',
-                                    md: 'repeat(2, 1fr)',
-                                },
-                            }}
-                            FormControlSx={{
-                                width: 1
-                            }}
-                            options={[
-                                {
-                                    label: 'دارد',
-                                    value: 1
-                                },
-                                {
-                                    label: 'ندارد',
-                                    value: 0
-                                },
-                            ]}
-                        />
-                    </Box>
+                    {(door?.is_raised === true) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                زهوار برجسته :
+                            </Typography>
+                            <RHFRadioGroup
+                                name='has_raised_rim'
+                                row
+                                disabled={disable.raised_rim}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'دارد',
+                                        value: 1
+                                    },
+                                    {
+                                        label: 'ندارد',
+                                        value: 0
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
 
                     {(values.has_raised_rim === true || values.has_raised_rim === "1") && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
