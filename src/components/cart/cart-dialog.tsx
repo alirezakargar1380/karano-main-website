@@ -106,7 +106,7 @@ export default function CartDialog({
         return Yup.object().shape({
           length: Yup.number()
             .max(235, 'طول نمیتواند بیشتر از 235 سانتی متر باشد')
-            .min(40, 'طول نمیتواند کمتر از 40 سانتی متر باشد')
+            .min(100, 'طول نمیتواند کمتر از 100 سانتی متر باشد')
             .required('طول الزامی است')
             .typeError('طول باید عدد باشد'),
           width: Yup.number()
@@ -178,6 +178,7 @@ export default function CartDialog({
     profile_type: 0,
     cover_type: 0,
     frame_type: 0,
+    raised_rim: 0,
     coating_type: CoatingType.none,
     inlaid_flower_emty_space: 0,
     inlaid_flower: null,
@@ -214,6 +215,9 @@ export default function CartDialog({
         custom.cover_type = form.cover_type.find((item) => item.id === data.cover_type);
       if (form.frame_type)
         custom.frame_type = form.frame_type.find((item) => item.id === data.frame_type);
+
+      if (form.raised_rims && data.raised_rim)
+        custom.raised_rim = form.raised_rims.find((item) => item.id == data.raised_rim);
 
       if (index === null) {
         setList([
@@ -255,6 +259,7 @@ export default function CartDialog({
         cover_type: item?.cover_type?.id || 0,
         profile_type: item?.profile_type?.id || 0,
         frame_type: item?.frame_type?.id || 0,
+        raised_rim: item?.raised_rim?.id || 0,
         dimension: {
           length: item.dimension?.length || 0,
           width: item.dimension?.width || 0,

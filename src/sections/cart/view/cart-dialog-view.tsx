@@ -47,6 +47,7 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
                 { id: 'price', label: 'روکش گیری', width: 140 },
                 { id: 'frame_width', label: 'پهنای چارچوب', width: 140 },
                 { id: 'frame_core', label: 'مغز چارچوب', width: 200 },
+                { id: 'rim', label: 'زهوار', width: 260 },
                 ...defult
             ];
         case EAlgorithm.cabinet_door:
@@ -986,7 +987,7 @@ export default function CartDialogView({
                                 نوع زهوار برجسته :
                             </Typography>
                             <RHFRadioGroup
-                                name='has_raised_rim'
+                                name='raised_rim'
                                 row
                                 // disabled={disable.inlaid_flower}
                                 sx={{
@@ -1098,6 +1099,7 @@ export default function CartDialogView({
                                             final_coating: item.cover_type?.name,
                                             frame_type: item.frame_type?.name,
                                             profile_type: item.profile_type?.name,
+                                            raised_rim: item.raised_rim?.name + " (" + item.raised_rim?.code + ")",
                                         }}
                                     />
                                 ))}
