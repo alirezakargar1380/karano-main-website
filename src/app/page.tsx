@@ -12,7 +12,6 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = params;
 
   // Fetch product data from server
   const { data }: { data: ISettings } = await server_axios.get(endpoints.settings.meta);
