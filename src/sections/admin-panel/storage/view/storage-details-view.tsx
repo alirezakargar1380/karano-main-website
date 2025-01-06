@@ -106,8 +106,8 @@ function Row({ row }: { row: IOrderProductItem }) {
     return (
         <TableRow >
             <TableCell>{row.id}</TableCell>
-            <TableCell>{row.product.name}</TableCell>
-            <TableCell>{row.product.code}</TableCell>
+            <TableCell>{row.product?.name}</TableCell>
+            <TableCell>{row.product?.code?.code}</TableCell>
             <TableCell>{row.properties.reduce((a, b) => a + b.quantity, 0)}</TableCell>
             <TableCell>شاخه</TableCell>
         </TableRow>

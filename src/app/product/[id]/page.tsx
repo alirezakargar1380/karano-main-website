@@ -17,8 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // Fetch product data from server
   const { data }: { data: IProductMetaTags } = await server_axios.get(`/api/meta-tags/${id}`);
 
-  console.log(data);
-
   return {
     title: data?.title || 'جزئیات محصول',
     description: data?.description || '',
