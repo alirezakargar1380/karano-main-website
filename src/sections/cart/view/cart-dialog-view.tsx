@@ -28,6 +28,7 @@ import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../../../components/styles/buttons/primary';
 import { toFarsiNumber } from '../../../utils/change-case';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
+import { useGetProductRoomDoor } from 'src/api/product';
 
 export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType) {
     const defult = order_type === ProductOrderType.custom_made ? [
@@ -46,6 +47,7 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
                 { id: 'price', label: 'روکش گیری', width: 140 },
                 { id: 'frame_width', label: 'پهنای چارچوب', width: 140 },
                 { id: 'frame_core', label: 'مغز چارچوب', width: 200 },
+                { id: 'rim', label: 'زهوار', width: 260 },
                 ...defult
             ];
         case EAlgorithm.cabinet_door:
@@ -118,6 +120,7 @@ export const ReadyProductCartTableHead = [
 
 interface Props {
     listIndex: number | null
+    product_id: number;
     formOptions: IProductDefaultDetails
     data: ICheckoutItemPropertyPrice[]
     algorithm: EAlgorithm;
@@ -212,6 +215,7 @@ const Tooltip = ({
 
 export default function CartDialogView({
     formOptions,
+    product_id,
     data,
     listIndex,
     type,
@@ -223,6 +227,8 @@ export default function CartDialogView({
     infoDialog,
     values,
 }: Props) {
+
+    const { door } = useGetProductRoomDoor(product_id, algorithm);
 
     const [ind, setInd] = useState<number | undefined>();
 
@@ -255,7 +261,9 @@ export default function CartDialogView({
         coating_type: true,
         inlaid_flower: true,
         coating_texture: true,
-        dimension: true
+        dimension: true,
+        back_to_back_dimension: true,
+        raised_rim: true,
     });
 
     const [state, setState] = useState({
@@ -276,6 +284,7 @@ export default function CartDialogView({
             setTimeout(() => setState({ ...state, run: false }), 1000);
     }, [infoDialog])
 
+    // disable algorithm
     useEffect(() => {
         let newDisable = { ...disable };
 
@@ -294,12 +303,18 @@ export default function CartDialogView({
                     newDisable.coating_type = false
 
                 if (values.coating_type)
-                    newDisable.dimension = false
+                    newDisable.back_to_back_dimension = false
 
                 if (values.frame_type && !findFrame?.is_glass && !findCover?.is_raw)
                     newDisable.coating_type = false
                 else
                     newDisable.coating_type = true
+
+                if (findCover?.is_raw == true)
+                    newDisable.back_to_back_dimension = true
+
+                if (values.back_to_back_dimension)
+                    newDisable.raised_rim = false
 
                 break;
             case EAlgorithm.cabinet_door:
@@ -355,11 +370,10 @@ export default function CartDialogView({
 
         }
 
-        console.log(newDisable)
-
         setDisable(newDisable);
     }, [values, formOptions]);
 
+    // if user has updating data, enable all form
     useEffect(() => {
         if (listIndex || listIndex === 0) {
             setDisable({
@@ -369,7 +383,9 @@ export default function CartDialogView({
                 coating_type: false,
                 inlaid_flower: false,
                 coating_texture: false,
-                dimension: false
+                dimension: false,
+                back_to_back_dimension: false,
+                raised_rim: false,
             })
         }
         // else {
@@ -384,6 +400,7 @@ export default function CartDialogView({
         // }
     }, [listIndex])
 
+    // handle change value for raw profile and glass covers!
     useEffect(() => {
         if (algorithm === EAlgorithm.cabinet_door || algorithm === EAlgorithm.room_door) {
             const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
@@ -399,6 +416,17 @@ export default function CartDialogView({
                 setValue('coating_texture', ECoatingTexture.none)
             }
         }
+
+        if (algorithm === EAlgorithm.room_door) {
+            const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+            if (findCover?.is_raw) {
+                setDisable({
+                    ...disable,
+                    back_to_back_dimension: true,
+                })
+                setValue('back_to_back_dimension', EBackToBackDimension.none)
+            }
+        }
     }, [values.frame_type, values.cover_type])
 
     const handleJoyrideCallback = (data: any) => {
@@ -410,6 +438,7 @@ export default function CartDialogView({
         }
     };
 
+    // build frame types options based on dimension
     const frame_types = useCallback(() => {
 
         let frame_types = [...formOptions.frame_type.map((frame_type) => {
@@ -456,8 +485,8 @@ export default function CartDialogView({
         return frame_types
     }, [values.dimension, values.profile_type, values.frame_type, editDimention])
 
+    // set value for frame types options based on dimension
     useEffect(() => {
-        console.log('editDimention', editDimention)
         if (editDimention === true || algorithm !== EAlgorithm.cabinet_door || values.dimension?.length === '' || values.dimension?.width === '')
             return
 
@@ -472,8 +501,6 @@ export default function CartDialogView({
                     setValue('frame_type', findFrame.id)
             }
         }
-
-
 
         if (values.dimension?.length <= 21 || values.dimension?.width <= 21) {
 
@@ -810,7 +837,7 @@ export default function CartDialogView({
                             <RHFRadioGroup
                                 name='back_to_back_dimension'
                                 row
-                                // disabled={disable.inlaid_flower}
+                                disabled={disable.back_to_back_dimension}
                                 sx={{
                                     width: 1,
                                     display: 'grid',
@@ -916,6 +943,72 @@ export default function CartDialogView({
                         </Box>
                     )}
 
+                    {(door?.is_raised === true) && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                زهوار برجسته :
+                            </Typography>
+                            <RHFRadioGroup
+                                name='has_raised_rim'
+                                row
+                                disabled={disable.raised_rim}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={[
+                                    {
+                                        label: 'دارد',
+                                        value: 1
+                                    },
+                                    {
+                                        label: 'ندارد',
+                                        value: 0
+                                    },
+                                ]}
+                            />
+                        </Box>
+                    )}
+
+                    {(values.has_raised_rim === true || values.has_raised_rim === "1") && (
+                        <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
+                            <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
+                                width: 1, pb: '16px'
+                            }}>
+                                نوع زهوار برجسته :
+                            </Typography>
+                            <RHFRadioGroup
+                                name='raised_rim'
+                                row
+                                // disabled={disable.inlaid_flower}
+                                sx={{
+                                    width: 1,
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: 'repeat(1, 1fr)',
+                                        md: 'repeat(2, 1fr)',
+                                    },
+                                }}
+                                FormControlSx={{
+                                    width: 1
+                                }}
+                                options={formOptions.raised_rims.map((item) => ({
+                                    label: "(" + item.code + ")" + " " + item.name,
+                                    value: item.id
+                                }))}
+                            />
+                        </Box>
+                    )}
+
                     {(algorithm === EAlgorithm.cabinet_cloumn && order_type === ProductOrderType.custom_made) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
@@ -1006,6 +1099,7 @@ export default function CartDialogView({
                                             final_coating: item.cover_type?.name,
                                             frame_type: item.frame_type?.name,
                                             profile_type: item.profile_type?.name,
+                                            raised_rim: item.raised_rim?.name + " (" + item.raised_rim?.code + ")",
                                         }}
                                     />
                                 ))}

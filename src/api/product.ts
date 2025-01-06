@@ -3,7 +3,8 @@ import { useMemo } from 'react';
 
 import { fetcher, endpoints } from 'src/utils/axios';
 
-import { IProductItem } from 'src/types/product';
+import { EAlgorithm, IProductItem } from 'src/types/product';
+import { IRoomDoor } from 'src/types/room-door';
 
 // ----------------------------------------------------------------------
 
@@ -29,13 +30,33 @@ export function useGetProducts() {
 // ----------------------------------------------------------------------
 
 export function useGetProduct(productId: string) {
-  const URL = productId ? endpoints.product.one(productId) : '';
+  const URL = productId ? endpoints.product.one(productId) : null;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
 
   const memoizedValue = useMemo(
     () => ({
       product: data as IProductItem,
+      productLoading: isLoading,
+      productError: error,
+      productValidating: isValidating,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export function useGetProductRoomDoor(productId: number, algorithem: EAlgorithm) {
+  const URL = algorithem === EAlgorithm.room_door ? endpoints.product.room_dooor(productId) : null;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      door: data as IRoomDoor,
       productLoading: isLoading,
       productError: error,
       productValidating: isValidating,

@@ -151,6 +151,7 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         <CartDialog
             dialog={cartDialog}
             order_form_id={checkoutItem.product.order_form_options.id}
+            product_id={checkoutItem.product.id}
             product_name={checkoutItem.product.name}
             order_type={checkoutItem.product.order_type}
             algorithm={checkoutItem.product.algorithm}

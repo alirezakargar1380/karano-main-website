@@ -37,6 +37,9 @@ export const endpoints = {
   chat: '/api/chat',
   kanban: '/api/kanban',
   calendar: '/api/calendar',
+  settings: {
+    meta: '/api/settings/meta'
+  },
   auth: {
     user: {
       check_phone: '/api/authentication/user/check-phone',
@@ -110,6 +113,7 @@ export const endpoints = {
   product: {
     list: '/api/product/list',
     one: (id: any) => '/api/products/' + id,
+    room_dooor: (id: any) => '/api/products/' + id + '/room-door',
     details: '/api/product/details',
     search: '/api/product/search',
   },

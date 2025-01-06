@@ -80,6 +80,8 @@ export default function CartTableRow({
     frame_width,
     frame_core,
     profile_type,
+    raised_rim,
+    has_raised_rim,
     quality,
     rejection_reason
   } = row;
@@ -186,6 +188,15 @@ export default function CartTableRow({
                 || frame_core === EFrameCore.ply && 'پلای وود'
                 || '-'
               )}
+            </Typography>
+          </TableCell>
+        )}
+
+        {(!!raised_rim && algorithm === EAlgorithm.room_door)  && 
+        (
+          <TableCell>
+            <Typography variant='body4'>
+              {(has_raised_rim == "1") ? raised_rim : '-'}
             </Typography>
           </TableCell>
         )}
