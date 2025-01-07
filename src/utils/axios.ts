@@ -38,7 +38,8 @@ export const endpoints = {
   kanban: '/api/kanban',
   calendar: '/api/calendar',
   settings: {
-    meta: '/api/settings/meta'
+    meta: '/api/settings/meta',
+    landing: '/api/settings/landing',
   },
   auth: {
     user: {

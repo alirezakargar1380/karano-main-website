@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords: data?.meta_tags || 'محصول، فروشگاه، فروشگاه اینترنتی',
   };
 }
+
 export default function HomePage() {
   return <HomeView />;
 }

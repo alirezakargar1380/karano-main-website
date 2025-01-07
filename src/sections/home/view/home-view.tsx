@@ -35,11 +35,15 @@ import { Counter } from './counter';
 import SvgColor from 'src/components/svg-color';
 import Label from 'src/components/label';
 import { Theme } from '@mui/material/styles';
+import { useGetCategoryProducts } from 'src/api/category';
+import { useGetLandingSettings } from 'src/api/settings';
 
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
   const { show, title, text, color, notification_id, onShowPopover, onHideDialog } = useOrderContext();
+
+  const { settings } = useGetLandingSettings();
 
   const router = useRouter();
 
@@ -59,6 +63,8 @@ export default function HomeView() {
   const popoverEnter = () => {
     setOpenedPopover(true)
   };
+
+  const { products } = useGetCategoryProducts(settings?.most_sale_category?.id);
 
   const popoverLeave = () => {
     setOpenedPopover(false)
@@ -379,7 +385,7 @@ export default function HomeView() {
           <HomeOrderWithKarano />
 
           <Box>
-            <CarouselProducts data={_carouselsExample.slice(0, 8)} label='!پرفروش ها' />
+            <CarouselProducts data={products} label='!پرفروش ها' />
           </Box>
 
           <Box borderTop={'1px solid #D1D1D1'} pt={14}>
