@@ -273,11 +273,11 @@ export default function HomeView() {
                 </Stack>
               </Grid>
               <Grid xs={12} sm={12} md={6} item sx={{
-                display: {
-                  xs: 'none',
-                  sm: 'none',
-                  md: 'block'
-                }
+                // display: {
+                //   xs: 'none',
+                //   sm: 'none',
+                //   md: 'block'
+                // }
               }}>
                 <Box sx={{
                   width: 24,
@@ -286,17 +286,14 @@ export default function HomeView() {
                   zIndex: 1,
                   // top: 0,
                   ml: '100px',
-                  mt: '100px'
+                  mt: '200px'
                 }}>
                   <IconButton
                     ref={popoverAnchor}
-                    // onClick={customizedPopover.onOpen}
-                    // aria-owns={customizedPopover.open ? 'mouse-over-popover' : undefined}
-                    // onMouseEnter={customizedPopover.onOpen}
-                    // onMouseLeave={handleLeaveMouse}
+                    aria-haspopup="true"
+                    aria-owns={openedPopover ? 'mouse-over-popover' : undefined}
                     onMouseEnter={popoverEnter}
                     onMouseLeave={popoverLeave}
-                    aria-haspopup="true"
                     sx={{
                       color: '#fff',
                       bgcolor: '#0a0a0a70',
@@ -316,12 +313,8 @@ export default function HomeView() {
                     />
                   </IconButton>
                   <Popover
-                    // id="mouse-over-popover"
+                    id="mouse-over-popover"
                     open={openedPopover}
-                    // onClose={customizedPopover.onClose}
-                    // arrow={'bottom-left'}
-                    // hiddenArrow
-                    // anchorEl={customizedPopover.open}
                     anchorEl={popoverAnchor.current}
                     anchorOrigin={{
                       vertical: 'top',
@@ -336,7 +329,6 @@ export default function HomeView() {
                         onMouseEnter: popoverEnter,
                         onMouseLeave: popoverLeave,
                         sx: {
-                          // mt: 0.5,
                           mr: 1,
                           p: 0,
                           pointerEvents: 'auto',
