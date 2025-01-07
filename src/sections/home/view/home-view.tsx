@@ -290,8 +290,6 @@ export default function HomeView() {
                 }}>
                   <IconButton
                     ref={popoverAnchor}
-                    aria-haspopup="true"
-                    aria-owns={openedPopover ? 'mouse-over-popover' : undefined}
                     onMouseEnter={popoverEnter}
                     onMouseLeave={popoverLeave}
                     sx={{
@@ -313,9 +311,10 @@ export default function HomeView() {
                     />
                   </IconButton>
                   <Popover
-                    id="mouse-over-popover"
+                    // id="mouse-over-popover"
                     open={openedPopover}
                     anchorEl={popoverAnchor.current}
+                    closeAfterTransition={true}
                     anchorOrigin={{
                       vertical: 'top',
                       horizontal: 'left',
