@@ -37,11 +37,15 @@ import Label from 'src/components/label';
 import { Theme } from '@mui/material/styles';
 import { useGetCategoryProducts } from 'src/api/category';
 import { useGetLandingSettings } from 'src/api/settings';
+import { useGetLandingIdeaImages } from 'src/api/landing';
+import { EIdeaSections } from 'src/types/idea';
 
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
   const { show, title, text, color, notification_id, onShowPopover, onHideDialog } = useOrderContext();
+
+  const { idea } = useGetLandingIdeaImages();
 
   const { settings } = useGetLandingSettings();
 
@@ -260,15 +264,15 @@ export default function HomeView() {
             </Typography>
             <Grid container spacing={2}>
               <Grid xs={6} sm={6} md={3} item>
-                <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 12.jpg'} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
+                <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.right)?.image_name || '')} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
               </Grid>
               <Grid xs={6} sm={6} md={3} item>
                 <Stack justifyContent={'space-between'} spacing={2} height={1} width={1}>
                   <Box sx={{ height: "30%", borderRadius: '12px' }}>
-                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 14.jpg'} sx={{ objectFit: 'cover', borderRadius: '12px', height: 1, width: 1 }} />
+                    <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.centerTop)?.image_name || '')} sx={{ objectFit: 'cover', borderRadius: '12px', height: 1, width: 1 }} />
                   </Box>
                   <Box sx={{ height: "70%", borderRadius: '12px' }}>
-                    <Image alt={'karano'} src={'/assets/images/landing/ideas/classic-01 15.jpg'} sx={{ objectFit: 'cover', height: 1, borderRadius: '12px' }} />
+                    <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.centerBottom)?.image_name || '')} sx={{ objectFit: 'cover', height: 1, borderRadius: '12px' }} />
                   </Box>
                 </Stack>
               </Grid>
@@ -367,7 +371,7 @@ export default function HomeView() {
                     </Link>
                   </Popover>
                 </Box>
-                <Image alt={'karano'} src={'/assets/images/landing/ideas/image 227.jpg'} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
+                <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.left)?.image_name || '')} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
               </Grid>
             </Grid>
           </Box>

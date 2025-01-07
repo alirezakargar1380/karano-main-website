@@ -164,5 +164,11 @@ export const endpoints = {
   },
   notification: {
     seen: (notif_id: string) => `/api/notification/${notif_id}/seen`,
+  },
+  landing: {
+    idea_images: {
+      list: '/api/landing/idea-images',
+      get_image: (name: string) => `${BACKEND_API}/api/landing/idea-image/${name}/image`,
+    }
   }
 };
