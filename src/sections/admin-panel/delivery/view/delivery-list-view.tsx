@@ -24,6 +24,8 @@ import { useCallback, useState } from "react";
 import { IUserTypes } from "src/types/user";
 import { fToJamali } from "src/utils/format-time";
 import { endpoints, server_axios } from "src/utils/axios";
+import Filter from "../../filter";
+import { PrimaryButton } from "src/components/styles/buttons/primary";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -67,7 +69,8 @@ export default function DeliveryListView() {
     }
 
     return (
-        <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+        <Box>
+
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
                 {(!orderLoading) && (
                     <Box>
@@ -167,7 +170,7 @@ export default function DeliveryListView() {
                                 <Stack direction={'row'} spacing={1}>
                                     <SvgColor src="/assets/icons/address/marker-pin-01.svg" color={"#727272"} />
                                     <Box display={"flex"}>
-                                        <Typography variant="body2">{order.address.provice + ", " + order.address.city + ", " + order.address.address}</Typography>
+                                        <Typography variant="body2">{order.address.province?.name + ", " + order.address.city?.name + ", " + order.address.address}</Typography>
                                         <Typography variant="body2" sx={{ direction: 'ltr', ml: 1, mt: 0.25 }}>{order.address.postal_code}</Typography>
                                     </Box>
                                 </Stack>
@@ -231,123 +234,49 @@ export default function DeliveryListView() {
                             </Box>
                         </Stack>
                         <Stack direction={'row'}>
-                            <LoadingButton variant="contained" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</LoadingButton>
+                            <PrimaryButton size="medium" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</PrimaryButton>
                         </Stack>
                     </Box>
                 )}
             </DialogWithButton>
-            <AdminBreadcrumbs
-                links={[
-                    { name: 'پنل کاربری ادمین', href: paths.admin_dashboard.root },
-                    { name: 'مدیریت فروش' },
-                ]}
-                sx={{
-                    mb: { xs: 3, md: 5 },
-                }}
-            />
+
             <Box>
                 <PageTitle title="مدیریت ارسال" icon="/assets/icons/admin-panel/send-03.svg" />
             </Box>
-            <FormProvider methods={methods} onSubmit={onSubmit}>
-                <Stack sx={{ width: 1 }} direction={'row'} spacing={2}>
-                    <Typography variant="h5" fontFamily={'peyda-bold'}>لیست سفارش</Typography>
-                    <RHFMultiSelect
-                        name="dsdf"
-                        label="وضعیت تولید"
-                        value="1"
-                        options={[
-                            {
-                                label: '1',
-                                value: '1'
-                            },
-                            {
-                                label: '2',
-                                value: '2'
-                            },
-                            {
-                                label: '3',
-                                value: '4'
-                            }
-                        ]}
-                        checkbox
-                        icon="/assets/icons/admin-panel/flag-01.svg"
-                        sx={{
-                            bgcolor: 'white',
-                            borderRadius: '24px!important',
-                            py: '0px !important',
-                            '& .MuiOutlinedInput-input': {
-                                py: 1,
-                            },
-                            '& .MuiInputBase-root': {
-                                borderRadius: '24px!important',
-                            },
-                        }}
-                    />
-                    <RHFMultiSelect
-                        name="dsdf"
-                        label="تاریخ"
-                        value="1"
-                        options={[
-                            {
-                                label: 'فردا',
-                                value: '1'
-                            },
-                            {
-                                label: 'دو روز آینده',
-                                value: '2'
-                            },
-                            {
-                                label: 'یک هفته آینده',
-                                value: '4'
-                            }
-                        ]}
-                        icon="/assets/icons/admin-panel/calandar.svg"
-                        sx={{
-                            bgcolor: 'white',
-                            borderRadius: '24px!important',
-                            py: '0px !important',
-                            '& .MuiOutlinedInput-input': {
-                                py: 1,
-                            },
-                            '& .MuiInputBase-root': {
-                                borderRadius: '24px!important',
-                            },
-                        }}
-                    />
-                </Stack>
-            </FormProvider>
+            <Container maxWidth={settings.themeStretch ? false : 'lg'} sx={{ pl: '20px!important', ml: '0px!important' }}>
+                <Filter />
+                <Box>
+                    <TableContainer sx={{ overflow: 'unset', mt: 2, boxShadow: '2px 2px 8px 0px #0000001A', borderRadius: '12px', }}>
+                        <Scrollbar>
+                            <Table sx={{ minWidth: 960 }}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell width={40} sx={{ borderTopLeftRadius: '12px' }}></TableCell>
+                                        <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>نام مشتری</TableCell>
+                                        <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>کد سفارش</TableCell>
 
-            <Box>
-                <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
-                    <Scrollbar>
-                        <Table sx={{ minWidth: 960, bgcolor: 'white' }}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell width={40}></TableCell>
-                                    <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>نام مشتری</TableCell>
-                                    <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>کد سفارش</TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>وضعیت سفارش</TableCell>
+                                        <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>وضعیت سفارش</TableCell>
 
 
 
-                                    <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>تاریخ سفارش</TableCell>
-                                    <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>تاریخ تحویل</TableCell>
+                                        <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>تاریخ سفارش</TableCell>
+                                        <TableCell sx={{ fontFamily: 'peyda-bold!important' }}>تاریخ تحویل</TableCell>
 
-                                    <TableCell width={200}></TableCell>
-                                </TableRow>
-                            </TableHead>
+                                        <TableCell width={200} sx={{ borderTopRightRadius: '12px' }}></TableCell>
+                                    </TableRow>
+                                </TableHead>
 
-                            <TableBody>
-                                {orders.map((row, index) => (
-                                    <Row key={index} row={row} moreHandler={() => handleMore(row.id)} />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Scrollbar>
-                </TableContainer>
-            </Box>
-        </Container >
+                                <TableBody>
+                                    {orders.map((row, index) => (
+                                        <Row key={index} row={row} moreHandler={() => handleMore(row.id)} />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Scrollbar>
+                    </TableContainer>
+                </Box>
+            </Container>
+        </Box>
     )
 }
 
@@ -416,13 +345,13 @@ function Row({ row, moreHandler }: any) {
             <TableCell>{fToJamali(row.production_date)}</TableCell>
 
             <TableCell sx={{ textAlign: 'center' }}>
-                <LoadingButton
-                    variant="contained"
+                <PrimaryButton
+                    size="small"
                     sx={{ borderRadius: '28px', px: 1.5 }}
                     onClick={moreHandler}
                 >
                     مشاهده جزئیات
-                </LoadingButton>
+                </PrimaryButton>
             </TableCell>
         </TableRow>
     )

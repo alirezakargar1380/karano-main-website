@@ -30,15 +30,6 @@ export default function StorageDetailsView({ id }: Props) {
 
     return (
         <Box>
-            <AdminBreadcrumbs
-                links={[
-                    { name: 'خانه', href: paths.admin_dashboard.root },
-                    { name: 'مدیریت انبار' },
-                ]}
-                sx={{
-                    mb: { xs: 3, md: 5 },
-                }}
-            />
             <Box>
                 <PageTitle
                     title="بررسی جزییات"
@@ -69,12 +60,12 @@ export default function StorageDetailsView({ id }: Props) {
                         </MenuItem>
                     </Select>
                 </Stack>
-                <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
+                <TableContainer sx={{ overflow: 'unset', mt: 2, boxShadow: '2px 2px 8px 0px #0000001A', borderRadius: '12px', }}>
                     <Scrollbar>
-                        <Table sx={{ minWidth: 960, bgcolor: 'white' }}>
+                        <Table sx={{ minWidth: 960 }}>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell width={40}></TableCell>
+                                    <TableCell width={40} sx={{ borderTopLeftRadius: '12px' }}></TableCell>
 
                                     <TableCell sx={{ typography: 'subtitle2', fontFamily: 'peyda-bold', color: "#000" }}>شرح کالا / خدمات</TableCell>
 
@@ -84,7 +75,7 @@ export default function StorageDetailsView({ id }: Props) {
 
                                     <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>واحد</TableCell>
 
-                                    <TableCell></TableCell>
+                                    <TableCell sx={{ borderTopRightRadius: '12px' }}></TableCell>
                                 </TableRow>
                             </TableHead>
 
