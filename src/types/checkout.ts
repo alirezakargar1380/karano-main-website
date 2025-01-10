@@ -51,6 +51,7 @@ export interface ICheckoutItemPropertyPrice {
   rejection_reason: string | null;
   inlaid_flower_emty_space: number
   inlaid_flower: string | boolean;
+  has_raised_rim: string | boolean;
   cover_edge_tape: ECoverEdgeTape
   coating_texture: ECoatingTexture
   raised_rim: IProductCodes

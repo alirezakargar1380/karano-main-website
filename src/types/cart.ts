@@ -26,7 +26,7 @@ export interface ICartItem {
     quality: number;
     frame_core: EFrameCore;
     frame_width: string
-    has_raised_rim: string
+    has_raised_rim: string | boolean
     raised_rim: string
     rejection_reason: string | null;
     inlaid_flower_emty_space: number,
