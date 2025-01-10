@@ -140,12 +140,15 @@ export default function CartDialog({
     profile_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
     cover_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
     frame_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup
-    .number()
-    .notOneOf([0], 'نوع قاب الزامی است')
-    .required('نوع قاب الزامی است') 
-    : Yup.number(),
+      .number()
+      .notOneOf([0], 'نوع قاب الزامی است')
+      .required('نوع قاب الزامی است')
+      : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm, order_type),
+    raised_rim: Yup.number()
+      .transform((value) => (value === 0 ? null : value))
+      .nullable(),
     inlaid_flower_emty_space: Yup.number()
       .when('inlaid_flower', {
         is: false,
