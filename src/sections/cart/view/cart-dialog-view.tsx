@@ -30,6 +30,8 @@ import { toFarsiNumber } from '../../../utils/change-case';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 import { useGetProductRoomDoor } from 'src/api/product';
 
+const frame_width = [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
+
 export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType) {
     const defult = order_type === ProductOrderType.custom_made ? [
         { id: 'dimension', label: 'ابعاد', width: 110 },
@@ -94,8 +96,9 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
             ];
         case EAlgorithm.shutter_door:
             return [
-                { id: "cover_type", label: "نوار لبه روکش" },
-                { id: "inlaid_flower", label: "بافت روکش" },
+                { id: 'createdAt', label: 'پوشش نهایی' },
+                // { id: "cover_type", label: "نوار لبه روکش" },
+                // { id: "inlaid_flower", label: "بافت روکش" },
                 ...defult
             ];
     }
@@ -885,24 +888,12 @@ export default function CartDialogView({
                                 FormControlSx={{
                                     width: 1
                                 }}
-                                options={[
-                                    {
-                                        label: '10 سانتی متر',
-                                        value: '10'
-                                    },
-                                    {
-                                        label: '12 سانتی متر',
-                                        value: '12'
-                                    },
-                                    {
-                                        label: '14 سانتی متر',
-                                        value: '14'
-                                    },
-                                    {
-                                        label: '16 سانتی متر',
-                                        value: '16'
-                                    },
-                                ]}
+                                options={frame_width.map((width) => {
+                                    return {
+                                        label: width + " سانتی متر",
+                                        value: width.toString()
+                                    }
+                                })}
                             />
                         </Box>
                     )}
