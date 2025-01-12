@@ -10,38 +10,42 @@ export default function PriceListView() {
     useEffect(() => {
         const downloadPriceList = async () => {
             try {
-                // const response = await fetch(endpoints.settings.price_list);
-                // const blob = await response.blob();
+                // router.push(endpoints.settings.price_list);
+                // return
 
-                // // Create download link
-                // const url = window.URL.createObjectURL(
-                //     new Blob([blob], { type: 'application/pdf' })
-                // );
-                // const link = document.createElement('a');
-                // link.href = url;
-                // link.download = 'price-list.pdf'; // Set your desired filename
+                const response = await fetch(endpoints.settings.price_list);
+                const blob = await response.blob();
 
-                // // Trigger download
-                // document.body.appendChild(link);
-                // link.click();
-
-                // // Cleanup
-                // document.body.removeChild(link);
-                // window.URL.revokeObjectURL(url);
-
-                const response = await server_axios.get(endpoints.settings.price_list, {
-                    responseType: 'blob'
-                });
-
+                // Create download link
                 const url = window.URL.createObjectURL(
-                    new Blob([response.data], { type: 'application/pdf' })
+                    new Blob([blob], { type: 'application/pdf' })
                 );
                 const link = document.createElement('a');
                 link.href = url;
-                link.download = 'price-list.pdf';
+                link.download = 'price-list.pdf'; // Set your desired filename
+
+                // Trigger download
+                document.body.appendChild(link);
                 link.click();
 
+                // Cleanup
+                document.body.removeChild(link);
                 window.URL.revokeObjectURL(url);
+
+                // const response = await server_axios.get(endpoints.settings.price_list, {
+                //     responseType: 'blob'
+                // });
+
+                // const url = window.URL.createObjectURL(
+                //     new Blob([response.data], { type: 'application/pdf' })
+                // );
+                // const link = document.createElement('a');
+                // link.href = url;
+                // // link.download = 'price-list.pdf';
+                // link.setAttribute('download', 'price-list.pdf'); // This ensures the .pdf extension
+                // link.click();
+
+                // window.URL.revokeObjectURL(url);
             } catch (error) {
                 console.error('Download failed:', error);
             }
