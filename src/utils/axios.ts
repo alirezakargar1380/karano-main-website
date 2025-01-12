@@ -40,6 +40,7 @@ export const endpoints = {
   settings: {
     meta: '/api/settings/meta',
     landing: '/api/settings/landing',
+    price_list: '/api/settings/price-list',
   },
   auth: {
     user: {
