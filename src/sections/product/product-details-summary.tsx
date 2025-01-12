@@ -165,7 +165,7 @@ export default function ProductDetailsSummary({
 
       checkout.onGetCart();
 
-      if (product.order_type === ProductOrderType.custom_made && (product.algorithm === EAlgorithm.cabinet_door || product.algorithm === EAlgorithm.room_door))
+      if (product.order_type === ProductOrderType.custom_made && (product.algorithm === EAlgorithm.cabinet_door || product.algorithm === EAlgorithm.room_door || product.algorithm === EAlgorithm.shutter_door))
         assmbleDialog.onTrue();
       else
         cartDialog.onFalse();
