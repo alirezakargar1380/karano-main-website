@@ -91,6 +91,8 @@ export default function CartTableRow({
 
   const rejectionDialog = useBoolean();
 
+  console.log("raised_rim", raised_rim)
+
   return (
     <>
       <TableRow
@@ -192,7 +194,7 @@ export default function CartTableRow({
           </TableCell>
         )}
 
-        {(!!raised_rim && algorithm === EAlgorithm.room_door)  && 
+        {(algorithm === EAlgorithm.room_door)  && 
         (
           <TableCell>
             <Typography variant='body4'>

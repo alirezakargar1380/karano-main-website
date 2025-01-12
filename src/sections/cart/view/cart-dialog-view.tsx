@@ -30,7 +30,7 @@ import { toFarsiNumber } from '../../../utils/change-case';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
 import { useGetProductRoomDoor } from 'src/api/product';
 
-const frame_width = [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
+const frame_width = [10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30];
 
 export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType) {
     const defult = order_type === ProductOrderType.custom_made ? [
@@ -313,11 +313,14 @@ export default function CartDialogView({
                 else
                     newDisable.coating_type = true
 
-                if (findCover?.is_raw == true)
-                    newDisable.back_to_back_dimension = true
+                // if (findCover?.is_raw == true)
+                //     newDisable.back_to_back_dimension = true
 
                 if (values.back_to_back_dimension)
                     newDisable.raised_rim = false
+
+                if (values.raised_rim)
+                    newDisable.dimension = false
 
                 break;
             case EAlgorithm.cabinet_door:
@@ -370,6 +373,9 @@ export default function CartDialogView({
                 newDisable.coating_texture = false
                 newDisable.dimension = false
                 break;
+            case EAlgorithm.shutter_door:
+                newDisable.cover_type = false
+                break;
 
         }
 
@@ -420,16 +426,16 @@ export default function CartDialogView({
             }
         }
 
-        if (algorithm === EAlgorithm.room_door) {
-            const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
-            if (findCover?.is_raw) {
-                setDisable({
-                    ...disable,
-                    back_to_back_dimension: true,
-                })
-                setValue('back_to_back_dimension', EBackToBackDimension.none)
-            }
-        }
+        // if (algorithm === EAlgorithm.room_door) {
+        //     const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
+        //     if (findCover?.is_raw) {
+        //         setDisable({
+        //             ...disable,
+        //             back_to_back_dimension: true,
+        //         })
+        //         setValue('back_to_back_dimension', EBackToBackDimension.none)
+        //     }
+        // }
     }, [values.frame_type, values.cover_type])
 
     const handleJoyrideCallback = (data: any) => {
@@ -1050,7 +1056,6 @@ export default function CartDialogView({
                         </Typography>
                         <IncrementerButton
                             name="quantity"
-                            disabled={disable.dimension}
                             onDecrease={() => setValue('quantity', values.quantity ? values.quantity + 1 : 1)}
                             onIncrease={() => {
                                 if (values.quantity != 1)
