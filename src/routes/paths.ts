@@ -19,6 +19,7 @@ const ROOTS = {
 // ----------------------------------------------------------------------
 
 export const paths = {
+  priceList: '/price-list',
   comingSoon: '/coming-soon',
   shoppingCart: '/shopping-cart',
   maintenance: '/maintenance',
