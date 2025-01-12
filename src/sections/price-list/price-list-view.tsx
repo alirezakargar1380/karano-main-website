@@ -10,27 +10,27 @@ export default function PriceListView() {
     useEffect(() => {
         const downloadPriceList = async () => {
             try {
-                // router.push(endpoints.settings.price_list);
-                // return
+                router.push(endpoints.settings.price_list);
+                return
 
-                const response = await fetch(endpoints.settings.price_list);
-                const blob = await response.blob();
+                // const response = await fetch(endpoints.settings.price_list);
+                // const blob = await response.blob();
 
-                // Create download link
-                const url = window.URL.createObjectURL(
-                    new Blob([blob], { type: 'application/pdf' })
-                );
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'price-list.pdf'; // Set your desired filename
+                // // Create download link
+                // const url = window.URL.createObjectURL(
+                //     new Blob([blob], { type: 'application/pdf' })
+                // );
+                // const link = document.createElement('a');
+                // link.href = url;
+                // link.download = 'price-list.pdf'; // Set your desired filename
 
-                // Trigger download
-                document.body.appendChild(link);
-                link.click();
+                // // Trigger download
+                // document.body.appendChild(link);
+                // link.click();
 
-                // Cleanup
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(url);
+                // // Cleanup
+                // document.body.removeChild(link);
+                // window.URL.revokeObjectURL(url);
 
                 // const response = await server_axios.get(endpoints.settings.price_list, {
                 //     responseType: 'blob'
