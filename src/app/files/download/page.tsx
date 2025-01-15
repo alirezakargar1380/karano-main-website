@@ -1,3 +1,4 @@
+import { DownloadView } from "src/sections/download/download-view";
 
 // ----------------------------------------------------------------------
 
@@ -7,6 +8,6 @@ export const metadata = {
 
 export default function DownloadPage() {
   return (
-    <h2>download file page</h2>
+    <DownloadView />
   );
 }
