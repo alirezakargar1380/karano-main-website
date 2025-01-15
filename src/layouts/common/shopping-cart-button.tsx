@@ -84,7 +84,7 @@ export default function ShoppingCartButton({ sx }: Props) {
                         <SvgColor src="/assets/icons/navbar/x-close.svg" sx={{ width: 16, height: 16 }} />
                     </IconButton>
                 </Stack>
-                <Box sx={{ pb: '16px', borderBottom: '1px solid #D1D1D1' }} display={'flex'}>
+                <Box sx={{ pb: '16px', borderBottom: '1px solid #D1D1D1' }}>
                     <ShoppingCartList type='cart' items={checkout.items} isMini />
                 </Box>
                 <Box sx={{ textAlign: 'right', mt: '16px' }}>

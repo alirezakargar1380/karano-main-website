@@ -169,31 +169,40 @@ export default function ShoppingCartList({ items, type, isMini, afterUpdate, ord
         return (
             <Box>
                 {Cart}
-                {checkoutItems.map((item, index: number) => (
-                    <Box display={'flex'} gap={'12px'} mt={'12px'} key={index}>
-                        <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, height: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
-                        <Box>
-                            <Typography variant="body3">{item.product.name}</Typography>
-                            <Typography variant="caption2">{'نوع پروفیل: ' + 'درب کمدی'}</Typography>
-                            <Stack width={1} mt={'8px'} direction={'row'}>
-                                <IconButton
-                                    sx={{ width: 'fit-content' }}
-                                    color={'default'}
-                                    onClick={() => handleEdit(item)}
-                                >
-                                    <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
-                                </IconButton>
-                                {/* <IconButton
+                <Scrollbar sx={{
+                    maxHeight: 160,
+                    '& .simplebar-content': {
+                        ml: 1.5
+                    }
+                }}>
+                    {checkoutItems.map((item, index: number) => (
+                        <Box width={1}>
+                            <Box display={'flex'} gap={'12px'} mt={'12px'} width={1} key={index}>
+                                <Image src={endpoints.image.url(item.product.images.find((img) => img.main)?.name || '')} sx={{ width: 80, height: 80, border: '1px solid #D1D1D1', borderRadius: '8px' }} />
+                                <Box>
+                                    <Typography variant="body3">{item.product.name}</Typography>
+                                    {/* <Typography variant="caption2">{'نوع پروفیل: ' + 'درب کمدی'}</Typography> */}
+                                    <Stack width={1} mt={'8px'} direction={'row'}>
+                                        <IconButton
+                                            sx={{ width: 'fit-content' }}
+                                            color={'default'}
+                                            onClick={() => handleEdit(item)}
+                                        >
+                                            <SvgColor src='/assets/icons/cart/edit.svg' sx={{ width: 16, height: 16 }} />
+                                        </IconButton>
+                                        {/* <IconButton
                                     sx={{ width: 'fit-content' }}
                                     color={'default'}
                                     onClick={() => { }}
                                 >
                                     <SvgColor src='/assets/icons/cart/trash.svg' sx={{ width: 16, height: 16 }} />
                                 </IconButton> */}
-                            </Stack>
+                                    </Stack>
+                                </Box>
+                            </Box>
                         </Box>
-                    </Box>
-                ))}
+                    ))}
+                </Scrollbar>
             </Box>
         )
     }
