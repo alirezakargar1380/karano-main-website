@@ -31,6 +31,14 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
   return res.data;
 };
 
+export const adminFetcher = async (args: string | [string, AxiosRequestConfig]) => {
+  const [url, config] = Array.isArray(args) ? args : [args];
+
+  const res = await axiosInstance.get(url, { ...config });
+
+  return res.data;
+};
+
 // ----------------------------------------------------------------------
 
 export const endpoints = {
@@ -136,6 +144,7 @@ export const endpoints = {
     },
     create: '/api/orders',
     list: '/api/orders',
+    sales: '/api/orders/sales',
     tracking: '/api/orders/tracking',
     production_list: '/api/orders/production',
     delivery_list: '/api/orders/delivery',

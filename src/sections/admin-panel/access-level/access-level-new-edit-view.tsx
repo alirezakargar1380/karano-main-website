@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import _ from "lodash";
 import { EAdminRole, IAdmin } from "src/types/admin";
-import { endpoints, server_axios } from "src/utils/axios";
+import axiosInstance, { endpoints, server_axios } from "src/utils/axios";
 import { adminRoleTranslate } from "src/utils/admin-role";
 import { useEffect, useMemo } from "react";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
@@ -61,10 +61,12 @@ export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
     const onSubmit = handleSubmit(async (data) => {
         try {
             if (!currentData) {
-                if (!warningDialog.value) return warningDialog.onTrue();
-                server_axios.post(endpoints.auth.admin.create, data);
+                if (!warningDialog.value)
+                    return warningDialog.onTrue();
+
+                axiosInstance.post(endpoints.auth.admin.create, data);
             } else {
-                server_axios.patch(endpoints.auth.admin.update(currentData.id), data);
+                axiosInstance.patch(endpoints.auth.admin.update(currentData.id), data);
             }
 
             adminDialog.onFalse();

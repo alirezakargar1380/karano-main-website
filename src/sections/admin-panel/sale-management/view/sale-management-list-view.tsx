@@ -13,7 +13,7 @@ import FormProvider, { RHFMultiSelect } from "src/components/hook-form";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
-import { useGetOrders } from "src/api/orders";
+import { useGetSalesOrders } from "src/api/orders";
 import { IOrderItem, OrderStatus } from "src/types/order";
 import { fDateTime, fToJamali } from "src/utils/format-time";
 import { IUserTypes } from "src/types/user";
@@ -32,7 +32,7 @@ export default function SaleManagementListView() {
 
     const {
         orders
-    } = useGetOrders();
+    } = useGetSalesOrders();
 
     const methods = useForm({
         resolver: yupResolver<any>(schema),
