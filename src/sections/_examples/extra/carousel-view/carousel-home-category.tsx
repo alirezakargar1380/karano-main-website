@@ -48,7 +48,7 @@ export default function CarouselHomeCategory() {
             ))}
           </Box>
         ) :
-          <CarouselComponent length={categories.length} slidesToShow={10}>
+          <CarouselComponent vWidth length={categories.length} slidesToShow={10}>
             {categories
               .map((v: any, index: number) => (
                 <Box key={index}>
@@ -57,6 +57,7 @@ export default function CarouselHomeCategory() {
                       m: 0,
                       height: 48,
                       py: 0,
+                      // mx: '12px',
                       border: '2px solid #f2f2f2',
                       color: '#000',
                       backgroundColor: '#F8F8F8',
@@ -77,7 +78,8 @@ export default function CarouselHomeCategory() {
                       router.push("?category=" + v.id);
                     }}
                   >
-                    {v.name}
+                    <Box px={'12px'}>{v.name}</Box>
+                    
                   </Button>
                 </Box>
               ))}
@@ -93,11 +95,12 @@ interface CarouselComponentProps {
   length: number;
   slidesToShow?: number;
   dots?: boolean | undefined;
+  vWidth?: boolean | undefined;
   label?: string;
 }
 
 
-export function CarouselComponent({ children, length, slidesToShow = 4, dots, label }: CarouselComponentProps) {
+export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, dots, label }: CarouselComponentProps) {
 
   const carousel = useCarousel({
     autoplay: false,
@@ -107,6 +110,9 @@ export function CarouselComponent({ children, length, slidesToShow = 4, dots, la
     initialSlide: length - slidesToShow,
     swipeToSlide: true,
     draggable: true,
+    ...(vWidth && {
+      variableWidth: true,
+    }),
     centerMode: false,
     ...(dots && CarouselDots({
       rounded: true,
