@@ -504,7 +504,7 @@ export default function CartDialogView({
         if (values.dimension?.length <= 29 || values.dimension?.width <= 29) {
             if (values.frame_type != 0) setValue('frame_type', 0)
 
-            if (profile_type?.name.includes('کابینتی')) {
+            if (profile_type?.name.includes('کابینتی') || profile_type?.name.includes('کمدی')) {
                 const findFrame = formOptions.frame_type.find((p) => p.name.includes('تخت'))
                 if (findFrame && values.frame_type != findFrame?.id)
                     setValue('frame_type', findFrame.id)
