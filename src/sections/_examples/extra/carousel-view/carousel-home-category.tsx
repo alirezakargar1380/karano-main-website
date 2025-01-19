@@ -48,7 +48,7 @@ export default function CarouselHomeCategory() {
             ))}
           </Box>
         ) :
-          <CarouselComponent vWidth length={categories.length} slidesToShow={10}>
+          <CarouselComponent length={categories.length} slidesToShow={7}>
             {categories
               .map((v: any, index: number) => (
                 <Box key={index}>
