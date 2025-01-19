@@ -108,8 +108,42 @@ export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, 
     slidesToShow: slidesToShow,
     infinite: false,
     initialSlide: length - slidesToShow,
-    swipeToSlide: true,
+    // swipeToSlide: true,
+    slidesToScroll: 4,
     draggable: true,
+    onInit() {
+      console.log('init');
+      carousel.onTogo(length - slidesToShow)
+    },
+    // swipeEvent(swipeDirection) {
+    //   console.log('swipeDirection', swipeDirection);
+    //   if (swipeDirection === 'left') {
+    //     carousel.onTogo(carousel.currentIndex + 4)
+    //   } else if (swipeDirection === 'right') {
+    //     carousel.onTogo(carousel.currentIndex - 4)
+    //   }
+    // },
+    // beforeChange(from: number, to: number) {
+    //   console.log('from', from, 'to', to);
+    // },
+    // afterChange(index: number) {
+    //   console.log('index', index);
+    // },
+    // onEdge(swipeDirection) {
+    //   console.log('swipeDirection', swipeDirection);
+    //   if (swipeDirection === 'left') {
+    //     carousel.onTogo(carousel.currentIndex + 4)
+    //   } else if (swipeDirection === 'right') {
+    //     carousel.onTogo(carousel.currentIndex - 4)
+    //   }
+    // },
+    // onSwipe(swipeDirection) {
+    //   if (swipeDirection === 'left') {
+    //     carousel.onTogo(carousel.currentIndex + 4)
+    //   } else {
+    //     carousel.onTogo(carousel.currentIndex - 4)
+    //   }
+    // },
     ...(vWidth && {
       variableWidth: true,
     }),
@@ -154,6 +188,8 @@ export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, 
     // ],
   });
 
+  console.log(carousel.currentIndex, length);
+
   return (
     <CarouselArrowsCustom
       icon="icon-park-outline:right"
@@ -170,7 +206,6 @@ export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, 
           visibility: 'visible',
           transition: 'opacity 0.3s ease-in-out',
           ...((carousel.currentIndex === length - slidesToShow) && {
-            // display: 'none',
             visibility: 'hidden',
             opacity: 0,
           }),
@@ -190,7 +225,6 @@ export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, 
           visibility: 'visible',
           transition: 'opacity 0.3s ease-in-out',
           ...((carousel.currentIndex === 0) && {
-            // display: 'none',
             visibility: 'hidden',
             opacity: 0,
           }),
