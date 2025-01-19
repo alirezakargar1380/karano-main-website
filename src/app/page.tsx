@@ -18,8 +18,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // const { data }: { data: ISettings } = await server_axios.get(endpoints.settings.meta);
 
   const data = await fetch(BACKEND_API + endpoints.settings.meta, {
-    cache: 'no-store',
-    // next: { revalidate: 60 },
+    // cache: 'no-store',
+    next: { revalidate: 60 },
   }).then((res) => res.json());
 
   console.log(data);
