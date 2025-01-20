@@ -55,7 +55,6 @@ export default function ProductDetailsPrice({
             code: { id: product_code.id }
         })
             .then(({ data }) => {
-
                 setNewPrice(data)
                 setLoading(false)
             })
