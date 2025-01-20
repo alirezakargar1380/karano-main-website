@@ -361,7 +361,6 @@ export default function CartDialogView({
                 if (values.cover_type)
                     newDisable.inlaid_flower = false
 
-
                 if (values.cover_type)
                     newDisable.dimension = false
 
@@ -370,9 +369,11 @@ export default function CartDialogView({
                 newDisable.cover_type = false;
 
                 if (values.cover_type)
-                    newDisable.coating_texture = false
+                    newDisable.coating_texture = false;
                 
-                newDisable.dimension = false
+                newDisable.coating_type = false;
+
+                newDisable.dimension = false;
                 break;
             case EAlgorithm.shutter_door:
                 newDisable.cover_type = false
