@@ -370,8 +370,9 @@ export default function CartDialogView({
 
                 if (values.cover_type)
                     newDisable.coating_texture = false;
-                
-                newDisable.coating_type = false;
+
+                if (findCover?.is_raw !== true)
+                    newDisable.coating_type = false;
 
                 newDisable.dimension = false;
                 break;
