@@ -22,8 +22,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     next: { revalidate: 60 },
   }).then((res) => res.json());
 
-  console.log(data);
-
   return {
     title: data?.meta_title || 'جزئیات محصول',
     description: data?.meta_description || '',

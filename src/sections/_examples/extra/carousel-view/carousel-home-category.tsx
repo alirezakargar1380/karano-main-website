@@ -112,7 +112,6 @@ export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, 
     slidesToScroll: 4,
     draggable: true,
     onInit() {
-      console.log('init');
       carousel.onTogo(length - slidesToShow)
     },
     // swipeEvent(swipeDirection) {
@@ -188,7 +187,7 @@ export function CarouselComponent({ children, vWidth, length, slidesToShow = 4, 
     // ],
   });
 
-  console.log(carousel.currentIndex, length);
+  // console.log(carousel.currentIndex, length);
 
   return (
     <CarouselArrowsCustom

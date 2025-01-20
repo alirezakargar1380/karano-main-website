@@ -1,6 +1,7 @@
 import { Skeleton, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
+import { ECoatingTexture } from "src/types/cart";
 import { IPriceList } from "src/types/price-list";
 import { IProductCodes, IProductProperties, IProductPropertyValues } from "src/types/product";
 import { endpoints, server_axios } from "src/utils/axios";
@@ -8,25 +9,17 @@ import { toFarsiNumber } from "src/utils/change-case";
 import { fCurrency } from "src/utils/format-number";
 
 interface Props {
-    price: number
-    dimention_id: number
-    cover_type_id: number
+    coating_texture: ECoatingTexture
     values: IProductProperties
-    properties: IProductPropertyValues[]
     quantity: number
     product_code: IProductCodes
-    updatePrice: (price: number) => void
 }
 
 export default function ProductDetailsPrice({
-    price,
-    dimention_id,
-    cover_type_id,
-    properties,
+    coating_texture,
     quantity,
     values,
     product_code,
-    updatePrice
 }: Props) {
     const [newPrice, setNewPrice] = useState<IPriceList>()
 
@@ -71,7 +64,7 @@ export default function ProductDetailsPrice({
     useEffect(() => {
         setLoading(true)
         getNewPrice()
-    }, [values.profile_type.id, values.coating_type, values.cover_type.id])
+    }, [values.profile_type.id, values.coating_type, values.cover_type.id, values.coating_texture])
 
     return (newPrice) && (
         <Stack alignItems={'center'} direction={'row'} spacing={1.5}>

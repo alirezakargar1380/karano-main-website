@@ -157,7 +157,6 @@ export default function ProductDetailsSummary({
 
   const handleAddCartCustomMadeProduct = useCallback(async (data: ICheckoutItemPropertyPrice[]) => {
     try {
-      console.log('im hree')
       await server_axios.post(endpoints.cart.add, {
         product_id: values.id,
         product_property: data
@@ -350,6 +349,7 @@ export default function ProductDetailsSummary({
         sx={{
           width: 1,
           display: 'grid',
+          rowGap: 2,
           gridTemplateColumns: {
             xs: 'repeat(1, 1fr)',
             md: 'repeat(2, 1fr)',
@@ -491,13 +491,9 @@ export default function ProductDetailsSummary({
                 {renderSubDescription}
 
                 <ProductDetailsPrice
-                  price={product.price}
                   values={values.order_form_options}
-                  dimention_id={values.dimension_id || 0}
-                  cover_type_id={values.cover_type_id || 0}
-                  properties={product.property_prices}
+                  coating_texture={values.coating_texture}
                   quantity={values.quantity || 1}
-                  updatePrice={updatePrice}
                   product_code={product.code}
                 />
 
