@@ -414,7 +414,7 @@ export default function CartDialogView({
 
     // handle change value for raw profile and glass covers!
     useEffect(() => {
-        if (algorithm === EAlgorithm.cabinet_door || algorithm === EAlgorithm.room_door) {
+        // if (algorithm === EAlgorithm.cabinet_door || algorithm === EAlgorithm.room_door) {
             const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
             const findFrame = formOptions.frame_type.find((p: any) => p.id == values.frame_type);
 
@@ -427,7 +427,7 @@ export default function CartDialogView({
                 setValue('coating_type', CoatingType.none)
                 setValue('coating_texture', ECoatingTexture.none)
             }
-        }
+        // }
 
         // if (algorithm === EAlgorithm.room_door) {
         //     const findCover = formOptions.cover_type.find((p: any) => p.id == values.cover_type);
