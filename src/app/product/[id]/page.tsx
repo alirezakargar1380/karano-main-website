@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: data?.title || 'جزئیات محصول',
     description: data?.description || '',
-    keywords: data?.meta_tags || 'محصول، فروشگاه، فروشگاه اینترنتی',
+    keywords: data?.meta_tags || 'محصول، فروشگاه، فروشگاه اینترنتی، کارانو',
   };
 }
 
