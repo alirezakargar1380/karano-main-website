@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { BACKEND_API } from 'src/config-global';
 import { ProductShopDetailsView } from 'src/sections/product/view';
 import { IProductMetaTags } from 'src/types/product';
 import { server_axios } from 'src/utils/axios';
@@ -14,8 +15,10 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params;
 
-  // Fetch product data from server
-  const { data }: { data: IProductMetaTags } = await server_axios.get(`/api/meta-tags/${id}`);
+  const data = await fetch(BACKEND_API + `/api/meta-tags/${id}`, {
+      // cache: 'no-store',
+      next: { revalidate: 60 },
+    }).then((res) => res.json());
 
   return {
     title: data?.title || 'جزئیات محصول',
