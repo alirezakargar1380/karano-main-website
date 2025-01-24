@@ -11,8 +11,11 @@ import { paths } from 'src/routes/paths';
 import TiltCard from 'src/components/animation/tilt-card';
 import { useAuthContext } from 'src/auth/hooks';
 import _ from 'lodash';
+import { ResponsiveObject } from 'react-slick';
+import { useResponsive } from 'src/hooks/use-responsive';
 
 export default function CarouselHomeCategory() {
+  const [slidesToShow, setSlidesToShow] = useState<number>(10);
   const { authenticated } = useAuthContext();
   const { categories, categoryLoading } = useGetCategories();
 
@@ -21,6 +24,19 @@ export default function CarouselHomeCategory() {
   const searchParams = useSearchParams();
 
   const selectedCategoryId = searchParams.get('category') || '';
+
+  const lgUp = useResponsive('up', 'lg');
+  const mdUp = useResponsive('up', 'md');
+  const smUp = useResponsive('up', 'sm');
+  const xsUp = useResponsive('up', 'xs');
+
+  useEffect(() => {
+    if (lgUp) setSlidesToShow(10)
+    else if (mdUp) setSlidesToShow(6)
+    else if (smUp) setSlidesToShow(4)
+    else if (xsUp) setSlidesToShow(3)
+    console.log(lgUp, mdUp, smUp, xsUp)
+  }, [mdUp, xsUp, smUp, lgUp])
 
   useEffect(() => {
     if (!selectedCategoryId && !categoryLoading) {
@@ -48,7 +64,28 @@ export default function CarouselHomeCategory() {
             ))}
           </Box>
         ) :
-          <CarouselComponent length={categories.length} slidesToShow={10}>
+          <CarouselComponent length={categories.length} slidesToShow={slidesToShow} responsive={
+            [
+              {
+                breakpoint: 5096,
+                settings: {
+                  slidesToShow: 10
+                },
+              },
+              {
+                breakpoint: 1024,
+                settings: { slidesToShow: 6 },
+              },
+              {
+                breakpoint: 992,
+                settings: { slidesToShow: 4, centerPadding: '20' },
+              },
+              {
+                breakpoint: 768,
+                settings: { slidesToShow: 3, centerPadding: '20' },
+              },
+            ]
+          }>
             {categories
               .map((v: any, index: number) => (
                 <Box key={index}>
@@ -94,10 +131,11 @@ interface CarouselComponentProps {
   slidesToShow?: number;
   dots?: boolean | undefined;
   label?: string;
+  responsive?: ResponsiveObject[] | undefined
 }
 
 
-export function CarouselComponent({ children, length, slidesToShow = 4, dots, label }: CarouselComponentProps) {
+export function CarouselComponent({ children, length, slidesToShow = 4, dots, label, responsive }: CarouselComponentProps) {
 
   const carousel = useCarousel({
     autoplay: false,
@@ -120,33 +158,11 @@ export function CarouselComponent({ children, length, slidesToShow = 4, dots, la
         position: 'absolute',
         color: '#000!important',
       },
-    }))
-    // rows: 1,
-    // responsive: [
-    //   {
-    //     breakpoint: 1366,
-    //     settings: {
-    //       slidesToShow: 8
-    //     },
-    //   },
-    //   {
-    //     breakpoint: 1024,
-    //     settings: { slidesToShow: 4 },
-    //   },
-    //   // {
-    //   //   breakpoint: 600,
-    //   //   settings: { slidesToShow: 2 },
-    //   // },
-    //   {
-    //     breakpoint: 500,
-    //     settings: { slidesToShow: 3, centerPadding: '20' },
-    //   },
-    //   {
-    //     breakpoint: 400,
-    //     settings: { slidesToShow: 2, centerPadding: '20' },
-    //   },
-    // ],
+    })),
+    responsive
   });
+
+  console.log(slidesToShow)
 
   return (
     <CarouselArrowsCustom
