@@ -39,6 +39,7 @@ import { useGetCategoryProducts } from 'src/api/category';
 import { useGetLandingSettings } from 'src/api/settings';
 import { useGetLandingIdeaImages, useGetLandingIdeaPoints } from 'src/api/landing';
 import { EIdeaSections } from 'src/types/idea';
+import HomeIdeaPoints from '../home-idea-points';
 
 // ----------------------------------------------------------------------
 
@@ -274,6 +275,7 @@ export default function HomeView() {
             </Typography>
             <Grid container spacing={2}>
               <Grid xs={6} sm={6} md={3} item>
+                <HomeIdeaPoints location={EIdeaSections.right} points={points} />
                 <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.right)?.image_name || '')} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
               </Grid>
               <Grid xs={6} sm={6} md={3} item>
@@ -289,6 +291,7 @@ export default function HomeView() {
               <Grid xs={12} sm={12} md={6} item>
                 {points.filter((p) => p.location == EIdeaSections.left)?.map((point, index) => (
                   <Box
+                    key={index}
                     sx={{
                       width: 24,
                       height: 24,
@@ -350,7 +353,7 @@ export default function HomeView() {
                           }
                         }
                       }}
-                      // disableRestoreFocus
+                      disableRestoreFocus
                       sx={{
                         '&.MuiModal-root': {
                           zIndex: 100
