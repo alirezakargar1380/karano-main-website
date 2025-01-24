@@ -13,6 +13,14 @@ export interface IdeaImages {
     location: EIdeaSections;
 }
 
+export interface IdeaPoints {
+    id: number;
+    margin_top: number;
+    margin_right: number;
+    product: IProductItem;
+    location: EIdeaSections;
+}
+
 export interface Idea {
     id: number;
     margin_top: number;

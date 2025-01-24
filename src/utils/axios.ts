@@ -181,6 +181,9 @@ export const endpoints = {
     idea_images: {
       list: '/api/landing/idea-images',
       get_image: (name: string) => `${BACKEND_API}/api/landing/idea-image/${name}/image`,
+    },
+    idea: {
+      list: '/api/landing/idea',
     }
   }
 };
