@@ -176,18 +176,6 @@ export default function CartDialog({
         then: (schema) => schema.notOneOf([0], 'فضای خالی جایگاه گل نمیتواند صفر باشد'),
         otherwise: (schema) => schema
       }),
-    frame_width: Yup.string()
-      .when('back_to_back_dimension', {
-        is: EBackToBackDimension.framework,
-        then: (schema) => schema.required('پهنای چهارچوب را انتخاب کنید'),
-        otherwise: (schema) => schema
-      }),
-    frame_core: Yup.string()
-      .when('back_to_back_dimension', {
-        is: EBackToBackDimension.lame,
-        then: (schema) => schema.required('مغز چهارچوب را انتخاب کنید'),
-        otherwise: (schema) => schema
-      }),
   });
 
   const defaultValues: any = {

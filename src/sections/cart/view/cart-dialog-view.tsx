@@ -917,7 +917,6 @@ export default function CartDialogView({
                             <RHFRadioGroup
                                 name='frame_core'
                                 row
-                                // disabled={disable.inlaid_flower}
                                 sx={{
                                     width: 1,
                                     display: 'grid',
