@@ -125,13 +125,16 @@ export default function Header({ toggleBanner }: any) {
         </Stack>
       </Box>
       <Container maxWidth={'xl'}>
-        <Grid container>
-          <Grid item md={1} sx={{ visibility: 'visible' }}>
+        <Grid container justifyContent={{
+          // sm: 'space-between'
+          sm: 'normal'
+        }}>
+          <Grid item xs={2} md={1} sx={{ visibility: 'visible' }}>
             <Box width={1} textAlign={'center'} pt={1}>
               <NavDesktopModern data={navDesktopConfig} />
             </Box>
           </Grid>
-          <Grid item md={11}>
+          <Grid item xs={10} md={11}>
             <StyledToolbar>
               <Box sx={{
                 height: 1,
@@ -156,19 +159,6 @@ export default function Header({ toggleBanner }: any) {
                       right: -16,
                     },
                   }}
-                // badgeContent={
-                //   <Link
-                //     href={paths.changelog}
-                //     target="_blank"
-                //     rel="noopener"
-                //     underline="none"
-                //     sx={{ ml: 1 }}
-                //   >
-                //     <Label color="info" sx={{ textTransform: 'unset', height: 22, px: 0.5 }}>
-                //       v5.6.0
-                //     </Label>
-                //   </Link>
-                // }
                 >
                   <Logo />
                 </Badge>
@@ -177,7 +167,16 @@ export default function Header({ toggleBanner }: any) {
 
                 {mdUp && <NavDesktop data={navConfig} />}
 
-                <Stack alignItems="center" direction={{ xs: 'row', md: 'row-reverse' }} sx={{ ml: 'auto' }} spacing={0.7}>
+                <Stack
+                  alignItems="center"
+                  // justifyContent={{
+                  //   sm: 'end',
+                  //   md: 'normal'
+                  // }}
+                  direction={'row'}
+                  sx={{ ml: 'auto' }}
+                  spacing={0.7}
+                >
                   {/* <Button variant="contained" target="_blank" rel="noopener" href={paths.minimalUI}>
               Purchase Now
             </Button> */}
@@ -186,18 +185,16 @@ export default function Header({ toggleBanner }: any) {
                   {mdUp && <ShoppingCartButton />}
                   {mdUp && <LikeButton />}
                   {mdUp && <SearchButton />}
+                  
                   {/* {mdUp && */}
                   <LoginButton />
                   {/* } */}
-                  {mdUp && <PriceListButton />}
 
-                  {/* <SettingsButton
-              sx={{
-                ml: { xs: 1, md: 0 },
-                mr: { md: 2 },
-              }}
-            /> */}
-                  {!mdUp && <NavMobile data={navDesktopConfig} />}
+                  {/* {mdUp && */}
+                    <PriceListButton />
+                  {/* } */}
+
+                  {/* {!mdUp && <NavMobile data={navDesktopConfig} />} */}
                 </Stack>
               </Box>
             </StyledToolbar>

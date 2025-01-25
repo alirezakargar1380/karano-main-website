@@ -1,7 +1,7 @@
 import useSWR, { mutate } from 'swr';
 import { useMemo } from 'react';
 
-import { fetcher, endpoints } from 'src/utils/axios';
+import { fetcher, endpoints, adminFetcher } from 'src/utils/axios';
 
 import { IOrderItem, IRejectedOrderReport } from 'src/types/order';
 import { useAuthContext } from 'src/auth/hooks';
@@ -12,6 +12,26 @@ export function useGetOrders() {
   const URL = endpoints.orders.list;
 
   const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      //   productsError: error,
+      //   productsValidating: isValidating,
+      //   productsEmpty: !isLoading && !data?.products.length,
+    }),
+    // [data, error, isLoading, isValidating]
+    [data]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetSalesOrders() {
+  const URL = endpoints.orders.sales;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, adminFetcher);
 
   const memoizedValue = useMemo(
     () => ({

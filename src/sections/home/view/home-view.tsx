@@ -37,8 +37,9 @@ import Label from 'src/components/label';
 import { Theme } from '@mui/material/styles';
 import { useGetCategoryProducts } from 'src/api/category';
 import { useGetLandingSettings } from 'src/api/settings';
-import { useGetLandingIdeaImages } from 'src/api/landing';
+import { useGetLandingIdeaImages, useGetLandingIdeaPoints } from 'src/api/landing';
 import { EIdeaSections } from 'src/types/idea';
+import HomeIdeaPoints from '../home-idea-points';
 
 // ----------------------------------------------------------------------
 
@@ -46,6 +47,7 @@ export default function HomeView() {
   const { show, title, text, color, notification_id, onShowPopover, onHideDialog } = useOrderContext();
 
   const { idea } = useGetLandingIdeaImages();
+  const { points } = useGetLandingIdeaPoints();
 
   const { settings } = useGetLandingSettings();
 
@@ -74,12 +76,21 @@ export default function HomeView() {
     setOpenedPopover(false)
   };
 
-  const handleLeaveMouse = useCallback(() => {
-    // setTimeout(() => {
-    if (!hover.value)
-      customizedPopover.onClose()
-    // }, 250)
-  }, [hover.value])
+  const [openedPopovers, setOpenedPopovers] = useState<boolean[]>([]);
+  const popoverAnchors = useRef<(HTMLElement | null)[]>([]);
+
+  const handlePopoverEnter = (index: number) => {
+    const newOpenedPopovers = [...openedPopovers];
+    newOpenedPopovers[index] = true;
+    setOpenedPopovers(newOpenedPopovers);
+  };
+
+  const handlePopoverLeave = (index: number) => {
+    const newOpenedPopovers = [...openedPopovers];
+    newOpenedPopovers[index] = false;
+    setOpenedPopovers(newOpenedPopovers);
+  };
+
 
   const getScroll = useCallback(() => {
     let heroHeight = 0;
@@ -264,6 +275,7 @@ export default function HomeView() {
             </Typography>
             <Grid container spacing={2}>
               <Grid xs={6} sm={6} md={3} item>
+                <HomeIdeaPoints location={EIdeaSections.right} points={points} />
                 <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.right)?.image_name || '')} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
               </Grid>
               <Grid xs={6} sm={6} md={3} item>
@@ -276,101 +288,104 @@ export default function HomeView() {
                   </Box>
                 </Stack>
               </Grid>
-              <Grid xs={12} sm={12} md={6} item sx={{
-                // display: {
-                //   xs: 'none',
-                //   sm: 'none',
-                //   md: 'block'
-                // }
-              }}>
-                <Box sx={{
-                  width: 24,
-                  height: 24,
-                  position: 'absolute',
-                  zIndex: 1,
-                  // top: 0,
-                  ml: '100px',
-                  mt: '200px'
-                }}>
-                  <IconButton
-                    ref={popoverAnchor}
-                    onMouseEnter={popoverEnter}
-                    onMouseLeave={popoverLeave}
+              <Grid xs={12} sm={12} md={6} item>
+                {points.filter((p) => p.location == EIdeaSections.left)?.map((point, index) => (
+                  <Box
+                    key={index}
                     sx={{
-                      color: '#fff',
-                      bgcolor: '#0a0a0a70',
-                      '& :hover': {
-                        bgcolor: '#A9A9A9'
-                      },
-                      '.svg-color': {
-                        '&:hover': {
-                          bgcolor: '#fff',
-                          outline: '1px solid #727272',
-                        }
-                      }
+                      width: 24,
+                      height: 24,
+                      position: 'absolute',
+                      zIndex: 1,
+                      ml: `${point.margin_right}px`,
+                      mt: `${point.margin_top}px`
                     }}
                   >
-                    <SvgColor src='/assets/icons/home/point.svg'
-                      color={'#fff'}
-                    />
-                  </IconButton>
-                  <Popover
-                    // id="mouse-over-popover"
-                    open={openedPopover}
-                    anchorEl={popoverAnchor.current}
-                    closeAfterTransition={true}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'left',
-                    }}
-                    transformOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'left',
-                    }}
-                    slotProps={{
-                      paper: {
-                        onMouseEnter: popoverEnter,
-                        onMouseLeave: popoverLeave,
-                        sx: {
-                          mr: 1,
-                          p: 0,
-                          pointerEvents: 'auto',
+                    <IconButton
+                      // ref={popoverAnchor}
+                      // onMouseEnter={popoverEnter}
+                      // onMouseLeave={popoverLeave}
+                      ref={el => popoverAnchors.current[index] = el}
+                      onMouseEnter={() => handlePopoverEnter(index)}
+                      onMouseLeave={() => handlePopoverLeave(index)}
+                      sx={{
+                        color: '#fff',
+                        bgcolor: '#0a0a0a70',
+                        '& :hover': {
+                          bgcolor: '#A9A9A9'
+                        },
+                        '.svg-color': {
+                          '&:hover': {
+                            bgcolor: '#fff',
+                            outline: '1px solid #727272',
+                          }
                         }
-                      }
-                    }}
-                    disableRestoreFocus
-                    sx={{
-                      '&.MuiModal-root': {
-                        zIndex: 100
-                      },
-                      pointerEvents: 'none',
-                      // bgcolor: '#fff'
-                    }}
-                  >
-                    <Link href={'/'} sx={{ textDecoration: 'none' }}>
-                      <Box sx={{ p: '16px', minWidth: 306, bgcolor: '#fff' }}>
-                        <Stack direction={'row'} justifyContent={'space-between'}>
-                          <Label variant='filled' color='red' size='large'>جدید</Label>
-                          <IconButton>
-                            <SvgColor src='/assets/icons/home/arrow-narrow-left.svg' />
-                          </IconButton>
-                        </Stack>
-                        <Typography variant="title3" sx={{ color: '#2B2B2B' }} mt={'8px'} gutterBottom>
-                          نام محصول
-                        </Typography>
-                        <Typography variant="title3" sx={{ color: '#2B2B2B' }}>
-                          کد محصول
-                        </Typography>
-                        <Typography variant="body4" sx={{ color: '#2B2B2B' }} mt={'4px'} pb={'2px'} borderBottom={'1px solid #E0E0E0'}>
-                          کتگوری اصلی محصول
-                        </Typography>
-                        <Typography variant="title3" sx={{ color: '#2B2B2B' }} mt={'16px'}>
-                          قابل ثبت به صورت سفارشی
-                        </Typography>
-                      </Box>
-                    </Link>
-                  </Popover>
-                </Box>
+                      }}
+                    >
+                      <SvgColor src='/assets/icons/home/point.svg'
+                        color={'#fff'}
+                      />
+                    </IconButton>
+                    <Popover
+                      open={openedPopovers[index]}
+                      anchorEl={popoverAnchors.current[index]}
+                      // open={openedPopover}
+                      // anchorEl={popoverAnchor.current}
+                      closeAfterTransition={true}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      slotProps={{
+                        paper: {
+                          onMouseEnter: () => handlePopoverEnter(index),
+                          onMouseLeave: () => handlePopoverLeave(index),
+                          // onMouseEnter: popoverEnter,
+                          // onMouseLeave: popoverLeave,
+                          sx: {
+                            mr: 1,
+                            p: 0,
+                            pointerEvents: 'auto',
+                          }
+                        }
+                      }}
+                      disableRestoreFocus
+                      sx={{
+                        '&.MuiModal-root': {
+                          zIndex: 100
+                        },
+                        pointerEvents: 'none',
+                      }}
+                    >
+                      <Link href={'/'} sx={{ textDecoration: 'none' }}>
+                        <Box sx={{ p: '16px', minWidth: 306, bgcolor: '#fff' }}>
+                          <Stack direction={'row'} justifyContent={'space-between'}>
+                            <Label variant='filled' color='red' size='large'>جدید</Label>
+                            <IconButton>
+                              <SvgColor src='/assets/icons/home/arrow-narrow-left.svg' />
+                            </IconButton>
+                          </Stack>
+                          <Typography variant="title3" sx={{ color: '#2B2B2B' }} mt={'8px'} gutterBottom>
+                            {point?.product?.name}
+                          </Typography>
+                          <Typography variant="title3" sx={{ color: '#2B2B2B' }}>
+                            {point?.product?.code?.code}
+                          </Typography>
+                          <Typography variant="body4" sx={{ color: '#2B2B2B' }} mt={'4px'} pb={'2px'} borderBottom={'1px solid #E0E0E0'}>
+                            {point?.product?.category?.name}
+                          </Typography>
+                          <Typography variant="title3" sx={{ color: '#2B2B2B' }} mt={'16px'}>
+                            قابل ثبت به صورت سفارشی
+                          </Typography>
+                        </Box>
+                      </Link>
+                    </Popover>
+                  </Box>
+                ))}
                 <Image alt={'karano'} src={endpoints.landing.idea_images.get_image(idea.find((i) => i.location == EIdeaSections.left)?.image_name || '')} sx={{ borderRadius: '12px', width: 1, height: 1 }} />
               </Grid>
             </Grid>
@@ -421,7 +436,7 @@ export default function HomeView() {
 
 
         </Stack>
-      </MainLayout>
+      </MainLayout >
     </>
   );
 }
