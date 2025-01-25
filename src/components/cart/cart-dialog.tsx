@@ -9,7 +9,6 @@ import { DialogActions, DialogTitle, IconButton, Stack, Typography } from '@mui/
 import { useForm } from 'react-hook-form';
 import FormProvider from 'src/components/hook-form';
 import { CartDialogView } from 'src/sections/cart/view';
-import { LoadingButton } from '@mui/lab';
 import { SecondaryButton } from 'src/components/styles/buttons/secondary';
 import { useGetOrderForm } from 'src/api/order-form';
 import { ICheckoutItemPropertyPrice } from 'src/types/checkout';
@@ -23,6 +22,7 @@ import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
 import { CoatingType, EAlgorithm, EBackToBackDimension, EFrameCore, ProductOrderType } from 'src/types/product';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
+import { inputFormError } from 'src/constants/messages/form/errors';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -204,7 +204,7 @@ export default function CartDialog({
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitted },
+    formState: { isSubmitted, isValid },
   } = methods;
 
   const values = watch();
@@ -361,6 +361,13 @@ export default function CartDialog({
     if (findRjected) setHasRejected(true);
   }, [listData, index]);
 
+  const handleBeforeSubmit = useCallback(() => {
+    if (!isValid) return enqueueSnackbar(inputFormError, {
+      variant: 'myCustomVariant',
+      color: 'error'
+    })
+  }, [isValid])
+
   return (
     <>
       <ConfirmDialog
@@ -479,7 +486,7 @@ export default function CartDialog({
                 )}
                 {
                   index === null && type === 'cart' && order_type === ProductOrderType.custom_made && (
-                    <SecondaryButton size="medium" type="submit" sx={{ width: '400px' }}>
+                    <SecondaryButton size="medium" onClick={handleBeforeSubmit} type="submit" sx={{ width: '400px' }}>
                       افزودن به لیست
                     </SecondaryButton>
                   )
