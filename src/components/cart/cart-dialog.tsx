@@ -153,6 +153,16 @@ export default function CartDialog({
     //   .transform((value) => (value === 0 ? null : value))
     //   .nullable(),
     back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
+    frame_core: Yup.string().when('back_to_back_dimension', {
+      is: EBackToBackDimension.lame,
+      then: (schema) => schema.required(inputError),
+      otherwise: (schema) => schema
+    }),
+    frame_width: Yup.string().when('back_to_back_dimension', {
+      is: EBackToBackDimension.framework,
+      then: (schema) => schema.required(inputError),
+      otherwise: (schema) => schema
+    }),
     has_raised_rim: (door?.is_raised === true) ? Yup.string().required(inputError) : Yup.string().nullable(),
     raised_rim: Yup.number().when('has_raised_rim', {
       is: '1',
