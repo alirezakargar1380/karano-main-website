@@ -172,9 +172,10 @@ export default function CartDialog({
       otherwise: (schema) => schema.transform((value) => (value == 0 ? null : value))
         .nullable()
     }),
+    inlaid_flower: (algorithm === EAlgorithm.cabinet_cloumn) ? Yup.string().required(inputError) : Yup.string(),
     inlaid_flower_emty_space: Yup.number()
       .when('inlaid_flower', {
-        is: false,
+        is: "0",
         then: (schema) => schema.notOneOf([0], 'فضای خالی جایگاه گل نمیتواند صفر باشد'),
         otherwise: (schema) => schema
       }),
