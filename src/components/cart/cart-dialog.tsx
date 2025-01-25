@@ -152,6 +152,8 @@ export default function CartDialog({
     // raised_rim: Yup.number()
     //   .transform((value) => (value === 0 ? null : value))
     //   .nullable(),
+    cover_edge_tape: (algorithm === EAlgorithm.cover_sheet) ? Yup.string().required(inputError) : Yup.string(),
+    coating_texture: (algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) ? Yup.string().required(inputError) : Yup.string(),
     back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
     frame_core: Yup.string().when('back_to_back_dimension', {
       is: EBackToBackDimension.lame,
