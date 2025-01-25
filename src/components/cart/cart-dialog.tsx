@@ -22,7 +22,8 @@ import { useShowOneTime } from 'src/hooks/use-show-one-time';
 import { PrimaryButton } from '../styles/buttons/primary';
 import { CoatingType, EAlgorithm, EBackToBackDimension, EFrameCore, ProductOrderType } from 'src/types/product';
 import { ECoatingTexture, ECoverEdgeTape } from 'src/types/cart';
-import { inputFormError } from 'src/constants/messages/form/errors';
+import { inputError, inputFormError } from 'src/constants/messages/form/errors';
+import { useGetProductRoomDoor } from 'src/api/product';
 
 // ----------------------------------------------------------------------
 interface Props {
@@ -66,6 +67,7 @@ export default function CartDialog({
 
   // API
   const { form, formLoading, formEmpty } = useGetOrderForm(order_form_id);
+  const { door } = useGetProductRoomDoor(product_id, algorithm);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -138,17 +140,26 @@ export default function CartDialog({
 
   const NewProductSchema = Yup.object().shape({
     profile_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
-    cover_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
-    frame_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup
+    cover_type: ((algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) || form?.cover_type?.length) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
+    frame_type: ((algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) || form?.frame_type?.length) ? Yup
       .number()
       .notOneOf([0], 'نوع قاب الزامی است')
       .required('نوع قاب الزامی است')
       : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm, order_type),
-    raised_rim: Yup.number()
-      .transform((value) => (value === 0 ? null : value))
-      .nullable(),
+    coating_type: (form.coating_type) ? Yup.string().required(inputError) : Yup.string(),
+    // raised_rim: Yup.number()
+    //   .transform((value) => (value === 0 ? null : value))
+    //   .nullable(),
+    back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
+    has_raised_rim: (door?.is_raised === true) ? Yup.string().required(inputError) : Yup.string().nullable(),
+    raised_rim: Yup.number().when('has_raised_rim', {
+      is: '1',
+      then: (schema) => schema.required(inputError).notOneOf([0], inputError).typeError(inputError),
+      otherwise: (schema) => schema.transform((value) => (value == 0 ? null : value))
+        .nullable()
+    }),
     inlaid_flower_emty_space: Yup.number()
       .when('inlaid_flower', {
         is: false,

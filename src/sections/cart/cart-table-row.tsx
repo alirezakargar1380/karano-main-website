@@ -91,8 +91,6 @@ export default function CartTableRow({
 
   const rejectionDialog = useBoolean();
 
-  console.log("raised_rim", raised_rim)
-
   return (
     <>
       <TableRow

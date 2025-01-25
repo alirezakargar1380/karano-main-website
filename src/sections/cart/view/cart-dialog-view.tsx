@@ -968,11 +968,11 @@ export default function CartDialogView({
                                 options={[
                                     {
                                         label: 'دارد',
-                                        value: 1
+                                        value: "1"
                                     },
                                     {
                                         label: 'ندارد',
-                                        value: 0
+                                        value: "0"
                                     },
                                 ]}
                             />
