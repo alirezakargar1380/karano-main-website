@@ -173,7 +173,7 @@ export default function Header({ toggleBanner }: any) {
                   //   sm: 'end',
                   //   md: 'normal'
                   // }}
-                  direction={'row'}
+                  direction={{ xs: 'row', md: 'row-reverse' }}
                   sx={{ ml: 'auto' }}
                   spacing={0.7}
                 >
