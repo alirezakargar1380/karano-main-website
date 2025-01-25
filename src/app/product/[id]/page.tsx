@@ -16,9 +16,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params;
 
   const data = await fetch(BACKEND_API + `/api/meta-tags/${id}`, {
-      // cache: 'no-store',
-      next: { revalidate: 60 },
-    }).then((res) => res.json());
+    // cache: 'no-store',
+    next: { revalidate: 60 },
+  })
+    .then((res) => res.json())
+    .catch(() => { });
 
   return {
     title: data?.title || 'جزئیات محصول',

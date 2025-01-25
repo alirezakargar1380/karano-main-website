@@ -20,7 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await fetch(BACKEND_API + endpoints.settings.meta, {
     // cache: 'no-store',
     next: { revalidate: 60 },
-  }).then((res) => res.json());
+  })
+    .then((res) => res.json())
+    .catch(() => { });
 
   return {
     title: data?.meta_title || 'جزئیات محصول',
