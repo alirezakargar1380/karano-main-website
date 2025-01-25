@@ -12,22 +12,22 @@ type Props = {
   };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = params;
+// export async function generateMetadata({ params }: Props): Promise<Metadata> {
+//   const { id } = params;
 
-  const data = await fetch(BACKEND_API + `/api/meta-tags/${id}`, {
-    // cache: 'no-store',
-    next: { revalidate: 60 },
-  })
-    .then((res) => res.json())
-    .catch(() => { });
+//   const data = await fetch(BACKEND_API + `/api/meta-tags/${id}`, {
+//     // cache: 'no-store',
+//     next: { revalidate: 60 },
+//   })
+//     .then((res) => res.json())
+//     .catch(() => { });
 
-  return {
-    title: data?.title || 'جزئیات محصول',
-    description: data?.description || '',
-    keywords: data?.meta_tags || 'محصول، فروشگاه، فروشگاه اینترنتی، کارانو',
-  };
-}
+//   return {
+//     title: data?.title || 'جزئیات محصول',
+//     description: data?.description || '',
+//     keywords: data?.meta_tags || 'محصول، فروشگاه، فروشگاه اینترنتی، کارانو',
+//   };
+// }
 
 export default function ProductShopDetailsPage({ params }: Props) {
   const { id } = params;
