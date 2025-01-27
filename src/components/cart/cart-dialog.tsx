@@ -156,7 +156,7 @@ export default function CartDialog({
     coating_texture: (algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) ? Yup.string().required(inputError) : Yup.string(),
     back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
     frame_core: Yup.string().when('back_to_back_dimension', {
-      is: EBackToBackDimension.lame,
+      is: EBackToBackDimension.framework,
       then: (schema) => schema.required(inputError),
       otherwise: (schema) => schema
     }),

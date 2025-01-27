@@ -907,7 +907,7 @@ export default function CartDialogView({
                         </Box>
                     )}
 
-                    {(algorithm === EAlgorithm.room_door && values.back_to_back_dimension === EBackToBackDimension.lame) && (
+                    {(algorithm === EAlgorithm.room_door && values.back_to_back_dimension === EBackToBackDimension.framework) && (
                         <Box sx={{ py: "24px", borderBottom: '1px solid #D1D1D1' }}>
                             <Typography variant="title3" fontFamily={'peyda-bold'} sx={{
                                 width: 1, pb: '16px'
