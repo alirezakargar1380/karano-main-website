@@ -15,7 +15,7 @@ import { ResponsiveObject } from 'react-slick';
 import { useResponsive } from 'src/hooks/use-responsive';
 
 export default function CarouselHomeCategory() {
-  const [slidesToShow, setSlidesToShow] = useState<number>(10);
+  const [slidesToShow, setSlidesToShow] = useState<number>(8);
   const { authenticated } = useAuthContext();
   const { categories, categoryLoading } = useGetCategories();
 
@@ -69,7 +69,7 @@ export default function CarouselHomeCategory() {
               {
                 breakpoint: 5096,
                 settings: {
-                  slidesToShow: 10
+                  slidesToShow: 8
                 },
               },
               {
