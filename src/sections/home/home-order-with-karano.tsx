@@ -1,11 +1,11 @@
 import React from "react";
-import { Box, Typography, Grid, useMediaQuery, SvgIcon } from "@mui/material";
+import { Box, Typography, Grid, useMediaQuery, SvgIcon, Divider } from "@mui/material";
 import { styled } from "@mui/system";
 
 const steps = [
     {
         id: 1,
-        title: "انتخاب کالا",
+        title: "۱.  انتخاب کالا",
         description:
             "کالایی که مد نظر دارید رو از لیست دسته بندی کالا انتخاب کنید.",
         icon: (
@@ -24,7 +24,7 @@ const steps = [
     },
     {
         id: 2,
-        title: "ارسال برای واحد فروش",
+        title: "۲. ارسال برای واحد فروش",
         description:
             "کالایی که مد نظر دارید رو از لیست دسته بندی کالا انتخاب کنید.",
         icon: (
@@ -43,7 +43,7 @@ const steps = [
                 </svg>
             </SvgIcon>
         ),
-        top: '300px'
+        top: '320px'
     },
     {
         id: 3,
@@ -68,235 +68,142 @@ const ResponsiveSteps = () => {
     const isMobile = false;
 
     return (
-        <Box
-            sx={{
-                position: "relative",
-                padding: "2rem",
-                display: "flex",
-                height: "400px",
-                flexDirection: isMobile ? "column" : "row",
-                justifyContent: "space-around",
-                alignItems: "center",
-                gap: 10,
-            }}
-        >
-            {/* Curved Lines */}
-            {/* {!isMobile && (
-                <CurvedLine xmlns="http://www.w3.org/2000/svg">
-                    <svg width="409" height="159" viewBox="0 0 409 159" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g filter="url(#filter0_d_3652_114531)">
-                            <path d="M398.001 139.5C382.782 147.761 325.818 138.639 274.145 86.6195C209.555 21.5951 130.291 -30.706 11.3022 48.4165" stroke="#FFCFCF" stroke-width="6" />
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_3652_114531" x="0.640991" y="0.522705" width="407.791" height="157.646" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                <feOffset dy="4" />
-                                <feGaussianBlur stdDeviation="4.5" />
-                                <feComposite in2="hardAlpha" operator="out" />
-                                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114531" />
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114531" result="shape" />
-                            </filter>
-                        </defs>
-                    </svg>
-                    <svg width="409" height="184" viewBox="0 0 409 184" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g opacity="0.5" filter="url(#filter0_d_3652_114532)">
-                            <path d="M399.093 164.693C322.561 178.99 300.081 133.248 236.38 77.8788C156.753 8.66755 56.9318 0.305745 10.0911 14.1523" stroke="#FE9E9E" stroke-width="6" />
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_3652_114532" x="0.240723" y="0.533447" width="408.403" height="182.805" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                <feOffset dy="4" />
-                                <feGaussianBlur stdDeviation="4.5" />
-                                <feComposite in2="hardAlpha" operator="out" />
-                                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114532" />
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114532" result="shape" />
-                            </filter>
-                        </defs>
-                    </svg>
-                </CurvedLine>
-            )} */}
-
-            {/* <Box sx={{
-                position: 'absolute',
-                display: 'none',
-                top: "50%",
-                left: "0",
-                zIndex: 0,
-                width: "100%",
-                height: "200px", // Adjust height for the curve
-                transform: "translateY(-50%)",
-                // display: 'flex',
-                justifyContent: 'center',
-                gap: 20,
-            }}>
-                <SvgIcon sx={{
-                    width: '409px',
-                    height: '159px',
-                    viewBox: '0 0 409 159',
-                    fontSize: 'inherit', // This removes default icon size constraints
-                    marginTop: '10px', // Adjust margin to move the icon down
-                }}>
-                    <svg width="409" height="159" viewBox="0 0 409 159" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g filter="url(#filter0_d_3652_114531)">
-                            <path d="M398.001 139.5C382.782 147.761 325.818 138.639 274.145 86.6195C209.555 21.5951 130.291 -30.706 11.3022 48.4165" stroke="#FFCFCF" stroke-width="6" />
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_3652_114531" x="0.640991" y="0.522705" width="407.791" height="157.646" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                <feOffset dy="4" />
-                                <feGaussianBlur stdDeviation="4.5" />
-                                <feComposite in2="hardAlpha" operator="out" />
-                                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114531" />
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114531" result="shape" />
-                            </filter>
-                        </defs>
-                    </svg>
-                </SvgIcon>
-                <SvgIcon sx={{
-                    width: '409px',
-                    height: '184px',
-                    viewBox: '0 0 409 184',
-                    fontSize: 'inherit', // This removes default icon size constraints
-                }}>
-                    <svg width="409" height="184" viewBox="0 0 409 184" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g opacity="0.5" filter="url(#filter0_d_3652_114532)">
-                            <path d="M399.093 164.693C322.561 178.99 300.081 133.248 236.38 77.8788C156.753 8.66755 56.9318 0.305745 10.0911 14.1523" stroke="#FE9E9E" stroke-width="6" />
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_3652_114532" x="0.240723" y="0.533447" width="408.403" height="182.805" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                <feOffset dy="4" />
-                                <feGaussianBlur stdDeviation="4.5" />
-                                <feComposite in2="hardAlpha" operator="out" />
-                                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
-                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114532" />
-                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114532" result="shape" />
-                            </filter>
-                        </defs>
-                    </svg>
-                </SvgIcon>
-            </Box> */}
-
-            {/* Steps */}
-            {steps.map((step) => (
-                <Box key={step.id} display={'flex'}>
-                    <Box
-                        sx={{
-                            position: "relative",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            background: "transparent",
-                            zIndex: 1,
-                            padding: "1rem",
-                            marginTop: step.top
-                        }}
-                    >
+        <Box>
+            <Divider />
+            <Typography variant='heading3' sx={{ pt: '64px' }}>سفارش به سبک کارانو</Typography>
+            <Box
+                sx={{
+                    position: "relative",
+                    padding: "2rem",
+                    display: "flex",
+                    height: {
+                        xs: 'auto',
+                        lg: '400px'
+                    },
+                    flexDirection: {
+                        xs: "column",
+                        lg: "row",
+                    },
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    gap: 10,
+                }}
+            >
+                {/* Steps */}
+                {steps.map((step) => (
+                    <Box key={step.id}>
                         <Box
                             sx={{
-                                fontSize: "3rem",
-                                marginBottom: "1rem",
+                                position: "relative",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                background: "transparent",
                                 zIndex: 1,
+                                padding: "1rem",
+                                marginTop: {
+                                    xs: '0',
+                                    lg: step.top
+                                }
                             }}
                         >
-                            {step.icon}
+                            <Box
+                                sx={{
+                                    fontSize: "3rem",
+                                    zIndex: 1,
+                                }}
+                            >
+                                {step.icon}
+                            </Box>
+                            <Typography variant="h6" gutterBottom>
+                                {step.title}
+                            </Typography>
+                            <Typography variant="body2" sx={{ maxWidth: "200px" }}>
+                                {step.description}
+                            </Typography>
                         </Box>
-                        <Typography variant="h6" gutterBottom>
-                            {step.title}
-                        </Typography>
-                        <Typography variant="body2" sx={{ maxWidth: "200px" }}>
-                            {step.description}
-                        </Typography>
+                        {(step.id == 1) && (
+                            <Box
+                                sx={{
+                                    position: "absolute",
+                                    top: '35%',
+                                    right: '18%',
+                                    width: '100%',
+                                    height: 'auto',
+                                    display: { xs: 'none', lg: 'block' },
+                                    zIndex: 0,
+                                    textAlign: 'end'
+                                }}
+                            >
+                                <SvgIcon sx={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    maxWidth: '409px',
+                                    fontSize: 'inherit',
+                                    marginTop: '10px',
+                                }}>
+                                    <svg width="409" height="184" viewBox="0 0 409 184" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g opacity="0.5" filter="url(#filter0_d_3652_114532)">
+                                            <path d="M399.093 164.693C322.561 178.99 300.081 133.248 236.38 77.8788C156.753 8.66755 56.9318 0.305745 10.0911 14.1523" stroke="#FE9E9E" stroke-width="6" />
+                                        </g>
+                                        <defs>
+                                            <filter id="filter0_d_3652_114532" x="0.240723" y="0.533447" width="408.403" height="182.805" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                                <feOffset dy="4" />
+                                                <feGaussianBlur stdDeviation="4.5" />
+                                                <feComposite in2="hardAlpha" operator="out" />
+                                                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
+                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114532" />
+                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114532" result="shape" />
+                                            </filter>
+                                        </defs>
+                                    </svg>
+                                </SvgIcon>
+                            </Box>
+                        )}
+                        {(step.id == 2) && (
+                            <Box
+                                sx={{
+                                    position: "absolute",
+                                    top: '55%',
+                                    left: '19%',
+                                    height: 'auto',
+                                    display: { xs: 'none', lg: 'block' },
+                                    zIndex: 0,
+                                    textAlign: 'left'
+                                }}
+                            >
+                                <SvgIcon sx={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    maxWidth: '409px',
+                                    fontSize: 'inherit',
+                                    marginTop: '10px',
+                                }}>
+                                    <svg width="409" height="159" viewBox="0 0 409 159" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g filter="url(#filter0_d_3652_114531)">
+                                            <path d="M398.001 139.5C382.782 147.761 325.818 138.639 274.145 86.6195C209.555 21.5951 130.291 -30.706 11.3022 48.4165" stroke="#FFCFCF" stroke-width="6" />
+                                        </g>
+                                        <defs>
+                                            <filter id="filter0_d_3652_114531" x="0.640991" y="0.522705" width="407.791" height="157.646" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                                <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                                                <feOffset dy="4" />
+                                                <feGaussianBlur stdDeviation="4.5" />
+                                                <feComposite in2="hardAlpha" operator="out" />
+                                                <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
+                                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114531" />
+                                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114531" result="shape" />
+                                            </filter>
+                                        </defs>
+                                    </svg>
+                                </SvgIcon>
+                            </Box>
+                        )}
                     </Box>
-                    {(step.id == 1) && (
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                top: '35%',
-                                right: '18%',
-                                width: '100%',
-                                height: 'auto',
-                                display: { xs: 'none', lg: 'block' }, // Hide on mobile, show on medium screens and up
-                                zIndex: 0, // Place behind the cards
-                                textAlign: 'end'
-                            }}
-                        >
-                            <SvgIcon sx={{
-                                width: '100%',
-                                height: 'auto',
-                                maxWidth: '409px',
-                                fontSize: 'inherit',
-                                marginTop: '10px',
-                            }}>
-                                <svg width="409" height="184" viewBox="0 0 409 184" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g opacity="0.5" filter="url(#filter0_d_3652_114532)">
-                                        <path d="M399.093 164.693C322.561 178.99 300.081 133.248 236.38 77.8788C156.753 8.66755 56.9318 0.305745 10.0911 14.1523" stroke="#FE9E9E" stroke-width="6" />
-                                    </g>
-                                    <defs>
-                                        <filter id="filter0_d_3652_114532" x="0.240723" y="0.533447" width="408.403" height="182.805" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                            <feOffset dy="4" />
-                                            <feGaussianBlur stdDeviation="4.5" />
-                                            <feComposite in2="hardAlpha" operator="out" />
-                                            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114532" />
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114532" result="shape" />
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </SvgIcon>
-                        </Box>
-                    )}
-                    {(step.id == 2) && (
-                        <Box
-                            sx={{
-                                position: "absolute",
-                                top: '35%',
-                                left: '20%',
-                                width: '100%',
-                                height: 'auto',
-                                display: { xs: 'none', lg: 'block' }, // Hide on mobile, show on medium screens and up
-                                zIndex: 0, // Place behind the cards
-                                textAlign: 'left'
-                            }}
-                        >
-                            <SvgIcon sx={{
-                                width: '100%',
-                                height: 'auto',
-                                maxWidth: '409px',
-                                fontSize: 'inherit',
-                                marginTop: '10px',
-                            }}>
-                                <svg width="409" height="159" viewBox="0 0 409 159" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g filter="url(#filter0_d_3652_114531)">
-                                        <path d="M398.001 139.5C382.782 147.761 325.818 138.639 274.145 86.6195C209.555 21.5951 130.291 -30.706 11.3022 48.4165" stroke="#FFCFCF" stroke-width="6" />
-                                    </g>
-                                    <defs>
-                                        <filter id="filter0_d_3652_114531" x="0.640991" y="0.522705" width="407.791" height="157.646" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
-                                            <feOffset dy="4" />
-                                            <feGaussianBlur stdDeviation="4.5" />
-                                            <feComposite in2="hardAlpha" operator="out" />
-                                            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.280833 0 0 0 0 0.280833 0 0 0 0.24 0" />
-                                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3652_114531" />
-                                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3652_114531" result="shape" />
-                                        </filter>
-                                    </defs>
-                                </svg>
-                            </SvgIcon>
-                        </Box>
-                    )}
-                </Box>
-            ))}
+                ))}
+            </Box>
         </Box>
     );
 };
