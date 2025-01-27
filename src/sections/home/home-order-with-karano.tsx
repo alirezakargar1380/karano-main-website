@@ -65,8 +65,6 @@ const steps = [
 ];
 
 const ResponsiveSteps = () => {
-    const isMobile = false;
-
     return (
         <Box>
             <Divider />
@@ -74,11 +72,12 @@ const ResponsiveSteps = () => {
             <Box
                 sx={{
                     position: "relative",
-                    padding: "2rem",
+                    // paddingTop: "2rem",
+                    // paddingBottom: "2rem",
                     display: "flex",
                     height: {
                         xs: 'auto',
-                        lg: '400px'
+                        lg: '200px'
                     },
                     flexDirection: {
                         xs: "column",
@@ -126,7 +125,7 @@ const ResponsiveSteps = () => {
                             <Box
                                 sx={{
                                     position: "absolute",
-                                    top: '35%',
+                                    top: '25%',
                                     right: '18%',
                                     width: '100%',
                                     height: 'auto',

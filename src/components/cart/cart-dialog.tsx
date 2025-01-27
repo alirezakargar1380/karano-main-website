@@ -172,7 +172,7 @@ export default function CartDialog({
       otherwise: (schema) => schema.transform((value) => (value == 0 ? null : value))
         .nullable()
     }),
-    inlaid_flower: (algorithm === EAlgorithm.cabinet_cloumn) ? Yup.string().required(inputError) : Yup.string(),
+    inlaid_flower: (algorithm === EAlgorithm.cabinet_cloumn) ? Yup.string().required(inputError) : Yup.string().nullable(),
     inlaid_flower_emty_space: Yup.number()
       .when('inlaid_flower', {
         is: "0",
@@ -216,8 +216,10 @@ export default function CartDialog({
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitted, isValid },
+    formState: { isSubmitted, isValid, errors },
   } = methods;
+
+  console.log(errors);
 
   const values = watch();
 

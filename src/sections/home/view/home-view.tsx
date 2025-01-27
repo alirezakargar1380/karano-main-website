@@ -9,7 +9,7 @@ import MainLayout from 'src/layouts/main';
 import ScrollProgress from 'src/components/scroll-progress';
 
 import Image from 'src/components/image';
-import { Container, Grid, IconButton, Link, makeStyles, Popover, Stack, Typography } from '@mui/material';
+import { Container, Divider, Grid, IconButton, Link, makeStyles, Popover, Stack, Typography } from '@mui/material';
 import { _carouselsExample } from 'src/sections/_examples/extra/carousel-view';
 import CarouselBasic1 from 'src/sections/_examples/extra/carousel-view/carousel-basic-1';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -395,6 +395,7 @@ export default function HomeView() {
           <HomeOrderWithKarano />
 
           <Box>
+            <Divider sx={{ mb: '64px', mt: '160px' }} />
             <CarouselProducts data={products} label='!پرفروش ها' />
           </Box>
 
