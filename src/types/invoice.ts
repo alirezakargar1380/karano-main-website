@@ -1,4 +1,5 @@
 import { IAddressItem } from './address';
+import { IProductionOrderProducts } from './order';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +38,7 @@ export type IInvoice = {
   shipping: number;
   totalAmount: number;
   invoiceNumber: string;
-  items: IInvoiceItem[];
+  items: IProductionOrderProducts;
   invoiceTo: IAddressItem;
   invoiceFrom: IAddressItem;
 };

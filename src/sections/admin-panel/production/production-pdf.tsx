@@ -5,6 +5,7 @@ import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
 import { IInvoice } from 'src/types/invoice';
+import { IFrame } from 'src/types/order';
 
 // ----------------------------------------------------------------------
 
@@ -86,7 +87,7 @@ const useStyles = () =>
                     width: '50px',
                 },
                 tableCell_2: {
-                    width: '140px',
+                    width: '160px',
                     paddingRight: 16,
                 },
                 tableCell_3: {
@@ -109,23 +110,95 @@ type Props = {
 export default function ProductionPDF({ invoice, currentStatus }: Props) {
     const {
         items,
-        taxes,
-        dueDate,
-        discount,
-        shipping,
-        invoiceTo,
-        createDate,
-        totalAmount,
-        invoiceFrom,
-        invoiceNumber,
-        subTotal,
+        invoiceNumber
     } = invoice;
 
     const styles = useStyles();
 
+    const cabinet = (
+        <View style={styles.table}>
+            <View>
+                <View style={[styles.tableRow, styles.tableRowColor]}>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع بافت روکش</Text>
+                    </View>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش گیری</Text>
+                    </View>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                    </View>
+
+
+                    <View style={styles.tableCell_3}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>ابعاد قاب</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_1, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>کد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_2, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>نام محصول</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={styles.subtitle2}>#</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View>
+                {items.frames.map((item: IFrame, index: number) => (
+                    <View style={styles.tableRow} key={index}>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_type}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.cover}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_3}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame_dimension.length + "x" + item.frame_dimension.width}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_1, styles.alignRight]}>
+                            <Text style={styles.subtitle2}>{item.code}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_2}>
+                            <Text style={[styles.subtitle2, styles.alignRight]}>{item.name}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={styles.subtitle2}>{index + 1}</Text>
+                        </View>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+
     return (
         <Document>
-            <Page size="A3" style={styles.page} orientation='landscape'>
+            <Page size="A4" style={styles.page} orientation='portrait'>
                 <View style={[styles.gridContainer, styles.mb40]}>
                     <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
                         <Text style={styles.h3}>{currentStatus + " شماره فاکتور"}</Text>
@@ -135,36 +208,11 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     <Image source="/logo/logo_single.png" style={{ width: 48, height: 48 }} />
                 </View>
 
-                {/* <View style={[styles.gridContainer, styles.mb40]}>
-                    <View style={styles.col6}>
-                        <Text style={[styles.subtitle2, styles.mb4]}>Invoice from</Text>
-                        <Text style={styles.body2}>{invoiceFrom.name}</Text>
-                        <Text style={styles.body2}>{invoiceFrom.fullAddress}</Text>
-                        <Text style={styles.body2}>{invoiceFrom.phoneNumber}</Text>
-                    </View>
+                <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت قاب ها</Text>
 
-                    <View style={styles.col6}>
-                        <Text style={[styles.subtitle2, styles.mb4]}>Invoice to</Text>
-                        <Text style={styles.body2}>{invoiceTo.name}</Text>
-                        <Text style={styles.body2}>{invoiceTo.fullAddress}</Text>
-                        <Text style={styles.body2}>{invoiceTo.phoneNumber}</Text>
-                    </View>
-                </View>
+                {items.frames.length > 0 && cabinet}
 
-                <View style={[styles.gridContainer, styles.mb40]}>
-                    <View style={styles.col6}>
-                        <Text style={[styles.subtitle2, styles.mb4]}>Date create</Text>
-                        <Text style={styles.body2}>{fDate(createDate)}</Text>
-                    </View>
-                    <View style={styles.col6}>
-                        <Text style={[styles.subtitle2, styles.mb4]}>Due date</Text>
-                        <Text style={styles.body2}>{fDate(dueDate)}</Text>
-                    </View>
-                </View> */}
-
-                <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات محصولات سفارشی</Text>
-
-                <View style={styles.table}>
+                {/* <View style={styles.table}>
                     <View>
                         <View style={[styles.tableRow, styles.tableRowColor]}>
 
@@ -282,69 +330,8 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                                 </View>
                             </View>
                         ))}
-
-                        {/* <View style={[styles.tableRow, styles.noBorder]}>
-                            <View style={styles.tableCell_1} />
-                            <View style={styles.tableCell_2} />
-                            <View style={styles.tableCell_3} />
-                            <View style={styles.tableCell_3}>
-                                <Text>Subtotal</Text>
-                            </View>
-                            <View style={[styles.tableCell_3, styles.alignRight]}>
-                                <Text>{fCurrency(subTotal)}</Text>
-                            </View>
-                        </View>
-
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                            <View style={styles.tableCell_1} />
-                            <View style={styles.tableCell_2} />
-                            <View style={styles.tableCell_3} />
-                            <View style={styles.tableCell_3}>
-                                <Text>Shipping</Text>
-                            </View>
-                            <View style={[styles.tableCell_3, styles.alignRight]}>
-                                <Text>{fCurrency(-shipping)}</Text>
-                            </View>
-                        </View>
-
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                            <View style={styles.tableCell_1} />
-                            <View style={styles.tableCell_2} />
-                            <View style={styles.tableCell_3} />
-                            <View style={styles.tableCell_3}>
-                                <Text>Discount</Text>
-                            </View>
-                            <View style={[styles.tableCell_3, styles.alignRight]}>
-                                <Text>{fCurrency(-discount)}</Text>
-                            </View>
-                        </View>
-
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                            <View style={styles.tableCell_1} />
-                            <View style={styles.tableCell_2} />
-                            <View style={styles.tableCell_3} />
-                            <View style={styles.tableCell_3}>
-                                <Text>Taxes</Text>
-                            </View>
-                            <View style={[styles.tableCell_3, styles.alignRight]}>
-                                <Text>{fCurrency(taxes)}</Text>
-                            </View>
-                        </View>
-
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                            <View style={styles.tableCell_1} />
-                            <View style={styles.tableCell_2} />
-                            <View style={styles.tableCell_3} />
-                            <View style={styles.tableCell_3}>
-                                <Text style={styles.h4}>Total</Text>
-                            </View>
-                            <View style={[styles.tableCell_3, styles.alignRight]}>
-                                <Text style={styles.h4}>{fCurrency(totalAmount)}</Text>
-                            </View>
-                        </View>
-                        */}
                     </View>
-                </View>
+                </View> */}
 
                 {/* <View style={[styles.gridContainer, styles.footer]} fixed>
                     <View style={styles.col8}>
