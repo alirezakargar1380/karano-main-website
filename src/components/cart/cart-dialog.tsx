@@ -148,12 +148,21 @@ export default function CartDialog({
       : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm, order_type),
-    coating_type: (form.coating_type) ? Yup.string().required(inputError) : Yup.string(),
-    // raised_rim: Yup.number()
-    //   .transform((value) => (value === 0 ? null : value))
-    //   .nullable(),
+    coating_type: Yup.string().when('cover_type', {
+      is: (value: number) => {
+        return form?.cover_type?.find((item: any) => item.id === value)?.is_raw === false
+      },
+      then: (schema) => form.coating_type ? schema.required(inputError) : schema,
+      otherwise: (schema) => schema
+    }),
     cover_edge_tape: (algorithm === EAlgorithm.cover_sheet) ? Yup.string().required(inputError) : Yup.string(),
-    coating_texture: (algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) ? Yup.string().required(inputError) : Yup.string(),
+    coating_texture: Yup.string().when('cover_type', {
+      is: (value: number) => {
+        return form?.cover_type?.find((item: any) => item.id === value)?.is_raw === false
+      },
+      then: (schema) => form.coating_type ? schema.required(inputError) : schema,
+      otherwise: (schema) => schema
+    }),
     back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
     frame_core: Yup.string().when('back_to_back_dimension', {
       is: EBackToBackDimension.framework,
