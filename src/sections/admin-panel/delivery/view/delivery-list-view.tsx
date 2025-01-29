@@ -26,6 +26,7 @@ import { fToJamali } from "src/utils/format-time";
 import { endpoints, server_axios } from "src/utils/axios";
 import Filter from "../../filter";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
+import { toFarsiNumber } from "src/utils/change-case";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -73,15 +74,15 @@ export default function DeliveryListView() {
 
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
                 {(!orderLoading) && (
-                    <Box>
+                    <Scrollbar>
                         <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2} mb={2}>
                             <Typography variant="h4" fontFamily={'peyda-bold'}>جزییات ارسال</Typography>
                         </Stack>
-                        <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
+                        <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
                             <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }} mt={1}>
                                 آماده ارسال
                             </Label>
-                            <SecondaryButton variant='outlined' sx={{ px: 2 }}>
+                            <SecondaryButton size="medium" variant='outlined' sx={{ px: 2, mr: 0.25 }}>
                                 مشاهده فاکتور
                                 <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
                             </SecondaryButton>
@@ -236,7 +237,7 @@ export default function DeliveryListView() {
                         <Stack direction={'row'}>
                             <PrimaryButton size="medium" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</PrimaryButton>
                         </Stack>
-                    </Box>
+                    </Scrollbar>
                 )}
             </DialogWithButton>
 
@@ -296,7 +297,7 @@ function Row({ row, moreHandler }: any) {
             <TableCell>{row.id}</TableCell>
 
             <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
-            <TableCell>{row.order_number}</TableCell>
+            <TableCell>{toFarsiNumber(row.order_number)}</TableCell>
 
             <TableCell>
                 {(row.status === OrderStatus.produced) ? (
@@ -317,6 +318,13 @@ function Row({ row, moreHandler }: any) {
                                 borderRadius: '24px',
                                 border: '1px solid #8EEFB4!important',
                             }),
+                            height: '29px',
+                            width: 'fit-content',
+                            p: 0,
+                            typography: 'body4',
+                            '& fieldset': {
+                                border: 'none'
+                            }
                         }}
                         variant="outlined"
                         onChange={(e) => handleChangeProductionStatus(e, row.id)}>
@@ -328,16 +336,6 @@ function Row({ row, moreHandler }: any) {
                         </MenuItem>
                     </Select>
                 )}
-                {/* {(row.status === OrderStatus.ready_to_send) && (
-                                                <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
-                                                    آماده ارسال
-                                                </Label>
-                                            )}
-                                            {(row.status === OrderStatus.posted) && (
-                                                <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }}>
-                                                    ارسال شده
-                                                </Label>
-                                            )} */}
             </TableCell>
 
             <TableCell>{fToJamali(row.createdAt)}</TableCell>

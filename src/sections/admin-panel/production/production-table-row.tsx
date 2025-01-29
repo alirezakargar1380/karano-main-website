@@ -12,12 +12,15 @@ import SvgColor from "src/components/svg-color";
 import { EFrameCore } from "src/types/product";
 import { ECoatingTexture } from "src/types/cart";
 import { translateCoatingTexture, translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
+import { toFarsiNumber } from "src/utils/change-case";
+import { fToJamali } from "src/utils/format-time";
 
 interface Props {
     row: IOrderItem
+    isLast: boolean
 }
 
-export function ProductionTableRow({ row }: Props) {
+export function ProductionTableRow({ row, isLast }: Props) {
 
     const [isClient, setIsClient] = useState(false)
     const [value, setValue] = useState(row.status)
@@ -35,13 +38,20 @@ export function ProductionTableRow({ row }: Props) {
 
     return (
         <TableBody>
-            <TableRow>
+            <TableRow sx={{
+                ...(isLast && {
+                    borderBottom: 'none'
+                }),
+            }}>
                 <TableCell>{row.id}</TableCell>
 
-                <TableCell>{row.order_number}</TableCell>
+                <TableCell>{toFarsiNumber(row.order_number)}</TableCell>
 
                 <TableCell>
-                    <Select fullWidth value={value} size="small"
+                    <Select
+                        fullWidth
+                        value={value}
+                        size="small"
                         sx={{
                             ...((value === OrderStatus.production) ? {
                                 bgcolor: "#DCF9FF",
@@ -54,6 +64,13 @@ export function ProductionTableRow({ row }: Props) {
                                 borderRadius: '24px',
                                 border: '1px solid #8EEFB4!important',
                             }),
+                            height: '29px',
+                            width: 'fit-content',
+                            p: 0,
+                            typography: 'body4',
+                            '& fieldset': {
+                                border: 'none'
+                            }
                         }}
                         variant="outlined"
                         onChange={handleChangeProductionStatus}>
@@ -64,14 +81,11 @@ export function ProductionTableRow({ row }: Props) {
                             تولید شده
                         </MenuItem>
                     </Select>
-                    {/* <Select >
-
-                    </Select> */}
                 </TableCell>
 
                 <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
 
-                <TableCell>1409/01/01</TableCell>
+                <TableCell>{fToJamali(row.production_date)}</TableCell>
 
                 <TableCell>
                     {(isClient) && (

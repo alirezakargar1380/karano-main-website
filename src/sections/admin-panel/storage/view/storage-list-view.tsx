@@ -19,6 +19,7 @@ import * as Yup from 'yup';
 import Filter from "../../filter";
 import { useSettingsContext } from "src/components/settings";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
+import { toFarsiNumber } from "src/utils/change-case";
 
 export default function StorageListView() {
     const settings = useSettingsContext();
@@ -94,7 +95,7 @@ export default function StorageListView() {
 
                                             <TableCell>{(row.user.user_type === IUserTypes.genuine) ? row.user.first_name + " " + row.user.last_name : row.user.company_name}</TableCell>
 
-                                            <TableCell>{row.order_number}</TableCell>
+                                            <TableCell>{toFarsiNumber(row.order_number)}</TableCell>
 
                                             <TableCell>
                                                 {
@@ -111,7 +112,7 @@ export default function StorageListView() {
 
                                             </TableCell>
 
-                                            <TableCell dir="ltr">{row.user.phone}</TableCell>
+                                            <TableCell dir="ltr">{toFarsiNumber(row.user.phone)}</TableCell>
                                             <TableCell>{fToJamali(row.createdAt)}</TableCell>
 
                                             <TableCell sx={{ textAlign: 'center' }}>
