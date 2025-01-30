@@ -10,6 +10,7 @@ import { useSettingsContext } from "src/components/settings";
 import { toFarsiNumber } from "src/utils/change-case";
 import Iconify from "src/components/iconify";
 import SvgColor from "src/components/svg-color";
+import { RouterLink } from "src/routes/components";
 
 export default function AdminPanelOverview() {
     const settings = useSettingsContext();
@@ -38,9 +39,9 @@ export default function AdminPanelOverview() {
                         >
                             <Typography variant="h4" fontFamily={'peyda-bold'}>سطح دسترسی ها</Typography>
 
-                            <SecondaryButton size="small" variant="outlined">
+                            <SecondaryButton size="small" variant="outlined" component={RouterLink} href={paths.admin_dashboard.access_level.root}>
                                 جزئیات بیشتر
-                                <SvgColor src="/assets/icons/arrow/arrow-narrow-left.svg"  sx={{ width: 16, height: 16, ml: 1 }} />
+                                <SvgColor src="/assets/icons/arrow/arrow-narrow-left.svg" sx={{ width: 16, height: 16, ml: 1 }} />
                             </SecondaryButton>
                         </Stack>
                         <AccessLevel />
