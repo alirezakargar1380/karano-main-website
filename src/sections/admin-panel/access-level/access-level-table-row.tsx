@@ -67,7 +67,7 @@ export function AccessLevelTableRow({
                 open={deleteDialog.value}
                 color={'#F3AB28'}
                 onClose={deleteDialog.onFalse}
-                title="اطمینان از افزودن"
+                title="اطمینان از حذف"
                 content={`آیا از حذف «${row?.fullName}» از عنوان «${adminRoleTranslate(`${row?.role}`)}» اطمینان دارید؟`}
                 closeTitle="خیر"
                 action={

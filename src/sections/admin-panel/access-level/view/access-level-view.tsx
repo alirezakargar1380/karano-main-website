@@ -15,7 +15,6 @@ import { endpoints, server_axios } from "src/utils/axios";
 import { useGetAdmin, useGetAdmins } from "src/api/admin";
 import { adminRoleTranslate } from "src/utils/admin-role";
 import { AccessLevelNewEditView } from "../access-level-new-edit-view";
-import { AccessLevelListView } from "./access-level-list-view";
 import { useEffect, useState } from "react";
 import { DialogWithButton } from "src/components/custom-dialog";
 import { AccessLevelTableRow } from "../access-level-table-row";
