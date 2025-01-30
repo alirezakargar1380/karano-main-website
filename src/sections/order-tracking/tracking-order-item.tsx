@@ -37,11 +37,12 @@ export default function TrackingOrderItem({ order, handleMoreBtn }: Props) {
                             py: pxToRem(2),
                             borderRadius: '8px',
                         }}
-                        variant={"filled"}
+                        variant={order.status === OrderStatus.produced ? "outlined": "filled"}
                         color={
                             ((order.status === OrderStatus.pending
                                 || order.status === OrderStatus.ready_to_send
                                 || order.status === OrderStatus.preparing
+                                || order.status === OrderStatus.produced
                                 || order.status === OrderStatus.production) && 'blue') ||
                             ((order.status === OrderStatus.failed || order.status === OrderStatus.removed)
                                 && 'red') ||
