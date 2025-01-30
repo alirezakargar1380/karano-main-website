@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------
 
 import { IAddressItem } from "./address";
-import { IProductItem, IProductProperties } from "./product";
+import { ECoatingTexture } from "./cart";
+import { CoatingType, EBackToBackDimension, IProductItem, IProductProperties } from "./product";
 import { IUser } from "./user";
 
 export type IOrderTableFilterValue = string | Date | null;
@@ -116,6 +117,51 @@ export type IOrderItem = {
   order_number: string;
   production_date: string;
   createdAt: string;
+};
+
+interface IShutterDoor {
+  name: string;
+  code: string;
+  cover: string;
+  need_to_assemble: boolean
+  quantity: number;
+  dimension: {
+    length: number,
+    width: number,
+  }
+}
+
+export interface IFrame {
+  name: string,
+  code: string,
+  need_to_assemble: boolean
+  coating_type: CoatingType | string,
+  coating_texture: ECoatingTexture | string,
+  back_to_back_dimension: EBackToBackDimension | string,
+  cover?: string,
+  quantity: number,
+  frame_dimension: {
+    length: number,
+    width: number,
+  },
+  dimension: {
+    length: number,
+    width: number,
+  }
+}
+
+export type IProductionOrderProducts = {
+  frames: IFrame[]
+  shutter_door: IShutterDoor[]
+}
+
+export type IProductionOrderItem = {
+  id: number;
+  user: IUser;
+  status: OrderStatus;
+  order_number: string;
+  production_date: string;
+  products: IProductionOrderProducts
 };
 
 

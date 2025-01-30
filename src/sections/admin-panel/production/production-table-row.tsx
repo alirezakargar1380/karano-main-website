@@ -5,18 +5,17 @@ import ProductionPDF from "./production-pdf";
 import { _invoices } from "src/_mock";
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { useCallback, useEffect, useState } from "react";
-import { IOrderItem, OrderStatus } from "src/types/order";
+import { IProductionOrderItem, OrderStatus } from "src/types/order";
 import { endpoints, server_axios } from "src/utils/axios";
 import { IUserTypes } from "src/types/user";
 import SvgColor from "src/components/svg-color";
 import { EFrameCore } from "src/types/product";
-import { ECoatingTexture } from "src/types/cart";
 import { translateCoatingTexture, translateCoverEdgeTape } from "src/sections/cart/cart-table-row";
 import { toFarsiNumber } from "src/utils/change-case";
 import { fToJamali } from "src/utils/format-time";
 
 interface Props {
-    row: IOrderItem
+    row: IProductionOrderItem
     isLast: boolean
 }
 
@@ -94,32 +93,8 @@ export function ProductionTableRow({ row, isLast }: Props) {
                                 <ProductionPDF
                                     invoice={{
                                         ..._invoices[0],
-                                        items: row.order_products.map((op) => {
-                                            const data = op.properties.map((p) => {
-                                                return {
-                                                    id: p.id,
-                                                    title: op.product.name,
-                                                    code: op.product.code.code,
-                                                    cover_type: p?.cover_type?.name || '-',
-                                                    coating_type: p?.coating_type || '-',
-                                                    frame_type: p?.frame_type?.name || '-',
-                                                    profile_type: p?.profile_type?.name || '-',
-                                                    raised_rim: p?.raised_rim?.name + p?.raised_rim?.code || '-',
-                                                    cover_edge_tape: translateCoverEdgeTape(p?.cover_edge_tape) || '-',
-                                                    frame_width: p?.frame_width ? p.frame_width + " سانتی متر" : '-',
-                                                    frame_core: p?.frame_core === EFrameCore.mdf && 'ترکیب چوب و ام دی اف'
-                                                        || p?.frame_core === EFrameCore.ply && 'پلای وود'
-                                                        || '-',
-                                                    coating_texture: translateCoatingTexture(p?.coating_texture) || '-',
-                                                    price: "111",
-                                                    total: "598",
-                                                    service: "",
-                                                    quantity: "69",
-                                                    description: p.dimension && p.dimension.length + "x" + p.dimension.width
-                                                }
-                                            })
-                                            return data
-                                        })[0]
+                                        items: row.products,
+                                        invoiceNumber: 'klk'
                                     }}
                                     currentStatus={row.order_number}
                                 />

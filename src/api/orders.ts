@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { fetcher, endpoints, adminFetcher } from 'src/utils/axios';
 
-import { IOrderItem, IRejectedOrderReport } from 'src/types/order';
+import { IOrderItem, IProductionOrderItem, IRejectedOrderReport } from 'src/types/order';
 import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
@@ -55,7 +55,7 @@ export function useGetProductionOrders() {
 
   const memoizedValue = useMemo(
     () => ({
-      orders: (data as IOrderItem[]) || [],
+      orders: (data as IProductionOrderItem[]) || [],
       ordersLoading: isLoading,
       //   productsError: error,
       //   productsValidating: isValidating,

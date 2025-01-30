@@ -35,7 +35,7 @@ export default function CarouselHomeCategory() {
     else if (mdUp) setSlidesToShow(6)
     else if (smUp) setSlidesToShow(4)
     else if (xsUp) setSlidesToShow(3)
-    console.log(lgUp, mdUp, smUp, xsUp)
+    // console.log(lgUp, mdUp, smUp, xsUp)
   }, [mdUp, xsUp, smUp, lgUp])
 
   useEffect(() => {
@@ -201,7 +201,7 @@ export function CarouselComponent({ children, length, vWidth, slidesToShow = 4, 
     responsive
   });
 
-  console.log(slidesToShow)
+  // console.log(slidesToShow)
 
   return (
     <CarouselArrowsCustom
