@@ -138,7 +138,8 @@ export interface IFrame {
   coating_type: CoatingType | string,
   coating_texture: ECoatingTexture | string,
   back_to_back_dimension: EBackToBackDimension | string,
-  cover?: string,
+  cover: string;
+  frame: string;
   quantity: number,
   frame_dimension: {
     length: number,

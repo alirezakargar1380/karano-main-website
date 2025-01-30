@@ -85,6 +85,7 @@ const useStyles = () =>
                 },
                 tableCell_1: {
                     width: '50px',
+                    paddingRight: 12
                 },
                 tableCell_2: {
                     width: '160px',
@@ -94,7 +95,7 @@ const useStyles = () =>
                     width: '15%',
                 },
                 tableCell_40: {
-                    width: '120px',
+                    width: '80px',
                 },
             }),
         []
@@ -129,9 +130,12 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     </View>
 
                     <View style={styles.tableCell_40}>
-                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش</Text>
                     </View>
 
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                    </View>
 
                     <View style={styles.tableCell_3}>
                         <Text style={[styles.alignRight, styles.subtitle2]}>ابعاد قاب</Text>
@@ -141,15 +145,15 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                         <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
                     </View>
 
-                    <View style={[styles.tableCell_1, styles.alignRight]}>
+                    <View style={[styles.tableCell_40, styles.alignRight]}>
                         <Text style={styles.subtitle2}>کد</Text>
                     </View>
 
-                    <View style={[styles.tableCell_2, styles.alignRight]}>
+                    {/* <View style={[styles.tableCell_2, styles.alignRight]}>
                         <Text style={styles.subtitle2}>نام محصول</Text>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.tableCell_1}>
+                    <View style={[styles.tableCell_1, styles.alignCenter]}>
                         <Text style={styles.subtitle2}>#</Text>
                     </View>
                 </View>
@@ -160,11 +164,15 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     <View style={styles.tableRow} key={index}>
 
                         <View style={styles.tableCell_40}>
-                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture}</Text>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture || '-'}</Text>
                         </View>
 
                         <View style={styles.tableCell_40}>
-                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_type}</Text>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_type || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame}</Text>
                         </View>
 
                         <View style={styles.tableCell_40}>
@@ -179,15 +187,15 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                             <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
                         </View>
 
-                        <View style={[styles.tableCell_1, styles.alignRight]}>
+                        <View style={[styles.tableCell_40, styles.alignRight]}>
                             <Text style={styles.subtitle2}>{item.code}</Text>
                         </View>
 
-                        <View style={styles.tableCell_2}>
+                        {/* <View style={styles.tableCell_2}>
                             <Text style={[styles.subtitle2, styles.alignRight]}>{item.name}</Text>
-                        </View>
+                        </View> */}
 
-                        <View style={styles.tableCell_1}>
+                        <View style={[styles.tableCell_1, styles.alignCenter]}>
                             <Text style={styles.subtitle2}>{index + 1}</Text>
                         </View>
                     </View>
@@ -202,10 +210,10 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                 <View style={[styles.gridContainer, styles.mb40]}>
                     <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
                         <Text style={styles.h3}>{currentStatus + " شماره فاکتور"}</Text>
-                        <Text> {invoiceNumber} </Text>
+                        <Text style={{ textAlign: 'right' }}> {"تاریخ تحویل: " +invoiceNumber?.toString().split('').reverse().join('')} </Text>
                     </View>
 
-                    <Image source="/logo/logo_single.png" style={{ width: 48, height: 48 }} />
+                    <Image source="/logo/karano-icon.png" style={{ width: 62, height: 39 }} />
                 </View>
 
                 <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت قاب ها</Text>

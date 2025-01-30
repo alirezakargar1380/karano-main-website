@@ -94,7 +94,7 @@ export function ProductionTableRow({ row, isLast }: Props) {
                                     invoice={{
                                         ..._invoices[0],
                                         items: row.products,
-                                        invoiceNumber: 'klk'
+                                        invoiceNumber: fToJamali(row.production_date)
                                     }}
                                     currentStatus={row.order_number}
                                 />
