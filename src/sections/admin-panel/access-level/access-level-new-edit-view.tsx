@@ -3,7 +3,7 @@ import { Stack, Typography, Box, MenuItem, Checkbox, ListItemText } from "@mui/m
 import { SecondaryButton } from "src/components/styles/buttons/secondary";
 import { LoadingButton } from "@mui/lab";
 import { useBoolean, useBooleanReturnType } from "src/hooks/use-boolean";
-import { DialogWithButton, WarningDialog } from "src/components/custom-dialog";
+import { ConfirmDialog, DialogWithButton, WarningDialog } from "src/components/custom-dialog";
 import FormProvider, { RHFSelect, RHFTitleTextField } from "src/components/hook-form";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -79,15 +79,16 @@ export function AccessLevelNewEditView({ adminDialog, currentData }: Props) {
 
     return (
         <Box>
-            <WarningDialog
+            <ConfirmDialog
                 open={warningDialog.value}
+                color={'#F3AB28'}
                 onClose={warningDialog.onFalse}
                 title="اطمینان از افزودن"
                 content={`آیا از افزودن «${values.fullName}» به عنوان «${adminRoleTranslate(`${values.role}`)}» اطمینان دارید؟`}
-                closeTitle="لغو"
+                closeTitle="خیر"
                 action={
                     <PrimaryButton size="medium" onClick={() => onSubmit()}>
-                        تایید
+                        بله
                     </PrimaryButton>
                 }
             />

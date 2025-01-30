@@ -1,7 +1,12 @@
 import { Container, Grid, Stack, Typography, Box } from "@mui/material";
+import { useGetAdmins } from "src/api/admin";
 import SvgColor from "src/components/svg-color";
+import { EAdminRole } from "src/types/admin";
 
 export default function AccessLevel() {
+
+    const { admins } = useGetAdmins();
+
     return (
         <Box>
             <Grid container spacing={2}>
@@ -10,7 +15,7 @@ export default function AccessLevel() {
                         <Box>
                             <Typography variant="title3">مدیریت فروش</Typography>
                             <Stack direction={'row'} spacing={0.5} alignItems={'center'}>
-                                <Typography variant="body2">06</Typography>
+                                <Typography variant="body2">{admins?.filter((admin) => admin.role === EAdminRole.sale)?.length}</Typography>
                                 <Typography variant="caption1" color={"#555555"} mt={0.3}>نفر</Typography>
                             </Stack>
                         </Box>
@@ -24,7 +29,7 @@ export default function AccessLevel() {
                         <Box>
                             <Typography variant="title3">مدیریت تولید</Typography>
                             <Stack direction={'row'} spacing={0.5} alignItems={'center'}>
-                                <Typography variant="body2">06</Typography>
+                                <Typography variant="body2">{admins?.filter((admin) => admin.role === EAdminRole.production)?.length}</Typography>
                                 <Typography variant="caption1" color={"#555555"} mt={0.3}>نفر</Typography>
                             </Stack>
                         </Box>
@@ -38,7 +43,7 @@ export default function AccessLevel() {
                         <Box>
                             <Typography variant="title3">مدیریت انبار</Typography>
                             <Stack direction={'row'} spacing={0.5} alignItems={'center'}>
-                                <Typography variant="body2">06</Typography>
+                                <Typography variant="body2">{admins?.filter((admin) => admin.role === EAdminRole.storage)?.length}</Typography>
                                 <Typography variant="caption1" color={"#555555"} mt={0.3}>نفر</Typography>
                             </Stack>
                         </Box>
@@ -52,7 +57,7 @@ export default function AccessLevel() {
                         <Box>
                             <Typography variant="title3">مدیریت ارسال</Typography>
                             <Stack direction={'row'} spacing={0.5} alignItems={'center'}>
-                                <Typography variant="body2">06</Typography>
+                                <Typography variant="body2">{admins?.filter((admin) => admin.role === EAdminRole.delivery)?.length}</Typography>
                                 <Typography variant="caption1" color={"#555555"} mt={0.3}>نفر</Typography>
                             </Stack>
                         </Box>
