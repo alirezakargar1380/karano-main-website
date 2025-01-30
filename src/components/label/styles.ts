@@ -26,7 +26,7 @@ const outlinedBgColor: ILabelColor = {
 }
 
 const outlinedBorderColor: ILabelColor = {
-  "blue": "#86D8F8",
+  "blue": "#0B7BA7",
   "green": "#8EEFB4",
   "red": "#FDBCB7",
   "yellow": "#F8D185"
