@@ -21,11 +21,18 @@ export default function WarningDialog({
     ...other
 }: ConfirmDialogProps) {
     return (
-        <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose} {...other} sx={{
-            '& .MuiBackdrop-root': {
-                backgroundColor: 'rgba(0,0,0,0.8)'
-            }
-        }}>
+        <Dialog maxWidth="lg" open={open} onClose={onClose} {...other}
+            PaperProps={{
+                style: {
+                    padding: '40px',
+                    margin: 0
+                },
+            }}
+            sx={{
+                '& .MuiBackdrop-root': {
+                    backgroundColor: 'rgba(0,0,0,0.8)'
+                }
+            }}>
             <Box pt={2} px={3}>
                 <DialogTitle sx={{ pb: 2, borderBottom: '1px solid #E8E8E8', pt: 2, display: 'flex', alignItems: 'center', fontFamily: 'peyda-bold', px: 0 }}>
                     <SvgColor src="/assets/icons/notification/alert-circle.svg" color={'#F3AB28'} mr={1} />

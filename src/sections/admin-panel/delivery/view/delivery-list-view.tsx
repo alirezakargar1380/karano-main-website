@@ -82,10 +82,10 @@ export default function DeliveryListView() {
                             <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }} mt={1}>
                                 آماده ارسال
                             </Label>
-                            <SecondaryButton size="medium" variant='outlined' sx={{ px: 2, mr: 0.25 }}>
+                            {/* <SecondaryButton size="medium" variant='outlined' sx={{ px: 2, mr: 0.25 }}>
                                 مشاهده فاکتور
                                 <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
-                            </SecondaryButton>
+                            </SecondaryButton> */}
                         </Stack>
 
                         <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>

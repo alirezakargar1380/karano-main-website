@@ -70,13 +70,13 @@ export default function NavVertical({ dialog, openNav, onCloseNav }: Props) {
       </Box>
 
       <Box sx={{ py: 4, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
-        <Stack direction="row" spacing={0} sx={{}}>
-          <Box sx={{}}>
+        <Stack direction="row" spacing={0}>
+          <Box>
             <Avatar sx={{ mx: 2, border: `solid 8px #F8F8F8`, width: 80, height: 80 }} src={''} />
           </Box>
           <Box>
-            <Typography variant="h6">{admin?.fullName}</Typography>
-            <Typography variant="body2" sx={{
+            <Typography variant="body1">{admin?.fullName}</Typography>
+            <Typography variant="body3" sx={{
               bgcolor: '#F2F2F2', borderRadius: '8px', px: 1, mt: 1
             }}>
               دسترسی:
