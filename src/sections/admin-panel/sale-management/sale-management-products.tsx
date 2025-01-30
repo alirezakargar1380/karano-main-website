@@ -81,7 +81,7 @@ export default function SaleManagementProducts({
                     </Box>
                 </Stack>
             </Stack>
-            <Scrollbar sx={{ maxHeight: '70vh' }}>
+            <Scrollbar sx={{ maxHeight: '720px' }}>
                 <Box>
                     {orderProducts.map(({ product, properties, need_to_assemble }) => (
                         <Box key={product.id}>
@@ -294,9 +294,9 @@ function SaleManagementProductItem({
                                             تعداد
                                         </TableCell>
 
-                                        <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                        {/* <TableCell sx={{ fontFamily: 'peyda-bold' }}>
                                             نیاز به مونتاژ
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 </TableHead>
 
@@ -363,7 +363,7 @@ function SaleManagementProductItem({
                                             </TableCell>
                                         )}
 
-                                        <TableCell>
+                                        {/* <TableCell>
                                             {need_to_assemble ?
                                                 <Label variant="outlined" color="green">
                                                     دارد
@@ -373,7 +373,7 @@ function SaleManagementProductItem({
                                                     ندارد
                                                 </Label>
                                             }
-                                        </TableCell>
+                                        </TableCell> */}
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -383,10 +383,10 @@ function SaleManagementProductItem({
                 {product.order_type === ProductOrderType.custom_made && (
                     <FormProvider methods={methods} onSubmit={onSubmit}>
                         <Stack sx={{ border: '1px solid #D1D1D1', borderRadius: '8px', mt: 3 }} direction={'row'} justifyContent={'space-between'}>
-                            <Box p={2} fontFamily={'peyda-bold'}>
+                            <Box pl={'12px'} py={'16px'} fontFamily={'peyda-bold'}>
                                 {'آیا کالای فوق را تایید میکنید؟'}
                             </Box>
-                            <Box>
+                            <Box display={'flex'} alignItems={'center'}>
                                 <RHFRadioGroupCard
                                     name={`is_approved`}
                                     row
@@ -400,26 +400,24 @@ function SaleManagementProductItem({
                                             value: '1'
                                         }
                                     ]}
-                                    sx={{ pt: 1, mr: 1 }}
+                                    sx={{ mr: '12px' }}
+                                    // BSx={{
+                                    //     mb: 1
+                                    // }}
                                     BSx={{
-                                        mb: 1
+                                        borderRadius: '8px',
+                                        '&:hover': {
+                                            cursor: 'pointer',
+                                            border: '1.5px solid #D1D1D1'
+                                        },
+                                        py: '0px',
+                                        ml: 0,
+                                        mb: '0px'
                                     }}
                                     variant="body1"
-                                    // RadioSx={{
-                                    //     p: '4px',
-                                    //     '&::after': {
-                                    //         content: '""',
-                                    //         position: 'absolute',
-                                    //         left: '3px',
-                                    //         // right: '1px',
-                                    //         top: '3px',
-                                    //         // bottom: '6px',
-                                    //         background: 'white',
-                                    //         borderRadius: '50%',
-                                    //         width: '6px',
-                                    //         height: '6px'
-                                    //     },
-                                    // }}
+                                    RadioSx={{
+                                        mr: '0px',
+                                    }}
                                     onChange={handleApprove}
                                 />
                             </Box>

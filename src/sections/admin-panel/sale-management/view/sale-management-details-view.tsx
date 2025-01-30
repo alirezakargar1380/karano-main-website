@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Stack } from "@mui/material";
 import SaleManagementPayment from "../sale-management-payment";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { paths } from "src/routes/paths";
@@ -56,21 +56,21 @@ export default function SaleManagementDetailsView({ id }: Props) {
 
     return (!orderLoading) && (
         <Box>
-            
+
             <Box>
                 <PageTitle title="مدیریت فروش" icon="/assets/icons/shop/shopping-cart-01.svg" />
             </Box>
 
-            <Container maxWidth="xl">
-                <Grid container spacing={2}>
-                    <Grid sm={8} item>
+            <Box sx={{ height: 768, maxWidth: 1080, ml: '20px' }}>
+                <Stack direction={'row'} spacing={'20px'}>
+                    <Box width={'-webkit-fill-available'} height={768}>
                         <SaleManagementProducts
                             // orderProducts={orderProducts}
                             order={order}
                             updateHasAnydeapprove={handleHasApprove}
                         />
-                    </Grid>
-                    <Grid sm={4} item>
+                    </Box>
+                    <Box minWidth={340}>
                         <SaleManagementPayment
                             invoiceDialog={invoiceDialog}
                             sendToUser={sendToUser}
@@ -79,9 +79,9 @@ export default function SaleManagementDetailsView({ id }: Props) {
                             hasCustomMade={hasCustomMade}
                             orderProducts={orderProducts}
                         />
-                    </Grid>
-                </Grid>
-            </Container>
+                    </Box>
+                </Stack>
+            </Box>
         </Box>
     )
 }

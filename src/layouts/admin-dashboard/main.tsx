@@ -45,7 +45,7 @@ export default function Main({ children, sx, ...other }: BoxProps) {
       component="main"
       sx={{
         flexGrow: 1,
-        minHeight: '100vh',
+        // minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         bgcolor: '#FFF',
