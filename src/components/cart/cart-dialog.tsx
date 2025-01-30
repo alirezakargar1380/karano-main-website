@@ -141,26 +141,22 @@ export default function CartDialog({
   const NewProductSchema = Yup.object().shape({
     profile_type: (algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) ? Yup.number().notOneOf([0], 'نوع پروفایل الزامی است').required('نوع پروفایل الزامی است') : Yup.number(),
     cover_type: ((algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) || form?.cover_type?.length) ? Yup.number().notOneOf([0], 'نوع پوشش الزامی است').required('نوع پوشش الزامی است') : Yup.number(),
-    frame_type: ((algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) || form?.frame_type?.length) ? Yup
-      .number()
-      .notOneOf([0], 'نوع قاب الزامی است')
-      .required('نوع قاب الزامی است')
-      : Yup.number(),
+    frame_type: ((algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) || form?.frame_type?.length) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm, order_type),
-    coating_type: Yup.string().when('cover_type', {
-      is: (value: number) => {
-        return form?.cover_type?.find((item: any) => item.id === value)?.is_raw === false
+    coating_type: Yup.string().when(['frame_type', 'cover_type'], {
+      is: (frameType: number, coverType: number) => {
+        return (form?.frame_type?.find((item: any) => item.id === frameType)?.is_glass === false && form?.cover_type?.find((item: any) => item.id === coverType)?.is_raw === false)
       },
-      then: (schema) => form.coating_type ? schema.required(inputError) : schema,
+      then: (schema) => schema.required(inputError),
       otherwise: (schema) => schema
     }),
     cover_edge_tape: (algorithm === EAlgorithm.cover_sheet) ? Yup.string().required(inputError) : Yup.string(),
-    coating_texture: Yup.string().when('cover_type', {
-      is: (value: number) => {
-        return form?.cover_type?.find((item: any) => item.id === value)?.is_raw === false
+    coating_texture: Yup.string().when(['frame_type', 'cover_type'], {
+      is: (frameType: number, coverType: number) => {
+        return (form?.frame_type?.find((item: any) => item.id === frameType)?.is_glass === false && form?.cover_type?.find((item: any) => item.id === coverType)?.is_raw === false)
       },
-      then: (schema) => form.coating_type ? schema.required(inputError) : schema,
+      then: (schema) => schema.required(inputError),
       otherwise: (schema) => schema
     }),
     back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
