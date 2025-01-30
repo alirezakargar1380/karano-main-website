@@ -120,7 +120,8 @@ export const StyledLabel = styled(Box)(({
       // OUTLINED
       ...(outlinedVariant && {
         borderRadius: '16px',
-        backgroundColor: outlinedBgColor[ownerState.color],
+        // backgroundColor: outlinedBgColor[ownerState.color],
+        backgroundColor: 'transparent',
         color: outlinedColor[ownerState.color],
         border: `2px solid ${outlinedBorderColor[ownerState.color]}`,
       }),
