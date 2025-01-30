@@ -114,7 +114,7 @@ const ResponsiveSteps = () => {
                             >
                                 {step.icon}
                             </Box>
-                            <Typography variant="h6" gutterBottom>
+                            <Typography variant="title2" gutterBottom>
                                 {step.title}
                             </Typography>
                             <Typography variant="body2" sx={{ maxWidth: "200px" }}>
