@@ -81,7 +81,8 @@ export default function OrderTrackingListView({ status }: Props) {
 
   const pay = useCallback(async () => {
     await server_axios.patch(endpoints.orders.update(orderId), {
-      status: hasCustomMade ? OrderStatus.production : OrderStatus.preparing,
+      // status: hasCustomMade ? OrderStatus.production : OrderStatus.preparing,
+      status: OrderStatus.preparing,
     });
     finalPaymentDialog.onFalse();
     successFinalPaymentDialog.onTrue();
