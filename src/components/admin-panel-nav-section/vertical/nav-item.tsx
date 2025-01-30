@@ -133,14 +133,23 @@ const NavItem = forwardRef<HTMLDivElement, NavItemProps>(
             دسترسی به پنل {title} فعال نیست.
           </Box>
         )}
-        // title={'sdf'}
         arrow
         placement="bottom-start"
         slots={{
           transition: Fade,
         }}
         slotProps={{
-          transition: { timeout: 500 },
+          transition: { timeout: 250 },
+        }}
+        PopperProps={{
+          modifiers: [
+            {
+              name: "offset",
+              options: {
+                offset: [0, -30],
+              },
+            },
+          ],
         }}
       >
         <Link
