@@ -52,6 +52,7 @@ export default function NavVertical({ dialog, openNav, onCloseNav }: Props) {
     <Scrollbar
       sx={{
         height: 1,
+        bgcolor: '#F8F8F8',
         '& .simplebar-content': {
           height: 1,
           display: 'flex',

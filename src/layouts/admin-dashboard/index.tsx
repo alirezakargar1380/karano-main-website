@@ -81,7 +81,6 @@ export default function DashboardLayout({ children }: Props) {
         sx={{
           minHeight: 1,
           display: 'flex',
-          bgcolor: '#F8F8F8',
           flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
