@@ -11,10 +11,7 @@ import { Iinvoice } from '../invoice-view';
 
 Font.register({
     family: 'Peyda',
-    // family: 'Roboto',
     fonts: [
-        // { src: '/fonts/Roboto-Regular.ttf' }, 
-        // { src: '/fonts/Roboto-Bold.ttf' },
         { src: '/fonts/peyda/Peyda-Medium.ttf' },
     ],
 });

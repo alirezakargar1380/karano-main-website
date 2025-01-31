@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Box, Container, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Container, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { useSettingsContext } from "src/components/settings";
 import { PageTitle } from "../../page-title";
 import Scrollbar from "src/components/scrollbar";
@@ -24,6 +24,8 @@ import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { toFarsiNumber } from "src/utils/change-case";
 import { StorageDetailsTable } from "../../storage/view/storage-details-view";
 import Iconify from "src/components/iconify";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import DeliveryPDF from "../delivery-pdf";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -78,19 +80,44 @@ export default function DeliveryListView() {
             </DialogWithButton>
 
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
-                {(!orderLoading) && (
+                {(order.address) && (
                     <Scrollbar>
                         <Stack direction={'row'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2} mb={2}>
                             <Typography variant="h4" fontFamily={'peyda-bold'}>جزییات ارسال</Typography>
-                        </Stack>
-                        <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'} borderBottom={'1px solid #D1D1D1'} pb={2}>
-                            <Label variant="outlined" sx={{ color: "#096E35", borderColor: "#149B4A" }} mt={1}>
-                                آماده ارسال
-                            </Label>
-                            {/* <SecondaryButton size="medium" variant='outlined' sx={{ px: 2, mr: 0.25 }}>
-                                مشاهده فاکتور
-                                <Iconify icon={'solar:arrow-left-linear'} sx={{ ml: 1 }} />
-                            </SecondaryButton> */}
+
+                            <PDFDownloadLink
+                                document={
+                                    <DeliveryPDF
+                                        address={order.address.province?.name + ", " + order.address.city?.name + ", " + order.address.address}
+                                    />
+                                }
+                                // fileName={`${row.order_number}.pdf`}
+                                style={{ textDecoration: 'none' }}
+                            >
+                                {({ blob, url, loading, error }) => url && (
+                                    <Tooltip title={"پرینت جزییات ارسال"} arrow>
+                                        <IconButton onClick={() => window.open(url, '_blank')}>
+                                            <SvgColor src="/assets/icons/orders/delivery/printer.svg" />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
+                            </PDFDownloadLink>
+
+                            {/* <Tooltip title={"پرینت جزییات ارسال"}
+                                PopperProps={{
+                                    modifiers: [
+                                        {
+                                            name: "arrow",
+                                            options: {
+                                                offset: [0, -30],
+                                            },
+                                        },
+                                    ],
+                                }} arrow>
+                                <IconButton>
+                                    <SvgColor src="/assets/icons/orders/delivery/printer.svg" />
+                                </IconButton>
+                            </Tooltip> */}
                         </Stack>
 
                         <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
