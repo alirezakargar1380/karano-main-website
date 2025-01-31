@@ -204,7 +204,7 @@ export const paths = {
   },
   // ADMIN DASHBOARD
   admin_dashboard: {
-    root: ROOTS.ADMIN_DASHBOARD,
+    root: ROOTS.ADMIN_DASHBOARD+'/home',
     saleManagement: {
       root: `${ROOTS.ADMIN_DASHBOARD}/sale-management`,
       details: (id: any) => `${ROOTS.ADMIN_DASHBOARD}/sale-management/${id}`,
