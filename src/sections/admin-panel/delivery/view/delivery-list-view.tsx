@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Box, Container, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
+import { Box, Container, DialogActions, IconButton, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material";
 import { useSettingsContext } from "src/components/settings";
 import { PageTitle } from "../../page-title";
 import Scrollbar from "src/components/scrollbar";
@@ -77,6 +77,9 @@ export default function DeliveryListView() {
                 <Scrollbar>
                     <StorageDetailsTable id={`${orderId}`} />
                 </Scrollbar>
+                <DialogActions sx={{ px: 0, pb: 0, pt: '24px' }}>
+                    <PrimaryButton size="medium" onClick={productsDialog.onFalse}>بازگشت</PrimaryButton>
+                </DialogActions>
             </DialogWithButton>
 
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
@@ -269,11 +272,11 @@ export default function DeliveryListView() {
                                 </Stack>
                             </Box>
                         </Stack>
-                        <Stack direction={'row'}>
-                            <PrimaryButton size="medium" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</PrimaryButton>
-                        </Stack>
                     </Scrollbar>
                 )}
+                <DialogActions sx={{ px: 0, pb: 0, pt: '24px' }}>
+                    <PrimaryButton size="medium" onClick={handleUpdateOrder} sx={{ px: 5, ml: 'auto', borderRadius: 100, mt: 2 }}>تایید</PrimaryButton>
+                </DialogActions>
             </DialogWithButton>
 
             <Box>
