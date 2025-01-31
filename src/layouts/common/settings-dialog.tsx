@@ -33,13 +33,6 @@ export default function SettingsDialog({ dialog }: { dialog: useBooleanReturnTyp
                     preview: URL.createObjectURL(file),
                 })
             );
-            // Handle the file upload logic here
-            // console.log('Selected file:', file);
-            // const form = new FormData();
-
-            // form.append("file", file)
-
-            // await axiosInstance.put(endpoints.admin_panel.settings.upload_profile, form)
         }
     };
 
@@ -61,7 +54,6 @@ export default function SettingsDialog({ dialog }: { dialog: useBooleanReturnTyp
     const {
         reset,
         handleSubmit,
-        watch,
         formState: { isSubmitting },
     } = methods;
 
@@ -81,8 +73,6 @@ export default function SettingsDialog({ dialog }: { dialog: useBooleanReturnTyp
 
     const beforeUpdate = async () => {
         try {
-            console.log('beforeUpdate');
-
             if (avatarUrl) {
                 const form = new FormData();
                 form.append("file", avatarUrl)
@@ -92,7 +82,6 @@ export default function SettingsDialog({ dialog }: { dialog: useBooleanReturnTyp
             }
 
             onSubmit();
-
         } catch (error) {
             console.error(error);
         }
