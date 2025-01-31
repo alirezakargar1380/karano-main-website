@@ -2,14 +2,10 @@
 'use client';
 
 import { Box, Container, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { useSettingsContext } from "src/components/settings";
-import { paths } from "src/routes/paths";
 import { PageTitle } from "../../page-title";
 import Scrollbar from "src/components/scrollbar";
 import Label from "src/components/label";
-import { LoadingButton } from "@mui/lab";
-import FormProvider, { RHFMultiSelect } from "src/components/hook-form";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from 'yup';
@@ -18,7 +14,6 @@ import { useGetDeliveryOrders, useGetOrder } from "src/api/orders";
 import { IOrderDeliveryType, OrderStatus } from "src/types/order";
 import { DialogWithButton } from "src/components/custom-dialog";
 import { useBoolean } from "src/hooks/use-boolean";
-import Iconify from "src/components/iconify";
 import SvgColor from "src/components/svg-color";
 import { useCallback, useState } from "react";
 import { IUserTypes } from "src/types/user";
@@ -27,6 +22,8 @@ import { endpoints, server_axios } from "src/utils/axios";
 import Filter from "../../filter";
 import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { toFarsiNumber } from "src/utils/change-case";
+import { StorageDetailsTable } from "../../storage/view/storage-details-view";
+import Iconify from "src/components/iconify";
 
 export default function DeliveryListView() {
     const [orderId, setOrderId] = useState(0);
@@ -34,6 +31,7 @@ export default function DeliveryListView() {
     const { order, orderLoading } = useGetOrder(`${orderId}`);
 
     const detailsDialog = useBoolean();
+    const productsDialog = useBoolean();
 
     const settings = useSettingsContext();
 
@@ -61,7 +59,7 @@ export default function DeliveryListView() {
     });
 
     const handleUpdateOrder = async () => {
-        detailsDialog.onFalse()
+        detailsDialog.onFalse();
     }
 
     const handleMore = (id: number) => {
@@ -71,6 +69,13 @@ export default function DeliveryListView() {
 
     return (
         <Box>
+
+            <DialogWithButton fullWith={true} dialog={productsDialog}>
+                <Typography borderBottom={'1px solid #D1D1D1'} pb={2} mb={'24px'}>لیست کالاها</Typography>
+                <Scrollbar>
+                    <StorageDetailsTable id={`${orderId}`} />
+                </Scrollbar>
+            </DialogWithButton>
 
             <DialogWithButton fullWith={false} width={932} dialog={detailsDialog}>
                 {(!orderLoading) && (
@@ -89,15 +94,18 @@ export default function DeliveryListView() {
                         </Stack>
 
                         <Stack spacing={2} py={2} mt={2} px={2} border={(theme) => `2px solid ${theme.palette.divider}`} borderRadius={'16px'}>
-                            <Typography
-                                variant="h6"
-                                fontFamily={'peyda-bold'}
-                                sx={{ textWrap: 'nowrap' }}
-                                pb={2}
-                                borderBottom={'1px solid #D1D1D1'}
-                            >
-                                اطلاعات سفارش
-                            </Typography>
+                            <Stack direction={'row'} justifyContent={'space-between'} pb={2} borderBottom={'1px solid #D1D1D1'} alignItems={'center'}>
+                                <Typography
+                                    variant="h6"
+                                    fontFamily={'peyda-bold'}
+                                    sx={{ textWrap: 'nowrap' }}
+                                >
+                                    اطلاعات سفارش
+                                </Typography>
+                                <SecondaryButton size="small" onClick={() => productsDialog.onTrue()} variant='outlined' sx={{ px: 2, mr: 0.25 }}>
+                                    مشاهده جزییات
+                                </SecondaryButton>
+                            </Stack>
                             <Box
                                 columnGap={2}
                                 rowGap={3}

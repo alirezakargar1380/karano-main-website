@@ -20,9 +20,7 @@ type Props = {
 };
 
 export default function StorageDetailsView({ id }: Props) {
-    const [select, setSelect] = useState<string>(OrderStatus.preparing)
-
-    const { storage } = useGetStorageOrder(id);
+    const [select, setSelect] = useState<string>(OrderStatus.preparing);
 
     const onChangeValue = async (value: string) => {
         setSelect(value);
@@ -39,7 +37,6 @@ export default function StorageDetailsView({ id }: Props) {
                     icon="/assets/icons/admin-panel/arrow-right.svg"
                     color="#727272"
                 />
-
             </Box>
             <Container maxWidth="xl">
                 <Stack direction={'row'} justifyContent={'space-between'}>
@@ -63,35 +60,46 @@ export default function StorageDetailsView({ id }: Props) {
                         </MenuItem>
                     </Select>
                 </Stack>
-                <TableContainer sx={{ overflow: 'unset', mt: 2, boxShadow: '2px 2px 8px 0px #0000001A', borderRadius: '12px', }}>
-                    <Scrollbar>
-                        <Table sx={{ minWidth: 960 }}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell width={40} sx={{ borderTopLeftRadius: '12px' }}></TableCell>
-
-                                    <TableCell sx={{ typography: 'subtitle2', fontFamily: 'peyda-bold', color: "#000" }}>شرح کالا / خدمات</TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>کد کالا</TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>تعداد / مقدار</TableCell>
-
-                                    <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>واحد</TableCell>
-
-                                    <TableCell sx={{ borderTopRightRadius: '12px' }}></TableCell>
-                                </TableRow>
-                            </TableHead>
-
-                            <TableBody>
-                                {storage.map((row: IStorage, index) => (
-                                    <Row row={row} key={index} />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Scrollbar>
-                </TableContainer>
+                <StorageDetailsTable id={id} />
             </Container>
         </Box>
+    )
+}
+
+export function StorageDetailsTable({ id }: { id: string }) {
+    const { storage } = useGetStorageOrder(id);
+    return (
+        <TableContainer sx={{ overflow: 'unset', mt: 2, boxShadow: '2px 2px 8px 0px #0000001A', borderRadius: '12px', }}>
+            <Scrollbar>
+                <Table sx={{ minWidth: 960 }}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell width={40} sx={{ borderTopLeftRadius: '12px' }}></TableCell>
+
+                            <TableCell sx={{ typography: 'subtitle2', fontFamily: 'peyda-bold', color: "#000" }}>شرح کالا / خدمات</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>کد کالا</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>تعداد / مقدار</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>ابعاد</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>نوع سفارش</TableCell>
+
+                            <TableCell sx={{ fontFamily: 'peyda-bold', color: "#000" }}>واحد</TableCell>
+
+                            <TableCell sx={{ borderTopRightRadius: '12px' }}></TableCell>
+                        </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                        {storage.map((row: IStorage, index) => (
+                            <Row row={row} key={index} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </Scrollbar>
+        </TableContainer>
     )
 }
 
