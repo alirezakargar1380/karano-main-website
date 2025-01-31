@@ -8,9 +8,12 @@ import { Container } from "@mui/system";
 import Scrollbar from "src/components/scrollbar";
 import { useGetOrderProducts, useGetReadyOrderProducts } from "src/api/order-products";
 import { IOrderProductItem, IOrderProductStatus } from "src/types/order-products";
-import { OrderStatus } from "src/types/order";
+import { IStorage, OrderStatus } from "src/types/order";
 import { useState } from "react";
 import { endpoints, server_axios } from "src/utils/axios";
+import { useGetStorageOrder } from "src/api/orders";
+import { ProductOrderType } from "src/types/product";
+import { toFarsiNumber } from "src/utils/change-case";
 
 type Props = {
     id: string;
@@ -19,7 +22,7 @@ type Props = {
 export default function StorageDetailsView({ id }: Props) {
     const [select, setSelect] = useState<string>(OrderStatus.preparing)
 
-    const { orderProducts } = useGetOrderProducts(+id);
+    const { storage } = useGetStorageOrder(id);
 
     const onChangeValue = async (value: string) => {
         setSelect(value);
@@ -80,7 +83,7 @@ export default function StorageDetailsView({ id }: Props) {
                             </TableHead>
 
                             <TableBody>
-                                {orderProducts.map((row: IOrderProductItem, index) => (
+                                {storage.map((row: IStorage, index) => (
                                     <Row row={row} key={index} />
                                 ))}
                             </TableBody>
@@ -92,14 +95,22 @@ export default function StorageDetailsView({ id }: Props) {
     )
 }
 
-function Row({ row }: { row: IOrderProductItem }) {
+function Row({ row }: { row: IStorage }) {
 
     return (
         <TableRow >
-            <TableCell>{row.id}</TableCell>
-            <TableCell>{row.product?.name}</TableCell>
-            <TableCell>{row.product?.code?.code}</TableCell>
-            <TableCell>{row.properties.reduce((a, b) => a + b.quantity, 0)}</TableCell>
+            <TableCell>{1}</TableCell>
+            <TableCell>{row.name}</TableCell>
+            <TableCell>{row.code}</TableCell>
+            <TableCell>{toFarsiNumber(row.quantity)}</TableCell>
+            <TableCell>{row.dimension ? toFarsiNumber(row.dimension.length) + 'x' + toFarsiNumber(row.dimension.width) : '-'}</TableCell>
+            <TableCell>
+                {
+                    (row.need_to_assemble && row.order_type === ProductOrderType.custom_made) && 'سفارشی، مونتاژ شده'
+                    || (!row.need_to_assemble && row.order_type === ProductOrderType.custom_made) && 'سفارشی، بدون مونتاژ'
+                    || row.order_type === ProductOrderType.ready_to_use && 'آماده'
+                }
+            </TableCell>
             <TableCell>شاخه</TableCell>
         </TableRow>
     )

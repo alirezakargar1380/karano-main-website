@@ -149,6 +149,7 @@ export const endpoints = {
     production_list: '/api/orders/production',
     delivery_list: '/api/orders/delivery',
     storage_list: '/api/orders/storage',
+    storage: (id: any) => '/api/orders/storage/' + id,
     one: (id: any) => '/api/orders/' + id,
     update: (id: any) => '/api/orders/' + id,
   },

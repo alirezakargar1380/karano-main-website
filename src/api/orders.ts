@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 
 import { fetcher, endpoints, adminFetcher } from 'src/utils/axios';
 
-import { IOrderItem, IProductionOrderItem, IRejectedOrderReport } from 'src/types/order';
+import { IOrderItem, IProductionOrderItem, IRejectedOrderReport, IStorage } from 'src/types/order';
 import { useAuthContext } from 'src/auth/hooks';
 
 // ----------------------------------------------------------------------
@@ -142,6 +142,25 @@ export function useGetStorageOrders() {
   const memoizedValue = useMemo(
     () => ({
       orders: (data as IOrderItem[]) || [],
+      ordersLoading: isLoading,
+      //  productsError: error,
+      //  productsValidating: isValidating,
+      ordersEmpty: !isLoading && !data.length,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+export function useGetStorageOrder(id: string) {
+  const URL = id ? endpoints.orders.storage(id) : null;
+
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher);
+
+  const memoizedValue = useMemo(
+    () => ({
+      storage: (data as IStorage[]) || [],
       ordersLoading: isLoading,
       //  productsError: error,
       //  productsValidating: isValidating,

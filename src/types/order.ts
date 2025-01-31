@@ -89,6 +89,18 @@ export type IRejectedOrderReport = {
   seen: boolean;
 }
 
+export interface IStorage {
+  name: string;
+  code: string;
+  need_to_assemble: boolean;
+  order_type: string;
+  quantity: number;
+  dimension?: {
+    length: number;
+    width: number;
+  }
+}
+
 export type IOrderItem = {
   id: number;
   user: IUser;

@@ -255,7 +255,7 @@ function SaleManagementProductItem({
                                         )}
 
                                         {property.coating_type && (
-                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
+                                            <TableCell sx={{ fontFamily: 'peyda-bold', textWrap: 'nowrap' }}>
                                                 روکش گیری
                                             </TableCell>
                                         )}
@@ -267,8 +267,8 @@ function SaleManagementProductItem({
                                         )}
 
                                         {property.coating_texture && (
-                                            <TableCell sx={{ fontFamily: 'peyda-bold' }}>
-                                                نوع بافت روکش
+                                            <TableCell sx={{ fontFamily: 'peyda-bold', textWrap: 'nowrap' }}>
+                                                بافت روکش
                                             </TableCell>
                                         )}
 
@@ -317,7 +317,7 @@ function SaleManagementProductItem({
 
                                         {property.frame_type?.name && (
                                             <TableCell>
-                                                {property.frame_type?.name + " " + property.frame_type?.frame_code?.code || '-'}
+                                                {property.frame_type?.name + " " + (property.frame_type?.frame_code ? property.frame_type?.frame_code?.code : '')}
                                             </TableCell>
                                         )}
 
@@ -351,7 +351,7 @@ function SaleManagementProductItem({
                                             </TableCell>
                                         )}
 
-                                        {property.dimension  && (property.dimension.length != 0 && property.dimension.width != 0) && (
+                                        {property.dimension && (property.dimension.length != 0 && property.dimension.width != 0) && (
                                             <TableCell>
                                                 {toFarsiNumber(property.dimension?.length) + "x" + toFarsiNumber(property.dimension?.width)}
                                             </TableCell>
@@ -359,7 +359,7 @@ function SaleManagementProductItem({
 
                                         {property.quantity && (
                                             <TableCell>
-                                                {property.quantity}
+                                                {toFarsiNumber(property.quantity)}
                                             </TableCell>
                                         )}
 

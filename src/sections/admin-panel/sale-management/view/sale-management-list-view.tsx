@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Container, MenuItem, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { AdminBreadcrumbs } from "src/components/custom-breadcrumbs";
 import { useSettingsContext } from "src/components/settings";
 import { paths } from "src/routes/paths";
@@ -21,8 +21,11 @@ import { PrimaryButton } from "src/components/styles/buttons/primary";
 import { toFarsiNumber } from "src/utils/change-case";
 import Tag from "src/components/tag";
 import Filter from "../../filter";
+import { useCallback, useState } from "react";
+import { endpoints, server_axios } from "src/utils/axios";
 
 export default function SaleManagementListView() {
+    const [value, setValue] = useState('');
     const settings = useSettingsContext();
 
     const router = useRouter();
@@ -55,6 +58,13 @@ export default function SaleManagementListView() {
             reset();
         }
     });
+
+    const handleChangeProductionStatus = useCallback(async (e: any, orderId: number) => {
+        setValue(e.target.value);
+        await server_axios.patch(endpoints.orders.update(orderId), {
+            status: e.target.value
+        });
+    }, [])
 
     return (
         <Box>
@@ -118,11 +128,13 @@ export default function SaleManagementListView() {
                                                         <Tag variant="outlined" size="medium" color="yellow">
                                                             اصلاح شده
                                                         </Tag>
-                                                    ) || (row.status === OrderStatus.produced) && (
-                                                        <Tag variant="outlined" size="medium" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
-                                                            در انتظار پرداخت نهایی
-                                                        </Tag>
-                                                    ) || (row.status === OrderStatus.posted) && (
+                                                    ) 
+                                                    // || (row.status === OrderStatus.produced) && (
+                                                    //     <Tag variant="outlined" size="medium" sx={{ color: "#005878", borderColor: "#0B7BA7" }}>
+                                                    //         در انتظار پرداخت نهایی
+                                                    //     </Tag>
+                                                    // ) 
+                                                    || (row.status === OrderStatus.posted) && (
                                                         <Tag variant="outlined" size="medium" color="green">
                                                             ارسال شده
                                                         </Tag>
@@ -134,18 +146,52 @@ export default function SaleManagementListView() {
                                                         <Tag variant="outlined" size="medium" color="green">
                                                             در حال تولید
                                                         </Tag>
-                                                    ) || (row.status === OrderStatus.preparing) && (
-                                                        <Tag variant="outlined" size="medium" color="green">
-                                                            در حال آماده سازی
-                                                        </Tag>
-                                                    ) || (row.status === OrderStatus.ready_to_send) && (
+                                                    ) 
+                                                    // || (row.status === OrderStatus.preparing) && (
+                                                    //     <Tag variant="outlined" size="medium" color="green">
+                                                    //         در حال آماده سازی
+                                                    //     </Tag>
+                                                    // ) 
+                                                    || (row.status === OrderStatus.ready_to_send) && (
                                                         <Tag variant="outlined" size="medium" color="green">
                                                             آماده ارسال
                                                         </Tag>
                                                     ) ||
                                                     ''
                                                 }
-
+                                                {(row.status === OrderStatus.produced || row.status === OrderStatus.preparing) && (
+                                                    <Select value={value || row.status} size="small"
+                                                        sx={{
+                                                            ...(((value || row.status) !== OrderStatus.preparing) ? {
+                                                                bgcolor: "#DCF9FF",
+                                                                color: "#005878!important",
+                                                                borderRadius: '24px',
+                                                                border: '1px solid #86D8F8!important',
+                                                            } : {
+                                                                bgcolor: "#E0FFEB",
+                                                                color: "#096E35!important",
+                                                                borderRadius: '24px',
+                                                                border: '1px solid #8EEFB4!important',
+                                                            }),
+                                                            height: '29px',
+                                                            width: 'fit-content',
+                                                            p: 0,
+                                                            typography: 'body4',
+                                                            '& fieldset': {
+                                                                border: 'none'
+                                                            }
+                                                        }}
+                                                        variant="outlined"
+                                                        onChange={(e) => handleChangeProductionStatus(e, row.id)}
+                                                    >
+                                                        <MenuItem value={OrderStatus.produced}>
+                                                            در انتظار پرداخت نهایی
+                                                        </MenuItem>
+                                                        <MenuItem value={OrderStatus.preparing}>
+                                                            پرداخت شده
+                                                        </MenuItem>
+                                                    </Select>
+                                                )}
                                             </TableCell>
 
                                             <TableCell dir="ltr">{toFarsiNumber(row.user.phone)}</TableCell>
