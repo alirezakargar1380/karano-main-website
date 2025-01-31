@@ -52,6 +52,12 @@ export const endpoints = {
     direct_price_list: `${BACKEND_API}/api/settings/price-list`,
     direct_catalog: `${BACKEND_API}/api/settings/catalog`,
   },
+  admin_panel: {
+    settings: {
+      upload_profile: '/api/admin/update',
+      get_profile: (name: any | null) => `${BACKEND_API}/api/admin/profile/${name}/image`,
+    }
+  },
   auth: {
     user: {
       check_phone: '/api/authentication/user/check-phone',
@@ -68,6 +74,7 @@ export const endpoints = {
       login: '/api/admin/login',
       create: '/api/admin',
       update: (id: number) => '/api/admin/' + id,
+      me_update: '/api/admin/me',
       me: '/api/admin/me',
     },
     register: '/api/authentication/user/register',

@@ -156,7 +156,7 @@ export function AuthProvider({ children }: Props) {
           payload: {
             admin: {
               ...user,
-              adminAccessToken,
+              // adminAccessToken,
             },
           },
         });

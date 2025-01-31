@@ -22,6 +22,8 @@ import { adminRoleTranslate } from 'src/utils/admin-role';
 import NavToggleButton from '../common/nav-toggle-button';
 import SvgColor from 'src/components/svg-color';
 import { useBooleanReturnType } from 'src/hooks/use-boolean';
+import { endpoints } from 'src/utils/axios';
+import Label from 'src/components/label';
 
 // ----------------------------------------------------------------------
 
@@ -73,16 +75,16 @@ export default function NavVertical({ dialog, openNav, onCloseNav }: Props) {
       <Box sx={{ py: 4, borderBottom: (theme) => `solid 1px ${theme.palette.divider}` }}>
         <Stack direction="row" spacing={0}>
           <Box>
-            <Avatar sx={{ mx: 2, border: `solid 8px #F8F8F8`, width: 80, height: 80 }} src={''} />
+            {admin && (
+              <Avatar sx={{ mx: 2, border: `solid 8px #F8F8F8`, width: 80, height: 80 }} src={endpoints.admin_panel.settings.get_profile(admin.profile)} />
+            )}
           </Box>
           <Box>
             <Typography variant="body1">{admin?.fullName}</Typography>
-            <Typography variant="body3" sx={{
-              bgcolor: '#F2F2F2', borderRadius: '8px', px: 1, mt: 1
-            }}>
+            <Label variant='filled' color='blue'>
               دسترسی:
               {adminRoleTranslate(admin?.role || '')}
-            </Typography>
+            </Label>
           </Box>
         </Stack>
       </Box>
