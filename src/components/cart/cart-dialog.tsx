@@ -152,13 +152,13 @@ export default function CartDialog({
       otherwise: (schema) => schema
     }),
     cover_edge_tape: (algorithm === EAlgorithm.cover_sheet) ? Yup.string().required(inputError) : Yup.string(),
-    coating_texture: Yup.string().when(['frame_type', 'cover_type'], {
+    coating_texture: (algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) ? Yup.string().when(['frame_type', 'cover_type'], {
       is: (frameType: number, coverType: number) => {
         return (form?.frame_type?.find((item: any) => item.id === frameType)?.is_glass === false && form?.cover_type?.find((item: any) => item.id === coverType)?.is_raw === false)
       },
       then: (schema) => schema.required(inputError),
       otherwise: (schema) => schema
-    }),
+    }) : Yup.string(),
     back_to_back_dimension: (algorithm === EAlgorithm.room_door) ? Yup.string().required(inputError) : Yup.string(),
     frame_core: Yup.string().when('back_to_back_dimension', {
       is: EBackToBackDimension.framework,

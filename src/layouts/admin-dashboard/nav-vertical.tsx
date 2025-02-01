@@ -65,7 +65,7 @@ export default function NavVertical({ dialog, openNav, onCloseNav }: Props) {
       <Box
         sx={{
           borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
-          // height: 'fit-content'
+          height: '87px',
           display: 'flex'
         }}
       >
