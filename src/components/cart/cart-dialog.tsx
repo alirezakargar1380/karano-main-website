@@ -144,13 +144,13 @@ export default function CartDialog({
     frame_type: ((algorithm === EAlgorithm.cabinet_door && order_type === ProductOrderType.custom_made) || form?.frame_type?.length) ? Yup.number().notOneOf([0], 'نوع قاب الزامی است').required('نوع قاب الزامی است') : Yup.number(),
     quantity: Yup.number().required('تعداد الزامی است').typeError('تعداد باید عدد باشد'),
     dimension: getDimensionSchema(algorithm, order_type),
-    coating_type: Yup.string().when(['frame_type', 'cover_type'], {
+    coating_type: form.coating_type ? Yup.string().when(['frame_type', 'cover_type'], {
       is: (frameType: number, coverType: number) => {
         return (form?.frame_type?.find((item: any) => item.id === frameType)?.is_glass === false && form?.cover_type?.find((item: any) => item.id === coverType)?.is_raw === false)
       },
       then: (schema) => schema.required(inputError),
       otherwise: (schema) => schema
-    }),
+    }) : Yup.string(),
     cover_edge_tape: (algorithm === EAlgorithm.cover_sheet) ? Yup.string().required(inputError) : Yup.string(),
     coating_texture: (algorithm === EAlgorithm.cover_sheet || algorithm === EAlgorithm.cabinet_door) ? Yup.string().when(['frame_type', 'cover_type'], {
       is: (frameType: number, coverType: number) => {
