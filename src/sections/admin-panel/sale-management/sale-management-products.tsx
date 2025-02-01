@@ -412,7 +412,8 @@ function SaleManagementProductItem({
                                         },
                                         py: '0px',
                                         ml: 0,
-                                        mb: '0px'
+                                        mb: '0px',
+                                        pl: '8px'
                                     }}
                                     variant="body1"
                                     RadioSx={{
