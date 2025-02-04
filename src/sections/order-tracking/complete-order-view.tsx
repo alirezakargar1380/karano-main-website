@@ -18,6 +18,7 @@ import SvgColor from "src/components/svg-color";
 import { IInvoice } from "src/types/invoice";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import InvoicePDF from "./pdf/invoice-pdf";
+import { useGetOrderInvoice } from "src/api/invoice";
 
 interface Props {
     orderId: number
@@ -42,12 +43,10 @@ export default function CompleteOrderView({
     const checkout = useCheckoutContext();
 
     const { order } = useGetOrder(`${orderId}`);
-    const [invoice, setInvoice] = useState<Iinvoice | null>(null)
+
+    const { invoice } = useGetOrderInvoice(orderId);
 
     useEffect(() => {
-        server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
-            setInvoice(res.data)
-        })
         checkout.onGotoStep(0)
     }, [finalOrderDialog.value]);
 
@@ -141,7 +140,7 @@ export default function CompleteOrderView({
                 <CompleteInvoiceView dialog={finalOrderDialog}>
                     <InvoiceView
                         title={hasCustomMade ? 'پیش‌فاکتور فروش کالا‌و‌خدمات' : 'فاکتور فروش کالا‌و‌خدمات'}
-                        // orderId={orderId}
+                        orderId={orderId}
                         invoice_data={invoice}
                     />
                 </CompleteInvoiceView>

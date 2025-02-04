@@ -10,6 +10,7 @@ import { fToJamali } from "src/utils/format-time";
 import SvgColor from "src/components/svg-color";
 import axiosInstance, { endpoints, server_axios } from "src/utils/axios";
 import { toFarsiNumber } from "src/utils/change-case";
+import { useGetOrderInvoice } from "src/api/invoice";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '& td': {
@@ -56,23 +57,25 @@ export default function InvoiceView({
     downloadable
 }: Props) {
 
-    const [invoice, setInvoice] = useState<Iinvoice>(invoice_data || {
-        total_price: 0,
-        prepayment: 0,
-        shipping: 0,
-        tax: 0,
-        discount_percentage: 0,
-        products: [],
-        assemble_wage: [],
-        packaging: [],
-    })
+    const { invoice } = useGetOrderInvoice(orderId);
 
-    useEffect(() => {
-        if (orderId)
-            server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
-                setInvoice(res.data)
-            })
-    }, [])
+    // const [invoice, setInvoice] = useState<Iinvoice>(invoice_data || {
+    //     total_price: 0,
+    //     prepayment: 0,
+    //     shipping: 0,
+    //     tax: 0,
+    //     discount_percentage: 0,
+    //     products: [],
+    //     assemble_wage: [],
+    //     packaging: [],
+    // })
+
+    // useEffect(() => {
+    //     if (orderId)
+    //         server_axios.post(endpoints.invoice.calculate(orderId)).then((res) => {
+    //             setInvoice(res.data)
+    //         })
+    // }, [])
 
     const renderList = (
         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
@@ -269,7 +272,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {invoice.shipping > 0 ? toFarsiNumber(fCurrency(invoice.shipping || 0)) + ' ریال' : '0 ریال'}
+                                    {invoice.shipping > 0 ? toFarsiNumber(fCurrency(invoice.shipping || 0)) + ' ریال' : '۰ ریال'}
                                 </TableCell>
                                 <TableCell></TableCell>
                             </StyledTableRow>
