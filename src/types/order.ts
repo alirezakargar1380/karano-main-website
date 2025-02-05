@@ -163,9 +163,38 @@ export interface IFrame {
   }
 }
 
+export interface ICoverSheet {
+  name: string,
+  code: string,
+  cover_edge_tape: string,
+  cover: string,
+  // need_to_assemble: boolean
+  coating_texture: ECoatingTexture | string,
+  quantity: number,
+  dimension: {
+    length: number,
+    width: number,
+  }
+}
+
+export interface ICabinetCloumn {
+  name: string;
+  code: string;
+  cover: string;
+  inlaid_flower: boolean;
+  inlaid_flower_emty_space: number;
+  quantity: number,
+  dimension: {
+    length: number,
+    width: number,
+  }
+}
+
 export type IProductionOrderProducts = {
   frames: IFrame[]
   shutter_door: IShutterDoor[]
+  cover_sheets: ICoverSheet[]
+  cabinet_cloumns: ICabinetCloumn[]
 }
 
 export type IProductionOrderItem = {

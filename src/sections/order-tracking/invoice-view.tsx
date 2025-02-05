@@ -129,7 +129,7 @@ export default function InvoiceView({
                                 </TableCell>
 
                                 <TableCell>
-                                    {product.code}
+                                    {toFarsiNumber(product.code)}
                                 </TableCell>
 
                                 <TableCell>

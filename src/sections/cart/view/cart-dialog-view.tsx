@@ -64,6 +64,7 @@ export function getHeadLabel(algorithm: EAlgorithm, order_type: ProductOrderType
         case EAlgorithm.cover_sheet:
             if (order_type === ProductOrderType.custom_made) {
                 return [
+                    { id: 'createdAt', label: 'پوشش نهایی', width: 160 },
                     { id: "cover_type", label: "نوار لبه روکش" },
                     { id: "inlaid_flower", label: "بافت روکش" },
                     ...defult

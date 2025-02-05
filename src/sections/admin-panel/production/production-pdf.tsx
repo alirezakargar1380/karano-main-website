@@ -5,7 +5,7 @@ import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
 import { IInvoice } from 'src/types/invoice';
-import { IFrame } from 'src/types/order';
+import { ICabinetCloumn, ICoverSheet, IFrame } from 'src/types/order';
 
 // ----------------------------------------------------------------------
 
@@ -130,11 +130,11 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     </View>
 
                     <View style={styles.tableCell_40}>
-                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش</Text>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
                     </View>
 
                     <View style={styles.tableCell_40}>
-                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش</Text>
                     </View>
 
                     <View style={styles.tableCell_3}>
@@ -204,21 +204,187 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
         </View>
     )
 
+    const cabinet_cloumn = (
+        <View style={styles.table}>
+            <View>
+                <View style={[styles.tableRow, styles.tableRowColor]}>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>زمینه خالی</Text>
+                    </View>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>گل منبت</Text>
+                    </View>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع روکش</Text>
+                    </View>
+
+                    <View style={styles.tableCell_3}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>ابعاد</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_40, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>کد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_2, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>نام محصول</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_1, styles.alignCenter]}>
+                        <Text style={styles.subtitle2}>#</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View>
+                {items.cabinet_cloumns.map((item: ICabinetCloumn, index: number) => (
+                    <View style={styles.tableRow} key={index}>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.inlaid_flower ? '-' :  item.inlaid_flower_emty_space + ' سانتی متر'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.inlaid_flower ? 'دارد' : 'ندارد'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.cover}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_3}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.dimension.length + "x" + item.dimension.width}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_40, styles.alignRight]}>
+                            <Text style={styles.subtitle2}>{item.code}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_2}>
+                            <Text style={[styles.subtitle2, styles.alignRight]}>{item.name}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_1, styles.alignCenter]}>
+                            <Text style={styles.subtitle2}>{index + 1}</Text>
+                        </View>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+
+    const cover_sheet = (
+        <View style={styles.table}>
+            <View>
+                <View style={[styles.tableRow, styles.tableRowColor]}>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>پوشش نهایی</Text>
+                    </View>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                    </View>
+
+                    <View style={styles.tableCell_3}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>ابعاد</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_40, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>کد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_2, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>نام محصول</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_1, styles.alignCenter]}>
+                        <Text style={styles.subtitle2}>#</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View>
+                {items.cover_sheets.map((item: ICoverSheet, index: number) => (
+                    <View style={styles.tableRow} key={index}>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.cover}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_3}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.dimension.length + "x" + item.dimension.width}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_40, styles.alignRight]}>
+                            <Text style={styles.subtitle2}>{item.code}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_2}>
+                            <Text style={[styles.subtitle2, styles.alignRight]}>{item.name}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_1, styles.alignCenter]}>
+                            <Text style={styles.subtitle2}>{index + 1}</Text>
+                        </View>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+
     return (
         <Document>
             <Page size="A4" style={styles.page} orientation='portrait'>
                 <View style={[styles.gridContainer, styles.mb40]}>
                     <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
                         <Text style={styles.h3}>{currentStatus + " شماره فاکتور"}</Text>
-                        <Text style={{ textAlign: 'right' }}> {"تاریخ تحویل: " +invoiceNumber?.toString().split('').reverse().join('')} </Text>
+                        <Text style={{ textAlign: 'right' }}> {"تاریخ تحویل: " + invoiceNumber?.toString().split('').reverse().join('')} </Text>
                     </View>
 
                     <Image source="/logo/karano-icon.png" style={{ width: 62, height: 39 }} />
                 </View>
 
-                <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت قاب ها</Text>
+                {items.frames.length > 0 && (
+                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت قاب ها</Text>
+                )}
 
                 {items.frames.length > 0 && cabinet}
+
+                {items.cover_sheets.length > 0 && (
+                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت ورق های روکشی</Text>
+                )}
+
+                {items.cover_sheets.length > 0 && cover_sheet}
+
+                {items.cabinet_cloumns.length > 0 && (
+                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت ورق های روکشی</Text>
+                )}
+
+                {items.cabinet_cloumns.length > 0 && cabinet_cloumn}
 
                 {/* <View style={styles.table}>
                     <View>
