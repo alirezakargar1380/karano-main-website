@@ -190,11 +190,29 @@ export interface ICabinetCloumn {
   }
 }
 
+export interface IDoors {
+  name: string;
+  code: string;
+  cover: string;
+  coating_texture?: ECoatingTexture | string,
+  back_to_back_dimension?: string,
+  frame_width?: string,
+  increaser?: string,
+  coating_type?: string,
+  quantity: number,
+  dimension: {
+    length: number,
+    width: number,
+  }
+}
+
 export type IProductionOrderProducts = {
   frames: IFrame[]
   shutter_door: IShutterDoor[]
   cover_sheets: ICoverSheet[]
   cabinet_cloumns: ICabinetCloumn[]
+  doors: IDoors[]
+  room_doors: IDoors[]
 }
 
 export type IProductionOrderItem = {

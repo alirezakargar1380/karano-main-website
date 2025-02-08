@@ -5,7 +5,7 @@ import { fDate } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
 import { IInvoice } from 'src/types/invoice';
-import { ICabinetCloumn, ICoverSheet, IFrame } from 'src/types/order';
+import { ICabinetCloumn, ICoverSheet, IDoors, IFrame } from 'src/types/order';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ const useStyles = () =>
                 body1: { fontSize: 10 },
                 body2: { fontSize: 9 },
                 subtitle1: { fontSize: 10, fontWeight: 700 },
-                subtitle2: { fontSize: 9, fontWeight: 700 },
+                subtitle2: { fontSize: 8, fontWeight: 700 },
                 alignRight: { textAlign: 'right' },
                 alignLeft: { textAlign: 'left' },
                 alignCenter: { textAlign: 'center' },
@@ -83,13 +83,21 @@ const useStyles = () =>
                     paddingBottom: 0,
                     borderBottomWidth: 0,
                 },
+                tableCell_20: {
+                    width: '20px',
+                    paddingRight: 4
+                },
+                tableCell_80: {
+                    width: '80px',
+                    paddingRight: 4
+                },
                 tableCell_1: {
                     width: '50px',
                     paddingRight: 12
                 },
                 tableCell_2: {
-                    width: '160px',
-                    paddingRight: 16,
+                    width: '120px',
+                    paddingRight: 8,
                 },
                 tableCell_3: {
                     width: '15%',
@@ -117,7 +125,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
     const styles = useStyles();
 
     const cabinet = (
-        <View style={styles.table}>
+        <View style={[styles.table, styles.mb40]}>
             <View>
                 <View style={[styles.tableRow, styles.tableRowColor]}>
 
@@ -205,7 +213,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
     )
 
     const cabinet_cloumn = (
-        <View style={styles.table}>
+        <View style={[styles.table, styles.mb40]}>
             <View>
                 <View style={[styles.tableRow, styles.tableRowColor]}>
 
@@ -248,7 +256,7 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                     <View style={styles.tableRow} key={index}>
 
                         <View style={styles.tableCell_40}>
-                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.inlaid_flower ? '-' :  item.inlaid_flower_emty_space + ' سانتی متر'}</Text>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.inlaid_flower ? '-' : item.inlaid_flower_emty_space + ' سانتی متر'}</Text>
                         </View>
 
                         <View style={styles.tableCell_40}>
@@ -285,12 +293,12 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
     )
 
     const cover_sheet = (
-        <View style={styles.table}>
+        <View style={[styles.table, styles.mb40]}>
             <View>
                 <View style={[styles.tableRow, styles.tableRowColor]}>
 
                     <View style={styles.tableCell_40}>
-                        <Text style={[styles.alignRight, styles.subtitle2]}>پوشش نهایی</Text>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع بافت</Text>
                     </View>
 
                     <View style={styles.tableCell_40}>
@@ -356,6 +364,182 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
         </View>
     )
 
+    const doors = (
+        <View style={[styles.table, styles.mb40]}>
+            <View>
+                <View style={[styles.tableRow, styles.tableRowColor]}>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع بافت</Text>
+                    </View>
+
+                    <View style={styles.tableCell_40}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع قاب</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع ابعاد</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>ابعاد</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_1, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>کد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_2, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>نام محصول</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_1, styles.alignCenter]}>
+                        <Text style={styles.subtitle2}>#</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View>
+                {items.doors.map((item: IDoors, index: number) => (
+                    <View style={styles.tableRow} key={index}>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.coating_texture || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_40}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.cover}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.back_to_back_dimension || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.dimension.length + "x" + item.dimension.width}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_1, styles.alignRight]}>
+                            <Text style={styles.subtitle2}>{item.code}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_2}>
+                            <Text style={[styles.subtitle2, styles.alignRight]}>{item.name}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_1, styles.alignCenter]}>
+                            <Text style={styles.subtitle2}>{index + 1}</Text>
+                        </View>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+
+    const room_doors = (
+        <View style={[styles.table, styles.mb40]}>
+            <View>
+                <View style={[styles.tableRow, styles.tableRowColor]}>
+
+                    <View style={styles.tableCell_80}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>افزایش دهنده</Text>
+                    </View>
+
+                    <View style={styles.tableCell_80}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>پ. چهارچوب</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignCenter, styles.subtitle2]}>ن. روکش</Text>
+                    </View>
+
+                    <View style={styles.tableCell_80}>
+                        <Text style={[styles.alignCenter, styles.subtitle2]}>نوع قاب</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>نوع ابعاد</Text>
+                    </View>
+
+                    <View style={styles.tableCell_1}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>ابعاد</Text>
+                    </View>
+
+                    <View style={styles.tableCell_20}>
+                        <Text style={[styles.alignRight, styles.subtitle2]}>تعداد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_1, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>کد</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_2, styles.alignRight]}>
+                        <Text style={styles.subtitle2}>نام محصول</Text>
+                    </View>
+
+                    <View style={[styles.tableCell_20, styles.alignCenter]}>
+                        <Text style={styles.subtitle2}>#</Text>
+                    </View>
+                </View>
+            </View>
+
+            <View>
+                {items.room_doors.map((item: IDoors, index: number) => (
+                    <View style={styles.tableRow} key={index}>
+
+                        <View style={styles.tableCell_80}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.increaser || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_80}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.frame_width || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignCenter, styles.subtitle2]}>{item.coating_type || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_80}>
+                            <Text style={[styles.alignCenter, styles.subtitle2]}>{item.cover}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.back_to_back_dimension || '-'}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_1}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.dimension.length + "x" + item.dimension.width}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_20}>
+                            <Text style={[styles.alignRight, styles.subtitle2]}>{item.quantity}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_1, styles.alignRight]}>
+                            <Text style={styles.subtitle2}>{item.code}</Text>
+                        </View>
+
+                        <View style={styles.tableCell_2}>
+                            <Text style={[styles.subtitle2, styles.alignRight]}>{item.name}</Text>
+                        </View>
+
+                        <View style={[styles.tableCell_20, styles.alignCenter]}>
+                            <Text style={styles.subtitle2}>{index + 1}</Text>
+                        </View>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+
     return (
         <Document>
             <Page size="A4" style={styles.page} orientation='portrait'>
@@ -381,10 +565,22 @@ export default function ProductionPDF({ invoice, currentStatus }: Props) {
                 {items.cover_sheets.length > 0 && cover_sheet}
 
                 {items.cabinet_cloumns.length > 0 && (
-                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت ورق های روکشی</Text>
+                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت ستون های کابینتی</Text>
                 )}
 
                 {items.cabinet_cloumns.length > 0 && cabinet_cloumn}
+
+                {items.doors.length > 0 && (
+                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت درب کابینت و کرکره ای</Text>
+                )}
+
+                {items.doors.length > 0 && doors}
+
+                {items.room_doors.length > 0 && (
+                    <Text style={[styles.subtitle1, styles.mb8, styles.alignRight]}>جزئیات سفارش ساخت درب های اتاقی</Text>
+                )}
+
+                {items.room_doors.length > 0 && room_doors}
 
                 {/* <View style={styles.table}>
                     <View>
