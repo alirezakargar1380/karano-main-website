@@ -306,7 +306,7 @@ export default function CartDialogView({
                 if (values.frame_type)
                     newDisable.coating_type = false
 
-                if (values.coating_type || findCover?.is_raw || findFrame?.is_glass || formOptions.coating_type === false)
+                if (values.coating_type || findCover?.is_raw || findFrame?.is_glass || (formOptions.coating_type === false && values.frame_type))
                     newDisable.back_to_back_dimension = false
 
                 if (values.frame_type && !findFrame?.is_glass && !findCover?.is_raw)
